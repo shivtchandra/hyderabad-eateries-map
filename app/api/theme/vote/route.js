@@ -23,24 +23,46 @@ export async function POST(req) {
   }
   if (td.active !== true) return Response.json({ error: "theme-closed" }, { status: 409 });
 
-  const voteRef = db.collection("themes").doc(themeId).collection("votes").doc(spotId);
+  const votesCol = db.collection("themes").doc(themeId).collection("votes");
+  const voteRef = votesCol.doc(spotId);
   const voterRef = uid
     ? db.collection("themes").doc(themeId).collection("voters").doc(uid)
     : null;
 
+  // One live vote per uid per theme — but instead of just rejecting a second
+  // vote, let it SWITCH: pull the count off whatever spot they voted for
+  // before and move it onto the new one. Voting for the same spot again is a
+  // no-op (returns the current count, changes nothing).
   const result = await db.runTransaction(async (tx) => {
-    // Enforce one-vote-per-uid if uid provided
-    if (voterRef) {
-      const voterDoc = await tx.get(voterRef);
-      if (voterDoc.exists) return { duplicate: true };
+    let voterDoc = null;
+    if (voterRef) voterDoc = await tx.get(voterRef);
+
+    const priorSpotId = voterDoc?.exists ? voterDoc.data().spotId : null;
+    if (priorSpotId === spotId) {
+      const doc = await tx.get(voteRef);
+      return { count: doc.exists ? doc.data().count || 0 : 0, unchanged: true };
     }
-    const doc = await tx.get(voteRef);
-    const count = (doc.exists ? doc.data().count || 0 : 0) + 1;
+
+    let oldVoteDoc = null;
+    let oldVoteRef = null;
+    if (priorSpotId) {
+      oldVoteRef = votesCol.doc(priorSpotId);
+      oldVoteDoc = await tx.get(oldVoteRef);
+    }
+
+    const newVoteDoc = await tx.get(voteRef);
+
+    if (oldVoteRef && oldVoteDoc?.exists) {
+      const oldCount = Math.max(0, (oldVoteDoc.data().count || 0) - 1);
+      tx.set(oldVoteRef, { ...oldVoteDoc.data(), count: oldCount }, { merge: true });
+    }
+
+    const count = (newVoteDoc.exists ? newVoteDoc.data().count || 0 : 0) + 1;
     tx.set(voteRef, { count, name: (name || "").slice(0, 100) }, { merge: true });
     if (voterRef) tx.set(voterRef, { spotId, votedAt: Date.now() });
-    return { count };
+
+    return { count, switched: !!priorSpotId };
   });
 
-  if (result.duplicate) return Response.json({ error: "already-voted" }, { status: 429 });
   return Response.json(result);
 }

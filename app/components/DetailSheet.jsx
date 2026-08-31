@@ -4,7 +4,7 @@ import { useRef, useState, useCallback } from "react";
 import { TAGS, TIERS, isOpenNow, validTagsFor } from "../../lib/eateryUtils.js";
 import { Icon, CategoryIcon, TagIcon, TierIcon } from "./Icons.jsx";
 import { hasVoted } from "../../lib/voting.js";
-import { hasThemeVoted, castThemeVote } from "../../lib/themeVoting.js";
+import { getThemeVoteSpot, castThemeVote } from "../../lib/themeVoting.js";
 
 const CAT_META = {
   "restro-bar": { label: "Restro Bar", color: "var(--restro-bar)" },
@@ -26,7 +26,7 @@ export default function DetailSheet({
   const [snap, setSnap] = useState("half");
   const [themeVotePending, setThemeVotePending] = useState(false);
   const [themeCasting, setThemeCasting] = useState(false);
-  const [themeVotedLocal, setThemeVotedLocal] = useState(false);
+  const [themeVoteSpotLocal, setThemeVoteSpotLocal] = useState(null); // optimistic override after a vote/switch
   const dragStart = useRef(null);
 
   const cat = CAT_META[eatery.category] ?? CAT_META.cafe;
@@ -39,8 +39,11 @@ export default function DetailSheet({
   const weekVotes = voteData?.week_total || 0;
 
   const themeActive = currentTheme && !currentTheme.winnerId;
-  const themeVotedBefore = themeActive ? hasThemeVoted(currentTheme.id) : false;
-  const themeVoted = themeVotedBefore || themeVotedLocal;
+  // The spot this device currently has voted for in this theme (or null) —
+  // may differ from eatery.id, which is what makes "change my vote" possible.
+  const themeVoteSpot = themeActive ? (themeVoteSpotLocal ?? getThemeVoteSpot(currentTheme.id)) : null;
+  const votedForThis = !!themeVoteSpot && themeVoteSpot === eatery.id;
+  const votedForOther = !!themeVoteSpot && themeVoteSpot !== eatery.id;
 
   // Detect category mismatch with theme title
   const themeMismatch = useCallback(() => {
@@ -54,13 +57,15 @@ export default function DetailSheet({
   }, [currentTheme, eatery.category]);
 
   const handleThemeVote = useCallback(async () => {
-    if (!currentTheme || themeVoted || themeCasting) return;
-    if (themeMismatch() && !themeVotePending) { setThemeVotePending(true); return; }
+    if (!currentTheme || votedForThis || themeCasting) return;
+    // Confirm before either a mismatched-category vote OR switching an
+    // existing vote away from wherever it currently points.
+    if ((themeMismatch() || votedForOther) && !themeVotePending) { setThemeVotePending(true); return; }
     setThemeCasting(true);
     const result = await castThemeVote(currentTheme.id, eatery.id, eatery.name);
     setThemeCasting(false);
-    if (result.ok) { setThemeVotedLocal(true); setThemeVotePending(false); }
-  }, [currentTheme, themeVoted, themeCasting, themeMismatch, themeVotePending, eatery.id, eatery.name]);
+    if (result.ok) { setThemeVoteSpotLocal(eatery.id); setThemeVotePending(false); }
+  }, [currentTheme, votedForThis, votedForOther, themeCasting, themeMismatch, themeVotePending, eatery.id, eatery.name]);
 
   const onTouchStart = (e) => (dragStart.current = e.touches[0].clientY);
   const onTouchEnd = (e) => {
@@ -352,23 +357,45 @@ export default function DetailSheet({
           <div style={{ marginTop: 10 }}>
             {themeVotePending && (
               <div style={{ fontSize: 12.5, color: "#92400e", background: "#fef3c7", border: "1.5px solid #f59e0b", borderRadius: "var(--r-md)", padding: "8px 12px", marginBottom: 6, fontWeight: 600, lineHeight: 1.4 }}>
-                ⚠️ This is a {eatery.category} place — the theme is "{currentTheme.title}". Vote anyway?
+                {themeMismatch()
+                  ? <>⚠️ This is a {eatery.category} place — the theme is "{currentTheme.title}". Vote anyway?</>
+                  : <>You already voted for a different spot in this theme. Switch your vote to <b>{eatery.name}</b>?</>
+                }
+                <button
+                  onClick={() => setThemeVotePending(false)}
+                  style={{ display: "block", marginTop: 6, border: "none", background: "transparent", color: "#92400e", textDecoration: "underline", fontSize: 12, fontWeight: 600, cursor: "pointer", padding: 0 }}
+                >
+                  Cancel
+                </button>
               </div>
             )}
             <button
               onClick={handleThemeVote}
-              disabled={themeVoted || themeCasting}
+              disabled={votedForThis || themeCasting}
               style={{
                 ...btn, width: "100%",
-                background: themeVoted ? "var(--violet-wash)" : themeVotePending ? "#fde68a" : "var(--violet)",
-                color: themeVoted ? "var(--violet-deep)" : themeVotePending ? "#92400e" : "#fff",
-                border: themeVoted ? "1.5px solid var(--violet)" : "none",
+                background: votedForThis ? "var(--violet-wash)" : themeVotePending ? "#fde68a" : "var(--violet)",
+                color: votedForThis ? "var(--violet-deep)" : themeVotePending ? "#92400e" : "#fff",
+                border: votedForThis ? "1.5px solid var(--violet)" : "none",
                 opacity: themeCasting ? 0.6 : 1,
               }}
             >
-              <Icon name="crown" size={16} width={1.9} color={themeVoted ? "var(--violet)" : themeVotePending ? "#92400e" : "#fff"} />
-              {themeVoted ? `Voted · ${currentTheme.title}` : themeVotePending ? "Tap again to confirm" : themeCasting ? "Voting…" : `Vote for "${currentTheme.title}"`}
+              <Icon name="crown" size={16} width={1.9} color={votedForThis ? "var(--violet)" : themeVotePending ? "#92400e" : "#fff"} />
+              {votedForThis
+                ? `Voted · ${currentTheme.title}`
+                : themeVotePending
+                ? "Tap again to confirm"
+                : themeCasting
+                ? "Voting…"
+                : votedForOther
+                ? `Change my vote to "${currentTheme.title}"`
+                : `Vote for "${currentTheme.title}"`}
             </button>
+            {votedForOther && !themeVotePending && (
+              <div style={{ fontSize: 11, color: "var(--muted)", fontWeight: 500, marginTop: 5, textAlign: "center" }}>
+                You voted for another spot — tapping this will move your vote here
+              </div>
+            )}
           </div>
         )}
 
