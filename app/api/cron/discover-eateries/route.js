@@ -15,7 +15,9 @@ const MAX_NEW = 20; // max new places per cron run
 function authOk(req) {
   const secret = process.env.CRON_SECRET;
   if (!secret) return true; // dev: skip auth
-  return req.headers.get("x-cron-secret") === secret;
+  // Vercel's native Cron Jobs call with `Authorization: Bearer <CRON_SECRET>`
+  // automatically once the env var is set — no custom header needed.
+  return req.headers.get("Authorization") === `Bearer ${secret}`;
 }
 
 async function nearbySearch(type, keyword) {
