@@ -325,9 +325,13 @@ export default function EateriesApp() {
 
   const handleSelect = useCallback((id, opts = {}) => {
     setSelectedId(id);
-    setSheetOpen(true);
     loadDetail(id);
+    // Scrolling the card rail calls this on every settle (fromRail: true) —
+    // that should only highlight the card/pin, never pop the detail sheet
+    // open on its own. Opening stays an explicit action: tap the card, tap a
+    // map pin, or search.
     if (!opts.fromRail) {
+      setSheetOpen(true);
       const e = byId[id];
       if (e) mapApi.current?.flyTo(e.lat, e.lng, 16);
     }
