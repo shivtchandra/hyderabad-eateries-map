@@ -26,6 +26,11 @@ export default function BottomNav({ tab, setTab, visitedCount, savedCount, stick
           padding: 6,
           borderRadius: "var(--r-pill)",
           boxShadow: "var(--e2)",
+          // Without a cap, the active tab's flex-grow eats the whole bar width
+          // on a wide desktop viewport, ballooning into a huge pill. Phone
+          // widths never hit this ceiling, so it's a no-op there.
+          maxWidth: 460,
+          margin: "0 auto",
         }}
       >
         {TABS.map((t) => {

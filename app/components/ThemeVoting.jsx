@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
-import { fetchCurrentTheme, fetchThemeHistory, castThemeVote, hasThemeVoted } from "../../lib/themeVoting.js";
+import { fetchCurrentTheme, fetchThemeHistory, castThemeVote, getThemeVoteSpot } from "../../lib/themeVoting.js";
 import { Icon } from "./Icons.jsx";
 
 export default function ThemeVoting() {
@@ -9,7 +9,9 @@ export default function ThemeVoting() {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openPast, setOpenPast] = useState(null);
-  const [voted, setVoted] = useState(false);
+  // The spotId this device currently has voted for (or null) — not just a
+  // yes/no flag, so standings rows can tell "this is my vote" from "not yet".
+  const [votedSpotId, setVotedSpotId] = useState(null);
   const [localCounts, setLocalCounts] = useState({});
   const [localResults, setLocalResults] = useState(null);
 
@@ -19,22 +21,37 @@ export default function ThemeVoting() {
     setLocalResults(null);
     setHistory(hist.themes || []);
     setLoading(false);
-    if (cur.theme) setVoted(hasThemeVoted(cur.theme.id));
+    if (cur.theme) setVotedSpotId(getThemeVoteSpot(cur.theme.id));
   }, []);
 
   useEffect(() => { load(); }, [load]);
 
+  // Casts a vote, or SWITCHES an existing one to a different spot — mirrors
+  // the count move server-side, then optimistically reflects it here too.
   const handleVote = async (spotId, name) => {
-    if (!current.theme || voted) return;
+    if (!current.theme) return;
+    const prevSpotId = votedSpotId;
     const result = await castThemeVote(current.theme.id, spotId, name);
     if (result.ok) {
-      setVoted(true);
-      setLocalCounts((prev) => ({ ...prev, [spotId]: result.count }));
-      // Optimistically add spot to results if not already there
+      setVotedSpotId(spotId);
+      setLocalCounts((prev) => {
+        const next = { ...prev, [spotId]: result.count };
+        if (prevSpotId && prevSpotId !== spotId) {
+          const prevBase = current.results.find((r) => r.spotId === prevSpotId);
+          const prevCount = prev[prevSpotId] ?? prevBase?.count ?? 0;
+          next[prevSpotId] = Math.max(0, prevCount - 1);
+        }
+        return next;
+      });
       setLocalResults((prev) => {
         const base = prev ?? current.results;
-        if (base.find((r) => r.spotId === spotId)) return base;
-        return [...base, { spotId, name, count: result.count }].sort((a, b) => (b.count || 0) - (a.count || 0));
+        let list = base.map((r) => {
+          if (r.spotId === spotId) return { ...r, count: result.count };
+          if (prevSpotId && r.spotId === prevSpotId) return { ...r, count: Math.max(0, (r.count || 0) - 1) };
+          return r;
+        });
+        if (!list.find((r) => r.spotId === spotId)) list = [...list, { spotId, name, count: result.count }];
+        return list.sort((a, b) => (b.count || 0) - (a.count || 0));
       });
     }
   };
@@ -62,7 +79,7 @@ export default function ThemeVoting() {
         <CurrentTheme
           theme={current.theme}
           results={displayResults}
-          voted={voted}
+          votedSpotId={votedSpotId}
           onVote={handleVote}
           localCounts={localCounts}
         />
@@ -82,7 +99,7 @@ export default function ThemeVoting() {
   );
 }
 
-function CurrentTheme({ theme, results, voted, onVote, localCounts }) {
+function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
   const [searchQ, setSearchQ] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [pending, setPending] = useState(null); // spot waiting for confirm
@@ -102,6 +119,7 @@ function CurrentTheme({ theme, results, voted, onVote, localCounts }) {
   const pickSpot = (spot) => {
     setSuggestions([]);
     setSearchQ("");
+    if (spot.spotId === votedSpotId) return; // already your vote — nothing to do
     // Warn if the spot category seems off for the theme
     const themeLower = theme.title.toLowerCase();
     const offCategories = {
@@ -150,7 +168,7 @@ function CurrentTheme({ theme, results, voted, onVote, localCounts }) {
             {theme.description}
           </div>
         )}
-        {voted && (
+        {votedSpotId && (
           <div style={{ marginTop: 10, display: "inline-flex", alignItems: "center", gap: 5, background: "rgba(255,255,255,0.18)", borderRadius: "var(--r-pill)", padding: "5px 11px", fontSize: 12, fontWeight: 700, color: "#fff" }}>
             <Icon name="check" size={12} width={2.5} color="#fff" /> Voted
           </div>
@@ -180,6 +198,10 @@ function CurrentTheme({ theme, results, voted, onVote, localCounts }) {
             <div style={{ fontSize: 13, fontWeight: 600, color: "#92400e", marginBottom: 10, lineHeight: 1.45 }}>
               ⚠️ <b>{pending.name}</b> doesn't look like it fits this week's theme ({theme.title}). Vote for it anyway?
             </div>
+          ) : votedSpotId ? (
+            <div style={{ fontSize: 13, fontWeight: 600, color: "var(--violet-deep)", marginBottom: 10, lineHeight: 1.45 }}>
+              You already voted for a different spot. Switch your vote to <b>{pending.name}</b>?
+            </div>
           ) : (
             <div style={{ fontSize: 13, fontWeight: 600, color: "var(--violet-deep)", marginBottom: 10 }}>
               Vote for <b>{pending.name}</b>?
@@ -187,7 +209,7 @@ function CurrentTheme({ theme, results, voted, onVote, localCounts }) {
           )}
           <div style={{ display: "flex", gap: 8 }}>
             <button onClick={confirmVote} style={{ flex: 1, border: "none", borderRadius: "var(--r-pill)", padding: "8px 0", fontSize: 13, fontWeight: 700, background: "var(--violet)", color: "#fff", cursor: "pointer" }}>
-              Yes, vote
+              {votedSpotId ? "Yes, switch" : "Yes, vote"}
             </button>
             <button onClick={cancelVote} style={{ flex: 1, border: "1.5px solid var(--line)", borderRadius: "var(--r-pill)", padding: "8px 0", fontSize: 13, fontWeight: 700, background: "transparent", color: "var(--muted)", cursor: "pointer" }}>
               Cancel
@@ -217,13 +239,19 @@ function CurrentTheme({ theme, results, voted, onVote, localCounts }) {
                   <div style={{ fontWeight: 700, fontSize: 14, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}</div>
                   <div style={{ fontSize: 11.5, color: "var(--muted)", fontWeight: 500, marginTop: 1 }}>{count} vote{count !== 1 ? "s" : ""}</div>
                 </div>
-                {!voted && !theme.winnerId && (
-                  <button
-                    onClick={() => pickSpot({ spotId: r.spotId, name: r.name, category: r.category || "" })}
-                    style={{ border: "none", borderRadius: "var(--r-pill)", padding: "6px 13px", fontSize: 12.5, fontWeight: 700, background: "var(--violet)", color: "#fff", cursor: "pointer", flexShrink: 0 }}
-                  >
-                    Vote
-                  </button>
+                {!theme.winnerId && (
+                  r.spotId === votedSpotId ? (
+                    <span style={{ display: "flex", alignItems: "center", gap: 4, borderRadius: "var(--r-pill)", padding: "6px 12px", fontSize: 12, fontWeight: 700, background: "var(--violet-wash)", color: "var(--violet-deep)", flexShrink: 0 }}>
+                      <Icon name="check" size={12} width={2.5} color="var(--violet-deep)" /> Voted
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => pickSpot({ spotId: r.spotId, name: r.name, category: r.category || "" })}
+                      style={{ border: "none", borderRadius: "var(--r-pill)", padding: "6px 13px", fontSize: 12.5, fontWeight: 700, background: "var(--violet)", color: "#fff", cursor: "pointer", flexShrink: 0 }}
+                    >
+                      {votedSpotId ? "Switch" : "Vote"}
+                    </button>
+                  )
                 )}
               </div>
             );
@@ -232,10 +260,10 @@ function CurrentTheme({ theme, results, voted, onVote, localCounts }) {
       )}
 
       {/* Search to vote for any spot */}
-      {!voted && !theme.winnerId && (
+      {!theme.winnerId && (
         <div style={{ margin: "0 16px 8px" }}>
           <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted)", marginBottom: 6, letterSpacing: "0.04em" }}>
-            {results.length === 0 ? "Search a restaurant to cast the first vote" : "Vote for a different spot"}
+            {results.length === 0 ? "Search a restaurant to cast the first vote" : votedSpotId ? "Change my vote to a different spot" : "Vote for a different spot"}
           </div>
           <div style={{ position: "relative" }}>
             <input
