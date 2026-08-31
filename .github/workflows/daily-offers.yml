@@ -1,0 +1,53 @@
+name: Daily offers refresh
+
+# Zomato offers are perishable — a stale "25% OFF" is worse than showing none.
+# Everything here runs on free endpoints (plain fetch + Jina Reader), so there
+# are no API keys and no per-run cost.
+on:
+  schedule:
+    - cron: "30 1 * * *"   # 07:00 IST daily
+  workflow_dispatch:
+
+concurrency:
+  group: offers
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+
+      # Widen the Zomato slug index a little each day from Zomato's own
+      # server-rendered listing pages.
+      - name: Extend Zomato index
+        env:
+          PAGES: "25"
+        run: node scripts/index-zomato.mjs
+
+      # Match unresolved spots to real listings (plain fetch, no credits).
+      - name: Resolve listings
+        env:
+          LIMIT: "200"
+        run: node scripts/resolve-zomato.mjs
+
+      - name: Scrape offers + amenities
+        env:
+          LIMIT: "300"
+        run: node scripts/fetch-offers.mjs
+
+      - name: Rebuild static exports
+        run: node scripts/build-static.mjs
+
+      - name: Commit refreshed data
+        run: |
+          git config user.name  "offers-bot"
+          git config user.email "actions@github.com"
+          git add data/eateries.json data/zomato-index.json
+          git diff --staged --quiet || git commit -m "chore: daily offers refresh"
+          git push
