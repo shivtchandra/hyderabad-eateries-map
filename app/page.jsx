@@ -21,6 +21,7 @@ import BottomNav from "./components/BottomNav.jsx";
 import { claimSpot } from "../lib/leaderboard.js";
 import { fetchVoteCounts, castVote as castVoteApi, removeVote as removeVoteApi, hasVoted } from "../lib/voting.js";
 import { fetchCurrentTheme } from "../lib/themeVoting.js";
+import ThemeIntro from "./components/ThemeIntro.jsx";
 import { fetchPicks } from "../lib/picks.js";
 
 export default function EateriesApp() {
@@ -563,6 +564,8 @@ export default function EateriesApp() {
             {toast}
           </div>
         )}
+
+        <ThemeIntro theme={currentTheme} onVote={() => setTab("race")} />
       </div>
 
       <BottomNav tab={tab} setTab={setTab} visitedCount={visitedCount} savedCount={savedCount} stickerCount={stickerCount} />
