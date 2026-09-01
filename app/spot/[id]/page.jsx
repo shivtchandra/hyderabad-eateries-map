@@ -2,7 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
 import { getEateryById, getEateries, areaSlug } from "../../../lib/siteData.js";
-import { absoluteUrl, pageMeta } from "../../../lib/site.js";
+import { absoluteUrl, getSiteUrl, pageMeta } from "../../../lib/site.js";
+import { restaurantJsonLd } from "../../../lib/schema.js";
 import { ogImages } from "../../../lib/og.js";
 
 const CAT_LABEL = {
@@ -37,6 +38,7 @@ export function generateMetadata({ params }) {
 }
 
 export default function SpotPage({ params }) {
+  const siteUrl = getSiteUrl();
   const spot = getEateryById(params.id);
   if (!spot) notFound();
 
@@ -44,7 +46,11 @@ export default function SpotPage({ params }) {
     ? `/areas/${areaSlug(spot.discoveredIn)}`
     : null;
 
+  const jsonLd = restaurantJsonLd(spot, siteUrl);
+
   return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     <SiteChrome
       breadcrumb={[
         { href: "/", label: "Home" },
@@ -77,5 +83,6 @@ export default function SpotPage({ params }) {
         </div>
       </div>
     </SiteChrome>
+    </>
   );
 }

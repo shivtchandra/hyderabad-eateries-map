@@ -496,3 +496,17 @@ body::after {
 }
 
 @keyframes sheet-rise { from { opacity: 0; transform: translateY(16px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+
+/* Crawlable nav on map homepage — visible to bots, off-screen for users */
+.seo-crawl-nav {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

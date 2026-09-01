@@ -106,6 +106,12 @@
   margin-bottom: 8px;
 }
 
+.rankings-freshness {
+  font-size: 13px;
+  color: var(--muted);
+  margin: -8px 0 16px;
+}
+
 .rankings-status.live { background: #dcfce7; color: #16a34a; }
 .rankings-status.ended { background: #f3f4f6; color: #6b7280; }
 .rankings-status.winner { background: #fef3c7; color: #d97706; }

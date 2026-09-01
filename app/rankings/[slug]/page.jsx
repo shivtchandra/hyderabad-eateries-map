@@ -78,6 +78,15 @@ export default async function RankingPage({ params }) {
       description={isPlaceholder ? `${data.description} Vote launches soon — explore related spots meanwhile.` : `${totalVotes} community votes${data.startDate && data.endDate ? ` · ${data.startDate} to ${data.endDate}` : ""}`}
       related={related}
     >
+
+      {!isPlaceholder && (
+        <p className="rankings-freshness">
+          Updated {new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+          {totalVotes > 0 ? ` · ${totalVotes.toLocaleString("en-IN")} community votes` : ""}
+          {data.endDate ? ` · Week ends ${data.endDate}` : ""}
+        </p>
+      )}
+
       {isPlaceholder && (
         <div style={{ background: "var(--violet-wash)", border: "1.5px solid var(--violet)", borderRadius: 16, padding: 16, marginBottom: 20, fontSize: 14, color: "var(--ink-soft)" }}>
           <strong style={{ color: "var(--violet-deep)" }}>Coming soon:</strong> This weekly vote hasn&apos;t started yet. Explore the map and check back — or browse similar spots below.

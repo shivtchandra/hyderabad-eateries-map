@@ -35,10 +35,11 @@ export default async function RankingsHubPage() {
       title={title}
       description={description}
       related={[
-        { href: "/explore", label: "Explore categories" },
-        { href: "/areas", label: "Browse areas" },
+        { href: "/rankings/how-it-works", label: "How rankings work" },
         { href: "/rankings/best-biryani-in-hyderabad", label: "Best biryani" },
         { href: "/rankings/best-cafe-in-hyderabad", label: "Best cafes" },
+        { href: "/explore", label: "Explore categories" },
+        { href: "/areas", label: "Browse areas" },
       ]}
     >
       {live.map((theme) => {

@@ -52,6 +52,7 @@ export default async function sitemap() {
   return [
     { url: siteUrl, lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: `${siteUrl}/rankings`, lastModified: now, changeFrequency: "daily", priority: 0.95 },
+    { url: `${siteUrl}/rankings/how-it-works`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/explore`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteUrl}/areas`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     ...rankingUrls,

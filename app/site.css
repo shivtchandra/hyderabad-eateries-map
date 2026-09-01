@@ -36,3 +36,17 @@
 .site-spot-photo { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--r-lg); border: 1.5px solid var(--line); background: var(--paper); }
 .site-not-found { text-align: center; padding: 48px 20px 80px; }
 .site-not-found h1 { font-family: "Bagel Fat One", Fraunces, serif; font-size: 72px; color: var(--violet); margin: 0; line-height: 1; }
+
+
+.site-prose h2 {
+  font-family: Fraunces, serif;
+  font-size: 20px;
+  margin: 24px 0 8px;
+}
+
+.site-prose p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0 0 12px;
+}

@@ -1,14 +1,18 @@
-const siteUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+import { getSiteUrl } from "../lib/site.js";
 
 export default function robots() {
+  const siteUrl = getSiteUrl();
+  const disallow = ["/admin", "/api/"];
+
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-      disallow: ["/admin", "/api/"],
-    },
+    rules: [
+      { userAgent: "*", allow: "/", disallow },
+      {
+        userAgent: ["GPTBot", "ChatGPT-User", "Google-Extended", "anthropic-ai", "ClaudeBot", "PerplexityBot"],
+        allow: "/",
+        disallow,
+      },
+    ],
     sitemap: `${siteUrl}/sitemap.xml`,
   };
 }

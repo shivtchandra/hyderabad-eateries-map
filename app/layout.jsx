@@ -2,6 +2,7 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { getSiteUrl } from "../lib/site.js";
 import { ogImages } from "../lib/og.js";
+import SeoCrawlNav from "./components/SeoCrawlNav.jsx";
 
 const siteUrl = getSiteUrl();
 
@@ -38,6 +39,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         {children}
+        <SeoCrawlNav />
         <Analytics />
       </body>
     </html>
