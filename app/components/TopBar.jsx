@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { Icon } from "./Icons.jsx";
 
 const CATEGORY_META = {
@@ -53,7 +54,7 @@ export default function TopBar({
             aria-expanded={search.trim().length > 0}
             aria-controls="eatery-search-results"
             aria-autocomplete="list"
-            placeholder="Search a cafe, bar, bakery…"
+            placeholder="Search cafes, biryani, bars…"
             style={{
               flex: 1,
               minWidth: 0,
@@ -112,10 +113,13 @@ export default function TopBar({
             </div>
             <div className="t-cap" style={{ color: "var(--muted)", fontWeight: 500, marginTop: 2 }}>
               {visitedCount > 0
-                ? `${visitedCount} collected · ${count} to explore`
-                : `${count} spots to explore`}
+                ? `${visitedCount} stamped · ${count} spots`
+                : `${count} spots · stamp your passport`}
             </div>
           </div>
+          <Link href="/rankings" className="pressable-sm" style={{ ...iconBtn, textDecoration: "none" }} aria-label="Rankings" title="Weekly rankings">
+            <Icon name="trophy" size={17} color="var(--ink-soft)" />
+          </Link>
           <button onClick={() => setSearchOpen(true)} className="pressable-sm" style={iconBtn} aria-label="Search">
             <Icon name="search" size={18} color="var(--ink-soft)" />
           </button>

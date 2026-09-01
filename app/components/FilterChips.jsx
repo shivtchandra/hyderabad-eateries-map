@@ -20,9 +20,10 @@ export default function FilterChips({
   openNowOnly, setOpenNowOnly, openNowLoading = false,
   counts, tagCounts,
   userLoc, nearbyOnly, setNearbyOnly, nearbyArea,
+  newOnly, setNewOnly,
 }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const activeFilterCount = (openNowOnly ? 1 : 0) + activeTags.length + (nearbyOnly ? 1 : 0);
+  const activeFilterCount = (openNowOnly ? 1 : 0) + activeTags.length + (nearbyOnly ? 1 : 0) + (newOnly ? 1 : 0);
 
   return (
     <div className="material edge-below" style={{ flexShrink: 0, position: "relative", zIndex: 19 }}>
@@ -118,8 +119,13 @@ export default function FilterChips({
             style={chip(openNowOnly, "var(--forest)")}
           >
             <Icon name="clock" size={15} width={2} color={openNowOnly ? "#fff" : "var(--forest)"} />
-            {openNowLoading ? "Checking hours…" : "Open now"}
+{openNowLoading ? "Checking hours…" : "Open now"}
           </button>
+          <button onClick={() => setNewOnly((v) => !v)} className="pressable-sm" style={chip(newOnly, "var(--pop)")}>
+            <Icon name="sparkle" size={15} width={2} color={newOnly ? "#fff" : "var(--pop-deep)"} />
+            New
+          </button>
+
           {Object.entries(TAGS).map(([key, meta]) => {
             if (!tagCounts[key]) return null;
             const active = activeTags.includes(key);

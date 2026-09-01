@@ -1,4 +1,5 @@
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
+import { slugFromTitle } from "../../../../lib/rankings.js";
 
 export const dynamic = "force-dynamic";
 
@@ -62,7 +63,7 @@ export async function POST(req) {
 
   await db.collection("themes").doc(id).set(
     {
-      title, description: description || "",
+      title, slug: slugFromTitle(title), description: description || "",
       startDate: startDate || "", endDate: endDate || "",
       displayLimit: displayLimit ? Number(displayLimit) : 20,
       active: shouldBeActive,

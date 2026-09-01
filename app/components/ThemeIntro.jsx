@@ -89,7 +89,7 @@ export default function ThemeIntro({ theme, onVote }) {
             </p>
           )}
           <p style={{ margin: "0 0 18px", fontSize: 14.5, lineHeight: 1.5, color: "var(--ink)" }}>
-            Vote for your favourite spot this week and help crown the winner.
+            Cast your vote — this week's ranking goes live at /rankings and updates as Hyderabad votes.
           </p>
           <div style={{ display: "flex", gap: 10 }}>
             <button

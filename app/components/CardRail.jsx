@@ -5,6 +5,8 @@ import { TIERS } from "../../lib/eateryUtils.js";
 import { photoUrl } from "../../lib/spotlight.js";
 import { Icon, CategoryIcon, TierIcon } from "./Icons.jsx";
 import { hasVoted } from "../../lib/voting.js";
+import { isNewSpot } from "../../lib/eateryUtils.js";
+import { isTrendingSpot } from "../../lib/trending.js";
 
 const CAT_COLOR = {
   "restro-bar": "var(--restro-bar)",
@@ -17,7 +19,7 @@ const CAT_COLOR = {
 // A swipeable deck of the spotlighted spots. This is the findability fix:
 // browsing a short ranked deck beats hunting a field of 1600 identical pins.
 // Scroll ↔ map selection stay in sync in both directions.
-export default function CardRail({ spots, activeId, onActivate, onOpen, passport, voteMap = {}, onVote, distMap = {}, picksMap = {} }) {
+export default function CardRail({ spots, activeId, onActivate, onOpen, passport, voteMap = {}, onVote, distMap = {}, picksMap = {}, starOfWeek = null }) {
   const railRef = useRef(null);
   const suppress = useRef(false);
 
@@ -59,6 +61,20 @@ export default function CardRail({ spots, activeId, onActivate, onOpen, passport
   if (!spots.length) return null;
 
   return (
+    <>
+
+      {starOfWeek?.name && (
+        <div style={{
+          position: "absolute", left: 14, right: 14, bottom: 210,
+          zIndex: 901, background: "var(--cream-hi)", border: "1.5px solid var(--line)",
+          borderRadius: "var(--r-pill)", padding: "7px 12px", fontSize: 11.5, fontWeight: 600,
+          color: "var(--ink-soft)", boxShadow: "var(--e1)", display: "flex", alignItems: "center", gap: 6,
+        }}>
+          <Icon name="sparkle" size={13} width={2} color="var(--pop)" />
+          Star of the week: <span style={{ color: "var(--ink)", fontWeight: 700 }}>{starOfWeek.name}</span>
+        </div>
+      )}
+
     <div
       ref={railRef}
       onScroll={onScroll}
@@ -229,6 +245,18 @@ export default function CardRail({ spots, activeId, onActivate, onOpen, passport
               {voteCount > 0 ? voteCount : "Vote"}
             </button>
 
+
+            {(isNewSpot(e.createdAt) || isTrendingSpot(e.n ?? e.name)) && (
+              <div style={{ position: "absolute", top: 10, left: 10, display: "flex", gap: 5, zIndex: 2 }}>
+                {isNewSpot(e.createdAt) && (
+                  <span style={{ background: "var(--pop)", color: "#fff", fontSize: 9.5, fontWeight: 800, padding: "3px 7px", borderRadius: "var(--r-pill)", letterSpacing: "0.06em" }}>NEW</span>
+                )}
+                {isTrendingSpot(e.n ?? e.name) && (
+                  <span style={{ background: "var(--violet)", color: "#fff", fontSize: 9.5, fontWeight: 800, padding: "3px 7px", borderRadius: "var(--r-pill)", letterSpacing: "0.06em" }}>TRENDING</span>
+                )}
+              </div>
+            )}
+
             {/* Foot — name over the scrim, then tier · review count */}
             <div style={{ position: "absolute", left: 12, right: 12, bottom: 11 }}>
               <div
@@ -306,5 +334,6 @@ export default function CardRail({ spots, activeId, onActivate, onOpen, passport
         </div>
       </div>
     </div>
+    </>
   );
 }

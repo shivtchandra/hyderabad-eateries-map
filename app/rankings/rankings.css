@@ -1,0 +1,171 @@
+.rankings-page {
+  min-height: 100dvh;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: Outfit, sans-serif;
+}
+
+.rankings-header {
+  background: var(--violet);
+  color: #fff;
+  padding: 28px 20px 32px;
+}
+
+.rankings-header h1 {
+  font-family: "Bagel Fat One", Fraunces, serif;
+  font-size: clamp(28px, 6vw, 40px);
+  margin: 0 0 8px;
+  line-height: 1.1;
+}
+
+.rankings-header p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 15px;
+  line-height: 1.5;
+  max-width: 560px;
+}
+
+.rankings-nav {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.rankings-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: var(--r-pill);
+  background: rgba(255,255,255,0.18);
+}
+
+.rankings-body {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 16px 48px;
+}
+
+.rankings-live {
+  background: var(--cream-hi);
+  border: 2px solid var(--violet);
+  border-radius: var(--r-lg);
+  padding: 18px;
+  margin-bottom: 24px;
+}
+
+.rankings-live-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--violet);
+  margin-bottom: 6px;
+}
+
+.rankings-card {
+  display: block;
+  background: var(--cream-hi);
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 16px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.15s ease;
+}
+
+.rankings-card:hover {
+  box-shadow: var(--e2);
+}
+
+.rankings-card h2 {
+  font-family: Fraunces, serif;
+  font-size: 17px;
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+
+.rankings-card-meta {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.rankings-status {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.rankings-status.live { background: #dcfce7; color: #16a34a; }
+.rankings-status.ended { background: #f3f4f6; color: #6b7280; }
+.rankings-status.winner { background: #fef3c7; color: #d97706; }
+
+.rankings-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+.rankings-table th {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1.5px solid var(--line);
+}
+
+.rankings-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.rankings-table tr.winner td {
+  background: #fefce8;
+}
+
+.rankings-rank {
+  font-weight: 800;
+  color: var(--muted);
+  width: 40px;
+}
+
+.rankings-votes {
+  font-weight: 800;
+  color: var(--violet);
+  text-align: right;
+}
+
+.rankings-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  background: var(--violet);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 13px 20px;
+  border-radius: var(--r-md);
+}
+
+.rankings-section-title {
+  font-family: Fraunces, serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 28px 0 12px;
+}

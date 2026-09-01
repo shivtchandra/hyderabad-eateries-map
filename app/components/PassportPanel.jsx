@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { progressByArea, stats } from "../../lib/passport.js";
+import { progressByArea, stats, biryaniTrailCount, shareProgress } from "../../lib/passport.js";
 import { diaryStats } from "../../lib/diary.js";
 import { Icon, CategoryIcon, Wave, Squiggles } from "./Icons.jsx";
 
@@ -30,7 +30,9 @@ export default function PassportPanel({ eateries, passport, onSelect, diaryTick 
   const d = useMemo(() => diaryStats(eateries), [eateries, diaryTick]);
 
   const nextMilestone = MILESTONES.find((m) => m.at > s.visitedCount);
+  const biryaniCount = biryaniTrailCount(eateries, passport);
   const earned = MILESTONES.filter((m) => m.at <= s.visitedCount);
+  const extraBadges = biryaniCount >= 5 ? [{ at: 5, label: "Biryani explorer", icon: "utensils" }] : [];
   const pct = s.totalCount ? (s.visitedCount / s.totalCount) * 100 : 0;
 
   return (
@@ -60,6 +62,25 @@ export default function PassportPanel({ eateries, passport, onSelect, diaryTick 
       {/* Generous bottom padding so the last section can scroll clear of the
           fixed bottom nav instead of dying against it. */}
       <div style={{ padding: "4px 14px 48px" }}>
+
+        {s.visitedCount > 0 && (
+          <div style={{ marginBottom: 18 }}>
+            <button
+              onClick={() => shareProgress(s).catch(() => {})}
+              className="pressable-sm"
+              style={{
+                width: "100%", border: "1.5px solid var(--line)", borderRadius: 14,
+                padding: "12px 16px", background: "var(--cream-hi)", color: "var(--ink)",
+                fontSize: 14, fontWeight: 600, cursor: "pointer",
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+              }}
+            >
+              <Icon name="sparkle" size={16} width={2} color="var(--violet)" />
+              Share my progress
+            </button>
+          </div>
+        )}
+
         {nextMilestone && (
           <div style={{ background: "var(--cream-hi)", border: "1.5px solid var(--line)", borderRadius: 16, padding: "13px 15px", marginBottom: 18 }}>
             <div className="progress-track">
@@ -76,10 +97,10 @@ export default function PassportPanel({ eateries, passport, onSelect, diaryTick 
           <div style={{ textAlign: "center", padding: "18px 14px 26px", color: "var(--muted)" }}>
             <Icon name="passport" size={44} width={1.4} color="var(--line)" style={{ margin: "0 auto 12px" }} />
             <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 16, color: "var(--ink)" }}>
-              Your passport is empty
+              Start exploring — every stamp colours the map
             </div>
             <div style={{ fontSize: 13.5, marginTop: 6, lineHeight: 1.5, maxWidth: 280, margin: "6px auto 0" }}>
-              The map starts faded. Tap a spot you&apos;ve been to and hit{" "}
+              Tap a spot you&apos;ve been to and hit{" "}
               <strong style={{ color: "var(--pop-deep)" }}>Stamp this spot</strong> — it blooms into colour.
             </div>
           </div>
@@ -115,10 +136,10 @@ export default function PassportPanel({ eateries, passport, onSelect, diaryTick 
           </Section>
         )}
 
-        {earned.length > 0 && (
+{(earned.length > 0 || extraBadges.length > 0) && (
           <Section title="Badges earned">
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              {earned.map((m) => (
+              {[...earned, ...extraBadges.filter((b) => !earned.some((e) => e.label === b.label))].map((m) => (
                 <div
                   key={m.at}
                   style={{

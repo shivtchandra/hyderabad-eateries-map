@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback, useMemo, useDeferredValue } from "react";
-import { haversineKm, isOpenNow, fetchRoadDistances, validTagsFor } from "../lib/eateryUtils.js";
+import { haversineKm, isOpenNow, fetchRoadDistances, validTagsFor, isNewSpot } from "../lib/eateryUtils.js";
 import { AREA_ZOOM_MAX } from "../lib/spotlight.js";
 import * as passportStore from "../lib/passport.js";
 import { Icon } from "./components/Icons.jsx";
@@ -19,9 +19,10 @@ import SavedPanel from "./components/SavedPanel.jsx";
 import LeaderboardPanel from "./components/LeaderboardPanel.jsx";
 import BottomNav from "./components/BottomNav.jsx";
 import { claimSpot } from "../lib/leaderboard.js";
-import { fetchVoteCounts, castVote as castVoteApi, removeVote as removeVoteApi, hasVoted } from "../lib/voting.js";
+import { fetchVoteCounts, fetchStarOfWeek, castVote as castVoteApi, removeVote as removeVoteApi, hasVoted } from "../lib/voting.js";
 import { fetchCurrentTheme } from "../lib/themeVoting.js";
 import ThemeIntro from "./components/ThemeIntro.jsx";
+import Onboarding from "./components/Onboarding.jsx";
 import { fetchPicks } from "../lib/picks.js";
 
 export default function EateriesApp() {
@@ -64,10 +65,12 @@ export default function EateriesApp() {
   useEffect(() => { setStickerCount(stickerList().length); }, [stickerTick]);
   const [voteMap, setVoteMap] = useState({});
   const [nearbyOnly, setNearbyOnly] = useState(false);
+  const [newOnly, setNewOnly] = useState(false);
   const [nearbyArea, setNearbyArea] = useState(null);
   const [roadDistMap, setRoadDistMap] = useState({});
   const [currentTheme, setCurrentTheme] = useState(null);
   const [picksMap, setPicksMap] = useState({});
+  const [starOfWeek, setStarOfWeek] = useState(null);
   const [locPulsed, setLocPulsed] = useState(false);
   useEffect(() => {
     try { if (localStorage.getItem("loc_prompted")) setLocPulsed(true); } catch {}
@@ -88,6 +91,10 @@ export default function EateriesApp() {
   }, []);
 
   useEffect(() => {
+    fetchStarOfWeek().then(setStarOfWeek);
+  }, []);
+
+  useEffect(() => {
     const mq = window.matchMedia("(max-width: 760px)");
     const update = () => setIsMobile(mq.matches);
     update();
@@ -104,7 +111,7 @@ export default function EateriesApp() {
         setEateries(rows.map((e) => ({
           id: e.id, name: e.n, category: e.c, lat: e.lat, lng: e.lng,
           rating: e.r, ratingCount: e.rc, tier: e.t, tags: e.g,
-          priceLevel: e.p, discoveredIn: e.a,
+          priceLevel: e.p, discoveredIn: e.a, createdAt: e.ca ?? null,
         })));
         setLoading(false);
       })
@@ -221,7 +228,7 @@ export default function EateriesApp() {
   // not the category filter itself, so each chip shows how many of its own spots
   // pass the active filters.
   const filteredCounts = useMemo(() => {
-    if (!activeTags.length && !openNowOnly && !nearbyOnly) return counts;
+    if (!activeTags.length && !openNowOnly && !nearbyOnly && !newOnly) return counts;
     const c = {};
     for (const e of eateries) {
       if (activeTags.length && !activeTags.every((t) => validTagsFor(e.category, e.tags).includes(t))) continue;
@@ -230,11 +237,12 @@ export default function EateriesApp() {
         const d = haversineKm(userLoc, { lat: e.lat, lng: e.lng });
         if (d == null || d > 3) continue;
       }
+      if (newOnly && !isNewSpot(e.createdAt)) continue;
       c[e.category] = (c[e.category] ?? 0) + 1;
     }
     c.all = Object.values(c).reduce((s, n) => s + n, 0);
     return c;
-  }, [eateries, activeTags, openNowOnly, allDetailsStatus, nearbyOnly, details, userLoc, counts]);
+  }, [eateries, activeTags, openNowOnly, allDetailsStatus, nearbyOnly, newOnly, details, userLoc, counts]);
 
   const tagCounts = useMemo(() => {
     const c = {};
@@ -254,9 +262,10 @@ export default function EateriesApp() {
         const d = haversineKm(userLoc, { lat: e.lat, lng: e.lng });
         if (d == null || d > 3) return false;
       }
+      if (newOnly && !isNewSpot(e.createdAt)) return false;
       return true;
     });
-  }, [eateries, activeCategory, deferredSearch, activeTags, openNowOnly, allDetailsStatus, details, nearbyOnly, userLoc]);
+  }, [eateries, activeCategory, deferredSearch, activeTags, openNowOnly, allDetailsStatus, details, nearbyOnly, newOnly, userLoc]);
 
   const byId = useMemo(() => {
     const m = {};
@@ -424,6 +433,7 @@ export default function EateriesApp() {
           openNowLoading={allDetailsStatus === "loading"}
           counts={filteredCounts} tagCounts={tagCounts}
           userLoc={userLoc} nearbyOnly={nearbyOnly} setNearbyOnly={setNearbyOnly} nearbyArea={nearbyArea}
+          newOnly={newOnly} setNewOnly={setNewOnly}
         />
       )}
 
@@ -525,6 +535,7 @@ export default function EateriesApp() {
                 onVote={handleVote}
                 distMap={roadDistMap}
                 picksMap={picksMap}
+                starOfWeek={starOfWeek}
               />
             )}
 
@@ -572,6 +583,7 @@ export default function EateriesApp() {
           </div>
         )}
 
+        <Onboarding />
         <ThemeIntro theme={currentTheme} onVote={() => { setRaceView("theme"); setTab("race"); }} />
       </div>
 

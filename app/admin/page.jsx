@@ -1,5 +1,6 @@
 "use client";
 
+import { SEO_THEME_PICKS, slugFromTitle } from "../../lib/rankings.js";
 import { useState, useEffect, useCallback } from "react";
 
 const STATUS_COLORS = { live: "#16a34a", scheduled: "#d97706", ended: "#6b7280" };
@@ -247,6 +248,36 @@ export default function AdminPage() {
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+
+          <div style={{ gridColumn: "1 / -1", marginBottom: 4 }}>
+            <label style={labelStyle}>SEO quick-picks (Google Trends)</label>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 6 }}>
+              {SEO_THEME_PICKS.map((pick) => (
+                <button
+                  key={pick.title}
+                  type="button"
+                  onClick={() => { setTitle(pick.title); setDescription(pick.description); setThemeId(""); setMsg(""); }}
+                  style={{
+                    background: title === pick.title ? "#7c3aed" : "#f3f0ea",
+                    color: title === pick.title ? "#fff" : "#444",
+                    border: "1.5px solid #ddd",
+                    borderRadius: 20,
+                    padding: "5px 11px",
+                    fontSize: 11.5,
+                    fontWeight: 600,
+                    cursor: "pointer",
+                  }}
+                >
+                  {pick.title}
+                </button>
+              ))}
+            </div>
+            {title && (
+              <div style={{ fontSize: 11, color: "#888", marginTop: 6 }}>
+                SEO URL: <code>/rankings/{slugFromTitle(title)}</code>
+              </div>
+            )}
+          </div>
             <div style={{ gridColumn: "1 / -1" }}>
               <label style={labelStyle}>Title *</label>
               <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Best Biryani in Hyderabad" style={inputStyle} />

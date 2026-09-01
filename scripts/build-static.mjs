@@ -40,6 +40,7 @@ const index = all
     g: e.tags ?? [],
     p: e.priceLevel ?? null,
     a: e.discoveredIn ?? null,
+    ca: e.createdAt ?? null,
   }));
 
 // photoRef strings are ~250 chars each — 1586 of them would dominate the index
