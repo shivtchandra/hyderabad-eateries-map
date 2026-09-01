@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { fetchCurrentTheme, fetchThemeHistory, castThemeVote, getThemeVoteSpot } from "../../lib/themeVoting.js";
 import { Icon } from "./Icons.jsx";
+import ThemeSuggest from "./ThemeSuggest.jsx";
 
 export default function ThemeVoting() {
   const [current, setCurrent] = useState({ theme: null, results: [] });
@@ -64,10 +65,13 @@ export default function ThemeVoting() {
   );
 
   if (!current.theme && history.length === 0) return (
-    <div style={{ textAlign: "center", padding: "40px 16px", color: "var(--muted)" }}>
-      <Icon name="crown" size={28} width={1.6} color="var(--violet)" style={{ margin: "0 auto 10px" }} />
-      <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 16, color: "var(--ink-soft)" }}>No theme set yet</div>
-      <div style={{ fontSize: 12.5, marginTop: 6, lineHeight: 1.45, fontWeight: 500 }}>Check back soon — the admin picks a dish challenge every week.</div>
+    <div>
+      <div style={{ textAlign: "center", padding: "40px 16px 8px", color: "var(--muted)" }}>
+        <Icon name="crown" size={28} width={1.6} color="var(--violet)" style={{ margin: "0 auto 10px" }} />
+        <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 16, color: "var(--ink-soft)" }}>No theme set yet</div>
+        <div style={{ fontSize: 12.5, marginTop: 6, lineHeight: 1.45, fontWeight: 500 }}>Check back soon — or tell us what next week's challenge should be.</div>
+      </div>
+      <ThemeSuggest />
     </div>
   );
 
@@ -304,6 +308,8 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
           </div>
         </div>
       )}
+
+      <ThemeSuggest />
     </div>
   );
 }
