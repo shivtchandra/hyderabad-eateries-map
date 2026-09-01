@@ -35,7 +35,14 @@ export default function EateriesApp() {
   const [allDetailsStatus, setAllDetailsStatus] = useState("idle");
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState("map");
+  const [raceView, setRaceView] = useState("race"); // which sub-tab the Race panel opens on
   const [activeCategory, setActiveCategory] = useState("all");
+
+  // Switch tabs; opening Race from the nav always lands on the board, not This Week.
+  const goTab = (t) => {
+    if (t === "race") setRaceView("race");
+    setTab(t);
+  };
   const [activeTags, setActiveTags] = useState([]);
   const [openNowOnly, setOpenNowOnly] = useState(false);
   const [search, setSearch] = useState("");
@@ -435,7 +442,7 @@ export default function EateriesApp() {
         </div>
 
         {tab === "race" && (
-          <LeaderboardPanel refreshTick={diaryTick} />
+          <LeaderboardPanel key={raceView} initialInnerTab={raceView} refreshTick={diaryTick} />
         )}
         {tab === "passport" && (
           <PassportPanel eateries={eateries} passport={passport} onSelect={openFromList} diaryTick={diaryTick} />
@@ -565,10 +572,10 @@ export default function EateriesApp() {
           </div>
         )}
 
-        <ThemeIntro theme={currentTheme} onVote={() => setTab("race")} />
+        <ThemeIntro theme={currentTheme} onVote={() => { setRaceView("theme"); setTab("race"); }} />
       </div>
 
-      <BottomNav tab={tab} setTab={setTab} visitedCount={visitedCount} savedCount={savedCount} stickerCount={stickerCount} />
+      <BottomNav tab={tab} setTab={goTab} visitedCount={visitedCount} savedCount={savedCount} stickerCount={stickerCount} />
     </div>
   );
 }

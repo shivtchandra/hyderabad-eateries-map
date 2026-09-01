@@ -9,8 +9,8 @@ import { Icon, Wave, Squiggles } from "./Icons.jsx";
 // The gameboard. Ranks players by points earned checking in at spots. Points
 // favour discovery (hidden gems > landmarks), so the race rewards exploring the
 // city, not just ticking the famous names.
-export default function LeaderboardPanel({ refreshTick = 0 }) {
-  const [innerTab, setInnerTab] = useState("race"); // "race" | "theme"
+export default function LeaderboardPanel({ refreshTick = 0, initialInnerTab = "race" }) {
+  const [innerTab, setInnerTab] = useState(initialInnerTab); // "race" | "theme"
   const [uid, setUid] = useState(null);
   const [data, setData] = useState({ players: [], me: null });
   const [status, setStatus] = useState("loading"); // loading | ready | unavailable
