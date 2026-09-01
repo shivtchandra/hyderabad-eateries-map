@@ -12,6 +12,8 @@ export default function SeoCrawlNav() {
       <Link href="/areas">Hyderabad areas</Link>
       <Link href="/rankings/best-biryani-in-hyderabad">Vote: best biryani</Link>
       <Link href="/rankings/best-cafe-in-hyderabad">Vote: best cafe</Link>
+      <a href="https://www.mapmyhyd.com/" rel="noopener noreferrer" target="_blank">Mapping HYD</a>
+      <a href="https://startups.mapmyhyd.com/" rel="noopener noreferrer" target="_blank">Hyderabad Startup Map</a>
     </nav>
   );
 }
