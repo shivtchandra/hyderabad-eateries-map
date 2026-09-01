@@ -33,6 +33,23 @@ export default function AdminPage() {
   const [themes, setThemes] = useState([]);
   const [loadingThemes, setLoadingThemes] = useState(false);
 
+  const [suggestions, setSuggestions] = useState([]);
+  const loadSuggestions = useCallback(async (s) => {
+    try {
+      const res = await fetch("/api/admin/suggestions?status=new", { headers: { Authorization: `Bearer ${s}` } });
+      if (res.ok) setSuggestions((await res.json()).suggestions || []);
+    } catch {}
+  }, []);
+
+  const dismissSuggestion = async (id) => {
+    setSuggestions((l) => l.filter((x) => x.id !== id));
+    await fetch("/api/admin/suggestions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${secret}` },
+      body: JSON.stringify({ id, action: "dismiss" }),
+    }).catch(() => {});
+  };
+
   const loadThemes = useCallback(async (s) => {
     setLoadingThemes(true);
     const res = await fetch("/api/admin/theme?limit=20", {
@@ -132,11 +149,19 @@ export default function AdminPage() {
     setAuthed(true);
     loadThemes(s);
     loadPicks(s);
+    loadSuggestions(s);
   };
 
   useEffect(() => {
-    if (secret) { setAuthed(true); loadThemes(secret); loadPicks(secret); }
-  }, [secret, loadThemes, loadPicks]);
+    if (secret) { setAuthed(true); loadThemes(secret); loadPicks(secret); loadSuggestions(secret); }
+  }, [secret, loadThemes, loadPicks, loadSuggestions]);
+
+  const useSuggestionAsTitle = (text) => {
+    setTitle(text);
+    setThemeId("");
+    setMsg("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const loadThemeIntoForm = (theme) => {
     setThemeId(theme.id);
@@ -256,6 +281,38 @@ export default function AdminPage() {
           >
             {saving ? "Saving…" : themeId ? "Update theme" : "Publish theme"}
           </button>
+        </div>
+
+        {/* Visitor requests */}
+        <div style={{ background: "#fff", borderRadius: 18, padding: 22, marginBottom: 20, boxShadow: "0 2px 12px rgba(0,0,0,0.07)" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+            <div style={{ fontWeight: 700, fontSize: 16 }}>
+              Visitor requests{suggestions.length ? ` (${suggestions.length})` : ""}
+            </div>
+            <button onClick={() => loadSuggestions(secret)} style={{ background: "transparent", border: "1.5px solid #ddd", borderRadius: 8, padding: "5px 12px", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
+              Refresh
+            </button>
+          </div>
+          <div style={{ fontSize: 12, color: "#888", marginBottom: 14, lineHeight: 1.5 }}>
+            What visitors want next. Tap <b>Use as title</b> to start a theme from one, or dismiss it.
+          </div>
+          {suggestions.length === 0 ? (
+            <div style={{ fontSize: 13, color: "#aaa", fontWeight: 500, padding: "4px 0" }}>No new requests.</div>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {suggestions.map((s) => (
+                <div key={s.id} style={{ display: "flex", alignItems: "center", gap: 10, background: "#f7f5f0", borderRadius: 10, padding: "10px 12px" }}>
+                  <span style={{ flex: 1, minWidth: 0, fontSize: 14, fontWeight: 600, color: "#2a2a2a" }}>{s.text}</span>
+                  <button onClick={() => useSuggestionAsTitle(s.text)} style={{ flexShrink: 0, background: "#7c3aed", color: "#fff", border: "none", borderRadius: 8, padding: "6px 12px", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+                    Use as title
+                  </button>
+                  <button onClick={() => dismissSuggestion(s.id)} style={{ flexShrink: 0, background: "transparent", color: "#999", border: "1.5px solid #ddd", borderRadius: 8, padding: "6px 10px", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
+                    Dismiss
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* All themes with results */}
