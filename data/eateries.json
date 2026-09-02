@@ -297,7 +297,7 @@
     "id": "ChIJKyxGIoiXyzsRPY8PASGdTW0",
     "placeId": "ChIJKyxGIoiXyzsRPY8PASGdTW0",
     "name": "Hotel Shadab",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.368888,
     "lng": 78.47551039999999,
     "address": "Madina Circle, 21-1-140-144, High Court Rd, near High Court, Charminar, Ghansi Bazaar, Hyderabad",
@@ -342,7 +342,7 @@
     "id": "ChIJXwoQ3d6ZyzsRt9dtZ7q3HQE",
     "placeId": "ChIJXwoQ3d6ZyzsRt9dtZ7q3HQE",
     "name": "Cafe Bahar",
-    "category": "cafe",
+    "category": "restaurant",
     "lat": 17.3997904,
     "lng": 78.47858490000002,
     "address": "3-5, 815/A, Old MLA Quarters Rd, Avanti Nagar, Himayatnagar, Hyderabad",
@@ -804,7 +804,7 @@
     "id": "ChIJDX3wkpWTyzsR5ukjsiQCMqM",
     "placeId": "ChIJDX3wkpWTyzsR5ukjsiQCMqM",
     "name": "AB's - Absolute Barbecues Gachibowli",
-    "category": "restro-bar",
+    "category": "restaurant",
     "lat": 17.442888,
     "lng": 78.35734400000001,
     "address": "2nd Floor, Besides HP Petrol Pump, Apurupa Silpi, Indira Nagar, Gachibowli, Hyderabad",
@@ -1172,7 +1172,7 @@
     "id": "ChIJM1Ejp6aZyzsRPYC3nGloFBg",
     "placeId": "ChIJM1Ejp6aZyzsRPYC3nGloFBg",
     "name": "Barbeque Spice",
-    "category": "restro-bar",
+    "category": "restaurant",
     "lat": 17.3944576,
     "lng": 78.4761133,
     "address": "Ground floor,LaStella building, opp. to SBI, Gun Foundry, Abids, Hyderabad",
@@ -3721,7 +3721,7 @@
     "id": "ChIJCRgjRuiWyzsRSvwHANCeoPw",
     "placeId": "ChIJCRgjRuiWyzsRSvwHANCeoPw",
     "name": "Hotel Rumaan",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.3988618,
     "lng": 78.4165453,
     "address": "Tolichowki Rd, MCH Colony, Salarjung Colony, Nizam Colony, Toli Chowki, Hyderabad",
@@ -3901,7 +3901,7 @@
     "id": "ChIJQ2qUrd6TyzsRskEgdqbhMW0",
     "placeId": "ChIJQ2qUrd6TyzsRskEgdqbhMW0",
     "name": "Sahib's Barbeque By Ohris",
-    "category": "restro-bar",
+    "category": "restaurant",
     "lat": 17.4414971,
     "lng": 78.3762781,
     "address": "Plot No. 4, Ohris Cyber Grub, Sy No. 64, 4th Floor, 1 & 4/2, Mindspace Rd, opposite to Mind Space, Center, HUDA Techno Enclave, HITEC City, Hyderabad",
@@ -4293,7 +4293,7 @@
     "id": "ChIJfywlgCGayzsRXA3Zz4cSPic",
     "placeId": "ChIJfywlgCGayzsRXA3Zz4cSPic",
     "name": "Alpha Hotel & Restaurant",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.4345522,
     "lng": 78.5007667,
     "address": "opposite to Secunderabad railway station, Station Road, Shivaji Nagar, Secunderabad",
@@ -4330,7 +4330,7 @@
     "id": "ChIJQ6aIt_KRyzsRNRQX3kW-fEE",
     "placeId": "ChIJQ6aIt_KRyzsRNRQX3kW-fEE",
     "name": "Chutneys",
-    "category": "cafe",
+    "category": "restaurant",
     "lat": 17.4963964,
     "lng": 78.3968328,
     "address": "beside Vishwanath theater, KPHB Main Road, Kukatpally, Hyderabad",
@@ -4360,7 +4360,8 @@
     "tags": [
       "date",
       "veg-friendly",
-      "reservable"
+      "reservable",
+      "pure-veg"
     ],
     "tier": "landmark",
     "detailsUpdatedAt": "2026-08-26T20:48:12.809Z"
@@ -5756,7 +5757,7 @@
     "id": "ChIJ_4BXdDaTyzsRFABQuRmPWjY",
     "placeId": "ChIJ_4BXdDaTyzsRFABQuRmPWjY",
     "name": "Exotica Hitech City- North Indian Rooftop Restaurant",
-    "category": "restro-bar",
+    "category": "restaurant",
     "lat": 17.4562967,
     "lng": 78.3765763,
     "address": "opp. Hitex Entrance, 7th Floor, Unit No 7 A, Business Square Building, Jubilee Enclave Hitech City, opp. Hitex Entrance, Madhapur, Hyderabad",
@@ -6653,7 +6654,7 @@
     "id": "ChIJ800aaQuRyzsRl1tGSCbE5EM",
     "placeId": "ChIJ800aaQuRyzsRl1tGSCbE5EM",
     "name": "Makobrew Vegetarian Restaurant & Cafe | Jubilee Hills",
-    "category": "cafe",
+    "category": "restaurant",
     "lat": 17.4288626,
     "lng": 78.4055937,
     "address": "Sri Peddamma Thalli Temple, Rd Number 44, CBI Colony, Jubilee Hills, Hyderabad",
@@ -6682,7 +6683,8 @@
     "blurb": null,
     "tags": [
       "veg-friendly",
-      "reservable"
+      "reservable",
+      "pure-veg"
     ],
     "tier": "landmark",
     "detailsUpdatedAt": "2026-08-26T20:48:28.124Z"
@@ -6802,7 +6804,7 @@
     "id": "ChIJYd1G9pWbyzsRpNpnXQ3793o",
     "placeId": "ChIJYd1G9pWbyzsRpNpnXQ3793o",
     "name": "Barbeque Nation - Hyderabad - AS Rao Nagar",
-    "category": "restro-bar",
+    "category": "restaurant",
     "lat": 17.4803452,
     "lng": 78.5518876,
     "address": "A3, Rukmini Colony, Poulami Hospital, 3rd Floor, Plot No, AS Rao Nagar, Secunderabad",
@@ -7658,7 +7660,7 @@
     "id": "ChIJM9Te6t-ZyzsRsAjVu8Jf0u0",
     "placeId": "ChIJM9Te6t-ZyzsRsAjVu8Jf0u0",
     "name": "Shanbhag's Veg-Park Restaurant",
-    "category": "cafe",
+    "category": "restaurant",
     "lat": 17.4030929,
     "lng": 78.4764714,
     "address": "3-6-355/16, Basheer Bagh, Chandra Nagar, Himayatnagar, Hyderabad",
@@ -7688,7 +7690,8 @@
     "tags": [
       "date",
       "veg-friendly",
-      "reservable"
+      "reservable",
+      "pure-veg"
     ],
     "tier": "landmark",
     "detailsUpdatedAt": "2026-08-26T20:48:34.714Z"
@@ -7921,7 +7924,7 @@
     "id": "ChIJk5YY-rSQyzsRH4cC25T9Z7E",
     "placeId": "ChIJk5YY-rSQyzsRH4cC25T9Z7E",
     "name": "Minerva Coffee Shop",
-    "category": "cafe",
+    "category": "restaurant",
     "lat": 17.4288826,
     "lng": 78.4558231,
     "address": "6-3-1110, Ground Floor, Nishat Bagh Colony, Somajiguda, Hyderabad, Telangana 500082, India",
@@ -7951,7 +7954,8 @@
     "tags": [
       "date",
       "veg-friendly",
-      "reservable"
+      "reservable",
+      "pure-veg"
     ],
     "tier": "landmark",
     "detailsUpdatedAt": "2026-08-26T20:48:36.392Z"
@@ -9610,7 +9614,7 @@
     "id": "ChIJtZoGBMaZyzsRWbOLQmdHdd0",
     "placeId": "ChIJtZoGBMaZyzsRWbOLQmdHdd0",
     "name": "Makobrew Vegetarian Restaurant & Cafe | Himayatnagar",
-    "category": "cafe",
+    "category": "restaurant",
     "lat": 17.3990216,
     "lng": 78.48169659999999,
     "address": "4th Floor, 6-289, Plot No.3, Hyderguda Main Rd, beside D-Mart, Avanti Nagar, Himayatnagar, Hyderabad, Hyderguda, Telangana 500029, India",
@@ -9640,7 +9644,8 @@
     "tags": [
       "live-music",
       "veg-friendly",
-      "reservable"
+      "reservable",
+      "pure-veg"
     ],
     "tier": "landmark",
     "detailsUpdatedAt": "2026-08-26T20:48:47.376Z"
@@ -16490,7 +16495,7 @@
     "id": "ChIJIckM7COZyzsRLc7sE9B2USM",
     "placeId": "ChIJIckM7COZyzsRLc7sE9B2USM",
     "name": "Cafe Bahar Family Restaurant & Luxury Rooms",
-    "category": "cafe",
+    "category": "restaurant",
     "lat": 17.3394163,
     "lng": 78.5430679,
     "address": "Alekhya Towers, Nagarjuna Sagar Ring Road Byramalguda, flyover, Hyderabad",
@@ -18748,7 +18753,7 @@
     "id": "ChIJ9yyDfbaQyzsRPs5dnnsXSCs",
     "placeId": "ChIJ9yyDfbaQyzsRPs5dnnsXSCs",
     "name": "Kebabs & Kurries, ITC Kakatiya",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.4326819,
     "lng": 78.4574093,
     "address": "6 -3 -1187, Teachers Colony, Greenlands, Begumpet, Hyderabad, Telangana 500016, India",
@@ -19088,7 +19093,7 @@
     "id": "ChIJV_JxDYiFyzsRXRZXYnoRAU8",
     "placeId": "ChIJV_JxDYiFyzsRXRZXYnoRAU8",
     "name": "Minerva Coffee Shop",
-    "category": "cafe",
+    "category": "restaurant",
     "lat": 17.5279501,
     "lng": 78.4851999,
     "address": "Sy No. 105/A, MINERVA GRAND, near Cine Planet, Kompally, Hyderabad",
@@ -19117,7 +19122,8 @@
     "blurb": null,
     "tags": [
       "veg-friendly",
-      "reservable"
+      "reservable",
+      "pure-veg"
     ],
     "tier": "landmark",
     "detailsUpdatedAt": "2026-08-26T20:49:47.529Z"
@@ -31080,7 +31086,7 @@
     "id": "ChIJoa7YupSRyzsRX4kdtRyPL40",
     "placeId": "ChIJoa7YupSRyzsRX4kdtRyPL40",
     "name": "Hotel Sitara Grand Multicuisine Restaurant",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.4922041,
     "lng": 78.4020718,
     "address": "Phase 1&2, MIG, 15-24-20/21/22, 1st Road, Kukatpally Housing Board Colony, Kukatpally, Hyderabad",
@@ -51934,7 +51940,7 @@
     "id": "ChIJyX_4qVKbyzsRlBg8nVo9c1E",
     "placeId": "ChIJyX_4qVKbyzsRlBg8nVo9c1E",
     "name": "Street Darbar Veg Restaurant",
-    "category": "restro-bar",
+    "category": "restaurant",
     "lat": 17.4429286,
     "lng": 78.482832,
     "address": "shop no 4 - 5, Hanuman Temple Rd, Sindhi Colony, Ramgopalpet, Hyderabad, Telangana 500003, India",
@@ -51962,7 +51968,8 @@
     "phone": "090000 09650",
     "blurb": null,
     "tags": [
-      "veg-friendly"
+      "veg-friendly",
+      "pure-veg"
     ],
     "tier": "established",
     "detailsUpdatedAt": "2026-08-26T20:53:15.104Z"
@@ -52426,7 +52433,7 @@
     "id": "ChIJWd31KXaRyzsRjg13M4ia-1Y",
     "placeId": "ChIJWd31KXaRyzsRjg13M4ia-1Y",
     "name": "Minerva Coffee Shop Greenland Paryatakbhavan",
-    "category": "cafe",
+    "category": "restaurant",
     "lat": 17.434223,
     "lng": 78.4549268,
     "address": "Balyogi Paryatak Bhavan, Greenlands Rd, Greenlands, Begumpet, Hyderabad, Telangana 500016, India",
@@ -52455,7 +52462,8 @@
     "blurb": null,
     "tags": [
       "veg-friendly",
-      "reservable"
+      "reservable",
+      "pure-veg"
     ],
     "tier": "established",
     "detailsUpdatedAt": "2026-08-26T20:53:18.278Z"
@@ -71552,7 +71560,7 @@
     "id": "ChIJvy73rzORyzsRBnzxlRO8D0k",
     "placeId": "ChIJvy73rzORyzsRBnzxlRO8D0k",
     "name": "Minerva Coffee Shop",
-    "category": "cafe",
+    "category": "restaurant",
     "lat": 17.4274907,
     "lng": 78.4149391,
     "address": "Plot No:229/A,Road Number 36, Near Check Post, Jubilee Hills, Road Number 36, Jawahar Colony, Jubilee Hills, Hyderabad",
@@ -71572,7 +71580,8 @@
     "phone": "040 6656 8686",
     "blurb": null,
     "tags": [
-      "veg-friendly"
+      "veg-friendly",
+      "pure-veg"
     ],
     "tier": "hidden-gem",
     "detailsUpdatedAt": "2026-08-26T20:55:19.724Z"
@@ -116206,7 +116215,7 @@
     "id": "ChIJBeCtdwCByzsRDJDTPCOHxP4",
     "placeId": "ChIJBeCtdwCByzsRDJDTPCOHxP4",
     "name": "Minerva Coffee Shop",
-    "category": "cafe",
+    "category": "restaurant",
     "lat": 17.6302259,
     "lng": 78.569903,
     "address": "SY No. 48, Grampanchayat l, petrol bunk, 2-221, beside HP, Majeedpur",
@@ -116219,7 +116228,11 @@
     "offersUpdatedAt": null,
     "status": "approved",
     "discoveredIn": "Kompally",
-    "createdAt": "2026-08-26T16:52:56.447Z"
+    "createdAt": "2026-08-26T16:52:56.447Z",
+    "tags": [
+      "pure-veg",
+      "veg-friendly"
+    ]
   },
   {
     "id": "ChIJfWXnGWmFyzsRHp9V-dRY-2E",
@@ -118334,7 +118347,7 @@
     "id": "ChIJJb5Olk2XyzsRb1aH1YA1zg4",
     "placeId": "ChIJJb5Olk2XyzsRb1aH1YA1zg4",
     "name": "Kadali Kitchen",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.4162423,
     "lng": 78.41768669999999,
     "address": "J-III, 8-2-293/82, Road No. 92, MLA Colony, Jubilee Hills, Hyderabad, Telangana 500033",
@@ -118373,7 +118386,7 @@
     "id": "ChIJdwO4n3eVyzsR_1xSeM-w5nk",
     "placeId": "ChIJdwO4n3eVyzsR_1xSeM-w5nk",
     "name": "IGURU Banquets & Restaurant",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.4181963,
     "lng": 78.3753098,
     "address": "Khajaguda - Nanakramguda Rd, Sai Vaibhav Layout, Chitrapuri Colony, Hyderabad, Telangana 500104",
@@ -118449,7 +118462,7 @@
     "id": "ChIJ0URLoMqQyzsRNnBu8zRu7kE",
     "placeId": "ChIJ0URLoMqQyzsRNnBu8zRu7kE",
     "name": "Meridian Restaurant",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.427426,
     "lng": 78.45226199999999,
     "address": "6-3-697, 1, मुंबई राश्ट्रीय मार्ग, RTC Cross Road, Punjagutta Officers Colony, Punjagutta, Hyderabad, Telangana 500082",
@@ -118486,7 +118499,7 @@
     "id": "ChIJ35ULj26RyzsRJksaQUa3_8Q",
     "placeId": "ChIJ35ULj26RyzsRJksaQUa3_8Q",
     "name": "Dum Pukht Begum's",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.4321006,
     "lng": 78.3851115,
     "address": "Survey No. 83/1, ITC Kohenur, Hyderabad Knowledge City, Plot No 5, Silpa Gram Craft Village, Madhapur, Hyderabad, Telangana 500032",
@@ -118594,7 +118607,7 @@
     "id": "ChIJzYGh6K2QyzsRboMW7Lg1UBg",
     "placeId": "ChIJzYGh6K2QyzsRboMW7Lg1UBg",
     "name": "Tansen",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.4143219,
     "lng": 78.3384543,
     "address": "Sy No. 332 & 333, Prestige Skytech, Puppalaguda, Gandipeta, Financial District, Nanakramguda, Hyderabad, Telangana 500032",
@@ -118672,7 +118685,7 @@
     "id": "ChIJn8wnYjeRyzsR3juoZM7aKgY",
     "placeId": "ChIJn8wnYjeRyzsR3juoZM7aKgY",
     "name": "The Spicy Venue",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.4350957,
     "lng": 78.4110774,
     "address": "Road Number 10, Jubilee Hills, Hyderabad, Telangana 500033",
@@ -118820,7 +118833,7 @@
     "id": "ChIJvzzJa9aZyzsR6kewVJXGfVs",
     "placeId": "ChIJvzzJa9aZyzsR6kewVJXGfVs",
     "name": "Grand Hotel",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.3879007,
     "lng": 78.4770363,
     "address": "4-1-395, Bank St, Troop Bazaar, Koti, Hyderabad, Telangana 500001",
@@ -118858,7 +118871,7 @@
     "id": "ChIJw3KFakCXyzsR731MjBYkua8",
     "placeId": "ChIJw3KFakCXyzsR731MjBYkua8",
     "name": "Jewel Of Nizam- The Golkonda Hotel Banjara Hills",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.4043674,
     "lng": 78.45376689999999,
     "address": "D No. 10/1/124, The Golkonda Hotel, Saifabad Rd, Ambedkar Nagar, Masab Tank, Hyderabad, Telangana 500004",
@@ -118896,7 +118909,7 @@
     "id": "ChIJjQFIhjeXyzsReSTjRjm5rzo",
     "placeId": "ChIJjQFIhjeXyzsReSTjRjm5rzo",
     "name": "Firdaus",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.4164394,
     "lng": 78.4506765,
     "address": "TAJ KRISHNA, Mada Manzil, Banjara Hills, Hyderabad, Telangana 500034",
@@ -118935,7 +118948,7 @@
     "id": "ChIJbTCx4mS9yzsR7En6yMPyzds",
     "placeId": "ChIJbTCx4mS9yzsR7En6yMPyzds",
     "name": "Celeste",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.3302167,
     "lng": 78.46763779999999,
     "address": "TAJ FALAKNUMA PALACE, Fatima Nagar, Falaknuma, Hyderabad, Telangana 500053",
@@ -118973,7 +118986,7 @@
     "id": "ChIJCSELPs6RyzsRgDvN2CcEPNU",
     "placeId": "ChIJCSELPs6RyzsRgDvN2CcEPNU",
     "name": "Dakshin, ITC Kakatiya",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.432594,
     "lng": 78.457433,
     "address": "ITC Kakatiya, 6-3-1187, Teachers Colony, Greenlands, Begumpet, Hyderabad, Telangana 500016",
@@ -119011,7 +119024,7 @@
     "id": "ChIJ0XNFOjiXyzsRRoD5B2sgB-Q",
     "placeId": "ChIJ0XNFOjiXyzsRRoD5B2sgB-Q",
     "name": "Fusion 9",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.4307173,
     "lng": 78.4012446,
     "address": "CCJ2+7FQ, Rina Mandal Rd, Masthan Nagar, CBI Colony, Jubilee Hills, Hyderabad, Telangana 500033",
@@ -119041,7 +119054,7 @@
     "id": "ChIJJbLhM7eQyzsR-fqWztpDb6M",
     "placeId": "ChIJJbLhM7eQyzsR-fqWztpDb6M",
     "name": "Ohri's Jiva Imperia",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.4356184,
     "lng": 78.4577082,
     "address": "3rd block, White House, Greenlands Rd, Kundanbagh Colony, Begumpet, Hyderabad, Telangana 500016",
@@ -119142,7 +119155,7 @@
     "id": "ChIJ3YuBFwCbyzsRZocqjPq5gWs",
     "placeId": "ChIJ3YuBFwCbyzsRZocqjPq5gWs",
     "name": "INKA ( The stories of telugu kitchen )",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.484498,
     "lng": 78.5481413,
     "address": "Tejas premium, 3rd floor, plot no:184, Air Force Co operative Housing Society, circle, Vayupuri, Malkajgiri, Secunderabad, Telangana 500094",
@@ -119219,7 +119232,7 @@
     "id": "ChIJV_-1RKyRyzsRk3eITXrBwVk",
     "placeId": "ChIJV_-1RKyRyzsRk3eITXrBwVk",
     "name": "Telugu Medium Kitchen & Bar",
-    "category": "restro-bar",
+    "category": "restaurant",
     "lat": 17.4278761,
     "lng": 78.4038521,
     "address": "Plot No.1062, Road No 46, Nandagiri Hills, Jubilee Hills, Hyderabad, Telangana 500033",
@@ -119331,7 +119344,7 @@
     "id": "ChIJ9XnSCd2ZyzsRLFAIaZqqwdY",
     "placeId": "ChIJ9XnSCd2ZyzsRLFAIaZqqwdY",
     "name": "Rayalaseema Ruchulu - Lakdikapul",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.4028909,
     "lng": 78.46297369999999,
     "address": "FTCCI Marg, Red Hills, Lakdikapul, Hyderabad, Telangana 500004",
@@ -119408,7 +119421,7 @@
     "id": "ChIJxwozzBSZyzsRiwULSfN7Fxk",
     "placeId": "ChIJxwozzBSZyzsRiwULSfN7Fxk",
     "name": "Taj Mahal Hotel",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.391727,
     "lng": 78.47684,
     "address": "4-1-999, Abids Road, Sultan Bazar, Abids, Hyderabad, Hyderguda, Telangana 500001",
@@ -119436,7 +119449,9 @@
     "phone": "040 6612 0606",
     "blurb": "Informal hotel featuring warmly furnished rooms, 3 vegetarian restaurants & event space.",
     "tags": [
-      "view"
+      "view",
+      "pure-veg",
+      "veg-friendly"
     ],
     "tier": "landmark",
     "detailsUpdatedAt": "2026-08-29T20:47:15.488Z"
@@ -119707,7 +119722,7 @@
     "id": "ChIJf9KWp1CVyzsRnujAh6Egm_s",
     "placeId": "ChIJf9KWp1CVyzsRnujAh6Egm_s",
     "name": "AnTeRa Courtyard",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.4123657,
     "lng": 78.32749489999999,
     "address": "Sy no.251/8, E/1, Antera Courtyard Rd, Financial District, Vattinagulapally, Nanakramguda, Hyderabad, Telangana 500075",
@@ -119857,7 +119872,7 @@
     "id": "ChIJZX4WhcyZyzsRzbeMxIhmTjo",
     "placeId": "ChIJZX4WhcyZyzsRzbeMxIhmTjo",
     "name": "Kritunga Restaurant - Nagole",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.3629015,
     "lng": 78.55763499999999,
     "address": "Gruhashilpis Varun Towers, 2nd Floor, Plot.No.7,8 Nagole, Uppal Revenue Mandal, above to Reliance Trends Medchal - Malkajgiri Dist, Sai Nagar, L. B. Nagar, Hyderabad, Telangana 500068",
@@ -121143,7 +121158,7 @@
     "id": "ChIJ2fcgVaKRyzsR2IBty4Cx91w",
     "placeId": "ChIJ2fcgVaKRyzsR2IBty4Cx91w",
     "name": "Gaurang's Kitchen | Pure Veg Restaurant In Jubilee Hills",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.4290016,
     "lng": 78.4088637,
     "address": "Plot Number, 1147, Rd Number 59, Jubilee Hills, Hyderabad, Telangana 500033",
@@ -121172,7 +121187,8 @@
     "blurb": null,
     "tags": [
       "veg-friendly",
-      "reservable"
+      "reservable",
+      "pure-veg"
     ],
     "tier": "landmark",
     "detailsUpdatedAt": "2026-08-29T20:50:05.794Z"
@@ -121181,7 +121197,7 @@
     "id": "ChIJIfN2naWRyzsRQ884HoebNm8",
     "placeId": "ChIJIfN2naWRyzsRQ884HoebNm8",
     "name": "Ishtaa",
-    "category": "local",
+    "category": "restaurant",
     "lat": 17.4344891,
     "lng": 78.3742785,
     "address": "Hitech City Main Rd, NCC URBAN GARDENIA, Lumbini Ave, Diamond Hills, Lumbini Avenue, HITEC City, Hyderabad, Telangana 500032",

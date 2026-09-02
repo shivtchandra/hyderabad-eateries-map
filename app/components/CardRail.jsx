@@ -9,6 +9,7 @@ import { isNewSpot } from "../../lib/eateryUtils.js";
 import { isTrendingSpot } from "../../lib/trending.js";
 
 const CAT_COLOR = {
+  restaurant: "var(--restaurant)",
   "restro-bar": "var(--restro-bar)",
   cafe: "var(--cafe)",
   bakery: "var(--bakery)",

@@ -6,6 +6,7 @@ import { diaryStats } from "../../lib/diary.js";
 import { Icon, CategoryIcon, Wave, Squiggles } from "./Icons.jsx";
 
 const CAT_META = {
+  restaurant: { label: "Restaurants", color: "var(--restaurant)" },
   "restro-bar": { label: "Restro Bars", color: "var(--restro-bar)" },
   cafe: { label: "Cafes", color: "var(--cafe)" },
   bakery: { label: "Bakeries", color: "var(--bakery)" },

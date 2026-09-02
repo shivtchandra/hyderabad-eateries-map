@@ -9,6 +9,7 @@ const HYD_CENTER = [17.42, 78.44];
 // Mirrors the category tokens in globals.css (Leaflet builds raw HTML strings,
 // so these can't be var() references).
 const CAT_COLOR = {
+  restaurant: "#9D2F4F",
   "restro-bar": "#E2622A",
   cafe: "#2F4FC4",
   bakery: "#DFA43A",

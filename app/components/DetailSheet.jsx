@@ -7,6 +7,7 @@ import { hasVoted } from "../../lib/voting.js";
 import { getThemeVoteSpot, castThemeVote } from "../../lib/themeVoting.js";
 
 const CAT_META = {
+  restaurant: { label: "Restaurant", color: "var(--restaurant)" },
   "restro-bar": { label: "Restro Bar", color: "var(--restro-bar)" },
   cafe: { label: "Cafe", color: "var(--cafe)" },
   bakery: { label: "Bakery", color: "var(--bakery)" },

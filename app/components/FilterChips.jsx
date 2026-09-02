@@ -4,9 +4,10 @@ import { useState } from "react";
 import { TAGS } from "../../lib/eateryUtils.js";
 import { Icon, CategoryIcon, TagIcon } from "./Icons.jsx";
 
-const CAT_ORDER = ["all", "cafe", "local", "restro-bar", "bakery", "ice-cream"];
+const CAT_ORDER = ["all", "cafe", "restaurant", "local", "restro-bar", "bakery", "ice-cream"];
 const CAT_META = {
   all:          { label: "All",        color: "var(--violet)" },
+  restaurant:   { label: "Restaurant", color: "var(--restaurant)" },
   "restro-bar": { label: "Restro Bar", color: "var(--restro-bar)" },
   cafe:         { label: "Cafe",       color: "var(--cafe)" },
   bakery:       { label: "Bakery",     color: "var(--bakery)" },

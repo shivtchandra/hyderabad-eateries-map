@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Icon } from "./Icons.jsx";
 
 const CATEGORY_META = {
+  restaurant: { label: "Restaurant", color: "var(--restaurant)" },
   "restro-bar": { label: "Restro Bar", color: "var(--restro-bar)" },
   cafe: { label: "Cafe", color: "var(--cafe)" },
   bakery: { label: "Bakery", color: "var(--bakery)" },
