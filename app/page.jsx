@@ -307,7 +307,10 @@ export default function EateriesApp() {
   // there, so it's attempted separately and is allowed to fail ("too far")
   // without affecting the stamp.
   const attemptRaceClaim = useCallback((id) => {
-    if (!navigator.geolocation) return;
+    if (!navigator.geolocation) {
+      setToast("Stamped — turn on location to also claim it for the Race");
+      return;
+    }
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         const res = await claimSpot(id, { lat: pos.coords.latitude, lng: pos.coords.longitude });
@@ -317,11 +320,15 @@ export default function EateriesApp() {
         } else if (res.ok && res.already) {
           setToast("Already claimed for the Race");
         } else if (res.reason === "too-far") {
-          setToast(`Too far to claim — you're ${res.distanceKm} km away`);
+          setToast(`Stamped — but you're ${res.distanceKm} km away, too far to claim for the Race`);
+        } else if (res.reason === "not-authenticated") {
+          setToast("Stamped — Race sign-in unavailable, claim didn't count");
+        } else {
+          // backend / network / write-failed
+          setToast("Stamped — couldn't reach the Race board, claim didn't count");
         }
-        // not-authenticated / backend / network: stay quiet, stamp still saved
       },
-      () => {},
+      () => setToast("Stamped — location denied, so it wasn't claimed for the Race"),
       { enableHighAccuracy: true, timeout: 8000 }
     );
   }, []);
