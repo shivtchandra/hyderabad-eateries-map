@@ -33,11 +33,12 @@ export default async function sitemap() {
     priority: 0.8,
   }));
 
+  const HIGH_PRIORITY_AREAS = ["gachibowli", "jubilee-hills", "banjara-hills", "madhapur-hitec"];
   const areaUrls = allAreaPages().map((a) => ({
     url: `${siteUrl}/areas/${a.slug}`,
     lastModified: now,
-    changeFrequency: "weekly",
-    priority: 0.75,
+    changeFrequency: HIGH_PRIORITY_AREAS.includes(a.slug) ? "weekly" : "monthly",
+    priority: HIGH_PRIORITY_AREAS.includes(a.slug) ? 0.85 : 0.75,
   }));
 
   const spotUrls = getEateries()
