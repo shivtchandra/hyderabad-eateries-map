@@ -64,6 +64,7 @@ export default function CardRail({ spots, activeId, onActivate, onOpen, passport
   return (
     <>
 
+      {/* Star of the week — hidden for now
       {starOfWeek?.name && (
         <div style={{
           position: "absolute", left: 14, right: 14, bottom: 210,
@@ -75,6 +76,7 @@ export default function CardRail({ spots, activeId, onActivate, onOpen, passport
           Star of the week: <span style={{ color: "var(--ink)", fontWeight: 700 }}>{starOfWeek.name}</span>
         </div>
       )}
+      */}
 
     <div
       ref={railRef}
