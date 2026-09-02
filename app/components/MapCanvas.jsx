@@ -141,8 +141,14 @@ export default function MapCanvas({
     const areaLayer = areaLayerRef.current;
     const spotLayer = spotLayerRef.current;
 
+    // A category/tag filter is active when the working set is a strict subset of
+    // everything. Filtered sets are small, so the neighbourhood-blob view (which
+    // forces a zoom-in to see anything) just gets in the way — skip straight to
+    // individual spots and, below, show every match instead of a ranked few.
+    const filterActive = filtered.length < eateries.length;
+
     // ---------- Neighbourhood view ----------
-    if (zoom <= AREA_ZOOM_MAX) {
+    if (zoom <= AREA_ZOOM_MAX && !filterActive) {
       areaLayer.clearLayers();
       // Leaving the spot view: drop the pins and the maps that track them, so
       // the next zoom-in starts from a clean slate rather than stale handles.
@@ -235,6 +241,22 @@ export default function MapCanvas({
       // Part of the cache key: a different filter is a different hero set.
       filterKey: `${filtered.length}:${filtered[0]?.id ?? ""}`,
     });
+
+    // With a filter on, the user wants to see *all* the matches in view, not a
+    // spread-out ranked subset with the rest demoted to dots they have to hunt
+    // for. If a reasonable number are visible, promote every one to a full pin;
+    // above the cap, fall back to the ranked heroes + dots so we don't paint
+    // hundreds of photo cards.
+    if (filterActive) {
+      const inFull = (e) =>
+        e.lat >= b.getSouth() && e.lat <= b.getNorth() &&
+        e.lng >= b.getWest() && e.lng <= b.getEast();
+      const visMatches = filtered.filter(inFull).sort((x, y) => scoreOf(y) - scoreOf(x));
+      if (visMatches.length && visMatches.length <= 120) {
+        heroes = visMatches;
+        rest = [];
+      }
+    }
 
     // An exact search result must never disappear into the dot layer just because
     // another nearby spot won the ranking cell. Selection overrides ranking.
