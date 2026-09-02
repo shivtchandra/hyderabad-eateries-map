@@ -288,7 +288,12 @@ export default function CardRail({ spots, activeId, onActivate, onOpen, passport
                   letterSpacing: "0.01em",
                 }}
               >
-                {TIERS[e.tier] ? <span>{TIERS[e.tier].label}</span> : null}
+                {TIERS[e.tier] ? (
+                  <span>
+                    {TIERS[e.tier].label}
+                    <span style={{ color: "rgba(255,255,255,0.62)", fontWeight: 500 }}> · +{TIERS[e.tier].points} pts</span>
+                  </span>
+                ) : null}
                 {e.ratingCount ? (
                   <span style={{ whiteSpace: "nowrap", color: "rgba(255,255,255,0.62)", fontWeight: 500 }}>
                     {TIERS[e.tier] ? "· " : ""}

@@ -5,6 +5,7 @@ import { ensureUser, getUid, getName, setName as saveName } from "../../lib/iden
 import { fetchLeaderboard } from "../../lib/leaderboard.js";
 import ThemeVoting from "./ThemeVoting.jsx";
 import { Icon, Wave, Squiggles } from "./Icons.jsx";
+import { TIERS } from "../../lib/eateryUtils.js";
 
 // The gameboard. Ranks players by points earned checking in at spots. Points
 // favour discovery (hidden gems > landmarks), so the race rewards exploring the
@@ -187,18 +188,24 @@ export default function LeaderboardPanel({ refreshTick = 0, initialInnerTab = "r
               How points work
             </div>
             {[
-              ["gem", "Hidden gem", "25 pts"],
-              ["star", "Established spot", "15 pts"],
-              ["landmark", "Landmark", "10 pts"],
-            ].map(([ic, label, pts]) => (
-              <div key={label} style={{ display: "flex", alignItems: "center", gap: 9, padding: "3px 0", fontSize: 13, color: "var(--ink-soft)", fontWeight: 500 }}>
-                <Icon name={ic} size={15} width={1.9} color="var(--violet)" />
-                <span style={{ flex: 1 }}>{label}</span>
-                <span style={{ fontWeight: 700, color: "var(--violet-deep)" }}>{pts}</span>
+              ["gem", "hidden-gem"],
+              ["star", "established"],
+              ["landmark", "landmark"],
+            ].map(([ic, key]) => (
+              <div key={key} style={{ display: "flex", alignItems: "flex-start", gap: 9, padding: "5px 0", fontSize: 13, color: "var(--ink-soft)", fontWeight: 500 }}>
+                <Icon name={ic} size={15} width={1.9} color="var(--violet)" style={{ marginTop: 2 }} />
+                <span style={{ flex: 1 }}>
+                  {TIERS[key].label}
+                  <span style={{ display: "block", fontSize: 11, color: "var(--muted)", fontWeight: 500 }}>
+                    {TIERS[key].hint} · e.g. {TIERS[key].eg}
+                  </span>
+                </span>
+                <span style={{ fontWeight: 700, color: "var(--violet-deep)", whiteSpace: "nowrap" }}>{TIERS[key].points} pts</span>
               </div>
             ))}
             <div style={{ fontSize: 11.5, color: "var(--muted)", marginTop: 9, lineHeight: 1.4, fontWeight: 500 }}>
-              Explore beyond the famous names — the deeper cuts are worth more.
+              A spot's tier comes from its Google review count — nobody sets it. The famous names everyone
+              knows score least; the deeper cuts are worth more.
             </div>
           </div>
         )}

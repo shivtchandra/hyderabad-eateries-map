@@ -195,8 +195,8 @@ export default function DetailSheet({
             </span>
           )}
           {tier && (
-            <span style={{ ...chip, background: "var(--pop-wash)", color: "var(--pop-deep)", borderColor: "transparent" }} title={tier.hint}>
-              <TierIcon tier={eatery.tier} size={13} width={2} /> {tier.label}
+            <span style={{ ...chip, background: "var(--pop-wash)", color: "var(--pop-deep)", borderColor: "transparent" }} title={`${tier.hint} — worth +${tier.points} pts in the Race`}>
+              <TierIcon tier={eatery.tier} size={13} width={2} /> {tier.label} · +{tier.points} pts
             </span>
           )}
           {eatery.priceLevel && <span style={chip}>{PRICE[eatery.priceLevel]}</span>}
@@ -207,6 +207,17 @@ export default function DetailSheet({
             </span>
           )}
         </div>
+
+        {tier && (
+          <div style={{ fontSize: 12, color: "var(--muted)", fontWeight: 500, lineHeight: 1.45, margin: "-4px 0 12px" }}>
+            Stamp it while you're here to claim <strong style={{ color: "var(--pop-deep)" }}>+{tier.points} pts</strong> for the Race.{" "}
+            {eatery.tier === "hidden-gem"
+              ? "Hidden gems (under 200 reviews) score highest — this is a deep cut."
+              : eatery.tier === "landmark"
+              ? "Landmarks (1000+ reviews) score least — everyone already knows this one."
+              : "Mid-tier pickup — 200+ reviews, not yet a household name."}
+          </div>
+        )}
 
         {eatery.tags?.length > 0 && (
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 13 }}>
