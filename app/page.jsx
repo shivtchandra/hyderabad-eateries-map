@@ -25,7 +25,7 @@ import ThemeIntro from "./components/ThemeIntro.jsx";
 import Onboarding from "./components/Onboarding.jsx";
 import { fetchPicks } from "../lib/picks.js";
 
-export default function EateriesApp() {
+export default function EateriesApp({ initialTab = "map", initialRaceView = "race" }) {
   const mapApi = useRef(null);
 
   const [eateries, setEateries] = useState([]);
@@ -35,14 +35,31 @@ export default function EateriesApp() {
   const [detailPending, setDetailPending] = useState({});
   const [allDetailsStatus, setAllDetailsStatus] = useState("idle");
   const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState("map");
-  const [raceView, setRaceView] = useState("race"); // which sub-tab the Race panel opens on
+  const [tab, setTab] = useState(initialTab);
+  const [raceView, setRaceView] = useState(initialRaceView); // which sub-tab the Race panel opens on
   const [activeCategory, setActiveCategory] = useState("all");
 
-  // Switch tabs; opening Race from the nav always lands on the board, not This Week.
-  const goTab = (t) => {
-    if (t === "race") setRaceView("race");
-    setTab(t);
+  const pushAppPath = (path) => {
+    if (typeof window !== "undefined" && window.location.pathname !== path) {
+      window.history.pushState({}, "", path);
+    }
+  };
+
+  // Race views have real URLs so either screen can be opened and shared directly.
+  const openRaceView = (view) => {
+    setRaceView(view);
+    setTab("race");
+    pushAppPath(view === "theme" ? "/race/this-week" : "/race");
+  };
+
+  // Opening Race from the bottom nav always lands on the main leaderboard.
+  const goTab = (nextTab) => {
+    if (nextTab === "race") {
+      openRaceView("race");
+      return;
+    }
+    setTab(nextTab);
+    pushAppPath("/");
   };
   const [activeTags, setActiveTags] = useState([]);
   const [openNowOnly, setOpenNowOnly] = useState(false);
@@ -75,6 +92,24 @@ export default function EateriesApp() {
   useEffect(() => {
     try { if (localStorage.getItem("loc_prompted")) setLocPulsed(true); } catch {}
   }, []);
+
+  useEffect(() => {
+    const syncRoute = () => {
+      const path = window.location.pathname.replace(/\/$/, "") || "/";
+      if (path === "/race/this-week") {
+        setRaceView("theme");
+        setTab("race");
+      } else if (path === "/race") {
+        setRaceView("race");
+        setTab("race");
+      } else if (path === "/") {
+        setTab("map");
+      }
+    };
+    window.addEventListener("popstate", syncRoute);
+    return () => window.removeEventListener("popstate", syncRoute);
+  }, []);
+
   // Read inside handleSelect without making it a dependency (which would
   // rebuild the map's marker layer on every selection change).
   const selectedIdRef = useRef(null);
@@ -459,7 +494,11 @@ export default function EateriesApp() {
         </div>
 
         {tab === "race" && (
-          <LeaderboardPanel key={raceView} initialInnerTab={raceView} refreshTick={diaryTick} />
+          <LeaderboardPanel
+            initialInnerTab={raceView}
+            onInnerTabChange={openRaceView}
+            refreshTick={diaryTick}
+          />
         )}
         {tab === "passport" && (
           <PassportPanel eateries={eateries} passport={passport} onSelect={openFromList} diaryTick={diaryTick} />
@@ -591,7 +630,7 @@ export default function EateriesApp() {
         )}
 
         <Onboarding />
-        <ThemeIntro theme={currentTheme} onVote={() => { setRaceView("theme"); setTab("race"); }} />
+        <ThemeIntro theme={currentTheme} onVote={() => openRaceView("theme")} />
       </div>
 
       <BottomNav tab={tab} setTab={goTab} visitedCount={visitedCount} savedCount={savedCount} stickerCount={stickerCount} />

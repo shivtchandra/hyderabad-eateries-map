@@ -108,6 +108,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
   const [suggestions, setSuggestions] = useState([]);
   const [pending, setPending] = useState(null); // spot waiting for confirm
   const [mismatchWarn, setMismatchWarn] = useState(false);
+  const [shareState, setShareState] = useState("idle");
   const debounceRef = useRef(null);
 
   const searchSpots = (q) => {
@@ -152,6 +153,28 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
 
   const cancelVote = () => { setPending(null); setMismatchWarn(false); };
 
+  const shareTheme = async () => {
+    const url = `${window.location.origin}/race/this-week`;
+    const payload = {
+      title: `${theme.title} — Hyderabad Eats`,
+      text: `Vote in this week's Hyderabad Eats challenge: ${theme.title}`,
+      url,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(payload);
+        setShareState("shared");
+      } else {
+        await navigator.clipboard.writeText(url);
+        setShareState("copied");
+      }
+      window.setTimeout(() => setShareState("idle"), 1800);
+    } catch (error) {
+      if (error?.name !== "AbortError") setShareState("failed");
+    }
+  };
+
   return (
     <div>
       {/* Hero banner */}
@@ -161,8 +184,34 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
         borderRadius: "var(--r-lg)", padding: "16px",
         boxShadow: "0 4px 20px rgba(91,33,182,0.28)",
       }}>
-        <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.7)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 4 }}>
-          This week's challenge
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 4 }}>
+          <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.7)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+            This week's challenge
+          </div>
+          <button
+            type="button"
+            onClick={shareTheme}
+            aria-label="Share this week's challenge"
+            style={{
+              border: "1px solid rgba(255,255,255,0.28)",
+              borderRadius: "var(--r-pill)",
+              background: "rgba(255,255,255,0.16)",
+              color: "#fff",
+              minWidth: 70,
+              height: 30,
+              padding: "0 10px",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 5,
+              fontSize: 11,
+              fontWeight: 700,
+              cursor: "pointer",
+            }}
+          >
+            <Icon name={shareState === "copied" || shareState === "shared" ? "check" : "share"} size={13} width={2} color="#fff" />
+            {shareState === "copied" ? "Copied" : shareState === "shared" ? "Shared" : shareState === "failed" ? "Try again" : "Share"}
+          </button>
         </div>
         <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 20, color: "#fff", lineHeight: 1.2, marginBottom: 6 }}>
           {theme.title}

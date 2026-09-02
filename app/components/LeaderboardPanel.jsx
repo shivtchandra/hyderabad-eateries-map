@@ -10,7 +10,11 @@ import { TIERS } from "../../lib/eateryUtils.js";
 // The gameboard. Ranks players by points earned checking in at spots. Points
 // favour discovery (hidden gems > landmarks), so the race rewards exploring the
 // city, not just ticking the famous names.
-export default function LeaderboardPanel({ refreshTick = 0, initialInnerTab = "race" }) {
+export default function LeaderboardPanel({
+  refreshTick = 0,
+  initialInnerTab = "race",
+  onInnerTabChange,
+}) {
   const [innerTab, setInnerTab] = useState(initialInnerTab); // "race" | "theme"
   const [uid, setUid] = useState(null);
   const [data, setData] = useState({ players: [], me: null });
@@ -18,6 +22,14 @@ export default function LeaderboardPanel({ refreshTick = 0, initialInnerTab = "r
   const [name, setNameState] = useState("");
   const [editingName, setEditingName] = useState(false);
 
+  useEffect(() => {
+    setInnerTab(initialInnerTab);
+  }, [initialInnerTab]);
+
+  const selectInnerTab = (nextTab) => {
+    setInnerTab(nextTab);
+    onInnerTabChange?.(nextTab);
+  };
 
   const load = useCallback(async (id) => {
     const res = await fetchLeaderboard(id);
@@ -92,7 +104,7 @@ export default function LeaderboardPanel({ refreshTick = 0, initialInnerTab = "r
         {[["race", "trophy", "The Race"], ["theme", "crown", "This Week"]].map(([key, icon, label]) => (
           <button
             key={key}
-            onClick={() => setInnerTab(key)}
+            onClick={() => selectInnerTab(key)}
             style={{
               flex: 1, height: 38, display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
               border: "none", borderRadius: "var(--r-pill)",
