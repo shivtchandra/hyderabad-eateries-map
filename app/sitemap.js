@@ -9,7 +9,8 @@ export default async function sitemap() {
   const siteUrl = getSiteUrl();
   const now = new Date();
 
-  const themes = await getAllRankingsThemes(50);
+  let themes = [];
+  try { themes = await getAllRankingsThemes(50); } catch {}
   const themeSlugs = new Set(themes.map((t) => t.slug));
   const rankingUrls = [
     ...themes.map((t) => ({
