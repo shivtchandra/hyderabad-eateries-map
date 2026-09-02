@@ -37,6 +37,8 @@ const RESTAURANTS = [
   { q: "rayalaseema ruchulu", veg: false },
   { q: "kritunga restaurant", veg: false },
   { q: "antera courtyard", veg: false },
+  { q: "antera kitchen and bar", veg: false },
+  { q: "amaravathi family restaurant", veg: false },
   { q: "inka ( the stories of telugu kitchen", veg: false },
   { q: "iguru banquets", veg: false },
   { q: "kadali kitchen", veg: false },
