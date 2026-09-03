@@ -1,4 +1,5 @@
 import { randomUUID } from "crypto";
+import { revalidateTag } from "next/cache";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { classifyPlace as classify, IN_HYD } from "../../../../lib/eateryUtils.js";
 
@@ -90,6 +91,10 @@ export async function GET(req) {
       added.push(entry.name);
     }
   }
+
+  // New spots written above won't show on the map for up to a day (cache
+  // revalidate: 86400) unless we bust it now.
+  if (added.length > 0) revalidateTag("eateries");
 
   return Response.json({ added: added.length, names: added });
 }

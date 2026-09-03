@@ -28,7 +28,7 @@ const getEateries = unstable_cache(
     return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
   },
   ["eateries-list"],
-  { revalidate: 86400 }
+  { revalidate: 86400, tags: ["eateries"] }
 );
 
 export async function GET(req) {
