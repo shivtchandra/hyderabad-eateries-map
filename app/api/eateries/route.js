@@ -1,31 +1,39 @@
 import { getAdminDb } from "../../../lib/firebaseAdmin.js";
+import { unstable_cache } from "next/cache";
 
-// Reads live Firestore data — must not be frozen into the build output.
-export const dynamic = "force-dynamic";
+// Full collection scan (~3.5K docs) run fresh on every request was blowing
+// the Firestore free-tier daily read quota. Cache it per-category for 5min
+// instead — eatery list doesn't change request-to-request.
+const getEateries = unstable_cache(
+  async (category) => {
+    const db = await getAdminDb();
+    if (!db) {
+      // Fallback: serve from local JSON when Firestore not configured
+      try {
+        const { readFileSync } = await import("fs");
+        const { join } = await import("path");
+        const raw = readFileSync(join(process.cwd(), "data", "eateries.json"), "utf-8");
+        let eateries = JSON.parse(raw).filter((e) => e.status === "approved");
+        if (category) eateries = eateries.filter((e) => e.category === category);
+        return eateries;
+      } catch {
+        return [];
+      }
+    }
+
+    let query = db.collection("eateries").where("status", "==", "approved");
+    if (category) query = query.where("category", "==", category);
+
+    const snap = await query.get();
+    return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+  },
+  ["eateries-list"],
+  { revalidate: 300 }
+);
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
-  const category = searchParams.get("category");
-
-  const db = await getAdminDb();
-  if (!db) {
-    // Fallback: serve from local JSON when Firestore not configured
-    try {
-      const { readFileSync } = await import("fs");
-      const { join } = await import("path");
-      const raw = readFileSync(join(process.cwd(), "data", "eateries.json"), "utf-8");
-      let eateries = JSON.parse(raw).filter((e) => e.status === "approved");
-      if (category) eateries = eateries.filter((e) => e.category === category);
-      return Response.json(eateries);
-    } catch {
-      return Response.json([], { status: 200 });
-    }
-  }
-
-  let query = db.collection("eateries").where("status", "==", "approved");
-  if (category) query = query.where("category", "==", category);
-
-  const snap = await query.get();
-  const eateries = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+  const category = searchParams.get("category") || "";
+  const eateries = await getEateries(category);
   return Response.json(eateries);
 }
