@@ -70,7 +70,8 @@ export async function GET() {
     results.sort((a, b) => (b.count || 0) - (a.count || 0));
 
     return Response.json({ theme, results });
-  } catch {
-    return Response.json({ theme: null, results: [] });
+  } catch (err) {
+    // TEMP diagnostic — revert once quota issue confirmed fixed.
+    return Response.json({ theme: null, results: [], _debug: String(err?.message || err) });
   }
 }
