@@ -1,4 +1,5 @@
 import { getAdminDb } from "../../../lib/firebaseAdmin.js";
+import { revalidateTag } from "next/cache";
 
 export const dynamic = "force-dynamic";
 
@@ -32,6 +33,7 @@ export async function POST(req) {
     return updated;
   });
 
+  revalidateTag("votes");
   return Response.json(result);
 }
 
@@ -61,5 +63,6 @@ export async function DELETE(req) {
     return updated;
   });
 
+  revalidateTag("votes");
   return Response.json(result);
 }

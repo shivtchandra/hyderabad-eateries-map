@@ -1,4 +1,5 @@
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
+import { revalidateTag } from "next/cache";
 
 export const dynamic = "force-dynamic";
 
@@ -63,6 +64,8 @@ export async function POST(req) {
 
     return { count, switched: !!priorSpotId };
   });
+
+  if (!result.unchanged) revalidateTag("themes");
 
   return Response.json(result);
 }
