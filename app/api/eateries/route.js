@@ -2,8 +2,8 @@ import { getAdminDb } from "../../../lib/firebaseAdmin.js";
 import { unstable_cache } from "next/cache";
 
 // Full collection scan (~3.5K docs) run fresh on every request was blowing
-// the Firestore free-tier daily read quota. Cache it per-category for 5min
-// instead — eatery list doesn't change request-to-request.
+// the Firestore free-tier daily read quota. Cache it per-category for a day
+// instead — the eatery list barely changes day to day.
 const getEateries = unstable_cache(
   async (category) => {
     const db = await getAdminDb();
@@ -28,7 +28,7 @@ const getEateries = unstable_cache(
     return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
   },
   ["eateries-list"],
-  { revalidate: 300 }
+  { revalidate: 86400 }
 );
 
 export async function GET(req) {
