@@ -315,18 +315,28 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
       {/* Search to vote for any spot */}
       {!theme.winnerId && (
         <div style={{ margin: "0 16px 8px" }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted)", marginBottom: 6, letterSpacing: "0.04em" }}>
-            {results.length === 0 ? "Search a restaurant to cast the first vote" : votedSpotId ? "Change my vote to a different spot" : "Vote for a different spot"}
+          {/* OR divider */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "14px 0 12px" }}>
+            <div style={{ flex: 1, height: 1, background: "var(--line)" }} />
+            <span style={{ fontSize: 11, fontWeight: 800, color: "var(--muted)", letterSpacing: "0.1em" }}>OR SEARCH ANY SPOT</span>
+            <div style={{ flex: 1, height: 1, background: "var(--line)" }} />
+          </div>
+          <div style={{ fontSize: 13, fontWeight: 700, color: "var(--ink)", marginBottom: 10 }}>
+            {votedSpotId ? "Change my vote" : "Not on the list? Find it and vote 👇"}
           </div>
           <div style={{ position: "relative" }}>
+            <span style={{
+              position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)",
+              fontSize: 15, pointerEvents: "none", opacity: 0.5,
+            }}>🔍</span>
             <input
               value={searchQ}
               onChange={(e) => searchSpots(e.target.value)}
               placeholder="Type a restaurant name…"
               style={{
                 width: "100%", boxSizing: "border-box",
-                border: "1.5px solid var(--line)", borderRadius: "var(--r-md)",
-                padding: "10px 14px", fontSize: 14,
+                border: "2px solid var(--purple)", borderRadius: "var(--r-md)",
+                padding: "11px 14px 11px 36px", fontSize: 14,
                 fontFamily: "Outfit, sans-serif", background: "var(--cream-hi)",
                 color: "var(--ink)", outline: "none",
               }}
