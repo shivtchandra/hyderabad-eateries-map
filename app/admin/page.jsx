@@ -63,7 +63,7 @@ export default function AdminPage() {
     setLoadingThemes(false);
   }, []);
 
-  // Top Picks — "what to order" for a hand-picked few spots
+  // Top Picks, "what to order" for a hand-picked few spots
   const [picks, setPicks] = useState([]);
   const [loadingPicks, setLoadingPicks] = useState(false);
   const [pickSearch, setPickSearch] = useState("");
@@ -235,7 +235,7 @@ export default function AdminPage() {
     <div style={{ minHeight: "100dvh", background: "#f3f0ea", padding: "24px 16px 80px" }}>
       <div style={{ maxWidth: 700, margin: "0 auto" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
-          <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 24 }}>Admin — Weekly Voting</div>
+          <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 24 }}>Admin, Weekly Voting</div>
           <button onClick={newTheme} style={{ background: "#7c3aed", color: "#fff", border: "none", borderRadius: 10, padding: "8px 16px", fontSize: 13, fontWeight: 700, cursor: "pointer" }}>
             + New theme
           </button>
@@ -364,13 +364,13 @@ export default function AdminPage() {
           ))
         )}
 
-        {/* Top Picks — "what to order" for a hand-picked few spots */}
+        {/* Top Picks, "what to order" for a hand-picked few spots */}
         <div style={{ background: "#fff", borderRadius: 18, padding: 22, marginTop: 32, marginBottom: 20, boxShadow: "0 2px 12px rgba(0,0,0,0.07)" }}>
           <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 4 }}>
             {pickSpot ? `Editing pick for ${pickSpot.name}` : "Add a Top Pick"}
           </div>
           <div style={{ fontSize: 12, color: "#888", marginBottom: 14, lineHeight: 1.5 }}>
-            Only a few spots need this — recommended dishes, optionally attributed to whoever picked them.
+            Only a few spots need this, recommended dishes, optionally attributed to whoever picked them.
           </div>
 
           {!pickSpot ? (
@@ -410,7 +410,7 @@ export default function AdminPage() {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
                 <div>
                   <label style={labelStyle}>Recommended by</label>
-                  <input value={pickCurator} onChange={(e) => setPickCurator(e.target.value)} placeholder="Optional — e.g. Shiva" style={inputStyle} />
+                  <input value={pickCurator} onChange={(e) => setPickCurator(e.target.value)} placeholder="Optional, e.g. Shiva" style={inputStyle} />
                 </div>
                 <div>
                   <label style={labelStyle}>Note</label>
@@ -444,7 +444,7 @@ export default function AdminPage() {
                 <div style={{ fontSize: 12.5, color: "#7c3aed", fontWeight: 600, marginTop: 2 }}>{p.dishes}</div>
                 {(p.curator || p.note) && (
                   <div style={{ fontSize: 11.5, color: "#888", marginTop: 2 }}>
-                    {p.curator && <span>— {p.curator}</span>}
+                    {p.curator && <span>, {p.curator}</span>}
                     {p.curator && p.note && <span> · </span>}
                     {p.note}
                   </div>

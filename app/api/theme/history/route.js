@@ -3,8 +3,7 @@ import { unstable_cache } from "next/cache";
 
 export const dynamic = "force-dynamic";
 
-// Past themes are locked (inactive), so this basically never changes —
-// cache it for an hour instead of an N+1 fetch (theme + per-theme votes)
+// Past themes are locked (inactive), so this basically never changes, // cache it for an hour instead of an N+1 fetch (theme + per-theme votes)
 // on every page load.
 const getHistory = unstable_cache(
   async (limit) => {

@@ -15,12 +15,12 @@ const CAT_META = {
   local: { label: "Local Eats", color: "var(--local)" },
 };
 const PRICE = { 1: "₹", 2: "₹₹", 3: "₹₹₹", 4: "₹₹₹₹" };
-// `half` is the default, so it has to land on a coherent block — photo, name,
-// stat chips and the primary action — rather than slicing through a chip row.
+// `half` is the default, so it has to land on a coherent block, photo, name,
+// stat chips and the primary action, rather than slicing through a chip row.
 const SNAPS = { peek: 30, half: 72, full: 94 };
 
 export default function DetailSheet({
-  eatery, isMobile, photoUrl, dist,
+  eatery, isMobile, photoUrl, dist, featured = false,
   passportState, onToggleVisited, onToggleSaved, onAddSticker, onClose,
   voteData, onVote, currentTheme, detailPending = false, pick,
 }) {
@@ -40,8 +40,7 @@ export default function DetailSheet({
   const weekVotes = voteData?.week_total || 0;
 
   const themeActive = currentTheme && !currentTheme.winnerId;
-  // The spot this device currently has voted for in this theme (or null) —
-  // may differ from eatery.id, which is what makes "change my vote" possible.
+  // The spot this device currently has voted for in this theme (or null), // may differ from eatery.id, which is what makes "change my vote" possible.
   const themeVoteSpot = themeActive ? (themeVoteSpotLocal ?? getThemeVoteSpot(currentTheme.id)) : null;
   const votedForThis = !!themeVoteSpot && themeVoteSpot === eatery.id;
   const votedForOther = !!themeVoteSpot && themeVoteSpot !== eatery.id;
@@ -162,7 +161,16 @@ export default function DetailSheet({
             <CategoryIcon category={eatery.category} size={23} width={1.85} color={cat.color} />
           </span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <h2 className="t-title-s" style={{ margin: "0 0 3px" }}>{eatery.name}</h2>
+            <h2 className="t-title-s" style={{ margin: "0 0 3px" }}>
+              {eatery.name}
+              {featured && (
+                <span style={{
+                  display: "inline-block", verticalAlign: "middle", marginLeft: 8,
+                  background: "var(--pop)", color: "#fff", fontSize: 10, fontWeight: 800,
+                  letterSpacing: "0.03em", padding: "3px 7px", borderRadius: 20,
+                }}>★ Story</span>
+              )}
+            </h2>
             {detailPending ? (
               <span className="detail-skeleton" aria-label="Loading restaurant details" role="status" />
             ) : eatery.address ? (
@@ -196,7 +204,7 @@ export default function DetailSheet({
             </span>
           )}
           {tier && (
-            <span style={{ ...chip, background: "var(--pop-wash)", color: "var(--pop-deep)", borderColor: "transparent" }} title={`${tier.hint} — worth +${tier.points} pts in the Race`}>
+            <span style={{ ...chip, background: "var(--pop-wash)", color: "var(--pop-deep)", borderColor: "transparent" }} title={`${tier.hint}, worth +${tier.points} pts in the Race`}>
               <TierIcon tier={eatery.tier} size={13} width={2} /> {tier.label} · +{tier.points} pts
             </span>
           )}
@@ -213,10 +221,10 @@ export default function DetailSheet({
           <div style={{ fontSize: 12, color: "var(--muted)", fontWeight: 500, lineHeight: 1.45, margin: "-4px 0 12px" }}>
             Stamp it while you're here to claim <strong style={{ color: "var(--pop-deep)" }}>+{tier.points} pts</strong> for the Race.{" "}
             {eatery.tier === "hidden-gem"
-              ? "Hidden gems (under 200 reviews) score highest — this is a deep cut."
+              ? "Hidden gems (under 200 reviews) score highest, this is a deep cut."
               : eatery.tier === "landmark"
-              ? "Landmarks (1000+ reviews) score least — everyone already knows this one."
-              : "Mid-tier pickup — 200+ reviews, not yet a household name."}
+              ? "Landmarks (1000+ reviews) score least, everyone already knows this one."
+              : "Mid-tier pickup, 200+ reviews, not yet a household name."}
           </div>
         )}
 
@@ -234,7 +242,7 @@ export default function DetailSheet({
           </div>
         )}
 
-        {/* Top Pick — a hand-picked "what to order" note, only a few spots have one */}
+        {/* Top Pick, a hand-picked "what to order" note, only a few spots have one */}
         {pick && (
           <div
             style={{
@@ -253,7 +261,7 @@ export default function DetailSheet({
               </div>
               {(pick.curator || pick.note) && (
                 <div style={{ fontSize: 11.5, color: "var(--ink-soft)", fontWeight: 500, marginTop: 2, lineHeight: 1.4 }}>
-                  {pick.curator && <span>— {pick.curator}</span>}
+                  {pick.curator && <span>, {pick.curator}</span>}
                   {pick.curator && pick.note && <span> · </span>}
                   {pick.note}
                 </div>
@@ -262,7 +270,7 @@ export default function DetailSheet({
           </div>
         )}
 
-        {/* Collecting is the point of the product — this is the primary action */}
+        {/* Collecting is the point of the product, this is the primary action */}
         <button
           onClick={() => onToggleVisited(eatery.id)}
           style={{
@@ -274,7 +282,7 @@ export default function DetailSheet({
           }}
         >
           <Icon name={visited ? "check" : "ticket"} size={18} width={2.1} />
-          {visited ? "Collected — tap to undo" : "Stamp this spot"}
+          {visited ? "Collected, tap to undo" : "Stamp this spot"}
         </button>
 
         <div style={{ display: "flex", gap: 7, marginBottom: 8 }}>
@@ -299,6 +307,13 @@ export default function DetailSheet({
           </a>
         </div>
 
+        <a
+          href={`/spot/${eatery.id}`}
+          style={{ ...btn, width: "100%", background: "var(--cream)", color: "var(--ink-soft)", border: "1.5px solid var(--line)", textDecoration: "none", fontSize: 13 }}
+        >
+          <Icon name="book" size={15} width={1.9} /> View full page
+        </a>
+
         <div style={{ display: "flex", gap: 7 }}>
           {eatery.website && (
             <a href={eatery.website} target="_blank" rel="noopener noreferrer"
@@ -322,7 +337,7 @@ export default function DetailSheet({
           <Icon name="ticket" size={16} width={2} /> Make a dish sticker
         </button>
 
-        {/* Community vote — no login, one per device */}
+        {/* Community vote, no login, one per device */}
         <div style={{
           marginTop: 10,
           background: voted ? "var(--violet-wash)" : "var(--cream)",
@@ -370,7 +385,7 @@ export default function DetailSheet({
             {themeVotePending && (
               <div style={{ fontSize: 12.5, color: "#92400e", background: "#fef3c7", border: "1.5px solid #f59e0b", borderRadius: "var(--r-md)", padding: "8px 12px", marginBottom: 6, fontWeight: 600, lineHeight: 1.4 }}>
                 {themeMismatch()
-                  ? <>⚠️ This is a {eatery.category} place — the theme is "{currentTheme.title}". Vote anyway?</>
+                  ? <>⚠️ This is a {eatery.category} place, the theme is "{currentTheme.title}". Vote anyway?</>
                   : <>You already voted for a different spot in this theme. Switch your vote to <b>{eatery.name}</b>?</>
                 }
                 <button
@@ -405,7 +420,7 @@ export default function DetailSheet({
             </button>
             {votedForOther && !themeVotePending && (
               <div style={{ fontSize: 11, color: "var(--muted)", fontWeight: 500, marginTop: 5, textAlign: "center" }}>
-                You voted for another spot — tapping this will move your vote here
+                You voted for another spot, tapping this will move your vote here
               </div>
             )}
           </div>

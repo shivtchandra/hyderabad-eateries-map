@@ -13,8 +13,7 @@ const CATEGORY_META = {
   local: { label: "Local Eats", color: "var(--local)" },
 };
 
-// Compact 54px bar. Search is an icon until tapped, then takes the full width —
-// on a phone every vertical pixel above the map is expensive.
+// Compact 54px bar. Search is an icon until tapped, then takes the full width, // on a phone every vertical pixel above the map is expensive.
 export default function TopBar({
   search, setSearch, searchOpen, setSearchOpen,
   searchResults = [], onSelectResult, onPreviewResult,
@@ -79,7 +78,7 @@ export default function TopBar({
         </>
       ) : (
         <>
-          {/* Logo mark — biryani handi */}
+          {/* Logo mark, biryani handi */}
           <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
             <rect width="30" height="30" rx="9" fill="var(--violet)" />
             {/* steam */}

@@ -125,6 +125,14 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     fetchPicks().then(setPicksMap);
   }, []);
 
+  // Editorial spots (venues with a hand-written story) for the "Stories" rail
+  // and the ★ Story badge on pins/cards/sheet.
+  const [featured, setFeatured] = useState([]);
+  useEffect(() => {
+    fetch("/featured.json").then((r) => r.json()).then(setFeatured).catch(() => {});
+  }, []);
+  const featuredIds = useMemo(() => new Set(featured.map((f) => f.id)), [featured]);
+
   useEffect(() => {
     fetchStarOfWeek().then(setStarOfWeek);
   }, []);
@@ -137,7 +145,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     return () => mq.removeEventListener("change", update);
   }, []);
 
-  // Static index — 74KB gzipped, cacheable, zero Firestore reads at runtime
+  // Static index, 74KB gzipped, cacheable, zero Firestore reads at runtime
   // (querying ~1600 docs per page load blew the free-tier quota).
   useEffect(() => {
     fetch("/eateries-index.json")
@@ -259,8 +267,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     return c;
   }, [eateries]);
 
-  // Per-category counts with only sub-filters applied (tags, openNow, nearby) —
-  // not the category filter itself, so each chip shows how many of its own spots
+  // Per-category counts with only sub-filters applied (tags, openNow, nearby), // not the category filter itself, so each chip shows how many of its own spots
   // pass the active filters.
   const filteredCounts = useMemo(() => {
     if (!activeTags.length && !openNowOnly && !nearbyOnly && !newOnly) return counts;
@@ -326,7 +333,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     setActiveTags((p) => (p.includes(t) ? p.filter((x) => x !== t) : [...p, t]));
   }, []);
 
-  // Stamping a *new* place opens the diary sheet — the receipt, dish and note
+  // Stamping a *new* place opens the diary sheet, the receipt, dish and note
   // are the whole point of the passport. Un-stamping is immediate.
   const handleToggleVisited = useCallback((id) => {
     if (passportStore.getState().visited[id]) {
@@ -337,33 +344,33 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     }
   }, [byId]);
 
-  // Passport stamping is personal and works anywhere — logging a memory. The
+  // Passport stamping is personal and works anywhere, logging a memory. The
   // Race claim is the competitive half: it needs live GPS proof you're actually
   // there, so it's attempted separately and is allowed to fail ("too far")
   // without affecting the stamp.
   const attemptRaceClaim = useCallback((id) => {
     if (!navigator.geolocation) {
-      setToast("Stamped — turn on location to also claim it for the Race");
+      setToast("Stamped, turn on location to also claim it for the Race");
       return;
     }
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         const res = await claimSpot(id, { lat: pos.coords.latitude, lng: pos.coords.longitude });
         if (res.ok && !res.already) {
-          setToast(`Claimed for the Race — +${res.awarded} pts`);
+          setToast(`Claimed for the Race, +${res.awarded} pts`);
           setDiaryTick((t) => t + 1); // refresh the board
         } else if (res.ok && res.already) {
           setToast("Already claimed for the Race");
         } else if (res.reason === "too-far") {
-          setToast(`Stamped — but you're ${res.distanceKm} km away, too far to claim for the Race`);
+          setToast(`Stamped, but you're ${res.distanceKm} km away, too far to claim for the Race`);
         } else if (res.reason === "not-authenticated") {
-          setToast("Stamped — Race sign-in unavailable, claim didn't count");
+          setToast("Stamped, Race sign-in unavailable, claim didn't count");
         } else {
           // backend / network / write-failed
-          setToast("Stamped — couldn't reach the Race board, claim didn't count");
+          setToast("Stamped, couldn't reach the Race board, claim didn't count");
         }
       },
-      () => setToast("Stamped — location denied, so it wasn't claimed for the Race"),
+      () => setToast("Stamped, location denied, so it wasn't claimed for the Race"),
       { enableHighAccuracy: true, timeout: 8000 }
     );
   }, []);
@@ -372,7 +379,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     setPassport({ ...passportStore.toggleVisited(id) });
     setStamping(null);
     setDiaryTick((t) => t + 1);
-    setToast("Stamped — added to your passport");
+    setToast("Stamped, added to your passport");
     attemptRaceClaim(id);
   }, [attemptRaceClaim]);
 
@@ -385,8 +392,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   const handleSelect = useCallback((id, opts = {}) => {
     setSelectedId(id);
     loadDetail(id);
-    // Scrolling the card rail calls this on every settle (fromRail: true) —
-    // that should only highlight the card/pin, never pop the detail sheet
+    // Scrolling the card rail calls this on every settle (fromRail: true), // that should only highlight the card/pin, never pop the detail sheet
     // open on its own. Opening stays an explicit action: tap the card, tap a
     // map pin, or search.
     if (!opts.fromRail) {
@@ -427,7 +433,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
       },
       (err) => {
         setLocating(false);
-        setToast(err.code === 1 ? "Location access denied — allow it in browser settings" : "Couldn't get your location");
+        setToast(err.code === 1 ? "Location access denied, allow it in browser settings" : "Couldn't get your location");
       },
       { enableHighAccuracy: true, timeout: 8000 }
     );
@@ -444,6 +450,27 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     loadDetail(e.id);
     mapApi.current?.flyTo(e.lat, e.lng, 16);
   }, [loadDetail]);
+
+  // Deep link: /?spot=<id> selects that spot, opens its sheet and centres the
+  // map on it. Lets the spot page's "Open on map" button (and any shared spot
+  // link) land on the right pin instead of the bare city map. Runs once, after
+  // the index has loaded so byId[id] resolves.
+  const deepLinkedRef = useRef(false);
+  useEffect(() => {
+    if (deepLinkedRef.current || loading) return;
+    const id = new URLSearchParams(window.location.search).get("spot");
+    if (!id) { deepLinkedRef.current = true; return; }
+    const e = byId[id];
+    if (!e) return; // data not ready to resolve this id yet; retry on next tick
+    deepLinkedRef.current = true;
+    setTab("map");
+    setSelectedId(id);
+    setSheetOpen(true);
+    loadDetail(id);
+    const focus = () => mapApi.current?.flyTo(e.lat, e.lng, 16);
+    focus();
+    if (!mapApi.current) setTimeout(focus, 600); // map may still be mounting
+  }, [loading, byId, loadDetail]);
 
   const selected = selectedId ? byId[selectedId] : null;
   const selectedFull = useMemo(
@@ -486,6 +513,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
             filtered={filtered}
             passport={passport}
             selectedId={selectedId}
+            featuredIds={featuredIds}
             onSelect={handleSelect}
             onAreaEnter={handleAreaEnter}
             onHeroesChange={setHeroes}
@@ -566,7 +594,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
 
             {!loading && filtered.length === 0 && (
               <div style={{ position: "absolute", top: "40%", left: "50%", transform: "translate(-50%,-50%)", background: "var(--cream-hi)", border: "1.5px solid var(--line)", padding: "16px 22px", borderRadius: 18, boxShadow: "var(--shadow-soft)", fontFamily: "Fraunces, serif", fontWeight: 600, textAlign: "center", maxWidth: "80%" }}>
-                No spots match — try another bite
+                No spots match, try another bite
               </div>
             )}
 
@@ -576,6 +604,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
                 activeId={selectedId}
                 onActivate={handleSelect}
                 onOpen={() => setSheetOpen(true)}
+                featuredIds={featuredIds}
                 passport={passport}
                 voteMap={voteMap}
                 onVote={handleVote}
@@ -589,6 +618,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
               <DetailSheet
                 eatery={selectedFull}
                 isMobile={isMobile}
+                featured={featuredIds.has(selectedFull.id)}
                 photoUrl={photoUrlFor}
                 dist={dist}
                 passportState={passportStore.stateOf(passport, selectedFull.id)}

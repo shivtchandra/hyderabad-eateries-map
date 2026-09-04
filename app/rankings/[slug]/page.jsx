@@ -20,7 +20,7 @@ function placeholderForSlug(slug) {
 export async function generateMetadata({ params }) {
   const theme = await getRankingBySlug(params.slug);
   const pick = placeholderForSlug(params.slug);
-  if (!theme && !pick) return { title: "Ranking not found — Hyderabad Eats" };
+  if (!theme && !pick) return { title: "Ranking not found, Hyderabad Eats" };
   const fake = theme || { title: pick.title, description: pick.description, slug: params.slug, results: [] };
   const meta = rankingMeta(fake);
   const path = `/rankings/${params.slug}`;
@@ -75,7 +75,7 @@ export default async function RankingPage({ params }) {
       active="/rankings"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/rankings", label: "Rankings" }, { href: `/rankings/${params.slug}`, label: data.title }]}
       title={data.title}
-      description={isPlaceholder ? `${data.description} Vote launches soon — explore related spots meanwhile.` : `${totalVotes} community votes${data.startDate && data.endDate ? ` · ${data.startDate} to ${data.endDate}` : ""}`}
+      description={isPlaceholder ? `${data.description} Vote launches soon, explore related spots meanwhile.` : `${totalVotes} community votes${data.startDate && data.endDate ? ` · ${data.startDate} to ${data.endDate}` : ""}`}
       related={related}
     >
 
@@ -89,7 +89,7 @@ export default async function RankingPage({ params }) {
 
       {isPlaceholder && (
         <div style={{ background: "var(--violet-wash)", border: "1.5px solid var(--violet)", borderRadius: 16, padding: 16, marginBottom: 20, fontSize: 14, color: "var(--ink-soft)" }}>
-          <strong style={{ color: "var(--violet-deep)" }}>Coming soon:</strong> This weekly vote hasn&apos;t started yet. Explore the map and check back — or browse similar spots below.
+          <strong style={{ color: "var(--violet-deep)" }}>Coming soon:</strong> This weekly vote hasn&apos;t started yet. Explore the map and check back, or browse similar spots below.
         </div>
       )}
 
@@ -122,7 +122,7 @@ export default async function RankingPage({ params }) {
           </tbody>
         </table>
       ) : (
-        <p style={{ color: "var(--muted)", fontSize: 15 }}>No votes yet — be the first to cast yours on the map.</p>
+        <p style={{ color: "var(--muted)", fontSize: 15 }}>No votes yet, be the first to cast yours on the map.</p>
       )}
 
       <Link href="/" className="site-cta">{isLive ? "Vote now on the map →" : "Explore on the map →"}</Link>

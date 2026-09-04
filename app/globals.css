@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Outfit:wght@400;500;600;700&display=swap");
 
 /* ============================================================
-   Riso poster system — cobalt hero on a warm cream ground,
+   Riso poster system, cobalt hero on a warm cream ground,
    burnt orange as the celebratory pop, groovy bulbous display
    type, print grain. Two-tone discipline: one bold colour per
    surface, never a rainbow.
@@ -22,19 +22,19 @@
   --blue-wash: #dfe4f8;
   --periwinkle: #a8b6f0;
 
-  /* Celebratory pop — collected states, stamps */
+  /* Celebratory pop, collected states, stamps */
   --pop: #e2622a;
   --pop-deep: #b8481a;
   --pop-wash: #fbe3d5;
 
   --forest: #2e6b4f;
 
-  /* Brand — violet accent, used for active UI states */
+  /* Brand, violet accent, used for active UI states */
   --violet: #7c3aed;
   --violet-deep: #5b21b6;
   --violet-wash: #ede9fe;
 
-  /* Category marks — distinguishable, all inside the riso family */
+  /* Category marks, distinguishable, all inside the riso family */
   --cafe: #2f4fc4;       /* cobalt */
   --restaurant: #9d2f4f; /* claret: sit-down dining */
   --restro-bar: #e2622a; /* burnt orange */
@@ -87,7 +87,7 @@ button, [role="button"] { -webkit-tap-highlight-color: transparent; }
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
-/* A soft edge where content meets floating chrome — not a 1px rule */
+/* A soft edge where content meets floating chrome, not a 1px rule */
 .edge-below::after {
   content: "";
   position: absolute;
@@ -178,7 +178,7 @@ body::after {
 /* ============ THE THESIS ============
    Base map washed to warm oat paper. Saturated colour appears ONLY on the
    spots you've collected, so the city visibly fills in as you explore it. */
-/* Keep the map's colour — parks green, water blue, arterials yellow — but pull
+/* Keep the map's colour, parks green, water blue, arterials yellow, but pull
    it toward the cream palette. Muting this further was tried twice and each
    time the city read as an empty void. */
 /* OSM paints building footprints a warm salmon. The previous hue-rotate(-5deg)
@@ -190,7 +190,7 @@ body::after {
 }
 
 /* A cream scrim between the tiles (z-index 200) and the markers (z-index 600).
-   OSM paints POI icons — temples, shops, cinemas — into the tile image itself,
+   OSM paints POI icons, temples, shops, cinemas, into the tile image itself,
    so they can't be removed; this pushes the whole basemap back a step instead,
    knocking them down while preserving the relative colour underneath. */
 .leaflet-container::after {
@@ -260,7 +260,7 @@ body::after {
 .marker-cluster, .marker-cluster div { background: transparent !important; }
 
 /* ============================================================
-   Photo pins — the map is made of photographs of the places,
+   Photo pins, the map is made of photographs of the places,
    not of markers. Only the top-ranked few in view get one.
    ============================================================ */
 .photo-pin {
@@ -325,7 +325,7 @@ body::after {
   font-weight: 600;
   padding: 2px 7px;
   border-radius: 8px;
-  /* Two lines rather than a hard ellipsis — "Naturals Ice Cr…" and
+  /* Two lines rather than a hard ellipsis, "Naturals Ice Cr…" and
      "President Dhab…" were unreadable at one line. */
   width: max-content;
   max-width: 112px;
@@ -338,6 +338,24 @@ body::after {
   box-shadow: 0 2px 6px rgba(38, 48, 92, 0.2);
   pointer-events: none;
 }
+
+/* ★ Story badge on featured (editorial) hero pins */
+.photo-pin-star {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  z-index: 3;
+  background: var(--pop);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  padding: 3px 6px;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(38, 48, 92, 0.28);
+  pointer-events: none;
+}
+
 /* The active pin's label is allowed to run wider and sit above its neighbours */
 .photo-pin.active .photo-pin-label {
   max-width: 150px;
@@ -499,7 +517,7 @@ body::after {
 @keyframes sheet-rise { from { opacity: 0; transform: translateY(16px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
 
-/* Crawlable nav on map homepage — visible to bots, off-screen for users */
+/* Crawlable nav on map homepage, visible to bots, off-screen for users */
 .seo-crawl-nav {
   position: absolute;
   width: 1px;

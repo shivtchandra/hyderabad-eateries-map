@@ -2,7 +2,7 @@ import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 
 export const dynamic = "force-dynamic";
 
-// A visitor requests a future weekly theme. Write-only from the client — the
+// A visitor requests a future weekly theme. Write-only from the client, the
 // list is private to the admin (see /api/admin/suggestions).
 //
 //   POST { text, uid } -> store a suggestion

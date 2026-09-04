@@ -5,8 +5,8 @@ import { stickerList, getStickerBlob, removeSticker } from "../../lib/stickers.j
 import { Icon, Wave } from "./Icons.jsx";
 
 // The 4th tab: a wall of every dish you've collected, each a die-cut sticker
-// tagged with the place and date. This is the shareable artifact — "my
-// Hyderabad in N dishes" — and the visual counterpart to the passport's stamps.
+// tagged with the place and date. This is the shareable artifact, "my
+// Hyderabad in N dishes", and the visual counterpart to the passport's stamps.
 export default function StickerBook({ onAddSticker, onOpenSpot, refreshTick = 0 }) {
   const [items, setItems] = useState([]);
   const [urls, setUrls] = useState({});
@@ -64,7 +64,7 @@ export default function StickerBook({ onAddSticker, onOpenSpot, refreshTick = 0 
               Your sticker book is empty
             </div>
             <div style={{ fontSize: 13.5, marginTop: 6, lineHeight: 1.5, maxWidth: 300, margin: "6px auto 0" }}>
-              Snap a dish you loved — we cut it into a sticker, right on your phone, and it lands here.
+              Snap a dish you loved, we cut it into a sticker, right on your phone, and it lands here.
             </div>
           </div>
         ) : (

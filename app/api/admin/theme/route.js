@@ -10,7 +10,7 @@ function authOk(req) {
   return auth === `Bearer ${secret}`;
 }
 
-// GET — list all themes with full vote results, newest first.
+// GET, list all themes with full vote results, newest first.
 export async function GET(req) {
   if (!authOk(req)) return Response.json({ error: "unauthorized" }, { status: 401 });
   const db = await getAdminDb();
@@ -34,7 +34,7 @@ export async function GET(req) {
   return Response.json({ themes });
 }
 
-// POST — create or update the active theme.
+// POST, create or update the active theme.
 // Body: { title, description, startDate, endDate, themeId? }
 // If themeId is omitted a new theme is created; pass it to update an existing one.
 export async function POST(req) {
@@ -89,7 +89,7 @@ export async function POST(req) {
   return Response.json({ id, active: shouldBeActive });
 }
 
-// PATCH — set winner for a theme.
+// PATCH, set winner for a theme.
 // Body: { themeId, winnerId, winnerName }
 export async function PATCH(req) {
   if (!authOk(req)) return Response.json({ error: "unauthorized" }, { status: 401 });

@@ -5,7 +5,7 @@ import { pageMeta } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
 
 const title = "Hyderabad Food by Area";
-const description = "Explore cafes, biryani, bars and bakeries neighbourhood by neighbourhood — Jubilee Hills, Gachibowli, Banjara Hills and more.";
+const description = "Explore cafes, biryani, bars and bakeries neighbourhood by neighbourhood, Jubilee Hills, Gachibowli, Banjara Hills and more.";
 
 export const metadata = {
   ...pageMeta({ title, description, path: "/areas" }),

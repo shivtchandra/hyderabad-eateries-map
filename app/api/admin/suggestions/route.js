@@ -10,7 +10,7 @@ function authOk(req) {
 
 const COL = "themeSuggestions";
 
-// GET — visitor theme requests for the admin to review (newest first).
+// GET, visitor theme requests for the admin to review (newest first).
 export async function GET(req) {
   if (!authOk(req)) return Response.json({ error: "unauthorized" }, { status: 401 });
   const db = await getAdminDb();
@@ -27,7 +27,7 @@ export async function GET(req) {
   }
 }
 
-// POST { id, action } — action "dismiss" | "restore" | "delete"
+// POST { id, action }, action "dismiss" | "restore" | "delete"
 export async function POST(req) {
   if (!authOk(req)) return Response.json({ error: "unauthorized" }, { status: 401 });
   const db = await getAdminDb();

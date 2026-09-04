@@ -2,6 +2,7 @@ import Link from "next/link";
 
 const NAV = [
   { href: "/", label: "Map" },
+  { href: "/stories", label: "Stories" },
   { href: "/rankings", label: "Rankings" },
   { href: "/explore", label: "Explore" },
   { href: "/areas", label: "Areas" },
@@ -38,6 +39,7 @@ export function SiteFooter() {
     <footer className="site-footer">
       <nav aria-label="Footer">
         <Link href="/">Map</Link>
+        <Link href="/stories">Stories</Link>
         <Link href="/rankings">Rankings</Link>
         <Link href="/explore">Explore</Link>
         <Link href="/areas">Areas</Link>

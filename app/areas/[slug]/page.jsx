@@ -44,7 +44,7 @@ export default function AreaPage({ params }) {
             <Link href={`/spot/${s.id}`}>
               <span>
                 <div className="site-spot-name">{i + 1}. {s.name}</div>
-                <div className="site-spot-meta">{s.category} · {s.rating ? `${s.rating}★` : "—"}</div>
+                <div className="site-spot-meta">{s.category} · {s.rating ? `${s.rating}★` : ", "}</div>
               </span>
               <span className="site-spot-meta">View →</span>
             </Link>

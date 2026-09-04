@@ -30,7 +30,7 @@ export async function POST(req) {
     ? db.collection("themes").doc(themeId).collection("voters").doc(uid)
     : null;
 
-  // One live vote per uid per theme — but instead of just rejecting a second
+  // One live vote per uid per theme, but instead of just rejecting a second
   // vote, let it SWITCH: pull the count off whatever spot they voted for
   // before and move it onto the new one. Voting for the same spot again is a
   // no-op (returns the current count, changes nothing).

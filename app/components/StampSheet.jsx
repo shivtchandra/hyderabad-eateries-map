@@ -12,7 +12,7 @@ const CAT_COLOR = {
   local: "var(--local)",
 };
 
-// Shown when you stamp a spot. Everything here is optional — the stamp lands
+// Shown when you stamp a spot. Everything here is optional, the stamp lands
 // whether or not you fill anything in, because friction is what kills a
 // journalling habit. But the receipt, the dish and the spend are what turn a
 // checklist into a diary a year from now.
@@ -67,7 +67,7 @@ export default function StampSheet({ eatery, onDone, onCancel }) {
           </button>
         </div>
 
-        {/* Receipt — the proof and the keepsake */}
+        {/* Receipt, the proof and the keepsake */}
         <input
           ref={fileRef}
           type="file"
@@ -95,13 +95,13 @@ export default function StampSheet({ eatery, onDone, onCancel }) {
           {preview ? (
             <>
               <img src={preview} alt="Receipt" style={{ width: "100%", maxHeight: 150, objectFit: "cover", borderRadius: 9 }} />
-              <span style={{ fontSize: 12, fontWeight: 600, color: "var(--pop-deep)" }}>Receipt added — tap to change</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "var(--pop-deep)" }}>Receipt added, tap to change</span>
             </>
           ) : (
             <>
               <Icon name="ticket" size={24} width={1.7} color="var(--muted)" />
               <span style={{ fontSize: 13.5, fontWeight: 600, color: "var(--ink-soft)" }}>Snap the receipt</span>
-              <span style={{ fontSize: 11.5, color: "var(--muted)" }}>Optional — but it&apos;s the bit you&apos;ll want later</span>
+              <span style={{ fontSize: 11.5, color: "var(--muted)" }}>Optional, but it&apos;s the bit you&apos;ll want later</span>
             </>
           )}
         </button>

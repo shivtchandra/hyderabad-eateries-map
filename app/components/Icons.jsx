@@ -3,7 +3,7 @@
 import { CATEGORY_GLYPH, UI_GLYPH, TAG_ICON, TIER_ICON } from "../../lib/iconPaths.js";
 
 // One drawing language for the whole app: 24×24, stroke-based, round joins.
-// Replaces every emoji — emoji render differently per platform and read cheap.
+// Replaces every emoji, emoji render differently per platform and read cheap.
 export function Icon({ name, size = 20, width = 1.75, color = "currentColor", style, className }) {
   const paths = UI_GLYPH[name] ?? CATEGORY_GLYPH[name];
   if (!paths) return null;
@@ -59,7 +59,7 @@ export function TierIcon(props) {
   return <Icon {...props} name={TIER_ICON[props.tier] ?? "sparkle"} />;
 }
 
-// Loose looping ribbons, the "good things are coming" motif — decoration for
+// Loose looping ribbons, the "good things are coming" motif, decoration for
 // empty states and panel backgrounds.
 export function Squiggles({ color = "var(--periwinkle)", opacity = 0.55, style }) {
   return (
@@ -73,7 +73,7 @@ export function Squiggles({ color = "var(--periwinkle)", opacity = 0.55, style }
   );
 }
 
-// Groovy flowing ribbon — the poster motif, used as decoration in empty states
+// Groovy flowing ribbon, the poster motif, used as decoration in empty states
 // and the passport header.
 export function Wave({ height = 90, color = "var(--pop)", flip = false, style }) {
   return (

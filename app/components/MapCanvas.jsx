@@ -17,11 +17,11 @@ const CAT_COLOR = {
   local: "#2E8B6B",
 };
 
-// Zoomed out we show neighbourhoods, not spots — you choose an area, then the
+// Zoomed out we show neighbourhoods, not spots, you choose an area, then the
 // area gives you its best. Zoomed in, the top-ranked few become photo pins and
 // everything else stays a dot, so quality is visible instead of buried.
 export default function MapCanvas({
-  eateries, filtered, passport, selectedId,
+  eateries, filtered, passport, selectedId, featuredIds,
   onSelect, onAreaEnter, onHeroesChange, onZoomChange,
 }) {
   const containerRef = useRef(null);
@@ -56,7 +56,7 @@ export default function MapCanvas({
 
       // OSM raster. A vector basemap (MapLibre + OpenFreeMap) was attempted so
       // the POI layer could simply be omitted, but MapLibre never initialises
-      // here — no 'load' event, no tile requests, no errors, even for a
+      // here, no 'load' event, no tile requests, no errors, even for a
       // background-only style. Falling back rather than shipping a blank map.
       // Removing OSM's baked-in POI icons needs a keyed source (CARTO Voyager
       // nolabels or Stadia); see lib/mapStyle.js for the intended palette.
@@ -115,7 +115,7 @@ export default function MapCanvas({
   const selectedIdRef = useRef(selectedId);
   selectedIdRef.current = selectedId;
 
-  // Only notify the parent when the hero *set* actually changes — firing on
+  // Only notify the parent when the hero *set* actually changes, firing on
   // every pan would re-render the rail continuously.
   const heroKey = useRef("");
 
@@ -132,7 +132,7 @@ export default function MapCanvas({
     prevSelected.current = selectedId;
   }, [selectedId]);
 
-  // Render pass — reconciles on view/filter changes and promotes a newly selected dot.
+  // Render pass, reconciles on view/filter changes and promotes a newly selected dot.
   useEffect(() => {
     if (!ready || !LRef.current || !mapRef.current) return;
     const L = LRef.current;
@@ -143,7 +143,7 @@ export default function MapCanvas({
 
     // A category/tag filter is active when the working set is a strict subset of
     // everything. Filtered sets are small, so the neighbourhood-blob view (which
-    // forces a zoom-in to see anything) just gets in the way — skip straight to
+    // forces a zoom-in to see anything) just gets in the way, skip straight to
     // individual spots and, below, show every match instead of a ranked few.
     const filterActive = filtered.length < eateries.length;
 
@@ -162,7 +162,7 @@ export default function MapCanvas({
       const visibleIds = new Set(filtered.map((e) => e.id));
 
       // Biggest areas first, then skip any that would collide with one already
-      // placed — the west-side neighbourhoods sit close enough to overlap and
+      // placed, the west-side neighbourhoods sit close enough to overlap and
       // clip each other's labels otherwise.
       const candidates = areas.current
         .map((a) => ({ a, n: a.spots.filter((e) => visibleIds.has(e.id)).length }))
@@ -206,7 +206,7 @@ export default function MapCanvas({
     const b = map.getBounds();
 
     // The card rail covers the bottom ~185px, so exclude that strip when
-    // choosing heroes — otherwise the best-ranked pins land underneath it.
+    // choosing heroes, otherwise the best-ranked pins land underneath it.
     const RAIL_PX = 185;
     const southLimit = map.containerPointToLatLng([0, map.getSize().y - RAIL_PX]).lat;
     const bounds = {
@@ -225,7 +225,7 @@ export default function MapCanvas({
       Math.round((viewport.x * usableH) / 42000)));
 
     const cellArea = (viewport.x * usableH) / target;
-    // Wider than tall — labels run sideways, so horizontal room matters more.
+    // Wider than tall, labels run sideways, so horizontal room matters more.
     const cellW = Math.max(124, Math.sqrt(cellArea * 1.5));
     const cellH = Math.max(94, cellArea / cellW);
 
@@ -282,7 +282,7 @@ export default function MapCanvas({
     // ---- Reconcile, don't rebuild ----
     // Previously this cleared the layer and recreated every marker on each
     // move, so a pan destroyed ~190 DOM nodes, re-requested their images and
-    // replayed the drop animation — the flicker you see while dragging. Now we
+    // replayed the drop animation, the flicker you see while dragging. Now we
     // diff: markers already on screen are left completely untouched.
     const liveDots = dotMarkers.current;
     const liveHeroes = heroMarkers.current;
@@ -321,7 +321,7 @@ export default function MapCanvas({
     const size = 56;
 
     for (const e of heroes) {
-      if (liveHeroes.has(e.id)) continue; // already on screen — leave it alone
+      if (liveHeroes.has(e.id)) continue; // already on screen, leave it alone
       const color = CAT_COLOR[e.category] ?? "#948567";
       const state = passportStore.stateOf(passport, e.id);
       const cls = ["photo-pin", state === "visited" ? "collected" : ""].filter(Boolean).join(" ");
@@ -334,6 +334,7 @@ export default function MapCanvas({
           </div>
           <div class="photo-pin-stem"></div>
           <div class="photo-pin-label">${escapeHtml(e.name)}</div>
+          ${featuredIds?.has(e.id) ? '<div class="photo-pin-star">★ Story</div>' : ""}
         </div>`;
 
       const marker = L.marker([e.lat, e.lng], {
@@ -351,7 +352,7 @@ export default function MapCanvas({
         if (e.id === selectedIdRef.current) el.classList.add("active");
       }
     }
-  }, [ready, eateries, filtered, passport, selectedId, viewTick, onSelect, onAreaEnter, onHeroesChange]);
+  }, [ready, eateries, filtered, passport, selectedId, featuredIds, viewTick, onSelect, onAreaEnter, onHeroesChange]);
 
   return <div ref={containerRef} style={{ position: "absolute", inset: 0 }} />;
 }

@@ -9,7 +9,7 @@ const SLIDES = [
   {
     icon: "map",
     title: "Explore 3,400+ spots",
-    body: "Cafes, restro-bars, bakeries and local gems across Hyderabad — all on one map.",
+    body: "Cafes, restro-bars, bakeries and local gems across Hyderabad, all on one map.",
   },
   {
     icon: "passport",

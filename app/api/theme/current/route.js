@@ -3,11 +3,10 @@ import { unstable_cache } from "next/cache";
 
 export const dynamic = "force-dynamic";
 
-// Polled by every visitor for live vote counts — a 15s cache keeps it
+// Polled by every visitor for live vote counts, a 15s cache keeps it
 // feeling live while cutting most of the repeat-read cost that blew the
 // Firestore quota once already. The auto-activate/deactivate writes below
-// only run once per cache window instead of every request, which is fine —
-// a theme going live up to 15s "late" is a non-issue.
+// only run once per cache window instead of every request, which is fine, // a theme going live up to 15s "late" is a non-issue.
 const getCurrentTheme = unstable_cache(
   async () => {
     const db = await getAdminDb();

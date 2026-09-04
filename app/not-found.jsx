@@ -2,7 +2,7 @@ import Link from "next/link";
 import SiteChrome from "./components/SiteChrome.jsx";
 
 export const metadata = {
-  title: "Page not found — Hyderabad Eats",
+  title: "Page not found, Hyderabad Eats",
   description: "This page doesn't exist. Explore food rankings, areas and 3,400+ spots on the map.",
   openGraph: {
     images: [{ url: "/og/404.svg", width: 1200, height: 630, alt: "Page not found" }],
@@ -14,7 +14,7 @@ export default function NotFound() {
     <SiteChrome
       breadcrumb={[{ href: "/", label: "Home" }, { href: "#", label: "404" }]}
       title="Page not found"
-      description="This spot on the internet doesn't exist — but 3,400+ real ones do."
+      description="This spot on the internet doesn't exist, but 3,400+ real ones do."
       related={[
         { href: "/", label: "Open the map" },
         { href: "/rankings", label: "Weekly rankings" },

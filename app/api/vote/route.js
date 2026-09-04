@@ -37,7 +37,7 @@ export async function POST(req) {
   return Response.json(result);
 }
 
-// DELETE — remove a vote (decrement counts). Body: { spotId }
+// DELETE, remove a vote (decrement counts). Body: { spotId }
 export async function DELETE(req) {
   const body = await req.json().catch(() => ({}));
   const { spotId } = body;

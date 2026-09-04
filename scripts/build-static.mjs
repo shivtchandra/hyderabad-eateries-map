@@ -62,6 +62,30 @@ for (const e of all) {
 fs.writeFileSync(path.join(PUBLIC, "eateries-index.json"), JSON.stringify(index));
 fs.writeFileSync(path.join(PUBLIC, "eateries-detail.json"), JSON.stringify(detail));
 
+// Featured editorial spots: venues with a hand-written origin story. Powers the
+// home "Stories" rail and the ★ Story badge. Small + curated (order follows
+// venue-content.json), regenerated here so it never drifts from the content.
+const CONTENT = path.join(__dirname, "..", "data", "venue-content.json");
+let featured = [];
+try {
+  const content = JSON.parse(fs.readFileSync(CONTENT, "utf-8"));
+  const byId = Object.fromEntries(all.map((e) => [e.id, e]));
+  featured = Object.entries(content)
+    .filter(([, c]) => c.originStory?.length)
+    .map(([id, c]) => {
+      const e = byId[id] || {};
+      return {
+        id,
+        name: e.name ?? id,
+        area: e.discoveredIn ?? null,
+        category: e.category ?? null,
+        teaser: c.signatureDish?.name ?? c.highlight?.label ?? null,
+        image: c.gallery?.length ? `/photos/gallery/${c.gallery[0]}` : `/photos/${id}.jpg`,
+      };
+    });
+} catch {}
+fs.writeFileSync(path.join(PUBLIC, "featured.json"), JSON.stringify(featured));
+
 const mb = (p) => (fs.statSync(path.join(PUBLIC, p)).size / 1048576).toFixed(2);
 console.log(`eateries-index.json  ${index.length} spots  ${mb("eateries-index.json")} MB`);
 console.log(`eateries-detail.json ${Object.keys(detail).length} spots  ${mb("eateries-detail.json")} MB`);

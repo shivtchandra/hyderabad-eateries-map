@@ -55,7 +55,7 @@ function authOk(req) {
   const secret = process.env.CRON_SECRET;
   if (!secret) return true;
   // Vercel's native Cron Jobs call with `Authorization: Bearer <CRON_SECRET>`
-  // automatically once the env var is set — no custom header needed.
+  // automatically once the env var is set, no custom header needed.
   return req.headers.get("Authorization") === `Bearer ${secret}`;
 }
 

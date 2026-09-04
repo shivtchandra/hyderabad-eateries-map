@@ -3,7 +3,7 @@ import { unstable_cache } from "next/cache";
 
 // Full collection scan (~3.5K docs) run fresh on every request was blowing
 // the Firestore free-tier daily read quota. Cache it per-category for a day
-// instead — the eatery list barely changes day to day.
+// instead, the eatery list barely changes day to day.
 const getEateries = unstable_cache(
   async (category) => {
     const db = await getAdminDb();

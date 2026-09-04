@@ -3,7 +3,7 @@ import { unstable_cache } from "next/cache";
 
 export const dynamic = "force-dynamic";
 
-// The top-players slice is the part every visitor polls repeatedly — cache
+// The top-players slice is the part every visitor polls repeatedly, cache
 // it. "me" (own rank) is 1 doc get + 1 count() aggregate regardless of
 // collection size, so it's cheap enough to always compute live.
 const getTopPlayers = unstable_cache(
@@ -18,7 +18,7 @@ const getTopPlayers = unstable_cache(
 );
 
 // Top players by score, plus (when a uid is given) that player's own row and
-// rank even if they're below the cut. Small collection, cheap query — nothing
+// rank even if they're below the cut. Small collection, cheap query, nothing
 // like the 1600-doc index reads that had to be moved to static JSON.
 export async function GET(req) {
   const db = await getAdminDb();

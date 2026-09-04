@@ -6,7 +6,7 @@ import SeoCrawlNav from "./components/SeoCrawlNav.jsx";
 
 const siteUrl = getSiteUrl();
 
-const title = "Hyderabad Eats — Vote for the Best Food in Hyderabad";
+const title = "Hyderabad Eats, Vote for the Best Food in Hyderabad";
 const description =
   "Community-voted weekly rankings for the best biryani, cafes, restaurants and more in Hyderabad. Explore 3,400+ spots on a map, collect passport stamps, and compete in the weekly food race.";
 

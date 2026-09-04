@@ -6,7 +6,7 @@ import { Icon } from "./Icons.jsx";
 
 // Capture → cutout → save. The cutout runs on-device and can take a while on a
 // CPU-only phone, so the wait is framed as a Polaroid "developing" moment
-// rather than a dead spinner — the raw photo sits under a shimmer while the
+// rather than a dead spinner, the raw photo sits under a shimmer while the
 // model works, then the finished sticker springs in.
 export default function StickerStudio({ spot, onDone, onCancel }) {
   const fileRef = useRef(null);
@@ -43,7 +43,7 @@ export default function StickerStudio({ spot, onDone, onCancel }) {
       setTimeout(() => onDone?.(rec), 1400);
     } catch (e) {
       setPhase("pick");
-      alert("Couldn't make the sticker — try a clearer photo.");
+      alert("Couldn't make the sticker, try a clearer photo.");
     }
   }
 

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { suggestTheme } from "../../lib/themeVoting.js";
 import { Icon } from "./Icons.jsx";
 
-// "Request next week" — visitors submit a dish-challenge idea. Submissions go
+// "Request next week", visitors submit a dish-challenge idea. Submissions go
 // to the admin (they're not listed publicly); the admin picks what's next.
 export default function ThemeSuggest() {
   const [text, setText] = useState("");
@@ -23,7 +23,7 @@ export default function ThemeSuggest() {
       setText("");
       setDone(true);
     } else {
-      setMsg(res.reason === "rate-limited" ? "You've sent a few already — thanks!" : "Couldn't send — try again.");
+      setMsg(res.reason === "rate-limited" ? "You've sent a few already, thanks!" : "Couldn't send, try again.");
     }
   };
 
@@ -38,7 +38,7 @@ export default function ThemeSuggest() {
 
       {done ? (
         <div style={{ fontSize: 13, color: "var(--ink-soft)", fontWeight: 500, lineHeight: 1.5, padding: "6px 0 2px" }}>
-          Got it — thanks! Your idea's on its way to the kitchen. 🙌
+          Got it, thanks! Your idea's on its way to the kitchen. 🙌
           <button
             onClick={() => setDone(false)}
             className="pressable-sm"

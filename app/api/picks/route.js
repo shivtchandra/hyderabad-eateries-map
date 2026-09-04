@@ -1,7 +1,7 @@
 import { getAdminDb } from "../../../lib/firebaseAdmin.js";
 import { unstable_cache } from "next/cache";
 
-// Public read, polled on every page load — cache it and cap the scan so a
+// Public read, polled on every page load, cache it and cap the scan so a
 // growing/misbehaving "picks" collection can't blow the Firestore quota
 // the way the uncached eateries scan did.
 const getPicks = unstable_cache(

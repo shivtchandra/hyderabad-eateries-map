@@ -90,7 +90,7 @@ export default function LeaderboardPanel({
               <div style={{ color: "var(--cream-hi)", padding: "8px 20px 4px" }}>
                 <div className="groovy" style={{ fontSize: 26, lineHeight: 1.05 }}>Not in the race yet</div>
                 <div style={{ fontSize: 12.5, opacity: 0.9, marginTop: 8, fontWeight: 500, lineHeight: 1.4 }}>
-                  Check in at any spot on the map — you have to be there — to claim it and score your first points.
+                  Check in at any spot on the map, you have to be there, to claim it and score your first points.
                 </div>
               </div>
             )}
@@ -216,7 +216,7 @@ export default function LeaderboardPanel({
               </div>
             ))}
             <div style={{ fontSize: 11.5, color: "var(--muted)", marginTop: 9, lineHeight: 1.4, fontWeight: 500 }}>
-              A spot's tier comes from its Google review count — nobody sets it. The famous names everyone
+              A spot's tier comes from its Google review count, nobody sets it. The famous names everyone
               knows score least; the deeper cuts are worth more.
             </div>
           </div>
@@ -227,7 +227,7 @@ export default function LeaderboardPanel({
 }
 
 function Podium({ top3, meUid }) {
-  // Order for display: 2nd, 1st, 3rd — classic podium.
+  // Order for display: 2nd, 1st, 3rd, classic podium.
   const order = [top3[1], top3[0], top3[2]].filter(Boolean);
   const heights = { 1: 96, 2: 74, 3: 60 };
   const medal = { 1: "#e8b23a", 2: "#b8bccb", 3: "#cd8b5a" };
@@ -308,9 +308,9 @@ function Empty({ icon, title, sub }) {
 }
 
 function topArea(areas) {
-  if (!areas || typeof areas !== "object") return "—";
+  if (!areas || typeof areas !== "object") return ", ";
   const entries = Object.entries(areas);
-  if (!entries.length) return "—";
+  if (!entries.length) return ", ";
   entries.sort((a, b) => b[1] - a[1]);
   return entries[0][0];
 }

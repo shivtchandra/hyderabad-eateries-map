@@ -20,7 +20,7 @@ const CAT_COLOR = {
 // A swipeable deck of the spotlighted spots. This is the findability fix:
 // browsing a short ranked deck beats hunting a field of 1600 identical pins.
 // Scroll ↔ map selection stay in sync in both directions.
-export default function CardRail({ spots, activeId, onActivate, onOpen, passport, voteMap = {}, onVote, distMap = {}, picksMap = {}, starOfWeek = null }) {
+export default function CardRail({ spots, activeId, onActivate, onOpen, passport, featuredIds, voteMap = {}, onVote, distMap = {}, picksMap = {}, starOfWeek = null }) {
   const railRef = useRef(null);
   const suppress = useRef(false);
 
@@ -64,7 +64,7 @@ export default function CardRail({ spots, activeId, onActivate, onOpen, passport
   return (
     <>
 
-      {/* Star of the week — hidden for now
+      {/* Star of the week, hidden for now
       {starOfWeek?.name && (
         <div style={{
           position: "absolute", left: 14, right: 14, bottom: 210,
@@ -120,7 +120,7 @@ export default function CardRail({ spots, activeId, onActivate, onOpen, passport
               overflow: "hidden",
               cursor: "pointer",
               textAlign: "left",
-              // Selection is elevation and emphasis — no coloured ring. An
+              // Selection is elevation and emphasis, no coloured ring. An
               // accent outline around an already-colourful photo reads as glow,
               // not focus; letting the unselected cards recede is cleaner.
               boxShadow: active ? "var(--e3)" : "var(--e1)",
@@ -142,6 +142,14 @@ export default function CardRail({ spots, activeId, onActivate, onOpen, passport
                 filter: active ? "none" : "saturate(0.92)",
               }}
             />
+            {featuredIds?.has(e.id) && (
+              <span style={{
+                position: "absolute", top: 8, right: 8, zIndex: 2,
+                background: "var(--pop)", color: "#fff", fontSize: 10, fontWeight: 800,
+                letterSpacing: "0.03em", padding: "3px 7px", borderRadius: 20,
+                boxShadow: "0 2px 6px rgba(38,48,92,0.28)",
+              }}>★ Story</span>
+            )}
             {/* Full-height scrim: dark and dense at the foot for text, clearing
                 to nothing by the midline so the photo still breathes up top. */}
             <div
@@ -152,7 +160,7 @@ export default function CardRail({ spots, activeId, onActivate, onOpen, passport
               }}
             />
 
-            {/* Top row — category / collected on the left, rating on the right */}
+            {/* Top row, category / collected on the left, rating on the right */}
             <div style={{ position: "absolute", top: 9, left: 9, right: 9, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6 }}>
               {collected ? (
                 <span
@@ -195,11 +203,11 @@ export default function CardRail({ spots, activeId, onActivate, onOpen, passport
                   boxShadow: "0 2px 6px rgba(24,28,54,0.2)",
                 }}
               >
-                <Icon name="star" size={11} width={2.3} color="var(--pop)" /> {e.rating ?? "—"}
+                <Icon name="star" size={11} width={2.3} color="var(--pop)" /> {e.rating ?? ", "}
               </span>
             </div>
 
-            {/* "What to order" pick — a small hand-picked subset of spots only.
+            {/* "What to order" pick, a small hand-picked subset of spots only.
                 Sits under the top row, left-aligned, out of the vote button's way. */}
             {pick && (
               <div
@@ -222,12 +230,12 @@ export default function CardRail({ spots, activeId, onActivate, onOpen, passport
                   }}
                 >
                   {pick.dishes}
-                  {pick.curator ? <span style={{ fontWeight: 500, opacity: 0.8 }}> — {pick.curator}</span> : null}
+                  {pick.curator ? <span style={{ fontWeight: 500, opacity: 0.8 }}>, {pick.curator}</span> : null}
                 </span>
               </div>
             )}
 
-            {/* Vote button — floats above the foot, right-aligned */}
+            {/* Vote button, floats above the foot, right-aligned */}
             <button
               onClick={(ev) => { ev.stopPropagation(); onVote?.(e.id); }}
               style={{
@@ -260,7 +268,7 @@ export default function CardRail({ spots, activeId, onActivate, onOpen, passport
               </div>
             )}
 
-            {/* Foot — name over the scrim, then tier · review count */}
+            {/* Foot, name over the scrim, then tier · review count */}
             <div style={{ position: "absolute", left: 12, right: 12, bottom: 11 }}>
               <div
                 style={{

@@ -53,7 +53,7 @@ export default function FilterChips({
           })}
         </div>
 
-        {/* Filter button — never scrolls away */}
+        {/* Filter button, never scrolls away */}
         <div style={{
           flexShrink: 0,
           paddingLeft: 6,
@@ -103,7 +103,7 @@ export default function FilterChips({
         </div>
       </div>
 
-      {/* Expanded filter panel — open now + vibe tags */}
+      {/* Expanded filter panel, open now + vibe tags */}
       {filtersOpen && (
         <div style={{
           padding: "0 14px 12px",

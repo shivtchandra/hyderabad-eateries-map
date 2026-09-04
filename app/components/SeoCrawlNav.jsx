@@ -4,6 +4,7 @@ import Link from "next/link";
 export default function SeoCrawlNav() {
   return (
     <nav className="seo-crawl-nav" aria-label="Site sections">
+      <Link href="/stories">Stories behind Hyderabad's iconic cafes</Link>
       <Link href="/rankings">Weekly food rankings in Hyderabad</Link>
       <Link href="/rankings/how-it-works">How Hyderabad Eats rankings work</Link>
       <Link href="/explore/cafes">Best cafes in Hyderabad</Link>

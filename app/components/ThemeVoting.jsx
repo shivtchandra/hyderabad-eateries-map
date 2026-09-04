@@ -10,7 +10,7 @@ export default function ThemeVoting() {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openPast, setOpenPast] = useState(null);
-  // The spotId this device currently has voted for (or null) — not just a
+  // The spotId this device currently has voted for (or null), not just a
   // yes/no flag, so standings rows can tell "this is my vote" from "not yet".
   const [votedSpotId, setVotedSpotId] = useState(null);
   const [localCounts, setLocalCounts] = useState({});
@@ -27,7 +27,7 @@ export default function ThemeVoting() {
 
   useEffect(() => { load(); }, [load]);
 
-  // Casts a vote, or SWITCHES an existing one to a different spot — mirrors
+  // Casts a vote, or SWITCHES an existing one to a different spot, mirrors
   // the count move server-side, then optimistically reflects it here too.
   const handleVote = async (spotId, name) => {
     if (!current.theme) return;
@@ -69,7 +69,7 @@ export default function ThemeVoting() {
       <div style={{ textAlign: "center", padding: "40px 16px 8px", color: "var(--muted)" }}>
         <Icon name="crown" size={28} width={1.6} color="var(--violet)" style={{ margin: "0 auto 10px" }} />
         <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 16, color: "var(--ink-soft)" }}>No theme set yet</div>
-        <div style={{ fontSize: 12.5, marginTop: 6, lineHeight: 1.45, fontWeight: 500 }}>Check back soon — or tell us what next week's challenge should be.</div>
+        <div style={{ fontSize: 12.5, marginTop: 6, lineHeight: 1.45, fontWeight: 500 }}>Check back soon, or tell us what next week's challenge should be.</div>
       </div>
       <ThemeSuggest />
     </div>
@@ -124,7 +124,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
   const pickSpot = (spot) => {
     setSuggestions([]);
     setSearchQ("");
-    if (spot.spotId === votedSpotId) return; // already your vote — nothing to do
+    if (spot.spotId === votedSpotId) return; // already your vote, nothing to do
     // Warn if the spot category seems off for the theme
     const themeLower = theme.title.toLowerCase();
     const offCategories = {
@@ -140,7 +140,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
       if (themeLower.includes(keyword)) { expectedCats = cats; break; }
     }
     // Standings-list votes come from Firestore vote docs, which never stored
-    // category — only the search path has it. Empty/unknown category must
+    // category, only the search path has it. Empty/unknown category must
     // never read as "wrong category", or every standings Vote click false-warns.
     const isMismatch = expectedCats && !!spot.category && !expectedCats.includes(spot.category);
     setPending(spot);
@@ -156,7 +156,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
   const shareTheme = async () => {
     const url = `${window.location.origin}/race/this-week`;
     const payload = {
-      title: `${theme.title} — Hyderabad Eats`,
+      title: `${theme.title}, Hyderabad Eats`,
       text: `Vote in this week's Hyderabad Eats challenge: ${theme.title}`,
       url,
     };
@@ -239,7 +239,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
           <Icon name="trophy" size={22} width={1.8} color="#fff" />
           <div>
             <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.8)", letterSpacing: "0.07em", textTransform: "uppercase" }}>Winner</div>
-            <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 15, color: "#fff" }}>{theme.winnerName || "—"}</div>
+            <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 15, color: "#fff" }}>{theme.winnerName || ", "}</div>
           </div>
         </div>
       )}

@@ -30,18 +30,18 @@ export default function HowItWorksPage() {
       <div className="site-prose">
         <h2>Weekly community votes</h2>
         <p>
-          Each week we run one themed vote — for example, best biryani or best cafe in Hyderabad.
+          Each week we run one themed vote, for example, best biryani or best cafe in Hyderabad.
           Anyone can vote on the map. Results update live and are published on public ranking pages.
         </p>
 
         <h2>One vote per person</h2>
         <p>
-          You get one vote per weekly theme. Change your mind anytime before the week ends — your latest pick counts.
+          You get one vote per weekly theme. Change your mind anytime before the week ends, your latest pick counts.
         </p>
 
         <h2>Passport visits (optional)</h2>
         <p>
-          Stamp spots on the map when you visit. Passport stamps are for fun and discovery — votes are separate and open to everyone.
+          Stamp spots on the map when you visit. Passport stamps are for fun and discovery, votes are separate and open to everyone.
         </p>
 
         <h2>Why trust these rankings?</h2>
@@ -52,7 +52,7 @@ export default function HowItWorksPage() {
 
         <h2>FAQ</h2>
         <p><strong>Where is the best biryani in Hyderabad?</strong> Check the current{" "}
-          <Link href="/rankings/best-biryani-in-hyderabad">Best Biryani ranking</Link> — updated weekly.</p>
+          <Link href="/rankings/best-biryani-in-hyderabad">Best Biryani ranking</Link>, updated weekly.</p>
         <p><strong>How do I vote?</strong> Open the <Link href="/">map</Link>, find a spot, and cast your vote during an active theme.</p>
       </div>
 

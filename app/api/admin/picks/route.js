@@ -9,7 +9,7 @@ function authOk(req) {
   return auth === `Bearer ${secret}`;
 }
 
-// GET — list all curated picks, newest first.
+// GET, list all curated picks, newest first.
 export async function GET(req) {
   if (!authOk(req)) return Response.json({ error: "unauthorized" }, { status: 401 });
   const db = await getAdminDb();
@@ -20,7 +20,7 @@ export async function GET(req) {
   return Response.json({ picks });
 }
 
-// POST — create or update a pick for a spot. One pick per spot (doc id = spotId).
+// POST, create or update a pick for a spot. One pick per spot (doc id = spotId).
 // Body: { spotId, spotName, dishes, curator?, note? }
 export async function POST(req) {
   if (!authOk(req)) return Response.json({ error: "unauthorized" }, { status: 401 });
@@ -51,7 +51,7 @@ export async function POST(req) {
   return Response.json({ ok: true, spotId });
 }
 
-// DELETE — remove a pick. Body: { spotId }
+// DELETE, remove a pick. Body: { spotId }
 export async function DELETE(req) {
   if (!authOk(req)) return Response.json({ error: "unauthorized" }, { status: 401 });
 

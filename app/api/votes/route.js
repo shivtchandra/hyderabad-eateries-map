@@ -10,7 +10,7 @@ function thisMonday() {
   return d.toISOString().slice(0, 10);
 }
 
-// Both branches are polled repeatedly (map markers, leaderboards) — a short
+// Both branches are polled repeatedly (map markers, leaderboards), a short
 // cache keeps counts feeling live while cutting most of the repeat-read cost
 // that blew the Firestore quota once already.
 const getTopVotes = unstable_cache(
@@ -18,8 +18,7 @@ const getTopVotes = unstable_cache(
     const db = await getAdminDb();
     if (!db) return [];
     const monday = thisMonday();
-    // Fetch top 30 by the relevant counter, then filter week client-side —
-    // avoids needing a composite index on (week_start, week_total).
+    // Fetch top 30 by the relevant counter, then filter week client-side, // avoids needing a composite index on (week_start, week_total).
     const field = top === "week" ? "week_total" : "total";
     const snap = await db.collection("votes").orderBy(field, "desc").limit(30).get();
     let results = snap.docs.map((d) => ({ id: d.id, ...d.data() }));

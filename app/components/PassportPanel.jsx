@@ -38,7 +38,7 @@ export default function PassportPanel({ eateries, passport, onSelect, diaryTick 
 
   return (
     <div style={{ flex: 1, overflowY: "auto", background: "var(--cream)" }}>
-      {/* Hero — the poster moment. Squiggles behind the number give it depth so
+      {/* Hero, the poster moment. Squiggles behind the number give it depth so
           it reads as a printed cover rather than a flat colour block. */}
       <div style={{ background: "var(--pop)", position: "relative", paddingTop: 26, overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: "-10% -5% 30%", opacity: 0.28, pointerEvents: "none" }}>
@@ -98,16 +98,16 @@ export default function PassportPanel({ eateries, passport, onSelect, diaryTick 
           <div style={{ textAlign: "center", padding: "18px 14px 26px", color: "var(--muted)" }}>
             <Icon name="passport" size={44} width={1.4} color="var(--line)" style={{ margin: "0 auto 12px" }} />
             <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 16, color: "var(--ink)" }}>
-              Start exploring — every stamp colours the map
+              Start exploring, every stamp colours the map
             </div>
             <div style={{ fontSize: 13.5, marginTop: 6, lineHeight: 1.5, maxWidth: 280, margin: "6px auto 0" }}>
               Tap a spot you&apos;ve been to and hit{" "}
-              <strong style={{ color: "var(--pop-deep)" }}>Stamp this spot</strong> — it blooms into colour.
+              <strong style={{ color: "var(--pop-deep)" }}>Stamp this spot</strong>, it blooms into colour.
             </div>
           </div>
         )}
 
-        {/* The diary — the part no other app can write about you */}
+        {/* The diary, the part no other app can write about you */}
         {d.entryCount > 0 && (
           <Section title="Your food diary">
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 10 }}>
