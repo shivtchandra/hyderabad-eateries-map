@@ -1,9 +1,30 @@
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import { getAllRankingsThemes } from "../lib/themesServer.js";
 import { SEO_THEME_PICKS, slugFromTitle } from "../lib/rankings.js";
-import { allAreaPages, allCategoryPages, getEateries } from "../lib/siteData.js";
+import { allAreaPages, allCategoryPages, getEditorialSpotIds } from "../lib/siteData.js";
 import { getSiteUrl } from "../lib/site.js";
 
 export const dynamic = "force-dynamic";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+/** Prefer the compact public index so spot URLs still ship if the big JSON read fails on the server. */
+function spotIdsForSitemap() {
+  const editorial = new Set(getEditorialSpotIds());
+  const ids = new Set(editorial);
+  try {
+    const indexPath = path.join(__dirname, "..", "public", "eateries-index.json");
+    const index = JSON.parse(fs.readFileSync(indexPath, "utf-8"));
+    for (const e of index) {
+      if ((e.rc || 0) >= 100 && e.id) ids.add(e.id);
+    }
+  } catch {
+    // keep editorial-only fallback
+  }
+  return { ids: [...ids], editorial };
+}
 
 export default async function sitemap() {
   const siteUrl = getSiteUrl();
@@ -30,7 +51,14 @@ export default async function sitemap() {
   let spotUrls = [];
 
   try { themes = await getAllRankingsThemes(50); } catch {}
-  try { exploreUrls = allCategoryPages().map((c) => ({ url: `${siteUrl}/explore/${c.slug}`, lastModified: now, changeFrequency: "weekly", priority: 0.8 })); } catch {}
+  try {
+    exploreUrls = allCategoryPages().map((c) => ({
+      url: `${siteUrl}/explore/${c.slug}`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    }));
+  } catch {}
   try {
     const HIGH_PRIORITY_AREAS = ["gachibowli", "jubilee-hills", "banjara-hills", "madhapur-hitec"];
     areaUrls = allAreaPages().map((a) => ({
@@ -41,9 +69,13 @@ export default async function sitemap() {
     }));
   } catch {}
   try {
-    spotUrls = getEateries()
-      .filter((e) => (e.ratingCount || 0) >= 100)
-      .map((e) => ({ url: `${siteUrl}/spot/${e.id}`, lastModified: now, changeFrequency: "monthly", priority: 0.6 }));
+    const { ids, editorial } = spotIdsForSitemap();
+    spotUrls = ids.map((id) => ({
+      url: `${siteUrl}/spot/${id}`,
+      lastModified: now,
+      changeFrequency: editorial.has(id) ? "weekly" : "monthly",
+      priority: editorial.has(id) ? 0.85 : 0.55,
+    }));
   } catch {}
 
   const themeSlugs = new Set(themes.map((t) => t.slug));

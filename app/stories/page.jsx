@@ -1,7 +1,7 @@
 import Link from "next/link";
 import SiteChrome from "../components/SiteChrome.jsx";
 import BottomNav from "../components/BottomNav.jsx";
-import { getEateries } from "../../lib/siteData.js";
+import { getEateries, getEateryById, getChainSiblings } from "../../lib/siteData.js";
 import { pageMeta } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
 
@@ -60,6 +60,10 @@ function StoryCard({ s, i, feat }) {
 export default function StoriesPage() {
   const spots = storySpots();
   const [lead, ...rest] = spots;
+  const nilouferMain = getEateryById("ChIJVy0-aGiXyzsRWMiIWZ1fC30");
+  const nilouferLocations = nilouferMain
+    ? [nilouferMain, ...getChainSiblings(nilouferMain)]
+    : [];
   return (
     <div style={{ paddingBottom: 84 }}>
     <SiteChrome
@@ -80,12 +84,24 @@ export default function StoriesPage() {
       <section className="spot-section" style={{ marginTop: 0, marginBottom: 22 }}>
         <h2 className="site-section-title" style={{ marginTop: 0 }}>Irani chai trail</h2>
         <p className="spot-prose">
-          For Irani chai and Osmania biscuit, start with Cafe Niloufer (Jubilee Hills and Hitec) and Nimrah near Charminar.
+          For Irani chai and Osmania biscuit, start with Cafe Niloufer and Nimrah near Charminar.
           Branch notes live on each spot page. Same small flex at Niloufer and Rameshwaram: free water on the table.
         </p>
-        <div className="site-related-links">
-          <Link href="/spot/ChIJVy0-aGiXyzsRWMiIWZ1fC30">Cafe Niloufer, Jubilee Hills</Link>
-          <Link href="/spot/ChIJ4UHRkeSTyzsRiFzajl4M9z0">Cafe Niloufer Hitech City</Link>
+        <h3 className="site-section-title" style={{ fontSize: 16 }}>Cafe Niloufer locations</h3>
+        <ul className="site-spot-list">
+          {nilouferLocations.map((s) => (
+            <li key={s.id}>
+              <Link href={`/spot/${s.id}`}>
+                <span>
+                  <div className="site-spot-name">{s.name}</div>
+                  <div className="site-spot-meta">{s.discoveredIn || "Hyderabad"}{s.rating ? ` · ${s.rating}★` : ""}{s.originStory?.length || s.regularNote ? " · Story" : ""}</div>
+                </span>
+                <span className="site-spot-meta">View →</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <div className="site-related-links" style={{ marginTop: 12 }}>
           <Link href="/spot/ChIJ1Z7b5_mXyzsR_6g6Az9fWjk">Nimrah Cafe & Bakery</Link>
           <Link href="/explore/cafes">Best cafes hub</Link>
         </div>

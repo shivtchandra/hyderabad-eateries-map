@@ -5,6 +5,10 @@ export default function SeoCrawlNav() {
   return (
     <nav className="seo-crawl-nav" aria-label="Site sections">
       <Link href="/stories">Stories behind Hyderabad's iconic cafes</Link>
+      <Link href="/spot/ChIJVy0-aGiXyzsRWMiIWZ1fC30">Cafe Niloufer Jubilee Hills story</Link>
+      <Link href="/spot/ChIJ4UHRkeSTyzsRiFzajl4M9z0">Cafe Niloufer Hitech City</Link>
+      <Link href="/spot/ChIJ1Z7b5_mXyzsR_6g6Az9fWjk">Nimrah Cafe Charminar story</Link>
+      <Link href="/spot/ChIJGypuNaiRyzsR-smd2ySqMuo">Rameshwaram Cafe Madhapur story</Link>
       <Link href="/rankings">Weekly food rankings in Hyderabad</Link>
       <Link href="/rankings/how-it-works">How Hyderabad Eats rankings work</Link>
       <Link href="/explore/cafes">Best cafes in Hyderabad</Link>

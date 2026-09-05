@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
-import { getEateryById, getEateries, areaSlug } from "../../../lib/siteData.js";
+import { getEateryById, getEateries, getEditorialSpotIds, getChainSiblings, areaSlug } from "../../../lib/siteData.js";
 import { absoluteUrl, getSiteUrl, pageMeta } from "../../../lib/site.js";
 import { restaurantJsonLd, faqJsonLd } from "../../../lib/schema.js";
 import { ogImages } from "../../../lib/og.js";
@@ -14,8 +14,9 @@ const AUTHOR = "Shiva";
 const AUTHOR_ROLE = "Mapping HYD";
 
 export function generateStaticParams() {
+  const editorial = new Set(getEditorialSpotIds());
   return getEateries()
-    .filter((e) => (e.ratingCount || 0) >= 200)
+    .filter((e) => editorial.has(e.id) || (e.ratingCount || 0) >= 200)
     .map((e) => ({ id: e.id }));
 }
 
@@ -59,6 +60,10 @@ export default function SpotPage({ params }) {
   const todaysHours = spot.hours?.length
     ? spot.hours[(new Date().getDay() + 6) % 7]?.split(": ").slice(1).join(": ")
     : null;
+  const siblings = getChainSiblings(spot);
+  const siblingsLabel = spot.name.toLowerCase().includes("niloufer")
+    ? "Other Cafe Niloufer locations"
+    : "Other locations";
 
   return (
     <>
@@ -113,6 +118,26 @@ export default function SpotPage({ params }) {
         {spot.website && (<div><dt>Website</dt><dd><a href={spot.website} target="_blank" rel="noopener noreferrer">Visit</a></dd></div>)}
         {spot.zomatoUrl && (<div><dt>Order</dt><dd><a href={spot.zomatoUrl} target="_blank" rel="noopener noreferrer">Zomato</a></dd></div>)}
       </dl>
+
+      {siblings.length > 0 && (
+        <section className="spot-section">
+          <h2>{siblingsLabel}</h2>
+          <p className="spot-prose">Same brand, different branches across Hyderabad. Open one for the area that suits you, or find them all on the map.</p>
+          <ul className="site-spot-list">
+            {siblings.map((s) => (
+              <li key={s.id}>
+                <Link href={`/spot/${s.id}`}>
+                  <span>
+                    <div className="site-spot-name">{s.name}</div>
+                    <div className="site-spot-meta">{s.discoveredIn || "Hyderabad"}{s.rating ? ` · ${s.rating}★` : ""}</div>
+                  </span>
+                  <span className="site-spot-meta">View →</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {spot.originStory?.length > 0 && (
         <section className="spot-section">
