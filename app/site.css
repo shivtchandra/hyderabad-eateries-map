@@ -17,6 +17,24 @@
 .site-section-title { font-family: Fraunces, serif; font-size: 20px; font-weight: 600; margin: 28px 0 12px; }
 .site-breadcrumb { font-size: 12px; opacity: 0.85; margin-bottom: 12px; }
 .site-breadcrumb a { color: inherit; }
+
+.site-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0 0 10px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: rgba(255,255,255,0.92);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+}
+.site-back:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+
 .site-spot-list { list-style: none; padding: 0; margin: 0; }
 .site-spot-list li { border-bottom: 1px solid var(--line); }
 .site-spot-list a { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 4px; text-decoration: none; color: inherit; }
@@ -50,6 +68,56 @@
 
 /* /stories — funky editorial "zine" layout */
 .zine-kicker { margin: 0 0 16px; font-size: clamp(20px, 4vw, 30px); color: var(--violet); transform: rotate(-1.5deg); }
+
+/* Stories Irani trail: compact branch chips, not a long spot list */
+.trail-label {
+  margin: 14px 0 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--violet);
+}
+.trail-branches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.trail-branches a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--cream-hi);
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 650;
+  transition: border-color .15s ease, transform .15s ease;
+}
+.trail-branches a:hover {
+  border-color: var(--violet);
+  color: var(--violet);
+  transform: translateY(-1px);
+}
+.trail-branches a.has-story {
+  border-color: color-mix(in srgb, var(--violet) 35%, var(--line));
+  background: var(--violet-wash);
+}
+.trail-story-tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--violet);
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--violet) 25%, transparent);
+  border-radius: var(--r-pill);
+  padding: 2px 7px;
+}
+
 
 .stories-zine { display: grid; grid-template-columns: 1fr; gap: 18px; }
 @media (min-width: 620px) { .stories-zine { grid-template-columns: repeat(2, 1fr); } }

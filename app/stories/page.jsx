@@ -57,6 +57,23 @@ function StoryCard({ s, i, feat }) {
   );
 }
 
+
+function branchLabel(s) {
+  const area = s.discoveredIn || "Hyderabad";
+  let extra = (s.name || "")
+    .replace(/cafe\s+niloufer/i, "")
+    .replace(/^[\-\s]+/, "")
+    .trim();
+  if (!extra) return area;
+  // Generic city suffix, not a branch name
+  if (/^hyderabad$/i.test(extra)) return area;
+  // Hitec branch: short label
+  if (/hitech|hitec/i.test(extra)) return "Hitec City";
+  const first = extra.toLowerCase().split(/\s+/)[0];
+  if (area.toLowerCase().includes(first)) return area;
+  return `${area} · ${extra}`;
+}
+
 export default function StoriesPage() {
   const spots = storySpots();
   const [lead, ...rest] = spots;
@@ -87,21 +104,19 @@ export default function StoriesPage() {
           For Irani chai and Osmania biscuit, start with Cafe Niloufer and Nimrah near Charminar.
           Branch notes live on each spot page. Same small flex at Niloufer and Rameshwaram: free water on the table.
         </p>
-        <h3 className="site-section-title" style={{ fontSize: 16 }}>Cafe Niloufer locations</h3>
-        <ul className="site-spot-list">
-          {nilouferLocations.map((s) => (
-            <li key={s.id}>
-              <Link href={`/spot/${s.id}`}>
-                <span>
-                  <div className="site-spot-name">{s.name}</div>
-                  <div className="site-spot-meta">{s.discoveredIn || "Hyderabad"}{s.rating ? ` · ${s.rating}★` : ""}{s.originStory?.length || s.regularNote ? " · Story" : ""}</div>
-                </span>
-                <span className="site-spot-meta">View →</span>
+        <p className="trail-label">Cafe Niloufer branches</p>
+        <div className="trail-branches">
+          {nilouferLocations.map((s) => {
+            const hasStory = Boolean(s.originStory?.length || s.regularNote);
+            return (
+              <Link key={s.id} href={`/spot/${s.id}`} className={hasStory ? "has-story" : undefined}>
+                <span className="trail-branch-name">{branchLabel(s)}</span>
+                {hasStory && <span className="trail-story-tag">Story</span>}
               </Link>
-            </li>
-          ))}
-        </ul>
-        <div className="site-related-links" style={{ marginTop: 12 }}>
+            );
+          })}
+        </div>
+        <div className="site-related-links" style={{ marginTop: 14 }}>
           <Link href="/spot/ChIJ1Z7b5_mXyzsR_6g6Az9fWjk">Nimrah Cafe & Bakery</Link>
           <Link href="/explore/cafes">Best cafes hub</Link>
         </div>

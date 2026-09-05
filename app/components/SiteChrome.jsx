@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Squiggles } from "./Icons.jsx";
+import BackButton from "./BackButton.jsx";
 
 const NAV = [
   { href: "/", label: "Map" },
@@ -70,7 +71,7 @@ export function SiteRelated({ links }) {
   );
 }
 
-export default function SiteChrome({ active, breadcrumb, title, description, children, related, heroClass, navLinksHidden, heroDecor }) {
+export default function SiteChrome({ active, breadcrumb, title, description, children, related, heroClass, navLinksHidden, heroDecor, backFallback }) {
   return (
     <div className="site-page">
       <header className="site-header" style={heroDecor ? { position: "relative", overflow: "hidden" } : undefined}>
@@ -81,6 +82,7 @@ export default function SiteChrome({ active, breadcrumb, title, description, chi
         )}
         <div className="site-header-inner" style={heroDecor ? { position: "relative" } : undefined}>
           <SiteNav active={active} linksHidden={navLinksHidden} />
+          {backFallback && <BackButton fallback={backFallback} />}
           {breadcrumb?.length > 0 && <SiteBreadcrumb items={breadcrumb} />}
           <div className={`site-hero${heroClass ? ` ${heroClass}` : ""}`}>
             <h1>{title}</h1>

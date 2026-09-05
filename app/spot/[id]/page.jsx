@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
+import BottomNav from "../../components/BottomNav.jsx";
 import { getEateryById, getEateries, getEditorialSpotIds, getChainSiblings, areaSlug } from "../../../lib/siteData.js";
 import { absoluteUrl, getSiteUrl, pageMeta } from "../../../lib/site.js";
 import { restaurantJsonLd, faqJsonLd } from "../../../lib/schema.js";
@@ -71,6 +72,7 @@ export default function SpotPage({ params }) {
       {spot.faq?.length > 0 && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(spot.faq)) }} />
       )}
+    <div style={{ paddingBottom: 84 }}>
     <SiteChrome
       breadcrumb={[
         { href: "/", label: "Home" },
@@ -79,6 +81,10 @@ export default function SpotPage({ params }) {
       ]}
       title={spot.name}
       description={`${CAT_LABEL[spot.category] || spot.category}${spot.discoveredIn ? ` · ${spot.discoveredIn}` : ""}${spot.rating ? ` · ${spot.rating}★` : ""}`}
+      heroClass="site-hero--app"
+      navLinksHidden
+      heroDecor
+      backFallback={spot.originStory?.length || spot.regularNote || spot.highlight ? "/stories" : "/"}
       related={[
         { href: "/", label: "Open on map" },
         { href: "/rankings", label: "Weekly rankings" },
@@ -196,6 +202,10 @@ export default function SpotPage({ params }) {
         </section>
       )}
     </SiteChrome>
+    <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
+      <BottomNav routed activeKey={spot.originStory?.length || spot.regularNote || spot.highlight ? "stories" : "map"} />
+    </div>
+    </div>
     </>
   );
 }
