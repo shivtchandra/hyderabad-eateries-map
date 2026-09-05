@@ -2,18 +2,21 @@
 
 import { Icon } from "./Icons.jsx";
 
+// Every tab has a canonical href so the same bar works on SEO pages (routed
+// mode, full navigation) as well as inside the SPA (setTab for the in-app tabs,
+// href only for Stories which is a real route).
 const TABS = [
-  { key: "map", icon: "map", label: "Map" },
-  { key: "race", icon: "trophy", label: "Race" },
-  { key: "passport", icon: "passport", label: "Passport" },
-  { key: "stickers", icon: "ticket", label: "Stickers" },
-  { key: "saved", icon: "bookmark", label: "Saved" },
+  { key: "map", icon: "map", label: "Map", href: "/" },
+  { key: "race", icon: "trophy", label: "Race", href: "/race" },
+  { key: "passport", icon: "passport", label: "Passport", href: "/?tab=passport" },
+  { key: "saved", icon: "bookmark", label: "Saved", href: "/?tab=saved" },
+  { key: "stories", icon: "book", label: "Stories", href: "/stories", route: true },
 ];
 
 // Expanding-pill nav. The active tab grows into a filled violet pill that
 // carries its label inline; inactive tabs collapse to icon-only. Only one
 // label is ever shown, so the state reads instantly and the bar stays calm.
-export default function BottomNav({ tab, setTab, visitedCount, savedCount, stickerCount = 0 }) {
+export default function BottomNav({ tab, setTab, visitedCount, savedCount, routed = false, activeKey }) {
   return (
     <div className="safe-bottom" style={{ flexShrink: 0, padding: "8px 12px 10px", zIndex: 1300 }}>
       <div
@@ -34,15 +37,17 @@ export default function BottomNav({ tab, setTab, visitedCount, savedCount, stick
         }}
       >
         {TABS.map((t) => {
-          const active = tab === t.key;
-          const count =
+          const active = routed ? activeKey === t.key : tab === t.key;
+          // routed pages navigate for every tab; the SPA navigates only for a
+          // real route (Stories) and uses setTab for its own in-app tabs.
+          const useHref = routed || t.route;
+          const count = routed ? 0 :
             t.key === "passport" ? visitedCount :
-            t.key === "saved" ? savedCount :
-            t.key === "stickers" ? stickerCount : 0;
+            t.key === "saved" ? savedCount : 0;
           return (
             <button
               key={t.key}
-              onClick={() => setTab(t.key)}
+              onClick={() => (useHref ? (window.location.href = t.href) : setTab(t.key))}
               aria-current={active ? "page" : undefined}
               aria-label={t.label}
               className="pressable-sm"

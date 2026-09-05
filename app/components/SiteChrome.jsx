@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Squiggles } from "./Icons.jsx";
 
 const NAV = [
   { href: "/", label: "Map" },
@@ -8,11 +9,11 @@ const NAV = [
   { href: "/areas", label: "Areas" },
 ];
 
-export function SiteNav({ active }) {
+export function SiteNav({ active, linksHidden }) {
   return (
     <nav className="site-topnav" aria-label="Main">
       <Link href="/" className="site-logo">Hyderabad Eats</Link>
-      {NAV.map((item) => (
+      {!linksHidden && NAV.map((item) => (
         <Link key={item.href} href={item.href} className={active === item.href ? "active" : undefined}>
           {item.label}
         </Link>
@@ -69,14 +70,19 @@ export function SiteRelated({ links }) {
   );
 }
 
-export default function SiteChrome({ active, breadcrumb, title, description, children, related }) {
+export default function SiteChrome({ active, breadcrumb, title, description, children, related, heroClass, navLinksHidden, heroDecor }) {
   return (
     <div className="site-page">
-      <header className="site-header">
-        <div className="site-header-inner">
-          <SiteNav active={active} />
+      <header className="site-header" style={heroDecor ? { position: "relative", overflow: "hidden" } : undefined}>
+        {heroDecor && (
+          <div style={{ position: "absolute", inset: "-10% -5% 30%", opacity: 0.22, pointerEvents: "none" }}>
+            <Squiggles color="var(--cream-hi)" opacity={1} />
+          </div>
+        )}
+        <div className="site-header-inner" style={heroDecor ? { position: "relative" } : undefined}>
+          <SiteNav active={active} linksHidden={navLinksHidden} />
           {breadcrumb?.length > 0 && <SiteBreadcrumb items={breadcrumb} />}
-          <div className="site-hero">
+          <div className={`site-hero${heroClass ? ` ${heroClass}` : ""}`}>
             <h1>{title}</h1>
             {description && <p>{description}</p>}
           </div>

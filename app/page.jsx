@@ -25,7 +25,7 @@ import ThemeIntro from "./components/ThemeIntro.jsx";
 import Onboarding from "./components/Onboarding.jsx";
 import { fetchPicks } from "../lib/picks.js";
 
-export default function EateriesApp({ initialTab = "map", initialRaceView = "race" }) {
+export default function EateriesApp({ searchParams, initialTab = "map", initialRaceView = "race" }) {
   const mapApi = useRef(null);
 
   const [eateries, setEateries] = useState([]);
@@ -35,7 +35,13 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   const [detailPending, setDetailPending] = useState({});
   const [allDetailsStatus, setAllDetailsStatus] = useState("idle");
   const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState(initialTab);
+  // Open the tab named in ?tab= on the very first render (e.g. landing from the
+  // Stories page's bottom nav), so it never flashes the map first. searchParams
+  // is passed by Next on both server and client, so no hydration mismatch.
+  const urlTab = searchParams?.tab;
+  const [tab, setTab] = useState(
+    urlTab && ["map", "passport", "saved", "race"].includes(urlTab) ? urlTab : initialTab
+  );
   const [raceView, setRaceView] = useState(initialRaceView); // which sub-tab the Race panel opens on
   const [activeCategory, setActiveCategory] = useState("all");
 
@@ -529,14 +535,14 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
           />
         )}
         {tab === "passport" && (
-          <PassportPanel eateries={eateries} passport={passport} onSelect={openFromList} diaryTick={diaryTick} />
-        )}
-        {tab === "stickers" && (
-          <StickerBook
-            refreshTick={stickerTick}
-            onAddSticker={() => setStickerFor(null)}
-            onOpenSpot={(id) => { const e = byId[id]; if (e) openFromList(e); }}
-          />
+          <div style={{ flex: 1, minHeight: 0, overflowY: "auto", background: "var(--cream)" }}>
+            <PassportPanel eateries={eateries} passport={passport} onSelect={openFromList} diaryTick={diaryTick} />
+            <StickerBook
+              refreshTick={stickerTick}
+              onAddSticker={() => setStickerFor(null)}
+              onOpenSpot={(id) => { const e = byId[id]; if (e) openFromList(e); }}
+            />
+          </div>
         )}
         {tab === "saved" && (
           <SavedPanel
@@ -663,7 +669,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
         <ThemeIntro theme={currentTheme} onVote={() => openRaceView("theme")} />
       </div>
 
-      <BottomNav tab={tab} setTab={goTab} visitedCount={visitedCount} savedCount={savedCount} stickerCount={stickerCount} />
+      <BottomNav tab={tab} setTab={goTab} visitedCount={visitedCount} savedCount={savedCount} />
     </div>
   );
 }

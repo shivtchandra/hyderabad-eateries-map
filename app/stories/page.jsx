@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SiteChrome from "../components/SiteChrome.jsx";
+import BottomNav from "../components/BottomNav.jsx";
 import { getEateries } from "../../lib/siteData.js";
 import { pageMeta } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
@@ -55,11 +56,15 @@ export default function StoriesPage() {
   const spots = storySpots();
   const [lead, ...rest] = spots;
   return (
+    <div style={{ paddingBottom: 84 }}>
     <SiteChrome
       active="/stories"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/stories", label: "Stories" }]}
       title={title}
       description={description}
+      heroClass="site-hero--app"
+      navLinksHidden
+      heroDecor
       related={[
         { href: "/explore", label: "Explore by category" },
         { href: "/areas", label: "Food by area" },
@@ -75,5 +80,9 @@ export default function StoriesPage() {
       </div>
       <Link href="/" className="site-cta">Open the map</Link>
     </SiteChrome>
+    <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
+      <BottomNav routed activeKey="stories" />
+    </div>
+    </div>
   );
 }
