@@ -32,7 +32,7 @@
         "note": "Really good too, grab one with the chai."
       }
     ],
-    "regularNote": "My order here never changes, chai, a maska bun and osmania biscuits, and honestly they taste best at the Jubilee Hills branch and this main branch. The Hitec City one is a bit on and off on freshness. I'd skip the airport branch at Shamshabad, it's pretty mid across the board and the maska bun there comes out hard instead of smooth. If I want something heavier, the paneer roll is my go-to and it absolutely smacks in Jubilee Hills, as good as it gets. The paneer puff is very good too.",
+    "regularNote": "My order here never changes, chai, a maska bun and osmania biscuits, and honestly they taste best at the Jubilee Hills branch and this main branch. The Hitec City one is a bit on and off on freshness. I'd skip the airport branch at Shamshabad, it's pretty mid across the board and the maska bun there comes out hard instead of smooth. If I want something heavier, the paneer roll is my go-to and it absolutely smacks in Jubilee Hills, as good as it gets. The paneer puff is very good too. Also, they give free water here, same as Rameshwaram, which still feels rare in Hyderabad.",
     "gallery": [
       "ChIJVy0-aGiXyzsRWMiIWZ1fC30-1.jpg",
       "ChIJVy0-aGiXyzsRWMiIWZ1fC30-2.jpg",
@@ -135,6 +135,10 @@
         "note": "The signature, idli, podi and ghee, nothing wasted."
       },
       {
+        "name": "Ghee Podi Rice",
+        "note": "Easily the best thing on the menu for me. Unique taste, slaps hard, and the other veg rices are strong too. Most people stick to tiffins here, skip that and try this."
+      },
+      {
         "name": "Open Butter Masala Dosa",
         "note": "Crisp, buttery, and generously spiced, a top seller."
       },
@@ -162,7 +166,7 @@
       },
       {
         "q": "What is Rameshwaram Cafe famous for?",
-        "a": "Fast, all-ghee South Indian tiffins, especially ghee podi idli, open butter masala dosa and filter coffee."
+        "a": "Fast, all-ghee South Indian tiffins, especially ghee podi idli, open butter masala dosa and filter coffee. The ghee podi rice is less talked about and worth ordering too."
       },
       {
         "q": "Who founded The Rameshwaram Cafe?",
@@ -173,7 +177,8 @@
       "https://thefederal.com/category/features/story-of-the-rameshwaram-cafe-in-bengaluru-103110",
       "https://allabouthyderabad.com/the-rameshwaram-cafe-hyderabad/",
       "https://therameshwaramcafe.org/about/"
-    ]
+    ],
+    "regularNote": "Most tables stick to tiffins, and fair enough, the idlis and dosas are why people queue. But the Ghee Podi Rice is the move I'd push on anyone: it has its own unique taste, it slaps, and the other veg rices here are genuinely good too. One small thing I love here, same as Niloufer, they put free water on the table. In Hyderabad that still feels rare."
   },
   "ChIJnctZcF2TyzsRBubpI42sAYM": {
     "founded": null,
@@ -238,13 +243,28 @@
       "why": "Same Niloufer classics, chai, maska bun and osmania biscuits, this being the Hitec City outlet in west Hyderabad."
     },
     "mustOrder": [
-      { "name": "Irani Chai", "note": "The house classic, best had fresh." },
-      { "name": "Osmania Biscuit", "note": "Sweet-and-salty, built for dunking." },
-      { "name": "Bun Maska", "note": "Soft buttery bun with the chai." },
-      { "name": "Paneer Roll", "note": "My go-to heavier bite." },
-      { "name": "Paneer Puff", "note": "Really good too." }
+      {
+        "name": "Irani Chai",
+        "note": "The house classic, best had fresh."
+      },
+      {
+        "name": "Osmania Biscuit",
+        "note": "Sweet-and-salty, built for dunking."
+      },
+      {
+        "name": "Bun Maska",
+        "note": "Soft buttery bun with the chai."
+      },
+      {
+        "name": "Paneer Roll",
+        "note": "My go-to heavier bite."
+      },
+      {
+        "name": "Paneer Puff",
+        "note": "Really good too."
+      }
     ],
-    "regularNote": "This is the Hitec City branch, and it's the Niloufer outlet I'm most on-and-off about, the chai, maska bun and osmania biscuits are great when they're fresh, but freshness here is hit or miss depending on the day. When it's on, it's as good as the Jubilee Hills and main branches, and the paneer roll and paneer puff are still worth getting. For the most consistent version though, I'd go to Jubilee Hills or the main branch.",
+    "regularNote": "This is the Hitec City branch, and it's the Niloufer outlet I'm most on-and-off about, the chai, maska bun and osmania biscuits are great when they're fresh, but freshness here is hit or miss depending on the day. When it's on, it's as good as the Jubilee Hills and main branches, and the paneer roll and paneer puff are still worth getting. For the most consistent version though, I'd go to Jubilee Hills or the main branch. Same as the other Niloufers, free water on the table.",
     "highlight": {
       "label": "Best at sunset",
       "text": "One thing this branch absolutely wins on is the view. In the evenings it's the best of the lot. Heavily recommend it, a chai with that sunset is worth the trip on its own."

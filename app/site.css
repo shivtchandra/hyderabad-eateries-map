@@ -86,14 +86,18 @@
 }
 .zine-card:hover .zine-stamp { transform: rotate(0deg) scale(1.06); }
 
-/* Oversized zine index number */
+/* Quiet index chip, small enough to leave the photo alone */
 .zine-num {
-  position: absolute; left: 10px; bottom: -6px; z-index: 2;
-  font-family: "Bagel Fat One", Fraunces, serif; font-size: 46px; line-height: 1;
-  color: var(--cream-hi); -webkit-text-stroke: 2px var(--ink);
-  text-shadow: 3px 3px 0 rgba(38, 48, 92, 0.25);
+  position: absolute; left: 10px; top: 10px; z-index: 2;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 34px; height: 28px; padding: 0 9px;
+  font-family: Fraunces, serif; font-weight: 700; font-size: 13px;
+  letter-spacing: 0.06em; font-variant-numeric: tabular-nums;
+  color: var(--ink); background: var(--cream-hi);
+  border: 1.5px solid var(--ink); border-radius: var(--r-pill);
+  box-shadow: 2px 2px 0 rgba(38, 48, 92, 0.12);
 }
-.zine-card--feat .zine-num { font-size: 72px; }
+.zine-card--feat .zine-num { min-width: 38px; height: 30px; font-size: 14px; }
 
 .zine-body { padding: 16px 16px 18px; display: flex; flex-direction: column; gap: 4px; }
 .zine-cat { font-size: 12px; font-weight: 700; color: var(--muted); }

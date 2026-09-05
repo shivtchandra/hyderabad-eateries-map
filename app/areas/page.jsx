@@ -5,24 +5,29 @@ import { pageMeta } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
 
 const title = "Hyderabad Food by Area";
-const description = "Explore cafes, biryani, bars and bakeries neighbourhood by neighbourhood, Jubilee Hills, Gachibowli, Banjara Hills and more.";
+const description = "Best restaurants and cafes by area in Hyderabad. Start with Gachibowli, Jubilee Hills, Banjara Hills and Madhapur / HITEC, then open the map.";
 
 export const metadata = {
   ...pageMeta({ title, description, path: "/areas" }),
   openGraph: { ...pageMeta({ title, description, path: "/areas" }).openGraph, images: ogImages(title, description) },
 };
 
+const PRIORITY_AREAS = ["gachibowli", "jubilee-hills", "banjara-hills", "madhapur-hitec"];
+
 export default function AreasHubPage() {
   const areas = allAreaPages();
+  const priority = PRIORITY_AREAS.map((slug) => areas.find((a) => a.slug === slug)).filter(Boolean);
+  const rest = areas.filter((a) => !PRIORITY_AREAS.includes(a.slug));
+  const ordered = [...priority, ...rest];
   return (
     <SiteChrome active="/areas" breadcrumb={[{ href: "/", label: "Home" }, { href: "/areas", label: "Areas" }]} title={title} description={description}
       related={[{ href: "/explore", label: "Explore by category" }, { href: "/rankings", label: "Weekly rankings" }]}
     >
       <div className="site-grid">
-        {areas.map((a) => (
+        {ordered.map((a) => (
           <Link key={a.slug} href={`/areas/${a.slug}`} className="site-card">
             <h2>{a.area}</h2>
-            <p>Food spots in {a.area}</p>
+            <p>Best restaurants and cafes in {a.area}</p>
           </Link>
         ))}
       </div>

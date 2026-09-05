@@ -26,6 +26,9 @@ export default function SeoCrawlNav() {
       <Link href="/rankings/best-irani-cafe-in-hyderabad">Best Irani cafe in Hyderabad</Link>
       <Link href="/rankings/best-breakfast-places-in-hyderabad">Best breakfast places in Hyderabad</Link>
       <Link href="/rankings/best-shawarma-in-hyderabad">Best shawarma in Hyderabad</Link>
+      <Link href="/rankings/best-mandi-in-hyderabad">Best mandi in Hyderabad</Link>
+      <Link href="/rankings/best-street-food-in-hyderabad">Best street food in Hyderabad</Link>
+      <Link href="/explore/restaurants">Best restaurants in Hyderabad</Link>
       <a href="https://www.mapmyhyd.com/" rel="noopener noreferrer" target="_blank">Mapping HYD</a>
       <a href="https://startups.mapmyhyd.com/" rel="noopener noreferrer" target="_blank">Hyderabad Startup Map</a>
     </nav>

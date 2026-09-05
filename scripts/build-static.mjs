@@ -62,16 +62,16 @@ for (const e of all) {
 fs.writeFileSync(path.join(PUBLIC, "eateries-index.json"), JSON.stringify(index));
 fs.writeFileSync(path.join(PUBLIC, "eateries-detail.json"), JSON.stringify(detail));
 
-// Featured editorial spots: venues with a hand-written origin story. Powers the
-// home "Stories" rail and the ★ Story badge. Small + curated (order follows
-// venue-content.json), regenerated here so it never drifts from the content.
+// Featured editorial spots: origin stories or branch write-ups (regular note /
+// highlight). Powers the home "Stories" rail and the ★ Story badge. Small +
+// curated (order follows venue-content.json), regenerated here so it never drifts.
 const CONTENT = path.join(__dirname, "..", "data", "venue-content.json");
 let featured = [];
 try {
   const content = JSON.parse(fs.readFileSync(CONTENT, "utf-8"));
   const byId = Object.fromEntries(all.map((e) => [e.id, e]));
   featured = Object.entries(content)
-    .filter(([, c]) => c.originStory?.length)
+    .filter(([, c]) => c.originStory?.length || c.regularNote || c.highlight?.text)
     .map(([id, c]) => {
       const e = byId[id] || {};
       return {

@@ -21,12 +21,15 @@ const CAT = {
   "ice-cream": { emoji: "🍦", label: "Ice Cream" },
 };
 
-// Venues with a hand-written origin story. This is the dedicated home for the
-// editorial spot pages, replacing the home-map rail so the set can grow without
-// crowding the map. New venues appear here automatically once they get content.
+// Editorial spots: full origin stories, or branch write-ups with a regular note /
+// highlight (e.g. Niloufer Hitec). New venues appear here once they get content.
+function hasEditorial(e) {
+  return Boolean(e.originStory?.length || e.regularNote || e.highlight?.text);
+}
+
 function storySpots() {
   return getEateries()
-    .filter((e) => e.originStory?.length)
+    .filter(hasEditorial)
     .sort((a, b) => (b.ratingCount || 0) - (a.ratingCount || 0));
 }
 
@@ -45,7 +48,9 @@ function StoryCard({ s, i, feat }) {
         <span className="zine-cat">{cat.emoji} {cat.label}</span>
         <h2>{s.name}</h2>
         {s.discoveredIn && <p className="zine-area">📍 {s.discoveredIn}</p>}
-        {feat && s.originStory?.[0] && <p className="zine-blurb">{s.originStory[0]}</p>}
+        {feat && (s.originStory?.[0] || s.highlight?.text || s.regularNote) && (
+          <p className="zine-blurb">{s.originStory?.[0] || s.highlight?.text || s.regularNote}</p>
+        )}
         {s.signatureDish?.name && <span className="zine-dish">Order the {s.signatureDish.name}</span>}
       </div>
     </Link>
@@ -72,6 +77,19 @@ export default function StoriesPage() {
       ]}
     >
       <p className="zine-kicker groovy">Read before you eat</p>
+      <section className="spot-section" style={{ marginTop: 0, marginBottom: 22 }}>
+        <h2 className="site-section-title" style={{ marginTop: 0 }}>Irani chai trail</h2>
+        <p className="spot-prose">
+          For Irani chai and Osmania biscuit, start with Cafe Niloufer (Jubilee Hills and Hitec) and Nimrah near Charminar.
+          Branch notes live on each spot page. Same small flex at Niloufer and Rameshwaram: free water on the table.
+        </p>
+        <div className="site-related-links">
+          <Link href="/spot/ChIJVy0-aGiXyzsRWMiIWZ1fC30">Cafe Niloufer, Jubilee Hills</Link>
+          <Link href="/spot/ChIJ4UHRkeSTyzsRiFzajl4M9z0">Cafe Niloufer Hitech City</Link>
+          <Link href="/spot/ChIJ1Z7b5_mXyzsR_6g6Az9fWjk">Nimrah Cafe & Bakery</Link>
+          <Link href="/explore/cafes">Best cafes hub</Link>
+        </div>
+      </section>
       <div className="stories-zine">
         {lead && <StoryCard s={lead} i={0} feat />}
         {rest.map((s, i) => (
