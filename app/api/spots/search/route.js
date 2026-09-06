@@ -20,7 +20,7 @@ export async function GET(req) {
   const results = getEateries()
     .filter((e) => e.name.toLowerCase().includes(q))
     .slice(0, 10)
-    .map((e) => ({ spotId: e.id, name: e.name, category: e.category, area: e.discoveredIn }));
+    .map((e) => ({ spotId: e.id, name: e.name, category: e.category, area: e.discoveredIn, tags: e.tags || [] }));
 
   return Response.json(results);
 }

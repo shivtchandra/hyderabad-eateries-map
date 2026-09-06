@@ -22,6 +22,7 @@ import { claimSpot } from "../lib/leaderboard.js";
 import { fetchVoteCounts, fetchStarOfWeek, castVote as castVoteApi, removeVote as removeVoteApi, hasVoted } from "../lib/voting.js";
 import { fetchCurrentTheme } from "../lib/themeVoting.js";
 import ThemeIntro from "./components/ThemeIntro.jsx";
+import ThemeNudge from "./components/ThemeNudge.jsx";
 import Onboarding from "./components/Onboarding.jsx";
 import { fetchPicks } from "../lib/picks.js";
 
@@ -553,6 +554,9 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
 
         {tab === "map" && (
           <>
+            {!sheetOpen && !areaLabel && (
+              <ThemeNudge theme={currentTheme} onVote={() => openRaceView("theme")} />
+            )}
             {areaLabel && (
               <button
                 onClick={() => { setAreaLabel(null); setSelectedId(null); mapApi.current?.reset(); }}

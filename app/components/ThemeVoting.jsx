@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
-import { fetchCurrentTheme, fetchThemeHistory, castThemeVote, getThemeVoteSpot } from "../../lib/themeVoting.js";
+import { fetchCurrentTheme, fetchThemeHistory, castThemeVote, getThemeVoteSpot, getThemePicks } from "../../lib/themeVoting.js";
 import { Icon } from "./Icons.jsx";
 import ThemeSuggest from "./ThemeSuggest.jsx";
 
@@ -32,7 +32,7 @@ export default function ThemeVoting() {
   const handleVote = async (spotId, name) => {
     if (!current.theme) return;
     const prevSpotId = votedSpotId;
-    const result = await castThemeVote(current.theme.id, spotId, name);
+    const result = await castThemeVote(current.theme.id, spotId, name, { title: current.theme.title });
     if (result.ok) {
       setVotedSpotId(spotId);
       setLocalCounts((prev) => {
@@ -86,11 +86,14 @@ export default function ThemeVoting() {
           votedSpotId={votedSpotId}
           onVote={handleVote}
           localCounts={localCounts}
+          lastClosed={history.find((h) => h.winnerId || h.winnerName) || history[0] || null}
         />
       )}
 
+      <YourPicks current={current.theme} history={history} votedSpotId={votedSpotId} results={displayResults} />
+
       {history.length > 0 && (
-        <div style={{ marginTop: current.theme ? 24 : 0 }}>
+        <div style={{ marginTop: current.theme ? 16 : 0 }}>
           <div style={{ padding: "0 16px 10px", fontSize: 11, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.07em", textTransform: "uppercase" }}>
             Past themes
           </div>
@@ -103,11 +106,9 @@ export default function ThemeVoting() {
   );
 }
 
-function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
+function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastClosed }) {
   const [searchQ, setSearchQ] = useState("");
   const [suggestions, setSuggestions] = useState([]);
-  const [pending, setPending] = useState(null); // spot waiting for confirm
-  const [mismatchWarn, setMismatchWarn] = useState(false);
   const [shareState, setShareState] = useState("idle");
   const debounceRef = useRef(null);
 
@@ -125,33 +126,8 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
     setSuggestions([]);
     setSearchQ("");
     if (spot.spotId === votedSpotId) return; // already your vote, nothing to do
-    // Warn if the spot category seems off for the theme
-    const themeLower = theme.title.toLowerCase();
-    const offCategories = {
-      "ice cream": ["cafe", "bakery"],
-      "dessert": ["cafe", "bakery"],
-      "biryani": ["local"],
-      "chai": ["cafe", "local"],
-      "coffee": ["cafe"],
-      "bar": ["restro-bar"],
-    };
-    let expectedCats = null;
-    for (const [keyword, cats] of Object.entries(offCategories)) {
-      if (themeLower.includes(keyword)) { expectedCats = cats; break; }
-    }
-    // Standings-list votes come from Firestore vote docs, which never stored
-    // category, only the search path has it. Empty/unknown category must
-    // never read as "wrong category", or every standings Vote click false-warns.
-    const isMismatch = expectedCats && !!spot.category && !expectedCats.includes(spot.category);
-    setPending(spot);
-    setMismatchWarn(isMismatch);
+    onVote(spot.spotId, spot.name);
   };
-
-  const confirmVote = () => {
-    if (pending) { onVote(pending.spotId, pending.name); setPending(null); setMismatchWarn(false); }
-  };
-
-  const cancelVote = () => { setPending(null); setMismatchWarn(false); };
 
   const shareTheme = async () => {
     const url = `${window.location.origin}/race/this-week`;
@@ -177,6 +153,23 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
 
   return (
     <div>
+      {lastClosed && (lastClosed.winnerName || lastClosed.winnerId) && (
+        <div style={{
+          margin: "0 16px 12px",
+          padding: "12px 14px",
+          borderRadius: "var(--r-md)",
+          background: "var(--cream-hi)",
+          border: "1.5px solid var(--line)",
+        }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 4 }}>
+            Last week
+          </div>
+          <div style={{ fontSize: 13.5, fontWeight: 650, color: "var(--ink)", lineHeight: 1.4 }}>
+            {lastClosed.winnerName || "A favourite"} won {lastClosed.title}.
+            {" "}This week is <b>{theme.title}</b>{votedSpotId ? ". You already voted." : ". Your turn."}
+          </div>
+        </div>
+      )}
       {/* Hero banner */}
       <div style={{
         margin: "0 16px 16px",
@@ -244,34 +237,76 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
         </div>
       )}
 
-      {/* Confirm vote dialog */}
-      {pending && (
-        <div style={{ margin: "0 16px 14px", background: mismatchWarn ? "#fef3c7" : "var(--violet-wash)", borderRadius: "var(--r-md)", padding: "14px 16px", border: mismatchWarn ? "1.5px solid #f59e0b" : "none" }}>
-          {mismatchWarn ? (
-            <div style={{ fontSize: 13, fontWeight: 600, color: "#92400e", marginBottom: 10, lineHeight: 1.45 }}>
-              ⚠️ <b>{pending.name}</b> doesn't look like it fits this week's theme ({theme.title}). Vote for it anyway?
-            </div>
-          ) : votedSpotId ? (
-            <div style={{ fontSize: 13, fontWeight: 600, color: "var(--violet-deep)", marginBottom: 10, lineHeight: 1.45 }}>
-              You already voted for a different spot. Switch your vote to <b>{pending.name}</b>?
-            </div>
-          ) : (
-            <div style={{ fontSize: 13, fontWeight: 600, color: "var(--violet-deep)", marginBottom: 10 }}>
-              Vote for <b>{pending.name}</b>?
-            </div>
-          )}
-          <div style={{ display: "flex", gap: 8 }}>
-            <button onClick={confirmVote} style={{ flex: 1, border: "none", borderRadius: "var(--r-pill)", padding: "8px 0", fontSize: 13, fontWeight: 700, background: "var(--violet)", color: "#fff", cursor: "pointer" }}>
-              {votedSpotId ? "Yes, switch" : "Yes, vote"}
-            </button>
-            <button onClick={cancelVote} style={{ flex: 1, border: "1.5px solid var(--line)", borderRadius: "var(--r-pill)", padding: "8px 0", fontSize: 13, fontWeight: 700, background: "transparent", color: "var(--muted)", cursor: "pointer" }}>
-              Cancel
-            </button>
+      {/* Search first: find your spot, then scan standings */}
+      {!theme.winnerId && (
+        <div style={{ margin: "0 16px 16px", position: "relative", zIndex: 20 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 8 }}>
+            {votedSpotId ? "Search to switch" : "Search to vote"}
+          </div>
+          <div style={{ position: "relative" }}>
+            <span style={{
+              position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)",
+              display: "flex", pointerEvents: "none", opacity: 0.55,
+            }}>
+              <Icon name="search" size={16} width={2} color="var(--muted)" />
+            </span>
+            <input
+              value={searchQ}
+              onChange={(e) => searchSpots(e.target.value)}
+              placeholder="Restaurant name…"
+              autoComplete="off"
+              style={{
+                width: "100%", boxSizing: "border-box",
+                border: "1.5px solid var(--line)", borderRadius: "var(--r-md)",
+                padding: "12px 14px 12px 38px", fontSize: 14.5,
+                fontFamily: "Outfit, sans-serif", background: "var(--cream-hi)",
+                color: "var(--ink)", outline: "none",
+                boxShadow: "var(--e1)",
+              }}
+              onFocus={(e) => { e.target.style.borderColor = "var(--violet)"; }}
+              onBlur={(e) => { e.target.style.borderColor = "var(--line)"; }}
+            />
+            {suggestions.length > 0 && (
+              <div style={{
+                position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0,
+                background: "var(--cream-hi)", border: "1.5px solid var(--line)",
+                borderRadius: "var(--r-md)", zIndex: 40,
+                boxShadow: "0 8px 24px rgba(44,36,24,0.14)", overflow: "hidden",
+              }}>
+                {suggestions.map((s, i) => (
+                  <button
+                    key={s.spotId}
+                    type="button"
+                    onClick={() => pickSpot(s)}
+                    style={{
+                      display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10,
+                      width: "100%", textAlign: "left",
+                      padding: "12px 14px", border: "none", background: "transparent",
+                      cursor: "pointer",
+                      borderBottom: i < suggestions.length - 1 ? "1px solid var(--line)" : "none",
+                    }}
+                  >
+                    <span style={{ minWidth: 0 }}>
+                      <span style={{ display: "block", fontWeight: 700, fontSize: 13.5, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.name}</span>
+                      {s.area && <span style={{ display: "block", color: "var(--muted)", fontSize: 11.5, marginTop: 2 }}>{s.area}</span>}
+                    </span>
+                    <span style={{ flexShrink: 0, fontSize: 12, fontWeight: 800, color: "var(--violet)" }}>
+                      {votedSpotId ? "Switch" : "Vote"}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
 
       {/* Current standings */}
+      {results.length > 0 && (
+        <div style={{ padding: "0 16px 8px", fontSize: 12, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.04em", textTransform: "uppercase" }}>
+          Live standings
+        </div>
+      )}
       {results.length > 0 && (
         <div style={{ padding: "0 16px", display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }}>
           {results.map((r, i) => {
@@ -312,63 +347,84 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
         </div>
       )}
 
-      {/* Search to vote for any spot */}
-      {!theme.winnerId && (
-        <div style={{ margin: "0 16px 8px" }}>
-          {/* OR divider */}
-          <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "14px 0 12px" }}>
-            <div style={{ flex: 1, height: 1, background: "var(--line)" }} />
-            <span style={{ fontSize: 11, fontWeight: 800, color: "var(--muted)", letterSpacing: "0.1em" }}>OR SEARCH ANY SPOT</span>
-            <div style={{ flex: 1, height: 1, background: "var(--line)" }} />
-          </div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "var(--ink)", marginBottom: 10 }}>
-            {votedSpotId ? "Change my vote" : "Not on the list? Find it and vote 👇"}
-          </div>
-          <div style={{ position: "relative" }}>
-            <span style={{
-              position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)",
-              fontSize: 15, pointerEvents: "none", opacity: 0.5,
-            }}>🔍</span>
-            <input
-              value={searchQ}
-              onChange={(e) => searchSpots(e.target.value)}
-              placeholder="Type a restaurant name…"
-              style={{
-                width: "100%", boxSizing: "border-box",
-                border: "2px solid var(--purple)", borderRadius: "var(--r-md)",
-                padding: "11px 14px 11px 36px", fontSize: 14,
-                fontFamily: "Outfit, sans-serif", background: "var(--cream-hi)",
-                color: "var(--ink)", outline: "none",
-              }}
-            />
-            {suggestions.length > 0 && (
-              <div style={{
-                position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0,
-                background: "var(--cream-hi)", border: "1.5px solid var(--line)",
-                borderRadius: "var(--r-md)", zIndex: 30,
-                boxShadow: "0 4px 16px rgba(0,0,0,0.12)", overflow: "hidden",
-              }}>
-                {suggestions.map((s) => (
-                  <button
-                    key={s.spotId}
-                    onClick={() => pickSpot(s)}
-                    style={{
-                      display: "block", width: "100%", textAlign: "left",
-                      padding: "11px 14px", border: "none", background: "transparent",
-                      cursor: "pointer", borderBottom: "1px solid var(--line)",
-                    }}
-                  >
-                    <span style={{ fontWeight: 700, fontSize: 13.5, color: "var(--ink)" }}>{s.name}</span>
-                    <span style={{ color: "var(--muted)", marginLeft: 8, fontSize: 11.5 }}>{s.area}</span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
       <ThemeSuggest />
+    </div>
+  );
+}
+
+function YourPicks({ current, history, votedSpotId, results = [] }) {
+  const trail = typeof window === "undefined" ? [] : getThemePicks();
+  const byTheme = Object.fromEntries(trail.map((p) => [p.themeId, p]));
+
+  const rows = [];
+  if (current && votedSpotId) {
+    const fromTrail = byTheme[current.id];
+    const fromResults = results.find((r) => r.spotId === votedSpotId);
+    rows.push({
+      key: current.id,
+      title: current.title,
+      name: fromTrail?.name || fromResults?.name || "Your pick",
+      status: "open",
+      statusLabel: "This week",
+    });
+  }
+  for (const t of history) {
+    const spotId = getThemeVoteSpot(t.id) || byTheme[t.id]?.spotId;
+    if (!spotId) continue;
+    const fromResults = t.results?.find((r) => r.spotId === spotId);
+    const name = byTheme[t.id]?.name || fromResults?.name || "Your pick";
+    const won = t.winnerId && t.winnerId === spotId;
+    rows.push({
+      key: t.id,
+      title: t.title,
+      name,
+      status: won ? "won" : "done",
+      statusLabel: won ? "Won" : (t.winnerName ? "Not this time" : "Voted"),
+    });
+  }
+
+  if (rows.length === 0) return null;
+
+  return (
+    <div style={{ marginTop: current ? 20 : 0, marginBottom: 8 }}>
+      <div style={{ padding: "0 16px 10px", fontSize: 11, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.07em", textTransform: "uppercase" }}>
+        Your picks
+      </div>
+      <div style={{ padding: "0 16px", display: "flex", flexDirection: "column", gap: 8 }}>
+        {rows.slice(0, 8).map((r) => (
+          <div
+            key={r.key}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              padding: "11px 13px",
+              borderRadius: "var(--r-md)",
+              background: r.status === "won" ? "linear-gradient(135deg,#fef3c7,#fde68a)" : "var(--cream-hi)",
+              border: "1.5px solid var(--line)",
+            }}
+          >
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: "var(--muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {r.title}
+              </div>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "var(--ink)", marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {r.name}
+              </div>
+            </div>
+            <span style={{
+              flexShrink: 0,
+              fontSize: 11,
+              fontWeight: 800,
+              letterSpacing: "0.04em",
+              textTransform: "uppercase",
+              color: r.status === "won" ? "#b45309" : r.status === "open" ? "var(--violet)" : "var(--muted)",
+            }}>
+              {r.statusLabel}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

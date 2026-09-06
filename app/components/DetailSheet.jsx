@@ -45,27 +45,15 @@ export default function DetailSheet({
   const votedForThis = !!themeVoteSpot && themeVoteSpot === eatery.id;
   const votedForOther = !!themeVoteSpot && themeVoteSpot !== eatery.id;
 
-  // Detect category mismatch with theme title
-  const themeMismatch = useCallback(() => {
-    if (!currentTheme) return false;
-    const tl = currentTheme.title.toLowerCase();
-    const offCats = { biryani: ["local"], chai: ["cafe","local"], coffee: ["cafe"], bar: ["restro-bar"], "ice cream": ["cafe","bakery"], dessert: ["cafe","bakery"] };
-    for (const [kw, cats] of Object.entries(offCats)) {
-      if (tl.includes(kw) && !cats.includes(eatery.category)) return true;
-    }
-    return false;
-  }, [currentTheme, eatery.category]);
-
   const handleThemeVote = useCallback(async () => {
     if (!currentTheme || votedForThis || themeCasting) return;
-    // Confirm before either a mismatched-category vote OR switching an
-    // existing vote away from wherever it currently points.
-    if ((themeMismatch() || votedForOther) && !themeVotePending) { setThemeVotePending(true); return; }
+    // Only confirm when switching an existing vote to this spot.
+    if (votedForOther && !themeVotePending) { setThemeVotePending(true); return; }
     setThemeCasting(true);
-    const result = await castThemeVote(currentTheme.id, eatery.id, eatery.name);
+    const result = await castThemeVote(currentTheme.id, eatery.id, eatery.name, { title: currentTheme.title });
     setThemeCasting(false);
     if (result.ok) { setThemeVoteSpotLocal(eatery.id); setThemeVotePending(false); }
-  }, [currentTheme, votedForThis, votedForOther, themeCasting, themeMismatch, themeVotePending, eatery.id, eatery.name]);
+  }, [currentTheme, votedForThis, votedForOther, themeCasting, themeVotePending, eatery.id, eatery.name]);
 
   const onTouchStart = (e) => (dragStart.current = e.touches[0].clientY);
   const onTouchEnd = (e) => {
@@ -384,10 +372,7 @@ export default function DetailSheet({
           <div style={{ marginTop: 10 }}>
             {themeVotePending && (
               <div style={{ fontSize: 12.5, color: "#92400e", background: "#fef3c7", border: "1.5px solid #f59e0b", borderRadius: "var(--r-md)", padding: "8px 12px", marginBottom: 6, fontWeight: 600, lineHeight: 1.4 }}>
-                {themeMismatch()
-                  ? <>⚠️ This is a {eatery.category} place, the theme is "{currentTheme.title}". Vote anyway?</>
-                  : <>You already voted for a different spot in this theme. Switch your vote to <b>{eatery.name}</b>?</>
-                }
+                <>You already voted for a different spot in this theme. Switch your vote to <b>{eatery.name}</b>?</>
                 <button
                   onClick={() => setThemeVotePending(false)}
                   style={{ display: "block", marginTop: 6, border: "none", background: "transparent", color: "#92400e", textDecoration: "underline", fontSize: 12, fontWeight: 600, cursor: "pointer", padding: 0 }}
