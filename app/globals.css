@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Outfit:wght@400;500;600;700&display=swap");
-
 /* ============================================================
    Riso poster system, cobalt hero on a warm cream ground,
    burnt orange as the celebratory pop, groovy bulbous display
@@ -153,15 +151,15 @@ button, [role="button"] { -webkit-tap-highlight-color: transparent; }
 html, body {
   margin: 0;
   padding: 0;
-  font-family: "Outfit", system-ui, sans-serif;
+  font-family: var(--font-outfit), system-ui, sans-serif;
   color: var(--ink);
   background: var(--cream);
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
 }
 
-h1, h2, h3 { font-family: "Fraunces", Georgia, serif; font-weight: 600; }
-.groovy { font-family: "Bagel Fat One", system-ui, sans-serif; font-weight: 400; }
+h1, h2, h3 { font-family: var(--font-fraunces), Georgia, serif; font-weight: 600; }
+.groovy { font-family: var(--font-bagel), system-ui, sans-serif; font-weight: 400; }
 button { font-family: inherit; }
 
 /* ---- Film grain: the texture that makes it read as print, not screen ---- */
@@ -205,7 +203,7 @@ body::after {
 .leaflet-control-attribution {
   background: rgba(246, 239, 227, 0.82) !important;
   color: var(--muted) !important;
-  font-family: "Outfit", sans-serif !important;
+  font-family: var(--font-outfit), sans-serif !important;
   font-size: 9.5px !important;
 }
 .leaflet-control-attribution a { color: var(--ink-soft) !important; }
@@ -412,7 +410,7 @@ body::after {
   box-shadow: 0 5px 16px rgba(38, 48, 92, 0.32);
 }
 .area-count {
-  font-family: "Bagel Fat One", sans-serif;
+  font-family: var(--font-bagel), sans-serif;
   font-size: 20px;
   line-height: 1;
   color: var(--cream-hi);

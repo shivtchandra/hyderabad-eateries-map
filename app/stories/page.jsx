@@ -40,7 +40,15 @@ function StoryCard({ s, i, feat }) {
     <Link href={`/spot/${s.id}`} className={`zine-card${feat ? " zine-card--feat" : ""}`} data-cat={s.category}>
       <div className="zine-img">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={img} alt={s.name} loading="lazy" />
+        <img
+          src={img}
+          alt={s.name}
+          width={feat ? 1200 : 800}
+          height={feat ? 750 : 600}
+          decoding="async"
+          loading={feat ? "eager" : "lazy"}
+          fetchPriority={feat ? "high" : "auto"}
+        />
         <span className="zine-stamp">★ Story</span>
         <span className="zine-num">{String(i + 1).padStart(2, "0")}</span>
       </div>
@@ -83,6 +91,15 @@ export default function StoriesPage() {
     : [];
   return (
     <div style={{ paddingBottom: 84 }}>
+    {lead && (
+      // eslint-disable-next-line @next/next/no-head-element
+      <link
+        rel="preload"
+        as="image"
+        href={lead.gallery?.length ? `/photos/gallery/${lead.gallery[0]}` : `/photos/${lead.id}.jpg`}
+        fetchPriority="high"
+      />
+    )}
     <SiteChrome
       active="/stories"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/stories", label: "Stories" }]}

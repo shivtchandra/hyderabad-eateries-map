@@ -1,4 +1,5 @@
 import "./globals.css";
+import { outfit, fraunces, bagel } from "./fonts.js";
 import { Analytics } from "@vercel/analytics/next";
 import { getSiteUrl } from "../lib/site.js";
 import { ogImages } from "../lib/og.js";
@@ -36,8 +37,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className={`${outfit.variable} ${fraunces.variable} ${bagel.variable}`}>
+      <body className={outfit.className}>
         {children}
         <SeoCrawlNav />
         <Analytics />

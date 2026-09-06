@@ -5,7 +5,8 @@ import { haversineKm, isOpenNow, fetchRoadDistances, validTagsFor, isNewSpot } f
 import { AREA_ZOOM_MAX } from "../lib/spotlight.js";
 import * as passportStore from "../lib/passport.js";
 import { Icon } from "./components/Icons.jsx";
-import MapCanvas from "./components/MapCanvas.jsx";
+import dynamic from "next/dynamic";
+const MapCanvas = dynamic(() => import("./components/MapCanvas.jsx"), { ssr: false });
 import CardRail from "./components/CardRail.jsx";
 import TopBar from "./components/TopBar.jsx";
 import FilterChips from "./components/FilterChips.jsx";
@@ -79,6 +80,23 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   const [userLoc, setUserLoc] = useState(null);
   const [locating, setLocating] = useState(false);
   const [toast, setToast] = useState(null);
+  const [mapReady, setMapReady] = useState(false);
+  // Let chrome paint first so LCP is not an OSM tile on slow mobile.
+  useEffect(() => {
+    let idleId = 0;
+    let t = 0;
+    const go = () => setMapReady(true);
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      idleId = window.requestIdleCallback(go, { timeout: 1200 });
+    } else {
+      t = window.setTimeout(go, 200);
+    }
+    return () => {
+      if (idleId && window.cancelIdleCallback) window.cancelIdleCallback(idleId);
+      if (t) window.clearTimeout(t);
+    };
+  }, []);
+
   const [isMobile, setIsMobile] = useState(false);
   const [passport, setPassport] = useState({ visited: {}, saved: {} });
   const [stamping, setStamping] = useState(null);
@@ -515,17 +533,28 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
 
       <div style={{ flex: 1, position: "relative", minHeight: 0, display: "flex", flexDirection: "column" }}>
         <div style={{ position: "absolute", inset: 0, visibility: tab === "map" ? "visible" : "hidden" }}>
-          <MapCanvas
-            eateries={eateries}
-            filtered={filtered}
-            passport={passport}
-            selectedId={selectedId}
-            featuredIds={featuredIds}
-            onSelect={handleSelect}
-            onAreaEnter={handleAreaEnter}
-            onHeroesChange={setHeroes}
-            onZoomChange={(api) => { mapApi.current = api; }}
-          />
+          {mapReady ? (
+            <MapCanvas
+              eateries={eateries}
+              filtered={filtered}
+              passport={passport}
+              selectedId={selectedId}
+              featuredIds={featuredIds}
+              onSelect={handleSelect}
+              onAreaEnter={handleAreaEnter}
+              onHeroesChange={setHeroes}
+              onZoomChange={(api) => { mapApi.current = api; }}
+            />
+          ) : (
+            <div
+              aria-hidden
+              style={{
+                position: "absolute", inset: 0,
+                background:
+                  "radial-gradient(ellipse at 30% 20%, var(--violet-wash), transparent 55%), var(--cream)",
+              }}
+            />
+          )}
         </div>
 
         {tab === "race" && (
