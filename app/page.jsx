@@ -61,10 +61,10 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
     pushAppPath(view === "theme" ? "/race/this-week" : "/race");
   };
 
-  // Opening Race from the bottom nav always lands on the main leaderboard.
+  // Opening Race from the bottom nav lands on This Week (community ranking).
   const goTab = (nextTab) => {
     if (nextTab === "race") {
-      openRaceView("race");
+      openRaceView("theme");
       return;
     }
     setTab(nextTab);

@@ -12,7 +12,7 @@ import { TIERS } from "../../lib/eateryUtils.js";
 // city, not just ticking the famous names.
 export default function LeaderboardPanel({
   refreshTick = 0,
-  initialInnerTab = "race",
+  initialInnerTab = "theme",
   onInnerTabChange,
 }) {
   const [innerTab, setInnerTab] = useState(initialInnerTab); // "race" | "theme"
