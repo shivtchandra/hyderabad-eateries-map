@@ -1,5 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Keep venue JSON in every serverless/page bundle that reads it at runtime
+  // (rankings are force-dynamic; without this the Google baseline list is empty).
+  outputFileTracingIncludes: {
+    "/rankings/**/*": ["./data/eateries.json", "./data/venue-content.json"],
+    "/areas/**/*": ["./data/eateries.json", "./data/venue-content.json"],
+    "/explore/**/*": ["./data/eateries.json", "./data/venue-content.json"],
+    "/spot/**/*": ["./data/eateries.json", "./data/venue-content.json"],
+    "/stories/**/*": ["./data/eateries.json", "./data/venue-content.json"],
+    "/api/**/*": ["./data/eateries.json", "./data/venue-content.json"],
+  },
   async redirects() {
     return [
       // Common search URL patterns → ranking pages
