@@ -1,6 +1,3 @@
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
 import { getAllRankingsThemes } from "../lib/themesServer.js";
 import { SEO_THEME_PICKS, slugFromTitle } from "../lib/rankings.js";
 import { allAreaPages, allCategoryPages, getEditorialSpotIds } from "../lib/siteData.js";
@@ -8,27 +5,33 @@ import { getSiteUrl } from "../lib/site.js";
 
 export const dynamic = "force-dynamic";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-/** Prefer the compact public index so spot URLs still ship if the big JSON read fails on the server. */
-function spotIdsForSitemap() {
-  const editorial = new Set(getEditorialSpotIds());
-  const ids = new Set(editorial);
-  try {
-    const indexPath = path.join(__dirname, "..", "public", "eateries-index.json");
-    const index = JSON.parse(fs.readFileSync(indexPath, "utf-8"));
-    for (const e of index) {
-      if ((e.rc || 0) >= 100 && e.id) ids.add(e.id);
-    }
-  } catch {
-    // keep editorial-only fallback
-  }
-  return { ids: [...ids], editorial };
-}
-
+/**
+ * Hub-first sitemap. Spot detail URLs are limited to editorial entities
+ * (Niloufer, Paradise, etc.) — including every high-review spot would flood
+ * GSC with 2k+ "Discovered – currently not indexed" URLs.
+ */
 export default async function sitemap() {
   const siteUrl = getSiteUrl();
   const now = new Date();
+
+  const MONEY_RANKINGS = new Set([
+    "best-buffet-in-hyderabad",
+    "best-fine-dining-in-hyderabad",
+    "best-biryani-in-hyderabad",
+    "best-mandi-in-hyderabad",
+    "best-haleem-in-hyderabad",
+    "best-cafe-in-hyderabad",
+    "best-breakfast-places-in-hyderabad",
+    "best-irani-cafe-in-hyderabad",
+  ]);
+  const MONEY_AREAS = new Set([
+    "jubilee-hills",
+    "gachibowli",
+    "kondapur",
+    "madhapur-hitec",
+    "banjara-hills",
+    "secunderabad",
+  ]);
 
   const staticUrls = [
     { url: siteUrl, lastModified: now, changeFrequency: "weekly", priority: 1 },
@@ -37,12 +40,15 @@ export default async function sitemap() {
     { url: `${siteUrl}/stories`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteUrl}/explore`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteUrl}/areas`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    ...SEO_THEME_PICKS.map((p) => ({
-      url: `${siteUrl}/rankings/${slugFromTitle(p.title)}`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    })),
+    ...SEO_THEME_PICKS.map((p) => {
+      const slug = slugFromTitle(p.title);
+      return {
+        url: `${siteUrl}/rankings/${slug}`,
+        lastModified: now,
+        changeFrequency: "weekly",
+        priority: MONEY_RANKINGS.has(slug) ? 0.95 : 0.8,
+      };
+    }),
   ];
 
   let themes = [];
@@ -50,7 +56,9 @@ export default async function sitemap() {
   let areaUrls = [];
   let spotUrls = [];
 
-  try { themes = await getAllRankingsThemes(50); } catch {}
+  try {
+    themes = await getAllRankingsThemes(50);
+  } catch {}
   try {
     exploreUrls = allCategoryPages().map((c) => ({
       url: `${siteUrl}/explore/${c.slug}`,
@@ -60,21 +68,19 @@ export default async function sitemap() {
     }));
   } catch {}
   try {
-    const HIGH_PRIORITY_AREAS = ["gachibowli", "jubilee-hills", "banjara-hills", "madhapur-hitec"];
     areaUrls = allAreaPages().map((a) => ({
       url: `${siteUrl}/areas/${a.slug}`,
       lastModified: now,
-      changeFrequency: HIGH_PRIORITY_AREAS.includes(a.slug) ? "weekly" : "monthly",
-      priority: HIGH_PRIORITY_AREAS.includes(a.slug) ? 0.85 : 0.75,
+      changeFrequency: MONEY_AREAS.has(a.slug) ? "weekly" : "monthly",
+      priority: MONEY_AREAS.has(a.slug) ? 0.9 : 0.75,
     }));
   } catch {}
   try {
-    const { ids, editorial } = spotIdsForSitemap();
-    spotUrls = ids.map((id) => ({
+    spotUrls = getEditorialSpotIds().map((id) => ({
       url: `${siteUrl}/spot/${id}`,
       lastModified: now,
-      changeFrequency: editorial.has(id) ? "weekly" : "monthly",
-      priority: editorial.has(id) ? 0.85 : 0.55,
+      changeFrequency: "weekly",
+      priority: 0.85,
     }));
   } catch {}
 
@@ -83,14 +89,19 @@ export default async function sitemap() {
     url: `${siteUrl}/rankings/${t.slug}`,
     lastModified: t.createdAt ? new Date(t.createdAt) : now,
     changeFrequency: t.active ? "daily" : "weekly",
-    priority: t.active ? 0.9 : 0.75,
+    priority: MONEY_RANKINGS.has(t.slug) ? 0.95 : t.active ? 0.9 : 0.75,
   }));
 
+  const seen = new Set();
   return [
     ...staticUrls.filter((u) => !themeSlugs.has(u.url.split("/rankings/")[1])),
     ...themeUrls,
     ...exploreUrls,
     ...areaUrls,
     ...spotUrls,
-  ];
+  ].filter((e) => {
+    if (seen.has(e.url)) return false;
+    seen.add(e.url);
+    return true;
+  });
 }

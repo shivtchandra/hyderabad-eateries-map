@@ -7,13 +7,13 @@ import SeoCrawlNav from "./components/SeoCrawlNav.jsx";
 
 const siteUrl = getSiteUrl();
 
-const title = "Hyderabad Eats, Food Map & Local Rankings";
+const title = "Mapping HYD Eats — Hyderabad Food Map & Local Rankings";
 const description =
   "Hyderabad food map with community-voted rankings for biryani, cafes and restaurants. Explore 3,400+ spots, read local stories, stamp your passport, and race each week.";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
-  title,
+  title: { default: title, template: "%s | Mapping HYD Eats" },
   description,
   icons: {
     icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫕</text></svg>",
@@ -23,7 +23,7 @@ export const metadata = {
     description,
     type: "website",
     url: siteUrl,
-    siteName: "Hyderabad Eats",
+    siteName: "Mapping HYD Eats",
     locale: "en_IN",
     images: ogImages(title, description),
   },
@@ -41,10 +41,23 @@ const homeLd = {
   "@graph": [
     {
       "@type": "WebSite",
-      name: "Hyderabad Eats",
+      "@id": `${siteUrl}/#website`,
+      name: "Mapping HYD Eats",
       url: siteUrl,
       description,
-      publisher: { "@type": "Organization", name: "Mapping HYD", url: "https://mapmyhyd.com/" },
+      publisher: { "@id": "https://mapmyhyd.com/#organization" },
+    },
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: "Mapping HYD",
+      url: "https://mapmyhyd.com/",
+      sameAs: [
+        "https://mapmyhyd.com/",
+        "https://startups.mapmyhyd.com/",
+        "https://eats.mapmyhyd.com/",
+        "https://github.com/shivtchandra/hydstartuplist",
+      ],
     },
     {
       "@type": "FAQPage",
