@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useCallback } from "react";
+import { trackEvent } from "../../lib/engagement-client.js";
 import { TAGS, TIERS, isOpenNow, validTagsFor } from "../../lib/eateryUtils.js";
 import { Icon, CategoryIcon, TagIcon, TierIcon } from "./Icons.jsx";
 import { hasVoted } from "../../lib/voting.js";
@@ -289,6 +290,7 @@ export default function DetailSheet({
           <a
             href={`https://www.google.com/maps/dir/?api=1&destination=${eatery.lat},${eatery.lng}`}
             target="_blank" rel="noopener noreferrer"
+            onClick={() => trackEvent("directions")}
             style={{ ...btn, flex: 1, background: "var(--cafe)", color: "var(--cream-hi)", textDecoration: "none" }}
           >
             <Icon name="navigate" size={16} width={2} /> Directions
@@ -311,6 +313,7 @@ export default function DetailSheet({
           )}
           {eatery.phone && (
             <a href={`tel:${eatery.phone.replace(/\s/g, "")}`}
+               onClick={() => trackEvent("call")}
                style={{ ...btn, flex: 1, background: "var(--cream)", color: "var(--ink-soft)", border: "1.5px solid var(--line)", textDecoration: "none", fontSize: 13 }}>
               <Icon name="phone" size={15} width={1.9} /> Call
             </a>

@@ -26,6 +26,7 @@ import ThemeIntro from "./components/ThemeIntro.jsx";
 import ThemeNudge from "./components/ThemeNudge.jsx";
 import Onboarding from "./components/Onboarding.jsx";
 import { fetchPicks } from "../lib/picks.js";
+import { trackEvent } from "../lib/engagement-client.js";
 
 export default function EateriesApp({ searchParams, initialTab = "map", initialRaceView = "race" }) {
   const mapApi = useRef(null);
@@ -141,6 +142,10 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   selectedIdRef.current = selectedId;
 
   useEffect(() => { setPassport(passportStore.getState()); }, []);
+
+  useEffect(() => {
+    trackEvent("landing");
+  }, []);
 
   useEffect(() => {
     fetchCurrentTheme().then((cur) => { if (cur.theme?.active && !cur.theme?.winnerId) setCurrentTheme(cur.theme); });
@@ -404,6 +409,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
     setPassport({ ...passportStore.toggleVisited(id) });
     setStamping(null);
     setDiaryTick((t) => t + 1);
+    trackEvent("stamp");
     setToast("Stamped, added to your passport");
     attemptRaceClaim(id);
   }, [attemptRaceClaim]);
@@ -411,6 +417,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   const handleToggleSaved = useCallback((id) => {
     const next = passportStore.toggleSaved(id);
     setPassport({ ...next });
+    if (next.saved[id]) trackEvent("save");
     setToast(next.saved[id] ? "Saved to your list" : "Removed from saved");
   }, []);
 
@@ -422,6 +429,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
     // map pin, or search.
     if (!opts.fromRail) {
       setSheetOpen(true);
+      trackEvent("place_open");
       const e = byId[id];
       if (e) mapApi.current?.flyTo(e.lat, e.lng, 16);
     }
@@ -441,6 +449,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
     setTab("map");
     setSelectedId(eatery.id);
     setSheetOpen(true);
+    trackEvent("place_open");
     loadDetail(eatery.id);
     mapApi.current?.flyTo(eatery.lat, eatery.lng, 16);
   }, [loadDetail]);
