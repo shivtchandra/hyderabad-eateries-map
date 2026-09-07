@@ -8,7 +8,7 @@ import { ogImages } from "../../lib/og.js";
 export const dynamic = "force-dynamic";
 
 const title = "Hyderabad Food Rankings";
-const description = "Community-voted weekly rankings for the best biryani, cafes, restaurants and more in Hyderabad.";
+const description = "Community-voted weekly rankings for the best biryani, buffet, fine dining, cafes, and restaurants in Hyderabad.";
 
 export const metadata = {
   ...pageMeta({ title, description, path: "/rankings" }),
@@ -42,6 +42,8 @@ export default async function RankingsHubPage() {
       related={[
         { href: "/rankings/how-it-works", label: "How rankings work" },
         { href: "/rankings/best-biryani-in-hyderabad", label: "Best biryani" },
+        { href: "/rankings/best-buffet-in-hyderabad", label: "Best buffet" },
+        { href: "/rankings/best-fine-dining-in-hyderabad", label: "Fine dining" },
         { href: "/rankings/best-cafe-in-hyderabad", label: "Best cafes" },
         { href: "/explore", label: "Explore categories" },
         { href: "/areas", label: "Browse areas" },

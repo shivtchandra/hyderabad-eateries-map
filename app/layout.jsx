@@ -33,12 +33,60 @@ export const metadata = {
     description,
     images: ogImages(title, description).map((i) => i.url),
   },
+  alternates: { canonical: siteUrl },
 };
+
+const homeLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      name: "Hyderabad Eats",
+      url: siteUrl,
+      description,
+      publisher: { "@type": "Organization", name: "Mapping HYD", url: "https://mapmyhyd.com/" },
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "What is Hyderabad Eats?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Hyderabad Eats is a Mapping HYD food map of 3,400+ restaurants, cafes, and local spots with community-voted weekly rankings.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How do Hyderabad Eats rankings work?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Each ranking page shows a live community vote plus an all-time Google-review baseline so you can compare both lists.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Is Hyderabad Eats free?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes. You can browse the map, rankings, and area pages without signing up.",
+          },
+        },
+      ],
+    },
+  ],
+};
+
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${outfit.variable} ${fraunces.variable} ${bagel.variable}`}>
       <body className={outfit.className}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(homeLd) }}
+        />
         {children}
         <SeoCrawlNav />
         <Analytics />

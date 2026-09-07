@@ -1,42 +1,64 @@
 import Link from "next/link";
 
-/** Server-rendered links so crawlers discover SEO pages from the map homepage. */
+/** Server-rendered intro + links so crawlers/answer engines see real homepage content. */
 export default function SeoCrawlNav() {
   return (
-    <nav className="seo-crawl-nav" aria-label="Site sections">
-      <Link href="/stories">Stories behind Hyderabad's iconic cafes</Link>
-      <Link href="/spot/ChIJVy0-aGiXyzsRWMiIWZ1fC30">Cafe Niloufer Jubilee Hills story</Link>
-      <Link href="/spot/ChIJ4UHRkeSTyzsRiFzajl4M9z0">Cafe Niloufer Hitech City</Link>
-      <Link href="/spot/ChIJ1Z7b5_mXyzsR_6g6Az9fWjk">Nimrah Cafe Charminar story</Link>
-      <Link href="/spot/ChIJGypuNaiRyzsR-smd2ySqMuo">Rameshwaram Cafe Madhapur story</Link>
-      <Link href="/spot/ChIJIfN2naWRyzsRQ884HoebNm8">Ishtaa HITEC City tiffin story</Link>
-      <Link href="/spot/ChIJJciqpn6RyzsReV8FPqZW5Mo">Penam Jubilee Hills dosa story</Link>
-      <Link href="/rankings">Weekly food rankings in Hyderabad</Link>
-      <Link href="/rankings/how-it-works">How Hyderabad Eats rankings work</Link>
-      <Link href="/explore/cafes">Best cafes in Hyderabad</Link>
-      <Link href="/explore/biryani-and-local">Best biryani in Hyderabad</Link>
-      <Link href="/explore">Explore food categories</Link>
-      <Link href="/areas">Hyderabad areas</Link>
-      <Link href="/rankings/best-biryani-in-hyderabad">Vote: best biryani</Link>
-      <Link href="/rankings/best-cafe-in-hyderabad">Vote: best cafe</Link>
-      <Link href="/areas/gachibowli">Restaurants in Gachibowli, Hyderabad</Link>
-      <Link href="/areas/jubilee-hills">Restaurants &amp; Cafes in Jubilee Hills</Link>
-      <Link href="/areas/banjara-hills">Restaurants in Banjara Hills, Hyderabad</Link>
-      <Link href="/areas/madhapur-hitec">Restaurants in HITEC City &amp; Madhapur</Link>
-      <Link href="/rankings/best-dinner-restaurants-in-hyderabad">Best dinner restaurants in Hyderabad</Link>
-      <Link href="/rankings/best-brewery-in-hyderabad">Best brewery in Hyderabad</Link>
-      <Link href="/rankings/best-late-night-restaurants-in-hyderabad">Late night restaurants in Hyderabad</Link>
-      <Link href="/rankings/new-restaurants-in-hyderabad">New restaurants in Hyderabad</Link>
-      <Link href="/rankings/best-rooftop-restaurants-in-hyderabad">Rooftop restaurants in Hyderabad</Link>
-      <Link href="/rankings/best-work-friendly-cafes-in-hyderabad">Work-friendly cafes in Hyderabad</Link>
-      <Link href="/rankings/best-irani-cafe-in-hyderabad">Best Irani cafe in Hyderabad</Link>
-      <Link href="/rankings/best-breakfast-places-in-hyderabad">Best breakfast places in Hyderabad</Link>
-      <Link href="/rankings/best-shawarma-in-hyderabad">Best shawarma in Hyderabad</Link>
-      <Link href="/rankings/best-mandi-in-hyderabad">Best mandi in Hyderabad</Link>
-      <Link href="/rankings/best-street-food-in-hyderabad">Best street food in Hyderabad</Link>
-      <Link href="/explore/restaurants">Best restaurants in Hyderabad</Link>
-      <a href="https://www.mapmyhyd.com/" rel="noopener noreferrer" target="_blank">Mapping HYD</a>
-      <a href="https://startups.mapmyhyd.com/" rel="noopener noreferrer" target="_blank">Hyderabad Startup Map</a>
+    <nav className="seo-crawl-nav" aria-label="Hyderabad Eats directory">
+      <h1>Hyderabad Eats — food map &amp; local rankings</h1>
+      <p>
+        Mapping HYD Eats is a free Hyderabad food map of 3,400+ restaurants, cafes, and local spots,
+        with community-voted weekly rankings for biryani, cafes, restaurants, and more. Browse by area
+        or category, then open the live map to stamp visits and vote.
+      </p>
+      <p>
+        Looking for the best biryani in Hyderabad, best restaurants in Jubilee Hills or Banjara Hills,
+        or cafes to work from? Start with the rankings and area pages below.
+      </p>
+      <h2>Popular rankings</h2>
+      <ul>
+        <li><Link href="/rankings/best-biryani-in-hyderabad">Best biryani in Hyderabad</Link></li>
+        <li><Link href="/rankings/best-buffet-in-hyderabad">Best buffet in Hyderabad</Link></li>
+        <li><Link href="/rankings/best-fine-dining-in-hyderabad">Best fine dining in Hyderabad</Link></li>
+        <li><Link href="/rankings/best-mandi-in-hyderabad">Best mandi in Hyderabad</Link></li>
+        <li><Link href="/explore/restaurants">Best restaurants in Hyderabad</Link></li>
+        <li><Link href="/rankings/best-cafe-in-hyderabad">Best cafe in Hyderabad</Link></li>
+        <li><Link href="/rankings">All weekly food rankings</Link></li>
+      </ul>
+      <h2>Food by area</h2>
+      <ul>
+        <li><Link href="/areas/jubilee-hills">Cafes in Jubilee Hills</Link></li>
+        <li><Link href="/areas/gachibowli">Best restaurants in Gachibowli</Link></li>
+        <li><Link href="/areas/madhapur-hitec">Best restaurants in Madhapur</Link></li>
+        <li><Link href="/areas/kondapur">Best restaurants in Kondapur</Link></li>
+        <li><Link href="/areas/secunderabad">Best restaurants in Secunderabad</Link></li>
+        <li><Link href="/areas/banjara-hills">Restaurants in Banjara Hills</Link></li>
+        <li><Link href="/areas">All Hyderabad food areas</Link></li>
+      </ul>
+      <h2>Explore &amp; stories</h2>
+      <ul>
+        <li><Link href="/explore">Explore food by category</Link></li>
+        <li><Link href="/explore/cafes">Cafes in Hyderabad</Link></li>
+        <li><Link href="/explore/biryani-and-local">Biryani &amp; local food</Link></li>
+        <li><Link href="/stories">Stories behind iconic cafes</Link></li>
+        <li><Link href="/rankings/how-it-works">How rankings work</Link></li>
+      </ul>
+      <h2>FAQ</h2>
+      <p>
+        <strong>What is Hyderabad Eats?</strong> A Mapping HYD layer: an interactive food map plus
+        community rankings for places across the city.
+      </p>
+      <p>
+        <strong>How are rankings made?</strong> Weekly community votes on the map, shown next to an
+        all-time Google-review baseline so you can compare both lists.
+      </p>
+      <p>
+        <strong>Is it free?</strong> Yes — no signup required to browse the map, rankings, or area pages.
+      </p>
+      <p>
+        Part of <a href="https://mapmyhyd.com/" rel="noopener noreferrer">Mapping HYD</a>
+        {" · "}
+        <a href="https://startups.mapmyhyd.com/" rel="noopener noreferrer">Hyderabad Startup Map</a>
+      </p>
     </nav>
   );
 }

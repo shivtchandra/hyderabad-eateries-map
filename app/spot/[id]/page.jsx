@@ -24,7 +24,9 @@ export function generateStaticParams() {
 export function generateMetadata({ params }) {
   const spot = getEateryById(params.id);
   if (!spot) return { title: "Spot not found, Hyderabad Eats" };
-  const title = `${spot.name}, ${spot.discoveredIn || "Hyderabad"}`;
+  const title = spot.discoveredIn && !spot.discoveredIn.startsWith("text:")
+    ? `${spot.name}, ${spot.discoveredIn}, Hyderabad`
+    : `${spot.name}, Hyderabad`;
   const editorial = spot.originStory?.[0]
     || (spot.signatureDish ? `Famous for ${spot.signatureDish.name}. ${spot.signatureDish.why}` : "");
   const description = editorial
@@ -66,6 +68,15 @@ export default function SpotPage({ params }) {
     ? "Other Cafe Niloufer locations"
     : "Other locations";
 
+  const nameLower = (spot.name || "").toLowerCase();
+  const rankingLinks = [];
+  if (nameLower.includes("niloufer")) {
+    rankingLinks.push({ href: "/rankings/best-irani-cafe-in-hyderabad", label: "Best Irani cafe ranking" });
+  }
+  if (nameLower.includes("paradise") || nameLower.includes("shah ghouse")) {
+    rankingLinks.push({ href: "/rankings/best-biryani-in-hyderabad", label: "Best biryani in Hyderabad" });
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -88,6 +99,7 @@ export default function SpotPage({ params }) {
       related={[
         { href: "/", label: "Open on map" },
         { href: "/rankings", label: "Weekly rankings" },
+        ...rankingLinks,
         ...(areaLink ? [{ href: areaLink, label: `More in ${spot.discoveredIn}` }] : []),
         { href: `/explore/${spot.category === "local" ? "biryani-and-local" : spot.category === "restro-bar" ? "bars" : spot.category === "ice-cream" ? "ice-cream" : spot.category === "bakery" ? "bakeries" : "cafes"}`, label: `More ${CAT_LABEL[spot.category] || "spots"}` },
       ]}

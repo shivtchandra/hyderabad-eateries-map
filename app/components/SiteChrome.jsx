@@ -49,8 +49,8 @@ export function SiteFooter() {
         <Link href="/explore/biryani-and-local">Biryani</Link>
         <Link href="/rankings/best-biryani-in-hyderabad">Best Biryani</Link>
         <Link href="/rankings/best-cafe-in-hyderabad">Best Cafes</Link>
-        <a href="https://www.mapmyhyd.com/" rel="noopener noreferrer" target="_blank">Mapping HYD</a>
-        <a href="https://startups.mapmyhyd.com/" rel="noopener noreferrer" target="_blank">Hyderabad Startup Map</a>
+        <a href="https://mapmyhyd.com/">Mapping HYD</a>
+        <a href="https://startups.mapmyhyd.com/">Hyderabad Startup Map</a>
       </nav>
       <div>Community-voted food rankings &amp; map · 3,400+ spots in Hyderabad</div>
     </footer>

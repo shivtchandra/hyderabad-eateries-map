@@ -91,11 +91,41 @@ export default async function RankingPage({ params }) {
     ...allCategoryPages().slice(0, 2).map((c) => ({ href: `/explore/${c.slug}`, label: c.label })),
   ];
 
+  const topNames = (voteRows.length ? voteRows : editorial).slice(0, 3).map((r) => r.name).filter(Boolean);
+  const answerLead = topNames.length
+    ? `Top picks for ${data.title.toLowerCase()} right now include ${topNames.join(", ")}.`
+    : `${data.title} on Hyderabad Eats combines a live community vote with an all-time Google-review baseline.`;
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: `What is the ${data.title.toLowerCase()} right now?`,
+        acceptedAnswer: { "@type": "Answer", text: `${answerLead} See the full ranked list and vote on Hyderabad Eats.` },
+      },
+      {
+        "@type": "Question",
+        name: "How does Hyderabad Eats rank places?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Weekly community votes on the map sit next to an all-time Google-review baseline so both signals are visible.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is this ranking free to use?",
+        acceptedAnswer: { "@type": "Answer", text: "Yes. Rankings and the food map are free, with no signup required to browse." },
+      },
+    ],
+  };
+
   return (
   <div style={{ paddingBottom: 84 }}>
     {jsonLd && (
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     )}
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
     <SiteChrome
       active="/rankings"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/rankings", label: "Rankings" }, { href: `/rankings/${params.slug}`, label: data.title }]}
@@ -108,6 +138,9 @@ export default async function RankingPage({ params }) {
         {isPlaceholder ? "Voting opens here soon — explore the map →" : "Vote and help build the new list →"}
       </Link>
 
+      <p style={{ color: "var(--ink-soft)", fontSize: 14.5, lineHeight: 1.55, margin: "0 0 12px" }}>
+        <strong>{answerLead}</strong>
+      </p>
       <p style={{ color: "var(--ink-soft)", fontSize: 14.5, lineHeight: 1.55, margin: "0 0 18px" }}>
         {isPlaceholder ? (
           <>Two ways to find the {data.title.toLowerCase().replace(/^best /, "best ")}. The weekly community vote opens here soon, where locals crown a winner. Until then, the all-time baseline below is ranked from years of Google ratings and reviews.</>
@@ -115,6 +148,12 @@ export default async function RankingPage({ params }) {
           <>Two rankings on this page. Up top, this week&apos;s live community vote, where locals pick {data.title.toLowerCase().replace(/^best /, "the best ")}. Below, the all-time baseline from years of Google ratings and reviews. Your vote reshapes the live list, cast it on the map.</>
         )}
       </p>
+      <section className="spot-prose" aria-label="FAQ" style={{ margin: "0 0 22px" }}>
+        <h2 className="site-section-title">FAQ</h2>
+        <p><strong>How do you rank places?</strong> Live community votes plus an all-time Google-review baseline on the same page.</p>
+        <p><strong>Can I vote?</strong> Yes — open the map from the button above and cast a vote for this week&apos;s theme.</p>
+        <p><strong>Is it free?</strong> Yes, browsing and voting do not require a paid account.</p>
+      </section>
 
       {!isPlaceholder && (
         <p className="rankings-freshness">
