@@ -19,7 +19,12 @@ function placeholderForSlug(slug) {
 }
 
 export async function generateMetadata({ params }) {
-  const theme = await getRankingBySlug(params.slug);
+  let theme = null;
+  try {
+    theme = await getRankingBySlug(params.slug);
+  } catch {
+    theme = null;
+  }
   const pick = placeholderForSlug(params.slug);
   if (!theme && !pick) return { title: "Ranking not found, Hyderabad Eats" };
   const fake = theme || { title: pick.title, description: pick.description, slug: params.slug, results: [] };
@@ -35,7 +40,12 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function RankingPage({ params }) {
-  const theme = await getRankingBySlug(params.slug);
+  let theme = null;
+  try {
+    theme = await getRankingBySlug(params.slug);
+  } catch {
+    theme = null;
+  }
   const pick = placeholderForSlug(params.slug);
   if (!theme && !pick) notFound();
 

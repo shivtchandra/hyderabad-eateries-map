@@ -22,7 +22,12 @@ function statusOf(theme) {
 }
 
 export default async function RankingsHubPage() {
-  const themes = await getAllRankingsThemes(50);
+  let themes = [];
+  try {
+    themes = await getAllRankingsThemes(50);
+  } catch {
+    themes = [];
+  }
   const live = themes.filter((t) => t.active && !t.winnerId);
   const past = themes.filter((t) => !t.active || t.winnerId);
   const themeSlugs = new Set(themes.map((t) => t.slug));
