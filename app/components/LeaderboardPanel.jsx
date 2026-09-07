@@ -34,7 +34,9 @@ export default function LeaderboardPanel({
     onInnerTabChange?.(nextTab);
   };
 
-  // On This Week, jump past the Race hero so search + vote sit at the top.
+  // On This Week, skip the Race hero so search + vote sit at the top.
+  // Prefer collapsing the hero (no scroll fight). If it is visible, scroll with
+  // behavior "auto" — "instant" throws in Safari/Firefox and can white-screen the tab.
   useLayoutEffect(() => {
     const scroller = scrollRef.current;
     const tabs = tabsRef.current;
@@ -44,15 +46,15 @@ export default function LeaderboardPanel({
       return;
     }
     const jump = () => {
-      const top = Math.max(0, tabs.offsetTop - 4);
-      scroller.scrollTo({
-        top,
-        behavior: didAutoScroll.current ? "smooth" : "instant",
-      });
+      try {
+        const top = Math.max(0, tabs.offsetTop - 4);
+        scroller.scrollTo({ top, behavior: "auto" });
+      } catch {
+        scroller.scrollTop = Math.max(0, tabs.offsetTop - 4);
+      }
       didAutoScroll.current = true;
     };
     jump();
-    // ThemeVoting loads async; nudge once content grows so tabs stay pinned.
     const t = window.setTimeout(jump, 120);
     return () => window.clearTimeout(t);
   }, [innerTab]);
@@ -90,8 +92,8 @@ export default function LeaderboardPanel({
 
   return (
     <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", background: "var(--cream)" }}>
-      {/* Hero */}
-      <div style={{ background: "var(--violet)", position: "relative", paddingTop: 24, overflow: "hidden" }}>
+      {/* Hero — hidden on This Week so vote/search is first screen */}
+      {innerTab === "race" && <div style={{ background: "var(--violet)", position: "relative", paddingTop: 24, overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: "-10% -5% 30%", opacity: 0.26, pointerEvents: "none" }}>
           <Squiggles color="var(--cream-hi)" opacity={1} />
         </div>
@@ -123,11 +125,11 @@ export default function LeaderboardPanel({
           </div>
         </div>
         <Wave height={44} color="var(--cream)" style={{ marginTop: 10 }} />
-      </div>
+      </div>}
 
       {/* Tab switcher */}
       <div ref={tabsRef} style={{ display: "flex", gap: 6, padding: "10px 16px 2px", background: "var(--cream)", position: "sticky", top: 0, zIndex: 5 }}>
-        {[["race", "trophy", "The Race"], ["theme", "crown", "This Week"]].map(([key, icon, label]) => (
+        {[["theme", "crown", "This Week"], ["race", "trophy", "The Race"]].map(([key, icon, label]) => (
           <button
             key={key}
             onClick={() => selectInnerTab(key)}

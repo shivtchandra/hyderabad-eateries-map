@@ -61,13 +61,23 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
     pushAppPath(view === "theme" ? "/race/this-week" : "/race");
   };
 
-  // Opening Race from the bottom nav lands on This Week (community ranking).
+  // Opening Race from the bottom nav lands on This Week via a real URL load.
+  // pushState-only left the App Router on "/" while the address bar said
+  // /race/this-week, which soft-404'd on the next navigation for some users.
   const goTab = (nextTab) => {
     if (nextTab === "race") {
+      if (typeof window !== "undefined" && !window.location.pathname.startsWith("/race")) {
+        window.location.href = "/race/this-week";
+        return;
+      }
       openRaceView("theme");
       return;
     }
     setTab(nextTab);
+    if (typeof window !== "undefined" && window.location.pathname.startsWith("/race")) {
+      window.location.href = "/";
+      return;
+    }
     pushAppPath("/");
   };
   const [activeTags, setActiveTags] = useState([]);
