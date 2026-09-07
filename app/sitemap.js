@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 /**
  * Hub-first sitemap. Spot detail URLs are limited to editorial entities
- * (Niloufer, Paradise, etc.) — including every high-review spot would flood
+ * (Niloufer, Meridian, Shah Ghouse, etc.) — including every high-review spot would flood
  * GSC with 2k+ "Discovered – currently not indexed" URLs.
  */
 export default async function sitemap() {
