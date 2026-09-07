@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useLayoutEffect, useState, useCallback, useRef } from "react";
 import { ensureUser, getUid, getName, setName as saveName } from "../../lib/identity.js";
 import { fetchLeaderboard } from "../../lib/leaderboard.js";
 import ThemeVoting from "./ThemeVoting.jsx";
@@ -16,6 +16,9 @@ export default function LeaderboardPanel({
   onInnerTabChange,
 }) {
   const [innerTab, setInnerTab] = useState(initialInnerTab); // "race" | "theme"
+  const scrollRef = useRef(null);
+  const tabsRef = useRef(null);
+  const didAutoScroll = useRef(false);
   const [uid, setUid] = useState(null);
   const [data, setData] = useState({ players: [], me: null });
   const [status, setStatus] = useState("loading"); // loading | ready | unavailable
@@ -30,6 +33,29 @@ export default function LeaderboardPanel({
     setInnerTab(nextTab);
     onInnerTabChange?.(nextTab);
   };
+
+  // On This Week, jump past the Race hero so search + vote sit at the top.
+  useLayoutEffect(() => {
+    const scroller = scrollRef.current;
+    const tabs = tabsRef.current;
+    if (!scroller || !tabs) return;
+    if (innerTab !== "theme") {
+      scroller.scrollTop = 0;
+      return;
+    }
+    const jump = () => {
+      const top = Math.max(0, tabs.offsetTop - 4);
+      scroller.scrollTo({
+        top,
+        behavior: didAutoScroll.current ? "smooth" : "instant",
+      });
+      didAutoScroll.current = true;
+    };
+    jump();
+    // ThemeVoting loads async; nudge once content grows so tabs stay pinned.
+    const t = window.setTimeout(jump, 120);
+    return () => window.clearTimeout(t);
+  }, [innerTab]);
 
   const load = useCallback(async (id) => {
     const res = await fetchLeaderboard(id);
@@ -63,7 +89,7 @@ export default function LeaderboardPanel({
   const rest = players.slice(3);
 
   return (
-    <div style={{ flex: 1, overflowY: "auto", background: "var(--cream)" }}>
+    <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", background: "var(--cream)" }}>
       {/* Hero */}
       <div style={{ background: "var(--violet)", position: "relative", paddingTop: 24, overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: "-10% -5% 30%", opacity: 0.26, pointerEvents: "none" }}>
@@ -100,7 +126,7 @@ export default function LeaderboardPanel({
       </div>
 
       {/* Tab switcher */}
-      <div style={{ display: "flex", gap: 6, padding: "10px 16px 2px" }}>
+      <div ref={tabsRef} style={{ display: "flex", gap: 6, padding: "10px 16px 2px", background: "var(--cream)", position: "sticky", top: 0, zIndex: 5 }}>
         {[["race", "trophy", "The Race"], ["theme", "crown", "This Week"]].map(([key, icon, label]) => (
           <button
             key={key}

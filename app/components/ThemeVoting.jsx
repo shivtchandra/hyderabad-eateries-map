@@ -240,7 +240,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastCl
       {/* Search first: find your spot, then scan standings */}
       {!theme.winnerId && (
         <div style={{ margin: "0 16px 16px", position: "relative", zIndex: 20 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 8 }}>
+          <div style={{ fontSize: 13, fontWeight: 800, color: "var(--ink)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 8 }}>
             {votedSpotId ? "Search to switch" : "Search to vote"}
           </div>
           <div style={{ position: "relative" }}>
