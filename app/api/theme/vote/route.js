@@ -11,18 +11,10 @@ export async function POST(req) {
   const db = await getAdminDb();
   if (!db) return Response.json({ error: "unavailable" }, { status: 503 });
 
-  // Verify theme is still active before accepting votes.
+  // Themes stay votable after endDate and after a newer trend goes live.
+  // `active` only marks the featured "This Week" card — it does not lock votes.
   const themeDoc = await db.collection("themes").doc(themeId).get();
-  if (!themeDoc.exists) return Response.json({ error: "theme-closed" }, { status: 409 });
-
-  const td = themeDoc.data();
-  // Auto-lock by endDate
-  const today = new Date().toISOString().slice(0, 10);
-  if (td.endDate && today > td.endDate) {
-    if (td.active) await db.collection("themes").doc(themeId).update({ active: false });
-    return Response.json({ error: "theme-closed" }, { status: 409 });
-  }
-  if (td.active !== true) return Response.json({ error: "theme-closed" }, { status: 409 });
+  if (!themeDoc.exists) return Response.json({ error: "theme-missing" }, { status: 404 });
 
   const votesCol = db.collection("themes").doc(themeId).collection("votes");
   const voteRef = votesCol.doc(spotId);
@@ -30,10 +22,7 @@ export async function POST(req) {
     ? db.collection("themes").doc(themeId).collection("voters").doc(uid)
     : null;
 
-  // One live vote per uid per theme, but instead of just rejecting a second
-  // vote, let it SWITCH: pull the count off whatever spot they voted for
-  // before and move it onto the new one. Voting for the same spot again is a
-  // no-op (returns the current count, changes nothing).
+  // One live vote per uid per theme; a later vote SWITCHES the count.
   const result = await db.runTransaction(async (tx) => {
     let voterDoc = null;
     if (voterRef) voterDoc = await tx.get(voterRef);

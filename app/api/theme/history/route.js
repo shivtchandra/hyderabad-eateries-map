@@ -3,14 +3,14 @@ import { unstable_cache } from "next/cache";
 
 export const dynamic = "force-dynamic";
 
-// Past themes are locked (inactive), so this basically never changes, // cache it for an hour instead of an N+1 fetch (theme + per-theme votes)
-// on every page load.
+// Earlier trends stay votable after a new one goes live. Short cache so
+// standings on past themes still feel live without N+1 every request.
 const getHistory = unstable_cache(
   async (limit) => {
     const db = await getAdminDb();
     if (!db) return [];
 
-    // Past themes: inactive, ordered newest first.
+    // Non-featured themes, newest first (still open for votes).
     const snap = await db
       .collection("themes")
       .where("active", "==", false)
@@ -28,7 +28,7 @@ const getHistory = unstable_cache(
     );
   },
   ["theme-history"],
-  { revalidate: 3600, tags: ["themes"] }
+  { revalidate: 30, tags: ["themes"] }
 );
 
 export async function GET(req) {
