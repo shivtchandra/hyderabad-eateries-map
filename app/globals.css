@@ -513,6 +513,10 @@ body::after {
 }
 
 @keyframes sheet-rise { from { opacity: 0; transform: translateY(16px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes detail-card-in {
+  from { opacity: 0; transform: translateY(18px) scale(.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
 
 
 /* Crawlable nav on map homepage, visible to bots, off-screen for users */
