@@ -172,7 +172,16 @@ export default function ThemeVoting({ initialDishSlug = null }) {
 
       {history.length > 0 && (
         <div style={{ marginTop: current.theme ? 20 : 0 }}>
-          <div style={{ padding: "0 16px 10px", fontSize: 11, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.07em", textTransform: "uppercase" }}>
+          <div style={{
+            margin: "4px 16px 12px",
+            padding: "10px 0 0",
+            borderTop: "1.5px solid var(--line)",
+            fontFamily: "Fraunces, serif",
+            fontSize: 18,
+            fontWeight: 700,
+            color: "var(--ink)",
+            letterSpacing: "-0.01em",
+          }}>
             Previous weeks
           </div>
           {history.map((th) => (
