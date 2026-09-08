@@ -49,7 +49,9 @@ export default function DetailSheet({
     if (result.ok) { setThemeVoteSpotLocal(eatery.id); setThemeVotePending(false); }
   }, [currentTheme, votedForThis, votedForOther, themeCasting, themeVotePending, eatery.id, eatery.name]);
 
-  const cardWidth = isMobile ? "min(440px, calc(100vw - 28px))" : "min(400px, calc(100vw - 48px))";
+  // Overlay lives in the map pane (above bottom nav). Cap height to 100% of
+  // that pane with padding, never 88dvh, or the card kisses the nav.
+  const cardWidth = isMobile ? "min(420px, 100%)" : "min(400px, 100%)";
 
   return (
     <div
@@ -65,7 +67,8 @@ export default function DetailSheet({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: isMobile ? "14px 14px 18px" : 24,
+        padding: isMobile ? "12px 16px 16px" : "20px 24px",
+        boxSizing: "border-box",
         animation: "fade-in .18s ease",
       }}
     >
@@ -73,7 +76,9 @@ export default function DetailSheet({
         onClick={(e) => e.stopPropagation()}
         style={{
           width: cardWidth,
-          maxHeight: isMobile ? "min(88dvh, 760px)" : "min(86vh, 720px)",
+          maxWidth: "100%",
+          maxHeight: "100%",
+          minHeight: 0,
           background: "var(--cream-hi)",
           borderRadius: 22,
           border: "1.5px solid var(--line)",
@@ -87,7 +92,7 @@ export default function DetailSheet({
         {/* Hero */}
         <div
           style={{
-            height: isMobile ? 168 : 180,
+            height: isMobile ? 140 : 168,
             background: photoUrl ? `url(${photoUrl}) center/cover no-repeat` : cat.color,
             position: "relative",
             flexShrink: 0,
