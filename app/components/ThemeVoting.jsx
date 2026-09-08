@@ -8,6 +8,63 @@ import { slugFromTitle } from "../../lib/rankings.js";
 import { isPastEndDate } from "../../lib/themeCrown.js";
 import ThemeSuggest from "./ThemeSuggest.jsx";
 
+function themeKeyword(title = "") {
+  return String(title)
+    .replace(/^best\s+/i, "")
+    .replace(/\s+in\s+hyderabad$/i, "")
+    .replace(/\s+hyderabad$/i, "")
+    .trim();
+}
+
+function mergeStandings(results = [], suggestions = [], limit = 10) {
+  const voted = [...results]
+    .filter((r) => (r.count || 0) > 0)
+    .sort((a, b) => (b.count || 0) - (a.count || 0));
+  const seen = new Set(voted.map((r) => r.spotId));
+  const out = [...voted];
+
+  const sugById = Object.fromEntries(suggestions.map((s) => [s.spotId, s]));
+  const zeros = results
+    .filter((r) => !seen.has(r.spotId))
+    .map((r) => {
+      const s = sugById[r.spotId];
+      return {
+        ...r,
+        count: r.count || 0,
+        suggested: true,
+        rating: r.rating ?? s?.rating,
+        ratingCount: r.ratingCount ?? s?.ratingCount ?? 0,
+      };
+    });
+
+  const sug = suggestions
+    .filter((s) => !seen.has(s.spotId))
+    .map((s) => ({
+      spotId: s.spotId,
+      name: s.name,
+      count: 0,
+      suggested: true,
+      rating: s.rating,
+      ratingCount: s.ratingCount,
+      area: s.area,
+    }));
+
+  const pad = [...zeros];
+  for (const s of sug) {
+    if (!pad.find((x) => x.spotId === s.spotId)) pad.push(s);
+  }
+  pad.sort((a, b) => (b.ratingCount || 0) - (a.ratingCount || 0) || (b.rating || 0) - (a.rating || 0));
+
+  for (const row of pad) {
+    if (out.length >= limit) break;
+    if (seen.has(row.spotId)) continue;
+    seen.add(row.spotId);
+    out.push(row);
+  }
+  return out;
+}
+
+
 export default function ThemeVoting({ initialDishSlug = null }) {
   const [current, setCurrent] = useState({ theme: null, results: [] });
   const [history, setHistory] = useState([]);
@@ -146,8 +203,23 @@ export default function ThemeVoting({ initialDishSlug = null }) {
 function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastClosed }) {
   const [searchQ, setSearchQ] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const [seedSuggestions, setSeedSuggestions] = useState([]);
   const [shareState, setShareState] = useState("idle");
   const debounceRef = useRef(null);
+
+  useEffect(() => {
+    const q = themeKeyword(theme?.title);
+    if (q.length < 2) { setSeedSuggestions([]); return; }
+    let cancelled = false;
+    fetch(`/api/spots/search?q=${encodeURIComponent(q)}&limit=12`)
+      .then((r) => (r.ok ? r.json() : []))
+      .then((rows) => { if (!cancelled) setSeedSuggestions(Array.isArray(rows) ? rows : []); })
+      .catch(() => { if (!cancelled) setSeedSuggestions([]); });
+    return () => { cancelled = true; };
+  }, [theme?.title]);
+
+  const standings = mergeStandings(results, seedSuggestions, 12);
+  const hasVotes = standings.some((r) => (localCounts[r.spotId] ?? r.count ?? 0) > 0);
 
   const searchSpots = (q) => {
     setSearchQ(q);
@@ -343,24 +415,19 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastCl
           </div>
         </div>
 
-      {/* Current standings */}
-      {results.length > 0 && (
+      {/* Standings / suggested picks (always show ~10 once we have seeds) */}
+      {standings.length > 0 && (
         <div style={{ padding: "0 16px 8px", fontSize: 12, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.04em", textTransform: "uppercase" }}>
-          Live standings
+          {hasVotes ? "Live standings" : "Suggested picks"}
         </div>
       )}
-      {results.length === 0 && (
-        <div style={{ margin: "0 16px 16px", padding: "14px 16px", borderRadius: "var(--r-md)", background: "var(--cream-hi)", boxShadow: "var(--e1)", fontSize: 13, color: "var(--muted)", fontWeight: 500, lineHeight: 1.45 }}>
-          No votes yet. Search a spot above and cast the first one.
-        </div>
-      )}
-      {results.length > 0 && (
+      {standings.length > 0 && (
         <div style={{ padding: "0 16px", display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }}>
-          {results.map((r, i) => {
-            const count = localCounts[r.spotId] ?? r.count;
+          {standings.map((r, i) => {
+            const count = localCounts[r.spotId] ?? r.count ?? 0;
             const crowned = theme.winnerId || isPastEndDate(theme);
-            const isCrown = crowned && i === 0;
-            const isLead = i === 0;
+            const isCrown = crowned && hasVotes && i === 0;
+            const isLead = hasVotes && i === 0;
             return (
               <div key={r.spotId} style={{
                 display: "flex", alignItems: "center", gap: 10,
@@ -374,7 +441,13 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastCl
                 </span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontWeight: 700, fontSize: 14, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}</div>
-                  <div style={{ fontSize: 11.5, color: "var(--muted)", fontWeight: 500, marginTop: 1 }}>{count} vote{count !== 1 ? "s" : ""}</div>
+                  <div style={{ fontSize: 11.5, color: "var(--muted)", fontWeight: 500, marginTop: 1 }}>
+                    {count > 0
+                      ? `${count} vote${count !== 1 ? "s" : ""}`
+                      : (r.rating != null
+                        ? `${r.rating}★ on Google · tap to vote`
+                        : "Tap to cast the first vote")}
+                  </div>
                 </div>
                 {r.spotId === votedSpotId ? (
                   <span style={{ display: "flex", alignItems: "center", gap: 4, borderRadius: "var(--r-pill)", padding: "6px 12px", fontSize: 12, fontWeight: 700, background: "var(--violet-wash)", color: "var(--violet-deep)", flexShrink: 0 }}>

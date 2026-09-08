@@ -1,5 +1,6 @@
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { snapToSeoTheme } from "../../../../lib/rankings.js";
+import { revalidateTag } from "next/cache";
 
 export const dynamic = "force-dynamic";
 
@@ -90,6 +91,8 @@ export async function POST(req) {
     await batch2.commit();
   }
 
+  revalidateTag("themes");
+  revalidateTag("votes");
   return Response.json({ id, active: shouldBeActive });
 }
 

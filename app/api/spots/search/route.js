@@ -15,12 +15,22 @@ function getEateries() {
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const q = (searchParams.get("q") || "").trim().toLowerCase();
+  const limit = Math.min(Number(searchParams.get("limit") || 10), 20);
   if (q.length < 2) return Response.json([]);
 
   const results = getEateries()
-    .filter((e) => e.name.toLowerCase().includes(q))
-    .slice(0, 10)
-    .map((e) => ({ spotId: e.id, name: e.name, category: e.category, area: e.discoveredIn, tags: e.tags || [] }));
+    .filter((e) => e.status === "approved" && (e.name || "").toLowerCase().includes(q))
+    .sort((a, b) => (b.ratingCount || 0) - (a.ratingCount || 0) || (b.rating || 0) - (a.rating || 0))
+    .slice(0, limit)
+    .map((e) => ({
+      spotId: e.id,
+      name: e.name,
+      category: e.category,
+      area: e.discoveredIn,
+      tags: e.tags || [],
+      rating: e.rating ?? null,
+      ratingCount: e.ratingCount || 0,
+    }));
 
   return Response.json(results);
 }
