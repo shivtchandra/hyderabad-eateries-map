@@ -74,6 +74,8 @@ export default function ThemeVoting({ initialDishSlug = null }) {
   const [localCounts, setLocalCounts] = useState({});
   const [localResults, setLocalResults] = useState(null);
   const [voteTick, setVoteTick] = useState(0);
+  const [nudgePast, setNudgePast] = useState(false);
+  const prevWeeksRef = useRef(null);
 
   const load = useCallback(async () => {
     const [cur, hist] = await Promise.all([fetchCurrentTheme(), fetchThemeHistory(12)]);
@@ -133,8 +135,21 @@ export default function ThemeVoting({ initialDishSlug = null }) {
     }
 
     const hist = await fetchThemeHistory(12);
-    setHistory(hist.themes || []);
+    const past = hist.themes || [];
+    setHistory(past);
     setVoteTick((n) => n + 1);
+
+    // After voting this week, pull them into Previous weeks (still open).
+    if (isCurrent && past.length > 0) {
+      const nextPast = past.find((th) => !getThemeVoteSpot(th.id)) || past[0];
+      setOpenPast(nextPast.id);
+      setNudgePast(true);
+      window.setTimeout(() => {
+        prevWeeksRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 120);
+    } else if (!isCurrent) {
+      setNudgePast(false);
+    }
   };
 
   if (loading) return (
@@ -171,7 +186,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
       )}
 
       {history.length > 0 && (
-        <div style={{ marginTop: current.theme ? 20 : 0 }}>
+        <div ref={prevWeeksRef} style={{ marginTop: current.theme ? 20 : 0 }}>
           <div style={{
             margin: "4px 16px 12px",
             padding: "10px 0 0",
@@ -184,6 +199,22 @@ export default function ThemeVoting({ initialDishSlug = null }) {
           }}>
             Previous weeks
           </div>
+          {nudgePast && (
+            <div style={{
+              margin: "0 16px 12px",
+              padding: "12px 14px",
+              borderRadius: "var(--r-md)",
+              background: "var(--violet-wash)",
+              border: "1.5px solid var(--violet)",
+              fontSize: 13.5,
+              fontWeight: 600,
+              color: "var(--violet-deep)",
+              lineHeight: 1.4,
+            }}>
+              Nice. This week&apos;s locked in. Next, vote last week&apos;s challenge below.
+              Votes stay open on every past dish.
+            </div>
+          )}
           {history.map((th) => (
             <PastTheme
               key={`${th.id}-${voteTick}`}
