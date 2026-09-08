@@ -515,9 +515,11 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastCl
 function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
   const [searchQ, setSearchQ] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const [shareState, setShareState] = useState("idle");
   const debounceRef = useRef(null);
   const leader = theme.results?.[0];
   const crowned = theme.winnerId || isPastEndDate(theme);
+  const dishSlug = theme.slug || slugFromTitle(theme.title);
 
   const searchSpots = (q) => {
     setSearchQ(q);
@@ -536,30 +538,87 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
     onVote?.(spot.spotId, spot.name);
   };
 
+  const sharePast = async (e) => {
+    e?.stopPropagation?.();
+    e?.preventDefault?.();
+    const top = (theme.results || []).filter((r) => (r.count || 0) > 0).slice(0, 3);
+    const trendLine = top.length
+      ? top.map((r, i) => `${i + 1}. ${r.name} (${r.count}v)`).join(" · ")
+      : "Votes still open.";
+    const url = `${window.location.origin}/race/this-week?dish=${encodeURIComponent(dishSlug)}`;
+    const payload = {
+      title: `${theme.title} trends, Hyderabad Eats`,
+      text: `${theme.title} on Hyderabad Eats.\n${trendLine}\nVote here:`,
+      url,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(payload);
+        setShareState("shared");
+      } else {
+        await navigator.clipboard.writeText(`${payload.text} ${url}`);
+        setShareState("copied");
+      }
+      window.setTimeout(() => setShareState("idle"), 1800);
+    } catch (error) {
+      if (error?.name !== "AbortError") setShareState("failed");
+    }
+  };
+
   return (
     <div style={{ margin: "0 16px 8px", background: "var(--cream-hi)", borderRadius: "var(--r-md)", boxShadow: "var(--e1)", overflow: "hidden" }}>
-      <button
-        type="button"
-        onClick={onToggle}
-        style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "12px 14px", border: "none", background: "transparent", cursor: "pointer", textAlign: "left" }}
-      >
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontWeight: 700, fontSize: 13.5, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-            {theme.title}
-          </div>
-          {leader && (
-            <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11.5, color: crowned ? "#d97706" : "var(--muted)", fontWeight: 600, marginTop: 2 }}>
-              {crowned && <Icon name="crown" size={12} width={2} color="#d97706" />}
-              {leader.name}
-              {leader.count != null && <span style={{ fontWeight: 500, color: "var(--muted)" }}>· {leader.count}v</span>}
+      <div style={{ display: "flex", alignItems: "stretch", gap: 0 }}>
+        <button
+          type="button"
+          onClick={onToggle}
+          style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: 10, padding: "12px 8px 12px 14px", border: "none", background: "transparent", cursor: "pointer", textAlign: "left" }}
+        >
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontWeight: 700, fontSize: 13.5, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {theme.title}
             </div>
-          )}
-          <div style={{ fontSize: 11, color: "var(--muted)", fontWeight: 500, marginTop: 2 }}>
-            Votes still open{theme.endDate ? ` · week of ${theme.endDate}` : ""}
+            {leader && (
+              <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11.5, color: crowned ? "#d97706" : "var(--muted)", fontWeight: 600, marginTop: 2 }}>
+                {crowned && <Icon name="crown" size={12} width={2} color="#d97706" />}
+                {leader.name}
+                {leader.count != null && <span style={{ fontWeight: 500, color: "var(--muted)" }}>· {leader.count}v</span>}
+              </div>
+            )}
+            <div style={{ fontSize: 11, color: "var(--muted)", fontWeight: 500, marginTop: 2 }}>
+              Votes still open{theme.endDate ? ` · week of ${theme.endDate}` : ""}
+            </div>
           </div>
-        </div>
-        <Icon name={open ? "close" : "navigate"} size={16} width={2} color="var(--muted)" />
-      </button>
+          <Icon name={open ? "close" : "navigate"} size={16} width={2} color="var(--muted)" />
+        </button>
+        <button
+          type="button"
+          onClick={sharePast}
+          aria-label={`Share ${theme.title} trends`}
+          title="Share trends"
+          style={{
+            flexShrink: 0,
+            alignSelf: "center",
+            marginRight: 10,
+            border: "1.5px solid var(--line)",
+            borderRadius: "var(--r-pill)",
+            background: "var(--cream)",
+            color: "var(--violet-deep)",
+            minWidth: 64,
+            height: 30,
+            padding: "0 10px",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 4,
+            fontSize: 11,
+            fontWeight: 700,
+            cursor: "pointer",
+          }}
+        >
+          <Icon name={shareState === "copied" || shareState === "shared" ? "check" : "share"} size={12} width={2} color="var(--violet-deep)" />
+          {shareState === "copied" ? "Copied" : shareState === "shared" ? "Shared" : shareState === "failed" ? "Retry" : "Share"}
+        </button>
+      </div>
 
       {open && (
         <div style={{ padding: "0 14px 12px", borderTop: "1.5px solid var(--line)" }}>
@@ -640,10 +699,29 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
               })}
             </div>
           )}
-          <div style={{ marginTop: 10 }}>
-            <Link href={`/rankings/${theme.slug || slugFromTitle(theme.title)}`} style={{ fontSize: 12, fontWeight: 700, color: "var(--violet)", textDecoration: "none" }}>
+          <div style={{ marginTop: 10, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
+            <Link href={`/rankings/${dishSlug}`} style={{ fontSize: 12, fontWeight: 700, color: "var(--violet)", textDecoration: "none" }}>
               Full ranking page →
             </Link>
+            <button
+              type="button"
+              onClick={sharePast}
+              style={{
+                border: "none",
+                background: "transparent",
+                color: "var(--violet)",
+                fontSize: 12,
+                fontWeight: 700,
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 4,
+                padding: 0,
+              }}
+            >
+              <Icon name={shareState === "copied" || shareState === "shared" ? "check" : "share"} size={12} width={2} color="var(--violet)" />
+              {shareState === "copied" ? "Copied" : shareState === "shared" ? "Shared" : "Share trends"}
+            </button>
           </div>
         </div>
       )}
