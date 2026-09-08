@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useState, useCallback, useRef } from "react
 import { ensureUser, getUid, getName, setName as saveName } from "../../lib/identity.js";
 import { fetchLeaderboard } from "../../lib/leaderboard.js";
 import ThemeVoting from "./ThemeVoting.jsx";
+import { fetchCurrentTheme } from "../../lib/themeVoting.js";
 import { Icon, Wave, Squiggles } from "./Icons.jsx";
 import { TIERS } from "../../lib/eateryUtils.js";
 
@@ -19,45 +20,36 @@ export default function LeaderboardPanel({
   const [innerTab, setInnerTab] = useState(initialInnerTab); // "race" | "theme"
   const scrollRef = useRef(null);
   const tabsRef = useRef(null);
-  const didAutoScroll = useRef(false);
   const [uid, setUid] = useState(null);
   const [data, setData] = useState({ players: [], me: null });
   const [status, setStatus] = useState("loading"); // loading | ready | unavailable
   const [name, setNameState] = useState("");
   const [editingName, setEditingName] = useState(false);
+  const [weekTitle, setWeekTitle] = useState("");
 
   useEffect(() => {
     setInnerTab(initialInnerTab);
   }, [initialInnerTab]);
+
+  useEffect(() => {
+    let alive = true;
+    fetchCurrentTheme().then((cur) => {
+      if (!alive) return;
+      setWeekTitle(cur?.theme?.title || "");
+    });
+    return () => { alive = false; };
+  }, [refreshTick]);
 
   const selectInnerTab = (nextTab) => {
     setInnerTab(nextTab);
     onInnerTabChange?.(nextTab);
   };
 
-  // On This Week, skip the Race hero so search + vote sit at the top.
-  // Prefer collapsing the hero (no scroll fight). If it is visible, scroll with
-  // behavior "auto" — "instant" throws in Safari/Firefox and can white-screen the tab.
+  // Both tabs keep the purple top band visible; reset scroll on switch.
   useLayoutEffect(() => {
     const scroller = scrollRef.current;
-    const tabs = tabsRef.current;
-    if (!scroller || !tabs) return;
-    if (innerTab !== "theme") {
-      scroller.scrollTop = 0;
-      return;
-    }
-    const jump = () => {
-      try {
-        const top = Math.max(0, tabs.offsetTop - 4);
-        scroller.scrollTo({ top, behavior: "auto" });
-      } catch {
-        scroller.scrollTop = Math.max(0, tabs.offsetTop - 4);
-      }
-      didAutoScroll.current = true;
-    };
-    jump();
-    const t = window.setTimeout(jump, 120);
-    return () => window.clearTimeout(t);
+    if (!scroller) return;
+    scroller.scrollTop = 0;
   }, [innerTab]);
 
   const load = useCallback(async (id) => {
@@ -93,40 +85,57 @@ export default function LeaderboardPanel({
 
   return (
     <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", background: "var(--cream)" }}>
-      {/* Hero — hidden on This Week so vote/search is first screen */}
-      {innerTab === "race" && <div style={{ background: "var(--violet)", position: "relative", paddingTop: 24, overflow: "hidden" }}>
+      {/* Purple top band on both tabs so Race / This Week feel like one surface */}
+      <div style={{ background: "var(--violet)", position: "relative", paddingTop: 24, overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: "-10% -5% 30%", opacity: 0.26, pointerEvents: "none" }}>
           <Squiggles color="var(--cream-hi)" opacity={1} />
         </div>
         <div style={{ textAlign: "center", padding: "0 16px 4px", position: "relative" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "var(--cream-hi)" }}>
-            <Icon name="trophy" size={22} width={1.9} />
-            <span className="groovy" style={{ fontSize: 30, lineHeight: 1 }}>The Race</span>
-          </div>
-
-          {/* Your standing */}
-          <div style={{ marginTop: 16, marginBottom: 4 }}>
-            {me ? (
-              <>
-                <div className="groovy" style={{ fontSize: 60, lineHeight: 0.9, color: "var(--cream-hi)", textShadow: "0 3px 0 rgba(38,48,92,.2)" }}>
-                  #{me.rank}
+          {innerTab === "race" ? (
+            <>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "var(--cream-hi)" }}>
+                <Icon name="trophy" size={22} width={1.9} />
+                <span className="groovy" style={{ fontSize: 30, lineHeight: 1 }}>The Race</span>
+              </div>
+              <div style={{ marginTop: 16, marginBottom: 4 }}>
+                {me ? (
+                  <>
+                    <div className="groovy" style={{ fontSize: 60, lineHeight: 0.9, color: "var(--cream-hi)", textShadow: "0 3px 0 rgba(38,48,92,.2)" }}>
+                      #{me.rank}
+                    </div>
+                    <div style={{ fontSize: 12.5, color: "var(--cream-hi)", opacity: 0.9, marginTop: 6, fontWeight: 600 }}>
+                      {me.score} pts · {me.covered} claimed · {topArea(me.areas)}
+                    </div>
+                  </>
+                ) : (
+                  <div style={{ color: "var(--cream-hi)", padding: "8px 20px 4px" }}>
+                    <div className="groovy" style={{ fontSize: 26, lineHeight: 1.05 }}>Not in the race yet</div>
+                    <div style={{ fontSize: 12.5, opacity: 0.9, marginTop: 8, fontWeight: 500, lineHeight: 1.4 }}>
+                      Check in at any spot on the map, you have to be there, to claim it and score your first points.
+                    </div>
+                  </div>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "var(--cream-hi)" }}>
+                <Icon name="crown" size={22} width={1.9} />
+                <span className="groovy" style={{ fontSize: 30, lineHeight: 1 }}>This Week</span>
+              </div>
+              <div style={{ color: "var(--cream-hi)", padding: "16px 20px 4px" }}>
+                <div className="groovy" style={{ fontSize: 24, lineHeight: 1.1 }}>
+                  {weekTitle || "Dish challenge"}
                 </div>
-                <div style={{ fontSize: 12.5, color: "var(--cream-hi)", opacity: 0.9, marginTop: 6, fontWeight: 600 }}>
-                  {me.score} pts · {me.covered} claimed · {topArea(me.areas)}
-                </div>
-              </>
-            ) : (
-              <div style={{ color: "var(--cream-hi)", padding: "8px 20px 4px" }}>
-                <div className="groovy" style={{ fontSize: 26, lineHeight: 1.05 }}>Not in the race yet</div>
                 <div style={{ fontSize: 12.5, opacity: 0.9, marginTop: 8, fontWeight: 500, lineHeight: 1.4 }}>
-                  Check in at any spot on the map, you have to be there, to claim it and score your first points.
+                  Vote below for this week&apos;s dish. Previous weeks stay open too.
                 </div>
               </div>
-            )}
-          </div>
+            </>
+          )}
         </div>
         <Wave height={44} color="var(--cream)" style={{ marginTop: 10 }} />
-      </div>}
+      </div>
 
       {/* Tab switcher */}
       <div ref={tabsRef} style={{ display: "flex", gap: 6, padding: "10px 16px 2px", background: "var(--cream)", position: "sticky", top: 0, zIndex: 5 }}>
