@@ -84,7 +84,7 @@ export default function LeaderboardPanel({
   const rest = players.slice(3);
 
   return (
-    <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", background: "var(--cream)" }}>
+    <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", background: "var(--cream)", scrollPaddingTop: 56 }}>
       {/* Purple top band on both tabs so Race / This Week feel like one surface */}
       <div style={{ background: "var(--violet)", position: "relative", paddingTop: 24, overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: "-10% -5% 30%", opacity: 0.26, pointerEvents: "none" }}>
@@ -138,7 +138,7 @@ export default function LeaderboardPanel({
       </div>
 
       {/* Tab switcher */}
-      <div ref={tabsRef} style={{ display: "flex", gap: 6, padding: "10px 16px 2px", background: "var(--cream)", position: "sticky", top: 0, zIndex: 5 }}>
+      <div ref={tabsRef} style={{ display: "flex", gap: 6, padding: "10px 16px 12px", background: "var(--cream)", position: "sticky", top: 0, zIndex: 30, boxShadow: "0 1px 0 var(--line)" }}>
         {[["theme", "crown", "This Week"], ["race", "trophy", "The Race"]].map(([key, icon, label]) => (
           <button
             key={key}
