@@ -83,7 +83,7 @@ export default async function RankingPage({ params }) {
 
   const related = [
     { href: "/rankings", label: "All rankings" },
-    { href: "/", label: "Vote on map" },
+    { href: `/race/this-week?dish=${params.slug}`, label: isLive ? "Vote this week" : "Vote on race" },
     ...SEO_THEME_PICKS.filter((p) => slugFromTitle(p.title) !== params.slug).slice(0, 4).map((p) => ({
       href: `/rankings/${slugFromTitle(p.title)}`,
       label: p.title,
@@ -134,8 +134,16 @@ export default async function RankingPage({ params }) {
       related={related}
     >
 
-      <Link href="/" className="site-cta rankings-vote-top" style={{ marginTop: 0, marginBottom: 18 }}>
-        {isPlaceholder ? "Voting opens here soon — explore the map →" : "Vote and help build the new list →"}
+      <Link
+        href={isPlaceholder && !isLive ? "/rankings" : `/race/this-week?dish=${params.slug}`}
+        className="site-cta rankings-vote-top"
+        style={{ marginTop: 0, marginBottom: 18 }}
+      >
+        {isLive
+          ? "Vote for this dish in the race →"
+          : isPlaceholder
+            ? "Browse all dish rankings →"
+            : "Vote for this dish in the race →"}
       </Link>
 
       <p style={{ color: "var(--ink-soft)", fontSize: 14.5, lineHeight: 1.55, margin: "0 0 12px" }}>
@@ -145,13 +153,13 @@ export default async function RankingPage({ params }) {
         {isPlaceholder ? (
           <>Two ways to find the {data.title.toLowerCase().replace(/^best /, "best ")}. The weekly community vote opens here soon, where locals crown a winner. Until then, the all-time baseline below is ranked from years of Google ratings and reviews.</>
         ) : (
-          <>Two rankings on this page. Up top, this week&apos;s live community vote, where locals pick {data.title.toLowerCase().replace(/^best /, "the best ")}. Below, the all-time baseline from years of Google ratings and reviews. Your vote reshapes the live list, cast it on the map.</>
+          <>Two rankings on this page. Up top, this week&apos;s live community vote, where locals pick {data.title.toLowerCase().replace(/^best /, "the best ")}. Below, the all-time baseline from years of Google ratings and reviews. Your vote reshapes the live list. Cast it in this week's race.</>
         )}
       </p>
       <section className="spot-prose" aria-label="FAQ" style={{ margin: "0 0 22px" }}>
         <h2 className="site-section-title">FAQ</h2>
         <p><strong>How do you rank places?</strong> Live community votes plus an all-time Google-review baseline on the same page.</p>
-        <p><strong>Can I vote?</strong> Yes — open the map from the button above and cast a vote for this week&apos;s theme.</p>
+        <p><strong>Can I vote?</strong> Yes. Open This week&apos;s race to vote on this dish (and other open dishes). The list below is the Google-review baseline plus any community votes so far.</p>
         <p><strong>Is it free?</strong> Yes, browsing and voting do not require a paid account.</p>
       </section>
 

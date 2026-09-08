@@ -14,6 +14,7 @@ export default function LeaderboardPanel({
   refreshTick = 0,
   initialInnerTab = "theme",
   onInnerTabChange,
+  initialDishSlug = null,
 }) {
   const [innerTab, setInnerTab] = useState(initialInnerTab); // "race" | "theme"
   const scrollRef = useRef(null);
@@ -148,7 +149,7 @@ export default function LeaderboardPanel({
         ))}
       </div>
 
-      {innerTab === "theme" && <div style={{ paddingBottom: 120, paddingTop: 8 }}><ThemeVoting /></div>}
+      {innerTab === "theme" && <div style={{ paddingBottom: 120, paddingTop: 8 }}><ThemeVoting initialDishSlug={initialDishSlug} /></div>}
 
       {innerTab === "race" && <div style={{ padding: "4px 16px 120px" }}>
         {/* Name row */}

@@ -17,11 +17,14 @@ export default function SeoCrawlNav() {
       <h2>Popular rankings</h2>
       <ul>
         <li><Link href="/rankings/best-biryani-in-hyderabad">Best biryani in Hyderabad</Link></li>
-        <li><Link href="/rankings/best-buffet-in-hyderabad">Best buffet in Hyderabad</Link></li>
-        <li><Link href="/rankings/best-fine-dining-in-hyderabad">Best fine dining in Hyderabad</Link></li>
+        <li><Link href="/rankings/best-chicken-biryani-in-hyderabad">Best chicken biryani in Hyderabad</Link></li>
         <li><Link href="/rankings/best-mandi-in-hyderabad">Best mandi in Hyderabad</Link></li>
-        <li><Link href="/explore/restaurants">Best restaurants in Hyderabad</Link></li>
+        <li><Link href="/rankings/best-irani-cafe-in-hyderabad">Best Irani cafe in Hyderabad</Link></li>
+        <li><Link href="/rankings/best-shawarma-in-hyderabad">Best shawarma in Hyderabad</Link></li>
+        <li><Link href="/rankings/best-dosa-in-hyderabad">Best dosa in Hyderabad</Link></li>
         <li><Link href="/rankings/best-cafe-in-hyderabad">Best cafe in Hyderabad</Link></li>
+        <li><Link href="/explore/restaurants">Best restaurants in Hyderabad</Link></li>
+        <li><Link href="/race/this-week">This week&apos;s food race</Link></li>
         <li><Link href="/rankings">All weekly food rankings</Link></li>
       </ul>
       <h2>Food by area</h2>

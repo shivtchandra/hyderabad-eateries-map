@@ -28,7 +28,7 @@ import Onboarding from "./components/Onboarding.jsx";
 import { fetchPicks } from "../lib/picks.js";
 import { trackEvent } from "../lib/engagement-client.js";
 
-export default function EateriesApp({ searchParams, initialTab = "map", initialRaceView = "race" }) {
+export default function EateriesApp({ searchParams, initialTab = "map", initialRaceView = "race", initialDishSlug = null }) {
   const mapApi = useRef(null);
 
   const [eateries, setEateries] = useState([]);
@@ -42,6 +42,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   // Stories page's bottom nav), so it never flashes the map first. searchParams
   // is passed by Next on both server and client, so no hydration mismatch.
   const urlTab = searchParams?.tab;
+  const dishSlug = initialDishSlug || searchParams?.dish || null;
   const [tab, setTab] = useState(
     urlTab && ["map", "passport", "saved", "race"].includes(urlTab) ? urlTab : initialTab
   );
@@ -580,6 +581,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
           <LeaderboardPanel
             initialInnerTab={raceView}
             onInnerTabChange={openRaceView}
+            initialDishSlug={dishSlug ?? initialDishSlug}
             refreshTick={diaryTick}
           />
         )}

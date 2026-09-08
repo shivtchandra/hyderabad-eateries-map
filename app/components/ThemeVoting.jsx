@@ -2,42 +2,101 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { fetchCurrentTheme, fetchThemeHistory, castThemeVote, getThemeVoteSpot, getThemePicks } from "../../lib/themeVoting.js";
+import Link from "next/link";
 import { Icon } from "./Icons.jsx";
+import { SEO_THEME_PICKS, slugFromTitle } from "../../lib/rankings.js";
 import ThemeSuggest from "./ThemeSuggest.jsx";
 
-export default function ThemeVoting() {
+export default function ThemeVoting({ initialDishSlug = null }) {
   const [current, setCurrent] = useState({ theme: null, results: [] });
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [openPast, setOpenPast] = useState(null);
-  // The spotId this device currently has voted for (or null), not just a
-  // yes/no flag, so standings rows can tell "this is my vote" from "not yet".
+  const [selectedId, setSelectedId] = useState(null);
   const [votedSpotId, setVotedSpotId] = useState(null);
   const [localCounts, setLocalCounts] = useState({});
   const [localResults, setLocalResults] = useState(null);
 
   const load = useCallback(async () => {
-    const [cur, hist] = await Promise.all([fetchCurrentTheme(), fetchThemeHistory(8)]);
+    const [cur, hist] = await Promise.all([fetchCurrentTheme(), fetchThemeHistory(12)]);
     setCurrent(cur);
     setLocalResults(null);
-    setHistory(hist.themes || []);
+    const past = hist.themes || [];
+    setHistory(past);
     setLoading(false);
-    if (cur.theme) setVotedSpotId(getThemeVoteSpot(cur.theme.id));
-  }, []);
+
+    const open = [];
+    if (cur.theme) open.push({ ...cur.theme, results: cur.results || [], featured: true });
+    for (const th of past) open.push({ ...th, featured: false });
+
+    const fromUrl = (() => {
+      try {
+        return new URLSearchParams(window.location.search).get("dish") || initialDishSlug;
+      } catch {
+        return initialDishSlug;
+      }
+    })();
+
+    let pick = open[0] || null;
+    if (fromUrl) {
+      const match = open.find((th) => (th.slug || slugFromTitle(th.title)) === fromUrl);
+      if (match) pick = match;
+    }
+    if (pick) {
+      setSelectedId(pick.id);
+      setVotedSpotId(getThemeVoteSpot(pick.id));
+    }
+  }, [initialDishSlug]);
 
   useEffect(() => { load(); }, [load]);
 
-  // Casts a vote, or SWITCHES an existing one to a different spot, mirrors
-  // the count move server-side, then optimistically reflects it here too.
+  const openThemes = (() => {
+    const list = [];
+    if (current.theme) {
+      list.push({
+        ...current.theme,
+        results: localResults ?? current.results ?? [],
+        featured: true,
+      });
+    }
+    for (const th of history) {
+      if (current.theme && th.id === current.theme.id) continue;
+      list.push({ ...th, featured: false });
+    }
+    return list;
+  })();
+
+  const selected = openThemes.find((th) => th.id === selectedId) || openThemes[0] || null;
+
+  const selectTheme = (th) => {
+    if (!th) return;
+    setSelectedId(th.id);
+    setVotedSpotId(getThemeVoteSpot(th.id));
+    if (th.featured) {
+      /* keep localResults for featured */
+    } else {
+      setLocalResults(null);
+      setLocalCounts({});
+    }
+    try {
+      if (window.location.pathname.includes("/race/this-week")) {
+        const u = new URL(window.location.href);
+        u.searchParams.set("dish", th.slug || slugFromTitle(th.title));
+        window.history.replaceState(null, "", u);
+      }
+    } catch { /* ignore */ }
+  };
+
   const handleVote = async (spotId, name, themeOverride = null) => {
-    const theme = themeOverride || current.theme;
+    const theme = themeOverride || selected;
     if (!theme) return;
-    const isCurrent = current.theme && theme.id === current.theme.id;
-    const prevSpotId = isCurrent ? votedSpotId : getThemeVoteSpot(theme.id);
+    const isFeatured = current.theme && theme.id === current.theme.id;
+    const prevSpotId = getThemeVoteSpot(theme.id);
     const result = await castThemeVote(theme.id, spotId, name, { title: theme.title });
     if (!result.ok) return;
-    if (isCurrent) {
-      setVotedSpotId(spotId);
+
+    setVotedSpotId(spotId);
+
+    if (isFeatured) {
       setLocalCounts((prev) => {
         const next = { ...prev, [spotId]: result.count };
         if (prevSpotId && prevSpotId !== spotId) {
@@ -58,8 +117,8 @@ export default function ThemeVoting() {
         return list.sort((a, b) => (b.count || 0) - (a.count || 0));
       });
     }
-    // Refresh history so earlier trends keep live standings after a new one starts.
-    const hist = await fetchThemeHistory(8);
+
+    const hist = await fetchThemeHistory(12);
     setHistory(hist.themes || []);
   };
 
@@ -70,51 +129,83 @@ export default function ThemeVoting() {
     </div>
   );
 
-  if (!current.theme && history.length === 0) return (
+  if (openThemes.length === 0) return (
     <div>
       <div style={{ textAlign: "center", padding: "40px 16px 8px", color: "var(--muted)" }}>
         <Icon name="crown" size={28} width={1.6} color="var(--violet)" style={{ margin: "0 auto 10px" }} />
         <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 16, color: "var(--ink-soft)" }}>No theme set yet</div>
         <div style={{ fontSize: 12.5, marginTop: 6, lineHeight: 1.45, fontWeight: 500 }}>Check back soon, or tell us what next week's challenge should be.</div>
       </div>
+      <DishRankings openThemes={[]} onSelect={null} />
       <ThemeSuggest />
     </div>
   );
 
-  const displayResults = localResults ?? current.results;
-
   return (
     <div style={{ paddingBottom: 8 }}>
-      {current.theme && (
+      <div style={{ padding: "0 16px 12px" }}>
+        <div style={{ fontSize: 11, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.07em", textTransform: "uppercase", marginBottom: 8 }}>
+          Vote by dish
+        </div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+          {openThemes.map((th) => {
+            const on = selected && selected.id === th.id;
+            const short = (th.title || "").replace(/\s+in Hyderabad$/i, "");
+            return (
+              <button
+                key={th.id}
+                type="button"
+                onClick={() => selectTheme(th)}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  padding: "8px 12px",
+                  borderRadius: "var(--r-pill)",
+                  border: on ? "1.5px solid var(--violet)" : "1.5px solid var(--line)",
+                  background: on ? "var(--violet)" : "var(--cream-hi)",
+                  color: on ? "#fff" : "var(--ink)",
+                  fontSize: 12.5,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                {short}
+                {th.featured && (
+                  <span style={{
+                    fontSize: 9,
+                    fontWeight: 800,
+                    letterSpacing: "0.04em",
+                    textTransform: "uppercase",
+                    opacity: on ? 0.9 : 1,
+                    color: on ? "#fff" : "var(--violet)",
+                  }}>
+                    Featured
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {selected && (
         <CurrentTheme
-          theme={current.theme}
-          results={displayResults}
+          theme={selected}
+          results={selected.results || []}
           votedSpotId={votedSpotId}
           onVote={handleVote}
-          localCounts={localCounts}
-          lastClosed={history.find((h) => h.winnerId || h.winnerName) || history[0] || null}
+          localCounts={selected.featured ? localCounts : {}}
+          lastClosed={null}
         />
       )}
 
-      <YourPicks current={current.theme} history={history} votedSpotId={votedSpotId} results={displayResults} />
+      <YourPicks current={current.theme} history={history} votedSpotId={current.theme ? getThemeVoteSpot(current.theme.id) : null} results={localResults ?? current.results} />
 
-      {history.length > 0 && (
-        <div style={{ marginTop: current.theme ? 16 : 0 }}>
-          <div style={{ padding: "0 16px 10px", fontSize: 11, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.07em", textTransform: "uppercase" }}>
-            Earlier trends · still open
-          </div>
-          {history.map((th) => (
-            <PastTheme
-              key={th.id}
-              theme={th}
-              open={openPast === th.id}
-              onToggle={() => setOpenPast(openPast === th.id ? null : th.id)}
-              votedSpotId={getThemeVoteSpot(th.id)}
-              onVote={(spotId, name) => handleVote(spotId, name, th)}
-            />
-          ))}
-        </div>
-      )}
+      <DishRankings
+        openThemes={openThemes}
+        onSelect={selectTheme}
+      />
     </div>
   );
 }
@@ -222,6 +313,12 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastCl
         <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 20, color: "#fff", lineHeight: 1.2, marginBottom: 6 }}>
           {theme.title}
         </div>
+        <a
+          href={`/rankings/${slugFromTitle(theme.title)}`}
+          style={{ display: "inline-block", fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.88)", textDecoration: "underline", textUnderlineOffset: 3, marginBottom: 8 }}
+        >
+          Full ranking page →
+        </a>
         {theme.description && (
           <div style={{ fontSize: 13, color: "rgba(255,255,255,0.82)", lineHeight: 1.4, fontWeight: 500 }}>
             {theme.description}
@@ -245,13 +342,13 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastCl
           <Icon name="trophy" size={22} width={1.8} color="#fff" />
           <div>
             <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.8)", letterSpacing: "0.07em", textTransform: "uppercase" }}>Winner</div>
-            <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 15, color: "#fff" }}>{theme.winnerName || "—"}</div>
-            <div style={{ fontSize: 11, color: "rgba(255,255,255,0.75)", marginTop: 2 }}>Votes stay open — crown follows the live #1</div>
+            <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 15, color: "#fff" }}>{theme.winnerName || ", "}</div>
+            <div style={{ fontSize: 11, color: "rgba(255,255,255,0.75)", marginTop: 2 }}>Votes stay open. Crown follows the live #1</div>
           </div>
         </div>
       )}
 
-      {/* Search first: find your spot, then scan standings — stays open past endDate */}
+      {/* Search first: find your spot, then scan standings. Stays open past endDate. */}
       <div style={{ margin: "0 16px 16px", position: "relative", zIndex: 20 }}>
           <div style={{ fontSize: 13, fontWeight: 800, color: "var(--ink)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 8 }}>
             {votedSpotId ? "Search to switch" : "Search to vote"}
@@ -362,6 +459,99 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastCl
   );
 }
 
+function DishRankings({ openThemes = [], onSelect }) {
+  const openBySlug = Object.fromEntries(
+    openThemes.map((th) => [th.slug || slugFromTitle(th.title), th])
+  );
+  const priority = [
+    "Best Biryani in Hyderabad",
+    "Best Chicken Biryani in Hyderabad",
+    "Best Mandi in Hyderabad",
+    "Best Cafe in Hyderabad",
+    "Best Irani Cafe in Hyderabad",
+    "Best Shawarma in Hyderabad",
+    "Best Dosa in Hyderabad",
+    "Best Restaurants in Hyderabad",
+    "Best Breakfast Places in Hyderabad",
+    "Best Street Food in Hyderabad",
+  ];
+  const picks = [
+    ...priority.map((title) => SEO_THEME_PICKS.find((p) => p.title === title)).filter(Boolean),
+    ...SEO_THEME_PICKS.filter((p) => !priority.includes(p.title)),
+  ];
+
+  return (
+    <div style={{ marginTop: 18, marginBottom: 8 }}>
+      <div style={{ padding: "0 16px 8px" }}>
+        <div style={{ fontSize: 11, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.07em", textTransform: "uppercase", marginBottom: 4 }}>
+          Ranking pages
+        </div>
+        <div style={{ fontSize: 12.5, color: "var(--ink-soft)", lineHeight: 1.45, fontWeight: 500 }}>
+          Search traffic lands on these pages. Open ones you can vote here; the rest keep the Google-review baseline until that dish goes live.
+        </div>
+      </div>
+      <div style={{ padding: "8px 16px 0", display: "flex", flexWrap: "wrap", gap: 8 }}>
+        {picks.map((p) => {
+          const slug = slugFromTitle(p.title);
+          const open = openBySlug[slug];
+          const short = p.title.replace(/\s+in Hyderabad$/i, "");
+          if (open && onSelect) {
+            return (
+              <button
+                key={slug}
+                type="button"
+                onClick={() => onSelect(open)}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  padding: "8px 12px",
+                  borderRadius: "var(--r-pill)",
+                  border: "1.5px solid var(--violet)",
+                  background: "var(--violet-wash)",
+                  color: "var(--violet-deep)",
+                  fontSize: 12.5,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                {short}
+                <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.04em", textTransform: "uppercase" }}>Vote</span>
+              </button>
+            );
+          }
+          return (
+            <Link
+              key={slug}
+              href={`/rankings/${slug}`}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "8px 12px",
+                borderRadius: "var(--r-pill)",
+                border: "1.5px solid var(--line)",
+                background: "var(--cream-hi)",
+                color: "var(--ink)",
+                textDecoration: "none",
+                fontSize: 12.5,
+                fontWeight: 700,
+              }}
+            >
+              {short}
+            </Link>
+          );
+        })}
+      </div>
+      <div style={{ padding: "10px 16px 0" }}>
+        <Link href="/rankings" style={{ fontSize: 12.5, fontWeight: 700, color: "var(--violet)", textDecoration: "none" }}>
+          All ranking pages →
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 function YourPicks({ current, history, votedSpotId, results = [] }) {
   const trail = typeof window === "undefined" ? [] : getThemePicks();
   const byTheme = Object.fromEntries(trail.map((p) => [p.themeId, p]));
@@ -435,134 +625,6 @@ function YourPicks({ current, history, votedSpotId, results = [] }) {
           </div>
         ))}
       </div>
-    </div>
-  );
-}
-
-function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
-  const [searchQ, setSearchQ] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-  const debounceRef = useRef(null);
-  const leader = theme.results?.[0];
-
-  const searchSpots = (q) => {
-    setSearchQ(q);
-    clearTimeout(debounceRef.current);
-    if (q.length < 2) { setSuggestions([]); return; }
-    debounceRef.current = setTimeout(async () => {
-      const res = await fetch(`/api/spots/search?q=${encodeURIComponent(q)}`).catch(() => null);
-      if (res?.ok) setSuggestions(await res.json());
-    }, 250);
-  };
-
-  const pickSpot = (spot) => {
-    setSuggestions([]);
-    setSearchQ("");
-    if (spot.spotId === votedSpotId) return;
-    onVote?.(spot.spotId, spot.name);
-  };
-
-  return (
-    <div style={{ margin: "0 16px 8px", background: "var(--cream-hi)", borderRadius: "var(--r-md)", boxShadow: "var(--e1)", overflow: "hidden" }}>
-      <button
-        onClick={onToggle}
-        style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "12px 14px", border: "none", background: "transparent", cursor: "pointer", textAlign: "left" }}
-      >
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontWeight: 700, fontSize: 13.5, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-            {theme.title}
-          </div>
-          {leader && (
-            <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11.5, color: "#d97706", fontWeight: 600, marginTop: 2 }}>
-              <Icon name="crown" size={12} width={2} color="#d97706" />
-              {leader.name}
-            </div>
-          )}
-          <div style={{ fontSize: 11, color: "var(--muted)", fontWeight: 500, marginTop: 2 }}>
-            Votes still open{theme.endDate ? ` · week of ${theme.endDate}` : ""}
-          </div>
-        </div>
-        <Icon name={open ? "close" : "navigate"} size={16} width={2} color="var(--muted)" />
-      </button>
-
-      {open && (
-        <div style={{ padding: "0 14px 12px", borderTop: "1.5px solid var(--line)" }}>
-          <div style={{ marginTop: 10, marginBottom: 10, position: "relative", zIndex: 10 }}>
-            <div style={{ fontSize: 11, fontWeight: 800, color: "var(--ink)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: 6 }}>
-              {votedSpotId ? "Search to switch" : "Search to vote"}
-            </div>
-            <div style={{ position: "relative" }}>
-              <span style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", display: "flex", pointerEvents: "none", opacity: 0.55 }}>
-                <Icon name="search" size={14} width={2} color="var(--muted)" />
-              </span>
-              <input
-                value={searchQ}
-                onChange={(e) => searchSpots(e.target.value)}
-                placeholder="Restaurant name…"
-                autoComplete="off"
-                style={{
-                  width: "100%", boxSizing: "border-box",
-                  border: "1.5px solid var(--line)", borderRadius: "var(--r-md)",
-                  padding: "10px 12px 10px 34px", fontSize: 13.5,
-                  fontFamily: "Outfit, sans-serif", background: "var(--cream)",
-                  color: "var(--ink)", outline: "none",
-                }}
-              />
-              {suggestions.length > 0 && (
-                <div style={{
-                  position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0,
-                  background: "var(--cream-hi)", border: "1.5px solid var(--line)",
-                  borderRadius: "var(--r-md)", zIndex: 40,
-                  boxShadow: "0 8px 24px rgba(44,36,24,0.14)", overflow: "hidden",
-                }}>
-                  {suggestions.map((s, i) => (
-                    <button
-                      key={s.spotId}
-                      type="button"
-                      onClick={() => pickSpot(s)}
-                      style={{
-                        display: "flex", width: "100%", textAlign: "left",
-                        padding: "10px 12px", border: "none", background: "transparent",
-                        cursor: "pointer",
-                        borderBottom: i < suggestions.length - 1 ? "1px solid var(--line)" : "none",
-                      }}
-                    >
-                      <span style={{ fontWeight: 700, fontSize: 13, color: "var(--ink)" }}>{s.name}</span>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {theme.results?.length === 0 ? (
-            <div style={{ fontSize: 12.5, color: "var(--muted)", padding: "6px 0", fontWeight: 500 }}>No votes yet — be the first.</div>
-          ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              {theme.results?.map((r, i) => (
-                <div key={r.spotId} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13 }}>
-                  <span style={{ width: 22, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, color: i === 0 ? "#d97706" : "var(--muted)", fontSize: 12 }}>
-                    {i === 0 ? <Icon name="crown" size={13} width={2} color="#d97706" /> : `#${i + 1}`}
-                  </span>
-                  <span style={{ flex: 1, fontWeight: 600, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}</span>
-                  <span style={{ color: "var(--muted)", fontWeight: 500, fontSize: 12 }}>{r.count}v</span>
-                  {r.spotId === votedSpotId ? (
-                    <span style={{ fontSize: 11, fontWeight: 700, color: "var(--violet-deep)" }}>Voted</span>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => pickSpot(r)}
-                      style={{ border: "none", background: "transparent", color: "var(--violet)", fontWeight: 800, fontSize: 12, cursor: "pointer" }}
-                    >
-                      Vote
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 }
