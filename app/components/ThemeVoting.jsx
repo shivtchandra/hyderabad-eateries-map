@@ -547,7 +547,7 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
       : "Votes still open.";
     const url = `${window.location.origin}/race/this-week?dish=${encodeURIComponent(dishSlug)}`;
     const payload = {
-      title: `${theme.title} trends, Hyderabad Eats`,
+      title: `${theme.title}, Hyderabad Eats`,
       text: `${theme.title} on Hyderabad Eats.\n${trendLine}\nVote here:`,
       url,
     };
@@ -593,30 +593,29 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
         <button
           type="button"
           onClick={sharePast}
-          aria-label={`Share ${theme.title} trends`}
-          title="Share trends"
+          aria-label={`Share ${theme.title}`}
           style={{
             flexShrink: 0,
             alignSelf: "center",
-            marginRight: 10,
-            border: "1.5px solid var(--line)",
+            marginRight: 12,
+            border: "none",
             borderRadius: "var(--r-pill)",
-            background: "var(--cream)",
-            color: "var(--violet-deep)",
-            minWidth: 64,
+            background: "var(--violet)",
+            color: "#fff",
+            minWidth: 70,
             height: 30,
             padding: "0 10px",
             display: "inline-flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: 4,
+            gap: 5,
             fontSize: 11,
             fontWeight: 700,
             cursor: "pointer",
           }}
         >
-          <Icon name={shareState === "copied" || shareState === "shared" ? "check" : "share"} size={12} width={2} color="var(--violet-deep)" />
-          {shareState === "copied" ? "Copied" : shareState === "shared" ? "Shared" : shareState === "failed" ? "Retry" : "Share"}
+          <Icon name={shareState === "copied" || shareState === "shared" ? "check" : "share"} size={13} width={2} color="#fff" />
+          {shareState === "copied" ? "Copied" : shareState === "shared" ? "Shared" : shareState === "failed" ? "Try again" : "Share"}
         </button>
       </div>
 
@@ -699,29 +698,10 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
               })}
             </div>
           )}
-          <div style={{ marginTop: 10, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
+          <div style={{ marginTop: 10 }}>
             <Link href={`/rankings/${dishSlug}`} style={{ fontSize: 12, fontWeight: 700, color: "var(--violet)", textDecoration: "none" }}>
               Full ranking page →
             </Link>
-            <button
-              type="button"
-              onClick={sharePast}
-              style={{
-                border: "none",
-                background: "transparent",
-                color: "var(--violet)",
-                fontSize: 12,
-                fontWeight: 700,
-                cursor: "pointer",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 4,
-                padding: 0,
-              }}
-            >
-              <Icon name={shareState === "copied" || shareState === "shared" ? "check" : "share"} size={12} width={2} color="var(--violet)" />
-              {shareState === "copied" ? "Copied" : shareState === "shared" ? "Shared" : "Share trends"}
-            </button>
           </div>
         </div>
       )}
