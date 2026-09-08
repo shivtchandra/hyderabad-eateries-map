@@ -114,7 +114,7 @@ export default function FilterChips({
           paddingTop: 10,
         }}>
           <button
-            onClick={() => setOpenNowOnly(!openNowOnly)}
+            onClick={() => { setOpenNowOnly(!openNowOnly); setFiltersOpen(false); }}
             className="pressable-sm"
             aria-busy={openNowLoading}
             style={chip(openNowOnly, "var(--forest)")}
@@ -122,7 +122,7 @@ export default function FilterChips({
             <Icon name="clock" size={15} width={2} color={openNowOnly ? "#fff" : "var(--forest)"} />
 {openNowLoading ? "Checking hours…" : "Open now"}
           </button>
-          <button onClick={() => setNewOnly((v) => !v)} className="pressable-sm" style={chip(newOnly, "var(--pop)")}>
+          <button onClick={() => { setNewOnly((v) => !v); setFiltersOpen(false); }} className="pressable-sm" style={chip(newOnly, "var(--pop)")}>
             <Icon name="sparkle" size={15} width={2} color={newOnly ? "#fff" : "var(--pop-deep)"} />
             New
           </button>
@@ -131,7 +131,7 @@ export default function FilterChips({
             if (!tagCounts[key]) return null;
             const active = activeTags.includes(key);
             return (
-              <button key={key} onClick={() => toggleTag(key)} className="pressable-sm" style={chip(active, "var(--ink-soft)")}>
+              <button key={key} onClick={() => { toggleTag(key); setFiltersOpen(false); }} className="pressable-sm" style={chip(active, "var(--ink-soft)")}>
                 <TagIcon tag={key} size={15} width={2} color={active ? "#fff" : "var(--ink-soft)"} />
                 {meta.label}
               </button>
