@@ -34,6 +34,15 @@ const nextConfig = {
       // Area shortcuts
       { source: "/cafes-in-jubilee-hills", destination: "/areas/jubilee-hills", permanent: true },
       { source: "/cafes-in-gachibowli", destination: "/areas/gachibowli", permanent: true },
+      // Alias / typo area & explore slugs (Ahrefs 4XX)
+      { source: "/areas/madhapur", destination: "/areas/madhapur-hitec", permanent: true },
+      { source: "/areas/hitec-city", destination: "/areas/madhapur-hitec", permanent: true },
+      { source: "/areas/hitech-city", destination: "/areas/madhapur-hitec", permanent: true },
+      { source: "/areas/dilshuknagar", destination: "/areas/dilsukhnagar", permanent: true },
+      { source: "/areas/road-no-36-jh", destination: "/areas/jubilee-hills", permanent: true },
+      { source: "/explore/restro-bars", destination: "/explore/bars", permanent: true },
+      { source: "/explore/street-food", destination: "/rankings/best-street-food-in-hyderabad", permanent: true },
+      { source: "/explore/fine-dining", destination: "/rankings/best-fine-dining-in-hyderabad", permanent: true },
       { source: "/food-in-hyderabad", destination: "/explore", permanent: false },
       { source: "/ranking", destination: "/rankings", permanent: true },
       { source: "/ranking/:slug", destination: "/rankings/:slug", permanent: true },

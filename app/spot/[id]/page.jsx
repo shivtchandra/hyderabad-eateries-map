@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
 import BottomNav from "../../components/BottomNav.jsx";
-import { getEateryById, getEateries, getEditorialSpotIds, getChainSiblings, areaSlug } from "../../../lib/siteData.js";
+import { getEateryById, getEateries, getEditorialSpotIds, getChainSiblings, areaPageHref, hasSpotPhoto } from "../../../lib/siteData.js";
 import { absoluteUrl, getSiteUrl, pageMeta } from "../../../lib/site.js";
 import { restaurantJsonLd, faqJsonLd } from "../../../lib/schema.js";
 import { ogImages } from "../../../lib/og.js";
@@ -32,18 +32,21 @@ export function generateMetadata({ params }) {
   const description = editorial
     ? `${editorial} ${spot.rating ? `${spot.rating}★` : ""}${spot.ratingCount ? ` (${spot.ratingCount.toLocaleString("en-IN")} reviews)` : ""}, on Hyderabad Eats.`.trim()
     : `${spot.name} in ${spot.discoveredIn || "Hyderabad"}. ${spot.rating ? `Rated ${spot.rating}★` : ""} ${spot.ratingCount ? `(${spot.ratingCount.toLocaleString("en-IN")} reviews)` : ""}. Find on Hyderabad Eats map.`;
-  const photo = `/photos/${spot.id}.jpg`;
+  const photo = hasSpotPhoto(spot.id) ? `/photos/${spot.id}.jpg` : null;
+  const base = pageMeta({ title, description, path: `/spot/${spot.id}`, image: photo || undefined });
   return {
-    ...pageMeta({ title, description, path: `/spot/${spot.id}`, image: photo }),
+    ...base,
     openGraph: {
-      ...pageMeta({ title, description, path: `/spot/${spot.id}`, image: photo }).openGraph,
-      images: [{ url: absoluteUrl(photo), width: 800, height: 600, alt: spot.name }],
+      ...base.openGraph,
+      ...(photo
+        ? { images: [{ url: absoluteUrl(photo), width: 800, height: 600, alt: spot.name }] }
+        : {}),
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [absoluteUrl(photo)],
+      ...(photo ? { images: [absoluteUrl(photo)] } : {}),
     },
   };
 }
@@ -53,12 +56,14 @@ export default function SpotPage({ params }) {
   const spot = getEateryById(params.id);
   if (!spot) notFound();
 
-  const areaLink = spot.discoveredIn && !spot.discoveredIn.startsWith("text:")
-    ? `/areas/${areaSlug(spot.discoveredIn)}`
-    : null;
+  const areaLink = areaPageHref(spot.discoveredIn);
 
   const jsonLd = restaurantJsonLd(spot, siteUrl, AUTHOR);
-  const heroImg = spot.gallery?.length ? `/photos/gallery/${spot.gallery[0]}` : `/photos/${spot.id}.jpg`;
+  const heroImg = spot.gallery?.length
+    ? `/photos/gallery/${spot.gallery[0]}`
+    : hasSpotPhoto(spot.id)
+      ? `/photos/${spot.id}.jpg`
+      : null;
   const galleryRest = spot.gallery?.length > 1 ? spot.gallery.slice(1) : [];
   const todaysHours = spot.hours?.length
     ? spot.hours[(new Date().getDay() + 6) % 7]?.split(": ").slice(1).join(": ")
@@ -105,8 +110,12 @@ export default function SpotPage({ params }) {
       ]}
     >
       <div className="site-spot-hero">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={heroImg} alt={spot.name} className={`site-spot-photo${spot.gallery?.length ? " site-spot-photo--full" : ""}`} />
+        {heroImg && (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={heroImg} alt={spot.name} className={`site-spot-photo${spot.gallery?.length ? " site-spot-photo--full" : ""}`} />
+          </>
+        )}
         <div>
           <p style={{ fontSize: 15, lineHeight: 1.6, color: "var(--ink-soft)", margin: "0 0 12px" }}>
             {spot.address || spot.discoveredIn || "Hyderabad"}
