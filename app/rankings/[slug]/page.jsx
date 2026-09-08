@@ -63,7 +63,9 @@ export default async function RankingPage({ params }) {
   };
 
   const totalVotes = (data.results || []).reduce((s, r) => s + (r.count || 0), 0);
-  const isLive = data.active && !data.winnerId;
+  // Crowning after endDate does not close votes. "Live" = still the featured week card.
+  const isLive = Boolean(data.active);
+  const isCrowned = Boolean(data.winnerId);
   const isPlaceholder = !theme;
 
   // Real ranked list from venue data. Always shown, even once voting is live:
@@ -83,7 +85,7 @@ export default async function RankingPage({ params }) {
 
   const related = [
     { href: "/rankings", label: "All rankings" },
-    { href: `/race/this-week?dish=${params.slug}`, label: isLive ? "Vote this week" : "Vote on race" },
+    { href: `/race/this-week?dish=${params.slug}`, label: "Vote on race" },
     ...SEO_THEME_PICKS.filter((p) => slugFromTitle(p.title) !== params.slug).slice(0, 4).map((p) => ({
       href: `/rankings/${slugFromTitle(p.title)}`,
       label: p.title,
@@ -139,10 +141,10 @@ export default async function RankingPage({ params }) {
         className="site-cta rankings-vote-top"
         style={{ marginTop: 0, marginBottom: 18 }}
       >
-        {isLive
-          ? "Vote for this dish in the race →"
-          : isPlaceholder
-            ? "Browse all dish rankings →"
+        {isPlaceholder && !isLive
+          ? "Browse all dish rankings →"
+          : isCrowned
+            ? "Vote anyway, crown follows #1 →"
             : "Vote for this dish in the race →"}
       </Link>
 
@@ -178,15 +180,16 @@ export default async function RankingPage({ params }) {
       )}
 
       {!isPlaceholder && (
-        <span className={`rankings-status ${isLive ? "live" : data.winnerId ? "winner" : "ended"}`} style={{ display: "inline-block", marginBottom: 16 }}>
-          {isLive ? "Voting open" : data.winnerId ? "Winner crowned" : "Final standings"}
+        <span className={`rankings-status ${isCrowned ? "winner" : isLive ? "live" : "ended"}`} style={{ display: "inline-block", marginBottom: 16 }}>
+          {isCrowned ? "Crowned · votes still open" : isLive ? "Voting open" : "Standings"}
         </span>
       )}
 
       {data.winnerName && (
         <div style={{ background: "#fefce8", border: "1.5px solid #d97706", borderRadius: 16, padding: 16, marginBottom: 20 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: "#d97706", textTransform: "uppercase", letterSpacing: "0.08em" }}>Winner</div>
+          <div style={{ fontSize: 11, fontWeight: 700, color: "#d97706", textTransform: "uppercase", letterSpacing: "0.08em" }}>Crowned</div>
           <h2 style={{ fontFamily: "Fraunces, serif", margin: "6px 0 0", fontSize: 22 }}>{data.winnerName}</h2>
+          <p style={{ margin: "6px 0 0", fontSize: 13, color: "#92400e" }}>Votes stay open. If someone else takes #1, the crown moves.</p>
         </div>
       )}
 
@@ -194,7 +197,7 @@ export default async function RankingPage({ params }) {
         <div style={{ margin: "4px 0 10px" }}>
           <h2 style={{ fontFamily: "Fraunces, serif", fontSize: 20, margin: "0 0 4px" }}>This week&apos;s community pick</h2>
           <p style={{ color: "var(--muted)", fontSize: 13, margin: 0 }}>
-            Live votes from locals{isLive ? ", counting now" : ", final standings"}{data.endDate ? ` · week ends ${data.endDate}` : ""}. This is the list your vote shapes, not the algorithm&apos;s.
+            Live votes from locals{isCrowned ? ", crown follows #1" : isLive ? ", counting now" : ""}{data.endDate ? ` · week ends ${data.endDate}` : ""}. This is the list your vote shapes, not the algorithm&apos;s.
           </p>
         </div>
       )}
@@ -244,7 +247,7 @@ export default async function RankingPage({ params }) {
         </section>
       )}
 
-      <Link href="/" className="site-cta" style={{ marginTop: 24 }}>{isLive ? "Vote now on the map →" : "Explore on the map →"}</Link>
+      <Link href={`/race/this-week?dish=${params.slug}`} className="site-cta" style={{ marginTop: 24 }}>Vote on race →</Link>
     </SiteChrome>
     <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
       <BottomNav routed activeKey="rankings" />

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import EateriesApp from "../../page.jsx";
-import { getLiveRanking, getAllRankingsThemes } from "../../../lib/themesServer.js";
-import { SEO_THEME_PICKS, slugFromTitle } from "../../../lib/rankings.js";
+import { getLiveRanking } from "../../../lib/themesServer.js";
+import { slugFromTitle } from "../../../lib/rankings.js";
 import { getSiteUrl } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
 
@@ -20,8 +20,8 @@ export async function generateMetadata() {
     ? `${live.title}, Vote This Week | Hyderabad Eats`
     : "This Week's Food Challenge | Hyderabad Eats";
   const description = live
-    ? `Vote for ${live.title.toLowerCase()} and other open dishes on Hyderabad Eats. Each dish also has a ranking page for search traffic.`
-    : "Vote across open dish challenges on Hyderabad Eats, then open each dish ranking page.";
+    ? `Vote for ${live.title.toLowerCase()} on Hyderabad Eats. Previous weeks stay open too.`
+    : "Vote in this week's Hyderabad food challenge.";
   return {
     title,
     description,
@@ -41,70 +41,33 @@ export async function generateMetadata() {
   };
 }
 
-const DISH_PRIORITY = [
-  "Best Biryani in Hyderabad",
-  "Best Chicken Biryani in Hyderabad",
-  "Best Mandi in Hyderabad",
-  "Best Cafe in Hyderabad",
-  "Best Irani Cafe in Hyderabad",
-  "Best Shawarma in Hyderabad",
-  "Best Dosa in Hyderabad",
-  "Best Restaurants in Hyderabad",
-  "Best Breakfast Places in Hyderabad",
-  "Best Street Food in Hyderabad",
-];
-
 export default async function ThisWeekRacePage({ searchParams }) {
   const dishSlug = typeof searchParams?.dish === "string" ? searchParams.dish : null;
   let live = null;
-  let themes = [];
   try {
     live = await getLiveRanking();
-    themes = await getAllRankingsThemes(20);
   } catch {
     live = null;
-    themes = [];
   }
-  const openSlugs = new Set(
-    themes
-      .filter((t) => !t.winnerId)
-      .map((t) => t.slug || slugFromTitle(t.title))
-  );
-  const picks = [
-    ...DISH_PRIORITY.map((title) => SEO_THEME_PICKS.find((p) => p.title === title)).filter(Boolean),
-    ...SEO_THEME_PICKS.filter((p) => !DISH_PRIORITY.includes(p.title)),
-  ];
+  const liveSlug = live?.slug || (live?.title ? slugFromTitle(live.title) : null);
 
   return (
     <>
       <EateriesApp initialTab="race" initialRaceView="theme" initialDishSlug={dishSlug} />
-      <nav className="seo-crawl-nav" aria-label="Hyderabad dish rankings">
-        <h2>Vote by dish, then open the ranking page</h2>
-        <p>
-          The race above collects votes for every open dish. Each ranking page below catches search traffic for that dish and sends people back here to vote.
-        </p>
+      <nav className="seo-crawl-nav" aria-label="This week's food race">
+        <h2>{live ? live.title : "This week's food race"}</h2>
+        <p>Vote above for this week&apos;s dish. Earlier weeks stay open under Previous weeks.</p>
         <ul>
-          {picks.map((p) => {
-            const slug = slugFromTitle(p.title);
-            const canVote = openSlugs.has(slug) || (live && (live.slug || slugFromTitle(live.title)) === slug);
-            return (
-              <li key={slug}>
-                {canVote ? (
-                  <>
-                    <Link href={`/race/this-week?dish=${slug}`}>Vote: {p.title}</Link>
-                    {" · "}
-                    <Link href={`/rankings/${slug}`}>Ranking page</Link>
-                  </>
-                ) : (
-                  <Link href={`/rankings/${slug}`}>{p.title}</Link>
-                )}
-              </li>
-            );
-          })}
+          {liveSlug && (
+            <li>
+              <Link href={`/rankings/${liveSlug}`}>{live.title} ranking</Link>
+            </li>
+          )}
+          <li><Link href="/rankings">All rankings</Link></li>
+          <li><Link href="/rankings/best-biryani-in-hyderabad">Best biryani in Hyderabad</Link></li>
+          <li><Link href="/rankings/best-mandi-in-hyderabad">Best mandi in Hyderabad</Link></li>
+          <li><Link href="/rankings/best-cafe-in-hyderabad">Best cafe in Hyderabad</Link></li>
         </ul>
-        <p>
-          <Link href="/rankings">All rankings</Link>
-        </p>
       </nav>
     </>
   );

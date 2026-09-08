@@ -291,7 +291,7 @@ export default function AdminPage() {
               <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} style={inputStyle} />
             </div>
             <div>
-              <label style={labelStyle}>End date (auto-lock)</label>
+              <label style={labelStyle}>End date (auto-crown)</label>
               <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} style={inputStyle} />
             </div>
             <div>
@@ -301,7 +301,7 @@ export default function AdminPage() {
           </div>
 
           <div style={{ fontSize: 12, color: "#888", marginBottom: 12, lineHeight: 1.5 }}>
-            Theme goes <b>live automatically</b> on start date and <b>locks automatically</b> on end date. If no dates set, it goes live immediately.
+            Theme goes <b>live automatically</b> on start date. On end date the live #1 gets a <b>crown</b>, but voting stays open and the crown moves if standings change. If no dates set, it goes live immediately.
           </div>
 
           {msg && <div style={{ fontSize: 13, color: msg.startsWith("Error") ? "#dc2626" : "#16a34a", marginBottom: 10, fontWeight: 600 }}>{msg}</div>}

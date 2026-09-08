@@ -12,7 +12,7 @@ export async function POST(req) {
   if (!db) return Response.json({ error: "unavailable" }, { status: 503 });
 
   // Themes stay votable after endDate and after a newer trend goes live.
-  // `active` only marks the featured "This Week" card — it does not lock votes.
+  // `active` only marks the featured "This Week" card - it does not lock votes.
   const themeDoc = await db.collection("themes").doc(themeId).get();
   if (!themeDoc.exists) return Response.json({ error: "theme-missing" }, { status: 404 });
 

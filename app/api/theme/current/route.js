@@ -1,5 +1,6 @@
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { unstable_cache } from "next/cache";
+import { nextCrownUpdate } from "../../../../lib/themeCrown.js";
 
 export const dynamic = "force-dynamic";
 
@@ -16,19 +17,19 @@ const getCurrentTheme = unstable_cache(
       const today = new Date().toISOString().slice(0, 10);
 
       // Featured theme stays up until an admin starts a newer one.
-      // endDate is informational only — votes stay open (see /api/theme/vote).
+      // endDate starts the crown phase; votes stay open (see /api/theme/vote).
       const activeSnap = await db.collection("themes").where("active", "==", true).limit(1).get();
       let doc = activeSnap.empty ? null : activeSnap.docs[0];
 
       // If nothing is featured, promote a scheduled theme whose startDate has arrived.
       if (!doc) {
         const scheduled = await db.collection("themes")
-          .where("active", "==", false)
           .orderBy("createdAt", "desc")
-          .limit(10)
+          .limit(20)
           .get();
         for (const d of scheduled.docs) {
           const td = d.data();
+          if (td.active) continue;
           if (td.startDate && today >= td.startDate && !td.winnerId) {
             await d.ref.update({ active: true });
             doc = d;
@@ -64,6 +65,13 @@ const getCurrentTheme = unstable_cache(
         if (!seen.has(v.spotId)) results.push(v);
       }
       results.sort((a, b) => (b.count || 0) - (a.count || 0));
+
+      // After endDate: crown follows live #1. Votes stay open (see /api/theme/vote).
+      const crown = nextCrownUpdate(theme, results, today);
+      if (crown) {
+        await doc.ref.update(crown);
+        Object.assign(theme, crown);
+      }
 
       return { theme, results };
     } catch {

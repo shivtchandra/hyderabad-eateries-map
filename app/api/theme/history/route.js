@@ -3,29 +3,33 @@ import { unstable_cache } from "next/cache";
 
 export const dynamic = "force-dynamic";
 
-// Earlier trends stay votable after a new one goes live. Short cache so
-// standings on past themes still feel live without N+1 every request.
+// Earlier themes stay votable after a newer one is featured.
 const getHistory = unstable_cache(
   async (limit) => {
     const db = await getAdminDb();
     if (!db) return [];
 
-    // Non-featured themes, newest first (still open for votes).
+    // Avoid composite index (active + createdAt): fetch recent, filter inactive.
     const snap = await db
       .collection("themes")
-      .where("active", "==", false)
       .orderBy("createdAt", "desc")
-      .limit(limit)
+      .limit(Math.max(limit * 4, 40))
       .get();
 
-    return Promise.all(
-      snap.docs.map(async (doc) => {
-        const votesSnap = await doc.ref
-          .collection("votes").orderBy("count", "desc").limit(20).get();
-        const results = votesSnap.docs.map((d) => ({ spotId: d.id, ...d.data() }));
-        return { id: doc.id, ...doc.data(), results };
-      })
-    );
+    const out = [];
+    for (const doc of snap.docs) {
+      const data = doc.data() || {};
+      if (data.active) continue;
+      const votesSnap = await doc.ref
+        .collection("votes")
+        .orderBy("count", "desc")
+        .limit(20)
+        .get();
+      const results = votesSnap.docs.map((d) => ({ spotId: d.id, ...d.data() }));
+      out.push({ id: doc.id, ...data, results });
+      if (out.length >= limit) break;
+    }
+    return out;
   },
   ["theme-history"],
   { revalidate: 30, tags: ["themes"] }
@@ -37,7 +41,8 @@ export async function GET(req) {
     const limit = Math.min(Number(searchParams.get("limit") || 10), 20);
     const themes = await getHistory(limit);
     return Response.json({ themes });
-  } catch {
+  } catch (err) {
+    console.error("[theme/history]", err?.message || err);
     return Response.json({ themes: [] });
   }
 }
