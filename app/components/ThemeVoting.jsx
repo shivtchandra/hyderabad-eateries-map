@@ -20,6 +20,21 @@ function totalVotes(results = [], localCounts = {}) {
   return results.reduce((sum, r) => sum + (localCounts[r.spotId] ?? r.count ?? 0), 0);
 }
 
+
+function campaignSharePayload(theme, results = []) {
+  const slug = theme.slug || slugFromTitle(theme.title);
+  const url = `${window.location.origin}/race/this-week?dish=${encodeURIComponent(slug)}`;
+  const voted = [...results]
+    .filter((r) => (r.count || 0) > 0)
+    .sort((a, b) => (b.count || 0) - (a.count || 0));
+  const leader = voted[0];
+  const n = voted.reduce((s, r) => s + (r.count || 0), 0);
+  const text = leader && n > 0
+    ? `${theme.title}, live community ranking: ${leader.name} currently leads (${n} vote${n === 1 ? "" : "s"}). Vote yours:`
+    : `${theme.title}, live community ranking. Vote yours:`;
+  return { title: `${theme.title}, Hyderabad Eats`, text, url };
+}
+
 function mergeStandings(results = [], suggestions = [], limit = 10) {
   const voted = [...results]
     .filter((r) => (r.count || 0) > 0)
@@ -283,19 +298,15 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastCl
   };
 
   const shareTheme = async () => {
-    const url = `${window.location.origin}/race/this-week`;
-    const payload = {
-      title: `${theme.title}, Hyderabad Eats`,
-      text: `Vote in this week's Hyderabad Eats challenge: ${theme.title}`,
-      url,
-    };
+    const rows = (results || []).map((r) => ({ ...r, count: localCounts[r.spotId] ?? r.count ?? 0 }));
+    const payload = campaignSharePayload(theme, rows);
 
     try {
       if (navigator.share) {
         await navigator.share(payload);
         setShareState("shared");
       } else {
-        await navigator.clipboard.writeText(url);
+        await navigator.clipboard.writeText(`${payload.text}\n${payload.url}`);
         setShareState("copied");
       }
       window.setTimeout(() => setShareState("idle"), 1800);
@@ -552,22 +563,13 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
   const sharePast = async (e) => {
     e?.stopPropagation?.();
     e?.preventDefault?.();
-    const top = (theme.results || []).filter((r) => (r.count || 0) > 0).slice(0, 3);
-    const trendLine = top.length
-      ? top.map((r, i) => `${i + 1}. ${r.name} (${r.count}v)`).join(" · ")
-      : "Votes still open.";
-    const url = `${window.location.origin}/race/this-week?dish=${encodeURIComponent(dishSlug)}`;
-    const payload = {
-      title: `${theme.title}, Hyderabad Eats`,
-      text: `${theme.title} on Hyderabad Eats.\n${trendLine}\nVote here:`,
-      url,
-    };
+    const payload = campaignSharePayload(theme, theme.results || []);
     try {
       if (navigator.share) {
         await navigator.share(payload);
         setShareState("shared");
       } else {
-        await navigator.clipboard.writeText(`${payload.text} ${url}`);
+        await navigator.clipboard.writeText(`${payload.text}\n${payload.url}`);
         setShareState("copied");
       }
       window.setTimeout(() => setShareState("idle"), 1800);
