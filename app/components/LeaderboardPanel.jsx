@@ -111,12 +111,12 @@ export default function LeaderboardPanel({
                 ) : (
                   <div style={{ color: "var(--cream-hi)", padding: "8px 20px 4px" }}>
                     <div className="groovy" style={{ fontSize: 26, lineHeight: 1.05 }}>
-                      {stampCount > 0 ? "Stamped, not claimed yet" : "Not in the race yet"}
+                      {stampCount > 0 ? "Passport ≠ Race" : "Not in the race yet"}
                     </div>
-                    <div style={{ fontSize: 12.5, opacity: 0.9, marginTop: 8, fontWeight: 500, lineHeight: 1.4 }}>
+                    <div style={{ fontSize: 12.5, opacity: 0.9, marginTop: 8, fontWeight: 500, lineHeight: 1.45 }}>
                       {stampCount > 0
-                        ? `You have ${stampCount} stamp${stampCount === 1 ? "" : "s"} on Passport. Race points need a GPS check-in at the spot (within about 250 m).`
-                        : "Check in at any spot on the map, you have to be there, to claim it and score your first points."}
+                        ? `You stamped ${stampCount} spot${stampCount === 1 ? "" : "s"} on Passport. That does not add Race points. Go to the spot, turn location on, and stamp while you are there.`
+                        : "To score Race points, stamp a spot while you are physically there with location on."}
                     </div>
                   </div>
                 )}
@@ -220,13 +220,36 @@ export default function LeaderboardPanel({
         {status === "unavailable" && (
           <Empty icon="flame" title="Race is warming up" sub="The leaderboard backend isn't reachable right now. Your claims are still saved on this device." />
         )}
+        {status === "ready" && !me && stampCount > 0 && (
+          <div style={{
+            marginBottom: 14,
+            background: "var(--cream-hi)",
+            border: "1.5px solid var(--line)",
+            borderRadius: "var(--r-md)",
+            padding: "14px 16px",
+            boxShadow: "var(--e1)",
+          }}>
+            <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 16, color: "var(--ink)", marginBottom: 6 }}>
+              Why you are not on this board
+            </div>
+            <div style={{ fontSize: 13.5, color: "var(--ink-soft)", fontWeight: 500, lineHeight: 1.5 }}>
+              <b>Passport</b> = your diary. Works from anywhere.
+              <br />
+              <b>The Race</b> = points. Only counts when you stamp at the restaurant with GPS on (within about 250 m).
+            </div>
+            <div style={{ fontSize: 12.5, color: "var(--muted)", fontWeight: 500, marginTop: 8, lineHeight: 1.4 }}>
+              You have {stampCount} Passport stamp{stampCount === 1 ? "" : "s"}. None are Race claims yet. Visit the place and stamp again on-site.
+            </div>
+          </div>
+        )}
+
         {status === "ready" && players.length === 0 && (
           <Empty
             icon="sparkle"
-            title={stampCount > 0 ? "Race starts on-site" : "Be the first"}
+            title={stampCount > 0 ? "No Race claims yet" : "Be the first"}
             sub={stampCount > 0
-              ? "Passport stamps are your diary. Open a stamped spot on the map when you're there, stamp again if needed, and stay nearby so the Race can claim the points."
-              : "Nobody's claimed a spot yet. Check in somewhere and you'll top the board."}
+              ? "The board only lists GPS check-ins. Passport stamps will not appear here."
+              : "Nobody has claimed a spot for the Race yet. Stamp on-site to top the board."}
           />
         )}
 
@@ -264,9 +287,9 @@ export default function LeaderboardPanel({
                 <span style={{ fontWeight: 700, color: "var(--violet-deep)", whiteSpace: "nowrap" }}>{TIERS[key].points} pts</span>
               </div>
             ))}
-            <div style={{ fontSize: 11.5, color: "var(--muted)", marginTop: 9, lineHeight: 1.4, fontWeight: 500 }}>
-              A spot's tier comes from its Google review count, nobody sets it. The famous names everyone
-              knows score least; the deeper cuts are worth more.
+            <div style={{ fontSize: 11.5, color: "var(--muted)", marginTop: 9, lineHeight: 1.45, fontWeight: 500 }}>
+              A spot&apos;s tier comes from its Google review count. Famous places score least, deeper cuts score more.
+              Passport stamps do not add these points. Only an on-site Race claim does.
             </div>
           </div>
         )}
