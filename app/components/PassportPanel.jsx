@@ -197,33 +197,74 @@ export default function PassportPanel({ eateries, passport, onSelect, diaryTick 
 
         {s.visited.length > 0 && (
           <Section title={`Stamps (${s.visited.length})`}>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(80px,1fr))", gap: 8 }}>
-              {s.visited.map((e) => (
-                <button
-                  key={e.id}
-                  onClick={() => onSelect(e)}
-                  className="stamp filled"
-                  style={{ cursor: "pointer", padding: 7 }}
-                  title={e.name}
-                >
-                  <CategoryIcon
-                    category={e.category}
-                    size={21}
-                    width={1.9}
-                    color={CAT_META[e.category]?.color ?? "var(--pop-deep)"}
-                  />
-                  <span
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {s.visited.map((e) => {
+                const meta = CAT_META[e.category] ?? CAT_META.cafe;
+                const area = e.discoveredIn && !String(e.discoveredIn).startsWith("text:")
+                  ? e.discoveredIn
+                  : null;
+                return (
+                  <button
+                    key={e.id}
+                    type="button"
+                    onClick={() => onSelect(e)}
+                    className="pressable-sm"
                     style={{
-                      fontSize: 8.5, fontWeight: 600, color: "var(--ink-soft)",
-                      textAlign: "center", lineHeight: 1.2, marginTop: 2,
-                      display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
-                      overflow: "hidden", wordBreak: "break-word",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 12,
+                      width: "100%",
+                      textAlign: "left",
+                      border: "1.5px solid var(--line)",
+                      borderRadius: "var(--r-md)",
+                      background: "linear-gradient(155deg, #fdf4e6, var(--pop-wash))",
+                      boxShadow: "var(--e1)",
+                      padding: "12px 14px",
+                      cursor: "pointer",
                     }}
                   >
-                    {e.name}
-                  </span>
-                </button>
-              ))}
+                    <span
+                      style={{
+                        width: 42,
+                        height: 42,
+                        minWidth: 42,
+                        borderRadius: 12,
+                        background: "var(--cream-hi)",
+                        border: `1.5px solid ${meta.color}`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <CategoryIcon
+                        category={e.category}
+                        size={22}
+                        width={1.9}
+                        color={meta.color}
+                      />
+                    </span>
+                    <span style={{ flex: 1, minWidth: 0 }}>
+                      <span
+                        style={{
+                          display: "block",
+                          fontWeight: 700,
+                          fontSize: 14,
+                          color: "var(--ink)",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {e.name}
+                      </span>
+                      <span style={{ display: "block", fontSize: 12, color: "var(--muted)", fontWeight: 500, marginTop: 2 }}>
+                        {meta.label}{area ? ` · ${area}` : ""}
+                      </span>
+                    </span>
+                    <Icon name="navigate" size={16} width={2} color="var(--muted)" />
+                  </button>
+                );
+              })}
             </div>
           </Section>
         )}

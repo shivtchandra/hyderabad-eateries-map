@@ -74,12 +74,14 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
       openRaceView("theme");
       return;
     }
-    setTab(nextTab);
+    // Leaving /race/* needs a real navigation. Keep the destination tab in ?tab=
+    // so Passport/Saved do not bounce back to the map.
     if (typeof window !== "undefined" && window.location.pathname.startsWith("/race")) {
-      window.location.href = "/";
+      window.location.href = nextTab === "map" ? "/" : `/?tab=${nextTab}`;
       return;
     }
-    pushAppPath("/");
+    setTab(nextTab);
+    pushAppPath(nextTab === "map" ? "/" : `/?tab=${nextTab}`);
   };
   const [activeTags, setActiveTags] = useState([]);
   const [openNowOnly, setOpenNowOnly] = useState(false);
@@ -140,7 +142,9 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
         setRaceView("race");
         setTab("race");
       } else if (path === "/") {
-        setTab("map");
+        const q = new URLSearchParams(window.location.search).get("tab");
+        if (q && ["map", "passport", "saved", "race"].includes(q)) setTab(q);
+        else setTab("map");
       }
     };
     window.addEventListener("popstate", syncRoute);
