@@ -587,6 +587,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
             onInnerTabChange={openRaceView}
             initialDishSlug={dishSlug ?? initialDishSlug}
             refreshTick={diaryTick}
+            stampCount={visitedCount}
           />
         )}
         {tab === "passport" && (

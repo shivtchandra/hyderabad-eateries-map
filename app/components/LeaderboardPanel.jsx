@@ -16,6 +16,7 @@ export default function LeaderboardPanel({
   initialInnerTab = "theme",
   onInnerTabChange,
   initialDishSlug = null,
+  stampCount = 0,
 }) {
   const [innerTab, setInnerTab] = useState(initialInnerTab); // "race" | "theme"
   const scrollRef = useRef(null);
@@ -109,9 +110,13 @@ export default function LeaderboardPanel({
                   </>
                 ) : (
                   <div style={{ color: "var(--cream-hi)", padding: "8px 20px 4px" }}>
-                    <div className="groovy" style={{ fontSize: 26, lineHeight: 1.05 }}>Not in the race yet</div>
+                    <div className="groovy" style={{ fontSize: 26, lineHeight: 1.05 }}>
+                      {stampCount > 0 ? "Stamped, not claimed yet" : "Not in the race yet"}
+                    </div>
                     <div style={{ fontSize: 12.5, opacity: 0.9, marginTop: 8, fontWeight: 500, lineHeight: 1.4 }}>
-                      Check in at any spot on the map, you have to be there, to claim it and score your first points.
+                      {stampCount > 0
+                        ? `You have ${stampCount} stamp${stampCount === 1 ? "" : "s"} on Passport. Race points need a GPS check-in at the spot (within about 250 m).`
+                        : "Check in at any spot on the map, you have to be there, to claim it and score your first points."}
                     </div>
                   </div>
                 )}
@@ -216,7 +221,13 @@ export default function LeaderboardPanel({
           <Empty icon="flame" title="Race is warming up" sub="The leaderboard backend isn't reachable right now. Your claims are still saved on this device." />
         )}
         {status === "ready" && players.length === 0 && (
-          <Empty icon="sparkle" title="Be the first" sub="Nobody's claimed a spot yet. Check in somewhere and you'll top the board." />
+          <Empty
+            icon="sparkle"
+            title={stampCount > 0 ? "Race starts on-site" : "Be the first"}
+            sub={stampCount > 0
+              ? "Passport stamps are your diary. Open a stamped spot on the map when you're there, stamp again if needed, and stay nearby so the Race can claim the points."
+              : "Nobody's claimed a spot yet. Check in somewhere and you'll top the board."}
+          />
         )}
 
         {status === "ready" && top3.length > 0 && (
