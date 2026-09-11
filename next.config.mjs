@@ -1,14 +1,32 @@
+import fs from "fs";
+import path from "path";
+
+// Tiny id list so serverless traces this JSON instead of public/photos (~157MB/lambda).
+const photosDir = path.join(process.cwd(), "public", "photos");
+const photoIds = fs.existsSync(photosDir)
+  ? fs.readdirSync(photosDir).filter((f) => f.endsWith(".jpg")).map((f) => f.replace(/\.jpg$/, ""))
+  : [];
+fs.mkdirSync(path.join(process.cwd(), "data"), { recursive: true });
+fs.writeFileSync(path.join(process.cwd(), "data", "photo-ids.json"), JSON.stringify(photoIds));
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Keep venue JSON in every serverless/page bundle that reads it at runtime
   // (rankings are force-dynamic; without this the Google baseline list is empty).
   outputFileTracingIncludes: {
-    "/rankings/**/*": ["./data/eateries.json", "./data/venue-content.json"],
-    "/areas/**/*": ["./data/eateries.json", "./data/venue-content.json"],
-    "/explore/**/*": ["./data/eateries.json", "./data/venue-content.json"],
-    "/spot/**/*": ["./data/eateries.json", "./data/venue-content.json"],
-    "/stories/**/*": ["./data/eateries.json", "./data/venue-content.json"],
-    "/api/**/*": ["./data/eateries.json", "./data/venue-content.json"],
+    "/rankings/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
+    "/areas/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
+    "/explore/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
+    "/spot/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
+    "/stories/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
+    "/api/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
+  },
+  outputFileTracingExcludes: {
+    "*": [
+      "./public/photos/**/*",
+      "./scripts/**/*",
+      "./node_modules/@imgly/**/*",
+    ],
   },
   async redirects() {
     return [

@@ -87,5 +87,12 @@ try {
 fs.writeFileSync(path.join(PUBLIC, "featured.json"), JSON.stringify(featured));
 
 const mb = (p) => (fs.statSync(path.join(PUBLIC, p)).size / 1048576).toFixed(2);
+const photosDir = path.join(PUBLIC, "photos");
+const photoIds = fs.existsSync(photosDir)
+  ? fs.readdirSync(photosDir).filter((f) => f.endsWith(".jpg")).map((f) => f.replace(/\.jpg$/, ""))
+  : [];
+fs.writeFileSync(path.join(__dirname, "..", "data", "photo-ids.json"), JSON.stringify(photoIds));
+
 console.log(`eateries-index.json  ${index.length} spots  ${mb("eateries-index.json")} MB`);
 console.log(`eateries-detail.json ${Object.keys(detail).length} spots  ${mb("eateries-detail.json")} MB`);
+console.log(`photo-ids.json       ${photoIds.length} thumbs`);
