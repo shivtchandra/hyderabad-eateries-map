@@ -126781,7 +126781,7 @@
     "address": "Knowledge City, Commerzone Rd, Silpa Gram Craft Village, Madhapur, Rai Durg, Hyderabad, Telangana 500032",
     "rating": 4.6,
     "ratingCount": 273,
-    "priceLevel": null,
+    "priceLevel": 3,
     "photoRef": "AVoNoXRDCWCMwIQ54BQIOQ88_o3AUO5aaWn-gz5ONDBqkoJf7OmKx0tSBvka5I2nK2Ne6aXr0dh255Fflq9x2b8r6hSMjmHDgcno-pcifqvrklc7tRhhglTMLrqLG7mnc9L9d_WEOUp4eJmvtY6SIH0G0eK67qrCJO9sknfA0nEXxyOir4Jo2Vm4IgGOC_S1KIP2_LV-sI2yYNwX0fBosjHFAznOKK92OXxWU9c_pigEcAsCNDBTtryXMo3KktX6LgMdeyLnKCgJr4w14OLrRkD7fayZtXKHug7As9qE6Vq3893c3yPxsVfnrG3K_3uTcED3ngmwkE8qgapcy9wcaaHxHVoo71XyzjQocp6fVuo6kBY5vixhakseux9pImdNPlqRrorjbLIb1_qyDZmoB92WtZEiKcT0UTyHqlHtIksRc1AERnSSZpN0DNmufOq-4Cgt",
     "zomatoUrl": "https://www.zomato.com/hyderabad/search?q=Windmills%20Craftworks%20%5BMadhapur%5D",
     "offers": [],
@@ -126802,7 +126802,9 @@
     "hasWebsite": true,
     "phone": "087124 94508",
     "blurb": null,
-    "tags": [],
+    "tags": [
+      "date"
+    ],
     "tier": "established",
     "detailsUpdatedAt": "2026-09-10T18:30:47.127Z"
   },

@@ -532,6 +532,25 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
 
   const visitedCount = Object.keys(passport.visited).length;
   const savedCount = Object.keys(passport.saved).length;
+  const [passportBadge, setPassportBadge] = useState(0);
+  const [savedBadge, setSavedBadge] = useState(0);
+
+  // Nav badges are "unseen since last open", not live totals.
+  useEffect(() => {
+    setPassportBadge(passportStore.unseenVisitedCount(visitedCount));
+    setSavedBadge(passportStore.unseenSavedCount(savedCount));
+  }, [visitedCount, savedCount]);
+
+  useEffect(() => {
+    if (tab === "passport") {
+      passportStore.markVisitedSeen(visitedCount);
+      setPassportBadge(0);
+    }
+    if (tab === "saved") {
+      passportStore.markSavedSeen(savedCount);
+      setSavedBadge(0);
+    }
+  }, [tab, visitedCount, savedCount]);
 
   return (
     <div style={{ position: "fixed", inset: 0, height: "100dvh", display: "flex", flexDirection: "column", background: "var(--cream)", overflow: "hidden" }}>
@@ -728,7 +747,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
         <ThemeIntro theme={currentTheme} onVote={() => openRaceView("theme")} />
       </div>
 
-      <BottomNav tab={tab} setTab={goTab} visitedCount={visitedCount} savedCount={savedCount} />
+      <BottomNav tab={tab} setTab={goTab} visitedCount={passportBadge} savedCount={savedBadge} />
     </div>
   );
 }
