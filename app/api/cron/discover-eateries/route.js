@@ -35,6 +35,15 @@ async function nearbySearch(type, keyword) {
 export async function GET(req) {
   if (!authOk(req)) return Response.json({ error: "forbidden" }, { status: 403 });
 
+  // Heavy scrapes run on GitHub Actions. Opt-in only for Vercel Fluid.
+  if (process.env.CRON_ON_VERCEL !== "1") {
+    return Response.json({
+      ok: false,
+      skipped: true,
+      reason: "Cron runs on GitHub Actions. Set CRON_ON_VERCEL=1 to force on Vercel.",
+    });
+  }
+
   const db = await getAdminDb();
   if (!db) return Response.json({ error: "Firestore not configured" }, { status: 500 });
 
