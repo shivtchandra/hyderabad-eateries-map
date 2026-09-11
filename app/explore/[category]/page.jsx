@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
-import { getCategoryBySlug, allCategoryPages, getEateryById } from "../../../lib/siteData.js";
+import { getCategoryBySlug, allCategoryPages, getEateryById, spotPath } from "../../../lib/siteData.js";
 import { getExplorePillar } from "../../../lib/explorePillars.js";
 import { pageMeta } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
@@ -77,7 +77,7 @@ export default function ExploreCategoryPage({ params }) {
           <h2 className="site-section-title">Read before you go</h2>
           <div className="site-related-links">
             {stories.map((s) => (
-              <Link key={s.id} href={`/spot/${s.id}`}>
+              <Link key={s.id} href={spotPath(s)}>
                 {s.name}{s.discoveredIn ? `, ${s.discoveredIn}` : ""}
               </Link>
             ))}
@@ -120,7 +120,7 @@ export default function ExploreCategoryPage({ params }) {
       <ul className="site-spot-list">
         {top.map((s, i) => (
           <li key={s.id}>
-            <Link href={`/spot/${s.id}`}>
+            <Link href={spotPath(s)}>
               <span>
                 <div className="site-spot-name">{i + 1}. {s.name}</div>
                 <div className="site-spot-meta">{s.discoveredIn || "Hyderabad"} · {s.rating ? `${s.rating}★` : ","}</div>

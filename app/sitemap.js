@@ -1,6 +1,6 @@
 import { getAllRankingsThemes } from "../lib/themesServer.js";
 import { SEO_THEME_PICKS, slugFromTitle } from "../lib/rankings.js";
-import { allAreaPages, allCategoryPages, getEditorialSpotIds } from "../lib/siteData.js";
+import { allAreaPages, allCategoryPages, getEditorialSpotIds, spotSlug, getEateryById } from "../lib/siteData.js";
 import { getSiteUrl } from "../lib/site.js";
 
 export const dynamic = "force-dynamic";
@@ -76,12 +76,15 @@ export default async function sitemap() {
     }));
   } catch {}
   try {
-    spotUrls = getEditorialSpotIds().map((id) => ({
-      url: `${siteUrl}/spot/${id}`,
+    spotUrls = getEditorialSpotIds().map((id) => {
+      const e = getEateryById(id);
+      return {
+      url: `${siteUrl}/spot/${e ? spotSlug(e) : id}`,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.85,
-    }));
+    };
+    });
   } catch {}
 
   const themeSlugs = new Set(themes.map((t) => t.slug));

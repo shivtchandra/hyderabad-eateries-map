@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
 import BottomNav from "../../components/BottomNav.jsx";
-import { getEateryById, getEateries, getEditorialSpotIds, getChainSiblings, areaPageHref, hasSpotPhoto } from "../../../lib/siteData.js";
+import { getEateryBySlugOrId, getEateries, getEditorialSpotIds, getChainSiblings, areaPageHref, hasSpotPhoto, spotSlug, spotPath } from "../../../lib/siteData.js";
 import { absoluteUrl, getSiteUrl, pageMeta } from "../../../lib/site.js";
 import { restaurantJsonLd, faqJsonLd } from "../../../lib/schema.js";
 import { ogImages } from "../../../lib/og.js";
@@ -18,11 +18,11 @@ export function generateStaticParams() {
   const editorial = new Set(getEditorialSpotIds());
   return getEateries()
     .filter((e) => editorial.has(e.id) || (e.ratingCount || 0) >= 200)
-    .map((e) => ({ id: e.id }));
+    .map((e) => ({ id: spotSlug(e) }));
 }
 
 export function generateMetadata({ params }) {
-  const spot = getEateryById(params.id);
+  const spot = getEateryBySlugOrId(params.id);
   if (!spot) return { title: "Spot not found, Hyderabad Eats" };
   const title = spot.discoveredIn && !spot.discoveredIn.startsWith("text:")
     ? `${spot.name}, ${spot.discoveredIn}, Hyderabad`
@@ -33,7 +33,7 @@ export function generateMetadata({ params }) {
     ? `${editorial} ${spot.rating ? `${spot.rating}★` : ""}${spot.ratingCount ? ` (${spot.ratingCount.toLocaleString("en-IN")} reviews)` : ""}, on Hyderabad Eats.`.trim()
     : `${spot.name} in ${spot.discoveredIn || "Hyderabad"}. ${spot.rating ? `Rated ${spot.rating}★` : ""} ${spot.ratingCount ? `(${spot.ratingCount.toLocaleString("en-IN")} reviews)` : ""}. Find on Hyderabad Eats map.`;
   const photo = hasSpotPhoto(spot.id) ? `/photos/${spot.id}.jpg` : null;
-  const base = pageMeta({ title, description, path: `/spot/${spot.id}`, image: photo || undefined });
+  const base = pageMeta({ title, description, path: spotPath(spot), image: photo || undefined });
   return {
     ...base,
     openGraph: {
@@ -53,8 +53,11 @@ export function generateMetadata({ params }) {
 
 export default function SpotPage({ params }) {
   const siteUrl = getSiteUrl();
-  const spot = getEateryById(params.id);
+  const spot = getEateryBySlugOrId(params.id);
   if (!spot) notFound();
+  const slug = spotSlug(spot);
+  // Old Google Place ID URLs keep working; canonicalize to the name slug.
+  if (params.id !== slug) permanentRedirect(spotPath(spot));
 
   const areaLink = areaPageHref(spot.discoveredIn);
 
@@ -93,7 +96,7 @@ export default function SpotPage({ params }) {
       breadcrumb={[
         { href: "/", label: "Home" },
         ...(areaLink ? [{ href: areaLink, label: spot.discoveredIn }] : []),
-        { href: `/spot/${spot.id}`, label: spot.name },
+        { href: spotPath(spot), label: spot.name },
       ]}
       title={spot.name}
       description={`${CAT_LABEL[spot.category] || spot.category}${spot.discoveredIn ? ` · ${spot.discoveredIn}` : ""}${spot.rating ? ` · ${spot.rating}★` : ""}`}
@@ -153,7 +156,7 @@ export default function SpotPage({ params }) {
           <ul className="site-spot-list">
             {siblings.map((s) => (
               <li key={s.id}>
-                <Link href={`/spot/${s.id}`}>
+                <Link href={spotPath(s)}>
                   <span>
                     <div className="site-spot-name">{s.name}</div>
                     <div className="site-spot-meta">{s.discoveredIn || "Hyderabad"}{s.rating ? ` · ${s.rating}★` : ""}</div>

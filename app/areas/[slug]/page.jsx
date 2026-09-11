@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
-import { getAreaBySlug, allAreaPages } from "../../../lib/siteData.js";
+import { getAreaBySlug, allAreaPages, spotPath } from "../../../lib/siteData.js";
 import { getAreaPillar } from "../../../lib/explorePillars.js";
 import { pageMeta } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
@@ -148,7 +148,7 @@ export default function AreaPage({ params }) {
       <ul className="site-spot-list">
         {top.map((s, i) => (
           <li key={s.id}>
-            <Link href={`/spot/${s.id}`}>
+            <Link href={spotPath(s)}>
               <span>
                 <div className="site-spot-name">{i + 1}. {s.name}</div>
                 <div className="site-spot-meta">{s.category} · {s.rating ? `${s.rating}★` : ","}</div>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import SiteChrome from "../components/SiteChrome.jsx";
 import BottomNav from "../components/BottomNav.jsx";
-import { getEateries, getEateryById, getChainSiblings, hasSpotPhoto } from "../../lib/siteData.js";
+import { getEateries, getEateryById, getChainSiblings, hasSpotPhoto, spotPath } from "../../lib/siteData.js";
 import { pageMeta } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
 
@@ -41,7 +41,7 @@ function StoryCard({ s, i, feat }) {
       : null;
   const cat = CAT[s.category] || { emoji: "🍽️", label: "Spot" };
   return (
-    <Link href={`/spot/${s.id}`} className={`zine-card${feat ? " zine-card--feat" : ""}`} data-cat={s.category}>
+    <Link href={spotPath(s)} className={`zine-card${feat ? " zine-card--feat" : ""}`} data-cat={s.category}>
       <div className="zine-img">
         {img && (
           <>
@@ -134,7 +134,7 @@ export default function StoriesPage() {
           {nilouferLocations.map((s) => {
             const hasStory = Boolean(s.originStory?.length || s.regularNote);
             return (
-              <Link key={s.id} href={`/spot/${s.id}`} className={hasStory ? "has-story" : undefined}>
+              <Link key={s.id} href={spotPath(s)} className={hasStory ? "has-story" : undefined}>
                 <span className="trail-branch-name">{branchLabel(s)}</span>
                 {hasStory && <span className="trail-story-tag">Story</span>}
               </Link>
@@ -142,7 +142,7 @@ export default function StoriesPage() {
           })}
         </div>
         <div className="site-related-links" style={{ marginTop: 14 }}>
-          <Link href="/spot/ChIJ1Z7b5_mXyzsR_6g6Az9fWjk">Nimrah Cafe & Bakery</Link>
+          <Link href="/spot/nimrah-cafe-and-bakery-charminar-old-city">Nimrah Cafe & Bakery</Link>
           <Link href="/explore/cafes">Best cafes hub</Link>
         </div>
       </section>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import EateriesApp from "../../page.jsx";
 import { getAllRankingsThemes } from "../../../lib/themesServer.js";
 import { itemListJsonLd, SEO_THEME_PICKS, slugFromTitle } from "../../../lib/rankings.js";
-import { editorialRanking } from "../../../lib/siteData.js";
+import { editorialRanking, pathForSpotId } from "../../../lib/siteData.js";
 import { getSiteUrl } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
 
@@ -74,7 +74,7 @@ export default async function ThisWeekRacePage({ searchParams }) {
     : [];
   const listForLd = (voteRows.length ? voteRows : editorial).slice(0, 15);
   const jsonLd = live && listForLd.length
-    ? itemListJsonLd({ ...live, results: listForLd }, siteUrl)
+    ? itemListJsonLd({ ...live, results: listForLd }, siteUrl, pathForSpotId)
     : null;
 
   const topNames = listForLd.slice(0, 5).map((r) => r.name).filter(Boolean);
@@ -111,7 +111,7 @@ export default async function ThisWeekRacePage({ searchParams }) {
             <ol>
               {voteRows.slice(0, 20).map((r) => (
                 <li key={r.spotId}>
-                  <Link href={`/spot/${encodeURIComponent(r.spotId)}`}>{r.name}</Link>
+                  <Link href={pathForSpotId(r.spotId)}>{r.name}</Link>
                   {r.count != null ? ` · ${r.count} votes` : ""}
                 </li>
               ))}
@@ -125,7 +125,7 @@ export default async function ThisWeekRacePage({ searchParams }) {
             <ol>
               {editorial.map((r) => (
                 <li key={r.spotId}>
-                  <Link href={`/spot/${encodeURIComponent(r.spotId)}`}>{r.name}</Link>
+                  <Link href={pathForSpotId(r.spotId)}>{r.name}</Link>
                   {r.area ? ` · ${r.area}` : ""}
                   {r.rating != null ? ` · ${r.rating}★` : ""}
                   {r.blurb ? ` · ${r.blurb}` : ""}
@@ -150,7 +150,7 @@ export default async function ThisWeekRacePage({ searchParams }) {
                     <ol>
                       {rows.map((r) => (
                         <li key={r.spotId}>
-                          <Link href={`/spot/${encodeURIComponent(r.spotId)}`}>{r.name}</Link>
+                          <Link href={pathForSpotId(r.spotId)}>{r.name}</Link>
                           {` · ${r.count} votes`}
                         </li>
                       ))}

@@ -1,5 +1,6 @@
 "use client";
 
+import { spotPath } from "../../lib/siteData.js";
 import { useState, useCallback } from "react";
 import { trackEvent } from "../../lib/engagement-client.js";
 import { TAGS, TIERS, isOpenNow, validTagsFor } from "../../lib/eateryUtils.js";
@@ -268,7 +269,7 @@ export default function DetailSheet({
           )}
 
           <a
-            href={`/spot/${eatery.id}`}
+            href={spotPath(eatery)}
             style={{ ...btn, width: "100%", background: "var(--cream)", color: "var(--ink-soft)", border: "1.5px solid var(--line)", textDecoration: "none", fontSize: 13, marginBottom: 8 }}
           >
             <Icon name="book" size={15} width={1.9} /> View full page

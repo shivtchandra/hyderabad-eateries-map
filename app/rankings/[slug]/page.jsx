@@ -5,7 +5,7 @@ import { getRankingBySlug } from "../../../lib/themesServer.js";
 import { itemListJsonLd, rankingMeta, SEO_THEME_PICKS, slugFromTitle } from "../../../lib/rankings.js";
 import { getSiteUrl } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
-import { allCategoryPages, editorialRanking } from "../../../lib/siteData.js";
+import { allCategoryPages, editorialRanking, pathForSpotId } from "../../../lib/siteData.js";
 import BottomNav from "../../components/BottomNav.jsx";
 
 export const dynamic = "force-dynamic";
@@ -78,9 +78,9 @@ export default async function RankingPage({ params }) {
   // JSON-LD prefers real vote standings; falls back to the editorial list so
   // placeholder pages still emit a valid ItemList.
   const jsonLd = voteRows.length > 0
-    ? itemListJsonLd(data, getSiteUrl())
+    ? itemListJsonLd(data, getSiteUrl(), pathForSpotId)
     : showEditorial
-      ? itemListJsonLd({ ...data, results: editorial }, getSiteUrl())
+      ? itemListJsonLd({ ...data, results: editorial }, getSiteUrl(), pathForSpotId)
       : null;
 
   const related = [
@@ -211,7 +211,7 @@ export default async function RankingPage({ params }) {
             {data.results.map((r, i) => (
               <tr key={r.spotId} style={r.spotId === data.winnerId ? { background: "#fefce8" } : undefined}>
                 <td className="rankings-rank">{r.spotId === data.winnerId ? "🏆" : i + 1}</td>
-                <td style={{ fontWeight: 600 }}><Link href={`/spot/${r.spotId}`} style={{ color: "inherit" }}>{r.name}</Link></td>
+                <td style={{ fontWeight: 600 }}><Link href={pathForSpotId(r.spotId)} style={{ color: "inherit" }}>{r.name}</Link></td>
                 <td className="rankings-votes">{r.count || 0}</td>
               </tr>
             ))}
@@ -238,7 +238,7 @@ export default async function RankingPage({ params }) {
               <li key={r.spotId} style={{ display: "flex", gap: 12, padding: "10px 0", borderBottom: "1px solid var(--line, #eee)" }}>
                 <span style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 18, minWidth: 26, color: "var(--violet-deep)" }}>{i + 1}</span>
                 <div>
-                  <Link href={`/spot/${r.spotId}`} style={{ fontWeight: 600, color: "inherit" }}>{r.name}</Link>
+                  <Link href={pathForSpotId(r.spotId)} style={{ fontWeight: 600, color: "inherit" }}>{r.name}</Link>
                   {r.blurb && <div style={{ fontSize: 13, color: "var(--ink-soft)", marginTop: 3 }}>{r.blurb}</div>}
                 </div>
               </li>
