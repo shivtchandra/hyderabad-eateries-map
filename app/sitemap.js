@@ -40,6 +40,7 @@ export default async function sitemap() {
     { url: `${siteUrl}/stories`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteUrl}/explore`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteUrl}/areas`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${siteUrl}/guides/restaurants-in-sattva-knowledge-city-hyderabad`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     ...SEO_THEME_PICKS.map((p) => {
       const slug = slugFromTitle(p.title);
       return {

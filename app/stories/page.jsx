@@ -143,6 +143,43 @@ function StoryRow({ s }) {
   );
 }
 
+function GuideCard() {
+  return (
+    <article className="stories-feature">
+      <Link href="/guides/restaurants-in-sattva-knowledge-city-hyderabad" className="stories-feature-link">
+        <div className="stories-feature-media">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://rmz-static.s3.dualstack.ap-south-1.amazonaws.com/01_998d11420c.webp"
+            alt="Sattva Knowledge City, Knowledge Park, THE LOFT and RMZ Nexity restaurant guide"
+            width={1200}
+            height={750}
+            decoding="async"
+            loading="lazy"
+          />
+        </div>
+        <div className="stories-feature-copy">
+          <p className="stories-eyebrow">Area Guide</p>
+          <h2>Sattva Knowledge City, Knowledge Park, THE LOFT &amp; RMZ Nexity</h2>
+          <p className="stories-meta">
+            60+ restaurants, cafes, bars and breweries · Raidurg &amp; Hi-Tech City belt · By Yogi
+          </p>
+          <p className="stories-teaser">
+            Complete F&amp;B guide across four commercial developments in Hyderabad's tech belt, from Thai and Burmese to Telugu, Italian, Mediterranean and breweries.
+          </p>
+          <span className="stories-cta">Read the guide</span>
+        </div>
+      </Link>
+      <p style={{ fontSize: 11, color: "var(--muted)", margin: "8px 4px 0", fontWeight: 600 }}>
+        Source:{" "}
+        <a href="https://x.com/YogiTweetz" target="_blank" rel="noopener noreferrer" style={{ color: "var(--violet)", textDecoration: "none" }}>
+          @YogiTweetz on X
+        </a>
+      </p>
+    </article>
+  );
+}
+
 export default function StoriesPage() {
   const spots = storySpots();
   const [lead, ...rest] = spots;
@@ -173,6 +210,7 @@ export default function StoriesPage() {
         ]}
       >
         {lead && <FeaturedStory s={lead} />}
+        <GuideCard />
 
         {rest.length > 0 && (
           <section className="stories-archive" aria-labelledby="stories-archive-title">
