@@ -1,9 +1,22 @@
+import fs from "fs";
+import path from "path";
 import { getAllRankingsThemes } from "../lib/themesServer.js";
 import { SEO_THEME_PICKS, slugFromTitle } from "../lib/rankings.js";
 import { allAreaPages, allCategoryPages, getEditorialSpotIds, spotSlug, getEateryById } from "../lib/siteData.js";
 import { getSiteUrl } from "../lib/site.js";
 
 export const dynamic = "force-dynamic";
+
+function getGuideSlugs() {
+  try {
+    const guidesDir = path.join(process.cwd(), "app", "guides");
+    return fs.readdirSync(guidesDir).filter((f) =>
+      fs.statSync(path.join(guidesDir, f)).isDirectory()
+    );
+  } catch {
+    return [];
+  }
+}
 
 /**
  * Hub-first sitemap. Spot detail URLs are limited to editorial entities
@@ -40,7 +53,12 @@ export default async function sitemap() {
     { url: `${siteUrl}/stories`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteUrl}/explore`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteUrl}/areas`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${siteUrl}/guides/restaurants-in-sattva-knowledge-city-hyderabad`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    ...getGuideSlugs().map((slug) => ({
+      url: `${siteUrl}/guides/${slug}`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    })),
     ...SEO_THEME_PICKS.map((p) => {
       const slug = slugFromTitle(p.title);
       return {
