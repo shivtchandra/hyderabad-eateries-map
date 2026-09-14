@@ -45,13 +45,13 @@ const homeLd = {
       name: "Mapping HYD Eats",
       url: siteUrl,
       description,
-      publisher: { "@id": "https://mapmyhyd.com/#organization" },
+      publisher: { "@id": `${siteUrl}/#organization` },
     },
     {
       "@type": "Organization",
       "@id": `${siteUrl}/#organization`,
-      name: "Mapping HYD",
-      url: "https://mapmyhyd.com/",
+      name: "Mapping HYD Eats",
+      url: siteUrl,
       sameAs: [
         "https://mapmyhyd.com/",
         "https://startups.mapmyhyd.com/",
