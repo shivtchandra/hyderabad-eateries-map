@@ -16,10 +16,12 @@ const getHistory = unstable_cache(
       .limit(Math.max(limit * 4, 40))
       .get();
 
+    const today = new Date().toISOString().slice(0, 10);
     const out = [];
     for (const doc of snap.docs) {
       const data = doc.data() || {};
       if (data.active) continue;
+      if (data.endDate && data.endDate > today) continue; // skip future-scheduled themes
       const votesSnap = await doc.ref
         .collection("votes")
         .orderBy("count", "desc")
