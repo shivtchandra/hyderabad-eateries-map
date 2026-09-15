@@ -28,6 +28,15 @@ const nextConfig = {
       "./node_modules/@imgly/**/*",
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/photos/:path*",
+        destination:
+          "https://cdn.jsdelivr.net/gh/shivtchandra/hyderabad-eateries-map@master/public/photos/:path*",
+      },
+    ];
+  },
   async redirects() {
     return [
       // Common search URL patterns → ranking pages
