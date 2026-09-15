@@ -64,16 +64,23 @@ const getCurrentTheme = unstable_cache(
       for (const v of Object.values(voteMap)) {
         if (!seen.has(v.spotId)) results.push(v);
       }
-      results.sort((a, b) => (b.count || 0) - (a.count || 0));
+      // Deduplicate by normalised name — same place voted under two spotIds keeps higher count.
+      const byName = new Map();
+      for (const r of results) {
+        const key = (r.name || "").trim().toLowerCase();
+        const existing = byName.get(key);
+        if (!existing || (r.count || 0) > (existing.count || 0)) byName.set(key, r);
+      }
+      const sorted = [...byName.values()].sort((a, b) => (b.count || 0) - (a.count || 0));
 
       // After endDate: crown follows live #1. Votes stay open (see /api/theme/vote).
-      const crown = nextCrownUpdate(theme, results, today);
+      const crown = nextCrownUpdate(theme, sorted, today);
       if (crown) {
         await doc.ref.update(crown);
         Object.assign(theme, crown);
       }
 
-      return { theme, results };
+      return { theme, results: sorted };
     } catch {
       return { theme: null, results: [] };
     }
