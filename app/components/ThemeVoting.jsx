@@ -35,30 +35,50 @@ function campaignSharePayload(theme, results = []) {
   return { title: `${theme.title}, Hyderabad Eats`, text, url };
 }
 
+function locLabel(area) {
+  if (!area || typeof area !== "string") return "";
+  if (area.startsWith("text:") || area.length > 24) return "";
+  return area;
+}
+
+function duplicateNameSet(rows = []) {
+  const counts = {};
+  for (const r of rows) {
+    if (!r.name) continue;
+    counts[r.name] = (counts[r.name] || 0) + 1;
+  }
+  return new Set(Object.entries(counts).filter(([, c]) => c > 1).map(([n]) => n));
+}
+
 function mergeStandings(results = [], suggestions = [], limit = 10) {
+  const sugById = Object.fromEntries(suggestions.map((s) => [s.spotId, s]));
+  const withLoc = (r) => ({
+    ...r,
+    area: locLabel(r.area) || locLabel(sugById[r.spotId]?.area),
+  });
   const voted = [...results]
     .filter((r) => (r.count || 0) > 0)
-    .sort((a, b) => (b.count || 0) - (a.count || 0));
+    .sort((a, b) => (b.count || 0) - (a.count || 0))
+    .map(withLoc);
   const seen = new Set(voted.map((r) => r.spotId));
   const out = [...voted];
 
-  const sugById = Object.fromEntries(suggestions.map((s) => [s.spotId, s]));
   const zeros = results
     .filter((r) => !seen.has(r.spotId))
     .map((r) => {
       const s = sugById[r.spotId];
-      return {
+      return withLoc({
         ...r,
         count: r.count || 0,
         suggested: true,
         rating: r.rating ?? s?.rating,
         ratingCount: r.ratingCount ?? s?.ratingCount ?? 0,
-      };
+      });
     });
 
   const sug = suggestions
     .filter((s) => !seen.has(s.spotId))
-    .map((s) => ({
+    .map((s) => withLoc({
       spotId: s.spotId,
       name: s.name,
       count: 0,
@@ -278,6 +298,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastCl
   }, [theme?.title]);
 
   const standings = mergeStandings(results, seedSuggestions, 12);
+  const dupNames = duplicateNameSet(standings);
   const hasVotes = standings.some((r) => (localCounts[r.spotId] ?? r.count ?? 0) > 0);
 
   const searchSpots = (q) => {
@@ -458,7 +479,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastCl
                   >
                     <span style={{ minWidth: 0 }}>
                       <span style={{ display: "block", fontWeight: 700, fontSize: 13.5, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.name}</span>
-                      {s.area && <span style={{ display: "block", color: "var(--muted)", fontSize: 11.5, marginTop: 2 }}>{s.area}</span>}
+                      {locLabel(s.area) && <span style={{ display: "block", color: "var(--muted)", fontSize: 11.5, marginTop: 2 }}>{locLabel(s.area)}</span>}
                     </span>
                     <span style={{ flexShrink: 0, fontSize: 12, fontWeight: 800, color: "var(--violet)" }}>
                       {votedSpotId ? "Switch" : "Vote"}
@@ -504,11 +525,15 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastCl
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontWeight: 700, fontSize: 14, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}</div>
                   <div style={{ fontSize: 11.5, color: "var(--muted)", fontWeight: 500, marginTop: 1 }}>
-                    {count > 0
-                      ? `${count} vote${count !== 1 ? "s" : ""}`
-                      : (r.rating != null
-                        ? `${r.rating}★ on Google · tap to vote`
-                        : "Tap to cast the first vote")}
+                    {(() => {
+                      const loc = dupNames.has(r.name) ? r.area : "";
+                      const rest = count > 0
+                        ? `${count} vote${count !== 1 ? "s" : ""}`
+                        : (r.rating != null
+                          ? `${r.rating}★ on Google · tap to vote`
+                          : "Tap to cast the first vote");
+                      return loc ? `${loc} · ${rest}` : rest;
+                    })()}
                   </div>
                 </div>
                 {r.spotId === votedSpotId ? (

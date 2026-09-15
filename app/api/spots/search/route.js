@@ -1,5 +1,6 @@
 import { readFileSync } from "fs";
 import { join } from "path";
+import { displayArea } from "../../../../lib/eateryUtils.js";
 
 export const dynamic = "force-dynamic";
 
@@ -26,7 +27,7 @@ export async function GET(req) {
       spotId: e.id,
       name: e.name,
       category: e.category,
-      area: e.discoveredIn,
+      area: displayArea(e),
       tags: e.tags || [],
       rating: e.rating ?? null,
       ratingCount: e.ratingCount || 0,
