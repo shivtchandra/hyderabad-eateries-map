@@ -4,9 +4,9 @@ import { ogImages } from "../../../lib/og.js";
 import { SiteNav, SiteBreadcrumb, SiteFooter, SiteRelated } from "../../components/SiteChrome.jsx";
 
 const SLUG = "/guides/late-night-food-hyderabad-reddit";
-const TITLE = "Late Night Food in Hyderabad (12 AM – 5 AM): The Reddit Midnight Guide";
+const TITLE = "Best Late Night Food & 24/7 Eateries in Hyderabad (2026)";
 const DESCRIPTION =
-  "Where to eat past midnight in Hyderabad according to r/hyderabad: DLF Street food stalls, Roast 24/7, late-night tiffins, midnight biryani, and 24-hour chai hubs with verified timings.";
+  "Safe, verified late-night food in Hyderabad: DLF Street Food, Roast 24 Seven, Cafe Niloufer, and midnight mutton biryani spots open from 12 AM to 5 AM.";
 
 export const metadata = {
   ...pageMeta({ title: TITLE, description: DESCRIPTION, path: SLUG }),
@@ -16,13 +16,13 @@ export const metadata = {
   },
   keywords: [
     "late night food hyderabad reddit",
-    "midnight food hyderabad",
-    "dlf street food timings reddit",
-    "food open at 2 am hyderabad",
-    "24 hour cafes in hyderabad",
-    "late night biryani hyderabad reddit",
-    "late night dosa hyderabad",
-    "r/hyderabad midnight food",
+    "24 hours restaurants in hyderabad",
+    "dlf street food timings hyderabad",
+    "midnight biryani hyderabad",
+    "roast 24 seven jubilee hills",
+    "cafe niloufer midnight chai",
+    "food open past 12am hyderabad",
+    "late night eateries gachibowli",
   ],
 };
 
@@ -36,7 +36,7 @@ const articleLd = {
   dateModified: "2026-09-17",
   author: {
     "@type": "Organization",
-    name: "r/hyderabad Community & Hyderabad Eats",
+    name: "Mapping HYD Eats Editorial Team",
   },
   publisher: {
     "@type": "Organization",
@@ -50,7 +50,7 @@ const breadcrumbLd = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home", item: "https://eats.mapmyhyd.com" },
-    { "@type": "ListItem", position: 2, name: "Guides", item: "https://eats.mapmyhyd.com/guides" },
+    { "@type": "ListItem", position: 2, name: "Stories & Guides", item: "https://eats.mapmyhyd.com/stories" },
     { "@type": "ListItem", position: 3, name: "Late Night Food Guide", item: "https://eats.mapmyhyd.com" + SLUG },
   ],
 };
@@ -61,256 +61,312 @@ const faqLd = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "Where is the best street food open after 1 AM in Hyderabad?",
+      name: "Where can I get late night street food in Hyderabad after 1 AM?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "DLF Street in Gachibowli is the most famous and reliable late-night food hub in Hyderabad, with dozens of active stalls serving momos, Maggi, shawarma, and tiffins until 2:30 AM – 3:00 AM.",
+        text: "The DLF Street Food lane in Gachibowli is the most famous late night food hub, active until 2:30 AM – 3:00 AM with stalls serving hot dosas, Maggi, momos, rolls, and shawarmas.",
       },
     },
     {
       "@type": "Question",
-      name: "Which cafes are open 24/7 in Hyderabad for coffee and food?",
+      name: "Are there 24/7 cafes in Hyderabad for working late at night?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Roast 24 Seven in Jubilee Hills/Gachibowli belt is the top-voted 24/7 cafe on r/hyderabad for late-night coffee, food, and quiet work spaces.",
+        text: "Yes, Roast 24 Seven in Jubilee Hills and Gachibowli operates 24 hours daily with specialty coffee, high-speed WiFi, and food service throughout the night.",
       },
     },
     {
       "@type": "Question",
-      name: "Where can you get late-night biryani in Hyderabad?",
+      name: "Where is the best place for midnight Irani Chai in Hyderabad?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Shah Ghouse (Tolichowki & Charminar) and Peshawar (Lakdikapul) are the go-to spots for hot mutton dum biryani served well past midnight.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is Cafe Niloufer open late for midnight chai?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, Cafe Niloufer branches (such as Himayatnagar and Lakdi Ka Pul) serve hot Irani chai, bun maska, and Osmania biscuits until around 1:00 AM – 1:30 AM.",
+        text: "Cafe Niloufer's Banjara Hills and Himayatnagar branches stay open until 1:00 AM – 1:30 AM serving hot Irani chai, bun maska, and fresh bakery items.",
       },
     },
   ],
 };
 
-const LATE_NIGHT_SPOTS = [
+const SPOTS = [
   {
-    rank: 1,
-    name: "DLF Street Food Belt (Gachibowli)",
-    timing: "Open until 2:30 AM – 3:00 AM",
-    area: "Gachibowli, opposite DLF Cybercity",
+    id: "dlf",
+    name: "DLF Street Food Lane",
+    tag: "Midnight Street Hub (Till 3 AM)",
+    tagBg: "#fef3c7",
+    tagColor: "#92400e",
+    area: "Gachibowli (Opp. DLF Cybercity)",
     href: "/spot/jai-bhawani-tiffin-center-dlf-gate-1-gachibowli",
-    verdict: "The undisputed capital of midnight street cravings for techies and night owls. The entire stretch is alive with steaming tiffins, fried momos, and Maggi.",
-    whatToOrder: "Egg Cheese Maggi, AM-PM Momos, and Ghee Karampodi Dosa at Jai Bhawani.",
-    tip: "Park near Gate 2 or take a cab, as the main road gets crowded between 12:30 AM and 1:30 AM.",
-    redditQuote: "“DLF is the only place in Cyberabad where you can get momos, crispy dosa, and fresh fruit juice together at 2:00 AM.”",
+    verdict:
+      "The undisputed midnight street food epicentre of Cyberabad. Packed with dozens of stalls serving steaming hot butter dosas, cheese Maggi, fried momos, and shawarmas to night-shift techies and hungry partygoers.",
+    whatToOrder: "Jai Bhawani Ghee Dosa, AM-PM Fried Momos, Egg Cheese Maggi.",
+    timingTip: "Most active between 11:30 PM and 2:30 AM. Police patrolling starts clearing stalls near 3:00 AM.",
+    quote: "“DLF is unmatched for 2 AM butter dosas and momos with friends.”",
   },
   {
-    rank: 2,
+    id: "roast247",
     name: "Roast 24 Seven",
-    timing: "Open 24 Hours (Round the clock)",
-    area: "Jubilee Hills / Western Belt",
+    tag: "24/7 Specialty Cafe & Workspace",
+    tagBg: "#eef2ff",
+    tagColor: "#4338ca",
+    area: "Jubilee Hills & Gachibowli",
     href: "/spot/roast-24-seven-jubilee-hills",
-    verdict: "The top-recommended premium midnight haven. High-speed Wi-Fi, artisanal coffee, gourmet sandwiches, and comfortable seating all night.",
-    whatToOrder: "Cold Brew, Pour-Over Specialty Coffee, and Truffle Fries / Pasta.",
-    tip: "Perfect for midnight coding, reading, or quiet conversations away from noisy street stalls.",
-    redditQuote: "“When you need proper coffee and a quiet table at 3:30 AM with zero stress, Roast 24 Seven is unbeatable.”",
+    verdict:
+      "A rare 24/7 specialty coffeehouse with full food service, reliable air conditioning, and power outlets at almost every table. Excellent for midnight brainstorms or safe late-night coffee dates.",
+    whatToOrder: "Single Origin Cold Brew, Truffle Mushroom Pasta, Dark Chocolate Croissant.",
+    timingTip: "Open 24 hours daily with valet parking.",
+    quote: "“Safe, quiet 3 AM workspace with incredible specialty coffee.”",
   },
   {
-    rank: 3,
-    name: "Cafe Niloufer (Midnight Chai)",
-    timing: "Open until 1:00 AM – 1:30 AM",
-    area: "Himayatnagar / Lakdikapul",
+    id: "niloufer",
+    name: "Cafe Niloufer",
+    tag: "Midnight Irani Chai & Bun Maska",
+    tagBg: "#f0fdf4",
+    tagColor: "#166534",
+    area: "Himayatnagar, Banjara Hills & HITEC City",
     href: "/spot/cafe-niloufer-himayatnagar-himayatnagar",
-    verdict: "The ultimate midnight ritual in Hyderabad. Thick, creamy Irani chai served in porcelain cups alongside hot bun maska and fresh Osmania biscuits.",
-    whatToOrder: "Special Irani Chai, Bun Maska with Jam, and Paneer Puff.",
-    tip: "Standing outside the counter with friends gives you the authentic local Hyderabad midnight vibe.",
-    redditQuote: "“A midnight drive on Tank Bund ending with hot chai at Niloufer Himayatnagar is a quintessential Hyderabad experience.”",
+    verdict:
+      "Hyderabad's most celebrated Irani chai institution keeps its ovens running late. The rich, creamy tea paired with butter-laden bun maska or crisp Osmania biscuits is the city's favorite midnight comfort ritual.",
+    whatToOrder: "Special Irani Chai, Bun Maska with Jam, Osmania Biscuits, Paneer Roll.",
+    timingTip: "Banjara Hills and Himayatnagar outlets remain lively until 1:00 AM – 1:30 AM.",
+    quote: "“Midnight chai and bun maska at Niloufer is therapeutic.”",
   },
   {
-    rank: 4,
-    name: "Shah Ghouse Cafe (Midnight Dum Biryani)",
-    timing: "Open until 1:30 AM – 2:00 AM",
-    area: "Tolichowki / Charminar",
-    href: "/spot/shah-ghouse-cafe-charminar-old-city",
-    verdict: "When your late-night hunger requires serious food. Fresh handis of mutton dum biryani and smoky boti kebabs served hot until the early hours.",
-    whatToOrder: "Mutton Dum Biryani, Boti Kebab, and Mutton Marag.",
-    tip: "Ask for extra 'saalan' (mirchi curry) to drizzle over the steaming midnight rice.",
-    redditQuote: "“Shah Ghouse Tolichowki is the savior when you land at RGIA airport past midnight and need real food.”",
+    id: "shahghouse",
+    name: "Shah Ghouse",
+    tag: "Late-Night Mutton Biryani",
+    tagBg: "#fff7ed",
+    tagColor: "#9a3412",
+    area: "Gachibowli, Tolichowki & Charminar",
+    href: "/spot/shah-ghouse-cafe-and-restaurant-gachibowli",
+    verdict:
+      "When a severe midnight biryani craving strikes at 1:30 AM, Shah Ghouse is the reliable savior. Steaming hot plates of spicy mutton biryani, chicken 65, and tangdi kebabs continue serving late into the night.",
+    whatToOrder: "Special Mutton Biryani, Chicken 65, Mutton Tangdi.",
+    timingTip: "The Tolichowki and Gachibowli branches stay open till 1:30 AM – 2:00 AM.",
+    quote: "“The only place that serves hot, spicy mutton biryani past 1 AM without compromising on taste.”",
   },
 ];
 
-export default function LateNightFoodRedditGuide() {
+export default function LateNightGuidePage() {
   return (
-    <>
+    <div className="site-page">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <div className="site-page">
-        <header className="site-header">
-          <div className="site-header-inner">
-            <SiteNav />
-            <SiteBreadcrumb
-              items={[
-                { href: "/", label: "Home" },
-                { href: "/guides", label: "Guides" },
-                { href: SLUG, label: "Midnight Food Guide" },
-              ]}
-            />
-            <h1 className="site-title">{TITLE}</h1>
-            <p className="site-description">
-              Verified late-night eateries, street hubs, 24/7 cafes, and midnight chai spots tested by r/hyderabad night owls.
-            </p>
-            <div className="site-header-meta" style={{ marginTop: 12 }}>
-              <span className="site-pill">Verified Timings</span>
-              <span className="site-pill">12 AM – 5 AM Hubs</span>
-              <span className="site-pill">r/hyderabad Tested</span>
-            </div>
-          </div>
-        </header>
 
-        <main className="site-main">
-          <section className="site-section">
-            <div className="site-prose">
-              <p>
-                Hyderabad is a city that never sleeps hungry. Whether you are wrapping up a late shift in the IT corridor, landing at the airport past midnight, or on a night drive with friends, there are dependable spots that serve incredible food until sunrise.
-              </p>
-              <p>
-                Here is the <strong>r/hyderabad verified guide</strong> to where to eat after midnight without running into closed shutters or stale food.
-              </p>
-            </div>
-          </section>
-
-          <section className="site-section">
-            <h2 className="site-section-title">The Top Late-Night Hubs (Ranked)</h2>
-            <div className="site-stack" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-              {LATE_NIGHT_SPOTS.map((spot) => (
-                <article
-                  key={spot.name}
-                  className="site-card"
-                  style={{
-                    padding: "20px 24px",
-                    background: "var(--cream-hi)",
-                    borderRadius: "16px",
-                    border: "1px solid var(--line)",
-                  }}
-                >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
-                    <div>
-                      <span
-                        style={{
-                          display: "inline-block",
-                          padding: "2px 8px",
-                          borderRadius: "6px",
-                          fontSize: "12px",
-                          fontWeight: 700,
-                          background: "var(--pop)",
-                          color: "#fff",
-                          marginBottom: "8px",
-                        }}
-                      >
-                        #{spot.rank} Late-Night Pick
-                      </span>
-                      <h3 style={{ margin: "0 0 4px", fontSize: "20px", color: "var(--ink)" }}>{spot.name}</h3>
-                      <p style={{ margin: "0 0 12px", fontSize: "13px", color: "var(--muted)" }}>
-                        📍 {spot.area} · <strong style={{ color: "var(--forest)" }}>🕒 {spot.timing}</strong>
-                      </p>
-                    </div>
-                    <Link
-                      href={spot.href}
-                      className="site-pill"
-                      style={{ background: "var(--blue-wash)", color: "var(--blue)", textDecoration: "none", fontWeight: 600 }}
-                    >
-                      View Spot →
-                    </Link>
-                  </div>
-
-                  <p style={{ fontSize: "14.5px", lineHeight: "1.6", color: "var(--ink-soft)", margin: "0 0 12px" }}>
-                    {spot.verdict}
-                  </p>
-
-                  <div style={{ background: "var(--cream)", padding: "12px 16px", borderRadius: "10px", margin: "12px 0", fontSize: "13.5px" }}>
-                    <div style={{ marginBottom: "6px" }}>
-                      <strong style={{ color: "var(--forest)" }}>Must Order:</strong> {spot.whatToOrder}
-                    </div>
-                    <div>
-                      <strong style={{ color: "var(--pop-deep)" }}>Night Owl Tip:</strong> {spot.tip}
-                    </div>
-                  </div>
-
-                  <blockquote
-                    style={{
-                      margin: "12px 0 0",
-                      paddingLeft: "12px",
-                      borderLeft: "3px solid var(--violet)",
-                      fontStyle: "italic",
-                      fontSize: "13px",
-                      color: "var(--ink-soft)",
-                    }}
-                  >
-                    {spot.redditQuote}
-                    <cite style={{ display: "block", fontSize: "11px", color: "var(--muted)", marginTop: "4px", fontStyle: "normal" }}>
-                      — r/hyderabad community tip
-                    </cite>
-                  </blockquote>
-                </article>
-              ))}
-            </div>
-          </section>
-
-          <section className="site-section">
-            <h2 className="site-section-title">Late-Night Frequently Asked Questions</h2>
-            <div className="spot-faq" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {faqLd.mainEntity.map((f, i) => (
-                <details
-                  key={i}
-                  open={i === 0}
-                  style={{
-                    background: "var(--cream-hi)",
-                    border: "1px solid var(--line)",
-                    borderRadius: "12px",
-                    padding: "14px 18px",
-                  }}
-                >
-                  <summary style={{ fontWeight: 600, color: "var(--ink)", cursor: "pointer", fontSize: "15px" }}>
-                    {f.name}
-                  </summary>
-                  <p style={{ margin: "10px 0 0", color: "var(--ink-soft)", fontSize: "14px", lineHeight: 1.6 }}>
-                    {f.acceptedAnswer.text}
-                  </p>
-                </details>
-              ))}
-            </div>
-          </section>
-
-          <section className="site-section" style={{ textAlign: "center", padding: "32px 16px" }}>
-            <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>Explore 3,400+ Spots on the Live Map</h2>
-            <p style={{ color: "var(--muted)", maxWidth: "500px", margin: "0 auto 20px" }}>
-              Filter places by open timings, check live community votes, and find the best food near you right now.
-            </p>
-            <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-              <Link href="/" className="site-cta" style={{ margin: 0 }}>
-                Open Live Map →
-              </Link>
-              <Link href="/areas/gachibowli" className="site-cta" style={{ margin: 0, background: "var(--ink)" }}>
-                Explore Gachibowli Eateries
-              </Link>
-            </div>
-          </section>
-
-          <SiteRelated
-            title="More Guides & Rankings"
-            links={[
-              { href: "/guides/best-biryani-hyderabad-reddit", label: "Best Biryani (Reddit Guide)" },
-              { href: "/rankings/best-cafe-in-hyderabad", label: "Best Cafe Rankings" },
-              { href: "/areas/gachibowli", label: "Food in Gachibowli" },
-              { href: "/stories", label: "Local Food Stories" },
+      <header className="site-header">
+        <div className="site-header-inner">
+          <SiteNav />
+          <SiteBreadcrumb
+            items={[
+              { href: "/", label: "Home" },
+              { href: "/stories", label: "Stories & Guides" },
+              { href: SLUG, label: "Late Night Food Guide" },
             ]}
           />
-        </main>
-        <SiteFooter />
-      </div>
-    </>
+          <div className="site-hero">
+            <h1>Best Late Night Food &amp; 24/7 Eateries in Hyderabad</h1>
+            <p>
+              Verified midnight food spots open from 12 AM to 5 AM: street dosas, 24/7 specialty cafes, Irani chai counters, and late-night mutton biryani.
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <main className="site-body">
+        {/* Byline */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 24, paddingBottom: 16, borderBottom: "1.5px solid var(--line)" }}>
+          <div>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--violet)" }}>
+              Editorial Field Guide · 2026 Local Consensus
+            </div>
+            <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 3 }}>
+              Updated September 2026 · Verified night owl &amp; midnight food trails
+            </div>
+          </div>
+          <Link href="/" style={{ flexShrink: 0, fontSize: 13, fontWeight: 800, color: "var(--violet)", textDecoration: "none", padding: "8px 14px", borderRadius: 999, background: "var(--violet-wash)" }}>
+            Open Map
+          </Link>
+        </div>
+
+        {/* Quick Picks Summary Card */}
+        <section
+          style={{
+            background: "var(--paper)",
+            border: "1.5px solid var(--line)",
+            borderRadius: 14,
+            padding: "20px 22px",
+            marginBottom: 32,
+            boxShadow: "var(--e1, 0 1px 3px rgba(0,0,0,0.05))",
+          }}
+        >
+          <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: 20, margin: "0 0 14px", color: "var(--ink)" }}>
+            Quick Picks: Where to Go
+          </h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
+            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Midnight Street Food Hub</div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>DLF Street Food (Till 3 AM)</div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Ghee dosas, momos &amp; egg Maggi</div>
+            </div>
+            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>24/7 Work &amp; Coffee</div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Roast 24 Seven</div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Round-the-clock specialty coffee &amp; food</div>
+            </div>
+            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Midnight Irani Chai</div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Cafe Niloufer (Till 1:30 AM)</div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Special chai + warm bun maska</div>
+            </div>
+            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Midnight Mutton Biryani</div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Shah Ghouse (Till 2 AM)</div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Hot mutton biryani + Chicken 65</div>
+            </div>
+          </div>
+        </section>
+
+        {/* Spot Deep Dives */}
+        <section style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+          {SPOTS.map((s, idx) => (
+            <article
+              key={s.id}
+              style={{
+                background: "var(--paper)",
+                border: "1.5px solid var(--line)",
+                borderRadius: 14,
+                padding: "22px 24px",
+                boxShadow: "var(--e1, 0 1px 3px rgba(0,0,0,0.05))",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 12 }}>
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ fontSize: 12, fontWeight: 800, color: "var(--muted)" }}>#{idx + 1}</span>
+                    <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: "clamp(20px, 3.5vw, 24px)", margin: 0, color: "var(--ink)" }}>
+                      {s.name}
+                    </h2>
+                  </div>
+                  <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 4 }}>
+                    📍 {s.area}
+                  </div>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 700,
+                      letterSpacing: "0.03em",
+                      textTransform: "uppercase",
+                      padding: "4px 10px",
+                      borderRadius: 999,
+                      background: s.tagBg,
+                      color: s.tagColor,
+                    }}
+                  >
+                    {s.tag}
+                  </span>
+                  <Link
+                    href={s.href}
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 700,
+                      color: "var(--violet)",
+                      textDecoration: "none",
+                      padding: "4px 10px",
+                      borderRadius: 999,
+                      background: "var(--violet-wash)",
+                    }}
+                  >
+                    View on map →
+                  </Link>
+                </div>
+              </div>
+
+              <p className="review-prose" style={{ margin: "0 0 16px", fontSize: 15, lineHeight: 1.6, color: "var(--ink-soft, #333)" }}>
+                {s.verdict}
+              </p>
+
+              <div style={{ background: "var(--cream)", border: "1px solid var(--line)", borderRadius: 10, padding: "12px 16px", marginBottom: 14 }}>
+                <div style={{ fontSize: 13.5, color: "var(--ink)" }}>
+                  <strong style={{ color: "var(--ink)" }}>🌙 Must Order:</strong> {s.whatToOrder}
+                </div>
+                <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 6 }}>
+                  <strong style={{ color: "var(--ink)" }}>⏱️ Timings &amp; Police Advisory:</strong> {s.timingTip}
+                </div>
+              </div>
+
+              <blockquote
+                style={{
+                  margin: 0,
+                  padding: "10px 14px",
+                  borderRadius: 8,
+                  background: "var(--violet-wash)",
+                  borderLeft: "3px solid var(--violet)",
+                  fontFamily: "var(--font-fraunces), serif",
+                  fontSize: 14,
+                  fontStyle: "italic",
+                  lineHeight: 1.45,
+                  color: "var(--ink)",
+                }}
+              >
+                {s.quote}
+              </blockquote>
+            </article>
+          ))}
+        </section>
+
+        {/* FAQs */}
+        <section style={{ marginTop: 40, borderTop: "1.5px solid var(--line)", paddingTop: 28 }}>
+          <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: 22, color: "var(--ink)", marginBottom: 16 }}>
+            Frequently Asked Questions
+          </h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {faqLd.mainEntity.map((faq, i) => (
+              <details
+                key={i}
+                style={{
+                  background: "var(--paper)",
+                  border: "1.5px solid var(--line)",
+                  borderRadius: 10,
+                  padding: "14px 18px",
+                }}
+              >
+                <summary style={{ fontWeight: 700, fontSize: 15, cursor: "pointer", color: "var(--ink)" }}>
+                  {faq.name}
+                </summary>
+                <p style={{ margin: "10px 0 0", fontSize: 14, color: "var(--muted)", lineHeight: 1.55 }}>
+                  {faq.acceptedAnswer.text}
+                </p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        {/* Explore Hub Pills */}
+        <section style={{ marginTop: 36, borderTop: "1.5px solid var(--line)", paddingTop: 24 }}>
+          <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--violet)", marginBottom: 10 }}>
+            More Curated Guides &amp; Explore Hubs
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            <Link href="/guides/best-biryani-hyderabad-reddit" className="site-pill">Best Biryani Guide</Link>
+            <Link href="/guides/best-tiffins-hyderabad-reddit" className="site-pill">Best Tiffins Guide</Link>
+            <Link href="/guides/best-cafes-hyderabad-reddit" className="site-pill">Best Cafes Guide</Link>
+            <Link href="/guides/best-ice-cream-desserts-hyderabad" className="site-pill">Best Ice Cream &amp; Desserts</Link>
+            <Link href="/explore/restaurants" className="site-pill">All Restaurants</Link>
+            <Link href="/areas/gachibowli" className="site-pill">Gachibowli Food</Link>
+          </div>
+        </section>
+      </main>
+
+      <SiteRelated
+        links={[
+          { href: "/explore/biryani-and-local", label: "Midnight Biryani & Eats" },
+          { href: "/areas/gachibowli", label: "Gachibowli Late Night" },
+          { href: "/explore/cafes", label: "24/7 Cafes" },
+          { href: "/stories", label: "All Food Stories & Guides" },
+        ]}
+      />
+      <SiteFooter />
+    </div>
   );
 }

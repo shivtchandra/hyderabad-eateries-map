@@ -50,7 +50,7 @@ const breadcrumbLd = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home", item: "https://eats.mapmyhyd.com" },
-    { "@type": "ListItem", position: 2, name: "Guides", item: "https://eats.mapmyhyd.com/guides" },
+    { "@type": "ListItem", position: 2, name: "Stories & Guides", item: "https://eats.mapmyhyd.com/stories" },
     { "@type": "ListItem", position: 3, name: "Best Tiffins Guide", item: "https://eats.mapmyhyd.com" + SLUG },
   ],
 };
@@ -72,7 +72,7 @@ const faqLd = {
       name: "What is special about Penam Tiffins in Jubilee Hills?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Penam focuses on simple, homestyle village cooking with a tight menu centered around village-style dosas and pungaralu paired with exceptional homemade chutney.",
+        text: "Penam is known for its homestyle, village-style preparation, particularly their crispy pungaralu, authentic podi idlis, and rich ground chutneys that taste like home cooking.",
       },
     },
     {
@@ -80,7 +80,7 @@ const faqLd = {
       name: "Where can you find authentic Rayalaseema Ghee Karam Dosa in Hyderabad?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Panchakattu Dosa (outlets in Begumpet and Nallagandla) is the top choice for authentic Rayalaseema ghee-roasted dosas coated with spicy red chili-garlic paste and podi.",
+        text: "Panchakattu Dosa in Begumpet and Nallagandla specializes in fiery Rayalaseema-style ghee karam dosas with signature red garlic paste.",
       },
     },
     {
@@ -88,250 +88,293 @@ const faqLd = {
       name: "Is Kanchi Cafe worth visiting in 2026?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Kanchi Cafe was a standout opening, but recent 2026 visits show extreme weekend crowding and inconsistent quality during peak rushes. For a more reliable sit-down breakfast, Ishtaa or Panchakattu are currently more consistent.",
+        text: "Kanchi Cafe serves great Kumbakonam degree filter coffee and ghee button idlis, but weekend peak hours (9:00 AM to 11:30 AM) get heavily overcrowded. For the best experience, visit on weekday mornings.",
       },
     },
   ],
 };
 
-const TIFFIN_PICKS = [
+const SPOTS = [
   {
+    id: "ishtaa",
     name: "Ishtaa",
-    tagline: "The Chutney Spread Champion (Pure Veg)",
+    tag: "Chutney Spread Champion (Pure Veg)",
+    tagBg: "#f0fdf4",
+    tagColor: "#166534",
     area: "Madhapur / HITEC City",
-    href: "/spot/ishtaa-madhapur-hitec",
+    href: "/spot/ishtaa-pure-veg-restaurant-hitech-city-madhapur-hitec",
     verdict:
-      "Easily one of the top tiffin destinations in the city. The dosas are crisp outside and tender inside, but the real flex is the chutney spread: multiple distinct varieties, all freshly made. Sits on the higher price tier, but the quality and hygiene justify every rupee.",
-    whatToOrder: "Ghee Roast Dosa with Chutney Spread, Filter Coffee, and Idli Vada combo.",
-    timingTip: "Arrive before 9:00 AM on weekends or visit on weekdays for peaceful dining.",
+      "Easily one of the top tiffin destinations in Cyberabad. The dosas are crisp outside and tender inside, but the real star is the chutney spread: multiple distinct varieties, all freshly ground. Sits on the higher price tier, but the hygiene, ambiance, and chutney quality justify every rupee.",
+    whatToOrder: "Ghee Roast Dosa with Chutney Platter, Filter Coffee, and Idli Vada combo.",
+    timingTip: "Arrive before 8:45 AM on weekends or visit on weekdays for calm dining without queues.",
     quote: "“The dosa slapped, the chutneys were excellent with real variety, and even though prices are on the higher side, it is totally worth it.”",
   },
   {
+    id: "penam",
     name: "Penam - Village Style Dosa",
-    tagline: "Honest Homestyle Dosa & Pungaralu",
+    tag: "Honest Homestyle & Pungaralu",
+    tagBg: "#fff7ed",
+    tagColor: "#9a3412",
     area: "Jubilee Hills",
-    href: "/spot/penam-village-style-dosa-jubilee-hills",
+    href: "/spot/penam-jubilee-hills",
     verdict:
-      "Penam keeps things deliberately focused: village-style dosas, pungaralu, and a chutney game that carries the entire table. Nothing overly commercialized—it feels like eating breakfast right at home.",
+      "Penam keeps things deliberately focused: rustic village-style dosas, piping hot pungaralu, and a chutney game that carries the entire meal. Nothing overly commercialized—it feels like eating breakfast fresh off a village griddle.",
     whatToOrder: "Village Style Dosa, Pungaralu, and Ghee Podi Idli.",
-    timingTip: "Seating is limited; perfect for quick, no-nonsense breakfast stops.",
+    timingTip: "Seating is intimate; perfect for quick, no-nonsense breakfast stops.",
     quote: "“Both the dosa and pungaralu feel like true home cooking. Menu is limited, but that chutney alone makes Penam one of the best small tiffin spots.”",
   },
   {
+    id: "panchakattu",
     name: "Panchakattu Dosa",
-    tagline: "Spicy Rayalaseema Ghee Karam Dosa",
+    tag: "Fiery Rayalaseema Ghee Karam",
+    tagBg: "#fef2f2",
+    tagColor: "#991b1b",
     area: "Begumpet / Nallagandla",
     href: "/spot/panchakattu-dosa-begumpet",
     verdict:
-      "The go-to destination for rich, spicy Andhra/Rayalaseema style tiffins. Generous pure ghee roasting, fiery red garlic karam chutney spread, and crisp golden edges.",
-    whatToOrder: "Panchakattu Special Ghee Karam Dosa, Upma Dosa, and Filter Coffee.",
-    timingTip: "The spice level is bold and authentic; ask for mild if you have a lower spice tolerance.",
+      "The benchmark destination for rich, spicy Andhra & Rayalaseema style breakfast. Generous pure ghee roasting, fiery red garlic karam chutney spread across the crepe, and golden crisp edges.",
+    whatToOrder: "Panchakattu Special Ghee Karam Dosa, Upma Dosa, and Kumbakonam Filter Coffee.",
+    timingTip: "The spice level is bold and authentic; ask baristas for mild if you have a sensitive palate.",
     quote: "“When you want a real ghee-roasted karam dosa that wakes you up, Panchakattu is the most authentic pick in town.”",
   },
   {
+    id: "kanchi",
     name: "Kanchi Cafe",
-    tagline: "Popular Spot (Note: Peak Weekend Quality Alert)",
-    area: "Hitec City / Manikonda",
+    tag: "Popular Spot (Weekday Advisory)",
+    tagBg: "#fef3c7",
+    tagColor: "#92400e",
+    area: "HITEC City / Manikonda",
     href: "/spot/kanchi-cafe-hitech-city",
     verdict:
-      "Kanchi Cafe gained massive popularity for its Kumbakonam degree coffee and traditional temple-style breakfast vibe. However, in 2025/2026, intense weekend crowds and high turnover have made the food quality hit-or-miss during rush hours.",
-    whatToOrder: "Kumbakonam Degree Coffee, Ghee Sambar Button Idli.",
-    timingTip: "Avoid peak weekend 9 AM – 11 AM rush; visit on weekday mornings for the best experience.",
-    quote: "“Used to be top-tier, but recently quality has dipped during peak weekend rushes. Great coffee, but visit during off-peak hours.”",
+      "Kanchi Cafe gained massive popularity for its Kumbakonam degree filter coffee and traditional temple-style breakfast vibe. While their coffee remains authentic, intense weekend crowds have made the kitchen turnover hit-or-miss during peak rush hours.",
+    whatToOrder: "Kumbakonam Degree Coffee, Ghee Sambar Button Idlis.",
+    timingTip: "Avoid peak weekend 9:00 AM – 11:30 AM rush; visit on weekday mornings for the best consistency.",
+    quote: "“Great degree coffee and button idlis, but visit during off-peak hours on weekdays to avoid the crazy weekend rush.”",
   },
 ];
 
 export default function BestTiffinsGuidePage() {
   return (
-    <>
+    <div className="site-page">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <div className="site-page">
-        <header className="site-header">
-          <div className="site-header-inner">
-            <SiteNav />
-            <SiteBreadcrumb
-              items={[
-                { href: "/", label: "Home" },
-                { href: "/guides", label: "Guides" },
-                { href: SLUG, label: "Best Tiffins Guide" },
-              ]}
-            />
-            <h1 className="site-title">{TITLE}</h1>
-            <p className="site-description">
-              First-hand editorial reviews and honest local insights on Hyderabad's breakfast spots. No paid influencer promotions.
-            </p>
-            <div className="site-header-meta" style={{ marginTop: 12 }}>
-              <span className="site-pill">Updated 2026</span>
-              <span className="site-pill">4 Editorial Picks</span>
-              <span className="site-pill">Verified Tiffin Data</span>
-            </div>
-          </div>
-        </header>
 
-        <main className="site-main">
-          {/* AEO Quick Decision Matrix */}
-          <section className="site-section">
-            <div
-              style={{
-                background: "var(--cream-hi)",
-                border: "2px solid var(--violet)",
-                borderRadius: "16px",
-                padding: "20px 24px",
-                marginBottom: 24,
-              }}
-            >
-              <h2 style={{ fontSize: "18px", margin: "0 0 12px", color: "var(--violet-deep)" }}>
-                🎯 AEO Decision Matrix: Where Should You Eat?
-              </h2>
-              <ul style={{ margin: 0, paddingLeft: 20, color: "var(--ink-soft)", lineHeight: 1.8, fontSize: "14.5px" }}>
-                <li>
-                  <strong>Go to Ishtaa if:</strong> You want a premium sit-down experience with the best multi-chutney spread and crisp dosas in HITEC City.
-                </li>
-                <li>
-                  <strong>Go to Penam if:</strong> You crave homestyle, small-batch village dosas and pungaralu in Jubilee Hills.
-                </li>
-                <li>
-                  <strong>Go to Panchakattu if:</strong> You want bold, spicy Rayalaseema ghee karam dosas with authentic fiery red paste.
-                </li>
-                <li>
-                  <strong>Visit Kanchi Cafe if:</strong> You want classic degree coffee on a weekday morning when it isn't overwhelmed by weekend crowds.
-                </li>
-              </ul>
-            </div>
-          </section>
-
-          {/* Detailed Spot Reviews */}
-          <section className="site-section">
-            <h2 className="site-section-title">The Top Tiffin Stops (Ranked & Reviewed)</h2>
-            <div className="site-stack" style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-              {TIFFIN_PICKS.map((spot, i) => (
-                <article
-                  key={spot.name}
-                  className="site-card"
-                  style={{
-                    padding: "22px 24px",
-                    background: "var(--cream-hi)",
-                    borderRadius: "16px",
-                    border: "1px solid var(--line)",
-                  }}
-                >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, flexWrap: "wrap" }}>
-                    <div>
-                      <span
-                        style={{
-                          display: "inline-block",
-                          padding: "2px 8px",
-                          borderRadius: "6px",
-                          fontSize: "12px",
-                          fontWeight: 700,
-                          background: i === 0 ? "var(--forest)" : "var(--pop)",
-                          color: "#fff",
-                          marginBottom: "8px",
-                        }}
-                      >
-                        #{i + 1} {spot.tagline}
-                      </span>
-                      <h3 style={{ margin: "0 0 4px", fontSize: "21px", color: "var(--ink)" }}>{spot.name}</h3>
-                      <p style={{ margin: "0 0 12px", fontSize: "13px", color: "var(--muted)" }}>📍 {spot.area}</p>
-                    </div>
-                    <Link
-                      href={spot.href}
-                      className="site-pill"
-                      style={{ background: "var(--blue-wash)", color: "var(--blue)", textDecoration: "none", fontWeight: 600 }}
-                    >
-                      View on Map →
-                    </Link>
-                  </div>
-
-                  <p style={{ fontSize: "14.5px", lineHeight: "1.6", color: "var(--ink-soft)", margin: "0 0 14px" }}>
-                    {spot.verdict}
-                  </p>
-
-                  <div style={{ background: "var(--cream)", padding: "14px 16px", borderRadius: "10px", margin: "12px 0", fontSize: "13.5px" }}>
-                    <div style={{ marginBottom: "6px" }}>
-                      <strong style={{ color: "var(--forest)" }}>Must Order:</strong> {spot.whatToOrder}
-                    </div>
-                    <div>
-                      <strong style={{ color: "var(--pop-deep)" }}>Timing & Crowd Tip:</strong> {spot.timingTip}
-                    </div>
-                  </div>
-
-                  <blockquote
-                    style={{
-                      margin: "12px 0 0",
-                      paddingLeft: "12px",
-                      borderLeft: "3px solid var(--violet)",
-                      fontStyle: "italic",
-                      fontSize: "13px",
-                      color: "var(--ink-soft)",
-                    }}
-                  >
-                    {spot.quote}
-                    <cite style={{ display: "block", fontSize: "11px", color: "var(--muted)", marginTop: "4px", fontStyle: "normal" }}>
-                      — Hyderabad Eats Editorial & Local Note
-                    </cite>
-                  </blockquote>
-                </article>
-              ))}
-            </div>
-          </section>
-
-          {/* FAQ Section */}
-          <section className="site-section">
-            <h2 className="site-section-title">Frequently Asked Questions</h2>
-            <div className="spot-faq" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {faqLd.mainEntity.map((f, i) => (
-                <details
-                  key={i}
-                  open={i === 0}
-                  style={{
-                    background: "var(--cream-hi)",
-                    border: "1px solid var(--line)",
-                    borderRadius: "12px",
-                    padding: "14px 18px",
-                  }}
-                >
-                  <summary style={{ fontWeight: 600, color: "var(--ink)", cursor: "pointer", fontSize: "15px" }}>
-                    {f.name}
-                  </summary>
-                  <p style={{ margin: "10px 0 0", color: "var(--ink-soft)", fontSize: "14px", lineHeight: 1.6 }}>
-                    {f.acceptedAnswer.text}
-                  </p>
-                </details>
-              ))}
-            </div>
-          </section>
-
-          {/* Map CTA */}
-          <section className="site-section" style={{ textAlign: "center", padding: "32px 16px" }}>
-            <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>Find Breakfast Spots Near You</h2>
-            <p style={{ color: "var(--muted)", maxWidth: "500px", margin: "0 auto 20px" }}>
-              Explore over 3,400 places on the live map with community votes, timings, and directions.
-            </p>
-            <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-              <Link href="/rankings/best-dosa-in-hyderabad" className="site-cta" style={{ margin: 0 }}>
-                Vote on Dosa Ranking →
-              </Link>
-              <Link href="/" className="site-cta" style={{ margin: 0, background: "var(--ink)" }}>
-                Open Live Map
-              </Link>
-            </div>
-          </section>
-
-          <SiteRelated
-            title="Explore More Guides"
-            links={[
-              { href: "/guides/best-biryani-hyderabad-reddit", label: "Best Biryani (Reddit Guide)" },
-              { href: "/guides/late-night-food-hyderabad-reddit", label: "Late Night Food Guide" },
-              { href: "/areas/jubilee-hills", label: "Food in Jubilee Hills" },
-              { href: "/rankings", label: "Weekly Rankings" },
+      <header className="site-header">
+        <div className="site-header-inner">
+          <SiteNav />
+          <SiteBreadcrumb
+            items={[
+              { href: "/", label: "Home" },
+              { href: "/stories", label: "Stories & Guides" },
+              { href: SLUG, label: "Best Tiffins Guide" },
             ]}
           />
-        </main>
-        <SiteFooter />
-      </div>
-    </>
+          <div className="site-hero">
+            <h1>Best Tiffins &amp; Breakfast in Hyderabad (2026)</h1>
+            <p>
+              Unfiltered local insights on Hyderabad's top breakfast spots: from 4-chutney spreads and homestyle pungaralu to spicy Rayalaseema ghee karam dosas.
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <main className="site-body">
+        {/* Byline */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 24, paddingBottom: 16, borderBottom: "1.5px solid var(--line)" }}>
+          <div>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--violet)" }}>
+              Editorial Field Guide · 2026 Local Consensus
+            </div>
+            <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 3 }}>
+              Updated September 2026 · Based on authentic community reviews &amp; food visits
+            </div>
+          </div>
+          <Link href="/" style={{ flexShrink: 0, fontSize: 13, fontWeight: 800, color: "var(--violet)", textDecoration: "none", padding: "8px 14px", borderRadius: 999, background: "var(--violet-wash)" }}>
+            Open Map
+          </Link>
+        </div>
+
+        {/* Quick Picks Summary Card */}
+        <section
+          style={{
+            background: "var(--paper)",
+            border: "1.5px solid var(--line)",
+            borderRadius: 14,
+            padding: "20px 22px",
+            marginBottom: 32,
+            boxShadow: "var(--e1, 0 1px 3px rgba(0,0,0,0.05))",
+          }}
+        >
+          <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: 20, margin: "0 0 14px", color: "var(--ink)" }}>
+            Quick Picks: Where to Eat
+          </h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
+            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Top Chutney Spread</div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Ishtaa (HITEC City)</div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Crisp dosas + multi-chutney platter</div>
+            </div>
+            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Homestyle &amp; Pungaralu</div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Penam (Jubilee Hills)</div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Village-style dosas &amp; rich chutney</div>
+            </div>
+            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Spicy Ghee Karam</div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Panchakattu Dosa</div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Rayalaseema red garlic karam</div>
+            </div>
+            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Degree Filter Coffee</div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Kanchi Cafe</div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Kumbakonam degree brew (weekdays best)</div>
+            </div>
+          </div>
+        </section>
+
+        {/* Spot Deep Dives */}
+        <section style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+          {SPOTS.map((s, idx) => (
+            <article
+              key={s.id}
+              style={{
+                background: "var(--paper)",
+                border: "1.5px solid var(--line)",
+                borderRadius: 14,
+                padding: "22px 24px",
+                boxShadow: "var(--e1, 0 1px 3px rgba(0,0,0,0.05))",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 12 }}>
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ fontSize: 12, fontWeight: 800, color: "var(--muted)" }}>#{idx + 1}</span>
+                    <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: "clamp(20px, 3.5vw, 24px)", margin: 0, color: "var(--ink)" }}>
+                      {s.name}
+                    </h2>
+                  </div>
+                  <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 4 }}>
+                    📍 {s.area}
+                  </div>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 700,
+                      letterSpacing: "0.03em",
+                      textTransform: "uppercase",
+                      padding: "4px 10px",
+                      borderRadius: 999,
+                      background: s.tagBg,
+                      color: s.tagColor,
+                    }}
+                  >
+                    {s.tag}
+                  </span>
+                  <Link
+                    href={s.href}
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 700,
+                      color: "var(--violet)",
+                      textDecoration: "none",
+                      padding: "4px 10px",
+                      borderRadius: 999,
+                      background: "var(--violet-wash)",
+                    }}
+                  >
+                    View on map →
+                  </Link>
+                </div>
+              </div>
+
+              <p className="review-prose" style={{ margin: "0 0 16px", fontSize: 15, lineHeight: 1.6, color: "var(--ink-soft, #333)" }}>
+                {s.verdict}
+              </p>
+
+              <div style={{ background: "var(--cream)", border: "1px solid var(--line)", borderRadius: 10, padding: "12px 16px", marginBottom: 14 }}>
+                <div style={{ fontSize: 13.5, color: "var(--ink)" }}>
+                  <strong style={{ color: "var(--ink)" }}>🍽️ Must Order:</strong> {s.whatToOrder}
+                </div>
+                <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 6 }}>
+                  <strong style={{ color: "var(--ink)" }}>⏱️ Crowd Advisory:</strong> {s.timingTip}
+                </div>
+              </div>
+
+              <blockquote
+                style={{
+                  margin: 0,
+                  padding: "10px 14px",
+                  borderRadius: 8,
+                  background: "var(--violet-wash)",
+                  borderLeft: "3px solid var(--violet)",
+                  fontFamily: "var(--font-fraunces), serif",
+                  fontSize: 14,
+                  fontStyle: "italic",
+                  lineHeight: 1.45,
+                  color: "var(--ink)",
+                }}
+              >
+                {s.quote}
+              </blockquote>
+            </article>
+          ))}
+        </section>
+
+        {/* FAQs */}
+        <section style={{ marginTop: 40, borderTop: "1.5px solid var(--line)", paddingTop: 28 }}>
+          <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: 22, color: "var(--ink)", marginBottom: 16 }}>
+            Frequently Asked Questions
+          </h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {faqLd.mainEntity.map((faq, i) => (
+              <details
+                key={i}
+                style={{
+                  background: "var(--paper)",
+                  border: "1.5px solid var(--line)",
+                  borderRadius: 10,
+                  padding: "14px 18px",
+                }}
+              >
+                <summary style={{ fontWeight: 700, fontSize: 15, cursor: "pointer", color: "var(--ink)" }}>
+                  {faq.name}
+                </summary>
+                <p style={{ margin: "10px 0 0", fontSize: 14, color: "var(--muted)", lineHeight: 1.55 }}>
+                  {faq.acceptedAnswer.text}
+                </p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        {/* Explore Hub Pills */}
+        <section style={{ marginTop: 36, borderTop: "1.5px solid var(--line)", paddingTop: 24 }}>
+          <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--violet)", marginBottom: 10 }}>
+            More Curated Guides &amp; Explore Hubs
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            <Link href="/guides/best-biryani-hyderabad-reddit" className="site-pill">Best Biryani Guide</Link>
+            <Link href="/guides/best-cafes-hyderabad-reddit" className="site-pill">Best Cafes Guide</Link>
+            <Link href="/guides/best-ice-cream-desserts-hyderabad" className="site-pill">Best Ice Cream &amp; Desserts</Link>
+            <Link href="/guides/late-night-food-hyderabad-reddit" className="site-pill">Late Night Food Guide</Link>
+            <Link href="/rankings/best-dosa-in-hyderabad" className="site-pill">Best Dosa Rankings</Link>
+            <Link href="/areas/jubilee-hills" className="site-pill">Jubilee Hills Food</Link>
+          </div>
+        </section>
+      </main>
+
+      <SiteRelated
+        links={[
+          { href: "/rankings/best-dosa-in-hyderabad", label: "Best Dosa Rankings" },
+          { href: "/explore/biryani-and-local", label: "Local Eats & Tiffins" },
+          { href: "/areas/jubilee-hills", label: "Jubilee Hills Breakfast" },
+          { href: "/stories", label: "All Food Stories & Guides" },
+        ]}
+      />
+      <SiteFooter />
+    </div>
   );
 }

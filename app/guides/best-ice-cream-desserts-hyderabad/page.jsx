@@ -49,8 +49,8 @@ const breadcrumbLd = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home", item: "https://eats.mapmyhyd.com" },
-    { "@type": "ListItem", position: 2, name: "Guides", item: "https://eats.mapmyhyd.com/guides" },
-    { "@type": "ListItem", position: 3, name: "Best Ice Cream & Desserts Guide", item: "https://eats.mapmyhyd.com" + SLUG },
+    { "@type": "ListItem", position: 2, name: "Stories & Guides", item: "https://eats.mapmyhyd.com/stories" },
+    { "@type": "ListItem", position: 3, name: "Best Ice Cream Guide", item: "https://eats.mapmyhyd.com" + SLUG },
   ],
 };
 
@@ -85,24 +85,75 @@ const faqLd = {
   ],
 };
 
+const SPOTS = [
+  {
+    id: "famous",
+    name: "Famous Ice Cream",
+    tag: "1951 Heritage Pot Ice Cream",
+    tagBg: "#fef3c7",
+    tagColor: "#92400e",
+    area: "Mozamjahi Market / Abids",
+    href: "/spot/famous-ice-cream-mozamjahi-market",
+    verdict:
+      "Founded in 1951 within the historic stone arches of Mozamjahi Market (MJ Market), Famous Ice Cream is an indispensable Hyderabad tradition. They churn fresh milk and seasonal fruits in wooden-encased metal pots using ice and rock salt. The texture is distinctly rustic, non-commercial, and light on the palate.",
+    whatToOrder: "Sitaphal (Custard Apple), Sapota (Chiku), Mango, Anjeer.",
+    timingTip: "Under ₹60 per bowl. Open until 1:00 AM; the historic courtyard buzzes with night crowds.",
+    quote: "“The Sitaphal and Mango pot ice creams in earthenware bowls under MJ Market arches are pure nostalgia.”",
+  },
+  {
+    id: "milano",
+    name: "Milano Ice Cream",
+    tag: "Authentic Italian Gelato",
+    tagBg: "#f0fdf4",
+    tagColor: "#166534",
+    area: "Jubilee Hills",
+    href: "/spot/milano-ice-cream-jubilee-hills",
+    verdict:
+      "For those seeking true Italian gelato with slow-churned dense texture and lower butterfat than American ice creams, Milano is unmatched in Hyderabad. Their pistachio gelato is made with genuine roasted nut paste without artificial coloring, and their dark chocolate and fruit sorbets are velvety.",
+    whatToOrder: "Pistachio Gelato, Belgian Dark Chocolate, Raspberry Sorbet in fresh waffle cone.",
+    timingTip: "Great post-dinner dessert stop in Jubilee Hills.",
+    quote: "“Actual authentic Italian gelato texture. The pistachio and dark chocolate are exceptional.”",
+  },
+  {
+    id: "creamstone",
+    name: "Cream Stone",
+    tag: "Late-Night Cold Slab Mixes",
+    tagBg: "#fdf2f8",
+    tagColor: "#86198f",
+    area: "Banjara Hills, Jubilee Hills & Citywide",
+    href: "/spot/cream-stone-banjara-hills",
+    verdict:
+      "Cream Stone turned post-dinner dessert runs into a Hyderabad ritual. Ice cream scoops are chopped and blended with fudges, brownies, fresh berries, and nuts on frozen granite slabs before being scooped into waffle bowls.",
+    whatToOrder: "Willy Wonka, Devil’s Brownie, Fruit Factory, Ferrero Rocher Crunch.",
+    timingTip: "Open until 1:30 AM – 2:00 AM daily across most branches.",
+    quote: "“The late-night Willy Wonka run after dinner is a Hyderabad rite of passage.”",
+  },
+  {
+    id: "huber",
+    name: "Huber & Holly",
+    tag: "Gourmet Fresh Churned",
+    tagBg: "#fff7ed",
+    tagColor: "#9a3412",
+    area: "Banjara Hills & Jubilee Hills",
+    href: "/spot/huber-and-holly-banjara-hills",
+    verdict:
+      "Freshly churns small batches on-site every few hours. Famous for its jet-black charcoal waffle cones and high-end dessert creations like the 24k gold leaf 'Mighty Midas' cone and Belgian chocolate truffle pots.",
+    whatToOrder: "Belgian Dark Chocolate, Charcoal Cone with Hazelnut Rocher, Mighty Midas.",
+    timingTip: "Higher price tier, but great for celebration desserts.",
+    quote: "“Freshly churned gourmet scoops with crisp charcoal waffle cones.”",
+  },
+];
+
 export default function BestIceCreamGuidePage() {
   return (
-    <div style={{ paddingBottom: 84 }}>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
-      />
+    <div className="site-page">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
       <header className="site-header">
         <div className="site-header-inner">
+          <SiteNav />
           <SiteBreadcrumb
             items={[
               { href: "/", label: "Home" },
@@ -110,160 +161,198 @@ export default function BestIceCreamGuidePage() {
               { href: SLUG, label: "Ice Cream & Desserts Guide" },
             ]}
           />
-          <SiteNav active="/stories" />
+          <div className="site-hero">
+            <h1>Best Ice Cream &amp; Desserts in Hyderabad (2026)</h1>
+            <p>
+              From 1951 hand-churned seasonal pot ice creams at Mozamjahi Market to Italian artisan gelato and late-night granite cold-slab sundaes.
+            </p>
+          </div>
         </div>
       </header>
 
-      <main className="guide-main" style={{ maxWidth: 840, margin: "0 auto", padding: "24px 20px 60px" }}>
-        <div style={{ marginBottom: 24 }}>
-          <p style={{ textTransform: "uppercase", letterSpacing: "0.08em", fontSize: 12, fontWeight: 700, color: "var(--violet, #7c3aed)", margin: 0 }}>
-            Curated Field Guide · 2026 Edition
-          </p>
-          <h1 style={{ fontSize: "clamp(1.75rem, 4vw, 2.5rem)", lineHeight: 1.2, margin: "8px 0 12px", color: "var(--fg, #111)" }}>
-            Best Ice Cream, Gelato &amp; Desserts in Hyderabad (2026)
-          </h1>
-          <p style={{ fontSize: 16, color: "var(--muted, #666)", lineHeight: 1.5, margin: 0 }}>
-            Whether you want hand-churned fresh seasonal fruit ice cream served in earthenware cups under the historic arches of Mozamjahi Market, artisan Italian gelato in Jubilee Hills, or theatrical cold stone creations past midnight, here is your definitive dessert trail.
-          </p>
+      <main className="site-body">
+        {/* Byline */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 24, paddingBottom: 16, borderBottom: "1.5px solid var(--line)" }}>
+          <div>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--violet)" }}>
+              Editorial Field Guide · 2026 Local Consensus
+            </div>
+            <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 3 }}>
+              Updated September 2026 · Heritage pot ice creams &amp; artisanal gelato
+            </div>
+          </div>
+          <Link href="/" style={{ flexShrink: 0, fontSize: 13, fontWeight: 800, color: "var(--violet)", textDecoration: "none", padding: "8px 14px", borderRadius: 999, background: "var(--violet-wash)" }}>
+            Open Map
+          </Link>
         </div>
 
-        {/* AEO Quick Matrix */}
+        {/* Quick Picks Summary Card */}
         <section
           style={{
-            background: "var(--surface-sunken, #f8fafc)",
-            border: "1px solid var(--border, #e2e8f0)",
-            borderRadius: 12,
-            padding: "20px 24px",
-            marginBottom: 36,
+            background: "var(--paper)",
+            border: "1.5px solid var(--line)",
+            borderRadius: 14,
+            padding: "20px 22px",
+            marginBottom: 32,
+            boxShadow: "var(--e1, 0 1px 3px rgba(0,0,0,0.05))",
           }}
         >
-          <h2 style={{ fontSize: 18, margin: "0 0 12px", color: "var(--fg, #111)" }}>
-            🍦 Dessert Decision Matrix (At a Glance)
+          <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: 20, margin: "0 0 14px", color: "var(--ink)" }}>
+            Quick Picks: Where to Go
           </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 14, fontSize: 14 }}>
-            <div style={{ background: "var(--surface, #fff)", padding: "12px 16px", borderRadius: 8, border: "1px solid var(--border, #e2e8f0)" }}>
-              <strong>Best Heritage Pot Ice Cream</strong>
-              <div style={{ color: "var(--muted, #666)", marginTop: 4 }}>Famous Ice Cream (Mozamjahi Market)</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
+            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Heritage Pot Ice Cream</div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Famous Ice Cream (MJ Market)</div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Hand-churned Sitaphal/Mango in pot</div>
             </div>
-            <div style={{ background: "var(--surface, #fff)", padding: "12px 16px", borderRadius: 8, border: "1px solid var(--border, #e2e8f0)" }}>
-              <strong>Best Authentic Italian Gelato</strong>
-              <div style={{ color: "var(--muted, #666)", marginTop: 4 }}>Milano Ice Cream (Jubilee Hills)</div>
+            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Authentic Italian Gelato</div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Milano Ice Cream</div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Pure Sicilian pistachio &amp; dark chocolate</div>
             </div>
-            <div style={{ background: "var(--surface, #fff)", padding: "12px 16px", borderRadius: 8, border: "1px solid var(--border, #e2e8f0)" }}>
-              <strong>Best Cold Stone Late-Night Slab</strong>
-              <div style={{ color: "var(--muted, #666)", marginTop: 4 }}>Cream Stone (Multiple Outlets, till 2 AM)</div>
+            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Midnight Cold Slab Sundaes</div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Cream Stone (Till 2 AM)</div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Willy Wonka &amp; chocolate fudge mixes</div>
             </div>
-            <div style={{ background: "var(--surface, #fff)", padding: "12px 16px", borderRadius: 8, border: "1px solid var(--border, #e2e8f0)" }}>
-              <strong>Best Gourmet Fresh Churned</strong>
-              <div style={{ color: "var(--muted, #666)", marginTop: 4 }}>Huber &amp; Holly (Banjara Hills)</div>
-            </div>
-            <div style={{ background: "var(--surface, #fff)", padding: "12px 16px", borderRadius: 8, border: "1px solid var(--border, #e2e8f0)" }}>
-              <strong>Best All-Natural Real Fruit</strong>
-              <div style={{ color: "var(--muted, #666)", marginTop: 4 }}>Naturals Ice Cream (Tender Coconut)</div>
-            </div>
-            <div style={{ background: "var(--surface, #fff)", padding: "12px 16px", borderRadius: 8, border: "1px solid var(--border, #e2e8f0)" }}>
-              <strong>Best European Pastries &amp; Cakes</strong>
-              <div style={{ color: "var(--muted, #666)", marginTop: 4 }}>Conçu &amp; Van Lavino (Jubilee Hills)</div>
+            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Gourmet Fresh Churned</div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Huber &amp; Holly</div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Charcoal cones &amp; Belgian chocolate</div>
             </div>
           </div>
         </section>
 
-        {/* Spot Breakdown */}
-        <section style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+        {/* Spot Deep Dives */}
+        <section style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+          {SPOTS.map((s, idx) => (
+            <article
+              key={s.id}
+              style={{
+                background: "var(--paper)",
+                border: "1.5px solid var(--line)",
+                borderRadius: 14,
+                padding: "22px 24px",
+                boxShadow: "var(--e1, 0 1px 3px rgba(0,0,0,0.05))",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 12 }}>
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ fontSize: 12, fontWeight: 800, color: "var(--muted)" }}>#{idx + 1}</span>
+                    <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: "clamp(20px, 3.5vw, 24px)", margin: 0, color: "var(--ink)" }}>
+                      {s.name}
+                    </h2>
+                  </div>
+                  <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 4 }}>
+                    📍 {s.area}
+                  </div>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 700,
+                      letterSpacing: "0.03em",
+                      textTransform: "uppercase",
+                      padding: "4px 10px",
+                      borderRadius: 999,
+                      background: s.tagBg,
+                      color: s.tagColor,
+                    }}
+                  >
+                    {s.tag}
+                  </span>
+                  <Link
+                    href={s.href}
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 700,
+                      color: "var(--violet)",
+                      textDecoration: "none",
+                      padding: "4px 10px",
+                      borderRadius: 999,
+                      background: "var(--violet-wash)",
+                    }}
+                  >
+                    View on map →
+                  </Link>
+                </div>
+              </div>
 
-          {/* Famous Ice Cream */}
-          <article style={{ borderBottom: "1px solid var(--border, #e2e8f0)", paddingBottom: 28 }}>
-            <h2 style={{ fontSize: 22, margin: "0 0 6px", color: "var(--fg, #111)" }}>
-              1. Famous Ice Cream — Mozamjahi Market
-            </h2>
-            <p style={{ fontSize: 13, color: "var(--violet, #7c3aed)", fontWeight: 600, margin: "0 0 12px" }}>
-              Best for: 1951 heritage pot ice cream made with real seasonal fruit pulps
-            </p>
-            <p style={{ lineHeight: 1.6, color: "var(--fg, #333)", fontSize: 15 }}>
-              Founded in 1951 within the historic stone arches of Mozamjahi Market (MJ Market), Famous Ice Cream is an indispensable Hyderabad tradition. They churn fresh milk and seasonal fruits in wooden-encased metal pots using ice and rock salt. The texture is distinctly rustic, non-commercial, and light on the palate.
-            </p>
-            <div style={{ background: "var(--surface-sunken, #f8fafc)", padding: "12px 16px", borderRadius: 8, fontSize: 14, margin: "14px 0" }}>
-              <strong>💡 Pro Tip:</strong> Sitaphal (custard apple) in winter and Mango/Sapota in summer are non-negotiable. It costs under ₹50–₹70 per cup, making it the highest value authentic dessert in the city.
-            </div>
-            <p style={{ margin: "12px 0 0", fontSize: 14 }}>
-              <strong>Must Order:</strong> Sitaphal (Custard Apple), Sapota (Chiku), Mango, Anjeer (Fig).
-            </p>
-          </article>
+              <p className="review-prose" style={{ margin: "0 0 16px", fontSize: 15, lineHeight: 1.6, color: "var(--ink-soft, #333)" }}>
+                {s.verdict}
+              </p>
 
-          {/* Milano Ice Cream */}
-          <article style={{ borderBottom: "1px solid var(--border, #e2e8f0)", paddingBottom: 28 }}>
-            <h2 style={{ fontSize: 22, margin: "0 0 6px", color: "var(--fg, #111)" }}>
-              2. Milano Ice Cream — Jubilee Hills
-            </h2>
-            <p style={{ fontSize: 13, color: "var(--violet, #7c3aed)", fontWeight: 600, margin: "0 0 12px" }}>
-              Best for: Authentic Italian artisan gelato, pure Sicilian pistachio, and fruit sorbets
-            </p>
-            <p style={{ lineHeight: 1.6, color: "var(--fg, #333)", fontSize: 15 }}>
-              For those seeking true Italian gelato with slow-churned dense texture and lower butterfat than American ice creams, Milano is unmatched in Hyderabad. Their pistachio gelato is made with genuine roasted nut paste without artificial coloring, and their dark chocolate and dairy-free passionfruit sorbets are velvety and vibrant.
-            </p>
-            <p style={{ margin: "12px 0 0", fontSize: 14 }}>
-              <strong>Must Order:</strong> Pistachio Gelato, Dark Chocolate, Salted Caramel, Raspberry Sorbet in fresh waffle cone.
-            </p>
-          </article>
+              <div style={{ background: "var(--cream)", border: "1px solid var(--line)", borderRadius: 10, padding: "12px 16px", marginBottom: 14 }}>
+                <div style={{ fontSize: 13.5, color: "var(--ink)" }}>
+                  <strong style={{ color: "var(--ink)" }}>🍨 Must Order:</strong> {s.whatToOrder}
+                </div>
+                <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 6 }}>
+                  <strong style={{ color: "var(--ink)" }}>⏱️ Hours &amp; Tips:</strong> {s.timingTip}
+                </div>
+              </div>
 
-          {/* Cream Stone */}
-          <article style={{ borderBottom: "1px solid var(--border, #e2e8f0)", paddingBottom: 28 }}>
-            <h2 style={{ fontSize: 22, margin: "0 0 6px", color: "var(--fg, #111)" }}>
-              3. Cream Stone — Banjara Hills, Jubilee Hills, Gachibowli &amp; Citywide
-            </h2>
-            <p style={{ fontSize: 13, color: "var(--violet, #7c3aed)", fontWeight: 600, margin: "0 0 12px" }}>
-              Best for: Midnight cold slab theater, Willy Wonka fudge bowls, and late-night cravings
-            </p>
-            <p style={{ lineHeight: 1.6, color: "var(--fg, #333)", fontSize: 15 }}>
-              Cream Stone turned post-dinner dessert runs into a Hyderabad ritual. Ice cream scoops are chopped, blended with fudges, brownies, fresh berries, and nuts on frozen granite slabs before being scooped into waffle bowls. With outlets open until 1:30 AM – 2:00 AM, it remains the quintessential weekend hangout for families and friends.
-            </p>
-            <p style={{ margin: "12px 0 0", fontSize: 14 }}>
-              <strong>Must Order:</strong> Willy Wonka, Devil’s Brownie, Fruit Factory, Ferrero Rocher Crunch.
-            </p>
-          </article>
-
-          {/* Huber & Holly */}
-          <article style={{ borderBottom: "1px solid var(--border, #e2e8f0)", paddingBottom: 28 }}>
-            <h2 style={{ fontSize: 22, margin: "0 0 6px", color: "var(--fg, #111)" }}>
-              4. Huber &amp; Holly — Banjara Hills &amp; Jubilee Hills
-            </h2>
-            <p style={{ fontSize: 13, color: "var(--violet, #7c3aed)", fontWeight: 600, margin: "0 0 12px" }}>
-              Best for: Freshly churned gourmet scoops, charcoal waffle cones, and luxury dessert sundaes
-            </p>
-            <p style={{ lineHeight: 1.6, color: "var(--fg, #333)", fontSize: 15 }}>
-              By Havmor's premium vertical, Huber &amp; Holly freshly churns small batches on-site every few hours. Famous for its black charcoal waffle cones and high-end dessert creations like the 24k gold leaf "Mighty Midas" cone and rich Belgian chocolate truffle pots.
-            </p>
-            <p style={{ margin: "12px 0 0", fontSize: 14 }}>
-              <strong>Must Order:</strong> Belgian Dark Chocolate, Charcoal Cone with Hazelnut Rocher, Mighty Midas.
-            </p>
-          </article>
-
-          {/* Naturals Ice Cream */}
-          <article style={{ borderBottom: "1px solid var(--border, #e2e8f0)", paddingBottom: 28 }}>
-            <h2 style={{ fontSize: 22, margin: "0 0 6px", color: "var(--fg, #111)" }}>
-              5. Naturals Ice Cream — Multiple Outlets
-            </h2>
-            <p style={{ fontSize: 13, color: "var(--violet, #7c3aed)", fontWeight: 600, margin: "0 0 12px" }}>
-              Best for: Clean, simple real-fruit seasonal scoops with zero artificial preservatives
-            </p>
-            <p style={{ lineHeight: 1.6, color: "var(--fg, #333)", fontSize: 15 }}>
-              Naturals remains the gold standard for fruit purists. Tender Coconut with fresh coconut malai chunks and seasonal mango or jackfruit provide clean, comforting sweetness without heavy syrups.
-            </p>
-            <p style={{ margin: "12px 0 0", fontSize: 14 }}>
-              <strong>Must Order:</strong> Tender Coconut, Sitaphal, Alphonso Mango, Roasted Almond.
-            </p>
-          </article>
-
+              <blockquote
+                style={{
+                  margin: 0,
+                  padding: "10px 14px",
+                  borderRadius: 8,
+                  background: "var(--violet-wash)",
+                  borderLeft: "3px solid var(--violet)",
+                  fontFamily: "var(--font-fraunces), serif",
+                  fontSize: 14,
+                  fontStyle: "italic",
+                  lineHeight: 1.45,
+                  color: "var(--ink)",
+                }}
+              >
+                {s.quote}
+              </blockquote>
+            </article>
+          ))}
         </section>
 
-        <section style={{ marginTop: 40, borderTop: "1px solid var(--border, #e2e8f0)", paddingTop: 24 }}>
-          <h3 style={{ fontSize: 16, margin: "0 0 12px" }}>Explore More Curated Guides &amp; Food Maps:</h3>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-            <Link href="/guides/best-cafes-hyderabad-reddit" className="site-pill">Best Cafes &amp; Coffee Guide</Link>
+        {/* FAQs */}
+        <section style={{ marginTop: 40, borderTop: "1.5px solid var(--line)", paddingTop: 28 }}>
+          <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: 22, color: "var(--ink)", marginBottom: 16 }}>
+            Frequently Asked Questions
+          </h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {faqLd.mainEntity.map((faq, i) => (
+              <details
+                key={i}
+                style={{
+                  background: "var(--paper)",
+                  border: "1.5px solid var(--line)",
+                  borderRadius: 10,
+                  padding: "14px 18px",
+                }}
+              >
+                <summary style={{ fontWeight: 700, fontSize: 15, cursor: "pointer", color: "var(--ink)" }}>
+                  {faq.name}
+                </summary>
+                <p style={{ margin: "10px 0 0", fontSize: 14, color: "var(--muted)", lineHeight: 1.55 }}>
+                  {faq.acceptedAnswer.text}
+                </p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        {/* Explore Hub Pills */}
+        <section style={{ marginTop: 36, borderTop: "1.5px solid var(--line)", paddingTop: 24 }}>
+          <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--violet)", marginBottom: 10 }}>
+            More Curated Guides &amp; Explore Hubs
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            <Link href="/guides/best-cafes-hyderabad-reddit" className="site-pill">Best Cafes Guide</Link>
             <Link href="/guides/best-biryani-hyderabad-reddit" className="site-pill">Best Biryani Guide</Link>
             <Link href="/guides/best-tiffins-hyderabad-reddit" className="site-pill">Best Tiffins Guide</Link>
             <Link href="/guides/late-night-food-hyderabad-reddit" className="site-pill">Late Night Food Guide</Link>
-            <Link href="/explore/ice-cream" className="site-pill">Browse Ice Cream Spots on Map</Link>
+            <Link href="/explore/ice-cream" className="site-pill">Browse Ice Cream Spots</Link>
+            <Link href="/areas/banjara-hills" className="site-pill">Banjara Hills Food</Link>
           </div>
         </section>
       </main>

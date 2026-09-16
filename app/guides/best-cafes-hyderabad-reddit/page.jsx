@@ -4,7 +4,7 @@ import { ogImages } from "../../../lib/og.js";
 import { SiteNav, SiteBreadcrumb, SiteFooter, SiteRelated } from "../../components/SiteChrome.jsx";
 
 const SLUG = "/guides/best-cafes-hyderabad-reddit";
-const TITLE = "Best Cafes in Hyderabad (2026): Specialty Coffee, Work Cafes & Heritage Spots";
+const TITLE = "Best Cafes in Hyderabad (2026): Specialty Coffee, Work Corners & Desserts";
 const DESCRIPTION =
   "The definitive Hyderabad cafe guide: Roastery Coffee House, Conçu, Roast CCX, True Black, and Autumn Leaf — with honest notes on specialty brews, WiFi speeds, desserts, and quiet work vibes.";
 
@@ -50,7 +50,7 @@ const breadcrumbLd = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home", item: "https://eats.mapmyhyd.com" },
-    { "@type": "ListItem", position: 2, name: "Guides", item: "https://eats.mapmyhyd.com/guides" },
+    { "@type": "ListItem", position: 2, name: "Stories & Guides", item: "https://eats.mapmyhyd.com/stories" },
     { "@type": "ListItem", position: 3, name: "Best Cafes Guide", item: "https://eats.mapmyhyd.com" + SLUG },
   ],
 };
@@ -86,24 +86,75 @@ const faqLd = {
   ],
 };
 
+const SPOTS = [
+  {
+    id: "roastery",
+    name: "Roastery Coffee House",
+    tag: "Garden Bungalow & Brews",
+    tagBg: "#f0fdf4",
+    tagColor: "#166534",
+    area: "Banjara Hills",
+    href: "/spot/roastery-coffee-house-banjara-hills",
+    verdict:
+      "Housed in an airy, heritage-style bungalow surrounded by lush green foliage, Roastery Coffee House pioneered specialty coffee culture in Hyderabad. Their menu spans manual pourovers (V60, Chemex, Aeropress) and signature cold concoctions like Cranberry Cold Brew and brewed coffee cherry tea (Cascara).",
+    whatToOrder: "Cranberry Cold Brew, Cascara, Chicken BBQ Platter, Onion Rings.",
+    timingTip: "Weekend evenings have heavy wait times (30–45 mins). Weekday mornings (8:30 AM – 11:30 AM) are peaceful.",
+    quote: "“The garden ambience is unmatched. Sip a cold brew or cascara under the trees on a quiet morning.”",
+  },
+  {
+    id: "concu",
+    name: "Conçu",
+    tag: "French Patisserie Benchmark",
+    tagBg: "#fdf2f8",
+    tagColor: "#86198f",
+    area: "Jubilee Hills & Financial District",
+    href: "/spot/concu-jubilee-hills",
+    verdict:
+      "Conçu is widely celebrated across Hyderabad as the benchmark for European baking. Founded by classically trained pastry chefs, every cake, tart, and choux bun is a masterclass in balance and texture. The ambiance is clean, minimalist, and upscale.",
+    whatToOrder: "Banoffee Tart, Chocolate Opera, Tiramisu, Choux Buns, Flat White.",
+    timingTip: "Great for quiet afternoon meetings or dessert runs. Popular items sell out by late evening.",
+    quote: "“Unmatched precision in pastry. The Opera and Banoffee are easily the finest in the city.”",
+  },
+  {
+    id: "roast",
+    name: "Roast CCX & Roast 24 Seven",
+    tag: "Tech Work & 24/7 Brews",
+    tagBg: "#eef2ff",
+    tagColor: "#4338ca",
+    area: "Jubilee Hills & Gachibowli",
+    href: "/spot/roast-ccx-jubilee-hills",
+    verdict:
+      "If you need a reliable work cafe in the tech corridor with dedicated power sockets, robust WiFi, and in-house micro-roasting, Roast CCX is the premier choice. The Gachibowli outlet (Roast 24 Seven) is open round-the-clock for night owls and founders.",
+    whatToOrder: "Single-Origin Pourover, Vietnamese Iced Coffee, Avocado Toast, Bagels.",
+    timingTip: "Ample indoor and outdoor seating with laptop-friendly power plugs throughout.",
+    quote: "“Fast WiFi, great coffee, and sockets everywhere. The go-to spot for long deep-work sessions.”",
+  },
+  {
+    id: "trueblack",
+    name: "True Black",
+    tag: "Specialty Coffee Purist",
+    tagBg: "#f8fafc",
+    tagColor: "#334155",
+    area: "Jubilee Hills",
+    href: "/spot/true-black-coffee-jubilee-hills",
+    verdict:
+      "True Black strips away commercial sugary syrups, focusing entirely on the craft of bean extraction. The baristas are passionate about origin profiles, grind size, and water temperature. It is a quiet, contemplative space frequented by designers and coffee purists.",
+    whatToOrder: "Cortado, Tonic Espresso, Cold Drip, Manual Pourovers.",
+    timingTip: "Intimate and quiet; best for focused reading and serious coffee appreciation.",
+    quote: "“For pure espresso extraction and manual brews without commercial fluff, True Black is the gold standard.”",
+  },
+];
+
 export default function BestCafesGuidePage() {
   return (
-    <div style={{ paddingBottom: 84 }}>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
-      />
+    <div className="site-page">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
       <header className="site-header">
         <div className="site-header-inner">
+          <SiteNav />
           <SiteBreadcrumb
             items={[
               { href: "/", label: "Home" },
@@ -111,176 +162,198 @@ export default function BestCafesGuidePage() {
               { href: SLUG, label: "Best Cafes Guide" },
             ]}
           />
-          <SiteNav active="/stories" />
+          <div className="site-hero">
+            <h1>Best Cafes in Hyderabad (2026)</h1>
+            <p>
+              Specialty third-wave coffee roasters, quiet laptop work corners with fast WiFi, French patisserie, and peaceful garden courtyards.
+            </p>
+          </div>
         </div>
       </header>
 
-      <main className="guide-main" style={{ maxWidth: 840, margin: "0 auto", padding: "24px 20px 60px" }}>
-        <div style={{ marginBottom: 24 }}>
-          <p style={{ textTransform: "uppercase", letterSpacing: "0.08em", fontSize: 12, fontWeight: 700, color: "var(--violet, #7c3aed)", margin: 0 }}>
-            Curated Field Guide · 2026 Edition
-          </p>
-          <h1 style={{ fontSize: "clamp(1.75rem, 4vw, 2.5rem)", lineHeight: 1.2, margin: "8px 0 12px", color: "var(--fg, #111)" }}>
-            Best Cafes in Hyderabad: Specialty Coffee, Work Corners &amp; Desserts
-          </h1>
-          <p style={{ fontSize: 16, color: "var(--muted, #666)", lineHeight: 1.5, margin: 0 }}>
-            Hyderabad’s cafe culture spans two worlds: timeless 40-rupee Irani chai counters in the Old City and premier third-wave roasteries with serene bungalow courtyards in Jubilee Hills and Gachibowli. Here is the curated breakdown of where to go for specialty coffee, laptop work, and desserts.
-          </p>
+      <main className="site-body">
+        {/* Byline */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 24, paddingBottom: 16, borderBottom: "1.5px solid var(--line)" }}>
+          <div>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--violet)" }}>
+              Editorial Field Guide · 2026 Local Consensus
+            </div>
+            <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 3 }}>
+              Updated September 2026 · Specialty coffee roasters &amp; cafe trails
+            </div>
+          </div>
+          <Link href="/" style={{ flexShrink: 0, fontSize: 13, fontWeight: 800, color: "var(--violet)", textDecoration: "none", padding: "8px 14px", borderRadius: 999, background: "var(--violet-wash)" }}>
+            Open Map
+          </Link>
         </div>
 
-        {/* AEO Quick Answer Matrix */}
+        {/* Quick Picks Summary Card */}
         <section
           style={{
-            background: "var(--surface-sunken, #f8fafc)",
-            border: "1px solid var(--border, #e2e8f0)",
-            borderRadius: 12,
-            padding: "20px 24px",
-            marginBottom: 36,
+            background: "var(--paper)",
+            border: "1.5px solid var(--line)",
+            borderRadius: 14,
+            padding: "20px 22px",
+            marginBottom: 32,
+            boxShadow: "var(--e1, 0 1px 3px rgba(0,0,0,0.05))",
           }}
         >
-          <h2 style={{ fontSize: 18, margin: "0 0 12px", color: "var(--fg, #111)" }}>
-            ⚡ Quick Cafe Decision Matrix (At a Glance)
+          <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: 20, margin: "0 0 14px", color: "var(--ink)" }}>
+            Quick Picks: Where to Go
           </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 14, fontSize: 14 }}>
-            <div style={{ background: "var(--surface, #fff)", padding: "12px 16px", borderRadius: 8, border: "1px solid var(--border, #e2e8f0)" }}>
-              <strong>Best Overall Ambiance &amp; Brews</strong>
-              <div style={{ color: "var(--muted, #666)", marginTop: 4 }}>Roastery Coffee House (Banjara Hills)</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
+            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Garden Bungalow &amp; Cold Brew</div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Roastery Coffee House</div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Cascara + Cranberry Cold Brew</div>
             </div>
-            <div style={{ background: "var(--surface, #fff)", padding: "12px 16px", borderRadius: 8, border: "1px solid var(--border, #e2e8f0)" }}>
-              <strong>Best French Pastries &amp; Desserts</strong>
-              <div style={{ color: "var(--muted, #666)", marginTop: 4 }}>Conçu (Jubilee Hills / Financial Dist)</div>
+            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>French Pastry &amp; Desserts</div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Conçu (Jubilee Hills)</div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Opera cake &amp; Banoffee tart</div>
             </div>
-            <div style={{ background: "var(--surface, #fff)", padding: "12px 16px", borderRadius: 8, border: "1px solid var(--border, #e2e8f0)" }}>
-              <strong>Best Work Cafe with Outlets &amp; WiFi</strong>
-              <div style={{ color: "var(--muted, #666)", marginTop: 4 }}>Roast CCX (Gachibowli / Jubilee Hills)</div>
+            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Work Cafe &amp; WiFi Outlets</div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Roast CCX (Gachibowli)</div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>24/7 coffee + power sockets</div>
             </div>
-            <div style={{ background: "var(--surface, #fff)", padding: "12px 16px", borderRadius: 8, border: "1px solid var(--border, #e2e8f0)" }}>
-              <strong>Best Pure Specialty Coffee Purist</strong>
-              <div style={{ color: "var(--muted, #666)", marginTop: 4 }}>True Black (Jubilee Hills)</div>
-            </div>
-            <div style={{ background: "var(--surface, #fff)", padding: "12px 16px", borderRadius: 8, border: "1px solid var(--border, #e2e8f0)" }}>
-              <strong>Best Garden &amp; Pet-Friendly Courtyard</strong>
-              <div style={{ color: "var(--muted, #666)", marginTop: 4 }}>Autumn Leaf Cafe (Jubilee Hills)</div>
-            </div>
-            <div style={{ background: "var(--surface, #fff)", padding: "12px 16px", borderRadius: 8, border: "1px solid var(--border, #e2e8f0)" }}>
-              <strong>Best Heritage Irani Chai Counter</strong>
-              <div style={{ color: "var(--muted, #666)", marginTop: 4 }}>Cafe Niloufer &amp; Nimrah Charminar</div>
+            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Specialty Coffee Purist</div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>True Black (Jubilee Hills)</div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Single origin cortados &amp; tonic espresso</div>
             </div>
           </div>
         </section>
 
         {/* Spot Deep Dives */}
-        <section style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+        <section style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+          {SPOTS.map((s, idx) => (
+            <article
+              key={s.id}
+              style={{
+                background: "var(--paper)",
+                border: "1.5px solid var(--line)",
+                borderRadius: 14,
+                padding: "22px 24px",
+                boxShadow: "var(--e1, 0 1px 3px rgba(0,0,0,0.05))",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 12 }}>
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ fontSize: 12, fontWeight: 800, color: "var(--muted)" }}>#{idx + 1}</span>
+                    <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: "clamp(20px, 3.5vw, 24px)", margin: 0, color: "var(--ink)" }}>
+                      {s.name}
+                    </h2>
+                  </div>
+                  <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 4 }}>
+                    📍 {s.area}
+                  </div>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 700,
+                      letterSpacing: "0.03em",
+                      textTransform: "uppercase",
+                      padding: "4px 10px",
+                      borderRadius: 999,
+                      background: s.tagBg,
+                      color: s.tagColor,
+                    }}
+                  >
+                    {s.tag}
+                  </span>
+                  <Link
+                    href={s.href}
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 700,
+                      color: "var(--violet)",
+                      textDecoration: "none",
+                      padding: "4px 10px",
+                      borderRadius: 999,
+                      background: "var(--violet-wash)",
+                    }}
+                  >
+                    View on map →
+                  </Link>
+                </div>
+              </div>
 
-          {/* Roastery Coffee House */}
-          <article style={{ borderBottom: "1px solid var(--border, #e2e8f0)", paddingBottom: 28 }}>
-            <h2 style={{ fontSize: 22, margin: "0 0 6px", color: "var(--fg, #111)" }}>
-              1. Roastery Coffee House — Banjara Hills
-            </h2>
-            <p style={{ fontSize: 13, color: "var(--violet, #7c3aed)", fontWeight: 600, margin: "0 0 12px" }}>
-              Best for: Serene garden seating, Cascara, and signature cold brew blends
-            </p>
-            <p style={{ lineHeight: 1.6, color: "var(--fg, #333)", fontSize: 15 }}>
-              Housed in an airy, heritage-style bungalow surrounded by lush green foliage, Roastery Coffee House pioneered specialty coffee culture in Hyderabad. Their menu is extensive, from manual pourovers (V60, Chemex, Aeropress, French Press) to refreshing cold concoctions like the signature <em>Cranberry Cold Brew</em> and brewed coffee cherry tea (<em>Cascara</em>).
-            </p>
-            <div style={{ background: "var(--surface-sunken, #f8fafc)", padding: "12px 16px", borderRadius: 8, fontSize: 14, margin: "14px 0" }}>
-              <strong>💡 Insider Tip:</strong> Weekend queues can exceed 45 minutes between 4 PM and 8 PM. Visit on weekday mornings (8:30 AM – 11:30 AM) for tranquil garden seating and quick table service.
-            </div>
-            <p style={{ margin: "12px 0 0", fontSize: 14 }}>
-              <strong>Must Order:</strong> Cranberry Cold Brew, Cascara, Chicken BBQ Platter, Onion Rings.
-            </p>
-          </article>
+              <p className="review-prose" style={{ margin: "0 0 16px", fontSize: 15, lineHeight: 1.6, color: "var(--ink-soft, #333)" }}>
+                {s.verdict}
+              </p>
 
-          {/* Conçu */}
-          <article style={{ borderBottom: "1px solid var(--border, #e2e8f0)", paddingBottom: 28 }}>
-            <h2 style={{ fontSize: 22, margin: "0 0 6px", color: "var(--fg, #111)" }}>
-              2. Conçu — Jubilee Hills &amp; Financial District
-            </h2>
-            <p style={{ fontSize: 13, color: "var(--violet, #7c3aed)", fontWeight: 600, margin: "0 0 12px" }}>
-              Best for: World-class French patisserie, delicate choux pastry, and afternoon meetings
-            </p>
-            <p style={{ lineHeight: 1.6, color: "var(--fg, #333)", fontSize: 15 }}>
-              Conçu is widely celebrated across Hyderabad as the gold standard for European baking. Founded by classically trained pastry chefs, every cake, tart, and choux bun is a masterclass in balance and texture. The ambiance is clean, minimalist, and upscale, making it equally fitting for celebratory dessert dates and quiet conversations.
-            </p>
-            <p style={{ margin: "12px 0 0", fontSize: 14 }}>
-              <strong>Must Order:</strong> Banoffee Tart, Chocolate Opera, Tiramisu, Choux Buns, and Flat White.
-            </p>
-          </article>
+              <div style={{ background: "var(--cream)", border: "1px solid var(--line)", borderRadius: 10, padding: "12px 16px", marginBottom: 14 }}>
+                <div style={{ fontSize: 13.5, color: "var(--ink)" }}>
+                  <strong style={{ color: "var(--ink)" }}>☕ Must Order:</strong> {s.whatToOrder}
+                </div>
+                <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 6 }}>
+                  <strong style={{ color: "var(--ink)" }}>⏱️ Vibe &amp; Seating Tip:</strong> {s.timingTip}
+                </div>
+              </div>
 
-          {/* Roast CCX / Roast 24 Seven */}
-          <article style={{ borderBottom: "1px solid var(--border, #e2e8f0)", paddingBottom: 28 }}>
-            <h2 style={{ fontSize: 22, margin: "0 0 6px", color: "var(--fg, #111)" }}>
-              3. Roast CCX &amp; Roast 24 Seven — Jubilee Hills &amp; Gachibowli
-            </h2>
-            <p style={{ fontSize: 13, color: "var(--violet, #7c3aed)", fontWeight: 600, margin: "0 0 12px" }}>
-              Best for: Serious tech work sessions, high-speed WiFi, and 24/7 specialty brews
-            </p>
-            <p style={{ lineHeight: 1.6, color: "var(--fg, #333)", fontSize: 15 }}>
-              If you need a reliable work cafe in the tech corridor with dedicated power sockets, robust WiFi, and in-house micro-roasting, Roast CCX is the premier choice. The Gachibowli outlet (Roast 24 Seven) is also open around the clock, providing safe, high-grade midnight coffee and sandwiches for night owls and tech workers.
-            </p>
-            <p style={{ margin: "12px 0 0", fontSize: 14 }}>
-              <strong>Must Order:</strong> Single-Origin Pourover, Vietnamese Iced Coffee, Avocado Toast, Bagels.
-            </p>
-          </article>
-
-          {/* True Black */}
-          <article style={{ borderBottom: "1px solid var(--border, #e2e8f0)", paddingBottom: 28 }}>
-            <h2 style={{ fontSize: 22, margin: "0 0 6px", color: "var(--fg, #111)" }}>
-              4. True Black — Jubilee Hills
-            </h2>
-            <p style={{ fontSize: 13, color: "var(--violet, #7c3aed)", fontWeight: 600, margin: "0 0 12px" }}>
-              Best for: Specialty coffee purists, single-origin espressos, and minimalist aesthetics
-            </p>
-            <p style={{ lineHeight: 1.6, color: "var(--fg, #333)", fontSize: 15 }}>
-              True Black strips away commercial syrups and sugary frappes, focusing entirely on the craft of bean extraction. The baristas are passionate about origin profiles, grind size, and water temperature. It is a quiet, contemplative space frequented by coffee purists, writers, and designers.
-            </p>
-            <p style={{ margin: "12px 0 0", fontSize: 14 }}>
-              <strong>Must Order:</strong> Cortado, Tonic Espresso, Cold Drip, Manual Pourovers.
-            </p>
-          </article>
-
-          {/* Autumn Leaf Cafe */}
-          <article style={{ borderBottom: "1px solid var(--border, #e2e8f0)", paddingBottom: 28 }}>
-            <h2 style={{ fontSize: 22, margin: "0 0 6px", color: "var(--fg, #111)" }}>
-              5. Autumn Leaf Cafe — Jubilee Hills
-            </h2>
-            <p style={{ fontSize: 13, color: "var(--violet, #7c3aed)", fontWeight: 600, margin: "0 0 12px" }}>
-              Best for: Shaded alfresco courtyard, pet-friendly brunches, and reading afternoons
-            </p>
-            <p style={{ lineHeight: 1.6, color: "var(--fg, #333)", fontSize: 15 }}>
-              Tucked behind an artisanal home decor and antique studio, Autumn Leaf Cafe offers one of the most charming outdoor courtyard settings in Jubilee Hills. Surrounded by massive tree canopies and vintage stonework, it is pet-friendly and serves generous breakfast platters and comfort pastas.
-            </p>
-            <p style={{ margin: "12px 0 0", fontSize: 14 }}>
-              <strong>Must Order:</strong> English Breakfast, Mezze Platter, Iced Americano, Walnut Brownie.
-            </p>
-          </article>
-
+              <blockquote
+                style={{
+                  margin: 0,
+                  padding: "10px 14px",
+                  borderRadius: 8,
+                  background: "var(--violet-wash)",
+                  borderLeft: "3px solid var(--violet)",
+                  fontFamily: "var(--font-fraunces), serif",
+                  fontSize: 14,
+                  fontStyle: "italic",
+                  lineHeight: 1.45,
+                  color: "var(--ink)",
+                }}
+              >
+                {s.quote}
+              </blockquote>
+            </article>
+          ))}
         </section>
 
-        {/* Commercial vs Specialty Comparison */}
-        <section style={{ margin: "40px 0 32px" }}>
-          <h2 style={{ fontSize: 20, color: "var(--fg, #111)", marginBottom: 12 }}>
-            Specialty Roasters vs Commercial Chains: Where Should You Go?
+        {/* FAQs */}
+        <section style={{ marginTop: 40, borderTop: "1.5px solid var(--line)", paddingTop: 28 }}>
+          <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: 22, color: "var(--ink)", marginBottom: 16 }}>
+            Frequently Asked Questions
           </h2>
-          <p style={{ lineHeight: 1.6, color: "var(--fg, #333)", fontSize: 15 }}>
-            Hyderabad has seen rapid expansion of chains like Blue Tokai, Third Wave Coffee, and Starbucks. Here is how they fit into your day:
-          </p>
-          <ul style={{ paddingLeft: 20, lineHeight: 1.8, fontSize: 15, color: "var(--fg, #333)" }}>
-            <li><strong>Blue Tokai (Jubilee Hills / Financial District):</strong> Reliable consistency for custom estate beans (Attikan, Silver Oak) and quiet indoor work seating.</li>
-            <li><strong>Third Wave Coffee:</strong> Great for quick meetings and flavored specialty drinks (Sea Salt Mocha, Orange Zest Mocha) with ample charging points.</li>
-            <li><strong>Heritage Irani Cafes (Niloufer, Nimrah):</strong> Head here when you want a rich, sweet, milky Irani chai and crispy Osmania biscuits without laptop pretense.</li>
-          </ul>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {faqLd.mainEntity.map((faq, i) => (
+              <details
+                key={i}
+                style={{
+                  background: "var(--paper)",
+                  border: "1.5px solid var(--line)",
+                  borderRadius: 10,
+                  padding: "14px 18px",
+                }}
+              >
+                <summary style={{ fontWeight: 700, fontSize: 15, cursor: "pointer", color: "var(--ink)" }}>
+                  {faq.name}
+                </summary>
+                <p style={{ margin: "10px 0 0", fontSize: 14, color: "var(--muted)", lineHeight: 1.55 }}>
+                  {faq.acceptedAnswer.text}
+                </p>
+              </details>
+            ))}
+          </div>
         </section>
 
-        <section style={{ marginTop: 40, borderTop: "1px solid var(--border, #e2e8f0)", paddingTop: 24 }}>
-          <h3 style={{ fontSize: 16, margin: "0 0 12px" }}>Explore More Curated Guides &amp; Food Maps:</h3>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+        {/* Explore Hub Pills */}
+        <section style={{ marginTop: 36, borderTop: "1.5px solid var(--line)", paddingTop: 24 }}>
+          <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--violet)", marginBottom: 10 }}>
+            More Curated Guides &amp; Explore Hubs
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             <Link href="/guides/best-biryani-hyderabad-reddit" className="site-pill">Best Biryani Guide</Link>
             <Link href="/guides/best-tiffins-hyderabad-reddit" className="site-pill">Best Tiffins Guide</Link>
-            <Link href="/guides/late-night-food-hyderabad-reddit" className="site-pill">Late Night Food Guide</Link>
             <Link href="/guides/best-ice-cream-desserts-hyderabad" className="site-pill">Best Ice Cream &amp; Desserts</Link>
+            <Link href="/guides/late-night-food-hyderabad-reddit" className="site-pill">Late Night Food Guide</Link>
             <Link href="/explore/cafes" className="site-pill">Browse All Cafes on Map</Link>
-            <Link href="/areas/jubilee-hills" className="site-pill">Jubilee Hills Food Hub</Link>
+            <Link href="/areas/jubilee-hills" className="site-pill">Jubilee Hills Food</Link>
           </div>
         </section>
       </main>
