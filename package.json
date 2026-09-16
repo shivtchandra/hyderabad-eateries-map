@@ -14,7 +14,8 @@
     "resolve-zomato": "node scripts/resolve-zomato.mjs",
     "fetch-offers": "node scripts/fetch-offers.mjs",
     "static": "node scripts/build-static.mjs",
-    "refresh-offers": "node scripts/resolve-zomato.mjs && node scripts/fetch-offers.mjs && node scripts/build-static.mjs"
+    "refresh-offers": "node scripts/resolve-zomato.mjs && node scripts/fetch-offers.mjs && node scripts/build-static.mjs",
+    "indexnow": "node scripts/submit-indexnow.mjs"
   },
   "dependencies": {
     "@imgly/background-removal": "^1.4.5",
