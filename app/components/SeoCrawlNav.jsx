@@ -37,6 +37,13 @@ export default function SeoCrawlNav() {
         <li><Link href="/areas/banjara-hills">Restaurants in Banjara Hills</Link></li>
         <li><Link href="/areas">All Hyderabad food areas</Link></li>
       </ul>
+      <h2>Curated food guides</h2>
+      <ul>
+        <li><Link href="/guides/best-biryani-hyderabad-reddit">Best biryani in Hyderabad (Reddit Guide)</Link></li>
+        <li><Link href="/guides/best-tiffins-hyderabad-reddit">Best tiffins &amp; breakfast in Hyderabad (2026)</Link></li>
+        <li><Link href="/guides/late-night-food-hyderabad-reddit">Late night food in Hyderabad (Midnight Guide)</Link></li>
+        <li><Link href="/guides/restaurants-in-sattva-knowledge-city-hyderabad">Sattva Knowledge City food guide</Link></li>
+      </ul>
       <h2>Explore &amp; stories</h2>
       <ul>
         <li><Link href="/explore">Explore food by category</Link></li>

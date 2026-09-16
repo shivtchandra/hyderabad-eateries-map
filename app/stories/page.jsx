@@ -145,15 +145,15 @@ function StoryRow({ s }) {
   );
 }
 
-function GuideCard() {
+function GuideCard({ href, img, eyebrow, title, meta, teaser, source }) {
   return (
-    <article className="stories-feature">
-      <Link href="/guides/restaurants-in-sattva-knowledge-city-hyderabad" className="stories-feature-link">
+    <article className="stories-feature" style={{ marginBottom: 28 }}>
+      <Link href={href} className="stories-feature-link">
         <div className="stories-feature-media">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://rmz-static.s3.dualstack.ap-south-1.amazonaws.com/01_998d11420c.webp"
-            alt="Sattva Knowledge City, Knowledge Park, THE LOFT and RMZ Nexity restaurant guide"
+            src={img}
+            alt={title}
             width={1200}
             height={750}
             decoding="async"
@@ -161,23 +161,19 @@ function GuideCard() {
           />
         </div>
         <div className="stories-feature-copy">
-          <p className="stories-eyebrow">Area Guide</p>
-          <h2>Sattva Knowledge City, Knowledge Park, THE LOFT &amp; RMZ Nexity</h2>
-          <p className="stories-meta">
-            60+ restaurants, cafes, bars and breweries · Raidurg &amp; Hi-Tech City belt · By Yogi
-          </p>
-          <p className="stories-teaser">
-            Complete F&amp;B guide across four commercial developments in Hyderabad's tech belt, from Thai and Burmese to Telugu, Italian, Mediterranean and breweries.
-          </p>
+          <p className="stories-eyebrow">{eyebrow}</p>
+          <h2>{title}</h2>
+          <p className="stories-meta">{meta}</p>
+          <p className="stories-teaser">{teaser}</p>
           <span className="stories-cta">Read the guide</span>
         </div>
       </Link>
-      <p style={{ fontSize: 11, color: "var(--muted)", margin: "8px 4px 0", fontWeight: 600 }}>
-        Source:{" "}
-        <a href="https://x.com/YogiTweetz" target="_blank" rel="noopener noreferrer" style={{ color: "var(--violet)", textDecoration: "none" }}>
-          @YogiTweetz on X
-        </a>
-      </p>
+      {source && (
+        <p style={{ fontSize: 11, color: "var(--muted)", margin: "8px 4px 0", fontWeight: 600 }}>
+          Source:{" "}
+          <span style={{ color: "var(--violet)" }}>{source}</span>
+        </p>
+      )}
     </article>
   );
 }
@@ -218,7 +214,51 @@ export default function StoriesPage() {
         ]}
       >
         {lead && <FeaturedStory s={lead} />}
-        <GuideCard />
+
+        <section className="stories-archive" aria-labelledby="curated-guides-title" style={{ marginTop: 24, marginBottom: 32 }}>
+          <div className="stories-section-head">
+            <h2 id="curated-guides-title">Curated Food Guides &amp; Deep Dives</h2>
+            <p>Unbiased local consensus, verified batch timings, and neighborhood directories</p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <GuideCard
+              href="/guides/best-biryani-hyderabad-reddit"
+              img="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=1200&q=80"
+              eyebrow="Reddit Local Consensus 2026"
+              title="Best Biryani in Hyderabad According to r/hyderabad"
+              meta="Shadab · The Nawaabs · Chicha's · Peshawar · Meridian · Shah Ghouse"
+              teaser="Beyond generic commercial lists: authentic local consensus on spice levels, cuts of meat, and peak fresh batch timings across Old City, Gachibowli, and Lakdikapul."
+              source="r/hyderabad Community & Local Foodies"
+            />
+            <GuideCard
+              href="/guides/best-tiffins-hyderabad-reddit"
+              img="https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=1200&q=80"
+              eyebrow="Authentic Breakfast Guide 2026"
+              title="Best Tiffins &amp; South Indian Breakfast in Hyderabad"
+              meta="Ishtaa · Penam · Panchakattu Dosa · Kanchi Cafe · Taaza Kitchen"
+              teaser="Where to get the crispest ghee karam dosas, piping hot pungaralu, 4-chutney spreads, and filter coffee, with real notes on weekend queues and consistency."
+              source="r/hyderabad & Local Reviews"
+            />
+            <GuideCard
+              href="/guides/late-night-food-hyderabad-reddit"
+              img="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80"
+              eyebrow="Midnight to 5 AM Guide"
+              title="Best Late Night Food &amp; 24/7 Eateries in Hyderabad"
+              meta="DLF Street Food · Roast 24 Seven · Niloufer Banjara Hills · Shah Ghouse"
+              teaser="Safe, verified food spots open past midnight: Maggi and momos at DLF, midnight Irani chai, 3 AM mutton biryani, and round-the-clock specialty cafes."
+              source="r/hyderabad & Night Owl Food Trails"
+            />
+            <GuideCard
+              href="/guides/restaurants-in-sattva-knowledge-city-hyderabad"
+              img="https://rmz-static.s3.dualstack.ap-south-1.amazonaws.com/01_998d11420c.webp"
+              eyebrow="Commercial Hub Directory"
+              title="Sattva Knowledge City, Knowledge Park, THE LOFT &amp; RMZ Nexity"
+              meta="60+ restaurants, cafes, bars and breweries · Raidurg &amp; Hi-Tech City belt"
+              teaser="Complete F&amp;B guide across four commercial developments in Hyderabad's tech belt, from Thai and Burmese to Telugu, Italian, Mediterranean and breweries."
+              source="@YogiTweetz on X"
+            />
+          </div>
+        </section>
 
         {rest.length > 0 && (
           <section className="stories-archive" aria-labelledby="stories-archive-title">
