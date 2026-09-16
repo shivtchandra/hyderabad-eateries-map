@@ -1,3 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <text y=".9em" font-size="90">🫕</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2F4FC4" />
+      <stop offset="100%" stop-color="#1F3690" />
+    </linearGradient>
+  </defs>
+  <!-- Background squircle -->
+  <rect width="512" height="512" rx="128" fill="url(#bgGrad)" />
+  
+  <!-- Food Pot / Handi & Steam Icon in Warm Cream & Burnt Orange -->
+  <!-- Steam lines -->
+  <path d="M196 140 Q180 170 196 200 Q212 230 196 250" fill="none" stroke="#FAF0CE" stroke-width="24" stroke-linecap="round" opacity="0.9" />
+  <path d="M256 120 Q240 155 256 190 Q272 225 256 250" fill="none" stroke="#E2622A" stroke-width="26" stroke-linecap="round" />
+  <path d="M316 140 Q300 170 316 200 Q332 230 316 250" fill="none" stroke="#FAF0CE" stroke-width="24" stroke-linecap="round" opacity="0.9" />
+
+  <!-- Pot Lid / Rim -->
+  <path d="M120 270 Q256 250 392 270" fill="none" stroke="#FAF0CE" stroke-width="28" stroke-linecap="round" />
+  
+  <!-- Pot Body -->
+  <path d="M136 280 C136 385 190 416 256 416 C322 416 376 385 376 280 Z" fill="#FAF0CE" />
+  
+  <!-- Pot Handles -->
+  <path d="M112 300 C92 300 92 340 116 340" fill="none" stroke="#FAF0CE" stroke-width="18" stroke-linecap="round" />
+  <path d="M400 300 C420 300 420 340 396 340" fill="none" stroke="#FAF0CE" stroke-width="18" stroke-linecap="round" />
+  
+  <!-- Pot Accent Ribbon / Star -->
+  <circle cx="256" cy="340" r="16" fill="#E2622A" />
 </svg>

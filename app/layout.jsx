@@ -17,7 +17,11 @@ export const metadata = {
   title: { default: title, template: "%s | Mapping HYD Eats" },
   description,
   icons: {
-    icon: "/icon.svg",
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
   },
   openGraph: {
     title,
@@ -44,6 +48,7 @@ const homeLd = {
       "@type": "WebSite",
       "@id": `${siteUrl}/#website`,
       name: "Mapping HYD Eats",
+      alternateName: ["Hyderabad Eats", "Mapping HYD", "eats.mapmyhyd.com"],
       url: siteUrl,
       description,
       publisher: { "@id": `${siteUrl}/#organization` },
@@ -52,7 +57,9 @@ const homeLd = {
       "@type": "Organization",
       "@id": `${siteUrl}/#organization`,
       name: "Mapping HYD Eats",
+      alternateName: ["Hyderabad Eats", "Mapping HYD"],
       url: siteUrl,
+      logo: `${siteUrl}/icon.svg`,
       sameAs: [
         "https://mapmyhyd.com/",
         "https://startups.mapmyhyd.com/",
