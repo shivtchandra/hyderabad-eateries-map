@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
 import { getRankingBySlug } from "../../../lib/themesServer.js";
 import { itemListJsonLd, rankingMeta, SEO_THEME_PICKS, slugFromTitle } from "../../../lib/rankings.js";
+import { breadcrumbJsonLd } from "../../../lib/schema.js";
 import { getSiteUrl } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
 import { allCategoryPages, editorialRanking, pathForSpotId } from "../../../lib/siteData.js";
@@ -122,8 +123,15 @@ export default async function RankingPage({ params }) {
     ],
   };
 
+  const breadcrumbsLd = breadcrumbJsonLd([
+    { name: "Home", url: getSiteUrl() },
+    { name: "Rankings", url: `${getSiteUrl()}/rankings` },
+    { name: data.title, url: `${getSiteUrl()}/rankings/${params.slug}` },
+  ]);
+
   return (
   <div style={{ paddingBottom: 84 }}>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
     {jsonLd && (
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     )}

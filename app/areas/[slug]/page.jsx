@@ -3,8 +3,9 @@ import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
 import { getAreaBySlug, allAreaPages, spotPath } from "../../../lib/siteData.js";
 import { getAreaPillar } from "../../../lib/explorePillars.js";
-import { pageMeta } from "../../../lib/site.js";
+import { pageMeta, getSiteUrl } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
+import { breadcrumbJsonLd } from "../../../lib/schema.js";
 
 
 function areaPageCopy(area, spotCount) {
@@ -120,8 +121,15 @@ export default function AreaPage({ params }) {
     ],
   };
 
+  const breadcrumbsLd = breadcrumbJsonLd([
+    { name: "Home", url: getSiteUrl() },
+    { name: "Areas", url: `${getSiteUrl()}/areas` },
+    { name: data.area, url: `${getSiteUrl()}/areas/${params.slug}` },
+  ]);
+
   return (
     <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
     <SiteChrome
       active="/areas"

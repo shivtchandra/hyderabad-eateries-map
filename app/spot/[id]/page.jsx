@@ -5,7 +5,7 @@ import BottomNav from "../../components/BottomNav.jsx";
 import { getEateryBySlugOrId, getEateries, getEditorialSpotIds, getChainSiblings, areaPageHref, hasSpotPhoto, spotSlug, spotPath } from "../../../lib/siteData.js";
 import { absoluteUrl, getSiteUrl, pageMeta } from "../../../lib/site.js";
 import { galleryPhotoUrl, spotPhotoUrl } from "../../../lib/photos.js";
-import { restaurantJsonLd, faqJsonLd } from "../../../lib/schema.js";
+import { restaurantJsonLd, faqJsonLd, breadcrumbJsonLd, getSpotFaqs } from "../../../lib/schema.js";
 import { ogImages } from "../../../lib/og.js";
 
 const CAT_LABEL = {
@@ -56,14 +56,19 @@ export function generateStaticParams() {
 export function generateMetadata({ params }) {
   const spot = getEateryBySlugOrId(params.id);
   if (!spot) return { title: "Spot not found, Hyderabad Eats" };
-  const title = spot.discoveredIn && !spot.discoveredIn.startsWith("text:")
-    ? `${spot.name}, ${spot.discoveredIn}, Hyderabad`
-    : `${spot.name}, Hyderabad`;
+  const area = spot.discoveredIn && !spot.discoveredIn.startsWith("text:") ? spot.discoveredIn : "Hyderabad";
+  const name = displayName(spot.name);
+  const ratingStr = spot.rating ? ` (${spot.rating}★)` : "";
+  const title = `${name}, ${area}${ratingStr} — Reviews, Menu & Timings`;
+  
   const editorial = spot.originStory?.[0]
     || (spot.signatureDish ? `Famous for ${spot.signatureDish.name}. ${spot.signatureDish.why}` : "");
+  const ratingDetails = spot.rating ? `Rated ${spot.rating}★ (${spot.ratingCount ? spot.ratingCount.toLocaleString("en-IN") : ""} reviews). ` : "";
+  const costDetails = spot.costForTwo ? `₹${spot.costForTwo} for two. ` : "";
   const description = editorial
-    ? `${editorial} ${spot.rating ? `${spot.rating}★` : ""}${spot.ratingCount ? ` (${spot.ratingCount.toLocaleString("en-IN")} reviews)` : ""}, on Hyderabad Eats.`.trim()
-    : `${spot.name} in ${spot.discoveredIn || "Hyderabad"}. ${spot.rating ? `Rated ${spot.rating}★` : ""} ${spot.ratingCount ? `(${spot.ratingCount.toLocaleString("en-IN")} reviews)` : ""}. Find on Hyderabad Eats map.`;
+    ? `${editorial} ${ratingDetails}${costDetails}Find reviews, address & timings on Hyderabad Eats.`.trim()
+    : `${name} in ${area}. ${ratingDetails}${costDetails}${spot.signatureDish?.name ? `Famous for ${spot.signatureDish.name}. ` : ""}Check reviews, open hours, location & menu on Hyderabad Eats.`.trim();
+
   const photo = hasSpotPhoto(spot.id) ? spotPhotoUrl(spot.id) : null;
   const base = pageMeta({ title, description, path: spotPath(spot), image: photo || undefined });
   return {
@@ -94,6 +99,14 @@ export default function SpotPage({ params }) {
   const areaLink = areaPageHref(spot.discoveredIn);
 
   const jsonLd = restaurantJsonLd(spot, siteUrl, AUTHOR);
+  const faqs = getSpotFaqs(spot);
+  const breadcrumbItems = [
+    { name: "Home", url: siteUrl },
+    ...(areaLink ? [{ name: spot.discoveredIn, url: `${siteUrl}${areaLink}` }] : []),
+    { name: spot.name, url: `${siteUrl}${spotPath(spot)}` },
+  ];
+  const breadcrumbsLd = breadcrumbJsonLd(breadcrumbItems);
+
   const heroImg = spot.gallery?.length
     ? galleryPhotoUrl(spot.gallery[0])
     : hasSpotPhoto(spot.id)
@@ -117,7 +130,6 @@ export default function SpotPage({ params }) {
     rankingLinks.push({ href: "/rankings/best-biryani-in-hyderabad", label: "Best biryani in Hyderabad" });
   }
 
-
   const isReview = Boolean(spot.originStory?.length);
   const scoredDishes = (spot.mustOrder || []).map((d) => {
     const score = parseDishScore(d.note);
@@ -135,8 +147,9 @@ export default function SpotPage({ params }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      {spot.faq?.length > 0 && (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(spot.faq)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
+      {faqs.length > 0 && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(faqs)) }} />
       )}
     <div style={{ paddingBottom: 84 }}>
     <SiteChrome
@@ -432,11 +445,11 @@ export default function SpotPage({ params }) {
             </section>
           )}
 
-          {spot.faq?.length > 0 && (
+          {faqs?.length > 0 && (
             <section className="spot-section">
               <h2>Good to know</h2>
               <div className="spot-faq">
-                {spot.faq.map((f, i) => (
+                {faqs.map((f, i) => (
                   <details key={i}>
                     <summary>{f.q}</summary>
                     <p>{f.a}</p>
