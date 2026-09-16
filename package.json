@@ -10,6 +10,7 @@
     "seed": "node scripts/seed-eateries.mjs",
     "enrich": "node scripts/enrich-details.mjs",
     "photos": "node scripts/cache-photos.mjs",
+    "sync-photos": "node scripts/sync-photos.mjs",
     "resolve-zomato": "node scripts/resolve-zomato.mjs",
     "fetch-offers": "node scripts/fetch-offers.mjs",
     "static": "node scripts/build-static.mjs",

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback, useMemo, useDeferredValue } from "react";
 import { haversineKm, isOpenNow, fetchRoadDistances, validTagsFor, isNewSpot } from "../lib/eateryUtils.js";
 import { AREA_ZOOM_MAX } from "../lib/spotlight.js";
+import { spotPhotoUrl } from "../lib/photos.js";
 import * as passportStore from "../lib/passport.js";
 import { Icon } from "./components/Icons.jsx";
 import dynamic from "next/dynamic";
@@ -527,7 +528,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
     [selected, details]
   );
 
-  const photoUrlFor = selectedFull ? `/photos/${selectedFull.id}.jpg` : null;
+  const photoUrlFor = selectedFull ? spotPhotoUrl(selectedFull.id) : null;
   const dist = selected ? (roadDistMap[selected.id] ?? (userLoc ? haversineKm(userLoc, { lat: selected.lat, lng: selected.lng }) : null)) : null;
 
   const visitedCount = Object.keys(passport.visited).length;

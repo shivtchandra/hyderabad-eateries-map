@@ -2,6 +2,7 @@ import Link from "next/link";
 import { pageMeta } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
 import { SiteNav, SiteBreadcrumb, SiteFooter, SiteRelated } from "../../components/SiteChrome.jsx";
+import { photoPathToCdn, spotPhotoUrl } from "../../../lib/photos.js";
 
 const SLUG = "/guides/restaurants-in-sattva-knowledge-city-hyderabad";
 const TITLE = "Complete Restaurant Guide: Sattva Knowledge City, Knowledge Park, THE LOFT & RMZ Nexity";
@@ -145,7 +146,7 @@ function VenueRow({ name, note, tag, href, photo }) {
       <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
         {photo && (
           <img
-            src={photo}
+            src={photoPathToCdn(photo)}
             alt={name}
             width={52}
             height={52}
@@ -186,7 +187,7 @@ function SpotPhoto({ id, src, name, caption }) {
   return (
     <figure style={{ margin: "20px 0", borderRadius: 12, overflow: "hidden", border: "1.5px solid var(--line)", background: "var(--cream)" }}>
       <img
-        src={src || `/photos/${id}.jpg`}
+        src={src ? photoPathToCdn(src) : spotPhotoUrl(id)}
         alt={name}
         loading="lazy"
         style={{ display: "block", width: "100%", aspectRatio: "16/9", objectFit: "cover" }}

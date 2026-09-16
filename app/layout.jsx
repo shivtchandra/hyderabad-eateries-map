@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { getSiteUrl } from "../lib/site.js";
 import { ogImages } from "../lib/og.js";
 import SeoCrawlNav from "./components/SeoCrawlNav.jsx";
+import { PHOTO_CDN_ORIGIN } from "../lib/photos.js";
 
 const siteUrl = getSiteUrl();
 
@@ -95,6 +96,12 @@ const homeLd = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${outfit.variable} ${fraunces.variable} ${bagel.variable}`}>
+      <head>
+        {/* Venue photos come from a separate CDN origin, so warm the connection
+            before the first <img> asks for one. */}
+        <link rel="preconnect" href={PHOTO_CDN_ORIGIN} crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href={PHOTO_CDN_ORIGIN} />
+      </head>
       <body className={outfit.className}>
         <script
           type="application/ld+json"

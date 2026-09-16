@@ -4,6 +4,7 @@ import SiteChrome from "../../components/SiteChrome.jsx";
 import BottomNav from "../../components/BottomNav.jsx";
 import { getEateryBySlugOrId, getEateries, getEditorialSpotIds, getChainSiblings, areaPageHref, hasSpotPhoto, spotSlug, spotPath } from "../../../lib/siteData.js";
 import { absoluteUrl, getSiteUrl, pageMeta } from "../../../lib/site.js";
+import { galleryPhotoUrl, spotPhotoUrl } from "../../../lib/photos.js";
 import { restaurantJsonLd, faqJsonLd } from "../../../lib/schema.js";
 import { ogImages } from "../../../lib/og.js";
 
@@ -30,11 +31,26 @@ function displayName(name = "") {
   return name.replace(/\s*\[.*?\]\s*$/, "");
 }
 
+// Refresh prerendered pages daily so "Open today" hours and offers do not go
+// stale, and so on-demand pages get cached rather than rendered per request.
+export const revalidate = 86400;
+
+// Only the editorial spots plus the busiest venues are prerendered. Every
+// prerendered path costs ~63KB of HTML + RSC payload in the deployment, so the
+// old "everything with 200+ reviews" filter shipped 1,807 pages / ~109MB with
+// every deploy and was the second half of the 10GB Hobby storage blowout.
+// The long tail still works: dynamicParams defaults to true, so an unlisted
+// slug is rendered on first request and then cached by ISR.
+const PRERENDERED_SPOT_LIMIT = 200;
+
 export function generateStaticParams() {
   const editorial = new Set(getEditorialSpotIds());
-  return getEateries()
-    .filter((e) => editorial.has(e.id) || (e.ratingCount || 0) >= 200)
-    .map((e) => ({ id: spotSlug(e) }));
+  const all = getEateries();
+  const popular = all
+    .filter((e) => !editorial.has(e.id))
+    .sort((a, b) => (b.ratingCount || 0) - (a.ratingCount || 0))
+    .slice(0, PRERENDERED_SPOT_LIMIT);
+  return [...all.filter((e) => editorial.has(e.id)), ...popular].map((e) => ({ id: spotSlug(e) }));
 }
 
 export function generateMetadata({ params }) {
@@ -48,7 +64,7 @@ export function generateMetadata({ params }) {
   const description = editorial
     ? `${editorial} ${spot.rating ? `${spot.rating}★` : ""}${spot.ratingCount ? ` (${spot.ratingCount.toLocaleString("en-IN")} reviews)` : ""}, on Hyderabad Eats.`.trim()
     : `${spot.name} in ${spot.discoveredIn || "Hyderabad"}. ${spot.rating ? `Rated ${spot.rating}★` : ""} ${spot.ratingCount ? `(${spot.ratingCount.toLocaleString("en-IN")} reviews)` : ""}. Find on Hyderabad Eats map.`;
-  const photo = hasSpotPhoto(spot.id) ? `/photos/${spot.id}.jpg` : null;
+  const photo = hasSpotPhoto(spot.id) ? spotPhotoUrl(spot.id) : null;
   const base = pageMeta({ title, description, path: spotPath(spot), image: photo || undefined });
   return {
     ...base,
@@ -79,9 +95,9 @@ export default function SpotPage({ params }) {
 
   const jsonLd = restaurantJsonLd(spot, siteUrl, AUTHOR);
   const heroImg = spot.gallery?.length
-    ? `/photos/gallery/${spot.gallery[0]}`
+    ? galleryPhotoUrl(spot.gallery[0])
     : hasSpotPhoto(spot.id)
-      ? `/photos/${spot.id}.jpg`
+      ? spotPhotoUrl(spot.id)
       : null;
   const galleryRest = spot.gallery?.length > 1 ? spot.gallery.slice(1) : [];
   const todaysHours = spot.hours?.length
@@ -291,7 +307,7 @@ export default function SpotPage({ params }) {
               <div className="spot-gallery">
                 {galleryRest.map((f, i) => (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img key={i} src={`/photos/gallery/${f}`} alt={`${displayName(spot.name)}, photo ${i + 2}`} loading="lazy" />
+                  <img key={i} src={galleryPhotoUrl(f)} alt={`${displayName(spot.name)}, photo ${i + 2}`} loading="lazy" />
                 ))}
               </div>
             </section>
@@ -410,7 +426,7 @@ export default function SpotPage({ params }) {
               <div className="spot-gallery">
                 {galleryRest.map((f, i) => (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img key={i} src={`/photos/gallery/${f}`} alt={`${spot.name}, photo ${i + 2}`} loading="lazy" />
+                  <img key={i} src={galleryPhotoUrl(f)} alt={`${spot.name}, photo ${i + 2}`} loading="lazy" />
                 ))}
               </div>
             </section>

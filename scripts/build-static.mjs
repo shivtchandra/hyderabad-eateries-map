@@ -17,6 +17,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { galleryPhotoUrl, spotPhotoUrl } from "../lib/photos.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA = path.join(__dirname, "..", "data", "eateries.json");
@@ -80,19 +81,33 @@ try {
         area: e.discoveredIn ?? null,
         category: e.category ?? null,
         teaser: c.signatureDish?.name ?? c.highlight?.label ?? null,
-        image: c.gallery?.length ? `/photos/gallery/${c.gallery[0]}` : `/photos/${id}.jpg`,
+        image: c.gallery?.length ? galleryPhotoUrl(c.gallery[0]) : spotPhotoUrl(id),
       };
     });
 } catch {}
 fs.writeFileSync(path.join(PUBLIC, "featured.json"), JSON.stringify(featured));
 
 const mb = (p) => (fs.statSync(path.join(PUBLIC, p)).size / 1048576).toFixed(2);
+
+// data/photo-ids.json is the committed manifest of which venues have a photo on
+// the CDN. Only regenerate it when public/photos is actually present locally.
+// On Vercel it is not (see .vercelignore), and blindly rewriting it there would
+// leave an empty list, which silently drops every photo and OG image.
 const photosDir = path.join(PUBLIC, "photos");
-const photoIds = fs.existsSync(photosDir)
-  ? fs.readdirSync(photosDir).filter((f) => f.endsWith(".jpg")).map((f) => f.replace(/\.jpg$/, ""))
-  : [];
-fs.writeFileSync(path.join(__dirname, "..", "data", "photo-ids.json"), JSON.stringify(photoIds));
+const manifest = path.join(__dirname, "..", "data", "photo-ids.json");
+let photoIds;
+if (fs.existsSync(photosDir)) {
+  photoIds = fs
+    .readdirSync(photosDir)
+    .filter((f) => f.endsWith(".jpg"))
+    .map((f) => f.replace(/\.jpg$/, ""));
+  fs.writeFileSync(manifest, JSON.stringify(photoIds));
+} else {
+  photoIds = JSON.parse(fs.readFileSync(manifest, "utf-8"));
+}
 
 console.log(`eateries-index.json  ${index.length} spots  ${mb("eateries-index.json")} MB`);
 console.log(`eateries-detail.json ${Object.keys(detail).length} spots  ${mb("eateries-detail.json")} MB`);
-console.log(`photo-ids.json       ${photoIds.length} thumbs`);
+console.log(
+  `photo-ids.json       ${photoIds.length} thumbs  ${fs.existsSync(photosDir) ? "(regenerated)" : "(kept, no local photos dir)"}`
+);

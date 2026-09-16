@@ -4,6 +4,7 @@ import BottomNav from "../components/BottomNav.jsx";
 import { getEateries, getEateryById, getChainSiblings, hasSpotPhoto, spotPath } from "../../lib/siteData.js";
 import { pageMeta } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
+import { galleryPhotoUrl, spotPhotoUrl } from "../../lib/photos.js";
 
 const title = "Hyderabad Food Stories";
 const description =
@@ -45,8 +46,8 @@ function storySpots() {
 }
 
 function storyImage(s) {
-  if (s.gallery?.length) return `/photos/gallery/${s.gallery[0]}`;
-  if (hasSpotPhoto(s.id)) return `/photos/${s.id}.jpg`;
+  if (s.gallery?.length) return galleryPhotoUrl(s.gallery[0]);
+  if (hasSpotPhoto(s.id)) return spotPhotoUrl(s.id);
   return null;
 }
 

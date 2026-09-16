@@ -1,13 +1,29 @@
 import fs from "fs";
 import path from "path";
 
-// Tiny id list so serverless traces this JSON instead of public/photos (~157MB/lambda).
+// data/photo-ids.json is a committed manifest of which venues have a photo on
+// the CDN, so serverless traces this tiny JSON instead of public/photos.
+// It is only regenerated when the photos dir exists locally. It does not on
+// Vercel, and rewriting it there would produce an empty list, which silently
+// drops every thumbnail and OG image. scripts/sync-photos.mjs owns updates.
 const photosDir = path.join(process.cwd(), "public", "photos");
-const photoIds = fs.existsSync(photosDir)
-  ? fs.readdirSync(photosDir).filter((f) => f.endsWith(".jpg")).map((f) => f.replace(/\.jpg$/, ""))
-  : [];
-fs.mkdirSync(path.join(process.cwd(), "data"), { recursive: true });
-fs.writeFileSync(path.join(process.cwd(), "data", "photo-ids.json"), JSON.stringify(photoIds));
+const manifestPath = path.join(process.cwd(), "data", "photo-ids.json");
+if (fs.existsSync(photosDir)) {
+  const photoIds = fs
+    .readdirSync(photosDir)
+    .filter((f) => f.endsWith(".jpg"))
+    .map((f) => f.replace(/\.jpg$/, ""));
+  fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
+  fs.writeFileSync(manifestPath, JSON.stringify(photoIds));
+} else if (!fs.existsSync(manifestPath)) {
+  throw new Error(
+    "data/photo-ids.json is missing and public/photos is not present. " +
+      "Run scripts/sync-photos.mjs locally and commit the manifest."
+  );
+}
+
+const PHOTO_CDN =
+  process.env.NEXT_PUBLIC_PHOTO_CDN || "https://shivtchandra.github.io/hyd-eats-photos";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -28,17 +44,14 @@ const nextConfig = {
       "./node_modules/@imgly/**/*",
     ],
   },
-  async rewrites() {
-    return [
-      {
-        source: "/photos/:path*",
-        destination:
-          "https://cdn.jsdelivr.net/gh/shivtchandra/hyderabad-eateries-map@master/public/photos/:path*",
-      },
-    ];
-  },
   async redirects() {
     return [
+      // Photos live in the public shivtchandra/hyd-eats-photos repo, served by
+      // GitHub Pages. The app emits absolute CDN URLs (lib/photos.js), so this
+      // only catches already-indexed /photos/* URLs and old OG image links.
+      // A redirect, not a rewrite: a rewrite would proxy every image through
+      // Vercel and bill the bandwidth back to us.
+      { source: "/photos/:path*", destination: `${PHOTO_CDN}/:path*`, permanent: true },
       // Common search URL patterns → ranking pages
       { source: "/best-biryani-in-hyderabad", destination: "/rankings/best-biryani-in-hyderabad", permanent: true },
       { source: "/best-biryani-hyderabad", destination: "/rankings/best-biryani-in-hyderabad", permanent: true },
