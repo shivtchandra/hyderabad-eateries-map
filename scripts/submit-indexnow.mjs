@@ -12,7 +12,9 @@ const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
 async function main() {
   console.log("Fetching sitemap URLs...");
   const entries = await sitemap();
-  const urls = entries.map((e) => e.url);
+  const urls = entries.map((e) =>
+    e.url.replace(/^https?:\/\/[^\/]+/, `https://${HOST}`)
+  );
 
   console.log(`Found ${urls.length} URLs to submit to IndexNow.`);
 
