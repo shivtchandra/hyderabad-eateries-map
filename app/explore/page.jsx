@@ -1,9 +1,10 @@
 import Link from "next/link";
 import SiteChrome from "../components/SiteChrome.jsx";
 import { allCategoryPages } from "../../lib/siteData.js";
-import { pageMeta } from "../../lib/site.js";
+import { pageMeta, getSiteUrl } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
 import { SEO_THEME_PICKS, slugFromTitle } from "../../lib/rankings.js";
+import { breadcrumbJsonLd } from "../../lib/schema.js";
 
 const title = "Explore Hyderabad Food by Category";
 const description = "Browse the best biryani, cafes, restaurants, bars, bakeries and ice cream in Hyderabad. Open any hub, then vote on the map.";
@@ -35,7 +36,14 @@ export default function ExploreHubPage() {
     .map((t) => SEO_THEME_PICKS.find((p) => p.title === t))
     .filter(Boolean);
 
+  const breadcrumbsLd = breadcrumbJsonLd([
+    { name: "Home", url: getSiteUrl() },
+    { name: "Explore", url: `${getSiteUrl()}/explore` },
+  ]);
+
   return (
+    <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
     <SiteChrome active="/explore" breadcrumb={[{ href: "/", label: "Home" }, { href: "/explore", label: "Explore" }]} title={title} description={description}
       related={[
         { href: "/rankings", label: "Weekly rankings" },
@@ -73,5 +81,6 @@ export default function ExploreHubPage() {
       </div>
       <Link href="/" className="site-cta">Open the map</Link>
     </SiteChrome>
+    </>
   );
 }

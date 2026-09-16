@@ -46,6 +46,16 @@ const articleLd = {
   },
 };
 
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://eats.mapmyhyd.com" },
+    { "@type": "ListItem", position: 2, name: "Areas", item: "https://eats.mapmyhyd.com/areas" },
+    { "@type": "ListItem", position: 3, name: TITLE, item: "https://eats.mapmyhyd.com" + SLUG },
+  ],
+};
+
 const faqLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -332,6 +342,7 @@ const NEARBY = [
 export default function Page() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <div className="site-page">

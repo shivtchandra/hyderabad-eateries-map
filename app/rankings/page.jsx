@@ -2,8 +2,9 @@ import Link from "next/link";
 import SiteChrome from "../components/SiteChrome.jsx";
 import { getAllRankingsThemes } from "../../lib/themesServer.js";
 import { SEO_THEME_PICKS, slugFromTitle } from "../../lib/rankings.js";
-import { pageMeta } from "../../lib/site.js";
+import { pageMeta, getSiteUrl } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
+import { breadcrumbJsonLd } from "../../lib/schema.js";
 
 export const dynamic = "force-dynamic";
 
@@ -33,7 +34,14 @@ export default async function RankingsHubPage() {
   const themeSlugs = new Set(themes.map((t) => t.slug));
   const upcoming = SEO_THEME_PICKS.filter((p) => !themeSlugs.has(slugFromTitle(p.title)));
 
+  const breadcrumbsLd = breadcrumbJsonLd([
+    { name: "Home", url: getSiteUrl() },
+    { name: "Rankings", url: `${getSiteUrl()}/rankings` },
+  ]);
+
   return (
+    <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
     <SiteChrome
       active="/rankings"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/rankings", label: "Rankings" }]}
@@ -95,5 +103,6 @@ export default async function RankingsHubPage() {
         </>
       )}
     </SiteChrome>
+    </>
   );
 }

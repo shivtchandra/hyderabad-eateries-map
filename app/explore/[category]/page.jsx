@@ -3,9 +3,10 @@ import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
 import { getCategoryBySlug, allCategoryPages, getEateryById, spotPath } from "../../../lib/siteData.js";
 import { getExplorePillar } from "../../../lib/explorePillars.js";
-import { pageMeta } from "../../../lib/site.js";
+import { pageMeta, getSiteUrl } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
 import { slugFromTitle, SEO_THEME_PICKS } from "../../../lib/rankings.js";
+import { breadcrumbJsonLd } from "../../../lib/schema.js";
 
 export function generateStaticParams() {
   return allCategoryPages().map((c) => ({ category: c.slug }));
@@ -50,7 +51,15 @@ export default function ExploreCategoryPage({ params }) {
     .filter(Boolean);
   const year = new Date().getFullYear();
 
+  const breadcrumbsLd = breadcrumbJsonLd([
+    { name: "Home", url: getSiteUrl() },
+    { name: "Explore", url: `${getSiteUrl()}/explore` },
+    { name: data.label, url: `${getSiteUrl()}/explore/${params.category}` },
+  ]);
+
   return (
+    <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
     <SiteChrome
       active="/explore"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/explore", label: "Explore" }, { href: `/explore/${params.category}`, label: data.label }]}
@@ -147,5 +156,6 @@ export default function ExploreCategoryPage({ params }) {
 
       <Link href="/" className="site-cta">Explore all on the map</Link>
     </SiteChrome>
+    </>
   );
 }

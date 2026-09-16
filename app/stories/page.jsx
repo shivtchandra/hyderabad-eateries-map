@@ -2,9 +2,10 @@ import Link from "next/link";
 import SiteChrome from "../components/SiteChrome.jsx";
 import BottomNav from "../components/BottomNav.jsx";
 import { getEateries, getEateryById, getChainSiblings, hasSpotPhoto, spotPath } from "../../lib/siteData.js";
-import { pageMeta } from "../../lib/site.js";
+import { pageMeta, getSiteUrl } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
 import { galleryPhotoUrl, spotPhotoUrl } from "../../lib/photos.js";
+import { breadcrumbJsonLd } from "../../lib/schema.js";
 
 const title = "Hyderabad Food Stories";
 const description =
@@ -190,8 +191,14 @@ export default function StoriesPage() {
     : [];
   const leadImg = lead ? storyImage(lead) : null;
 
+  const breadcrumbsLd = breadcrumbJsonLd([
+    { name: "Home", url: getSiteUrl() },
+    { name: "Stories", url: `${getSiteUrl()}/stories` },
+  ]);
+
   return (
     <div style={{ paddingBottom: 84 }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
       {leadImg && (
         // eslint-disable-next-line @next/next/no-head-element
         <link rel="preload" as="image" href={leadImg} fetchPriority="high" />

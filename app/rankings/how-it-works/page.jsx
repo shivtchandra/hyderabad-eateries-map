@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SiteChrome from "../../components/SiteChrome.jsx";
-import { pageMeta } from "../../../lib/site.js";
+import { pageMeta, getSiteUrl } from "../../../lib/site.js";
+import { breadcrumbJsonLd } from "../../../lib/schema.js";
 
 const title = "How Hyderabad Eats Rankings Work";
 const description =
@@ -11,7 +12,15 @@ export const metadata = {
 };
 
 export default function HowItWorksPage() {
+  const breadcrumbsLd = breadcrumbJsonLd([
+    { name: "Home", url: getSiteUrl() },
+    { name: "Rankings", url: `${getSiteUrl()}/rankings` },
+    { name: "How it works", url: `${getSiteUrl()}/rankings/how-it-works` },
+  ]);
+
   return (
+    <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
     <SiteChrome
       active="/rankings"
       breadcrumb={[
@@ -58,5 +67,6 @@ export default function HowItWorksPage() {
 
       <Link href="/rankings" className="site-cta">See current rankings →</Link>
     </SiteChrome>
+    </>
   );
 }
