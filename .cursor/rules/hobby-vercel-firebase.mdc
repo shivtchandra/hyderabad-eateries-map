@@ -1,0 +1,26 @@
+---
+description: Keep Vercel Hobby deploys and Firebase free-tier usage safe when changing Next, crons, public assets, or data loaders
+alwaysApply: true
+---
+
+# Hobby ops (Vercel + Firebase)
+
+Hobby caps we have already hit: Deployment Storage 10GB, Functions Storage 10GB, Fluid CPU 4h/mo, Firestore daily reads (`RESOURCE_EXHAUSTED`). Existing sites stay up when storage is over; the graph can lag ~30 days after deletes (recovery bin). Do not treat that lag as “usage is still growing from this commit.”
+
+## Vercel / Next
+
+- Never `fs.existsSync` / `readdir` / `readFile` on a large directory with a dynamic path (`public/photos/${id}.jpg`). Next traces the whole folder into **every** lambda. Sep 2026 Eats: 157MB/function, 8GB Functions Storage from one deploy.
+- Use a tiny generated manifest JSON for “does this file exist?”. Add `outputFileTracingExcludes` for `public/photos/**`, `scripts/**`, native/WASM packages (e.g. `@imgly`).
+- Do not `outputFileTracingIncludes` `./data/**/*` on `"/*"` or every `/api/**` route. Include only the JSON a route actually reads.
+- Pin `"regions": ["iad1"]` in `vercel.json`. Extra regions multiply Functions Storage.
+- Heavy work (scrapes, ATS sync, photo cache, offers) runs on **GitHub Actions**, never Vercel Fluid cron. Keep Fluid crons under ~20s and time-budgeted.
+- After a deploy that touches tracing, `public/`, or `next.config`, run `vercel inspect <url>` and check lambda sizes. Over ~10MB is a smell; over ~50MB is a stop-ship.
+- Prefer Blob/CDN for growing media. A daily production deploy that copies `public/photos` (~158MB) will refill storage even with small functions.
+- Keep retention short (1d preview / canceled / errored, 1w production). Do not rely on unbounded deploy history for rollback.
+
+## Firebase
+
+- Never list/read a whole collection on a user request. Bake maps/lists into static JSON at build (Eats `scripts/build-static.mjs`) or read **one** doc.
+- Crons: batched writes, time budget, cursor in `cron_state`. No unbounded Admin `get()` fan-out.
+- Client: no `onSnapshot` of large collections on page load. Don’t flood `/api/events` on remount.
+- Offline/SSG must succeed without Firestore (`HYD_BUILD_OFFLINE=1` pattern).

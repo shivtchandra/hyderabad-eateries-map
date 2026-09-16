@@ -5,7 +5,7 @@
 
 import sitemap from "../app/sitemap.js";
 
-const KEY = "54dd7e84fc794b7a96faf6851aac4250";
+const KEY = "76afb4dceebb4a34ad4d3ada8838acba";
 const HOST = "eats.mapmyhyd.com";
 const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
 

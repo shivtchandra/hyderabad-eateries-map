@@ -240,6 +240,24 @@ export default function StoriesPage() {
               source="r/hyderabad & Local Reviews"
             />
             <GuideCard
+              href="/guides/best-cafes-hyderabad-reddit"
+              img="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&q=80"
+              eyebrow="Specialty Coffee &amp; Work Cafes"
+              title="Best Cafes in Hyderabad: Specialty Coffee, Work Corners &amp; Desserts"
+              meta="Roastery Coffee House · Conçu · Roast CCX · True Black · Autumn Leaf"
+              teaser="Hyderabad's top third-wave roasters, quiet laptop work corners with fast WiFi, world-class French patisserie, and heritage Irani chai spots."
+              source="r/hyderabad & Local Coffee Trails"
+            />
+            <GuideCard
+              href="/guides/best-ice-cream-desserts-hyderabad"
+              img="https://images.unsplash.com/photo-1560008511-11c63416e52d?w=1200&q=80"
+              eyebrow="Heritage &amp; Artisanal Gelato"
+              title="Best Ice Cream, Gelato &amp; Desserts in Hyderabad"
+              meta="Famous Ice Cream (MJ Market) · Milano Gelato · Cream Stone · Huber &amp; Holly"
+              teaser="From 1951 hand-churned seasonal pot ice creams (Sitaphal/Mango) at Mozamjahi Market to authentic Italian gelato and late-night cold-stone sundaes."
+              source="r/hyderabad & Local Dessert Trails"
+            />
+            <GuideCard
               href="/guides/late-night-food-hyderabad-reddit"
               img="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80"
               eyebrow="Midnight to 5 AM Guide"
