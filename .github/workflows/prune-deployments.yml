@@ -1,0 +1,20 @@
+name: Prune old deployments
+
+# Hobby plan has no deployment-retention setting, and every push redeploys
+# (~19 pushes/5 days here), so Deployment Storage accumulates over the
+# rolling 30-day window unless old deployments get deleted. Keeps the N most
+# recent, deletes the rest.
+on:
+  schedule:
+    - cron: "0 3 * * 0"   # 08:30 IST, weekly (Sunday)
+  workflow_dispatch:
+
+jobs:
+  prune:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          KEEP: "5"
+        run: node scripts/prune-deployments.mjs
