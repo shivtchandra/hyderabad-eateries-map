@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback, useMemo, useDeferredValue } from "react";
-import { haversineKm, isOpenNow, fetchRoadDistances, validTagsFor, isNewSpot } from "../lib/eateryUtils.js";
-import { AREA_ZOOM_MAX } from "../lib/spotlight.js";
+import { haversineKm, isOpenNow, fetchRoadDistances, validTagsFor, isNewSpot, buildAreaCentroids } from "../lib/eateryUtils.js";
+import { AREA_ZOOM_MAX, scoreOf } from "../lib/spotlight.js";
 import { spotPhotoUrl } from "../lib/photos.js";
 import * as passportStore from "../lib/passport.js";
 import { Icon } from "./components/Icons.jsx";
@@ -20,6 +20,7 @@ import PassportPanel from "./components/PassportPanel.jsx";
 import SavedPanel from "./components/SavedPanel.jsx";
 import LeaderboardPanel from "./components/LeaderboardPanel.jsx";
 import BottomNav from "./components/BottomNav.jsx";
+import RoutePanel from "./components/RoutePanel.jsx";
 import { claimSpot } from "../lib/leaderboard.js";
 import { fetchVoteCounts, fetchStarOfWeek, castVote as castVoteApi, removeVote as removeVoteApi, hasVoted } from "../lib/voting.js";
 import { fetchCurrentTheme } from "../lib/themeVoting.js";
@@ -45,7 +46,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   const urlTab = searchParams?.tab;
   const dishSlug = initialDishSlug || searchParams?.dish || null;
   const [tab, setTab] = useState(
-    urlTab && ["map", "passport", "saved", "race"].includes(urlTab) ? urlTab : initialTab
+    urlTab && ["map", "passport", "saved", "race", "route"].includes(urlTab) ? urlTab : initialTab
   );
   const [raceView, setRaceView] = useState(initialRaceView); // which sub-tab the Race panel opens on
   const [activeCategory, setActiveCategory] = useState("all");
@@ -338,6 +339,50 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
     return c;
   }, [eateries]);
 
+  const areaCentroids = useMemo(() => buildAreaCentroids(eateries), [eateries]);
+  const [routeLine, setRouteLine] = useState(null);
+  const [routeMatches, setRouteMatches] = useState([]);
+  // "rating": best spots first, like Google Maps' search-along-route, so a
+  // dense corridor doesn't dump 180 photo cards in route order. "order":
+  // the original start-to-end sequence, for someone actually driving it.
+  // "order" default: spreads the capped list evenly along the corridor
+  // instead of clustering at whichever end has the highest-rated spots,
+  // which made pins pop in/out heavily while panning (rating-sort bunches
+  // the visible cap in one area, so a pan can swing from crowded to empty).
+  const [routeSortMode, setRouteSortMode] = useState("order");
+  const [routeExpanded, setRouteExpanded] = useState(false);
+  const ROUTE_DISPLAY_CAP = 25;
+  const handleRouteResult = useCallback((coords, matches) => {
+    setRouteLine(coords);
+    setRouteMatches(matches);
+    setRouteExpanded(false);
+  }, []);
+  const routeMatchesDisplay = useMemo(() => {
+    if (routeExpanded) return routeMatches;
+    if (routeSortMode === "rating") {
+      return [...routeMatches].sort((a, b) => scoreOf(b) - scoreOf(a)).slice(0, ROUTE_DISPLAY_CAP);
+    }
+    // "order" mode: routeMatches is already sorted start-to-end. Taking the
+    // first N here would just be the first N encountered from the start
+    // (all clustered at one end, the exact clustering this mode exists to
+    // avoid) so stride evenly through the route-ordered list instead.
+    if (routeMatches.length <= ROUTE_DISPLAY_CAP) return routeMatches;
+    const step = routeMatches.length / ROUTE_DISPLAY_CAP;
+    const sampled = [];
+    for (let i = 0; i < ROUTE_DISPLAY_CAP; i++) sampled.push(routeMatches[Math.floor(i * step)]);
+    return sampled;
+  }, [routeMatches, routeSortMode, routeExpanded]);
+  // Manual pin-drop for From/To, the fallback when an area is real but
+  // missing from both our data and free OSM geocoding (e.g. "Mytrivanam").
+  const [pickTarget, setPickTarget] = useState(null); // "from" | "to" | null
+  const [pickedPoint, setPickedPoint] = useState(null); // { target, lat, lng, id }
+  const handleMapPick = useCallback((lat, lng) => {
+    setPickTarget((target) => {
+      if (target) setPickedPoint({ target, lat, lng, id: Date.now() });
+      return null;
+    });
+  }, []);
+
   const deferredSearch = useDeferredValue(search);
   const filtered = useMemo(() => {
     const q = deferredSearch.trim().toLowerCase();
@@ -362,18 +407,23 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   }, [eateries]);
 
   // Suggestions update immediately while the heavier map filtering is deferred.
+  // Matches name or tags so "date night" style queries hit tagged spots too,
+  // not just literal name substrings.
   const searchResults = useMemo(() => {
     const q = search.trim().toLowerCase();
     if (!q) return [];
     return eateries
-      .filter((e) => e.name.toLowerCase().includes(q))
+      .filter((e) => e.name.toLowerCase().includes(q) || (e.tags || []).some((t) => t.toLowerCase().includes(q)))
+      .map((e) => ({ ...e, _dist: userLoc ? haversineKm(userLoc, { lat: e.lat, lng: e.lng }) : null }))
       .sort((a, b) => {
         const aStarts = a.name.toLowerCase().startsWith(q) ? 1 : 0;
         const bStarts = b.name.toLowerCase().startsWith(q) ? 1 : 0;
-        return bStarts - aStarts || (b.rating ?? 0) - (a.rating ?? 0);
+        if (aStarts !== bStarts) return bStarts - aStarts;
+        if (userLoc && a._dist != null && b._dist != null) return a._dist - b._dist;
+        return (b.rating ?? 0) - (a.rating ?? 0);
       })
       .slice(0, 7);
-  }, [eateries, search]);
+  }, [eateries, search, userLoc]);
 
   const toggleTag = useCallback((t) => {
     setActiveTags((p) => (p.includes(t) ? p.filter((x) => x !== t) : [...p, t]));
@@ -576,11 +626,16 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
       )}
 
       <div style={{ flex: 1, position: "relative", minHeight: 0, display: "flex", flexDirection: "column" }}>
-        <div style={{ position: "absolute", inset: 0, visibility: tab === "map" ? "visible" : "hidden" }}>
+        <div style={{ position: "absolute", inset: 0, visibility: (tab === "map" || tab === "route") ? "visible" : "hidden" }}>
           {mapReady ? (
             <MapCanvas
               eateries={eateries}
-              filtered={filtered}
+              filtered={tab === "route" ? routeMatchesDisplay : filtered}
+              routeLine={tab === "route" ? routeLine : null}
+              heroCap={tab === "route" ? 28 : 120}
+              pickMode={tab === "route" && !!pickTarget}
+              onPick={handleMapPick}
+              pickedPoint={tab === "route" ? pickedPoint : null}
               passport={passport}
               selectedId={selectedId}
               featuredIds={featuredIds}
@@ -625,6 +680,89 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
             eateries={eateries} passport={passport}
             onSelect={openFromList} onToggleVisited={handleToggleVisited}
           />
+        )}
+
+        {tab === "route" && (
+          <>
+            <RoutePanel
+              eateries={eateries}
+              areaCentroids={areaCentroids}
+              onRouteResult={handleRouteResult}
+              setToast={setToast}
+              pickTarget={pickTarget}
+              setPickTarget={setPickTarget}
+              pickedPoint={pickedPoint}
+            />
+            {!sheetOpen && routeMatches.length > 0 && (
+              <div style={{ position: "absolute", left: 14, right: 14, bottom: 244, zIndex: 899, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+                <div style={{ display: "flex", gap: 6 }}>
+                  {[{ key: "rating", label: "Best first" }, { key: "order", label: "In order" }].map((opt) => {
+                    const active = routeSortMode === opt.key;
+                    return (
+                      <button
+                        key={opt.key}
+                        onClick={() => setRouteSortMode(opt.key)}
+                        className="material pressable-sm"
+                        style={{
+                          height: 28, padding: "0 11px", border: "none", borderRadius: "var(--r-pill)",
+                          background: active ? "var(--violet)" : "var(--cream-hi)",
+                          color: active ? "#fff" : "var(--ink-soft)",
+                          fontSize: 11.5, fontWeight: 700, cursor: "pointer",
+                        }}
+                      >
+                        {opt.label}
+                      </button>
+                    );
+                  })}
+                </div>
+                {routeMatches.length > ROUTE_DISPLAY_CAP && (
+                  <button
+                    onClick={() => setRouteExpanded((v) => !v)}
+                    className="material pressable-sm"
+                    style={{
+                      height: 28, padding: "0 11px", border: "none", borderRadius: "var(--r-pill)",
+                      background: "var(--cream-hi)", color: "var(--violet)",
+                      fontSize: 11.5, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap",
+                    }}
+                  >
+                    {routeExpanded ? `Top ${ROUTE_DISPLAY_CAP} only` : `Show all ${routeMatches.length}`}
+                  </button>
+                )}
+              </div>
+            )}
+            {!sheetOpen && (
+              <CardRail
+                spots={routeMatchesDisplay}
+                activeId={selectedId}
+                onActivate={handleSelect}
+                onOpen={() => setSheetOpen(true)}
+                featuredIds={featuredIds}
+                passport={passport}
+                voteMap={voteMap}
+                onVote={handleVote}
+                picksMap={picksMap}
+              />
+            )}
+            {sheetOpen && selectedFull && (
+              <DetailSheet
+                eatery={selectedFull}
+                isMobile={isMobile}
+                featured={featuredIds.has(selectedFull.id)}
+                photoUrl={photoUrlFor}
+                dist={dist}
+                passportState={passportStore.stateOf(passport, selectedFull.id)}
+                onToggleVisited={handleToggleVisited}
+                onToggleSaved={handleToggleSaved}
+                onAddSticker={(e) => setStickerFor(e)}
+                onClose={() => setSheetOpen(false)}
+                voteData={voteMap[selectedFull.id]}
+                onVote={handleVote}
+                currentTheme={currentTheme}
+                detailPending={!!detailPending[selectedFull.id]}
+                pick={picksMap[selectedFull.id]}
+              />
+            )}
+          </>
         )}
 
         {tab === "map" && (

@@ -2,6 +2,9 @@ import Link from "next/link";
 import { pageMeta } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
 import { SiteNav, SiteBreadcrumb, SiteFooter, SiteRelated } from "../../components/SiteChrome.jsx";
+import { Icon } from "../../components/Icons.jsx";
+import BottomNav from "../../components/BottomNav.jsx";
+import BackButton from "../../components/BackButton.jsx";
 
 const SLUG = "/guides/late-night-food-hyderabad-reddit";
 const TITLE = "Best Late Night Food & 24/7 Eateries in Hyderabad (2026)";
@@ -147,14 +150,15 @@ const SPOTS = [
 
 export default function LateNightGuidePage() {
   return (
-    <div className="site-page">
+    <div className="site-page" style={{ paddingBottom: 84 }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
       <header className="site-header">
         <div className="site-header-inner">
-          <SiteNav />
+          <SiteNav linksHidden />
+          <BackButton fallback="/stories" />
           <SiteBreadcrumb
             items={[
               { href: "/", label: "Home" },
@@ -246,8 +250,8 @@ export default function LateNightGuidePage() {
                       {s.name}
                     </h2>
                   </div>
-                  <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 4 }}>
-                    📍 {s.area}
+                  <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 13, color: "var(--muted)", marginTop: 4 }}>
+                    <Icon name="locate" size={12} width={2} color="var(--muted)" /> {s.area}
                   </div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -259,8 +263,9 @@ export default function LateNightGuidePage() {
                       textTransform: "uppercase",
                       padding: "4px 10px",
                       borderRadius: 999,
-                      background: s.tagBg,
-                      color: s.tagColor,
+                      background: "var(--cream)",
+                      border: "1px solid var(--line)",
+                      color: "var(--ink-soft)",
                     }}
                   >
                     {s.tag}
@@ -287,11 +292,13 @@ export default function LateNightGuidePage() {
               </p>
 
               <div style={{ background: "var(--cream)", border: "1px solid var(--line)", borderRadius: 10, padding: "12px 16px", marginBottom: 14 }}>
-                <div style={{ fontSize: 13.5, color: "var(--ink)" }}>
-                  <strong style={{ color: "var(--ink)" }}>🌙 Must Order:</strong> {s.whatToOrder}
+                <div style={{ display: "flex", alignItems: "flex-start", gap: 6, fontSize: 13.5, color: "var(--ink)" }}>
+                  <Icon name="utensils" size={13} width={2} color="var(--ink-soft)" style={{ marginTop: 2, flexShrink: 0 }} />
+                  <span><strong style={{ color: "var(--ink)" }}>Must order:</strong> {s.whatToOrder}</span>
                 </div>
-                <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 6 }}>
-                  <strong style={{ color: "var(--ink)" }}>⏱️ Timings &amp; Police Advisory:</strong> {s.timingTip}
+                <div style={{ display: "flex", alignItems: "flex-start", gap: 6, fontSize: 13, color: "var(--muted)", marginTop: 6 }}>
+                  <Icon name="clock" size={13} width={2} color="var(--muted)" style={{ marginTop: 2, flexShrink: 0 }} />
+                  <span><strong style={{ color: "var(--ink)" }}>Timings &amp; police advisory:</strong> {s.timingTip}</span>
                 </div>
               </div>
 
@@ -301,7 +308,7 @@ export default function LateNightGuidePage() {
                   padding: "10px 14px",
                   borderRadius: 8,
                   background: "var(--violet-wash)",
-                  borderLeft: "3px solid var(--violet)",
+                  border: "1.5px solid var(--line)",
                   fontFamily: "var(--font-fraunces), serif",
                   fontSize: 14,
                   fontStyle: "italic",
@@ -367,6 +374,9 @@ export default function LateNightGuidePage() {
         ]}
       />
       <SiteFooter />
+      <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
+        <BottomNav routed activeKey="stories" />
+      </div>
     </div>
   );
 }

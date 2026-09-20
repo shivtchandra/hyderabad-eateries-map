@@ -223,7 +223,7 @@ export default function StoriesPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <GuideCard
               href="/guides/best-biryani-hyderabad-reddit"
-              img="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=1200&q=80"
+              img={spotPhotoUrl("ChIJKyxGIoiXyzsRPY8PASGdTW0")}
               eyebrow="Reddit Local Consensus 2026"
               title="Best Biryani in Hyderabad According to r/hyderabad"
               meta="Shadab · The Nawaabs · Chicha's · Peshawar · Meridian · Shah Ghouse"
@@ -232,7 +232,7 @@ export default function StoriesPage() {
             />
             <GuideCard
               href="/guides/best-tiffins-hyderabad-reddit"
-              img="https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=1200&q=80"
+              img={spotPhotoUrl("ChIJIfN2naWRyzsRQ884HoebNm8")}
               eyebrow="Authentic Breakfast Guide 2026"
               title="Best Tiffins &amp; South Indian Breakfast in Hyderabad"
               meta="Ishtaa · Penam · Panchakattu Dosa · Kanchi Cafe · Taaza Kitchen"
@@ -241,7 +241,7 @@ export default function StoriesPage() {
             />
             <GuideCard
               href="/guides/best-cafes-hyderabad-reddit"
-              img="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&q=80"
+              img={spotPhotoUrl("ChIJWUl-wiqXyzsRud1hDiZM0aM")}
               eyebrow="Specialty Coffee &amp; Work Cafes"
               title="Best Cafes in Hyderabad: Specialty Coffee, Work Corners &amp; Desserts"
               meta="Roastery Coffee House · Conçu · Roast CCX · True Black · Autumn Leaf"
@@ -250,7 +250,7 @@ export default function StoriesPage() {
             />
             <GuideCard
               href="/guides/best-ice-cream-desserts-hyderabad"
-              img="https://images.unsplash.com/photo-1560008511-11c63416e52d?w=1200&q=80"
+              img={spotPhotoUrl("ChIJ____P32XyzsRr9xZqE9F7RU")}
               eyebrow="Heritage &amp; Artisanal Gelato"
               title="Best Ice Cream, Gelato &amp; Desserts in Hyderabad"
               meta="Famous Ice Cream (MJ Market) · Milano Gelato · Cream Stone · Huber &amp; Holly"
@@ -259,7 +259,7 @@ export default function StoriesPage() {
             />
             <GuideCard
               href="/guides/late-night-food-hyderabad-reddit"
-              img="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80"
+              img={spotPhotoUrl("ChIJj_WXSD2YyzsRF4pbftpAOxg")}
               eyebrow="Midnight to 5 AM Guide"
               title="Best Late Night Food &amp; 24/7 Eateries in Hyderabad"
               meta="DLF Street Food · Roast 24 Seven · Niloufer Banjara Hills · Shah Ghouse"

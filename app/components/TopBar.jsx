@@ -152,7 +152,9 @@ export default function TopBar({
               <span className="search-result-dot" style={{ background: meta.color }} />
               <span style={{ minWidth: 0, flex: 1 }}>
                 <span className="search-result-name">{spot.name}</span>
-                <span className="search-result-meta">{area} · {meta.label}</span>
+                <span className="search-result-meta">
+                  {area} · {meta.label}{spot._dist != null ? ` · ${spot._dist < 1 ? `${Math.round(spot._dist * 1000)}m` : `${spot._dist.toFixed(1)}km`}` : ""}
+                </span>
               </span>
               {spot.rating != null && <span className="search-result-rating">★ {spot.rating.toFixed(1)}</span>}
             </button>

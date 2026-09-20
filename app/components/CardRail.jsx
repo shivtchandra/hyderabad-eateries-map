@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TIERS } from "../../lib/eateryUtils.js";
 import { photoUrl } from "../../lib/spotlight.js";
 import { Icon, CategoryIcon, TierIcon } from "./Icons.jsx";
@@ -23,6 +23,7 @@ const CAT_COLOR = {
 export default function CardRail({ spots, activeId, onActivate, onOpen, passport, featuredIds, voteMap = {}, onVote, distMap = {}, picksMap = {}, starOfWeek = null }) {
   const railRef = useRef(null);
   const suppress = useRef(false);
+  const [open, setOpen] = useState(true);
 
   // Map → rail: bring the selected card into view
   useEffect(() => {
@@ -61,6 +62,27 @@ export default function CardRail({ spots, activeId, onActivate, onOpen, passport
 
   if (!spots.length) return null;
 
+  // Collapsed: just a small pill, tap to bring the rail back. Keeps the map
+  // fully clear when someone wants to look at pins without cards in the way.
+  if (!open) {
+    return (
+      <button
+        onClick={() => setOpen(true)}
+        className="material pressable-sm"
+        style={{
+          position: "absolute", left: 14, bottom: 14, zIndex: 900,
+          display: "flex", alignItems: "center", gap: 6,
+          height: 38, padding: "0 14px 0 12px", border: "none",
+          borderRadius: "var(--r-pill)", boxShadow: "var(--e2)",
+          fontSize: 13, fontWeight: 700, color: "var(--ink)", cursor: "pointer",
+        }}
+      >
+        <Icon name="chevronDown" size={14} width={2.3} color="var(--ink-soft)" style={{ transform: "rotate(180deg)" }} />
+        {spots.length} spot{spots.length === 1 ? "" : "s"}
+      </button>
+    );
+  }
+
   return (
     <>
 
@@ -77,6 +99,22 @@ export default function CardRail({ spots, activeId, onActivate, onOpen, passport
         </div>
       )}
       */}
+
+    <button
+      onClick={() => setOpen(false)}
+      aria-label="Hide cards"
+      className="material pressable-sm"
+      style={{
+        // Left side, deliberately: the right column at this height is the
+        // city-view/locate FABs (page.jsx), which sit at a higher z-index.
+        position: "absolute", left: 14, bottom: 204, zIndex: 901,
+        width: 34, height: 34, border: "none", borderRadius: "50%",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        boxShadow: "var(--e2)", cursor: "pointer",
+      }}
+    >
+      <Icon name="chevronDown" size={15} width={2.3} color="var(--ink-soft)" />
+    </button>
 
     <div
       ref={railRef}

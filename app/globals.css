@@ -104,6 +104,7 @@ button, [role="button"] { -webkit-tap-highlight-color: transparent; }
   top: calc(100% + 2px);
   left: 12px;
   right: 12px;
+  z-index: 1400;
   overflow: hidden;
   border: 1px solid rgba(108, 94, 70, 0.18);
   border-radius: var(--r-lg);
@@ -256,6 +257,16 @@ body::after {
 }
 .eatery-cluster { animation: bubble-in 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
 .marker-cluster, .marker-cluster div { background: transparent !important; }
+
+/* ---- Manual route pin (From/To dropped on the map) ---- */
+.drop-pin { position: relative; width: 34px; height: 44px; transform-origin: bottom center; }
+.drop-pin svg { display: block; filter: drop-shadow(0 3px 6px rgba(38, 48, 92, 0.35)); }
+.drop-pin.drop { animation: pin-drop 0.55s cubic-bezier(0.22, 1.2, 0.36, 1) both; }
+.drop-pin-ring {
+  position: absolute; left: 50%; bottom: -1px; width: 18px; height: 7px; margin-left: -9px;
+  border-radius: 50%; background: rgba(91, 33, 182, 0.32);
+  animation: pulse-ring 1.3s ease-out infinite;
+}
 
 /* ============================================================
    Photo pins, the map is made of photographs of the places,

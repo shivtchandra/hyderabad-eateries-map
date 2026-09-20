@@ -22,7 +22,8 @@ const CAT_COLOR = {
 // everything else stays a dot, so quality is visible instead of buried.
 export default function MapCanvas({
   eateries, filtered, passport, selectedId, featuredIds,
-  onSelect, onAreaEnter, onHeroesChange, onZoomChange,
+  onSelect, onAreaEnter, onHeroesChange, onZoomChange, routeLine = null, heroCap = 120,
+  pickMode = false, onPick, pickedPoint = null,
 }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
@@ -30,8 +31,19 @@ export default function MapCanvas({
   const spotLayerRef = useRef(null);
   const areaLayerRef = useRef(null);
   const meLayerRef = useRef(null);
+  const routeLayerRef = useRef(null);
+  const pickLayerRef = useRef(null);
   const [ready, setReady] = useState(false);
   const [viewTick, setViewTick] = useState(0);
+
+  // Kept as refs (not state), the map's own 'click' listener is registered
+  // once in the init effect below and must read the latest values without
+  // that effect re-running (re-running it would tear down and rebuild the
+  // whole Leaflet instance).
+  const pickModeRef = useRef(pickMode);
+  pickModeRef.current = pickMode;
+  const onPickRef = useRef(onPick);
+  onPickRef.current = onPick;
 
   useEffect(() => {
     let cancelled = false;
@@ -69,14 +81,26 @@ export default function MapCanvas({
       areaLayerRef.current = L.layerGroup().addTo(map);
       spotLayerRef.current = L.layerGroup().addTo(map);
       meLayerRef.current = L.layerGroup().addTo(map);
+      routeLayerRef.current = L.layerGroup().addTo(map);
+      pickLayerRef.current = L.layerGroup().addTo(map);
 
       const bump = () => setViewTick((t) => t + 1);
       map.on("moveend zoomend", bump);
+      // Marker clicks are separate Leaflet listeners that don't bubble here,
+      // so this only fires for a tap on open map, exactly what pin-drop wants.
+      map.on("click", (e) => {
+        if (pickModeRef.current) onPickRef.current?.(e.latlng.lat, e.latlng.lng);
+      });
       setReady(true);
       bump();
     })();
     return () => { cancelled = true; };
   }, []);
+
+  // Crosshair cursor while picking, so it's obvious the next tap places a pin.
+  useEffect(() => {
+    if (containerRef.current) containerRef.current.style.cursor = pickMode ? "crosshair" : "";
+  }, [pickMode]);
 
   // Expose imperative helpers to the parent
   useEffect(() => {
@@ -101,6 +125,45 @@ export default function MapCanvas({
       invalidate: () => setTimeout(() => mapRef.current?.invalidateSize(), 60),
     });
   }, [ready, onZoomChange]);
+
+  // Route line, drawn once per new route, fits the view to it. Cleared when
+  // routeLine goes null (leaving the Route tab or clearing a search).
+  useEffect(() => {
+    if (!ready || !LRef.current || !routeLayerRef.current) return;
+    const L = LRef.current;
+    const layer = routeLayerRef.current;
+    layer.clearLayers();
+    if (!routeLine?.length) return;
+    const latlngs = routeLine.map((p) => [p.lat, p.lng]);
+    const line = L.polyline(latlngs, { color: "#5B21B6", weight: 4, opacity: 0.85 }).addTo(layer);
+    mapRef.current?.fitBounds(line.getBounds(), { padding: [48, 48] });
+  }, [ready, routeLine]);
+
+  // Manual From/To pin, dropped by tapping the map. Animates in (reuses the
+  // existing pin-drop keyframe) so it's obvious where the tap landed.
+  useEffect(() => {
+    if (!ready || !LRef.current || !pickLayerRef.current) return;
+    const L = LRef.current;
+    const layer = pickLayerRef.current;
+    layer.clearLayers();
+    if (!pickedPoint) return;
+    L.marker([pickedPoint.lat, pickedPoint.lng], {
+      icon: L.divIcon({
+        className: "",
+        html: `
+          <div class="drop-pin drop">
+            <div class="drop-pin-ring"></div>
+            <svg width="34" height="44" viewBox="0 0 34 44">
+              <path d="M17 0C7.6 0 0 7.6 0 17c0 12.5 17 27 17 27s17-14.5 17-27C34 7.6 26.4 0 17 0z" fill="#5B21B6"/>
+              <circle cx="17" cy="17" r="6" fill="#fff"/>
+            </svg>
+          </div>`,
+        iconSize: [34, 44], iconAnchor: [17, 44],
+      }),
+      zIndexOffset: 2500,
+    }).addTo(layer);
+    mapRef.current?.flyTo([pickedPoint.lat, pickedPoint.lng], Math.max(mapRef.current.getZoom(), 14), { duration: 0.4, easeLinearity: 0.22 });
+  }, [ready, pickedPoint]);
 
   const areas = useRef([]);
   useEffect(() => { areas.current = buildAreas(eateries); }, [eateries]);
@@ -245,16 +308,17 @@ export default function MapCanvas({
     // With a filter on, the user wants to see *all* the matches in view, not a
     // spread-out ranked subset with the rest demoted to dots they have to hunt
     // for. If a reasonable number are visible, promote every one to a full pin;
-    // above the cap, fall back to the ranked heroes + dots so we don't paint
-    // hundreds of photo cards.
+    // above the cap, rank by score and only promote the top slice, the rest
+    // stay dots, so a dense result (e.g. a route through a packed corridor)
+    // doesn't paint an unreadable pile of overlapping photo cards.
     if (filterActive) {
       const inFull = (e) =>
         e.lat >= b.getSouth() && e.lat <= b.getNorth() &&
         e.lng >= b.getWest() && e.lng <= b.getEast();
       const visMatches = filtered.filter(inFull).sort((x, y) => scoreOf(y) - scoreOf(x));
-      if (visMatches.length && visMatches.length <= 120) {
-        heroes = visMatches;
-        rest = [];
+      if (visMatches.length) {
+        heroes = visMatches.slice(0, heroCap);
+        rest = visMatches.slice(heroCap);
       }
     }
 
@@ -352,7 +416,7 @@ export default function MapCanvas({
         if (e.id === selectedIdRef.current) el.classList.add("active");
       }
     }
-  }, [ready, eateries, filtered, passport, selectedId, featuredIds, viewTick, onSelect, onAreaEnter, onHeroesChange]);
+  }, [ready, eateries, filtered, passport, selectedId, featuredIds, viewTick, onSelect, onAreaEnter, onHeroesChange, heroCap]);
 
   return <div ref={containerRef} style={{ position: "absolute", inset: 0 }} />;
 }

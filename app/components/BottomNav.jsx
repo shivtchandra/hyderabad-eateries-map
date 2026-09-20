@@ -7,6 +7,7 @@ import { Icon } from "./Icons.jsx";
 // href only for Stories which is a real route).
 const TABS = [
   { key: "map", icon: "map", label: "Map", href: "/" },
+  { key: "route", icon: "navigate", label: "Route", href: "/?tab=route" },
   { key: "race", icon: "trophy", label: "Race", href: "/race/this-week" },
   { key: "passport", icon: "passport", label: "Passport", href: "/?tab=passport" },
   { key: "saved", icon: "bookmark", label: "Saved", href: "/?tab=saved" },

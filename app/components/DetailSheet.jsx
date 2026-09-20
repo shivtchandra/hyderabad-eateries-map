@@ -67,7 +67,7 @@ export default function DetailSheet({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: isMobile ? "12px 16px 16px" : "20px 24px",
+        padding: isMobile ? "22px 16px 26px" : "20px 24px",
         boxSizing: "border-box",
         animation: "fade-in .18s ease",
       }}
@@ -77,7 +77,7 @@ export default function DetailSheet({
         style={{
           width: cardWidth,
           maxWidth: "100%",
-          maxHeight: "100%",
+          maxHeight: isMobile ? "82%" : "88%",
           minHeight: 0,
           background: "var(--cream-hi)",
           borderRadius: 22,
