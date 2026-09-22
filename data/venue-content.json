@@ -309,9 +309,14 @@
       {
         "name": "Other tiffins",
         "note": "Trust the house. It is built for breakfast and tiffin, not an afterthought."
+      },
+      {
+        "name": "Puri",
+        "note": "Skip it. The puri is not soft enough and the curry is very simple with not much flavor. The quesadilla that comes alongside it is decent, but the puri itself is a letdown. If puri is what you are after, this is not the place.",
+        "skip": true
       }
     ],
-    "regularNote": "Easily one of the best tiffin shops in Hyderabad for me. The dosa slapped, the chutneys were excellent with real variety, and even though prices are on the higher side, it is worth it. You will not leave disappointed.",
+    "regularNote": "Easily one of the best tiffin shops in Hyderabad for me. The dosa slapped, the chutneys were excellent with real variety, and even though prices are on the higher side, it is worth it. Avoid the puri though, it is not soft enough and the curry lacks flavor. You will not leave disappointed as long as you stick to the dosa.",
     "highlight": {
       "label": "Worth the premium",
       "text": "Higher-end tiffin pricing, but the taste and chutney spread make it feel fair. One of the best tiffin spots in the city."
@@ -324,6 +329,14 @@
       {
         "q": "Is Ishtaa expensive?",
         "a": "It is on the higher side for tiffin, but the quality matches. Worth it if you want a proper dosa meal rather than the cheapest plate in the area."
+      },
+      {
+        "q": "Is the puri good at Ishtaa?",
+        "a": "No. The puri is not soft enough and the curry that comes with it is very plain, without much flavor. The quesadilla on the side is fine, but puri is a weak point here. Skip it and stick to the dosa."
+      },
+      {
+        "q": "Does Ishtaa serve bondas?",
+        "a": "No, Ishtaa does not have bondas on the menu. If you are specifically looking for bondas, this is not the place."
       },
       {
         "q": "Where is Ishtaa in Hyderabad?",
@@ -641,6 +654,74 @@
       "Library quiet",
       "Date-friendly",
       "Premium bill"
+    ]
+  },
+  "ChIJEcsLC1uRyzsRDFcz9mrIcvA": {
+    "originStory": [
+      "Daily Rituals in Jubilee Hills has been on people's radar mostly because of deals and offers. My first visit was a flop: nothing worked, everything felt mid. So I went back recently to give it a proper shot, and the picture is a bit more nuanced.",
+      "The veg section held up fine. Mac and cheese bombas were decent, wild mushroom griddle was decent, crispy chilly baby corn and the paneer ghee roast pizza all landed well enough. Nothing groundbreaking, but nothing offensive either.",
+      "The teriyaki chicken is the standout. Smooth, well-seasoned, that Thai-leaning flavor profile done right. Fair warning: it is intense. After six or seven bites, the richness starts to pile up and you may find yourself wanting to stop before the plate is done. Not a flaw exactly, just know what you are getting into.",
+      "Malai broccoli was good. Mushroom truffle bao did not work for me at all. Net result: a place that can do a few things well when you order right, but nowhere near consistent enough to earn the hype it gets."
+    ],
+    "signatureDish": {
+      "name": "Teriyaki Chicken",
+      "why": "Smooth, well-cooked chicken with a bold Thai-style flavor. Intense enough that you may feel overwhelmed after a few bites, but when it hits, it hits."
+    },
+    "mustOrder": [
+      {
+        "name": "Teriyaki Chicken",
+        "note": "Best thing on the table. Smooth chicken, strong flavor. Can feel like too much after several bites, but worth ordering."
+      },
+      {
+        "name": "Mac and Cheese Bombas",
+        "note": "Decent. A safe order if you want something familiar that works."
+      },
+      {
+        "name": "Malai Broccoli",
+        "note": "Good. Solid veg option."
+      },
+      {
+        "name": "Mushroom Truffle Bao",
+        "note": "Skip it. Did not come together at all.",
+        "skip": true
+      }
+    ],
+    "regularNote": "Go for the teriyaki chicken, skip the mushroom truffle bao. The veg dishes are average but not bad. Not a place I would drive to unprompted, but if you are in Jubilee Hills and order right, it can be a decent meal.",
+    "highlight": {
+      "label": "Order carefully",
+      "text": "Inconsistent kitchen, but the teriyaki chicken and the veg starters are genuinely worth it. The mushroom truffle bao is a miss."
+    },
+    "faq": [
+      {
+        "q": "Is Daily Rituals worth visiting in Hyderabad?",
+        "a": "Selectively. The teriyaki chicken is excellent and a few veg dishes are solid. But the kitchen is inconsistent, so you need to order carefully. It is not a place that fires on all cylinders."
+      },
+      {
+        "q": "What should I order at Daily Rituals Jubilee Hills?",
+        "a": "Teriyaki Chicken is the standout. Mac and cheese bombas, malai broccoli, and the paneer ghee roast pizza are decent. Skip the mushroom truffle bao."
+      },
+      {
+        "q": "Is Daily Rituals good for a group dinner in Hyderabad?",
+        "a": "It can work for a group. The menu has enough variety, the space handles a table of six comfortably, and a few dishes will impress. Just go in with calibrated expectations and do not over-order."
+      }
+    ],
+    "sources": [
+      "https://www.dailyrituals.co.in/"
+    ],
+    "gallery": [
+      "ChIJEcsLC1uRyzsRDFcz9mrIcvA-1.jpg"
+    ],
+    "featured": true,
+    "publishedAt": "2026-09-23T10:00:00.000Z",
+    "costForTwo": 2400,
+    "visitSpend": {
+      "label": "Our table",
+      "text": "About ₹5,948 for 6 people"
+    },
+    "vibeLabels": [
+      "Group-friendly",
+      "Date spot",
+      "Order carefully"
     ]
   }
 }
