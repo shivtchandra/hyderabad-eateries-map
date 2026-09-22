@@ -351,11 +351,13 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   // the visible cap in one area, so a pan can swing from crowded to empty).
   const [routeSortMode, setRouteSortMode] = useState("order");
   const [routeExpanded, setRouteExpanded] = useState(false);
+  const [routeCardsOpen, setRouteCardsOpen] = useState(true);
   const ROUTE_DISPLAY_CAP = 25;
   const handleRouteResult = useCallback((coords, matches) => {
     setRouteLine(coords);
     setRouteMatches(matches);
     setRouteExpanded(false);
+    setRouteCardsOpen(true);
   }, []);
   const routeMatchesDisplay = useMemo(() => {
     if (routeExpanded) return routeMatches;
@@ -630,7 +632,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
           {mapReady ? (
             <MapCanvas
               eateries={eateries}
-              filtered={tab === "route" ? routeMatchesDisplay : filtered}
+              filtered={tab === "route" && routeCardsOpen ? routeMatchesDisplay : filtered}
               routeLine={tab === "route" ? routeLine : null}
               heroCap={tab === "route" ? 28 : 120}
               pickMode={tab === "route" && !!pickTarget}
@@ -693,7 +695,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
               setPickTarget={setPickTarget}
               pickedPoint={pickedPoint}
             />
-            {!sheetOpen && routeMatches.length > 0 && (
+            {!sheetOpen && routeCardsOpen && routeMatches.length > 0 && (
               <div style={{ position: "absolute", left: 14, right: 14, bottom: 244, zIndex: 899, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
                 <div style={{ display: "flex", gap: 6 }}>
                   {[{ key: "rating", label: "Best first" }, { key: "order", label: "In order" }].map((opt) => {
@@ -736,6 +738,8 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
                 activeId={selectedId}
                 onActivate={handleSelect}
                 onOpen={() => setSheetOpen(true)}
+                open={routeCardsOpen}
+                onOpenChange={setRouteCardsOpen}
                 featuredIds={featuredIds}
                 passport={passport}
                 voteMap={voteMap}
