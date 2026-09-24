@@ -203,8 +203,13 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const eateries = JSON.parse(fs.readFileSync(OUT_PATH, "utf-8"));
 const existingIds = new Set(eateries.map((e) => e.placeId));
 
+// One-off single spot: node scripts/add-spots.mjs "<query>" "<area>" <category>
+const QUEUE = process.argv[2]
+  ? [{ query: process.argv[2], area: process.argv[3] || "", category: process.argv[4] || "local" }]
+  : TARGETS;
+
 let added = 0, skipped = 0;
-for (const t of TARGETS) {
+for (const t of QUEUE) {
   const cand = await findPlace(t.query);
   if (!cand) { console.log(`MISS: ${t.query}`); skipped++; continue; }
   if (existingIds.has(cand.place_id)) { console.log(`already have: ${cand.name}`); skipped++; continue; }
