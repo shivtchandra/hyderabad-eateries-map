@@ -1,5 +1,6 @@
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { revalidateTag } from "next/cache";
+import { bumpScore, seasonClosed, themeCreatedAt, voteWeight } from "../../../../lib/voteDecay.js";
 
 export const dynamic = "force-dynamic";
 
@@ -13,8 +14,11 @@ export async function POST(req) {
 
   // Themes stay votable after endDate and after a newer trend goes live.
   // `active` only marks the featured "This Week" card - it does not lock votes.
+  // A season closes a year after launch; the dish reruns as a new theme.
   const themeDoc = await db.collection("themes").doc(themeId).get();
   if (!themeDoc.exists) return Response.json({ error: "theme-missing" }, { status: 404 });
+  if (seasonClosed(themeDoc.data())) return Response.json({ error: "season-closed" }, { status: 409 });
+  const createdAt = themeCreatedAt(themeDoc.data());
 
   const votesCol = db.collection("themes").doc(themeId).collection("votes");
   const voteRef = votesCol.doc(spotId);
@@ -41,15 +45,21 @@ export async function POST(req) {
     }
 
     const newVoteDoc = await tx.get(voteRef);
+    const now = Date.now();
 
     if (oldVoteRef && oldVoteDoc?.exists) {
-      const oldCount = Math.max(0, (oldVoteDoc.data().count || 0) - 1);
-      tx.set(oldVoteRef, { ...oldVoteDoc.data(), count: oldCount }, { merge: true });
+      const old = oldVoteDoc.data();
+      const oldCount = Math.max(0, (old.count || 0) - 1);
+      // Remove only what the switched vote still weighs today.
+      const oldScore = bumpScore(old, createdAt, -voteWeight(voterDoc.data().votedAt, now), now);
+      tx.set(oldVoteRef, { ...old, count: oldCount, ...oldScore }, { merge: true });
     }
 
-    const count = (newVoteDoc.exists ? newVoteDoc.data().count || 0 : 0) + 1;
-    tx.set(voteRef, { count, name: (name || "").slice(0, 100) }, { merge: true });
-    if (voterRef) tx.set(voterRef, { spotId, votedAt: Date.now() });
+    const prev = newVoteDoc.exists ? newVoteDoc.data() : {};
+    const count = (prev.count || 0) + 1;
+    const score = bumpScore(prev, createdAt, 1, now);
+    tx.set(voteRef, { count, ...score, name: (name || "").slice(0, 100) }, { merge: true });
+    if (voterRef) tx.set(voterRef, { spotId, votedAt: now });
 
     return { count, switched: !!priorSpotId };
   });

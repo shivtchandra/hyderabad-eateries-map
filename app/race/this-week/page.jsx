@@ -1,7 +1,7 @@
 import Link from "next/link";
 import EateriesApp from "../../page.jsx";
 import { getAllRankingsThemes } from "../../../lib/themesServer.js";
-import { itemListJsonLd, SEO_THEME_PICKS, slugFromTitle } from "../../../lib/rankings.js";
+import { dedupeThemesBySlug, itemListJsonLd, SEO_THEME_PICKS, slugFromTitle } from "../../../lib/rankings.js";
 import { editorialRanking, pathForSpotId } from "../../../lib/siteData.js";
 import { getSiteUrl } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
@@ -62,7 +62,7 @@ export default async function ThisWeekRacePage({ searchParams }) {
   }
 
   const live = themes.find((t) => t.active) || null;
-  const past = themes.filter((t) => !t.active).slice(0, 6);
+  const past = dedupeThemesBySlug(themes.filter((t) => !t.active)).slice(0, 6);
   const liveSlug = live?.slug || (live?.title ? slugFromTitle(live.title) : null);
   const pick = liveSlug ? pickFor(liveSlug, live?.title) : null;
 
@@ -70,7 +70,7 @@ export default async function ThisWeekRacePage({ searchParams }) {
   // URL still indexes named restaurants even before the first community vote.
   const voteRows = (live?.results || []).filter((r) => (r.count || 0) > 0);
   const editorial = live
-    ? editorialRanking(pick || { title: live.title, category: "local" }, liveSlug, 15)
+    ? editorialRanking(pick || { title: live.title }, liveSlug, 15)
     : [];
   const listForLd = (voteRows.length ? voteRows : editorial).slice(0, 15);
   const jsonLd = live && listForLd.length
@@ -112,7 +112,7 @@ export default async function ThisWeekRacePage({ searchParams }) {
               {voteRows.slice(0, 20).map((r) => (
                 <li key={r.spotId}>
                   <Link href={pathForSpotId(r.spotId)}>{r.name}</Link>
-                  {r.count != null ? ` · ${r.count} votes` : ""}
+                  {r.count != null ? ` · ${r.count} vote${r.count === 1 ? "" : "s"}` : ""}
                 </li>
               ))}
             </ol>

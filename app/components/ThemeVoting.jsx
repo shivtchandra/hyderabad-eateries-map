@@ -4,8 +4,9 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { fetchCurrentTheme, fetchThemeHistory, castThemeVote, getThemeVoteSpot, getThemePicks } from "../../lib/themeVoting.js";
 import Link from "next/link";
 import { Icon } from "./Icons.jsx";
-import { slugFromTitle } from "../../lib/rankings.js";
+import { slugFromTitle, themeDescription } from "../../lib/rankings.js";
 import { isPastEndDate } from "../../lib/themeCrown.js";
+import { seasonClosed, seasonYear } from "../../lib/voteDecay.js";
 import ThemeSuggest from "./ThemeSuggest.jsx";
 
 function themeKeyword(title = "") {
@@ -15,6 +16,10 @@ function themeKeyword(title = "") {
     .replace(/\s+hyderabad$/i, "")
     .trim();
 }
+
+// Server ranks by recency-weighted `fresh` score (lib/voteDecay.js); fall
+// back to the raw count for rows that do not carry one.
+const byFresh = (a, b) => ((b.fresh ?? b.count ?? 0) - (a.fresh ?? a.count ?? 0)) || ((b.count || 0) - (a.count || 0));
 
 function totalVotes(results = [], localCounts = {}) {
   return results.reduce((sum, r) => sum + (localCounts[r.spotId] ?? r.count ?? 0), 0);
@@ -58,7 +63,7 @@ function mergeStandings(results = [], suggestions = [], limit = 10) {
   });
   const voted = [...results]
     .filter((r) => (r.count || 0) > 0)
-    .sort((a, b) => (b.count || 0) - (a.count || 0))
+    .sort(byFresh)
     .map(withLoc);
   const seen = new Set(voted.map((r) => r.spotId));
   const out = [...voted];
@@ -164,12 +169,14 @@ export default function ThemeVoting({ initialDishSlug = null }) {
       setLocalResults((prev) => {
         const base = prev ?? current.results ?? [];
         let list = base.map((r) => {
-          if (r.spotId === spotId) return { ...r, count: result.count };
-          if (prevSpotId && r.spotId === prevSpotId) return { ...r, count: Math.max(0, (r.count || 0) - 1) };
+          if (r.spotId === spotId) return { ...r, count: result.count, fresh: (r.fresh ?? r.count ?? 0) + 1 };
+          if (prevSpotId && r.spotId === prevSpotId) {
+            return { ...r, count: Math.max(0, (r.count || 0) - 1), fresh: Math.max(0, (r.fresh ?? r.count ?? 0) - 1) };
+          }
           return r;
         });
-        if (!list.find((r) => r.spotId === spotId)) list = [...list, { spotId, name, count: result.count }];
-        return list.sort((a, b) => (b.count || 0) - (a.count || 0));
+        if (!list.find((r) => r.spotId === spotId)) list = [...list, { spotId, name, count: result.count, fresh: 1 }];
+        return list.sort(byFresh);
       });
     }
 
@@ -220,7 +227,6 @@ export default function ThemeVoting({ initialDishSlug = null }) {
           votedSpotId={votedSpotId}
           onVote={handleVote}
           localCounts={localCounts}
-          lastClosed={history[0] || null}
         />
       )}
 
@@ -251,7 +257,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
               lineHeight: 1.4,
             }}>
               Nice. This week&apos;s locked in. Next, vote last week&apos;s challenge below.
-              Votes stay open on every past dish.
+              Past dishes stay open for a year.
             </div>
           )}
           {history.map((th) => (
@@ -279,7 +285,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
   );
 }
 
-function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastClosed }) {
+function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
   const [searchQ, setSearchQ] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [seedSuggestions, setSeedSuggestions] = useState([]);
@@ -338,23 +344,6 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastCl
 
   return (
     <div>
-      {lastClosed && (lastClosed.winnerName || lastClosed.winnerId) && (
-        <div style={{
-          margin: "0 16px 12px",
-          padding: "12px 14px",
-          borderRadius: "var(--r-md)",
-          background: "var(--cream-hi)",
-          border: "1.5px solid var(--line)",
-        }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 4 }}>
-            Last week
-          </div>
-          <div style={{ fontSize: 13.5, fontWeight: 650, color: "var(--ink)", lineHeight: 1.4 }}>
-            {lastClosed.winnerName || "A favourite"} won {lastClosed.title}.
-            {" "}This week is <b>{theme.title}</b>{votedSpotId ? ". You already voted." : ". Your turn."}
-          </div>
-        </div>
-      )}
       {/* Hero banner */}
       <div style={{
         margin: "0 16px 16px",
@@ -400,9 +389,9 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastCl
         >
           Full ranking page →
         </a>
-        {theme.description && (
+        {themeDescription(theme) && (
           <div style={{ fontSize: 13, color: "rgba(255,255,255,0.82)", lineHeight: 1.4, fontWeight: 500 }}>
-            {theme.description}
+            {themeDescription(theme)}
           </div>
         )}
         {votedSpotId && (
@@ -429,73 +418,11 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastCl
         </div>
       )}
 
-      {/* Search first: find your spot, then scan standings. Stays open past endDate. */}
-      <div style={{ margin: "0 16px 16px", position: "relative", zIndex: 2 }}>
-          <div style={{ fontSize: 13, fontWeight: 800, color: "var(--ink)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 8 }}>
-            {votedSpotId ? "Search to switch" : "Search to vote"}
-          </div>
-          <div style={{ position: "relative" }}>
-            <span style={{
-              position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)",
-              display: "flex", pointerEvents: "none", opacity: 0.55,
-            }}>
-              <Icon name="search" size={16} width={2} color="var(--muted)" />
-            </span>
-            <input
-              value={searchQ}
-              onChange={(e) => searchSpots(e.target.value)}
-              placeholder="Restaurant name…"
-              autoComplete="off"
-              style={{
-                width: "100%", boxSizing: "border-box",
-                border: "1.5px solid var(--line)", borderRadius: "var(--r-md)",
-                padding: "12px 14px 12px 38px", fontSize: 14.5,
-                fontFamily: "Outfit, sans-serif", background: "var(--cream-hi)",
-                color: "var(--ink)", outline: "none",
-                boxShadow: "var(--e1)",
-              }}
-              onFocus={(e) => { e.target.style.borderColor = "var(--violet)"; }}
-              onBlur={(e) => { e.target.style.borderColor = "var(--line)"; }}
-            />
-            {suggestions.length > 0 && (
-              <div style={{
-                position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0,
-                background: "var(--cream-hi)", border: "1.5px solid var(--line)",
-                borderRadius: "var(--r-md)", zIndex: 40,
-                boxShadow: "0 8px 24px rgba(44,36,24,0.14)", overflow: "hidden",
-              }}>
-                {suggestions.map((s, i) => (
-                  <button
-                    key={s.spotId}
-                    type="button"
-                    onClick={() => pickSpot(s)}
-                    style={{
-                      display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10,
-                      width: "100%", textAlign: "left",
-                      padding: "12px 14px", border: "none", background: "transparent",
-                      cursor: "pointer",
-                      borderBottom: i < suggestions.length - 1 ? "1px solid var(--line)" : "none",
-                    }}
-                  >
-                    <span style={{ minWidth: 0 }}>
-                      <span style={{ display: "block", fontWeight: 700, fontSize: 13.5, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.name}</span>
-                      {locLabel(s.area) && <span style={{ display: "block", color: "var(--muted)", fontSize: 11.5, marginTop: 2 }}>{locLabel(s.area)}</span>}
-                    </span>
-                    <span style={{ flexShrink: 0, fontSize: 12, fontWeight: 800, color: "var(--violet)" }}>
-                      {votedSpotId ? "Switch" : "Vote"}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
       {/* Standings / suggested picks (always show ~10 once we have seeds) */}
       {standings.length > 0 && (
         <div style={{ padding: "0 16px 8px", display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
           <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.04em", textTransform: "uppercase" }}>
-            {hasVotes ? "Live standings" : "Suggested picks"}
+            {!hasVotes ? "Suggested picks" : totalVotes(standings, localCounts) < 20 ? "Early votes" : "Live standings"}
           </div>
           {hasVotes && (
             <div style={{ fontSize: 12, fontWeight: 700, color: "var(--violet-deep)" }}>
@@ -554,6 +481,68 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastCl
         </div>
       )}
 
+      {/* Search sits under the standings: vote from the list first, add a missing place here. */}
+      <div style={{ margin: "0 16px 16px", position: "relative", zIndex: 2 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 8 }}>
+            {votedSpotId ? "Switch to another place" : "Not listed? Add a place"}
+          </div>
+          <div style={{ position: "relative" }}>
+            <span style={{
+              position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)",
+              display: "flex", pointerEvents: "none", opacity: 0.55,
+            }}>
+              <Icon name="search" size={16} width={2} color="var(--muted)" />
+            </span>
+            <input
+              value={searchQ}
+              onChange={(e) => searchSpots(e.target.value)}
+              placeholder="Restaurant name…"
+              autoComplete="off"
+              style={{
+                width: "100%", boxSizing: "border-box",
+                border: "1.5px solid var(--line)", borderRadius: "var(--r-md)",
+                padding: "12px 14px 12px 38px", fontSize: 14.5,
+                fontFamily: "Outfit, sans-serif", background: "var(--cream-hi)",
+                color: "var(--ink)", outline: "none",
+                boxShadow: "var(--e1)",
+              }}
+              onFocus={(e) => { e.target.style.borderColor = "var(--violet)"; }}
+              onBlur={(e) => { e.target.style.borderColor = "var(--line)"; }}
+            />
+            {suggestions.length > 0 && (
+              <div style={{
+                position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0,
+                background: "var(--cream-hi)", border: "1.5px solid var(--line)",
+                borderRadius: "var(--r-md)", zIndex: 40,
+                boxShadow: "0 8px 24px rgba(44,36,24,0.14)", overflow: "hidden",
+              }}>
+                {suggestions.map((s, i) => (
+                  <button
+                    key={s.spotId}
+                    type="button"
+                    onClick={() => pickSpot(s)}
+                    style={{
+                      display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10,
+                      width: "100%", textAlign: "left",
+                      padding: "12px 14px", border: "none", background: "transparent",
+                      cursor: "pointer",
+                      borderBottom: i < suggestions.length - 1 ? "1px solid var(--line)" : "none",
+                    }}
+                  >
+                    <span style={{ minWidth: 0 }}>
+                      <span style={{ display: "block", fontWeight: 700, fontSize: 13.5, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.name}</span>
+                      {locLabel(s.area) && <span style={{ display: "block", color: "var(--muted)", fontSize: 11.5, marginTop: 2 }}>{locLabel(s.area)}</span>}
+                    </span>
+                    <span style={{ flexShrink: 0, fontSize: 12, fontWeight: 800, color: "var(--violet)" }}>
+                      {votedSpotId ? "Switch" : "Vote"}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
     </div>
   );
 }
@@ -562,9 +551,10 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, lastCl
 function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
   const [searchQ, setSearchQ] = useState("");
   const [suggestions, setSuggestions] = useState([]);
-  const [shareState, setShareState] = useState("idle");
   const debounceRef = useRef(null);
   const leader = theme.results?.[0];
+  const closed = seasonClosed(theme);
+  const year = seasonYear(theme);
   const crowned = theme.winnerId || isPastEndDate(theme);
   const dishSlug = theme.slug || slugFromTitle(theme.title);
 
@@ -585,24 +575,6 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
     onVote?.(spot.spotId, spot.name);
   };
 
-  const sharePast = async (e) => {
-    e?.stopPropagation?.();
-    e?.preventDefault?.();
-    const payload = campaignSharePayload(theme, theme.results || []);
-    try {
-      if (navigator.share) {
-        await navigator.share(payload);
-        setShareState("shared");
-      } else {
-        await navigator.clipboard.writeText(`${payload.text}\n${payload.url}`);
-        setShareState("copied");
-      }
-      window.setTimeout(() => setShareState("idle"), 1800);
-    } catch (error) {
-      if (error?.name !== "AbortError") setShareState("failed");
-    }
-  };
-
   return (
     <div style={{ margin: "0 16px 8px", background: "var(--cream-hi)", borderRadius: "var(--r-md)", boxShadow: "var(--e1)", overflow: "hidden" }}>
       <div style={{ display: "flex", alignItems: "stretch", gap: 0 }}>
@@ -615,52 +587,21 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
             <div style={{ fontWeight: 700, fontSize: 13.5, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
               {theme.title}
             </div>
-            {leader && (
-              <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11.5, color: crowned ? "#d97706" : "var(--muted)", fontWeight: 600, marginTop: 2 }}>
-                {crowned && <Icon name="crown" size={12} width={2} color="#d97706" />}
-                {leader.name}
-                {leader.count != null && <span style={{ fontWeight: 500, color: "var(--muted)" }}>· {leader.count}v</span>}
-              </div>
-            )}
-            <div style={{ fontSize: 11, color: "var(--muted)", fontWeight: 500, marginTop: 2 }}>
-              {(() => {
-                const n = (theme.results || []).reduce((s, r) => s + (r.count || 0), 0);
-                const bits = [];
-                if (n > 0) bits.push(`${n.toLocaleString()} votes`);
-                bits.push("Votes still open");
-                if (theme.endDate) bits.push(`week of ${theme.endDate}`);
-                return bits.join(" · ");
-              })()}
+            <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11.5, color: "var(--muted)", fontWeight: 500, marginTop: 2, overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
+              {leader && crowned && <Icon name="crown" size={12} width={2} color="#d97706" />}
+              {leader && <span style={{ fontWeight: 650, color: crowned ? "#d97706" : "var(--ink-soft)" }}>{leader.name}</span>}
+              <span>
+                {(() => {
+                  const n = (theme.results || []).reduce((s, r) => s + (r.count || 0), 0);
+                  const bits = [];
+                  if (n > 0) bits.push(`${n.toLocaleString()} vote${n === 1 ? "" : "s"}`);
+                  bits.push(closed ? `${year} season closed` : year ? `${year} season` : "Votes open");
+                  return `${leader ? " · " : ""}${bits.join(" · ")}`;
+                })()}
+              </span>
             </div>
           </div>
           <Icon name={open ? "close" : "navigate"} size={16} width={2} color="var(--muted)" />
-        </button>
-        <button
-          type="button"
-          onClick={sharePast}
-          aria-label={`Share ${theme.title}`}
-          style={{
-            flexShrink: 0,
-            alignSelf: "center",
-            marginRight: 12,
-            border: "none",
-            borderRadius: "var(--r-pill)",
-            background: "var(--violet)",
-            color: "#fff",
-            minWidth: 70,
-            height: 30,
-            padding: "0 10px",
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 5,
-            fontSize: 11,
-            fontWeight: 700,
-            cursor: "pointer",
-          }}
-        >
-          <Icon name={shareState === "copied" || shareState === "shared" ? "check" : "share"} size={13} width={2} color="#fff" />
-          {shareState === "copied" ? "Copied" : shareState === "shared" ? "Shared" : shareState === "failed" ? "Try again" : "Share"}
         </button>
       </div>
 
@@ -689,6 +630,11 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
             ) : null;
           })()}
 
+          {closed ? (
+            <div style={{ fontSize: 12.5, color: "var(--muted)", fontWeight: 500, marginBottom: 12, lineHeight: 1.4 }}>
+              The {year} season is closed. These are the final standings.
+            </div>
+          ) : (<>
           <label style={{ display: "block", fontSize: 11, fontWeight: 800, color: "var(--ink)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: 8 }}>
             {votedSpotId ? "Search to switch" : "Search to vote"}
           </label>
@@ -734,9 +680,10 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
               </div>
             )}
           </div>
+          </>)}
 
           {(theme.results || []).length === 0 ? (
-            <div style={{ fontSize: 12.5, color: "var(--muted)", padding: "6px 0", fontWeight: 500 }}>No votes yet. Be the first.</div>
+            <div style={{ fontSize: 12.5, color: "var(--muted)", padding: "6px 0", fontWeight: 500 }}>{closed ? "No votes this season." : "No votes yet. Be the first."}</div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               {theme.results.map((r, i) => {
@@ -747,8 +694,8 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
                       {isCrown ? <Icon name="crown" size={13} width={2} color="#d97706" /> : `#${i + 1}`}
                     </span>
                     <span style={{ flex: 1, fontWeight: 600, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}</span>
-                    <span style={{ color: "var(--muted)", fontWeight: 500, fontSize: 12 }}>{r.count}v</span>
-                    {r.spotId === votedSpotId ? (
+                    <span style={{ color: "var(--muted)", fontWeight: 500, fontSize: 12 }}>{r.count} vote{r.count === 1 ? "" : "s"}</span>
+                    {closed ? null : r.spotId === votedSpotId ? (
                       <span style={{ fontSize: 11, fontWeight: 700, color: "var(--violet-deep)" }}>Voted</span>
                     ) : (
                       <button

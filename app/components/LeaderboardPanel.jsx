@@ -124,22 +124,15 @@ export default function LeaderboardPanel({
             </>
           ) : (
             <>
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "var(--cream-hi)" }}>
-                <Icon name="crown" size={22} width={1.9} />
-                <span className="groovy" style={{ fontSize: 30, lineHeight: 1 }}>This Week</span>
-              </div>
-              <div style={{ color: "var(--cream-hi)", padding: "16px 20px 4px" }}>
-                <div className="groovy" style={{ fontSize: 24, lineHeight: 1.1 }}>
-                  {weekTitle || "Dish challenge"}
-                </div>
-                <div style={{ fontSize: 12.5, opacity: 0.9, marginTop: 8, fontWeight: 500, lineHeight: 1.4 }}>
-                  Vote below for this week&apos;s dish. Previous weeks stay open too.
-                </div>
+              {/* Dish name lives on the challenge card below; hero stays a short label. */}
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "var(--cream-hi)", padding: "0 20px" }}>
+                <Icon name="crown" size={20} width={1.9} />
+                <span className="groovy" style={{ fontSize: 26, lineHeight: 1.1 }}>This Week</span>
               </div>
             </>
           )}
         </div>
-        <Wave height={44} color="var(--cream)" style={{ marginTop: 10 }} />
+        <Wave height={innerTab === "theme" ? 24 : 44} color="var(--cream)" style={{ marginTop: innerTab === "theme" ? 6 : 10 }} />
       </div>
 
       {/* Tab switcher */}

@@ -1,5 +1,5 @@
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
-import { snapToSeoTheme } from "../../../../lib/rankings.js";
+import { snapToSeoTheme, themeDescription } from "../../../../lib/rankings.js";
 import { revalidateTag } from "next/cache";
 
 export const dynamic = "force-dynamic";
@@ -68,7 +68,8 @@ export async function POST(req) {
 
   await db.collection("themes").doc(id).set(
     {
-      title: snapped.title, slug: snapped.slug, description: description || "",
+      title: snapped.title, slug: snapped.slug,
+      description: themeDescription({ slug: snapped.slug, description }),
       startDate: startDate || "", endDate: endDate || "",
       displayLimit: displayLimit ? Number(displayLimit) : 20,
       active: shouldBeActive,

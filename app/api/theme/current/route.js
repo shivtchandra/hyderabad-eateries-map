@@ -1,3 +1,4 @@
+import { rankByFreshness, themeCreatedAt } from "../../../../lib/voteDecay.js";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { unstable_cache } from "next/cache";
 import { nextCrownUpdate } from "../../../../lib/themeCrown.js";
@@ -71,7 +72,7 @@ const getCurrentTheme = unstable_cache(
         const existing = byName.get(key);
         if (!existing || (r.count || 0) > (existing.count || 0)) byName.set(key, r);
       }
-      const sorted = [...byName.values()].sort((a, b) => (b.count || 0) - (a.count || 0));
+      const sorted = rankByFreshness([...byName.values()], themeCreatedAt(theme));
 
       // After endDate: crown follows live #1. Votes stay open (see /api/theme/vote).
       const crown = nextCrownUpdate(theme, sorted, today);

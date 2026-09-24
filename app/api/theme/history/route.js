@@ -1,5 +1,7 @@
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { unstable_cache } from "next/cache";
+import { dedupeThemesBySlug } from "../../../../lib/rankings.js";
+import { rankByFreshness, themeCreatedAt } from "../../../../lib/voteDecay.js";
 
 export const dynamic = "force-dynamic";
 
@@ -27,11 +29,11 @@ const getHistory = unstable_cache(
         .orderBy("count", "desc")
         .limit(20)
         .get();
-      const results = votesSnap.docs.map((d) => ({ spotId: d.id, ...d.data() }));
+      const results = rankByFreshness(votesSnap.docs.map((d) => ({ spotId: d.id, ...d.data() })), themeCreatedAt(data));
       out.push({ id: doc.id, ...data, results });
-      if (out.length >= limit) break;
+      if (dedupeThemesBySlug(out).length >= limit) break;
     }
-    return out;
+    return dedupeThemesBySlug(out).slice(0, limit);
   },
   ["theme-history"],
   { revalidate: 30, tags: ["themes"] }
