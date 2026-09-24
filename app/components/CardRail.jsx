@@ -20,10 +20,18 @@ const CAT_COLOR = {
 // A swipeable deck of the spotlighted spots. This is the findability fix:
 // browsing a short ranked deck beats hunting a field of 1600 identical pins.
 // Scroll ↔ map selection stay in sync in both directions.
-export default function CardRail({ spots, activeId, onActivate, onOpen, passport, featuredIds, voteMap = {}, onVote, distMap = {}, picksMap = {}, starOfWeek = null }) {
+export default function CardRail({
+  spots, activeId, onActivate, onOpen, passport, featuredIds, voteMap = {}, onVote, distMap = {}, picksMap = {}, starOfWeek = null,
+  open: openProp, onOpenChange,
+}) {
   const railRef = useRef(null);
   const suppress = useRef(false);
-  const [open, setOpen] = useState(true);
+  // Uncontrolled by default (Map tab doesn't care), but the Route tab passes
+  // open/onOpenChange so page.jsx can hide its sort/expand row in lockstep
+  // instead of that row being orphaned when the rail collapses.
+  const [openState, setOpenState] = useState(true);
+  const open = openProp ?? openState;
+  const setOpen = onOpenChange ?? setOpenState;
 
   // Map → rail: bring the selected card into view
   useEffect(() => {

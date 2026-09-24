@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { IN_HYD } from "../../lib/eateryUtils.js";
+import { IN_HYD, nearestAreaLabel } from "../../lib/eateryUtils.js";
 import { fetchRoutePolyline, findEateriesAlongRoute } from "../../lib/routeSearch.js";
 import RouteSearchInput from "./RouteSearchInput.jsx";
 import { Icon } from "./Icons.jsx";
@@ -50,7 +50,7 @@ export default function RoutePanel({
   // something anyone can do for any pair.
   useEffect(() => {
     if (!pickedPoint) return;
-    const label = `Pinned spot (${pickedPoint.lat.toFixed(4)}, ${pickedPoint.lng.toFixed(4)})`;
+    const label = nearestAreaLabel(pickedPoint, areaCentroids);
     const result = { kind: "pin", label, lat: pickedPoint.lat, lng: pickedPoint.lng };
     if (pickedPoint.target === "from") pickFrom(result);
     else if (pickedPoint.target === "via") pickVia(result);
@@ -109,7 +109,7 @@ export default function RoutePanel({
 
   if (!editing && (status === "success" || status === "empty")) {
     return (
-      <div style={{ position: "absolute", top: 12, left: 12, right: 12, zIndex: 1000, display: "flex", flexDirection: "column", gap: 8 }}>
+      <div style={{ position: "absolute", top: 12, left: 12, right: 12, maxWidth: 480, margin: "0 auto", zIndex: 1000, display: "flex", flexDirection: "column", gap: 8 }}>
         <button
           onClick={() => setEditing(true)}
           className="material pressable-sm"
@@ -159,7 +159,7 @@ export default function RoutePanel({
   }
 
   return (
-    <div style={{ position: "absolute", top: 12, left: 12, right: 12, zIndex: 1000, display: "flex", flexDirection: "column", gap: 8 }}>
+    <div style={{ position: "absolute", top: 12, left: 12, right: 12, maxWidth: 480, margin: "0 auto", zIndex: 1000, display: "flex", flexDirection: "column", gap: 8 }}>
       <div style={{ position: "relative", display: "flex", flexDirection: "column", gap: 8 }}>
         <div style={{ display: "flex", gap: 6 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -182,7 +182,7 @@ export default function RoutePanel({
               boxShadow: "var(--e1)",
             }}
           >
-            <Icon name="gem" size={17} width={1.9} color={pickTarget === "from" ? "#fff" : "var(--muted)"} />
+            <Icon name="pin" size={17} width={1.9} color={pickTarget === "from" ? "#fff" : "var(--muted)"} />
           </button>
         </div>
         <div style={{ position: "relative", display: "flex", gap: 6 }}>
@@ -206,7 +206,7 @@ export default function RoutePanel({
               boxShadow: "var(--e1)",
             }}
           >
-            <Icon name="gem" size={17} width={1.9} color={pickTarget === "to" ? "#fff" : "var(--muted)"} />
+            <Icon name="pin" size={17} width={1.9} color={pickTarget === "to" ? "#fff" : "var(--muted)"} />
           </button>
         </div>
         {showVia && (
@@ -231,7 +231,7 @@ export default function RoutePanel({
                 boxShadow: "var(--e1)",
               }}
             >
-              <Icon name="gem" size={17} width={1.9} color={pickTarget === "via" ? "#fff" : "var(--muted)"} />
+              <Icon name="pin" size={17} width={1.9} color={pickTarget === "via" ? "#fff" : "var(--muted)"} />
             </button>
             <button
               onClick={removeVia}
@@ -272,13 +272,13 @@ export default function RoutePanel({
             padding: "2px 2px", display: "flex", alignItems: "center", gap: 4,
           }}
         >
-          <Icon name="gem" size={13} width={2} color="var(--violet)" />
+          <Icon name="pin" size={13} width={2} color="var(--violet)" />
           Route through a specific place
         </button>
       )}
       {pickTarget && (
         <div className="material" style={{ padding: "8px 13px", borderRadius: "var(--r-lg)", fontSize: 12, fontWeight: 600, color: "var(--violet)", display: "flex", alignItems: "center", gap: 6 }}>
-          <Icon name="gem" size={13} width={2} color="var(--violet)" />
+          <Icon name="pin" size={13} width={2} color="var(--violet)" />
           Tap the map to drop a pin for {pickTarget === "from" ? "From" : pickTarget === "via" ? "your via stop" : "To"}
         </div>
       )}
