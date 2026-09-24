@@ -58,9 +58,9 @@ export default function BottomNav({ tab, setTab, visitedCount, savedCount, route
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: active ? 7 : 0,
+                gap: active ? 6 : 0,
                 height: 46,
-                padding: active ? "0 18px" : "0 15px",
+                padding: active ? "0 14px" : "0 12px",
                 border: "none",
                 borderRadius: "var(--r-pill)",
                 background: active ? "var(--violet)" : "transparent",
@@ -100,10 +100,10 @@ export default function BottomNav({ tab, setTab, visitedCount, savedCount, route
                   </span>
                 )}
               </span>
-              {/* Label only rendered for the active tab so collapsed items are pure icons */}
+              {/* Count badge only, no label text */}
               {active && (
                 <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  {t.label}
+
                   {count > 0 && (
                     <span
                       style={{
