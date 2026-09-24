@@ -59,15 +59,28 @@ export function generateMetadata({ params }) {
   const area = spot.discoveredIn && !spot.discoveredIn.startsWith("text:") ? spot.discoveredIn : "Hyderabad";
   const name = displayName(spot.name);
   const ratingStr = spot.rating ? ` (${spot.rating}★)` : "";
-  const title = `${name}, ${area}${ratingStr} — Reviews, Menu & Timings`;
-  
-  const editorial = spot.originStory?.[0]
-    || (spot.signatureDish ? `Famous for ${spot.signatureDish.name}. ${spot.signatureDish.why}` : "");
+  let title = `${name}, ${area}: Reviews, Menu & Timings${ratingStr}`;
+  if (title.length > 60) {
+    title = `${name}, ${area}: Reviews, Menu & Timings`;
+  }
+  if (title.length > 60) {
+    title = `${name}, ${area}: Reviews & Menu`;
+  }
+  if (title.length > 60) {
+    title = `${name}: Reviews, Menu & Timings`;
+  }
+
+  const cleanEditorial = (spot.originStory?.[0]
+    || (spot.signatureDish ? `Famous for ${spot.signatureDish.name}. ${spot.signatureDish.why}` : "")).replace(/—/g, ",");
   const ratingDetails = spot.rating ? `Rated ${spot.rating}★ (${spot.ratingCount ? spot.ratingCount.toLocaleString("en-IN") : ""} reviews). ` : "";
   const costDetails = spot.costForTwo ? `₹${spot.costForTwo} for two. ` : "";
-  const description = editorial
-    ? `${editorial} ${ratingDetails}${costDetails}Find reviews, address & timings on Hyderabad Eats.`.trim()
-    : `${name} in ${area}. ${ratingDetails}${costDetails}${spot.signatureDish?.name ? `Famous for ${spot.signatureDish.name}. ` : ""}Check reviews, open hours, location & menu on Hyderabad Eats.`.trim();
+  const todayHour = spot.hours?.length ? spot.hours[(new Date().getDay() + 6) % 7]?.split(": ").slice(1).join(": ") : null;
+  const timingsDetails = todayHour ? `Open today: ${todayHour}. ` : "";
+  const description = (cleanEditorial
+    ? `${cleanEditorial} ${ratingDetails}${costDetails}${timingsDetails}Find reviews, address & timings on Hyderabad Eats.`
+    : `${name} in ${area}. ${ratingDetails}${costDetails}${timingsDetails}${spot.signatureDish?.name ? `Famous for ${spot.signatureDish.name}. ` : ""}Check reviews, open hours, location & menu on Hyderabad Eats.`)
+    .replace(/—/g, ",")
+    .trim();
 
   const photo = hasSpotPhoto(spot.id) ? spotPhotoUrl(spot.id) : null;
   const base = pageMeta({ title, description, path: spotPath(spot), image: photo || undefined });

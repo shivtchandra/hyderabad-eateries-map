@@ -12,7 +12,7 @@ function areaPageCopy(area, spotCount) {
   if (area === "Jubilee Hills") {
     return {
       title: `Best Cafes & Restaurants in Jubilee Hills`,
-      description: `Cafes in Jubilee Hills and top restaurants on Hyderabad Eats — ${spotCount} mapped spots with ratings, stories, and the live food map.`,
+      description: `Cafes in Jubilee Hills and top restaurants on Hyderabad Eats: ${spotCount} mapped spots with ratings, stories, and the live food map.`,
       lead: (names) =>
         names.length
           ? `Looking for cafes in Jubilee Hills? Popular picks include ${names.join(", ")}, among ${spotCount} mapped cafes and restaurants.`
@@ -23,7 +23,7 @@ function areaPageCopy(area, spotCount) {
   if (area === "Gachibowli") {
     return {
       title: `Best Restaurants in Gachibowli`,
-      description: `Best restaurants in Gachibowli, Hyderabad — ${spotCount} places on Hyderabad Eats with ratings and map pins across the western corridor.`,
+      description: `Best restaurants in Gachibowli, Hyderabad: ${spotCount} places on Hyderabad Eats with ratings and map pins across the western corridor.`,
       lead: (names) =>
         names.length
           ? `Best restaurants in Gachibowli right now include ${names.join(", ")}, among ${spotCount} mapped spots.`
@@ -34,7 +34,7 @@ function areaPageCopy(area, spotCount) {
   if (area === "Madhapur/HITEC") {
     return {
       title: `Best Restaurants in Madhapur & HITEC City`,
-      description: `Best restaurants in Madhapur and HITEC City — ${spotCount} cafes and restaurants on Hyderabad Eats near Hyderabad's tech belt.`,
+      description: `Best restaurants in Madhapur and HITEC City: ${spotCount} cafes and restaurants on Hyderabad Eats near Hyderabad's tech belt.`,
       lead: (names) =>
         names.length
           ? `Best restaurants in Madhapur include ${names.join(", ")}, with HITEC City covered on the same Hyderabad Eats list (${spotCount} spots).`
@@ -45,7 +45,7 @@ function areaPageCopy(area, spotCount) {
   if (area === "Secunderabad") {
     return {
       title: `Best Restaurants in Secunderabad`,
-      description: `Best restaurants in Secunderabad — ${spotCount} places on Hyderabad Eats with ratings, hours, and map locations.`,
+      description: `Best restaurants in Secunderabad: ${spotCount} places on Hyderabad Eats with ratings, hours, and map locations.`,
       lead: (names) =>
         names.length
           ? `Best restaurants in Secunderabad include ${names.join(", ")}, among ${spotCount} mapped spots.`
@@ -56,7 +56,7 @@ function areaPageCopy(area, spotCount) {
   if (area === "Kondapur") {
     return {
       title: `Best Restaurants in Kondapur`,
-      description: `Best restaurants in Kondapur, Hyderabad — ${spotCount} cafes and restaurants on Hyderabad Eats near Gachibowli and Madhapur.`,
+      description: `Best restaurants in Kondapur, Hyderabad: ${spotCount} cafes and restaurants on Hyderabad Eats near Gachibowli and Madhapur.`,
       lead: (names) =>
         names.length
           ? `Best restaurants in Kondapur include ${names.join(", ")}, among ${spotCount} mapped places.`
