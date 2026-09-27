@@ -18,6 +18,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { galleryPhotoUrl, spotPhotoUrl } from "../lib/photos.js";
+import { coreIdSet } from "../lib/coreSpots.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA = path.join(__dirname, "..", "data", "eateries.json");
@@ -26,9 +27,14 @@ const PUBLIC = path.join(__dirname, "..", "public");
 const all = JSON.parse(fs.readFileSync(DATA, "utf-8"));
 fs.mkdirSync(PUBLIC, { recursive: true });
 
+// Core list (lib/coreSpots.js): the map shows these by default; the rest stay searchable.
+let editorialIds = new Set();
+try { editorialIds = new Set(Object.keys(JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "venue-content.json"), "utf-8")))); } catch {}
+const approved = all.filter((e) => e.lat && e.lng && e.status === "approved");
+const core = coreIdSet(approved, { editorialIds });
+
 // Short keys keep the index small over the wire; the client re-expands them.
-const index = all
-  .filter((e) => e.lat && e.lng && e.status === "approved")
+const index = approved
   .map((e) => ({
     id: e.id,
     n: e.name,
@@ -42,6 +48,7 @@ const index = all
     p: e.priceLevel ?? null,
     a: e.discoveredIn ?? null,
     ca: e.createdAt ?? null,
+    k: core.has(e.id) ? 1 : 0,
   }));
 
 // photoRef strings are ~250 chars each — 1586 of them would dominate the index
@@ -106,7 +113,7 @@ if (fs.existsSync(photosDir)) {
   photoIds = JSON.parse(fs.readFileSync(manifest, "utf-8"));
 }
 
-console.log(`eateries-index.json  ${index.length} spots  ${mb("eateries-index.json")} MB`);
+console.log(`eateries-index.json  ${index.length} spots (${core.size} core)  ${mb("eateries-index.json")} MB`);
 console.log(`eateries-detail.json ${Object.keys(detail).length} spots  ${mb("eateries-detail.json")} MB`);
 console.log(
   `photo-ids.json       ${photoIds.length} thumbs  ${fs.existsSync(photosDir) ? "(regenerated)" : "(kept, no local photos dir)"}`

@@ -7,9 +7,9 @@ import BottomNav from "../../components/BottomNav.jsx";
 import BackButton from "../../components/BackButton.jsx";
 
 const SLUG = "/guides/best-ice-cream-desserts-hyderabad";
-const TITLE = "Best Ice Cream, Gelato & Desserts in Hyderabad (2026): The Local Guide";
+const TITLE = "Best Ice Cream & Desserts in Hyderabad 2026";
 const DESCRIPTION =
-  "From 1951 hand-churned pot ice creams at Mozamjahi Market (Famous Ice Cream) to Italian gelato at Milano and stone-slab sundaes at Cream Stone — the ultimate Hyderabad dessert trail.";
+  "From 1951 hand-churned pot ice creams at Mozamjahi Market (Famous Ice Cream) to Italian gelato at Milano and stone-slab sundaes at Cream Stone, the ultimate Hyderabad dessert trail.";
 
 export const metadata = {
   ...pageMeta({ title: TITLE, description: DESCRIPTION, path: SLUG }),

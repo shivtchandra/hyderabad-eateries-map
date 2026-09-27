@@ -29,20 +29,25 @@ const PHOTO_CDN =
 const nextConfig = {
   // Keep venue JSON in every serverless/page bundle that reads it at runtime
   // (rankings are force-dynamic; without this the Google baseline list is empty).
-  outputFileTracingIncludes: {
-    "/rankings/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
-    "/areas/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
-    "/explore/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
-    "/spot/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
-    "/stories/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
-    "/api/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
-  },
-  outputFileTracingExcludes: {
-    "*": [
-      "./public/photos/**/*",
-      "./scripts/**/*",
-      "./node_modules/@imgly/**/*",
-    ],
+  // Next 14.2: file tracing options must live under `experimental` (top level is ignored).
+  experimental: {
+    outputFileTracingIncludes: {
+      "/rankings/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
+      "/areas/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
+      "/explore/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
+      "/spot/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
+      "/stories/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
+      "/api/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
+      "/sitemap.xml": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
+      "/food-safety": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
+    },
+    outputFileTracingExcludes: {
+      "*": [
+        "./public/photos/**/*",
+        "./scripts/**/*",
+        "./node_modules/@imgly/**/*",
+      ],
+    },
   },
   async redirects() {
     return [

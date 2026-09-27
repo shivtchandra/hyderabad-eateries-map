@@ -7,9 +7,9 @@ import BottomNav from "../../components/BottomNav.jsx";
 import BackButton from "../../components/BackButton.jsx";
 
 const SLUG = "/guides/best-cafes-hyderabad-reddit";
-const TITLE = "Best Cafes in Hyderabad (2026): Specialty Coffee, Work Corners & Desserts";
+const TITLE = "Best Cafes in Hyderabad 2026: Local Guide";
 const DESCRIPTION =
-  "The definitive Hyderabad cafe guide: Roastery Coffee House, Conçu, Roast CCX, True Black, and Autumn Leaf — with honest notes on specialty brews, WiFi speeds, desserts, and quiet work vibes.";
+  "The definitive Hyderabad cafe guide: Roastery Coffee House, Conçu, Roast CCX, True Black, and Autumn Leaf, with honest notes on specialty brews, WiFi speeds, desserts, and quiet work vibes.";
 
 export const metadata = {
   ...pageMeta({ title: TITLE, description: DESCRIPTION, path: SLUG }),

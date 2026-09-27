@@ -7,7 +7,7 @@ import BottomNav from "../../components/BottomNav.jsx";
 import BackButton from "../../components/BackButton.jsx";
 
 const SLUG = "/guides/late-night-food-hyderabad-reddit";
-const TITLE = "Best Late Night Food & 24/7 Eateries in Hyderabad (2026)";
+const TITLE = "Late Night Food in Hyderabad: 24/7 Spots";
 const DESCRIPTION =
   "Safe, verified late-night food in Hyderabad: DLF Street Food, Roast 24 Seven, Cafe Niloufer, and midnight mutton biryani spots open from 12 AM to 5 AM.";
 

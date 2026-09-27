@@ -7,9 +7,9 @@ import BottomNav from "../../components/BottomNav.jsx";
 import BackButton from "../../components/BackButton.jsx";
 
 const SLUG = "/guides/best-tiffins-hyderabad-reddit";
-const TITLE = "Best Tiffins & Breakfast in Hyderabad (2026): The Real Local Guide";
+const TITLE = "Best Tiffin Centres in Hyderabad (2026)";
 const DESCRIPTION =
-  "The authentic, unfiltered guide to Hyderabad's best tiffin spots: Ishtaa, Penam, Panchakattu Dosa, and Kanchi Cafe — with honest reviews on chutneys, ghee karam dosas, and peak weekend crowds.";
+  "The authentic, unfiltered guide to Hyderabad's best tiffin spots: Ishtaa, Penam, Panchakattu Dosa, and Kanchi Cafe, with honest reviews on chutneys, ghee karam dosas, and peak weekend crowds.";
 
 export const metadata = {
   ...pageMeta({ title: TITLE, description: DESCRIPTION, path: SLUG }),

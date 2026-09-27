@@ -121,9 +121,13 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   const [stickerTick, setStickerTick] = useState(0);
   const [stickerCount, setStickerCount] = useState(0);
   useEffect(() => { setStickerCount(stickerList().length); }, [stickerTick]);
+  const [passportTab, setPassportTab] = useState("stickers");
   const [voteMap, setVoteMap] = useState({});
   const [nearbyOnly, setNearbyOnly] = useState(false);
   const [newOnly, setNewOnly] = useState(false);
+  const [safetyOnly, setSafetyOnly] = useState(false);
+  const [showAll, setShowAll] = useState(true); // on by default: every listing; off: only the curated core list (name search still finds everything)
+  const [safetyMap, setSafetyMap] = useState({}); // spotId -> latest food safety record (/api/inspections)
   const [nearbyArea, setNearbyArea] = useState(null);
   const [roadDistMap, setRoadDistMap] = useState({});
   const [currentTheme, setCurrentTheme] = useState(null);
@@ -170,6 +174,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
 
   useEffect(() => {
     fetchPicks().then(setPicksMap);
+    fetch("/api/inspections").then((r) => (r.ok ? r.json() : { spots: {} })).then((d) => setSafetyMap(d.spots || {})).catch(() => {});
   }, []);
 
   // Editorial spots (venues with a hand-written story) for the "Stories" rail
@@ -202,6 +207,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
           id: e.id, name: e.n, category: e.c, lat: e.lat, lng: e.lng,
           rating: e.r, ratingCount: e.rc, tier: e.t, tags: e.g,
           priceLevel: e.p, discoveredIn: e.a, createdAt: e.ca ?? null,
+          core: e.k !== 0, // curated list (lib/coreSpots.js); older index files without `k` count as core
         })));
         setLoading(false);
       })
@@ -308,18 +314,21 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
     }
   }, [eateries]);
 
+  // What the map browses by default: the curated core list, or everything with "Show all spots".
+  const pool = useMemo(() => (showAll ? eateries : eateries.filter((e) => e.core)), [eateries, showAll]);
+  const hiddenCount = eateries.length - eateries.filter((e) => e.core).length;
   const counts = useMemo(() => {
-    const c = { all: eateries.length };
-    for (const e of eateries) c[e.category] = (c[e.category] ?? 0) + 1;
+    const c = { all: pool.length };
+    for (const e of pool) c[e.category] = (c[e.category] ?? 0) + 1;
     return c;
-  }, [eateries]);
+  }, [pool]);
 
   // Per-category counts with only sub-filters applied (tags, openNow, nearby), // not the category filter itself, so each chip shows how many of its own spots
   // pass the active filters.
   const filteredCounts = useMemo(() => {
-    if (!activeTags.length && !openNowOnly && !nearbyOnly && !newOnly) return counts;
+    if (!activeTags.length && !openNowOnly && !nearbyOnly && !newOnly && !safetyOnly) return counts;
     const c = {};
-    for (const e of eateries) {
+    for (const e of pool) {
       if (activeTags.length && !activeTags.every((t) => validTagsFor(e.category, e.tags).includes(t))) continue;
       if (openNowOnly && allDetailsStatus === "loaded" && isOpenNow(details[e.id]?.hours) !== true) continue;
       if (nearbyOnly && userLoc) {
@@ -327,17 +336,18 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
         if (d == null || d > 3) continue;
       }
       if (newOnly && !isNewSpot(e.createdAt)) continue;
+      if (safetyOnly && !safetyMap[e.id]) continue;
       c[e.category] = (c[e.category] ?? 0) + 1;
     }
     c.all = Object.values(c).reduce((s, n) => s + n, 0);
     return c;
-  }, [eateries, activeTags, openNowOnly, allDetailsStatus, nearbyOnly, newOnly, details, userLoc, counts]);
+  }, [pool, activeTags, openNowOnly, allDetailsStatus, nearbyOnly, newOnly, safetyOnly, safetyMap, details, userLoc, counts]);
 
   const tagCounts = useMemo(() => {
     const c = {};
-    for (const e of eateries) for (const t of e.tags ?? []) c[t] = (c[t] ?? 0) + 1;
+    for (const e of pool) for (const t of e.tags ?? []) c[t] = (c[t] ?? 0) + 1;
     return c;
-  }, [eateries]);
+  }, [pool]);
 
   const areaCentroids = useMemo(() => buildAreaCentroids(eateries), [eateries]);
   const [routeLine, setRouteLine] = useState(null);
@@ -389,6 +399,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   const filtered = useMemo(() => {
     const q = deferredSearch.trim().toLowerCase();
     return eateries.filter((e) => {
+      if (!showAll && !e.core && !q) return false; // hidden listings still match a name search
       if (activeCategory !== "all" && e.category !== activeCategory) return false;
       if (q && !e.name.toLowerCase().includes(q)) return false;
       if (activeTags.length && !activeTags.every((t) => validTagsFor(e.category, e.tags).includes(t))) return false;
@@ -398,9 +409,10 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
         if (d == null || d > 3) return false;
       }
       if (newOnly && !isNewSpot(e.createdAt)) return false;
+      if (safetyOnly && !safetyMap[e.id]) return false;
       return true;
     });
-  }, [eateries, activeCategory, deferredSearch, activeTags, openNowOnly, allDetailsStatus, details, nearbyOnly, newOnly, userLoc]);
+  }, [eateries, showAll, activeCategory, deferredSearch, activeTags, openNowOnly, allDetailsStatus, details, nearbyOnly, newOnly, safetyOnly, safetyMap, userLoc]);
 
   const byId = useMemo(() => {
     const m = {};
@@ -607,6 +619,10 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
 
   return (
     <div style={{ position: "fixed", inset: 0, height: "100dvh", display: "flex", flexDirection: "column", background: "var(--cream)", overflow: "hidden" }}>
+      {/* The map UI has no visible page heading; give crawlers and screen readers one H1. */}
+      <h1 style={{ position: "absolute", width: 1, height: 1, margin: -1, padding: 0, overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap", border: 0 }}>
+        Hyderabad food map and community rankings
+      </h1>
       <TopBar
         search={search} setSearch={setSearch}
         searchOpen={searchOpen} setSearchOpen={setSearchOpen}
@@ -624,6 +640,8 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
           counts={filteredCounts} tagCounts={tagCounts}
           userLoc={userLoc} nearbyOnly={nearbyOnly} setNearbyOnly={setNearbyOnly} nearbyArea={nearbyArea}
           newOnly={newOnly} setNewOnly={setNewOnly}
+          safetyOnly={safetyOnly} setSafetyOnly={setSafetyOnly} safetyCount={Object.keys(safetyMap).length}
+          showAll={showAll} setShowAll={setShowAll} hiddenCount={hiddenCount}
         />
       )}
 
@@ -633,6 +651,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
             <MapCanvas
               eateries={eateries}
               filtered={tab === "route" && routeCardsOpen ? routeMatchesDisplay : filtered}
+              poolSize={pool.length}
               routeLine={tab === "route" ? routeLine : null}
               heroCap={tab === "route" ? 28 : 120}
               pickMode={tab === "route" && !!pickTarget}
@@ -668,13 +687,70 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
           />
         )}
         {tab === "passport" && (
-          <div style={{ flex: 1, minHeight: 0, overflowY: "auto", background: "var(--cream)" }}>
-            <PassportPanel eateries={eateries} passport={passport} onSelect={openFromList} diaryTick={diaryTick} />
-            <StickerBook
-              refreshTick={stickerTick}
-              onAddSticker={() => setStickerFor(null)}
-              onOpenSpot={(id) => { const e = byId[id]; if (e) openFromList(e); }}
-            />
+          <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", background: "var(--cream)" }}>
+            {/* Top Navigation Switch: Stickers is the main one */}
+            <div style={{ padding: "10px 14px 6px", background: "var(--cream)", display: "flex", justifyContent: "center", flexShrink: 0 }}>
+              <div style={{ display: "inline-flex", background: "rgba(38,48,92,0.08)", padding: 3, borderRadius: "var(--r-pill)" }}>
+                <button
+                  type="button"
+                  onClick={() => setPassportTab("stickers")}
+                  style={{
+                    padding: "7px 18px",
+                    borderRadius: "var(--r-pill)",
+                    border: "none",
+                    background: passportTab === "stickers" ? "#ffffff" : "transparent",
+                    color: passportTab === "stickers" ? "#0f172a" : "#64748b",
+                    fontWeight: 700,
+                    fontSize: 13,
+                    boxShadow: passportTab === "stickers" ? "0 2px 8px rgba(0,0,0,0.1)" : "none",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    transition: "all 120ms ease",
+                    outline: "none",
+                    WebkitTapHighlightColor: "transparent",
+                  }}
+                >
+                  <Icon name="ticket" size={14} width={2} color={passportTab === "stickers" ? "#e2622a" : "#64748b"} />
+                  Dish Stickers {stickerCount > 0 ? `(${stickerCount})` : ""}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPassportTab("passport")}
+                  style={{
+                    padding: "7px 18px",
+                    borderRadius: "var(--r-pill)",
+                    border: "none",
+                    background: passportTab === "passport" ? "#ffffff" : "transparent",
+                    color: passportTab === "passport" ? "#0f172a" : "#64748b",
+                    fontWeight: 700,
+                    fontSize: 13,
+                    boxShadow: passportTab === "passport" ? "0 2px 8px rgba(0,0,0,0.1)" : "none",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    transition: "all 120ms ease",
+                    outline: "none",
+                    WebkitTapHighlightColor: "transparent",
+                  }}
+                >
+                  <Icon name="passport" size={14} width={2} color={passportTab === "passport" ? "#2f4fc4" : "#64748b"} />
+                  Stamps &amp; Diary
+                </button>
+              </div>
+            </div>
+
+            {passportTab === "stickers" ? (
+              <StickerBook
+                refreshTick={stickerTick}
+                onAddSticker={() => setStickerFor(null)}
+                onOpenSpot={(id) => { const e = byId[id]; if (e) openFromList(e); }}
+              />
+            ) : (
+              <PassportPanel eateries={eateries} passport={passport} onSelect={openFromList} diaryTick={diaryTick} />
+            )}
           </div>
         )}
         {tab === "saved" && (
@@ -764,6 +840,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
                 currentTheme={currentTheme}
                 detailPending={!!detailPending[selectedFull.id]}
                 pick={picksMap[selectedFull.id]}
+                safety={safetyMap[selectedFull.id]}
               />
             )}
           </>
@@ -858,6 +935,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
                 currentTheme={currentTheme}
                 detailPending={!!detailPending[selectedFull.id]}
                 pick={picksMap[selectedFull.id]}
+                safety={safetyMap[selectedFull.id]}
               />
             )}
 

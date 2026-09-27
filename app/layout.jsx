@@ -8,9 +8,9 @@ import { PHOTO_CDN_ORIGIN } from "../lib/photos.js";
 
 const siteUrl = getSiteUrl();
 
-const title = "Mapping HYD Eats — Hyderabad Food Map & Local Rankings";
+const title = "Hyderabad Food Map & Local Rankings | Mapping HYD Eats";
 const description =
-  "Hyderabad food map with community-voted rankings for biryani, cafes and restaurants. Explore 3,400+ spots, read local stories, stamp your passport, and race each week.";
+  "Hyderabad food map with community-voted rankings for biryani, cafes and restaurants. Explore 3,600+ spots, local guides and weekly food votes.";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),

@@ -18,9 +18,12 @@ async function loadIndex() {
   if (indexCache) return indexCache;
   const { readFileSync } = await import("fs");
   const { join } = await import("path");
-  const raw = readFileSync(join(process.cwd(), "public", "eateries-index.json"), "utf-8");
-  const rows = JSON.parse(raw);
-  indexCache = new Map(rows.map((e) => [e.id, e]));
+  // data/eateries.json is traced into every /api/* function (next.config.mjs). public/ is not
+  // readable from a serverless function, so the old public/eateries-index.json read crashed every
+  // authenticated claim. Same filter + short keys as scripts/build-static.mjs.
+  const raw = readFileSync(join(process.cwd(), "data", "eateries.json"), "utf-8");
+  const rows = JSON.parse(raw).filter((e) => e.lat && e.lng && e.status === "approved");
+  indexCache = new Map(rows.map((e) => [e.id, { id: e.id, lat: +e.lat, lng: +e.lng, t: e.tier ?? null, c: e.category ?? null, a: /^text:/.test(e.discoveredIn || "") ? null : e.discoveredIn ?? null }]));
   return indexCache;
 }
 

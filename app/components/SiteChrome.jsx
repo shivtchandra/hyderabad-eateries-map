@@ -52,6 +52,8 @@ export function SiteFooter() {
         <Link href="/areas">Areas</Link>
         <Link href="/explore">Explore</Link>
         <Link href="/stories">Stories</Link>
+        <Link href="/food-safety">Food safety</Link>
+        <Link href="/about">About</Link>
       </nav>
       <nav aria-label="Mapping HYD series">
         <a href="https://mapmyhyd.com/">Mapping HYD</a>

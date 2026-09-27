@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function SeoCrawlNav() {
   return (
     <nav className="seo-crawl-nav" aria-label="Hyderabad Eats directory">
-      <h1>Hyderabad Eats — food map &amp; local rankings</h1>
+      <p>Hyderabad Eats: food map &amp; local rankings</p>
       <p>
         Mapping HYD Eats is a free Hyderabad food map of 3,400+ restaurants, cafes, and local spots,
         with community-voted weekly rankings for biryani, cafes, restaurants, and more. Browse by area

@@ -2,26 +2,36 @@ import fs from "fs";
 import path from "path";
 import { getAllRankingsThemes } from "../lib/themesServer.js";
 import { SEO_THEME_PICKS, slugFromTitle } from "../lib/rankings.js";
-import { allAreaPages, allCategoryPages, getEditorialSpotIds, spotSlug, getEateryById } from "../lib/siteData.js";
+import { allAreaPages, allCategoryPages, getEditorialSpotIds, spotSlug, getEateryById, getEateries } from "../lib/siteData.js";
 import { getSiteUrl } from "../lib/site.js";
 
 export const dynamic = "force-dynamic";
 
+// Source folders are not in the Vercel function bundle, so reading app/guides at runtime
+// returned [] and every guide was missing from the live sitemap. Keep the list explicit
+// (add new guides here); the fs read only adds any extra folder found in local builds.
+const GUIDE_SLUGS = [
+  "best-biryani-hyderabad-reddit",
+  "best-cafes-hyderabad-reddit",
+  "best-ice-cream-desserts-hyderabad",
+  "best-tiffins-hyderabad-reddit",
+  "late-night-food-hyderabad-reddit",
+  "restaurants-in-sattva-knowledge-city-hyderabad",
+];
 function getGuideSlugs() {
+  let found = [];
   try {
     const guidesDir = path.join(process.cwd(), "app", "guides");
-    return fs.readdirSync(guidesDir).filter((f) =>
-      fs.statSync(path.join(guidesDir, f)).isDirectory()
-    );
-  } catch {
-    return [];
-  }
+    found = fs.readdirSync(guidesDir).filter((f) => fs.statSync(path.join(guidesDir, f)).isDirectory());
+  } catch {}
+  return [...new Set([...GUIDE_SLUGS, ...found])];
 }
 
+// Spot pages are where most impressions come from (people searching a restaurant by name).
+// List editorial spots plus the curated core list; non-core spot pages are noindexed.
+
 /**
- * Hub-first sitemap. Spot detail URLs are limited to editorial entities
- * (Niloufer, Meridian, Shah Ghouse, etc.) — including every high-review spot would flood
- * GSC with 2k+ "Discovered – currently not indexed" URLs.
+ * Hub-first sitemap: hubs, rankings, guides, areas, categories, then editorial and core spots.
  */
 export default async function sitemap() {
   const siteUrl = getSiteUrl();
@@ -51,6 +61,8 @@ export default async function sitemap() {
     { url: `${siteUrl}/rankings`, lastModified: now, changeFrequency: "daily", priority: 0.95 },
     { url: `${siteUrl}/rankings/how-it-works`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/stories`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${siteUrl}/food-safety`, lastModified: now, changeFrequency: "daily", priority: 0.8 },
+    { url: `${siteUrl}/about`, lastModified: now, changeFrequency: "yearly", priority: 0.4 },
     { url: `${siteUrl}/explore`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteUrl}/areas`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     ...getGuideSlugs().map((slug) => ({
@@ -95,15 +107,12 @@ export default async function sitemap() {
     }));
   } catch {}
   try {
-    spotUrls = getEditorialSpotIds().map((id) => {
-      const e = getEateryById(id);
-      return {
-      url: `${siteUrl}/spot/${e ? spotSlug(e) : id}`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.85,
-    };
-    });
+    const editorial = getEditorialSpotIds().map((id) => getEateryById(id)).filter(Boolean);
+    const popular = getEateries().filter((e) => e.core); // curated core list (lib/coreSpots.js)
+    spotUrls = [
+      ...editorial.map((e) => ({ url: `${siteUrl}/spot/${spotSlug(e)}`, lastModified: now, changeFrequency: "weekly", priority: 0.85 })),
+      ...popular.map((e) => ({ url: `${siteUrl}/spot/${spotSlug(e)}`, lastModified: now, changeFrequency: "monthly", priority: 0.6 })),
+    ];
   } catch {}
 
   const themeSlugs = new Set(themes.map((t) => t.slug));

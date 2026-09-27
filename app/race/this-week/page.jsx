@@ -27,8 +27,8 @@ export async function generateMetadata() {
     live = null;
   }
   const title = live
-    ? `${live.title}, Vote This Week | Hyderabad Eats`
-    : "This Week's Food Challenge | Hyderabad Eats";
+    ? `Vote: ${live.title}`
+    : "This Week's Food Challenge";
   const description = live
     ? `Vote for ${live.title.toLowerCase()} on Hyderabad Eats. Previous weeks stay open too.`
     : "Vote in this week's Hyderabad food challenge.";

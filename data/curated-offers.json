@@ -1,0 +1,122 @@
+{
+  "updatedAt": "2026-09-27T17:45:00.000Z",
+  "totalSpotsWithOffers": 6,
+  "spots": {
+    "ChIJDX3wkpWTyzsR5ukjsiQCMqM": {
+      "name": "AB's - Absolute Barbecues Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/abs-absolute-barbecues-gachibowli",
+        "hasOffers": true,
+        "offers": [
+          { "type": "PRE_BOOK", "title": "Flat 15% OFF", "desc": "Valid from 12PM to 6PM Booking required" },
+          { "type": "INSTANT", "title": "FLAT ₹175 OFF", "desc": "Valid on dining bill payment" },
+          { "type": "BANK", "title": "25% OFF up to ₹5,000", "desc": "Using RBL Bank LUMIÈRE Credit Card" },
+          { "type": "SURPRISE", "title": "Scratch Card", "desc": "Get a scratch card after every transaction" }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/gachibowli/ab-s-absolute-barbecues-1214329/dineout",
+        "hasOffers": true,
+        "offers": [
+          { "type": "FLAT", "title": "Flat 10% OFF", "desc": "On total dining bill" },
+          { "type": "PROMO", "title": "Flat ₹200 OFF", "desc": "Promotional Dineout voucher" },
+          { "type": "CASHBACK", "title": "10% Cashback", "desc": "On bill payment with Swiggy Dineout Pay" }
+        ]
+      }
+    },
+    "ChIJRyiuPoSUyzsR0B5Nj-I8Qlw": {
+      "name": "The Fisherman's Wharf",
+      "district": {
+        "url": "https://www.zomato.com/hyderabad/the-fishermans-wharf-gachibowli",
+        "hasOffers": true,
+        "offers": [
+          { "type": "PRE_BOOK", "title": "Flat 15% OFF", "desc": "Valid from 12PM to 6PM Booking required" },
+          { "type": "INSTANT", "title": "FLAT ₹175 OFF", "desc": "Valid on dining bill payment" },
+          { "type": "BANK", "title": "25% OFF up to ₹5,000", "desc": "Using RBL Bank LUMIÈRE Credit Card" }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/financial-district/the-fisherman-s-wharf-309469/dineout",
+        "hasOffers": true,
+        "offers": [
+          { "type": "FLAT", "title": "Flat 10% OFF", "desc": "On total dining bill" },
+          { "type": "PROMO", "title": "Flat ₹200 OFF", "desc": "Promotional Dineout voucher" },
+          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Swiggy Dineout Pay" }
+        ]
+      }
+    },
+    "ChIJPU_G2E6RyzsRs95LdTHxZek": {
+      "name": "Prost",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/prost-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          { "type": "PRE_BOOK", "title": "Flat 15% OFF", "desc": "Pre-booking required on table reservations" },
+          { "type": "BANK", "title": "Up to 20% OFF", "desc": "Partner bank cards on District Dining" }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/prost-1214360/dineout",
+        "hasOffers": true,
+        "offers": [
+          { "type": "FLAT", "title": "Flat 10% OFF", "desc": "On Dineout Pay" },
+          { "type": "CASHBACK", "title": "5% Cashback", "desc": "On dining bills" }
+        ]
+      }
+    },
+    "ChIJI2gHHGCRyzsRKuii0hLcgvc": {
+      "name": "Rayalaseema Ruchulu",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/rayalaseema-ruchulu-hitech-city",
+        "hasOffers": true,
+        "offers": [
+          { "type": "PRE_BOOK", "title": "Flat 10% OFF", "desc": "Valid on table booking" },
+          { "type": "INSTANT", "title": "FLAT ₹100 OFF", "desc": "Instant bill discount" }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/city/hyderabad/rayalaseema-ruchulu-hitech-city-rest11091",
+        "hasOffers": true,
+        "offers": [
+          { "type": "FLAT", "title": "Flat 10% OFF", "desc": "On Dineout Pay" }
+        ]
+      }
+    },
+    "ChIJiW_I8MybyzsR2MQ9dAcRQ_I": {
+      "name": "Tatva Restaurant - Begumpet",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/tatva-begumpet",
+        "hasOffers": true,
+        "offers": [
+          { "type": "PRE_BOOK", "title": "Flat 10% OFF", "desc": "Pre-book pure veg dining" },
+          { "type": "BANK", "title": "Up to 15% OFF", "desc": "HDFC & ICICI card discount" }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/begumpet/tatva-restaurant-1214375/dineout",
+        "hasOffers": true,
+        "offers": [
+          { "type": "FLAT", "title": "Flat 10% OFF", "desc": "On total food bill" },
+          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Dineout Pay" }
+        ]
+      }
+    },
+    "ChIJ5yPU9O-XyzsRJYqhh-JcQHk": {
+      "name": "Cafe Niloufer Premium Lounge",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/cafe-niloufer-premium-lounge-banjara-hills",
+        "hasOffers": true,
+        "offers": [
+          { "type": "BANK", "title": "Up to 15% OFF", "desc": "Partner bank offers on District" }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/city/hyderabad/cafe-niloufer-banjara-hills-banjara-hills-rest228215",
+        "hasOffers": true,
+        "offers": [
+          { "type": "CASHBACK", "title": "Cashback Deals", "desc": "Available on select items" }
+        ]
+      }
+    }
+  }
+}

@@ -3,18 +3,25 @@
 import { useEffect, useRef, useState } from "react";
 import { TIERS } from "../../lib/eateryUtils.js";
 import { photoUrl } from "../../lib/spotlight.js";
-import { Icon, CategoryIcon, TierIcon } from "./Icons.jsx";
+import { Icon, CategoryIcon } from "./Icons.jsx";
 import { hasVoted } from "../../lib/voting.js";
 import { isNewSpot } from "../../lib/eateryUtils.js";
 import { isTrendingSpot } from "../../lib/trending.js";
 
-const CAT_COLOR = {
-  restaurant: "var(--restaurant)",
-  "restro-bar": "var(--restro-bar)",
-  cafe: "var(--cafe)",
-  bakery: "var(--bakery)",
-  "ice-cream": "var(--ice-cream)",
-  local: "var(--local)",
+const CAT_META = {
+  restaurant: { label: "Restaurant", color: "#9d2f4f" },
+  "restro-bar": { label: "Restro Bar", color: "#e2622a" },
+  cafe: { label: "Cafe", color: "#2f4fc4" },
+  bakery: { label: "Bakery", color: "#dfa43a" },
+  "ice-cream": { label: "Ice Cream", color: "#e0899e" },
+  local: { label: "Local Eats", color: "#2e8b6b" },
+};
+
+const PRICE_ESTIMATE = {
+  1: "₹200 for 2",
+  2: "₹500 for 2",
+  3: "₹1k for 2",
+  4: "₹1.8k+ for 2",
 };
 
 // A swipeable deck of the spotlighted spots. This is the findability fix:
@@ -26,9 +33,6 @@ export default function CardRail({
 }) {
   const railRef = useRef(null);
   const suppress = useRef(false);
-  // Uncontrolled by default (Map tab doesn't care), but the Route tab passes
-  // open/onOpenChange so page.jsx can hide its sort/expand row in lockstep
-  // instead of that row being orphaned when the rail collapses.
   const [openState, setOpenState] = useState(true);
   const open = openProp ?? openState;
   const setOpen = onOpenChange ?? setOpenState;
@@ -45,8 +49,6 @@ export default function CardRail({
   }, [activeId]);
 
   // Rail → map: whichever card is centred becomes the selection.
-  // Debounced to scroll-settle: firing on every scroll event caused a selection
-  // change (and a map repaint) per frame, which is what made scrolling janky.
   const settleTimer = useRef(null);
   const onScroll = () => {
     if (suppress.current || !railRef.current) return;
@@ -70,22 +72,27 @@ export default function CardRail({
 
   if (!spots.length) return null;
 
-  // Collapsed: just a small pill, tap to bring the rail back. Keeps the map
-  // fully clear when someone wants to look at pins without cards in the way.
+  // Collapsed: sleek frosted pill, tap to bring the rail back.
   if (!open) {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="material pressable-sm"
+        className="pressable-sm"
         style={{
           position: "absolute", left: 14, bottom: 14, zIndex: 900,
           display: "flex", alignItems: "center", gap: 6,
-          height: 38, padding: "0 14px 0 12px", border: "none",
-          borderRadius: "var(--r-pill)", boxShadow: "var(--e2)",
-          fontSize: 13, fontWeight: 700, color: "var(--ink)", cursor: "pointer",
+          height: 38, padding: "0 14px 0 12px",
+          border: "1px solid rgba(255,255,255,0.7)",
+          borderRadius: "var(--r-pill)",
+          background: "rgba(255, 255, 255, 0.8)",
+          backdropFilter: "blur(18px)",
+          WebkitBackdropFilter: "blur(18px)",
+          boxShadow: "0 8px 24px rgba(15,23,42,0.14)",
+          fontSize: 13, fontWeight: 700, color: "#0f172a", cursor: "pointer",
+          outline: "none", WebkitTapHighlightColor: "transparent",
         }}
       >
-        <Icon name="chevronDown" size={14} width={2.3} color="var(--ink-soft)" style={{ transform: "rotate(180deg)" }} />
+        <Icon name="chevronDown" size={14} width={2.3} color="#64748b" style={{ transform: "rotate(180deg)" }} />
         {spots.length} spot{spots.length === 1 ? "" : "s"}
       </button>
     );
@@ -93,309 +100,380 @@ export default function CardRail({
 
   return (
     <>
-
-      {/* Star of the week, hidden for now
-      {starOfWeek?.name && (
-        <div style={{
-          position: "absolute", left: 14, right: 14, bottom: 210,
-          zIndex: 901, background: "var(--cream-hi)", border: "1.5px solid var(--line)",
-          borderRadius: "var(--r-pill)", padding: "7px 12px", fontSize: 11.5, fontWeight: 600,
-          color: "var(--ink-soft)", boxShadow: "var(--e1)", display: "flex", alignItems: "center", gap: 6,
-        }}>
-          <Icon name="sparkle" size={13} width={2} color="var(--pop)" />
-          Star of the week: <span style={{ color: "var(--ink)", fontWeight: 700 }}>{starOfWeek.name}</span>
-        </div>
-      )}
-      */}
-
-    <button
-      onClick={() => setOpen(false)}
-      aria-label="Hide cards"
-      className="material pressable-sm"
-      style={{
-        // Left side, deliberately: the right column at this height is the
-        // city-view/locate FABs (page.jsx), which sit at a higher z-index.
-        position: "absolute", left: 14, bottom: 204, zIndex: 901,
-        width: 34, height: 34, border: "none", borderRadius: "50%",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        boxShadow: "var(--e2)", cursor: "pointer",
-      }}
-    >
-      <Icon name="chevronDown" size={15} width={2.3} color="var(--ink-soft)" />
-    </button>
-
-    <div
-      ref={railRef}
-      onScroll={onScroll}
-      className="chip-rail"
-      style={{
-        position: "absolute", left: 0, right: 0, bottom: 0,
-        padding: "0 14px 14px",
-        gap: 10,
-        scrollSnapType: "x mandatory",
-        zIndex: 900,
-      }}
-    >
-      {spots.map((e) => {
-        const active = e.id === activeId;
-        const color = CAT_COLOR[e.category] ?? "var(--muted)";
-        const collected = !!passport.visited[e.id];
-        const voteCount = voteMap[e.id]?.total || 0;
-        const voted = hasVoted(e.id);
-        const distKm = distMap[e.id] ?? null;
-        const pick = picksMap[e.id];
-        return (
-          <div
-            key={e.id}
-            data-id={e.id}
-            role="button"
-            tabIndex={0}
-            onClick={() => (active ? onOpen?.(e.id) : onActivate(e.id))}
-            onKeyDown={(ev) => ev.key === "Enter" && (active ? onOpen?.(e.id) : onActivate(e.id))}
-            style={{
-              position: "relative",
-              width: 210,
-              height: 190,
-              scrollSnapAlign: "center",
-              // Category-tinted ground shows through if a photo fails to load,
-              // so a broken image reads as a coloured card, never a blank hole.
-              background: `linear-gradient(150deg, ${color} 0%, var(--ink) 130%)`,
-              border: "none",
-              borderRadius: "var(--r-lg)",
-              padding: 0,
-              overflow: "hidden",
-              cursor: "pointer",
-              textAlign: "left",
-              // Selection is elevation and emphasis, no coloured ring. An
-              // accent outline around an already-colourful photo reads as glow,
-              // not focus; letting the unselected cards recede is cleaner.
-              boxShadow: active ? "var(--e3)" : "var(--e1)",
-              opacity: active ? 1 : 0.86,
-              transform: active ? "translateY(-6px)" : "scale(0.955)",
-              transformOrigin: "bottom center",
-              transition:
-                "transform .36s cubic-bezier(.2,0,0,1), box-shadow .3s ease, opacity .3s ease",
-            }}
-          >
-            <img
-              src={photoUrl(e.id)}
-              alt=""
-              loading="lazy"
-              onError={(ev) => { ev.currentTarget.style.display = "none"; }}
-              style={{
-                position: "absolute", inset: 0,
-                width: "100%", height: "100%", objectFit: "cover", display: "block",
-                filter: active ? "none" : "saturate(0.92)",
-              }}
-            />
-            {featuredIds?.has(e.id) && (
-              <span style={{
-                position: "absolute", top: 8, right: 8, zIndex: 2,
-                background: "var(--pop)", color: "#fff", fontSize: 10, fontWeight: 800,
-                letterSpacing: "0.03em", padding: "3px 7px", borderRadius: 20,
-                boxShadow: "0 2px 6px rgba(38,48,92,0.28)",
-              }}>★ Story</span>
-            )}
-            {/* Full-height scrim: dark and dense at the foot for text, clearing
-                to nothing by the midline so the photo still breathes up top. */}
-            <div
-              style={{
-                position: "absolute", inset: 0,
-                background:
-                  "linear-gradient(to top, rgba(24,28,54,0.9) 0%, rgba(24,28,54,0.55) 26%, rgba(24,28,54,0) 58%)",
-              }}
-            />
-
-            {/* Top row, category / collected on the left, rating on the right */}
-            <div style={{ position: "absolute", top: 9, left: 9, right: 9, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6 }}>
-              {collected ? (
-                <span
-                  style={{
-                    background: "var(--pop)", color: "#fff",
-                    borderRadius: "var(--r-pill)", padding: "3px 9px 3px 7px",
-                    fontSize: 10, fontWeight: 700, letterSpacing: "0.01em",
-                    display: "flex", alignItems: "center", gap: 4,
-                    boxShadow: "0 2px 6px rgba(184,72,26,0.35)",
-                  }}
-                >
-                  <Icon name="check" size={11} width={3} /> Collected
-                </span>
-              ) : (
-                <span
-                  style={{
-                    background: "rgba(24,28,54,0.42)",
-                    backdropFilter: "blur(6px)",
-                    color: "#fff",
-                    borderRadius: "var(--r-pill)", padding: "4px 9px 4px 7px",
-                    fontSize: 10, fontWeight: 700, letterSpacing: "0.02em",
-                    textTransform: "capitalize",
-                    display: "flex", alignItems: "center", gap: 4,
-                  }}
-                >
-                  <span style={{ display: "flex", width: 13, height: 13, borderRadius: "50%", background: color, alignItems: "center", justifyContent: "center" }}>
-                    <CategoryIcon category={e.category} size={9} width={2.4} color="#fff" />
-                  </span>
-                  {(e.category ?? "").replace("-", " ")}
-                </span>
-              )}
-              <span
-                style={{
-                  background: "rgba(253,248,238,0.94)",
-                  backdropFilter: "blur(8px)",
-                  borderRadius: "var(--r-pill)",
-                  padding: "3px 8px", fontSize: 11.5, fontWeight: 800,
-                  color: "var(--ink)",
-                  display: "flex", alignItems: "center", gap: 3,
-                  boxShadow: "0 2px 6px rgba(24,28,54,0.2)",
-                }}
-              >
-                <Icon name="star" size={11} width={2.3} color="var(--pop)" /> {e.rating ?? ", "}
-              </span>
-            </div>
-
-            {/* "What to order" pick, a small hand-picked subset of spots only.
-                Sits under the top row, left-aligned, out of the vote button's way. */}
-            {pick && (
-              <div
-                style={{
-                  position: "absolute", top: 37, left: 9,
-                  display: "flex", alignItems: "center", gap: 4,
-                  background: "rgba(91,33,182,0.82)",
-                  backdropFilter: "blur(6px)",
-                  borderRadius: "var(--r-pill)",
-                  padding: "3px 9px 3px 7px",
-                  maxWidth: "calc(100% - 18px)",
-                  overflow: "hidden",
-                }}
-              >
-                <Icon name="utensils" size={10} width={2.4} color="#fff" style={{ flexShrink: 0 }} />
-                <span
-                  style={{
-                    fontSize: 10, fontWeight: 700, color: "#fff",
-                    whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
-                  }}
-                >
-                  {pick.dishes}
-                  {pick.curator ? <span style={{ fontWeight: 500, opacity: 0.8 }}>, {pick.curator}</span> : null}
-                </span>
-              </div>
-            )}
-
-            {/* Vote button, floats above the foot, right-aligned */}
-            <button
-              onClick={(ev) => { ev.stopPropagation(); onVote?.(e.id); }}
-              style={{
-                position: "absolute", right: 9, bottom: 55,
-                background: voted ? "var(--violet)" : "rgba(253,248,238,0.9)",
-                backdropFilter: "blur(8px)",
-                border: "none", borderRadius: "var(--r-pill)",
-                padding: "4px 9px 4px 7px",
-                display: "flex", alignItems: "center", gap: 4,
-                fontSize: 11, fontWeight: 700,
-                color: voted ? "#fff" : "var(--ink)",
-                cursor: "pointer",
-                boxShadow: "0 2px 6px rgba(24,28,54,0.22)",
-                zIndex: 2,
-              }}
-            >
-              <Icon name="heart" size={11} width={voted ? 0 : 2} color={voted ? "#fff" : "var(--restro-bar)"} />
-              {voteCount > 0 ? voteCount : "Vote"}
-            </button>
-
-
-            {(isNewSpot(e.createdAt) || isTrendingSpot(e.n ?? e.name)) && (
-              <div style={{ position: "absolute", top: 10, left: 10, display: "flex", gap: 5, zIndex: 2 }}>
-                {isNewSpot(e.createdAt) && (
-                  <span style={{ background: "var(--pop)", color: "#fff", fontSize: 9.5, fontWeight: 800, padding: "3px 7px", borderRadius: "var(--r-pill)", letterSpacing: "0.06em" }}>NEW</span>
-                )}
-                {isTrendingSpot(e.n ?? e.name) && (
-                  <span style={{ background: "var(--violet)", color: "#fff", fontSize: 9.5, fontWeight: 800, padding: "3px 7px", borderRadius: "var(--r-pill)", letterSpacing: "0.06em" }}>TRENDING</span>
-                )}
-              </div>
-            )}
-
-            {/* Foot, name over the scrim, then tier · review count */}
-            <div style={{ position: "absolute", left: 12, right: 12, bottom: 11 }}>
-              <div
-                style={{
-                  fontFamily: "Fraunces, serif",
-                  fontSize: 16,
-                  fontWeight: 600,
-                  lineHeight: 1.18,
-                  letterSpacing: "-0.014em",
-                  color: "#fff",
-                  textShadow: "0 1px 8px rgba(0,0,0,0.4)",
-                  display: "-webkit-box",
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                }}
-              >
-                {e.n ?? e.name}
-              </div>
-              <div
-                style={{
-                  marginTop: 4,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 5,
-                  fontSize: 11,
-                  color: "rgba(255,255,255,0.82)",
-                  fontWeight: 600,
-                  letterSpacing: "0.01em",
-                }}
-              >
-                {TIERS[e.tier] ? (
-                  <span>
-                    {TIERS[e.tier].label}
-                    <span style={{ color: "rgba(255,255,255,0.62)", fontWeight: 500 }}> · +{TIERS[e.tier].points} pts</span>
-                  </span>
-                ) : null}
-                {e.ratingCount ? (
-                  <span style={{ whiteSpace: "nowrap", color: "rgba(255,255,255,0.62)", fontWeight: 500 }}>
-                    {TIERS[e.tier] ? "· " : ""}
-                    {e.ratingCount.toLocaleString("en-IN")} reviews
-                  </span>
-                ) : null}
-                {distKm != null && (
-                  <span style={{ whiteSpace: "nowrap", color: "rgba(255,255,255,0.75)", fontWeight: 500 }}>
-                    · {distKm < 1 ? `${Math.round(distKm * 1000)}m` : `${distKm.toFixed(1)}km`}
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-        );
-      })}
-
-      {/* End of the rail. Without this the last card just stops, which reads as
-          a loading failure rather than "you've seen this area". */}
-      <div
+      <button
+        onClick={() => setOpen(false)}
+        aria-label="Hide cards"
+        className="pressable-sm"
         style={{
-          width: 176,
-          scrollSnapAlign: "center",
-          borderRadius: "var(--r-lg)",
-          background: "rgba(38,48,92,0.04)",
-          border: "1.5px dashed var(--line)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 9,
-          padding: "18px 16px",
-          textAlign: "center",
-          alignSelf: "stretch",
+          position: "absolute", left: 14, bottom: 218, zIndex: 901,
+          width: 32, height: 32,
+          border: "1px solid rgba(255,255,255,0.7)",
+          borderRadius: "50%",
+          background: "rgba(255, 255, 255, 0.8)",
+          backdropFilter: "blur(18px)",
+          WebkitBackdropFilter: "blur(18px)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          boxShadow: "0 4px 14px rgba(15,23,42,0.12)", cursor: "pointer",
+          outline: "none", WebkitTapHighlightColor: "transparent",
         }}
       >
-        <Icon name="map" size={22} width={1.6} color="var(--muted)" />
-        <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 13.5, lineHeight: 1.3, color: "var(--ink-soft)" }}>
-          That&apos;s this pocket
-        </div>
-        <div style={{ fontSize: 11.5, lineHeight: 1.35, color: "var(--muted)", fontWeight: 500 }}>
-          Drag the map to turn up somewhere new
+        <Icon name="chevronDown" size={14} width={2.3} color="#64748b" />
+      </button>
+
+      <div
+        ref={railRef}
+        onScroll={onScroll}
+        className="chip-rail"
+        style={{
+          position: "absolute", left: 0, right: 0, bottom: 0,
+          padding: "0 14px 14px",
+          gap: 12,
+          scrollSnapType: "x mandatory",
+          zIndex: 900,
+        }}
+      >
+        {spots.map((e) => {
+          const active = e.id === activeId;
+          const cat = CAT_META[e.c ?? e.category] ?? CAT_META.cafe;
+          const collected = !!passport?.visited?.[e.id];
+          const voteCount = voteMap[e.id]?.total || 0;
+          const voted = hasVoted(e.id);
+          const distKm = distMap[e.id] ?? null;
+          const name = e.n ?? e.name;
+          const area = e.a ?? e.discoveredIn;
+          const rating = e.r ?? e.rating;
+          const ratingCount = e.rc ?? e.ratingCount;
+          const tier = TIERS[e.t ?? e.tier];
+          const priceLevel = e.p ?? e.priceLevel;
+
+          const formattedReviews = ratingCount
+            ? ratingCount >= 1000
+              ? `${(ratingCount / 1000).toFixed(ratingCount >= 10000 ? 0 : 1).replace(/\.0$/, "")}k+`
+              : `${ratingCount}`
+            : voteCount > 0
+            ? `${voteCount} votes`
+            : "Popular";
+
+          const costLabel = e.costForTwo
+            ? `₹${e.costForTwo} for 2`
+            : PRICE_ESTIMATE[priceLevel] ?? "₹₹";
+
+          return (
+            <div
+              key={e.id}
+              data-id={e.id}
+              role="button"
+              tabIndex={0}
+              onClick={() => (active ? onOpen?.(e.id) : onActivate(e.id))}
+              onKeyDown={(ev) => ev.key === "Enter" && (active ? onOpen?.(e.id) : onActivate(e.id))}
+              style={{
+                position: "relative",
+                width: 232,
+                height: 206,
+                scrollSnapAlign: "center",
+                // Frosted Glass Aesthetic
+                background: "rgba(255, 255, 255, 0.76)",
+                backdropFilter: "blur(20px) saturate(180%)",
+                WebkitBackdropFilter: "blur(20px) saturate(180%)",
+                border: active ? "1.5px solid rgba(255, 255, 255, 0.95)" : "1px solid rgba(255, 255, 255, 0.55)",
+                borderRadius: 22,
+                overflow: "hidden",
+                cursor: "pointer",
+                textAlign: "left",
+                // Pure neutral elevation: NO color outline or colored border ring
+                boxShadow: active
+                  ? "0 18px 42px -6px rgba(15, 23, 42, 0.22), 0 4px 12px rgba(0, 0, 0, 0.04)"
+                  : "0 4px 16px rgba(15, 23, 42, 0.08)",
+                opacity: active ? 1 : 0.9,
+                transform: active ? "translateY(-6px)" : "scale(0.96)",
+                transformOrigin: "bottom center",
+                transition: "transform .32s cubic-bezier(.2,0,0,1), box-shadow .25s ease, opacity .25s ease",
+                display: "flex",
+                flexDirection: "column",
+                outline: "none",
+                WebkitTapHighlightColor: "transparent",
+                userSelect: "none",
+                WebkitTouchCallout: "none",
+              }}
+            >
+              {/* Top Half: Photo Frame with Badges */}
+              <div
+                style={{
+                  height: 104,
+                  position: "relative",
+                  background: cat.color,
+                  backgroundColor: "#1e243d",
+                  overflow: "hidden",
+                }}
+              >
+                <img
+                  src={photoUrl(e.id)}
+                  alt=""
+                  loading="lazy"
+                  onError={(ev) => { ev.currentTarget.style.display = "none"; }}
+                  style={{
+                    position: "absolute", inset: 0,
+                    width: "100%", height: "100%", objectFit: "cover", display: "block",
+                    filter: active ? "none" : "saturate(0.95)",
+                  }}
+                />
+
+                {/* Scrim Overlay */}
+                <div
+                  style={{
+                    position: "absolute", inset: 0,
+                    background: "linear-gradient(to bottom, rgba(15,23,42,0.45) 0%, rgba(15,23,42,0) 45%, rgba(15,23,42,0.3) 100%)",
+                  }}
+                />
+
+                {/* Top Badges (Story / New / Trending) */}
+                <div style={{ position: "absolute", top: 8, left: 8, display: "flex", gap: 5, zIndex: 2 }}>
+                  {featuredIds?.has(e.id) && (
+                    <span style={{
+                      background: "rgba(226, 98, 42, 0.95)", color: "#fff", fontSize: 9.5, fontWeight: 800,
+                      letterSpacing: "0.04em", padding: "2.5px 7px", borderRadius: 999,
+                      boxShadow: "0 2px 6px rgba(0,0,0,0.25)",
+                    }}>★ Story</span>
+                  )}
+                  {isNewSpot(e.ca ?? e.createdAt) && !featuredIds?.has(e.id) && (
+                    <span style={{ background: "#e2622a", color: "#fff", fontSize: 9, fontWeight: 800, padding: "2.5px 6px", borderRadius: 999 }}>NEW</span>
+                  )}
+                  {isTrendingSpot(name) && !featuredIds?.has(e.id) && (
+                    <span style={{ background: "#1e243d", color: "#fff", fontSize: 9, fontWeight: 800, padding: "2.5px 6px", borderRadius: 999 }}>TRENDING</span>
+                  )}
+                </div>
+
+                {/* Rating Badge (Top Right) */}
+                <span
+                  style={{
+                    position: "absolute", top: 8, right: 8, zIndex: 2,
+                    background: "rgba(255, 255, 255, 0.92)",
+                    backdropFilter: "blur(8px)",
+                    WebkitBackdropFilter: "blur(8px)",
+                    borderRadius: 999,
+                    padding: "2.5px 8px", fontSize: 11, fontWeight: 800,
+                    color: "#0f172a",
+                    display: "flex", alignItems: "center", gap: 3,
+                    boxShadow: "0 2px 6px rgba(0,0,0,0.16)",
+                  }}
+                >
+                  <span style={{ color: "#f59e0b", fontSize: 11 }}>★</span> {rating != null ? Number(rating).toFixed(1) : "—"}
+                </span>
+
+                {/* Distance Badge (Bottom Right on Photo) */}
+                {distKm != null && (
+                  <span
+                    style={{
+                      position: "absolute", bottom: 6, right: 8, zIndex: 2,
+                      background: "rgba(15, 23, 42, 0.65)",
+                      backdropFilter: "blur(6px)",
+                      WebkitBackdropFilter: "blur(6px)",
+                      color: "#ffffff",
+                      borderRadius: 999,
+                      padding: "2px 7px", fontSize: 10, fontWeight: 600,
+                    }}
+                  >
+                    {distKm < 1 ? `${Math.round(distKm * 1000)}m` : `${distKm.toFixed(1)}km`}
+                  </span>
+                )}
+              </div>
+
+              {/* Bottom Half: Frosted Card Body with Overlapping Emblem */}
+              <div
+                style={{
+                  flex: 1,
+                  padding: "9px 12px 10px",
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  background: "rgba(255, 255, 255, 0.65)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                }}
+              >
+                {/* Overlapping Category Emblem */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: -19,
+                    left: 12,
+                    width: 38,
+                    height: 38,
+                    borderRadius: "50%",
+                    background: "#ffffff",
+                    boxShadow: "0 4px 12px rgba(15, 23, 42, 0.14)",
+                    padding: 2.5,
+                    boxSizing: "border-box",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 3,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: "50%",
+                      background: `linear-gradient(135deg, ${cat.color}15 0%, ${cat.color}25 100%)`,
+                      border: `1px solid ${cat.color}35`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <CategoryIcon category={e.c ?? e.category} size={18} width={2} color={cat.color} />
+                  </div>
+
+                  {/* Live Status Dot */}
+                  <span
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      right: 0,
+                      width: 10,
+                      height: 10,
+                      borderRadius: "50%",
+                      background: "#10b981",
+                      border: "2px solid #ffffff",
+                      boxShadow: "0 0 4px rgba(16,185,129,0.5)",
+                    }}
+                  />
+                </div>
+
+                {/* Top Row: Collected status or Vote Button */}
+                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", minHeight: 22 }}>
+                  {collected ? (
+                    <span
+                      style={{
+                        background: "rgba(240, 253, 244, 0.9)",
+                        color: "#15803d",
+                        border: "1px solid #bbf7d0",
+                        borderRadius: 999,
+                        padding: "2px 7px",
+                        fontSize: 10,
+                        fontWeight: 700,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 3,
+                      }}
+                    >
+                      <Icon name="check" size={10} width={2.5} color="#15803d" /> Collected
+                    </span>
+                  ) : (
+                    <button
+                      onClick={(ev) => { ev.stopPropagation(); onVote?.(e.id); }}
+                      style={{
+                        background: voted ? "#1e243d" : "rgba(255, 255, 255, 0.8)",
+                        border: `1px solid ${voted ? "#1e243d" : "rgba(0,0,0,0.08)"}`,
+                        borderRadius: 999,
+                        padding: "2.5px 8px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 3.5,
+                        fontSize: 10.5,
+                        fontWeight: 700,
+                        color: voted ? "#fff" : "#475569",
+                        cursor: "pointer",
+                        outline: "none",
+                        WebkitTapHighlightColor: "transparent",
+                      }}
+                    >
+                      <Icon name="heart" size={10} width={voted ? 0 : 2} color={voted ? "#fff" : "#e2622a"} />
+                      {voteCount > 0 ? voteCount : "Vote"}
+                    </button>
+                  )}
+                </div>
+
+                {/* Restaurant Name & Subtitle */}
+                <div style={{ marginTop: 2 }}>
+                  <div
+                    style={{
+                      fontSize: 14.5,
+                      fontWeight: 700,
+                      fontFamily: "var(--font-outfit), sans-serif",
+                      letterSpacing: "-0.015em",
+                      lineHeight: 1.22,
+                      color: "#0f172a",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {name}
+                  </div>
+                  <div
+                    style={{
+                      marginTop: 2,
+                      fontSize: 11.5,
+                      color: "#64748b",
+                      fontWeight: 500,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {cat.label} · {area || "Hyderabad"}{tier ? ` · ${tier.label}` : ""}
+                  </div>
+                </div>
+
+                {/* Micro Stats Strip at Foot */}
+                <div
+                  style={{
+                    marginTop: 6,
+                    paddingTop: 5,
+                    borderTop: "1px solid rgba(0,0,0,0.06)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    fontSize: 11,
+                    color: "#64748b",
+                  }}
+                >
+                  <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                    {formattedReviews} · <strong style={{ color: "#0f172a", fontWeight: 700 }}>{costLabel}</strong>
+                  </span>
+                  {active ? (
+                    <span style={{ color: "#0f172a", fontWeight: 700, fontSize: 10.5, whiteSpace: "nowrap" }}>
+                      Open card →
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+
+        {/* End of the Rail Card (Frosted Glass) */}
+        <div
+          style={{
+            width: 176,
+            scrollSnapAlign: "center",
+            borderRadius: 22,
+            background: "rgba(255, 255, 255, 0.6)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            border: "1.5px dashed rgba(100, 116, 139, 0.4)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8,
+            padding: "18px 16px",
+            textAlign: "center",
+            alignSelf: "stretch",
+          }}
+        >
+          <Icon name="map" size={20} width={1.8} color="#64748b" />
+          <div style={{ fontWeight: 700, fontSize: 13, color: "#334155" }}>
+            That&apos;s this area
+          </div>
+          <div style={{ fontSize: 11, color: "#64748b", lineHeight: 1.35 }}>
+            Pan the map to explore another pocket
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 }

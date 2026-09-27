@@ -4,9 +4,21 @@
     {
       "name": "eats",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 3000,
       "autoPort": true
+    },
+    {
+      "name": "eats-prod",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "node scripts/build-static.mjs && npx next build && npx next start -p 3107"
+      ],
+      "port": 3107
     }
   ]
 }

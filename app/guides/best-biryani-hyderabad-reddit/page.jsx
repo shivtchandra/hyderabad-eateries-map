@@ -7,9 +7,9 @@ import BottomNav from "../../components/BottomNav.jsx";
 import BackButton from "../../components/BackButton.jsx";
 
 const SLUG = "/guides/best-biryani-hyderabad-reddit";
-const TITLE = "Best Biryani in Hyderabad (2026): The Real Local Consensus";
+const TITLE = "Best Biryani in Hyderabad: Reddit Local Picks";
 const DESCRIPTION =
-  "The authentic, unfiltered guide to Hyderabad's best biryani: Shadab, The Nawaabs, Chicha's, Peshawar, Meridian, and Shah Ghouse — with spice levels, meat cuts, and peak fresh batch timings.";
+  "The authentic, unfiltered guide to Hyderabad's best biryani: Shadab, The Nawaabs, Chicha's, Peshawar, Meridian, and Shah Ghouse, with spice levels, meat cuts, and peak fresh batch timings.";
 
 export const metadata = {
   ...pageMeta({ title: TITLE, description: DESCRIPTION, path: SLUG }),

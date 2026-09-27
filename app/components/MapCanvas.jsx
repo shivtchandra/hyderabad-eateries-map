@@ -22,7 +22,7 @@ const CAT_COLOR = {
 // everything else stays a dot, so quality is visible instead of buried.
 export default function MapCanvas({
   eateries, filtered, passport, selectedId, featuredIds,
-  onSelect, onAreaEnter, onHeroesChange, onZoomChange, routeLine = null, heroCap = 120,
+  onSelect, onAreaEnter, onHeroesChange, onZoomChange, routeLine = null, heroCap = 120, poolSize,
   pickMode = false, onPick, pickedPoint = null,
 }) {
   const containerRef = useRef(null);
@@ -35,6 +35,7 @@ export default function MapCanvas({
   const pickLayerRef = useRef(null);
   const [ready, setReady] = useState(false);
   const [viewTick, setViewTick] = useState(0);
+  const fixedHeroes = useRef({ key: "", ids: new Set() }); // photo-pin set, fixed per working set
 
   // Kept as refs (not state), the map's own 'click' listener is registered
   // once in the init effect below and must read the latest values without
@@ -208,7 +209,7 @@ export default function MapCanvas({
     // everything. Filtered sets are small, so the neighbourhood-blob view (which
     // forces a zoom-in to see anything) just gets in the way, skip straight to
     // individual spots and, below, show every match instead of a ranked few.
-    const filterActive = filtered.length < eateries.length;
+    const filterActive = filtered.length < (poolSize ?? eateries.length);
 
     // ---------- Neighbourhood view ----------
     if (zoom <= AREA_ZOOM_MAX && !filterActive) {
@@ -278,49 +279,32 @@ export default function MapCanvas({
       east: b.getEast(),
       west: b.getWest(),
     };
-    // Size the grid cell so the number of cells on screen lands near the target
-    // pin count. Sizing the cell rather than truncating a ranked list is what
-    // keeps the set stable: with no cut-off, panning can't push a spot over the
-    // edge of a limit and make it vanish.
-    const viewport = map.getSize();
-    const usableH = Math.max(viewport.y - RAIL_PX, 200);
-    const target = Math.max(12, Math.min(zoom > 15.5 ? 34 : 26,
-      Math.round((viewport.x * usableH) / 42000)));
-
-    const cellArea = (viewport.x * usableH) / target;
-    // Wider than tall, labels run sideways, so horizontal room matters more.
-    const cellW = Math.max(124, Math.sqrt(cellArea * 1.5));
-    const cellH = Math.max(94, cellArea / cellW);
-
-    // Convert that pixel cell into degrees at the current zoom.
-    const c = map.getCenter();
-    const origin = map.latLngToContainerPoint(c);
-    const corner = map.containerPointToLatLng([origin.x + cellW, origin.y + cellH]);
-    const cellLng = Math.abs(corner.lng - c.lng) || 0.002;
-    const cellLat = Math.abs(corner.lat - c.lat) || 0.002;
-
-    let { heroes, rest } = spotlight(filtered, bounds, {
-      cellLat, cellLng,
-      // Part of the cache key: a different filter is a different hero set.
-      filterKey: `${filtered.length}:${filtered[0]?.id ?? ""}`,
-    });
-
-    // With a filter on, the user wants to see *all* the matches in view, not a
-    // spread-out ranked subset with the rest demoted to dots they have to hunt
-    // for. If a reasonable number are visible, promote every one to a full pin;
-    // above the cap, rank by score and only promote the top slice, the rest
-    // stay dots, so a dense result (e.g. a route through a packed corridor)
-    // doesn't paint an unreadable pile of overlapping photo cards.
-    if (filterActive) {
-      const inFull = (e) =>
-        e.lat >= b.getSouth() && e.lat <= b.getNorth() &&
-        e.lng >= b.getWest() && e.lng <= b.getEast();
-      const visMatches = filtered.filter(inFull).sort((x, y) => scoreOf(y) - scoreOf(x));
-      if (visMatches.length) {
-        heroes = visMatches.slice(0, heroCap);
-        rest = visMatches.slice(heroCap);
+    // ---- Fixed photo pins ----
+    // Pins used to be re-picked on every zoom/pan, so spots kept popping in and out.
+    // Now the hero set is chosen once per working set (filter / area / route): the best
+    // spot in each ~1.5 km patch of the city. Zooming and panning only reveal or hide
+    // those same pins; everything else stays a tappable dot.
+    const fixedKey = `${filtered.length}:${filtered[0]?.id ?? ""}:${filtered[filtered.length - 1]?.id ?? ""}`;
+    if (fixedHeroes.current.key !== fixedKey) {
+      const CELL = 0.007; // ~750 m at Hyderabad latitude
+      const best = new Map();
+      for (const e of filtered) {
+        const k = `${Math.floor(e.lat / CELL)}:${Math.floor(e.lng / CELL)}`;
+        const cur = best.get(k);
+        if (!cur || scoreOf(e) > scoreOf(cur)) best.set(k, e);
       }
+      fixedHeroes.current = { key: fixedKey, ids: new Set([...best.values()].map((e) => e.id)) };
     }
+    const inBounds = (e) => e.lat >= bounds.south && e.lat <= bounds.north && e.lng >= bounds.west && e.lng <= bounds.east;
+    const visible = filtered.filter(inBounds);
+    // Street level: every spot in view is a photo pin (no dots). Further out, only the fixed set.
+    const ALL_PINS_ZOOM = 15;
+    const allPins = zoom >= ALL_PINS_ZOOM;
+    let heroes = (allPins ? visible : visible.filter((e) => fixedHeroes.current.ids.has(e.id)))
+      .sort((x, y) => scoreOf(y) - scoreOf(x)).slice(0, allPins ? 400 : heroCap);   // 400: DOM safety cap
+    const heroIds = new Set(heroes.map((e) => e.id));
+    let rest = visible.filter((e) => !heroIds.has(e.id));
+    const target = heroes.length, cellW = 0, cellH = 0, cellLat = 0.0135, cellLng = 0.0135;
 
     // An exact search result must never disappear into the dot layer just because
     // another nearby spot won the ranking cell. Selection overrides ranking.
@@ -416,7 +400,7 @@ export default function MapCanvas({
         if (e.id === selectedIdRef.current) el.classList.add("active");
       }
     }
-  }, [ready, eateries, filtered, passport, selectedId, featuredIds, viewTick, onSelect, onAreaEnter, onHeroesChange, heroCap]);
+  }, [ready, eateries, filtered, passport, selectedId, featuredIds, viewTick, onSelect, onAreaEnter, onHeroesChange, heroCap, poolSize]);
 
   return <div ref={containerRef} style={{ position: "absolute", inset: 0 }} />;
 }

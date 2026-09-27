@@ -5,7 +5,7 @@ import { SiteNav, SiteBreadcrumb, SiteFooter, SiteRelated } from "../../componen
 import { photoPathToCdn, spotPhotoUrl } from "../../../lib/photos.js";
 
 const SLUG = "/guides/restaurants-in-sattva-knowledge-city-hyderabad";
-const TITLE = "Complete Restaurant Guide: Sattva Knowledge City, Knowledge Park, THE LOFT & RMZ Nexity";
+const TITLE = "Restaurants in Sattva Knowledge City (2026)";
 const DESCRIPTION =
   "Every restaurant, cafe, bar and brewery across Sattva Knowledge City, Sattva Knowledge Park, THE LOFT and RMZ Nexity in Hyderabad, plus standalone spots around Raidurg and Hi-Tech City.";
 
@@ -237,7 +237,7 @@ function PullQuote({ children }) {
 // Venues data
 
 const SATTVA_KC_DINING = [
-  { name: "Monastery", note: "Global cuisine and brewery", tag: "Brewery", photo: "https://curlytales.com/wp-content/uploads/2023/04/Monastery.jpg" },
+  { name: "Monastery Amphi Brewery", note: "Global cuisine & brewery (⚠️ FSSAI licence suspended Sept 2026 by TG SAFE)", tag: "Brewery", photo: "https://curlytales.com/wp-content/uploads/2023/04/Monastery.jpg" },
   { name: "Burma Burma Restaurant & Tea Room", note: "Burmese, pure vegetarian", tag: "Vegetarian", href: "/spot/burma-burma-restaurant-and-tea-room-madhapur", photo: "/photos/ChIJ5RcVE9uTyzsRdC6egQ0Chgs.jpg" },
   { name: "Toscano", note: "Italian", tag: "Italian", photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSatJIuTbaPUFuUKdbk1m2iZ4ubB2ZLz3GCONP_1xkwbA&s=10" },
   { name: "Margerita By The Window", note: "Italian", tag: "Italian", photo: "https://dineout-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/DINEOUT_ALL_RESTAURANTS/IMAGES/RESTAURANT_IMAGE_SERVICE/2025/4/3/ffe81aeb-65c6-43a9-8301-e6ae4b4b7a9e_imageDownload512239654c4c448dbb336bfb2c239b0d1.PNG" },
@@ -245,7 +245,9 @@ const SATTVA_KC_DINING = [
   { name: "Tales of Telugu", note: "Andhra and Telangana cuisine", tag: "Local", photo: "https://dineout-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/DINEOUT_ALL_RESTAURANTS/IMAGES/RESTAURANT_IMAGE_SERVICE/2024/4/23/b0646727-7aab-4c9f-ac6d-b13cb84f8430_DAT36683fa3d9dd1e0b469db5e29387c0076f9c.JPG" },
   { name: "Simply South", note: "South Indian", tag: "South Indian", photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTb_jn5tppPlUKTBErjGgVRaVcW104HdEmzA7RNPrXESw&s=10" },
   { name: "Oye Kake", note: "Punjabi, pure vegetarian", tag: "Vegetarian", photo: "https://b.zmtcdn.com/data/pictures/1/21550771/f5fedda04f0251ece89f3cde1ed9e6ca.jpg" },
-  { name: "Baan PhadThai", note: "Thai", tag: "Thai", photo: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglM1Hg1klw0eecaG1fLPDXrJHn-Rfave2B3e686WYMUQsUvRF9TSbwaAqL9wETn-Hw_DShFHscIPqEHI01xqZ_RpDc0cC7ik5bOXs5H6YwpGgjavrlWaFl8MxLbdKlHZf8W16FzEm48BDJeYMG0L2GFtoAbu20A1ZNeeXNgoAE67wmecKP0Wi-zgKPrlg/s4080/B2.jpg" },
+  { name: "Baan PhadThai", note: "Thai (Michelin-recognized)", tag: "Thai", photo: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglM1Hg1klw0eecaG1fLPDXrJHn-Rfave2B3e686WYMUQsUvRF9TSbwaAqL9wETn-Hw_DShFHscIPqEHI01xqZ_RpDc0cC7ik5bOXs5H6YwpGgjavrlWaFl8MxLbdKlHZf8W16FzEm48BDJeYMG0L2GFtoAbu20A1ZNeeXNgoAE67wmecKP0Wi-zgKPrlg/s4080/B2.jpg" },
+  { name: "Coalesce & Providore (The Quorum)", note: "Members club brasserie & bar", tag: "Multi-cuisine", photo: "https://b.zmtcdn.com/data/pictures/4/21054324/491d9006c62463e2bfbc915ec58d6268.jpg" },
+  { name: "Barbeque Nation", note: "Buffet dining & live grills", tag: "Multi-cuisine", photo: "https://b.zmtcdn.com/data/pictures/8/18209258/01a4e5ee81861757eb7ec42a0ddf2f18.jpg" },
   { name: "SALT", note: "Indian and bar", tag: "Bar", photo: "https://b.zmtcdn.com/data/pictures/0/21380310/c4245cd830d8382b6dc108eff2922029.jpg" },
   { name: "Cream Centre", note: "Indian", tag: "Multi-cuisine", photo: "https://b.zmtcdn.com/data/pictures/6/20781136/471136eeb2ce925e2bb64a517c75f657.jpg" },
   { name: "Whiskey Samba", note: "North Indian, Mughlai and Asian", tag: "Multi-cuisine", photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQcOeGZalma_AJG2gTpZJmrMqoyYG8a2Yi4w4BNHbToA&s=10" },
@@ -282,7 +284,7 @@ const SATTVA_KP_CAFES = [
   { name: "The Theory Cafe", note: "Cafe", tag: "Cafe", photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaJqPcGQMoWzvOe-HgsxJGLjrf97fTCnWpjLfXlgvQqA&s=10" },
   { name: "Third Wave Coffee", note: "Specialty coffee", tag: "Cafe" },
   { name: "Blue Tokai Coffee Roasters", note: "Specialty coffee, Knowledge Park", tag: "Cafe", href: "/spot/blue-tokai-coffee-roasters-knowledge-park-jubilee-hills", photo: "/photos/ChIJX8qAwBiTyzsR1WiJ2-Fywp0.jpg" },
-  { name: "Feranoz", note: "Cafe and desserts", tag: "Cafe", photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTv4ya04QHyjQSVQNm2sH4Q4GPVjBoRCCDuC7E6Cu0dzg&s=10" },
+  { name: "Feranoz", note: "European patisserie & cafe", tag: "Cafe", photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTv4ya04QHyjQSVQNm2sH4Q4GPVjBoRCCDuC7E6Cu0dzg&s=10" },
   { name: "LATCHA", note: "Matcha and soft serve", tag: "Desserts", photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcxrv3k5XBg4HgEdVAyHHex8ZtvPY0mPQ-boopdEi1nA&s=10" },
 ];
 
@@ -301,7 +303,7 @@ const LOFT_DINING = [
 ];
 
 const LOFT_CAFES = [
-  { name: "TrueBlack", note: "Cafe", tag: "Cafe", photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYqdbKyeLgRS1uYLp8ILuRD-klJjDR_yzm8GgjOe2LoQ&s=10" },
+  { name: "TrueBlack", note: "Specialty cafe (Vietnamese Latte recommended — sit by the peaceful garden)", tag: "Cafe", photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYqdbKyeLgRS1uYLp8ILuRD-klJjDR_yzm8GgjOe2LoQ&s=10" },
 ];
 
 const LOFT_BARS = [
@@ -339,12 +341,40 @@ const NEARBY = [
   { name: "Aathidyam", note: "South Indian (Dallas Center)", tag: "South Indian" },
 ];
 
+const itemListLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: TITLE,
+  description: DESCRIPTION,
+  url: "https://eats.mapmyhyd.com" + SLUG,
+  itemListElement: [
+    ...SATTVA_KC_DINING,
+    ...SATTVA_KC_CAFES,
+    ...SATTVA_KC_BARS,
+    ...LOFT_DINING,
+    ...LOFT_CAFES,
+    ...LOFT_BARS,
+    ...RMZ_DINING,
+    ...RMZ_CAFES,
+  ].map((v, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    item: {
+      "@type": "Restaurant",
+      name: v.name,
+      description: v.note,
+      ...(v.href ? { url: "https://eats.mapmyhyd.com" + v.href } : {}),
+    },
+  })),
+};
+
 export default function Page() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
       <div className="site-page">
         <header className="site-header">
           <div className="site-header-inner">
@@ -432,6 +462,10 @@ export default function Page() {
             Coffee is handled by Manam, SUBKO, Third Wave and Starbucks. For late nights, Raasta, Windmills and The Wine Corner by QUORUM are all in the same vicinity.
           </p>
 
+          <div style={{ margin: "16px 0 20px", padding: "14px 16px", borderRadius: 10, border: "1.5px solid #fecaca", background: "#fef2f2", color: "#991b1b", fontSize: 13, lineHeight: 1.55 }}>
+            <strong style={{ color: "#7f1d1d" }}>⚠️ TG SAFE Food Safety Warning (September 26, 2026):</strong> Telangana Standards Authority for Food and Essential Drugs (TG SAFE) raided <strong>Monastery Amphi Brewery</strong> in Hitec City / Madhapur and suspended its FSSAI licence following major food safety violations (expired raw pork, ~5kg reused cooking oil, unlabelled synthetic food colors, and unhygienic kitchen conditions). Operations have been ordered to halt immediately.
+          </div>
+
           <SpotPhoto
             id="ChIJV47u-zeTyzsRg1GyNX8ogOQ"
             name="Windmills Craftworks at Sattva Knowledge City"
@@ -470,6 +504,9 @@ export default function Page() {
 
           <p className="review-prose">
             THE LOFT leans into contemporary dining. HOSA is doing modern South Indian in a way that few places in the city are. Fireback brings Thai, and One8 Commune is the multi-cuisine anchor. Barback and Dandy & Dandy round out the evenings for cocktails.
+          </p>
+          <p className="review-prose">
+            For coffee at THE LOFT, <strong>TrueBlack</strong> is a favorite for Saturday evening chit-chat with friends. Grab their <strong>Vietnamese Latte</strong> (a sweet, strong, perfectly balanced iced coffee), head down to the peaceful garden area right outside, and sit back to relax.
           </p>
 
           <VenueGroup title="Restaurants" venues={LOFT_DINING} />

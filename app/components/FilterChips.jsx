@@ -22,9 +22,11 @@ export default function FilterChips({
   counts, tagCounts,
   userLoc, nearbyOnly, setNearbyOnly, nearbyArea,
   newOnly, setNewOnly,
+  safetyOnly = false, setSafetyOnly = () => {}, safetyCount = 0,
+  showAll = false, setShowAll = () => {}, hiddenCount = 0,
 }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const activeFilterCount = (openNowOnly ? 1 : 0) + activeTags.length + (nearbyOnly ? 1 : 0) + (newOnly ? 1 : 0);
+  const activeFilterCount = (openNowOnly ? 1 : 0) + activeTags.length + (nearbyOnly ? 1 : 0) + (newOnly ? 1 : 0) + (safetyOnly ? 1 : 0) + (showAll ? 0 : 1);
 
   return (
     <div className="material edge-below" style={{ flexShrink: 0, position: "relative", zIndex: 19 }}>
@@ -126,6 +128,18 @@ export default function FilterChips({
             <Icon name="sparkle" size={15} width={2} color={newOnly ? "#fff" : "var(--pop-deep)"} />
             New
           </button>
+          {hiddenCount > 0 && (
+            <button onClick={() => { setShowAll((v) => !v); setFiltersOpen(false); }} className="pressable-sm" style={chip(!showAll, "var(--ink-soft)")}>
+              <Icon name="star" size={15} width={2} color={!showAll ? "#fff" : "var(--ink-soft)"} />
+              Top places only
+            </button>
+          )}
+          {safetyCount > 0 && (
+            <button onClick={() => { setSafetyOnly((v) => !v); setFiltersOpen(false); }} className="pressable-sm" style={chip(safetyOnly, "var(--pop-deep)")}>
+              <Icon name="shield" size={15} width={2} color={safetyOnly ? "#fff" : "var(--pop-deep)"} />
+              Food safety record
+            </button>
+          )}
 
           {Object.entries(TAGS).map(([key, meta]) => {
             if (!tagCounts[key]) return null;

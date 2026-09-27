@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
@@ -7,6 +9,7 @@ import { absoluteUrl, getSiteUrl, pageMeta } from "../../../lib/site.js";
 import { galleryPhotoUrl, spotPhotoUrl } from "../../../lib/photos.js";
 import { restaurantJsonLd, faqJsonLd, breadcrumbJsonLd, getSpotFaqs } from "../../../lib/schema.js";
 import { ogImages } from "../../../lib/og.js";
+import { getInspectionsForSpot, ACTIONS, STATUSES, formatDate } from "../../../lib/inspectionsServer.js";
 
 const CAT_LABEL = {
   cafe: "Cafe", local: "Local Eats", "restro-bar": "Restro Bar", bakery: "Bakery", "ice-cream": "Ice Cream",
@@ -58,27 +61,19 @@ export function generateMetadata({ params }) {
   if (!spot) return { title: "Spot not found, Hyderabad Eats" };
   const area = spot.discoveredIn && !spot.discoveredIn.startsWith("text:") ? spot.discoveredIn : "Hyderabad";
   const name = displayName(spot.name);
-  const ratingStr = spot.rating ? ` (${spot.rating}★)` : "";
-  let title = `${name}, ${area}: Reviews, Menu & Timings${ratingStr}`;
-  if (title.length > 60) {
-    title = `${name}, ${area}: Reviews, Menu & Timings`;
-  }
-  if (title.length > 60) {
-    title = `${name}, ${area}: Reviews & Menu`;
-  }
-  if (title.length > 60) {
-    title = `${name}: Reviews, Menu & Timings`;
-  }
+  // The layout template appends " | Mapping HYD Eats" (18 chars), so aim for <= 42 here.
+  const place = area === "Hyderabad" || name.toLowerCase().includes(area.toLowerCase()) ? name : `${name}, ${area}`;
+  const rated = spot.rating ? `${spot.rating}★ ` : "";
+  const hook = spot.signatureDish?.name ? "What to Order" : "Reviews & Hours";
+  const title = [`${place}: ${rated}${hook}`, `${place}: ${hook}`, place, name].find((t) => t.length <= 42) || name;
 
   const cleanEditorial = (spot.originStory?.[0]
     || (spot.signatureDish ? `Famous for ${spot.signatureDish.name}. ${spot.signatureDish.why}` : "")).replace(/—/g, ",");
   const ratingDetails = spot.rating ? `Rated ${spot.rating}★ (${spot.ratingCount ? spot.ratingCount.toLocaleString("en-IN") : ""} reviews). ` : "";
   const costDetails = spot.costForTwo ? `₹${spot.costForTwo} for two. ` : "";
-  const todayHour = spot.hours?.length ? spot.hours[(new Date().getDay() + 6) % 7]?.split(": ").slice(1).join(": ") : null;
-  const timingsDetails = todayHour ? `Open today: ${todayHour}. ` : "";
-  const description = (cleanEditorial
-    ? `${cleanEditorial} ${ratingDetails}${costDetails}${timingsDetails}Find reviews, address & timings on Hyderabad Eats.`
-    : `${name} in ${area}. ${ratingDetails}${costDetails}${timingsDetails}${spot.signatureDish?.name ? `Famous for ${spot.signatureDish.name}. ` : ""}Check reviews, open hours, location & menu on Hyderabad Eats.`)
+  // Rating first (what searchers compare on), then the editorial hook; pageMeta clips to 160.
+  // No "open today" line: pages are cached for a day, so it could show the wrong day's hours.
+  const description = `${ratingDetails}${costDetails}${cleanEditorial || `${name} in ${area}.${spot.signatureDish?.name ? ` Famous for ${spot.signatureDish.name}.` : ""}`} Address, hours and what to order.`
     .replace(/—/g, ",")
     .trim();
 
@@ -86,6 +81,8 @@ export function generateMetadata({ params }) {
   const base = pageMeta({ title, description, path: spotPath(spot), image: photo || undefined });
   return {
     ...base,
+    // Outside the curated core list: reachable, but kept out of Google's index.
+    ...(spot.core ? {} : { robots: { index: false, follow: true } }),
     openGraph: {
       ...base.openGraph,
       ...(photo
@@ -101,7 +98,7 @@ export function generateMetadata({ params }) {
   };
 }
 
-export default function SpotPage({ params }) {
+export default async function SpotPage({ params }) {
   const siteUrl = getSiteUrl();
   const spot = getEateryBySlugOrId(params.id);
   if (!spot) notFound();
@@ -110,6 +107,16 @@ export default function SpotPage({ params }) {
   if (params.id !== slug) permanentRedirect(spotPath(spot));
 
   const areaLink = areaPageHref(spot.discoveredIn);
+  const safety = await getInspectionsForSpot(spot.id);
+
+  let spotOffers = null;
+  try {
+    const curatedPath = path.join(process.cwd(), "data", "curated-offers.json");
+    if (fs.existsSync(curatedPath)) {
+      const parsed = JSON.parse(fs.readFileSync(curatedPath, "utf-8"));
+      spotOffers = parsed.spots?.[spot.id] || null;
+    }
+  } catch {}
 
   const jsonLd = restaurantJsonLd(spot, siteUrl, AUTHOR);
   const faqs = getSpotFaqs(spot);
@@ -393,6 +400,69 @@ export default function SpotPage({ params }) {
             {spot.website && (<div><dt>Website</dt><dd><a href={spot.website} target="_blank" rel="noopener noreferrer">Visit</a></dd></div>)}
             {spot.zomatoUrl && (<div><dt>Order</dt><dd><a href={spot.zomatoUrl} target="_blank" rel="noopener noreferrer">Zomato</a></dd></div>)}
           </dl>
+
+          {spotOffers && (spotOffers.district?.hasOffers || spotOffers.swiggy?.hasOffers) && (
+            <section className="spot-section" style={{ background: "#fff1f2", border: "1px solid #fecdd3", borderRadius: 20, padding: 20 }}>
+              <h2 style={{ color: "#9f1239", fontSize: 16, margin: "0 0 12px", display: "flex", alignItems: "center", gap: 8 }}>
+                Dining Offers &amp; Deals
+              </h2>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14 }}>
+                {spotOffers.district?.hasOffers && (
+                  <div style={{ background: "#ffffff", borderRadius: 14, padding: "14px 16px", border: "1px solid #fed7aa" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                      <strong style={{ color: "#c2410c", fontSize: 13 }}>District by Zomato</strong>
+                      {spotOffers.district.url && (
+                        <a href={spotOffers.district.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, fontWeight: 700, color: "#ea580c" }}>
+                          Book Table →
+                        </a>
+                      )}
+                    </div>
+                    <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12.5, color: "#334155", lineHeight: 1.6 }}>
+                      {spotOffers.district.offers.map((off, i) => (
+                        <li key={i}>
+                          <strong>{off.title}</strong>{off.desc ? ` — ${off.desc}` : ""}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {spotOffers.swiggy?.hasOffers && (
+                  <div style={{ background: "#ffffff", borderRadius: 14, padding: "14px 16px", border: "1px solid #fed7aa" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                      <strong style={{ color: "#ea580c", fontSize: 13 }}>Swiggy Dineout</strong>
+                      {spotOffers.swiggy.url && (
+                        <a href={spotOffers.swiggy.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, fontWeight: 700, color: "#ea580c" }}>
+                          Pay Bill &amp; Save →
+                        </a>
+                      )}
+                    </div>
+                    <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12.5, color: "#334155", lineHeight: 1.6 }}>
+                      {spotOffers.swiggy.offers.map((off, i) => (
+                        <li key={i}>
+                          <strong>{off.title}</strong>{off.desc ? ` — ${off.desc}` : ""}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+
+          {safety.length > 0 && (
+            <section className="fs-record" aria-label="Food safety record">
+              <h2>Food safety record</h2>
+              {safety.map(({ drive, entry }) => (
+                <div key={drive.id} className="fs-record-row">
+                  <span className={`fs-pill fs-pill--${entry.action}`}>{ACTIONS[entry.action] || entry.action}</span>
+                  <span>{formatDate(drive.date)} · {drive.authority}</span>
+                  <span>{STATUSES[entry.status] || entry.status}{entry.statusDate ? `, ${formatDate(entry.statusDate)}` : ""}</span>
+                  {drive.sources?.[0]?.url && <a href={drive.sources[0].url} target="_blank" rel="noopener noreferrer nofollow">Source</a>}
+                  <Link href="/food-safety">All inspections</Link>
+                </div>
+              ))}
+            </section>
+          )}
 
           {siblings.length > 0 && (
             <section className="spot-section">
