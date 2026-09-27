@@ -2,6 +2,9 @@
   "name": "hyderabad-eateries-map",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "node scripts/build-static.mjs && next dev",
     "prebuild": "node scripts/build-static.mjs",
