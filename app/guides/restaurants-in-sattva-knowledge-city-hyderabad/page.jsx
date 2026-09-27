@@ -463,7 +463,7 @@ export default function Page() {
           </p>
 
           <div style={{ margin: "16px 0 20px", padding: "14px 16px", borderRadius: 10, border: "1.5px solid #fecaca", background: "#fef2f2", color: "#991b1b", fontSize: 13, lineHeight: 1.55 }}>
-            <strong style={{ color: "#7f1d1d" }}>⚠️ TG SAFE Food Safety Warning (September 26, 2026):</strong> Telangana Standards Authority for Food and Essential Drugs (TG SAFE) raided <strong>Monastery Amphi Brewery</strong> in Hitec City / Madhapur and suspended its FSSAI licence following major food safety violations (expired raw pork, ~5kg reused cooking oil, unlabelled synthetic food colors, and unhygienic kitchen conditions). Operations have been ordered to halt immediately.
+            <strong style={{ color: "#7f1d1d" }}>⚠️ TG SAFE Food Safety Warning (September 26, 2026):</strong> Telangana Standards Authority for Food and Essential Drugs (TG SAFE) raided <strong>Monastery Amphi Brewery</strong> in Hitec City / Madhapur and suspended its FSSAI licence following major food safety violations (expired raw pork, ~5kg reused cooking oil, unlabelled synthetic food colors, and unhygienic kitchen conditions). Operations have been ordered to halt immediately. <Link href="/food-safety" style={{ color: "#991b1b", fontWeight: 700, underline: "always" }}>View all Hyderabad food safety inspection records →</Link>
           </div>
 
           <SpotPhoto
