@@ -1,4 +1,4 @@
-import { getAdminDb, verifyUid } from "../../../lib/firebaseAdmin.js";
+import { getAdminDb, verifyUidDetailed } from "../../../lib/firebaseAdmin.js";
 
 export const dynamic = "force-dynamic";
 
@@ -41,8 +41,8 @@ export async function POST(req) {
 
   // Identity: a signed token, never a raw uid from the body.
   const token = (req.headers.get("authorization") || "").replace(/^Bearer\s+/i, "");
-  const uid = await verifyUid(token);
-  if (!uid) return Response.json({ error: "not-authenticated" }, { status: 401 });
+  const { uid, code, hint } = await verifyUidDetailed(token);
+  if (!uid) return Response.json({ error: "not-authenticated", detail: code, hint }, { status: 401 });
 
   let body;
   try {
