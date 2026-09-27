@@ -205,14 +205,14 @@ export default function MapCanvas({
     const areaLayer = areaLayerRef.current;
     const spotLayer = spotLayerRef.current;
 
-    // A category/tag filter is active when the working set is a strict subset of
-    // everything. Filtered sets are small, so the neighbourhood-blob view (which
-    // forces a zoom-in to see anything) just gets in the way, skip straight to
-    // individual spots and, below, show every match instead of a ranked few.
-    const filterActive = filtered.length < (poolSize ?? eateries.length);
+    // When zoomed out (zoom <= AREA_ZOOM_MAX), show neighbourhood number blobs whenever
+    // there are more than 12 matching spots, keeping the map clean and preventing pin piles.
+    // If there are 12 or fewer spots (e.g. precise search), skip straight to individual pins.
+    const isSmallSet = filtered.length <= 12;
+    const showAreaBlobs = zoom <= AREA_ZOOM_MAX && !isSmallSet;
 
     // ---------- Neighbourhood view ----------
-    if (zoom <= AREA_ZOOM_MAX && !filterActive) {
+    if (showAreaBlobs) {
       areaLayer.clearLayers();
       // Leaving the spot view: drop the pins and the maps that track them, so
       // the next zoom-in starts from a clean slate rather than stale handles.
