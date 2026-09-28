@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 
 export const dynamic = "force-dynamic";
@@ -47,6 +48,7 @@ export async function POST(req) {
     },
     { merge: true }
   );
+  revalidateTag("picks");
 
   return Response.json({ ok: true, spotId });
 }
@@ -62,5 +64,6 @@ export async function DELETE(req) {
   if (!db) return Response.json({ error: "unavailable" }, { status: 503 });
 
   await db.collection("picks").doc(spotId).delete();
+  revalidateTag("picks");
   return Response.json({ ok: true });
 }

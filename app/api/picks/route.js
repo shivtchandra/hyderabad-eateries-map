@@ -12,7 +12,8 @@ const getPicks = unstable_cache(
     return snap.docs.map((d) => ({ spotId: d.id, ...d.data() }));
   },
   ["picks-list"],
-  { revalidate: 60, tags: ["picks"] }
+  // Admin edits bust "picks" by tag (app/api/admin/picks), so this is a safety net.
+  { revalidate: 86400, tags: ["picks"] }
 );
 
 export async function GET() {

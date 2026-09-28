@@ -14,7 +14,8 @@ const getTopPlayers = unstable_cache(
     return snap.docs.map((d, i) => ({ uid: d.id, rank: i + 1, ...pick(d.data()) }));
   },
   ["leaderboard-top"],
-  { revalidate: 30, tags: ["leaderboard"] }
+  // Each refresh is an ISR write; the caller's own rank is computed live below.
+  { revalidate: 300, tags: ["leaderboard"] }
 );
 
 // Top players by score, plus (when a uid is given) that player's own row and

@@ -242,6 +242,7 @@ const SATTVA_KC_DINING = [
   { name: "Toscano", note: "Italian", tag: "Italian", photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSatJIuTbaPUFuUKdbk1m2iZ4ubB2ZLz3GCONP_1xkwbA&s=10" },
   { name: "Margerita By The Window", note: "Italian", tag: "Italian", photo: "https://dineout-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/DINEOUT_ALL_RESTAURANTS/IMAGES/RESTAURANT_IMAGE_SERVICE/2025/4/3/ffe81aeb-65c6-43a9-8301-e6ae4b4b7a9e_imageDownload512239654c4c448dbb336bfb2c239b0d1.PNG" },
   { name: "Tevar", note: "Contemporary Indian and bar", tag: "Bar", photo: "https://b.zmtcdn.com/data/pictures/2/20855232/b73e14f3b5f519a9e13f61ea2b65c2fe.jpeg" },
+  { name: "Karta", note: "Authentic regional Telugu cuisine (Newly opened at Gate 11)", tag: "South Indian", photo: "https://b.zmtcdn.com/data/pictures/4/21639014/c1b26c7104b2b28c0ec8bb51d9e2fb72.jpg" },
   { name: "Tales of Telugu", note: "Andhra and Telangana cuisine", tag: "Local", photo: "https://dineout-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/DINEOUT_ALL_RESTAURANTS/IMAGES/RESTAURANT_IMAGE_SERVICE/2024/4/23/b0646727-7aab-4c9f-ac6d-b13cb84f8430_DAT36683fa3d9dd1e0b469db5e29387c0076f9c.JPG" },
   { name: "Simply South", note: "South Indian", tag: "South Indian", photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTb_jn5tppPlUKTBErjGgVRaVcW104HdEmzA7RNPrXESw&s=10" },
   { name: "Oye Kake", note: "Punjabi, pure vegetarian", tag: "Vegetarian", photo: "https://b.zmtcdn.com/data/pictures/1/21550771/f5fedda04f0251ece89f3cde1ed9e6ca.jpg" },
@@ -456,7 +457,7 @@ export default function Page() {
           />
 
           <p className="review-prose">
-            Knowledge City is the anchor of this F&B corridor. The sheer range here means most cravings are covered without leaving the campus: craft beer at Windmills Craftworks, pure-vegetarian Burmese food at Burma Burma, a wood-fired Italian at Toscano, contemporary South Indian at Oota, Thai at Baan PhadThai, and a reliable hard rock with cocktails at Hard Rock Cafe.
+            Knowledge City is the anchor of this F&B corridor. The sheer range here means most cravings are covered without leaving the campus: craft beer at Windmills Craftworks, pure-vegetarian Burmese food at Burma Burma, a wood-fired Italian at Toscano, regional South Indian at Karta and Oota, Thai at Baan PhadThai, and a reliable hard rock with cocktails at Hard Rock Cafe.
           </p>
           <p className="review-prose">
             Coffee is handled by Manam, SUBKO, Third Wave and Starbucks. For late nights, Raasta, Windmills and The Wine Corner by QUORUM are all in the same vicinity.

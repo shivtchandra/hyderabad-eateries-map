@@ -5,17 +5,16 @@ import { nextCrownUpdate } from "../../../../lib/themeCrown.js";
 
 export const dynamic = "force-dynamic";
 
-// Polled by every visitor for live vote counts, a 15s cache keeps it
-// feeling live while cutting most of the repeat-read cost that blew the
-// Firestore quota once already. The auto-activate/deactivate writes below
-// only run once per cache window instead of every request, which is fine, // a theme going live up to 15s "late" is a non-issue.
+// Polled by every visitor. Live vote counts come from the "votes" tag bust on
+// every vote (and admin edits bust "themes"), so the timer is only a safety
+// net; each refresh is an ISR write. `today` is a cache argument, so date-based
+// activation/crowning runs on the first request of each UTC day.
 const getCurrentTheme = unstable_cache(
-  async () => {
+  async (today) => {
     const db = await getAdminDb();
     if (!db) return { theme: null, results: [] };
 
     try {
-      const today = new Date().toISOString().slice(0, 10);
 
       // Featured theme stays up until an admin starts a newer one.
       // endDate starts the crown phase; votes stay open (see /api/theme/vote).
@@ -87,9 +86,9 @@ const getCurrentTheme = unstable_cache(
     }
   },
   ["theme-current"],
-  { revalidate: 15, tags: ["themes", "votes"] }
+  { revalidate: 3600, tags: ["themes", "votes"] }
 );
 
 export async function GET() {
-  return Response.json(await getCurrentTheme());
+  return Response.json(await getCurrentTheme(new Date().toISOString().slice(0, 10)));
 }

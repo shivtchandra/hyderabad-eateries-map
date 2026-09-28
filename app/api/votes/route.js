@@ -13,11 +13,13 @@ function thisMonday() {
 // Both branches are polled repeatedly (map markers, leaderboards), a short
 // cache keeps counts feeling live while cutting most of the repeat-read cost
 // that blew the Firestore quota once already.
+// Each cache refresh counts as an ISR write, so the window is long: votes bust
+// the "votes" tag on every write, and the week key is a cache argument so the
+// Monday rollover gets a fresh entry instead of serving last week's totals.
 const getTopVotes = unstable_cache(
-  async (top, limit) => {
+  async (top, limit, monday) => {
     const db = await getAdminDb();
     if (!db) return [];
-    const monday = thisMonday();
     // Fetch top 30 by the relevant counter, then filter week client-side, // avoids needing a composite index on (week_start, week_total).
     const field = top === "week" ? "week_total" : "total";
     const snap = await db.collection("votes").orderBy(field, "desc").limit(30).get();
@@ -26,7 +28,7 @@ const getTopVotes = unstable_cache(
     return results.slice(0, limit);
   },
   ["votes-top"],
-  { revalidate: 20, tags: ["votes"] }
+  { revalidate: 3600, tags: ["votes"] }
 );
 
 const getVotesByIds = unstable_cache(
@@ -43,7 +45,7 @@ const getVotesByIds = unstable_cache(
     return votes;
   },
   ["votes-by-ids"],
-  { revalidate: 20, tags: ["votes"] }
+  { revalidate: 3600, tags: ["votes"] }
 );
 
 export async function GET(req) {
@@ -52,7 +54,7 @@ export async function GET(req) {
 
   if (top) {
     const limit = Math.min(Number(searchParams.get("limit") || 5), 20);
-    const results = await getTopVotes(top, limit);
+    const results = await getTopVotes(top, limit, thisMonday());
     return Response.json({ results });
   }
 
