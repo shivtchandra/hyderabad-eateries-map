@@ -11,6 +11,7 @@ import { restaurantJsonLd, faqJsonLd, breadcrumbJsonLd, getSpotFaqs } from "../.
 import { ogImages } from "../../../lib/og.js";
 import { getInspectionsForSpot, ACTIONS, STATUSES, formatDate } from "../../../lib/inspectionsServer.js";
 import { verifiedOffers } from "../../../lib/offers.js";
+import MustOrder from "../../components/MustOrder.jsx";
 
 const CAT_LABEL = {
   cafe: "Cafe", local: "Local Eats", "restro-bar": "Restro Bar", bakery: "Bakery", "ice-cream": "Ice Cream",
@@ -109,6 +110,13 @@ export default async function SpotPage({ params }) {
 
   const areaLink = areaPageHref(spot.discoveredIn);
   const safety = await getInspectionsForSpot(spot.id);
+
+  // Seed dishes render on the server (indexable); MustOrder then adds live local votes.
+  let dishSeeds = null;
+  try {
+    const seeds = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "dish-seeds.json"), "utf-8"));
+    dishSeeds = (seeds[spot.id] || []).map((d) => ({ ...d, up: 0, down: 0 }));
+  } catch {}
 
   let spotOffers = null;
   try {
@@ -401,6 +409,8 @@ export default async function SpotPage({ params }) {
             {spot.website && (<div><dt>Website</dt><dd><a href={spot.website} target="_blank" rel="noopener noreferrer">Visit</a></dd></div>)}
             {spot.zomatoUrl && (<div><dt>Order</dt><dd><a href={spot.zomatoUrl} target="_blank" rel="noopener noreferrer">Zomato</a></dd></div>)}
           </dl>
+
+          <MustOrder spotId={spot.id} initial={dishSeeds} />
 
           {spotOffers && (spotOffers.district?.hasOffers || spotOffers.swiggy?.hasOffers) && (
             <section className="spot-section" style={{ background: "#fff1f2", border: "1px solid #fecdd3", borderRadius: 20, padding: 20 }}>

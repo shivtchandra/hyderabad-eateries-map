@@ -6,6 +6,7 @@ import { TAGS, TIERS, isOpenNow, validTagsFor } from "../../lib/eateryUtils.js";
 import { Icon, CategoryIcon, TagIcon } from "./Icons.jsx";
 import { hasVoted } from "../../lib/voting.js";
 import { getThemeVoteSpot, castThemeVote } from "../../lib/themeVoting.js";
+import MustOrder from "./MustOrder.jsx";
 
 const CAT_META = {
   restaurant: { label: "Restaurant", color: "#9d2f4f", gradient: "linear-gradient(135deg, #9d2f4f 0%, #e2622a 100%)" },
@@ -540,6 +541,10 @@ export default function DetailSheet({
               </span>
             </a>
           )}
+
+          <div style={{ margin: "12px 20px 0" }}>
+            <MustOrder spotId={eatery.id} limit={3} />
+          </div>
 
           {/* Dual-Platform Dining Offers Widget (District & Swiggy Dineout) */}
           {offersData && (offersData.district?.hasOffers || offersData.swiggy?.hasOffers) && (

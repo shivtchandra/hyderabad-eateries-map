@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import { addEntry, putReceipt } from "../../lib/diary.js";
+import { fetchDishes, voteDishes, hasVotedDishes } from "../../lib/dishVotes.js";
 import { Icon, CategoryIcon } from "./Icons.jsx";
 
 const CAT_COLOR = {
@@ -17,7 +18,20 @@ const CAT_COLOR = {
 // journalling habit. But the receipt, the dish and the spend are what turn a
 // checklist into a diary a year from now.
 export default function StampSheet({ eatery, onDone, onCancel }) {
-  const [dish, setDish] = useState("");
+  const [dish, setDish] = useState(""); // free-text "something else"
+  const [known, setKnown] = useState([]); // dishes others ordered here
+  const [picked, setPicked] = useState([]);
+  const [again, setAgain] = useState(null); // would you order it again?
+  const alreadyVoted = typeof window !== "undefined" && hasVotedDishes(eatery.id);
+
+  useEffect(() => {
+    let live = true;
+    fetchDishes(eatery.id).then((d) => { if (live) setKnown(d.slice(0, 8).map((x) => x.name)); });
+    return () => { live = false; };
+  }, [eatery.id]);
+
+  const togglePick = (name) => setPicked((p) => (p.includes(name) ? p.filter((x) => x !== name) : [...p, name]));
+  const allDishes = [...picked, ...(dish.trim() ? [dish.trim()] : [])];
   const [spend, setSpend] = useState("");
   const [note, setNote] = useState("");
   const [receipt, setReceipt] = useState(null);
@@ -37,12 +51,13 @@ export default function StampSheet({ eatery, onDone, onCancel }) {
   async function save() {
     setSaving(true);
     const entry = addEntry(eatery.id, {
-      dish: dish.trim(),
+      dish: allDishes.join(", "),
       spend: spend ? Number(spend) : null,
       note: note.trim(),
       hasReceipt: !!receipt,
     });
     if (receipt) await putReceipt(entry.id, receipt);
+    if (allDishes.length && again !== null && !alreadyVoted) await voteDishes(eatery.id, allDishes, again);
     setSaving(false);
     onDone(entry);
   }
@@ -106,16 +121,38 @@ export default function StampSheet({ eatery, onDone, onCancel }) {
           )}
         </button>
 
+        <div style={{ ...field, marginBottom: 10 }}>
+          <span style={fieldLabel}>What did you have?</span>
+          {known.length > 0 && (
+            <div className="dish-chips">
+              {known.map((name) => (
+                <button key={name} type="button" className={picked.includes(name) ? "active" : undefined} aria-pressed={picked.includes(name)} onClick={() => togglePick(name)}>
+                  {name}
+                </button>
+              ))}
+            </div>
+          )}
+          <input
+            value={dish}
+            onChange={(e) => setDish(e.target.value)}
+            placeholder={known.length ? "Something else? Type it" : "Filter coffee"}
+            style={input}
+            maxLength={48}
+          />
+        </div>
+
+        {allDishes.length > 0 && !alreadyVoted && (
+          <div className="dish-again">
+            <span style={fieldLabel}>Would you order {allDishes.length > 1 ? "these" : "it"} again?</span>
+            <div>
+              <button type="button" className={again === true ? "yes active" : "yes"} aria-pressed={again === true} onClick={() => setAgain(again === true ? null : true)}>Yes, must order</button>
+              <button type="button" className={again === false ? "no active" : "no"} aria-pressed={again === false} onClick={() => setAgain(again === false ? null : false)}>Skip it</button>
+            </div>
+            <small>Your answer helps others pick what to order here.</small>
+          </div>
+        )}
+
         <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
-          <label style={{ ...field, flex: 2 }}>
-            <span style={fieldLabel}>What did you have?</span>
-            <input
-              value={dish}
-              onChange={(e) => setDish(e.target.value)}
-              placeholder="Filter coffee"
-              style={input}
-            />
-          </label>
           <label style={{ ...field, flex: 1 }}>
             <span style={fieldLabel}>Spend</span>
             <input
