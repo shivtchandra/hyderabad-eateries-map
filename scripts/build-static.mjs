@@ -30,7 +30,13 @@ fs.mkdirSync(PUBLIC, { recursive: true });
 // Core list (lib/coreSpots.js): the map shows these by default; the rest stay searchable.
 let editorialIds = new Set();
 try { editorialIds = new Set(Object.keys(JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "venue-content.json"), "utf-8")))); } catch {}
-const approved = all.filter((e) => e.lat && e.lng && e.status === "approved");
+// eateries.json has a few duplicate ids (same place saved twice); keep the one with most reviews.
+const byIdBest = new Map();
+for (const e of all.filter((x) => x.lat && x.lng && x.status === "approved")) {
+  const prev = byIdBest.get(e.id);
+  if (!prev || (Number(e.ratingCount) || 0) > (Number(prev.ratingCount) || 0)) byIdBest.set(e.id, e);
+}
+const approved = [...byIdBest.values()];
 const core = coreIdSet(approved, { editorialIds });
 
 // Short keys keep the index small over the wire; the client re-expands them.
