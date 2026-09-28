@@ -70,7 +70,7 @@ export default async function FoodSafetyPage() {
 
       <header className="site-header">
         <div className="site-header-inner">
-          <SiteNav linksHidden />
+          <SiteNav />
           <BackButton fallback="/" />
           <SiteBreadcrumb items={[{ href: "/", label: "Home" }, { href: SLUG, label: "Food safety inspections" }]} />
           <div className="site-hero">

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
+import BottomNav from "../../components/BottomNav.jsx";
 import { getAreaBySlug, allAreaPages, spotPath } from "../../../lib/siteData.js";
 import { getAreaPillar } from "../../../lib/explorePillars.js";
 import { pageMeta, getSiteUrl } from "../../../lib/site.js";
@@ -128,7 +129,7 @@ export default function AreaPage({ params }) {
   ]);
 
   return (
-    <>
+    <div style={{ paddingBottom: 84 }}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
     <SiteChrome
@@ -179,6 +180,9 @@ export default function AreaPage({ params }) {
         <p><strong>Can I open them on a map?</strong> Yes — use the map link below for {data.area} pins, hours, and votes.</p>
       </section>
     </SiteChrome>
-    </>
+    <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
+      <BottomNav routed activeKey="areas" />
+    </div>
+    </div>
   );
 }

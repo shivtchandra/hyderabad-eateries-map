@@ -2,6 +2,7 @@ import Link from "next/link";
 import { pageMeta } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
 import { SiteNav, SiteBreadcrumb, SiteFooter, SiteRelated } from "../../components/SiteChrome.jsx";
+import BottomNav from "../../components/BottomNav.jsx";
 import { photoPathToCdn, spotPhotoUrl } from "../../../lib/photos.js";
 
 const SLUG = "/guides/restaurants-in-sattva-knowledge-city-hyderabad";
@@ -376,10 +377,10 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
-      <div className="site-page">
+      <div className="site-page" style={{ paddingBottom: 84 }}>
         <header className="site-header">
           <div className="site-header-inner">
-            <SiteNav />
+            <SiteNav active="/stories" />
             <SiteBreadcrumb
               items={[
                 { href: "/", label: "Home" },
@@ -587,6 +588,9 @@ export default function Page() {
         </div>
 
         <SiteFooter />
+        <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
+          <BottomNav routed activeKey="stories" />
+        </div>
       </div>
     </>
   );

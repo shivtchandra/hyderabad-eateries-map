@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SiteChrome from "../../components/SiteChrome.jsx";
+import BottomNav from "../../components/BottomNav.jsx";
 import { pageMeta, getSiteUrl } from "../../../lib/site.js";
 import { breadcrumbJsonLd } from "../../../lib/schema.js";
 
@@ -19,7 +20,7 @@ export default function HowItWorksPage() {
   ]);
 
   return (
-    <>
+    <div style={{ paddingBottom: 84 }}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
     <SiteChrome
       active="/rankings"
@@ -67,6 +68,9 @@ export default function HowItWorksPage() {
 
       <Link href="/rankings" className="site-cta">See current rankings →</Link>
     </SiteChrome>
-    </>
+    <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
+      <BottomNav routed activeKey="race" />
+    </div>
+    </div>
   );
 }

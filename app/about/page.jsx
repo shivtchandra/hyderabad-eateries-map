@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SiteChrome from "../components/SiteChrome.jsx";
+import BottomNav from "../components/BottomNav.jsx";
 import { pageMeta, getSiteUrl } from "../../lib/site.js";
 import { breadcrumbJsonLd } from "../../lib/schema.js";
 
@@ -32,7 +33,7 @@ export default function AboutPage() {
   };
 
   return (
-    <>
+    <div style={{ paddingBottom: 84 }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutLd) }} />
       <SiteChrome
@@ -80,6 +81,9 @@ export default function AboutPage() {
           </p>
         </div>
       </SiteChrome>
-    </>
+      <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
+        <BottomNav routed activeKey="about" />
+      </div>
+    </div>
   );
 }

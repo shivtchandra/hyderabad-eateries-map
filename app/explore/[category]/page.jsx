@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
+import BottomNav from "../../components/BottomNav.jsx";
 import { getCategoryBySlug, allCategoryPages, getEateryById, spotPath } from "../../../lib/siteData.js";
 import { getExplorePillar } from "../../../lib/explorePillars.js";
 import { pageMeta, getSiteUrl } from "../../../lib/site.js";
@@ -58,7 +59,7 @@ export default function ExploreCategoryPage({ params }) {
   ]);
 
   return (
-    <>
+    <div style={{ paddingBottom: 84 }}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
     <SiteChrome
       active="/explore"
@@ -156,6 +157,9 @@ export default function ExploreCategoryPage({ params }) {
 
       <Link href="/" className="site-cta">Explore all on the map</Link>
     </SiteChrome>
-    </>
+    <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
+      <BottomNav routed activeKey="explore" />
+    </div>
+    </div>
   );
 }

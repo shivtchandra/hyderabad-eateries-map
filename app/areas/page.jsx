@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SiteChrome from "../components/SiteChrome.jsx";
+import BottomNav from "../components/BottomNav.jsx";
 import { allAreaPages } from "../../lib/siteData.js";
 import { pageMeta, getSiteUrl } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
@@ -27,7 +28,7 @@ export default function AreasHubPage() {
   ]);
 
   return (
-    <>
+    <div style={{ paddingBottom: 84 }}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
     <SiteChrome active="/areas" breadcrumb={[{ href: "/", label: "Home" }, { href: "/areas", label: "Areas" }]} title={title} description={description}
       related={[{ href: "/explore", label: "Explore by category" }, { href: "/rankings", label: "Weekly rankings" }]}
@@ -42,6 +43,9 @@ export default function AreasHubPage() {
       </div>
       <Link href="/" className="site-cta">Open the map</Link>
     </SiteChrome>
-    </>
+    <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
+      <BottomNav routed activeKey="areas" />
+    </div>
+    </div>
   );
 }

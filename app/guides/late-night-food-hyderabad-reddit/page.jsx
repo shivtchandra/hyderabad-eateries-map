@@ -157,7 +157,7 @@ export default function LateNightGuidePage() {
 
       <header className="site-header">
         <div className="site-header-inner">
-          <SiteNav linksHidden />
+          <SiteNav active="/stories" />
           <BackButton fallback="/stories" />
           <SiteBreadcrumb
             items={[

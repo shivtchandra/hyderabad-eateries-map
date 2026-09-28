@@ -11,15 +11,42 @@ const NAV = [
   { href: "/areas", label: "Areas" },
 ];
 
+// Pages the phone bottom bar doesn't cover; they live behind the menu button on phones.
+const MENU = [
+  { href: "/offers", label: "Deals" },
+  { href: "/rankings", label: "Rankings" },
+  { href: "/explore", label: "Explore" },
+  { href: "/areas", label: "Areas" },
+  { href: "/food-safety", label: "Food safety" },
+  { href: "/about", label: "About" },
+];
+
+// Desktop: full link row (no bottom bar). Phone: logo + menu button, the bottom bar is the nav.
+// linksHidden is kept for old callers; every page gets the same nav now.
+// eslint-disable-next-line no-unused-vars
 export function SiteNav({ active, linksHidden }) {
   return (
     <nav className="site-topnav" aria-label="Main">
       <Link href="/" className="site-logo">Hyderabad Eats</Link>
-      {!linksHidden && NAV.map((item) => (
-        <Link key={item.href} href={item.href} className={active === item.href ? "active" : undefined}>
+      {NAV.map((item) => (
+        <Link key={item.href} href={item.href} className={`site-topnav-link${active === item.href ? " active" : ""}`}>
           {item.label}
         </Link>
       ))}
+      <details className="site-menu">
+        <summary aria-label="Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+        </summary>
+        <div className="site-menu-panel">
+          {MENU.map((item) => (
+            <Link key={item.href} href={item.href} className={active === item.href ? "active" : undefined}>
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      </details>
     </nav>
   );
 }

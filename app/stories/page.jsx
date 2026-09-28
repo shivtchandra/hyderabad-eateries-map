@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SiteChrome from "../components/SiteChrome.jsx";
 import BottomNav from "../components/BottomNav.jsx";
+import StoriesTabs from "./StoriesTabs.jsx";
 import { getEateries, getEateryById, getChainSiblings, hasSpotPhoto, spotPath } from "../../lib/siteData.js";
 import { pageMeta, getSiteUrl } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
@@ -121,7 +122,7 @@ function StoryRow({ s }) {
   const short =
     blurb.length > 140 ? `${blurb.slice(0, 137).replace(/\s+\S*$/, "")}…` : blurb;
   return (
-    <Link href={spotPath(s)} className="stories-row">
+    <Link href={spotPath(s)} className="stories-row" data-cat={s.category || "other"}>
       <div className="stories-row-media">
         {img ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -187,6 +188,77 @@ export default function StoriesPage() {
     : [];
   const leadImg = lead ? storyImage(lead) : null;
 
+  const guideCards = [
+    <GuideCard
+      key="/guides/best-biryani-hyderabad-reddit"
+      href="/guides/best-biryani-hyderabad-reddit"
+      img={spotPhotoUrl("ChIJKyxGIoiXyzsRPY8PASGdTW0")}
+      eyebrow="Reddit Local Consensus 2026"
+      title="Best Biryani in Hyderabad According to r/hyderabad"
+      meta="Shadab · The Nawaabs · Chicha's · Peshawar · Meridian · Shah Ghouse"
+      teaser="Beyond generic commercial lists: authentic local consensus on spice levels, cuts of meat, and peak fresh batch timings across Old City, Gachibowli, and Lakdikapul."
+      source="r/hyderabad Community & Local Foodies"
+    />,
+    <GuideCard
+      key="/guides/best-tiffins-hyderabad-reddit"
+      href="/guides/best-tiffins-hyderabad-reddit"
+      img={spotPhotoUrl("ChIJIfN2naWRyzsRQ884HoebNm8")}
+      eyebrow="Authentic Breakfast Guide 2026"
+      title="Best Tiffins &amp; South Indian Breakfast in Hyderabad"
+      meta="Ishtaa · Penam · Panchakattu Dosa · Kanchi Cafe · Taaza Kitchen"
+      teaser="Where to get the crispest ghee karam dosas, piping hot pungaralu, 4-chutney spreads, and filter coffee, with real notes on weekend queues and consistency."
+      source="r/hyderabad & Local Reviews"
+    />,
+    <GuideCard
+      key="/guides/best-cafes-hyderabad-reddit"
+      href="/guides/best-cafes-hyderabad-reddit"
+      img={spotPhotoUrl("ChIJWUl-wiqXyzsRud1hDiZM0aM")}
+      eyebrow="Specialty Coffee &amp; Work Cafes"
+      title="Best Cafes in Hyderabad: Specialty Coffee, Work Corners &amp; Desserts"
+      meta="Roastery Coffee House · Conçu · Roast CCX · True Black · Autumn Leaf"
+      teaser="Hyderabad's top third-wave roasters, quiet laptop work corners with fast WiFi, world-class French patisserie, and heritage Irani chai spots."
+      source="r/hyderabad & Local Coffee Trails"
+    />,
+    <GuideCard
+      key="/guides/best-ice-cream-desserts-hyderabad"
+      href="/guides/best-ice-cream-desserts-hyderabad"
+      img={spotPhotoUrl("ChIJ____P32XyzsRr9xZqE9F7RU")}
+      eyebrow="Heritage &amp; Artisanal Gelato"
+      title="Best Ice Cream, Gelato &amp; Desserts in Hyderabad"
+      meta="Famous Ice Cream (MJ Market) · Milano Gelato · Cream Stone · Huber &amp; Holly"
+      teaser="From 1951 hand-churned seasonal pot ice creams (Sitaphal/Mango) at Mozamjahi Market to authentic Italian gelato and late-night cold-stone sundaes."
+      source="r/hyderabad & Local Dessert Trails"
+    />,
+    <GuideCard
+      key="/guides/late-night-food-hyderabad-reddit"
+      href="/guides/late-night-food-hyderabad-reddit"
+      img={spotPhotoUrl("ChIJj_WXSD2YyzsRF4pbftpAOxg")}
+      eyebrow="Midnight to 5 AM Guide"
+      title="Best Late Night Food &amp; 24/7 Eateries in Hyderabad"
+      meta="DLF Street Food · Roast 24 Seven · Niloufer Banjara Hills · Shah Ghouse"
+      teaser="Safe, verified food spots open past midnight: Maggi and momos at DLF, midnight Irani chai, 3 AM mutton biryani, and round-the-clock specialty cafes."
+      source="r/hyderabad & Night Owl Food Trails"
+    />,
+    <GuideCard
+      key="/guides/restaurants-in-sattva-knowledge-city-hyderabad"
+      href="/guides/restaurants-in-sattva-knowledge-city-hyderabad"
+      img="https://rmz-static.s3.dualstack.ap-south-1.amazonaws.com/01_998d11420c.webp"
+      eyebrow="Commercial Hub Directory"
+      title="Sattva Knowledge City, Knowledge Park, THE LOFT &amp; RMZ Nexity"
+      meta="60+ restaurants, cafes, bars and breweries · Raidurg &amp; Hi-Tech City belt"
+      teaser="Complete F&amp;B guide across four commercial developments in Hyderabad's tech belt, from Thai and Burmese to Telugu, Italian, Mediterranean and breweries."
+      source="@YogiTweetz on X"
+    />
+  ];
+  const catCounts = {};
+  for (const x of rest) {
+    const k = x.category || "other";
+    catCounts[k] = (catCounts[k] || 0) + 1;
+  }
+  const cats = Object.entries(catCounts)
+    .sort((x, y) => y[1] - x[1])
+    .map(([key, count]) => ({ key, label: CAT[key] || "Other", count }));
+
   const breadcrumbsLd = breadcrumbJsonLd([
     { name: "Home", url: getSiteUrl() },
     { name: "Stories", url: `${getSiteUrl()}/stories` },
@@ -204,128 +276,80 @@ export default function StoriesPage() {
         breadcrumb={[{ href: "/", label: "Home" }, { href: "/stories", label: "Stories" }]}
         title={title}
         description={description}
-        heroClass="site-hero--app site-hero--stories"
-        navLinksHidden
-        heroDecor
         related={[
           { href: "/explore", label: "Explore by category" },
           { href: "/areas", label: "Food by area" },
           { href: "/rankings", label: "Weekly rankings" },
         ]}
       >
-        {lead && <FeaturedStory s={lead} />}
-
-        <section className="stories-archive" aria-labelledby="curated-guides-title" style={{ marginTop: 24, marginBottom: 32 }}>
-          <div className="stories-section-head">
-            <h2 id="curated-guides-title">Curated Food Guides &amp; Deep Dives</h2>
-            <p>Unbiased local consensus, verified batch timings, and neighborhood directories</p>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <GuideCard
-              href="/guides/best-biryani-hyderabad-reddit"
-              img={spotPhotoUrl("ChIJKyxGIoiXyzsRPY8PASGdTW0")}
-              eyebrow="Reddit Local Consensus 2026"
-              title="Best Biryani in Hyderabad According to r/hyderabad"
-              meta="Shadab · The Nawaabs · Chicha's · Peshawar · Meridian · Shah Ghouse"
-              teaser="Beyond generic commercial lists: authentic local consensus on spice levels, cuts of meat, and peak fresh batch timings across Old City, Gachibowli, and Lakdikapul."
-              source="r/hyderabad Community & Local Foodies"
-            />
-            <GuideCard
-              href="/guides/best-tiffins-hyderabad-reddit"
-              img={spotPhotoUrl("ChIJIfN2naWRyzsRQ884HoebNm8")}
-              eyebrow="Authentic Breakfast Guide 2026"
-              title="Best Tiffins &amp; South Indian Breakfast in Hyderabad"
-              meta="Ishtaa · Penam · Panchakattu Dosa · Kanchi Cafe · Taaza Kitchen"
-              teaser="Where to get the crispest ghee karam dosas, piping hot pungaralu, 4-chutney spreads, and filter coffee, with real notes on weekend queues and consistency."
-              source="r/hyderabad & Local Reviews"
-            />
-            <GuideCard
-              href="/guides/best-cafes-hyderabad-reddit"
-              img={spotPhotoUrl("ChIJWUl-wiqXyzsRud1hDiZM0aM")}
-              eyebrow="Specialty Coffee &amp; Work Cafes"
-              title="Best Cafes in Hyderabad: Specialty Coffee, Work Corners &amp; Desserts"
-              meta="Roastery Coffee House · Conçu · Roast CCX · True Black · Autumn Leaf"
-              teaser="Hyderabad's top third-wave roasters, quiet laptop work corners with fast WiFi, world-class French patisserie, and heritage Irani chai spots."
-              source="r/hyderabad & Local Coffee Trails"
-            />
-            <GuideCard
-              href="/guides/best-ice-cream-desserts-hyderabad"
-              img={spotPhotoUrl("ChIJ____P32XyzsRr9xZqE9F7RU")}
-              eyebrow="Heritage &amp; Artisanal Gelato"
-              title="Best Ice Cream, Gelato &amp; Desserts in Hyderabad"
-              meta="Famous Ice Cream (MJ Market) · Milano Gelato · Cream Stone · Huber &amp; Holly"
-              teaser="From 1951 hand-churned seasonal pot ice creams (Sitaphal/Mango) at Mozamjahi Market to authentic Italian gelato and late-night cold-stone sundaes."
-              source="r/hyderabad & Local Dessert Trails"
-            />
-            <GuideCard
-              href="/guides/late-night-food-hyderabad-reddit"
-              img={spotPhotoUrl("ChIJj_WXSD2YyzsRF4pbftpAOxg")}
-              eyebrow="Midnight to 5 AM Guide"
-              title="Best Late Night Food &amp; 24/7 Eateries in Hyderabad"
-              meta="DLF Street Food · Roast 24 Seven · Niloufer Banjara Hills · Shah Ghouse"
-              teaser="Safe, verified food spots open past midnight: Maggi and momos at DLF, midnight Irani chai, 3 AM mutton biryani, and round-the-clock specialty cafes."
-              source="r/hyderabad & Night Owl Food Trails"
-            />
-            <GuideCard
-              href="/guides/restaurants-in-sattva-knowledge-city-hyderabad"
-              img="https://rmz-static.s3.dualstack.ap-south-1.amazonaws.com/01_998d11420c.webp"
-              eyebrow="Commercial Hub Directory"
-              title="Sattva Knowledge City, Knowledge Park, THE LOFT &amp; RMZ Nexity"
-              meta="60+ restaurants, cafes, bars and breweries · Raidurg &amp; Hi-Tech City belt"
-              teaser="Complete F&amp;B guide across four commercial developments in Hyderabad's tech belt, from Thai and Burmese to Telugu, Italian, Mediterranean and breweries."
-              source="@YogiTweetz on X"
-            />
-          </div>
-        </section>
-
-        {rest.length > 0 && (
-          <section className="stories-archive" aria-labelledby="stories-archive-title">
-            <div className="stories-section-head">
-              <h2 id="stories-archive-title">More stories</h2>
-              <p>{rest.length + 1} spots with notes on what to order</p>
-            </div>
-            <div className="stories-list">
-              {rest.map((s) => (
-                <StoryRow key={s.id} s={s} />
-              ))}
-            </div>
-          </section>
-        )}
-
-        <section className="stories-trail" aria-labelledby="stories-trail-title">
-          <div className="stories-section-head">
-            <h2 id="stories-trail-title">Irani chai trail</h2>
-            <p>
-              Start with Cafe Niloufer and Nimrah near Charminar. Branch notes live on each
-              spot page.
-            </p>
-          </div>
-          <ul className="stories-trail-list">
-            {nilouferLocations.map((s) => {
-              const hasStory = Boolean(s.originStory?.length || s.regularNote);
-              return (
-                <li key={s.id}>
-                  <Link href={spotPath(s)}>
-                    <span>{branchLabel(s)}</span>
-                    {hasStory ? <em>Story</em> : <em className="is-quiet">Map</em>}
+        <StoriesTabs
+          guideCount={guideCards.length}
+          storyCount={spots.length}
+          cats={cats}
+          featured={lead && <FeaturedStory s={lead} />}
+          guides={
+            <section className="stories-archive" aria-labelledby="curated-guides-title" style={{ marginTop: 24, marginBottom: 32 }}>
+              <div className="stories-section-head">
+                <h2 id="curated-guides-title">Curated Food Guides &amp; Deep Dives</h2>
+                <p>Unbiased local consensus, verified batch timings, and neighborhood directories</p>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {guideCards}
+              </div>
+            </section>
+          }
+          stories={
+    rest.length > 0 && (
+              <section className="stories-archive" aria-labelledby="stories-archive-title">
+                <div className="stories-section-head">
+                  <h2 id="stories-archive-title">More stories</h2>
+                  <p>{rest.length + 1} spots with notes on what to order</p>
+                </div>
+                <div className="stories-list">
+                  {rest.map((s) => (
+                    <StoryRow key={s.id} s={s} />
+                  ))}
+                </div>
+              </section>
+            )
+          }
+          trail={
+            <section className="stories-trail" aria-labelledby="stories-trail-title">
+              <div className="stories-section-head">
+                <h2 id="stories-trail-title">Irani chai trail</h2>
+                <p>
+                  Start with Cafe Niloufer and Nimrah near Charminar. Branch notes live on each
+                  spot page.
+                </p>
+              </div>
+              <ul className="stories-trail-list">
+                {nilouferLocations.map((s) => {
+                  const hasStory = Boolean(s.originStory?.length || s.regularNote);
+                  return (
+                    <li key={s.id}>
+                      <Link href={spotPath(s)}>
+                        <span>{branchLabel(s)}</span>
+                        {hasStory ? <em>Story</em> : <em className="is-quiet">Map</em>}
+                      </Link>
+                    </li>
+                  );
+                })}
+                <li>
+                  <Link href="/spot/nimrah-cafe-and-bakery-charminar-old-city">
+                    <span>Nimrah Cafe & Bakery</span>
+                    <em>Story</em>
                   </Link>
                 </li>
-              );
-            })}
-            <li>
-              <Link href="/spot/nimrah-cafe-and-bakery-charminar-old-city">
-                <span>Nimrah Cafe & Bakery</span>
-                <em>Story</em>
-              </Link>
-            </li>
-            <li>
-              <Link href="/explore/cafes">
-                <span>All cafes on the map</span>
-                <em className="is-quiet">Explore</em>
-              </Link>
-            </li>
-          </ul>
-        </section>
+                <li>
+                  <Link href="/explore/cafes">
+                    <span>All cafes on the map</span>
+                    <em className="is-quiet">Explore</em>
+                  </Link>
+                </li>
+              </ul>
+            </section>
+          }
+        />
 
         <Link href="/" className="site-cta">
           Open the map

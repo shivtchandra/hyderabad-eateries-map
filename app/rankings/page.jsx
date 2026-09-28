@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SiteChrome from "../components/SiteChrome.jsx";
+import BottomNav from "../components/BottomNav.jsx";
 import { getAllRankingsThemes } from "../../lib/themesServer.js";
 import { SEO_THEME_PICKS, slugFromTitle } from "../../lib/rankings.js";
 import { pageMeta, getSiteUrl } from "../../lib/site.js";
@@ -40,7 +41,7 @@ export default async function RankingsHubPage() {
   ]);
 
   return (
-    <>
+    <div style={{ paddingBottom: 84 }}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
     <SiteChrome
       active="/rankings"
@@ -103,6 +104,9 @@ export default async function RankingsHubPage() {
         </>
       )}
     </SiteChrome>
-    </>
+    <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
+      <BottomNav routed activeKey="race" />
+    </div>
+    </div>
   );
 }

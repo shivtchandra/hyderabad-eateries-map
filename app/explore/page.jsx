@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SiteChrome from "../components/SiteChrome.jsx";
+import BottomNav from "../components/BottomNav.jsx";
 import { allCategoryPages } from "../../lib/siteData.js";
 import { pageMeta, getSiteUrl } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
@@ -42,7 +43,7 @@ export default function ExploreHubPage() {
   ]);
 
   return (
-    <>
+    <div style={{ paddingBottom: 84 }}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
     <SiteChrome active="/explore" breadcrumb={[{ href: "/", label: "Home" }, { href: "/explore", label: "Explore" }]} title={title} description={description}
       related={[
@@ -81,6 +82,9 @@ export default function ExploreHubPage() {
       </div>
       <Link href="/" className="site-cta">Open the map</Link>
     </SiteChrome>
-    </>
+    <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
+      <BottomNav routed activeKey="explore" />
+    </div>
+    </div>
   );
 }
