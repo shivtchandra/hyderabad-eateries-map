@@ -69,9 +69,8 @@ export default async function RankingPage({ params }) {
   const isCrowned = Boolean(data.winnerId);
   const isPlaceholder = !theme;
 
-  // Real ranked list from venue data. Always shown, even once voting is live:
-  // it is the "old Google baseline" the community vote is meant to improve on,
-  // and it keeps the page full of indexable, named, described content.
+  // Well-rated spots for this dish from venue data. Keeps the page full of named,
+  // described content even before anyone votes.
   const voteRows = data.results || [];
   const editorial = editorialRanking(pick || { category: data.category }, params.slug, 15);
   const showEditorial = editorial.length > 0;
@@ -97,7 +96,7 @@ export default async function RankingPage({ params }) {
   const topNames = (voteRows.length ? voteRows : editorial).slice(0, 3).map((r) => r.name).filter(Boolean);
   const answerLead = topNames.length
     ? `Top picks for ${data.title.toLowerCase()} right now include ${topNames.join(", ")}.`
-    : `${data.title} on Hyderabad Eats combines a live community vote with an all-time Google-review baseline.`;
+    : `${data.title} on Hyderabad Eats is decided by a weekly community vote from locals.`;
   const faqLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -112,7 +111,7 @@ export default async function RankingPage({ params }) {
         name: "How does Hyderabad Eats rank places?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Weekly community votes on the map sit next to an all-time Google-review baseline so both signals are visible.",
+          text: "Locals vote each week in the race. The spot with the most votes holds #1, and the crown moves whenever someone overtakes it.",
         },
       },
       {
@@ -129,6 +128,12 @@ export default async function RankingPage({ params }) {
     { name: data.title, url: `${getSiteUrl()}/rankings/${params.slug}` },
   ]);
 
+  const voteHref = `/race/this-week?dish=${params.slug}`;
+  const leader = voteRows.find((r) => r.spotId === data.winnerId) || voteRows[0] || null;
+  const topCount = Math.max(0, ...voteRows.map((r) => r.count || 0));
+  const onBoard = new Set(voteRows.map((r) => r.spotId));
+  const contenders = editorial.filter((r) => !onBoard.has(r.spotId)).slice(0, 12);
+
   return (
   <div style={{ paddingBottom: 84 }}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
@@ -140,122 +145,117 @@ export default async function RankingPage({ params }) {
       active="/rankings"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/rankings", label: "Rankings" }, { href: `/rankings/${params.slug}`, label: data.title }]}
       title={data.title}
-      description={isPlaceholder ? `The all-time Google-review baseline for ${data.title.toLowerCase()}. Live community voting opens here soon.` : `This week's live community vote plus the all-time Google-review baseline. ${totalVotes} votes so far${data.endDate ? `, week ends ${data.endDate}` : ""}.`}
+      description={isPlaceholder
+        ? "Voting for this dish opens soon. Until then, here are the spots locals already rate."
+        : `Voted by Hyderabad locals, every week. ${totalVotes.toLocaleString("en-IN")} votes so far${data.endDate ? `, week ends ${data.endDate}` : ""}.`}
       related={related}
     >
 
-      <Link
-        href={isPlaceholder && !isLive ? "/rankings" : `/race/this-week?dish=${params.slug}`}
-        className="site-cta rankings-vote-top"
-        style={{ marginTop: 0, marginBottom: 18 }}
-      >
-        {isPlaceholder && !isLive
-          ? "Browse all dish rankings →"
-          : isCrowned
-            ? "Vote anyway, crown follows #1 →"
-            : "Vote for this dish in the race →"}
-      </Link>
-
-      <p style={{ color: "var(--ink-soft)", fontSize: 14.5, lineHeight: 1.55, margin: "0 0 12px" }}>
-        <strong>{answerLead}</strong>
-      </p>
-      <p style={{ color: "var(--ink-soft)", fontSize: 14.5, lineHeight: 1.55, margin: "0 0 18px" }}>
-        {isPlaceholder ? (
-          <>Two ways to find the {data.title.toLowerCase().replace(/^best /, "best ")}. The weekly community vote opens here soon, where locals crown a winner. Until then, the all-time baseline below is ranked from years of Google ratings and reviews.</>
-        ) : (
-          <>Two rankings on this page. Up top, this week&apos;s live community vote, where locals pick {data.title.toLowerCase().replace(/^best /, "the best ")}. Below, the all-time baseline from years of Google ratings and reviews. Your vote reshapes the live list. Cast it in this week's race.</>
-        )}
-      </p>
-      <section className="spot-prose" aria-label="FAQ" style={{ margin: "0 0 22px" }}>
-        <h2 className="site-section-title">FAQ</h2>
-        <p><strong>How do you rank places?</strong> Live community votes plus an all-time Google-review baseline on the same page.</p>
-        <p><strong>Can I vote?</strong> Yes. Open This week&apos;s race to vote on this dish (and other open dishes). The list below is the Google-review baseline plus any community votes so far.</p>
-        <p><strong>Is it free?</strong> Yes, browsing and voting do not require a paid account.</p>
-      </section>
-
-      {!isPlaceholder && (
-        <p className="rankings-freshness">
-          Updated {new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
-          {totalVotes > 0 ? ` · ${totalVotes.toLocaleString("en-IN")} community votes` : ""}
-          {data.endDate ? ` · Week ends ${data.endDate}` : ""}
-        </p>
+      {isPlaceholder ? (
+        <section className="rk-leader">
+          <div className="rk-leader-top">
+            <span className="rk-chip">Opening soon</span>
+          </div>
+          <p className="rk-leader-sub">This weekly vote hasn&apos;t started yet. Explore the spots below and check back, locals will decide the order.</p>
+          <Link href="/rankings" className="site-cta">Browse all dish rankings →</Link>
+        </section>
+      ) : (
+        <section className="rk-leader">
+          <div className="rk-leader-top">
+            <span className={`rk-chip ${isCrowned ? "crowned" : isLive ? "live" : ""}`}>
+              {isCrowned ? "Crowned, votes still open" : isLive ? "Voting open" : "Final standings"}
+            </span>
+            {data.endDate && <span className="rk-meta">Week ends {data.endDate}</span>}
+          </div>
+          {leader ? (
+            <div className="rk-leader-body">
+              <span className="rk-crown" aria-hidden="true">🏆</span>
+              <div>
+                <div className="rk-eyebrow">{isCrowned ? "This week's crown" : "Leading right now"}</div>
+                <h2 className="rk-leader-name"><Link href={pathForSpotId(leader.spotId)}>{leader.name}</Link></h2>
+                <p className="rk-leader-sub">
+                  {leader.count || 0} of {totalVotes} votes{totalVotes ? `, ${Math.round(((leader.count || 0) / totalVotes) * 100)}%` : ""}. If someone else takes #1, the crown moves.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <p className="rk-leader-sub">No votes yet. Be the first to put a spot on the board.</p>
+          )}
+          <Link href={voteHref} className="site-cta">{leader ? "Cast your vote →" : "Vote for this dish →"}</Link>
+        </section>
       )}
 
-      {isPlaceholder && (
-        <div style={{ background: "var(--violet-wash)", border: "1.5px solid var(--violet)", borderRadius: 16, padding: 16, marginBottom: 20, fontSize: 14, color: "var(--ink-soft)" }}>
-          <strong style={{ color: "var(--violet-deep)" }}>Coming soon:</strong> This weekly vote hasn&apos;t started yet. Explore the map and check back, or browse similar spots below.
-        </div>
-      )}
-
-      {!isPlaceholder && (
-        <span className={`rankings-status ${isCrowned ? "winner" : isLive ? "live" : "ended"}`} style={{ display: "inline-block", marginBottom: 16 }}>
-          {isCrowned ? "Crowned · votes still open" : isLive ? "Voting open" : "Standings"}
-        </span>
-      )}
-
-      {data.winnerName && (
-        <div style={{ background: "#fefce8", border: "1.5px solid #d97706", borderRadius: 16, padding: 16, marginBottom: 20 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: "#d97706", textTransform: "uppercase", letterSpacing: "0.08em" }}>Crowned</div>
-          <h2 style={{ fontFamily: "Fraunces, serif", margin: "6px 0 0", fontSize: 22 }}>{data.winnerName}</h2>
-          <p style={{ margin: "6px 0 0", fontSize: 13, color: "#92400e" }}>Votes stay open. If someone else takes #1, the crown moves.</p>
-        </div>
-      )}
+      <p className="rk-summary">{answerLead}</p>
 
       {voteRows.length > 0 && (
-        <div style={{ margin: "4px 0 10px" }}>
-          <h2 style={{ fontFamily: "Fraunces, serif", fontSize: 20, margin: "0 0 4px" }}>This week&apos;s community pick</h2>
-          <p style={{ color: "var(--muted)", fontSize: 13, margin: 0 }}>
-            Live votes from locals{isCrowned ? ", crown follows #1" : isLive ? ", counting now" : ""}{data.endDate ? ` · week ends ${data.endDate}` : ""}. This is the list your vote shapes, not the algorithm&apos;s.
-          </p>
-        </div>
-      )}
-
-      {(data.results || []).length > 0 ? (
-        <table className="rankings-table">
-          <thead>
-            <tr><th>#</th><th>Spot</th><th style={{ textAlign: "right" }}>Votes</th></tr>
-          </thead>
-          <tbody>
-            {data.results.map((r, i) => (
-              <tr key={r.spotId} style={r.spotId === data.winnerId ? { background: "#fefce8" } : undefined}>
-                <td className="rankings-rank">{r.spotId === data.winnerId ? "🏆" : i + 1}</td>
-                <td style={{ fontWeight: 600 }}><Link href={pathForSpotId(r.spotId)} style={{ color: "inherit" }}>{r.name}</Link></td>
-                <td className="rankings-votes">{r.count || 0}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : !showEditorial ? (
-        <p style={{ color: "var(--muted)", fontSize: 15 }}>No votes yet, be the first to cast yours on the map.</p>
-      ) : null}
-
-      {showEditorial && (
-        <section className="rankings-editorial" style={{ marginTop: 26 }}>
-          <h2 style={{ fontFamily: "Fraunces, serif", fontSize: 20, margin: "0 0 4px" }}>
-            By Google reviews (the old baseline)
-          </h2>
-          <p style={{ color: "var(--muted)", fontSize: 13, margin: "0 0 14px" }}>
-            {isPlaceholder ? (
-              <>This ranking comes from years of Google ratings and review counts across {editorial.length} spots, the old-guard verdict. Voting for this one opens here soon, and when it does your pick reshuffles the list.</>
-            ) : (
-              <>This ranking comes from years of Google ratings and review counts across {editorial.length} spots, the old-guard verdict. We&apos;re building a fresher one from what Hyderabad actually thinks right now, where your vote sets the new baseline. Vote on the map and make this list better&nbsp;&rarr;</>
-            )}
-          </p>
-          <ol className="rankings-editorial-list" style={{ listStyle: "none", padding: 0, margin: 0 }}>
-            {editorial.map((r, i) => (
-              <li key={r.spotId} style={{ display: "flex", gap: 12, padding: "10px 0", borderBottom: "1px solid var(--line, #eee)" }}>
-                <span style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 18, minWidth: 26, color: "var(--violet-deep)" }}>{i + 1}</span>
-                <div>
-                  <Link href={pathForSpotId(r.spotId)} style={{ fontWeight: 600, color: "inherit" }}>{r.name}</Link>
-                  {r.blurb && <div style={{ fontSize: 13, color: "var(--ink-soft)", marginTop: 3 }}>{r.blurb}</div>}
-                </div>
-              </li>
-            ))}
+        <section className="rk-section" aria-label="Standings">
+          <div className="rk-head">
+            <h2 className="rk-title">Standings</h2>
+            <span className="rk-meta">
+              Updated {new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+            </span>
+          </div>
+          <ol className="rk-board">
+            {voteRows.map((r, i) => {
+              const n = r.count || 0;
+              const share = totalVotes ? Math.round((n / totalVotes) * 100) : 0;
+              return (
+                <li key={r.spotId} className={`rk-row ${r.spotId === leader?.spotId ? "lead" : ""}`}>
+                  <span className="rk-rank">{i + 1}</span>
+                  <div>
+                    <Link href={pathForSpotId(r.spotId)} className="rk-name">{r.name}</Link>
+                    <div className="rk-bar"><span style={{ width: `${topCount ? (n / topCount) * 100 : 0}%` }} /></div>
+                  </div>
+                  <span className="rk-count"><b>{n}</b><small>{share}%</small></span>
+                </li>
+              );
+            })}
           </ol>
         </section>
       )}
 
-      <Link href={`/race/this-week?dish=${params.slug}`} className="site-cta" style={{ marginTop: 24 }}>Vote on race →</Link>
+      {contenders.length > 0 && (
+        <section className="rk-section" aria-label="More spots">
+          <div className="rk-head">
+            <h2 className="rk-title">{voteRows.length ? "Not on the board yet" : "Spots to watch"}</h2>
+          </div>
+          <p className="rk-lede">
+            {voteRows.length
+              ? "Well-loved spots with no votes this week. Think one deserves the crown? Put it on the board."
+              : "Well-loved spots for this dish. Once voting opens, locals decide the order."}
+          </p>
+          <ul className="rk-grid">
+            {contenders.map((r) => (
+              <li key={r.spotId}>
+                <Link href={pathForSpotId(r.spotId)} className="rk-card">
+                  <span className="rk-card-name">{r.name}</span>
+                  {r.blurb && <span className="rk-card-blurb">{r.blurb}</span>}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <section className="rk-section rk-faq" aria-label="FAQ">
+        <h2 className="rk-title" style={{ marginBottom: 10 }}>FAQ</h2>
+        <details>
+          <summary>How do you rank places?</summary>
+          <p>Locals vote each week in the race. The spot with the most votes holds #1, and the crown moves whenever someone overtakes it.</p>
+        </details>
+        <details>
+          <summary>Can I vote?</summary>
+          <p>Yes. Open this week&apos;s race to vote on this dish and any other open dish.</p>
+        </details>
+        <details>
+          <summary>Is it free?</summary>
+          <p>Yes. Browsing and voting are free, no paid account needed.</p>
+        </details>
+      </section>
+
+      {!isPlaceholder && (
+        <Link href={voteHref} className="site-cta">Vote in this week&apos;s race →</Link>
+      )}
     </SiteChrome>
     <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
       <BottomNav routed activeKey="rankings" />

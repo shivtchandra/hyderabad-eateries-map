@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-09-27T17:45:00.000Z",
-  "totalSpotsWithOffers": 6,
+  "updatedAt": "2026-09-28T14:20:00.000Z",
+  "totalSpotsWithOffers": 16,
   "spots": {
     "ChIJDX3wkpWTyzsR5ukjsiQCMqM": {
       "name": "AB's - Absolute Barbecues Gachibowli",
@@ -115,6 +115,183 @@
         "hasOffers": true,
         "offers": [
           { "type": "CASHBACK", "title": "Cashback Deals", "desc": "Available on select items" }
+        ]
+      }
+    },
+    "ChIJC4H0f-KXyzsRz1Njbx7ykig": {
+      "name": "Manam Chocolate Karkhana",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/manam-chocolate-karkhana-banjara-hills",
+        "hasOffers": true,
+        "offers": [
+          { "type": "PRE_BOOK", "title": "Flat 10% OFF", "desc": "Valid on table reservations & desserts" },
+          { "type": "BANK", "title": "15% OFF up to ₹1,000", "desc": "Partner bank card offer on District Pay" }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/banjara-hills/manam-chocolate-karkhana-dineout",
+        "hasOffers": true,
+        "offers": [
+          { "type": "FLAT", "title": "Flat 10% OFF", "desc": "On total dining & coffee bill" },
+          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Swiggy Dineout Pay" }
+        ]
+      }
+    },
+    "ChIJ5RcVE9uTyzsRdC6egQ0Chgs": {
+      "name": "Burma Burma Restaurant & Tea Room",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/burma-burma-madhapur",
+        "hasOffers": true,
+        "offers": [
+          { "type": "PRE_BOOK", "title": "Flat 15% OFF", "desc": "Valid from 12PM to 6PM Booking required" },
+          { "type": "INSTANT", "title": "FLAT ₹150 OFF", "desc": "Valid on pure veg dining bill payment" }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/madhapur/burma-burma-dineout",
+        "hasOffers": true,
+        "offers": [
+          { "type": "FLAT", "title": "Flat 10% OFF", "desc": "On total dining bill" },
+          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Swiggy Dineout Pay" }
+        ]
+      }
+    },
+    "ChIJ-1FJL1iRyzsR6UU59XXpqsw": {
+      "name": "Chilis Grill and Bar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/chilis-grill-bar-madhapur",
+        "hasOffers": true,
+        "offers": [
+          { "type": "PRE_BOOK", "title": "Flat 15% OFF", "desc": "Pre-booking required on table reservations" },
+          { "type": "BANK", "title": "20% OFF up to ₹2,000", "desc": "Partner bank cards on District Dining" }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/madhapur/chilis-grill-and-bar-dineout",
+        "hasOffers": true,
+        "offers": [
+          { "type": "FLAT", "title": "Flat 15% OFF", "desc": "On total Tex-Mex bill" },
+          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Dineout Pay" }
+        ]
+      }
+    },
+    "ChIJGypuNaiRyzsR-smd2ySqMuo": {
+      "name": "The Rameshwaram Cafe @ Madhapur",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/the-rameshwaram-cafe-madhapur",
+        "hasOffers": true,
+        "offers": [
+          { "type": "INSTANT", "title": "FLAT ₹50 OFF", "desc": "Instant bill discount on South Indian breakfast" }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/madhapur/the-rameshwaram-cafe-dineout",
+        "hasOffers": true,
+        "offers": [
+          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Swiggy Dineout Pay" }
+        ]
+      }
+    },
+    "ChIJpUOrbo2XyzsRE37Q9TGY6Yc": {
+      "name": "Hard Rock Cafe Hitech City",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/hard-rock-cafe-hitech-city",
+        "hasOffers": true,
+        "offers": [
+          { "type": "PRE_BOOK", "title": "Flat 20% OFF", "desc": "Valid on table booking" },
+          { "type": "BANK", "title": "25% OFF up to ₹3,000", "desc": "Using HDFC Bank Premium Cards" }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/hitech-city/hard-rock-cafe-dineout",
+        "hasOffers": true,
+        "offers": [
+          { "type": "FLAT", "title": "Flat 15% OFF", "desc": "On food & beverage bill" }
+        ]
+      }
+    },
+    "ChIJsQ4N0dqVyzsRKETizvTv5Jc": {
+      "name": "Red Rhino Taproom | Financial District",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/red-rhino-financial-district",
+        "hasOffers": true,
+        "offers": [
+          { "type": "PRE_BOOK", "title": "Flat 15% OFF", "desc": "Pre-book craft beer & food bill" }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/financial-district/red-rhino-dineout",
+        "hasOffers": true,
+        "offers": [
+          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Swiggy Dineout Pay" }
+        ]
+      }
+    },
+    "ChIJSyT9cQCRyzsRwboSVeP0BPQ": {
+      "name": "Paul",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/paul-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          { "type": "PRE_BOOK", "title": "Flat 10% OFF", "desc": "Valid on European breakfast & pastries" }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/paul-dineout",
+        "hasOffers": true,
+        "offers": [
+          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Swiggy Dineout Pay" }
+        ]
+      }
+    },
+    "ChIJV47u-zeTyzsRg1GyNX8ogOQ": {
+      "name": "Windmills Craftworks",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/windmills-craftworks-madhapur",
+        "hasOffers": true,
+        "offers": [
+          { "type": "PRE_BOOK", "title": "Flat 15% OFF", "desc": "Valid on craft beer & dining pre-booking" }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/madhapur/windmills-craftworks-dineout",
+        "hasOffers": true,
+        "offers": [
+          { "type": "CASHBACK", "title": "15% Cashback", "desc": "Via Swiggy Dineout Pay" }
+        ]
+      }
+    },
+    "ChIJ8b3F8daRyzsRd-WVyztKs3w": {
+      "name": "SUBKO Mini",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/subko-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          { "type": "INSTANT", "title": "FLAT ₹50 OFF", "desc": "Instant discount on specialty coffee" }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/subko-dineout",
+        "hasOffers": true,
+        "offers": [
+          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Swiggy Dineout Pay" }
+        ]
+      }
+    },
+    "ChIJHxumc9STyzsRp2Bg8IFtG7A": {
+      "name": "LOQA Cocktail Room",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/loqa-cocktail-room-knowledge-park",
+        "hasOffers": true,
+        "offers": [
+          { "type": "PRE_BOOK", "title": "Flat 20% OFF", "desc": "Valid on cocktail bar pre-booking" }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/manikonda/loqa-cocktail-room-dineout",
+        "hasOffers": true,
+        "offers": [
+          { "type": "CASHBACK", "title": "15% Cashback", "desc": "Via Swiggy Dineout Pay" }
         ]
       }
     }

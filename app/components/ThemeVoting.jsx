@@ -40,6 +40,21 @@ function campaignSharePayload(theme, results = []) {
   return { title: `${theme.title}, Hyderabad Eats`, text, url };
 }
 
+// Native share sheet where available, clipboard otherwise. Returns the state label to show.
+async function shareCampaign(theme, rows) {
+  const payload = campaignSharePayload(theme, rows);
+  try {
+    if (navigator.share) {
+      await navigator.share(payload);
+      return "shared";
+    }
+    await navigator.clipboard.writeText(`${payload.text}\n${payload.url}`);
+    return "copied";
+  } catch (error) {
+    return error?.name === "AbortError" ? "idle" : "failed";
+  }
+}
+
 function locLabel(area) {
   if (!area || typeof area !== "string") return "";
   if (area.startsWith("text:") || area.length > 24) return "";
@@ -326,20 +341,9 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
 
   const shareTheme = async () => {
     const rows = (results || []).map((r) => ({ ...r, count: localCounts[r.spotId] ?? r.count ?? 0 }));
-    const payload = campaignSharePayload(theme, rows);
-
-    try {
-      if (navigator.share) {
-        await navigator.share(payload);
-        setShareState("shared");
-      } else {
-        await navigator.clipboard.writeText(`${payload.text}\n${payload.url}`);
-        setShareState("copied");
-      }
-      window.setTimeout(() => setShareState("idle"), 1800);
-    } catch (error) {
-      if (error?.name !== "AbortError") setShareState("failed");
-    }
+    const next = await shareCampaign(theme, rows);
+    setShareState(next);
+    if (next === "shared" || next === "copied") window.setTimeout(() => setShareState("idle"), 1800);
   };
 
   return (
@@ -557,6 +561,13 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
   const year = seasonYear(theme);
   const crowned = theme.winnerId || isPastEndDate(theme);
   const dishSlug = theme.slug || slugFromTitle(theme.title);
+  const [shareState, setShareState] = useState("idle");
+
+  const share = async () => {
+    const next = await shareCampaign(theme, theme.results || []);
+    setShareState(next);
+    if (next === "shared" || next === "copied") window.setTimeout(() => setShareState("idle"), 1800);
+  };
 
   const searchSpots = (q) => {
     setSearchQ(q);
@@ -602,6 +613,20 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
             </div>
           </div>
           <Icon name={open ? "close" : "navigate"} size={16} width={2} color="var(--muted)" />
+        </button>
+        <button
+          type="button"
+          onClick={share}
+          aria-label={`Share ${theme.title}`}
+          title={shareState === "copied" ? "Link copied" : "Share"}
+          style={{ flexShrink: 0, width: 44, border: "none", borderLeft: "1px solid var(--line)", background: "transparent", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+        >
+          <Icon
+            name={shareState === "copied" || shareState === "shared" ? "check" : "share"}
+            size={16}
+            width={2}
+            color={shareState === "failed" ? "var(--pop-deep)" : "var(--violet)"}
+          />
         </button>
       </div>
 
