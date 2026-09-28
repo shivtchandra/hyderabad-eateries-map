@@ -1,3 +1,4 @@
+import { verifiedOffers } from "../../../lib/offers.js";
 import fs from "fs";
 import path from "path";
 
@@ -16,20 +17,23 @@ export async function GET(req) {
     const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
     if (spotId) {
-      const spotOffers = data.spots?.[spotId] || null;
+      const spotOffers = verifiedOffers(data.spots?.[spotId]);
       return Response.json(
         { spotId, offers: spotOffers, updatedAt: data.updatedAt },
         {
           headers: {
-            "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+            "Cache-Control": "no-store",
           },
         }
       );
     }
 
-    return Response.json(data, {
+    const spots = Object.fromEntries(
+      Object.entries(data.spots || {}).map(([id, e]) => [id, verifiedOffers(e)]).filter(([, e]) => e)
+    );
+    return Response.json({ ...data, spots, totalSpotsWithOffers: Object.keys(spots).length }, {
       headers: {
-        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+        "Cache-Control": "no-store",
       },
     });
   } catch (err) {

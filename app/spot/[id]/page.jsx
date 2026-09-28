@@ -10,6 +10,7 @@ import { galleryPhotoUrl, spotPhotoUrl } from "../../../lib/photos.js";
 import { restaurantJsonLd, faqJsonLd, breadcrumbJsonLd, getSpotFaqs } from "../../../lib/schema.js";
 import { ogImages } from "../../../lib/og.js";
 import { getInspectionsForSpot, ACTIONS, STATUSES, formatDate } from "../../../lib/inspectionsServer.js";
+import { verifiedOffers } from "../../../lib/offers.js";
 
 const CAT_LABEL = {
   cafe: "Cafe", local: "Local Eats", "restro-bar": "Restro Bar", bakery: "Bakery", "ice-cream": "Ice Cream",
@@ -114,7 +115,7 @@ export default async function SpotPage({ params }) {
     const curatedPath = path.join(process.cwd(), "data", "curated-offers.json");
     if (fs.existsSync(curatedPath)) {
       const parsed = JSON.parse(fs.readFileSync(curatedPath, "utf-8"));
-      spotOffers = parsed.spots?.[spot.id] || null;
+      spotOffers = verifiedOffers(parsed.spots?.[spot.id]);
     }
   } catch {}
 
