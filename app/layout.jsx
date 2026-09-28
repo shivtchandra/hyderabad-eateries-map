@@ -5,6 +5,7 @@ import { getSiteUrl } from "../lib/site.js";
 import { ogImages } from "../lib/og.js";
 import SeoCrawlNav from "./components/SeoCrawlNav.jsx";
 import { PHOTO_CDN_ORIGIN } from "../lib/photos.js";
+import PwaRegister from "./components/PwaRegister.jsx";
 
 const siteUrl = getSiteUrl();
 
@@ -21,7 +22,7 @@ export const metadata = {
       { url: "/icon.svg", type: "image/svg+xml" },
     ],
     shortcut: "/icon.svg",
-    apple: "/icon.svg",
+    apple: "/apple-touch-icon.png",
   },
   openGraph: {
     title,
@@ -32,6 +33,7 @@ export const metadata = {
     locale: "en_IN",
     images: ogImages(title, description),
   },
+  appleWebApp: { capable: true, title: "HYD Eats", statusBarStyle: "default" },
   twitter: {
     card: "summary_large_image",
     title,
@@ -100,6 +102,8 @@ const homeLd = {
 };
 
 
+export const viewport = { themeColor: "#7c3aed" };
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${outfit.variable} ${fraunces.variable} ${bagel.variable}`}>
@@ -117,6 +121,7 @@ export default function RootLayout({ children }) {
         {children}
         <SeoCrawlNav />
         <Analytics />
+        <PwaRegister />
       </body>
     </html>
   );

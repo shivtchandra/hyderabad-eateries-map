@@ -21,6 +21,8 @@ import SavedPanel from "./components/SavedPanel.jsx";
 import LeaderboardPanel from "./components/LeaderboardPanel.jsx";
 import BottomNav from "./components/BottomNav.jsx";
 import RoutePanel from "./components/RoutePanel.jsx";
+import InstallPrompt from "./components/InstallPrompt.jsx";
+import { canOfferInstall } from "../lib/install.js";
 import { claimSpot } from "../lib/leaderboard.js";
 import { fetchVoteCounts, fetchStarOfWeek, castVote as castVoteApi, removeVote as removeVoteApi, hasVoted } from "../lib/voting.js";
 import { fetchCurrentTheme } from "../lib/themeVoting.js";
@@ -116,6 +118,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   const [isMobile, setIsMobile] = useState(false);
   const [passport, setPassport] = useState({ visited: {}, saved: {} });
   const [stamping, setStamping] = useState(null);
+  const [installAsk, setInstallAsk] = useState(0); // stamp count when we ask to install, 0 = hidden
   const [diaryTick, setDiaryTick] = useState(0);
   const [stickerFor, setStickerFor] = useState(undefined); // undefined = closed
   const [stickerTick, setStickerTick] = useState(0);
@@ -486,7 +489,11 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   }, []);
 
   const completeStamp = useCallback((id) => {
-    setPassport({ ...passportStore.toggleVisited(id) });
+    const next = passportStore.toggleVisited(id);
+    setPassport({ ...next });
+    // After the 2nd stamp they are a real user: offer the home-screen install.
+    const stamps = Object.keys(next.visited || {}).length;
+    if (stamps >= 2 && canOfferInstall()) setTimeout(() => setInstallAsk(stamps), 1800);
     setStamping(null);
     setDiaryTick((t) => t + 1);
     trackEvent("stamp");
@@ -941,6 +948,8 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
 
           </>
         )}
+
+        {installAsk > 0 && <InstallPrompt stamps={installAsk} onClose={() => setInstallAsk(0)} />}
 
         {stamping && (
           <StampSheet
