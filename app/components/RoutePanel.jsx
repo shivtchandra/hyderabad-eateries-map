@@ -158,169 +158,92 @@ export default function RoutePanel({
     );
   }
 
+  const pinBtn = (target) => (
+    <button
+      type="button"
+      onClick={() => togglePick(target)}
+      aria-label={`Drop a pin on the map for ${target === "via" ? "the stop" : target}`}
+      aria-pressed={pickTarget === target}
+      className={`route-pin${pickTarget === target ? " active" : ""}`}
+    >
+      <Icon name="pin" size={15} width={2} color={pickTarget === target ? "#fff" : "var(--muted)"} />
+    </button>
+  );
+
   return (
-    <div style={{ position: "absolute", top: 12, left: 12, right: 12, maxWidth: 480, margin: "0 auto", zIndex: 1000, display: "flex", flexDirection: "column", gap: 8 }}>
-      <div style={{ position: "relative", display: "flex", flexDirection: "column", gap: 8 }}>
-        <div style={{ display: "flex", gap: 6 }}>
-          <div style={{ flex: 1, minWidth: 0 }}>
+    <div className="route-panel">
+      <div className="route-card material">
+        <div className="route-fields">
+          <div className="route-rail" aria-hidden="true">
+            <span className="route-dot from" />
+            <span className="route-line" />
+            {showVia && <><span className="route-dot via" /><span className="route-line" /></>}
+            <span className="route-dot to" />
+          </div>
+          <div className="route-inputs">
             <RouteSearchInput
-              label="From" placeholder="Ameerpet"
+              row label="From" placeholder="Where from? e.g. Ameerpet"
               value={fromQuery} onChange={setFromQuery} onPick={pickFrom}
               eateries={eateries} areaCentroids={areaCentroids}
-              trailingReserve={34}
+              trailing={pinBtn("from")}
             />
-          </div>
-          <button
-            onClick={() => togglePick("from")}
-            aria-label="Drop a pin for From"
-            className="pressable-sm"
-            style={{
-              flexShrink: 0, width: 46, height: 46, borderRadius: "50%",
-              border: pickTarget === "from" ? "none" : "1.5px solid var(--line)",
-              background: pickTarget === "from" ? "var(--violet)" : "var(--cream-hi)",
-              cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-              boxShadow: "var(--e1)",
-            }}
-          >
-            <Icon name="pin" size={17} width={1.9} color={pickTarget === "from" ? "#fff" : "var(--muted)"} />
-          </button>
-        </div>
-        <div style={{ position: "relative", display: "flex", gap: 6 }}>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <RouteSearchInput
-              label="To" placeholder="Gachibowli"
-              value={toQuery} onChange={setToQuery} onPick={pickTo}
-              eateries={eateries} areaCentroids={areaCentroids}
-              trailingReserve={34}
-            />
-          </div>
-          <button
-            onClick={() => togglePick("to")}
-            aria-label="Drop a pin for To"
-            className="pressable-sm"
-            style={{
-              flexShrink: 0, width: 46, height: 46, borderRadius: "50%",
-              border: pickTarget === "to" ? "none" : "1.5px solid var(--line)",
-              background: pickTarget === "to" ? "var(--violet)" : "var(--cream-hi)",
-              cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-              boxShadow: "var(--e1)",
-            }}
-          >
-            <Icon name="pin" size={17} width={1.9} color={pickTarget === "to" ? "#fff" : "var(--muted)"} />
-          </button>
-        </div>
-        {showVia && (
-          <div style={{ display: "flex", gap: 6 }}>
-            <div style={{ flex: 1, minWidth: 0 }}>
+            {showVia && (
               <RouteSearchInput
-                label="Via" placeholder="Jubilee Hills"
+                row label="Stop" placeholder="Stop on the way"
                 value={viaQuery} onChange={setViaQuery} onPick={pickVia}
                 eateries={eateries} areaCentroids={areaCentroids}
-                trailingReserve={34}
+                trailing={<>
+                  {pinBtn("via")}
+                  <button type="button" onClick={removeVia} aria-label="Remove stop" className="route-pin">
+                    <Icon name="close" size={13} width={2.2} color="var(--muted)" />
+                  </button>
+                </>}
               />
-            </div>
-            <button
-              onClick={() => togglePick("via")}
-              aria-label="Drop a pin for Via"
-              className="pressable-sm"
-              style={{
-                flexShrink: 0, width: 46, height: 46, borderRadius: "50%",
-                border: pickTarget === "via" ? "none" : "1.5px solid var(--line)",
-                background: pickTarget === "via" ? "var(--violet)" : "var(--cream-hi)",
-                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-                boxShadow: "var(--e1)",
-              }}
-            >
-              <Icon name="pin" size={17} width={1.9} color={pickTarget === "via" ? "#fff" : "var(--muted)"} />
-            </button>
-            <button
-              onClick={removeVia}
-              aria-label="Remove via stop"
-              className="pressable-sm"
-              style={{
-                flexShrink: 0, width: 46, height: 46, borderRadius: "50%",
-                border: "1.5px solid var(--line)", background: "var(--cream-hi)",
-                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-                boxShadow: "var(--e1)",
-              }}
-            >
-              <Icon name="close" size={15} width={2.2} color="var(--muted)" />
-            </button>
+            )}
+            <RouteSearchInput
+              row label="To" placeholder="Where to? e.g. Gachibowli"
+              value={toQuery} onChange={setToQuery} onPick={pickTo}
+              eateries={eateries} areaCentroids={areaCentroids}
+              trailing={pinBtn("to")}
+            />
           </div>
-        )}
-        <button
-          onClick={swap}
-          aria-label="Swap from and to"
-          className="pressable-sm"
-          style={{
-            position: "absolute", right: 56, top: 54, transform: "translateY(-50%)",
-            width: 28, height: 28, borderRadius: "50%", border: "1.5px solid var(--line)",
-            background: "var(--cream-hi)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-            zIndex: 2, boxShadow: "var(--e1)",
-          }}
-        >
-          <Icon name="navigate" size={13} width={2} color="var(--muted)" style={{ transform: "rotate(90deg)" }} />
-        </button>
-      </div>
-      {!showVia && (
-        <button
-          onClick={() => setShowVia(true)}
-          className="pressable-sm"
-          style={{
-            alignSelf: "flex-start", border: "none", background: "transparent",
-            color: "var(--violet)", fontSize: 12.5, fontWeight: 700, cursor: "pointer",
-            padding: "2px 2px", display: "flex", alignItems: "center", gap: 4,
-          }}
-        >
-          <Icon name="pin" size={13} width={2} color="var(--violet)" />
-          Route through a specific place
-        </button>
-      )}
-      {pickTarget && (
-        <div className="material" style={{ padding: "8px 13px", borderRadius: "var(--r-lg)", fontSize: 12, fontWeight: 600, color: "var(--violet)", display: "flex", alignItems: "center", gap: 6 }}>
-          <Icon name="pin" size={13} width={2} color="var(--violet)" />
-          Tap the map to drop a pin for {pickTarget === "from" ? "From" : pickTarget === "via" ? "your via stop" : "To"}
+          <button type="button" onClick={swap} aria-label="Swap from and to" className="route-swap">
+            <Icon name="navigate" size={14} width={2} color="var(--ink-soft)" style={{ transform: "rotate(90deg)" }} />
+          </button>
         </div>
-      )}
 
-      <div style={{ display: "flex", gap: 6 }}>
-        {BUFFER_OPTIONS.map((opt) => {
-          const active = bufferMeters === opt.meters;
-          return (
-            <button
-              key={opt.meters}
-              onClick={() => setBufferMeters(opt.meters)}
-              className="pressable-sm"
-              style={{
-                flex: 1, height: 34, border: "none", borderRadius: "var(--r-pill)",
-                background: active ? "var(--violet)" : "var(--cream-hi)",
-                color: active ? "#fff" : "var(--ink-soft)",
-                fontSize: 12.5, fontWeight: 700, cursor: "pointer",
-                boxShadow: active ? "none" : "var(--e1)",
-              }}
-            >
-              {opt.label}
-            </button>
-          );
-        })}
+        {pickTarget && (
+          <p className="route-hint">
+            <Icon name="pin" size={12} width={2} color="var(--violet)" />
+            Tap the map to drop a pin for {pickTarget === "from" ? "From" : pickTarget === "via" ? "your stop" : "To"}
+          </p>
+        )}
+
+        <div className="route-opts">
+          {!showVia ? (
+            <button type="button" onClick={() => setShowVia(true)} className="route-add">+ Add a stop</button>
+          ) : <span />}
+          <div className="route-seg" role="group" aria-label="How far off the route">
+            {BUFFER_OPTIONS.map((opt) => (
+              <button
+                key={opt.meters}
+                type="button"
+                className={bufferMeters === opt.meters ? "active" : undefined}
+                aria-pressed={bufferMeters === opt.meters}
+                onClick={() => setBufferMeters(opt.meters)}
+                title={`Spots within ${opt.meters} m of the road`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <button type="button" onClick={findSpots} disabled={status === "loading"} className="route-go">
+          <Icon name="navigate" size={16} width={2} color="#fff" />
+          {status === "loading" ? "Finding the route…" : "Find spots along the way"}
+        </button>
       </div>
-
-      <button
-        onClick={findSpots}
-        disabled={status === "loading"}
-        className="pressable-sm"
-        style={{
-          height: 44, border: "none", borderRadius: "var(--r-pill)",
-          background: "var(--violet)", color: "#fff", fontSize: 14, fontWeight: 700,
-          display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
-          cursor: status === "loading" ? "default" : "pointer",
-          opacity: status === "loading" ? 0.75 : 1,
-          boxShadow: "var(--e2)",
-        }}
-      >
-        <Icon name="navigate" size={16} width={2} color="#fff" />
-        {status === "loading" ? "Finding the route…" : "Find spots along the way"}
-      </button>
     </div>
   );
 }

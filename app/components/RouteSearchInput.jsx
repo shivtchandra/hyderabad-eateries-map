@@ -8,7 +8,8 @@ import { searchAreasAndSpots, geocodeAddress } from "../../lib/routeSearch.js";
 // exact spot, or (debounced, once local matches run out) a free-text address
 // via Nominatim, same "type anything" feel as Google Maps' from/to boxes.
 // Used twice by RoutePanel, once for From and once for To.
-export default function RouteSearchInput({ label, placeholder, value, onChange, onPick, eateries, areaCentroids, trailingReserve = 0 }) {
+// `row` renders a borderless line for the stacked From/To card; `trailing` sits at its end.
+export default function RouteSearchInput({ label, placeholder, value, onChange, onPick, eateries, areaCentroids, trailingReserve = 0, row = false, trailing = null }) {
   const [open, setOpen] = useState(false);
   const [addressResults, setAddressResults] = useState([]);
   const [geocoding, setGeocoding] = useState(false);
@@ -34,16 +35,18 @@ export default function RouteSearchInput({ label, placeholder, value, onChange, 
   return (
     <div style={{ position: "relative" }}>
       <div
-        className="material"
-        style={{
+        className={row ? "route-row" : "material"}
+        style={row ? undefined : {
           display: "flex", alignItems: "center", gap: 9,
           height: 46, padding: `0 ${13 + trailingReserve}px 0 13px`, borderRadius: "var(--r-pill)",
         }}
       >
-        <Icon name="search" size={16} color="var(--muted)" />
-        <span style={{ fontSize: 11, fontWeight: 700, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.04em", flexShrink: 0 }}>
-          {label}
-        </span>
+        {!row && <Icon name="search" size={16} color="var(--muted)" />}
+        {!row && (
+          <span style={{ fontSize: 11, fontWeight: 700, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.04em", flexShrink: 0 }}>
+            {label}
+          </span>
+        )}
         <input
           ref={inputRef}
           value={value}
@@ -51,6 +54,7 @@ export default function RouteSearchInput({ label, placeholder, value, onChange, 
           onFocus={() => setOpen(true)}
           onBlur={() => setTimeout(() => setOpen(false), 120)}
           placeholder={placeholder}
+          aria-label={label}
           style={{
             flex: 1, minWidth: 0, border: "none", outline: "none",
             background: "transparent", fontSize: 14, fontWeight: 600, color: "var(--ink)",
@@ -66,6 +70,7 @@ export default function RouteSearchInput({ label, placeholder, value, onChange, 
             <Icon name="close" size={14} width={2.2} color="var(--muted)" />
           </button>
         )}
+        {trailing}
       </div>
 
       {open && value.trim() && (
