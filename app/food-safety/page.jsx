@@ -9,7 +9,8 @@ import BottomNav from "../components/BottomNav.jsx";
 import BackButton from "../components/BackButton.jsx";
 import DriveList from "./DriveList.jsx";
 
-export const revalidate = 300;
+// Data changes bust the "inspections" tag; a short window only added ISR writes.
+export const revalidate = 86400;
 
 const SLUG = "/food-safety";
 const TITLE = "Hyderabad Restaurant Food Safety Raids 2026";
