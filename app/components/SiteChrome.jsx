@@ -4,6 +4,7 @@ import BackButton from "./BackButton.jsx";
 
 const NAV = [
   { href: "/", label: "Map" },
+  { href: "/offers", label: "Deals" },
   { href: "/stories", label: "Stories" },
   { href: "/rankings", label: "Rankings" },
   { href: "/explore", label: "Explore" },
@@ -51,6 +52,7 @@ export function SiteFooter() {
         <Link href="/areas/kondapur">Kondapur</Link>
         <Link href="/areas">Areas</Link>
         <Link href="/explore">Explore</Link>
+        <Link href="/offers">Dining Deals</Link>
         <Link href="/stories">Stories</Link>
         <Link href="/food-safety">Food safety</Link>
         <Link href="/about">About</Link>

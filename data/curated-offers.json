@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-09-28T14:20:00.000Z",
-  "totalSpotsWithOffers": 16,
+  "updatedAt": "2026-09-28T09:13:10.326Z",
+  "totalSpotsWithOffers": 156,
   "spots": {
     "ChIJDX3wkpWTyzsR5ukjsiQCMqM": {
       "name": "AB's - Absolute Barbecues Gachibowli",
@@ -8,19 +8,47 @@
         "url": "https://www.district.in/dining/hyderabad/abs-absolute-barbecues-gachibowli",
         "hasOffers": true,
         "offers": [
-          { "type": "PRE_BOOK", "title": "Flat 15% OFF", "desc": "Valid from 12PM to 6PM Booking required" },
-          { "type": "INSTANT", "title": "FLAT ₹175 OFF", "desc": "Valid on dining bill payment" },
-          { "type": "BANK", "title": "25% OFF up to ₹5,000", "desc": "Using RBL Bank LUMIÈRE Credit Card" },
-          { "type": "SURPRISE", "title": "Scratch Card", "desc": "Get a scratch card after every transaction" }
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid from 12PM to 6PM Booking required"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹175 OFF",
+            "desc": "Valid on dining bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹5,000",
+            "desc": "Using RBL Bank LUMIÈRE Credit Card"
+          },
+          {
+            "type": "SURPRISE",
+            "title": "Scratch Card",
+            "desc": "Get a scratch card after every transaction"
+          }
         ]
       },
       "swiggy": {
         "url": "https://www.swiggy.com/restaurants/hyderabad/gachibowli/ab-s-absolute-barbecues-1214329/dineout",
         "hasOffers": true,
         "offers": [
-          { "type": "FLAT", "title": "Flat 10% OFF", "desc": "On total dining bill" },
-          { "type": "PROMO", "title": "Flat ₹200 OFF", "desc": "Promotional Dineout voucher" },
-          { "type": "CASHBACK", "title": "10% Cashback", "desc": "On bill payment with Swiggy Dineout Pay" }
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "PROMO",
+            "title": "Flat ₹200 OFF",
+            "desc": "Promotional Dineout voucher"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
         ]
       }
     },
@@ -30,18 +58,42 @@
         "url": "https://www.zomato.com/hyderabad/the-fishermans-wharf-gachibowli",
         "hasOffers": true,
         "offers": [
-          { "type": "PRE_BOOK", "title": "Flat 15% OFF", "desc": "Valid from 12PM to 6PM Booking required" },
-          { "type": "INSTANT", "title": "FLAT ₹175 OFF", "desc": "Valid on dining bill payment" },
-          { "type": "BANK", "title": "25% OFF up to ₹5,000", "desc": "Using RBL Bank LUMIÈRE Credit Card" }
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid from 12PM to 6PM Booking required"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹175 OFF",
+            "desc": "Valid on dining bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹5,000",
+            "desc": "Using RBL Bank LUMIÈRE Credit Card"
+          }
         ]
       },
       "swiggy": {
         "url": "https://www.swiggy.com/restaurants/hyderabad/financial-district/the-fisherman-s-wharf-309469/dineout",
         "hasOffers": true,
         "offers": [
-          { "type": "FLAT", "title": "Flat 10% OFF", "desc": "On total dining bill" },
-          { "type": "PROMO", "title": "Flat ₹200 OFF", "desc": "Promotional Dineout voucher" },
-          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Swiggy Dineout Pay" }
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "PROMO",
+            "title": "Flat ₹200 OFF",
+            "desc": "Promotional Dineout voucher"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
         ]
       }
     },
@@ -51,16 +103,32 @@
         "url": "https://www.district.in/dining/hyderabad/prost-jubilee-hills",
         "hasOffers": true,
         "offers": [
-          { "type": "PRE_BOOK", "title": "Flat 15% OFF", "desc": "Pre-booking required on table reservations" },
-          { "type": "BANK", "title": "Up to 20% OFF", "desc": "Partner bank cards on District Dining" }
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Pre-booking required on table reservations"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Partner bank cards on District Dining"
+          }
         ]
       },
       "swiggy": {
         "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/prost-1214360/dineout",
         "hasOffers": true,
         "offers": [
-          { "type": "FLAT", "title": "Flat 10% OFF", "desc": "On Dineout Pay" },
-          { "type": "CASHBACK", "title": "5% Cashback", "desc": "On dining bills" }
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "5% Cashback",
+            "desc": "On dining bills"
+          }
         ]
       }
     },
@@ -70,15 +138,27 @@
         "url": "https://www.district.in/dining/hyderabad/rayalaseema-ruchulu-hitech-city",
         "hasOffers": true,
         "offers": [
-          { "type": "PRE_BOOK", "title": "Flat 10% OFF", "desc": "Valid on table booking" },
-          { "type": "INSTANT", "title": "FLAT ₹100 OFF", "desc": "Instant bill discount" }
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 10% OFF",
+            "desc": "Valid on table booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹100 OFF",
+            "desc": "Instant bill discount"
+          }
         ]
       },
       "swiggy": {
         "url": "https://www.swiggy.com/city/hyderabad/rayalaseema-ruchulu-hitech-city-rest11091",
         "hasOffers": true,
         "offers": [
-          { "type": "FLAT", "title": "Flat 10% OFF", "desc": "On Dineout Pay" }
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On Dineout Pay"
+          }
         ]
       }
     },
@@ -88,16 +168,32 @@
         "url": "https://www.district.in/dining/hyderabad/tatva-begumpet",
         "hasOffers": true,
         "offers": [
-          { "type": "PRE_BOOK", "title": "Flat 10% OFF", "desc": "Pre-book pure veg dining" },
-          { "type": "BANK", "title": "Up to 15% OFF", "desc": "HDFC & ICICI card discount" }
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 10% OFF",
+            "desc": "Pre-book pure veg dining"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "HDFC & ICICI card discount"
+          }
         ]
       },
       "swiggy": {
         "url": "https://www.swiggy.com/restaurants/hyderabad/begumpet/tatva-restaurant-1214375/dineout",
         "hasOffers": true,
         "offers": [
-          { "type": "FLAT", "title": "Flat 10% OFF", "desc": "On total food bill" },
-          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Dineout Pay" }
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total food bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Dineout Pay"
+          }
         ]
       }
     },
@@ -107,14 +203,22 @@
         "url": "https://www.district.in/dining/hyderabad/cafe-niloufer-premium-lounge-banjara-hills",
         "hasOffers": true,
         "offers": [
-          { "type": "BANK", "title": "Up to 15% OFF", "desc": "Partner bank offers on District" }
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank offers on District"
+          }
         ]
       },
       "swiggy": {
         "url": "https://www.swiggy.com/city/hyderabad/cafe-niloufer-banjara-hills-banjara-hills-rest228215",
         "hasOffers": true,
         "offers": [
-          { "type": "CASHBACK", "title": "Cashback Deals", "desc": "Available on select items" }
+          {
+            "type": "CASHBACK",
+            "title": "Cashback Deals",
+            "desc": "Available on select items"
+          }
         ]
       }
     },
@@ -124,16 +228,32 @@
         "url": "https://www.district.in/dining/hyderabad/manam-chocolate-karkhana-banjara-hills",
         "hasOffers": true,
         "offers": [
-          { "type": "PRE_BOOK", "title": "Flat 10% OFF", "desc": "Valid on table reservations & desserts" },
-          { "type": "BANK", "title": "15% OFF up to ₹1,000", "desc": "Partner bank card offer on District Pay" }
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 10% OFF",
+            "desc": "Valid on table reservations & desserts"
+          },
+          {
+            "type": "BANK",
+            "title": "15% OFF up to ₹1,000",
+            "desc": "Partner bank card offer on District Pay"
+          }
         ]
       },
       "swiggy": {
         "url": "https://www.swiggy.com/restaurants/hyderabad/banjara-hills/manam-chocolate-karkhana-dineout",
         "hasOffers": true,
         "offers": [
-          { "type": "FLAT", "title": "Flat 10% OFF", "desc": "On total dining & coffee bill" },
-          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Swiggy Dineout Pay" }
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining & coffee bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
         ]
       }
     },
@@ -143,16 +263,32 @@
         "url": "https://www.district.in/dining/hyderabad/burma-burma-madhapur",
         "hasOffers": true,
         "offers": [
-          { "type": "PRE_BOOK", "title": "Flat 15% OFF", "desc": "Valid from 12PM to 6PM Booking required" },
-          { "type": "INSTANT", "title": "FLAT ₹150 OFF", "desc": "Valid on pure veg dining bill payment" }
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid from 12PM to 6PM Booking required"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Valid on pure veg dining bill payment"
+          }
         ]
       },
       "swiggy": {
         "url": "https://www.swiggy.com/restaurants/hyderabad/madhapur/burma-burma-dineout",
         "hasOffers": true,
         "offers": [
-          { "type": "FLAT", "title": "Flat 10% OFF", "desc": "On total dining bill" },
-          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Swiggy Dineout Pay" }
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
         ]
       }
     },
@@ -162,16 +298,32 @@
         "url": "https://www.district.in/dining/hyderabad/chilis-grill-bar-madhapur",
         "hasOffers": true,
         "offers": [
-          { "type": "PRE_BOOK", "title": "Flat 15% OFF", "desc": "Pre-booking required on table reservations" },
-          { "type": "BANK", "title": "20% OFF up to ₹2,000", "desc": "Partner bank cards on District Dining" }
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Pre-booking required on table reservations"
+          },
+          {
+            "type": "BANK",
+            "title": "20% OFF up to ₹2,000",
+            "desc": "Partner bank cards on District Dining"
+          }
         ]
       },
       "swiggy": {
         "url": "https://www.swiggy.com/restaurants/hyderabad/madhapur/chilis-grill-and-bar-dineout",
         "hasOffers": true,
         "offers": [
-          { "type": "FLAT", "title": "Flat 15% OFF", "desc": "On total Tex-Mex bill" },
-          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Dineout Pay" }
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total Tex-Mex bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Dineout Pay"
+          }
         ]
       }
     },
@@ -181,14 +333,22 @@
         "url": "https://www.district.in/dining/hyderabad/the-rameshwaram-cafe-madhapur",
         "hasOffers": true,
         "offers": [
-          { "type": "INSTANT", "title": "FLAT ₹50 OFF", "desc": "Instant bill discount on South Indian breakfast" }
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹50 OFF",
+            "desc": "Instant bill discount on South Indian breakfast"
+          }
         ]
       },
       "swiggy": {
         "url": "https://www.swiggy.com/restaurants/hyderabad/madhapur/the-rameshwaram-cafe-dineout",
         "hasOffers": true,
         "offers": [
-          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Swiggy Dineout Pay" }
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
         ]
       }
     },
@@ -198,15 +358,27 @@
         "url": "https://www.district.in/dining/hyderabad/hard-rock-cafe-hitech-city",
         "hasOffers": true,
         "offers": [
-          { "type": "PRE_BOOK", "title": "Flat 20% OFF", "desc": "Valid on table booking" },
-          { "type": "BANK", "title": "25% OFF up to ₹3,000", "desc": "Using HDFC Bank Premium Cards" }
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on table booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹3,000",
+            "desc": "Using HDFC Bank Premium Cards"
+          }
         ]
       },
       "swiggy": {
         "url": "https://www.swiggy.com/restaurants/hyderabad/hitech-city/hard-rock-cafe-dineout",
         "hasOffers": true,
         "offers": [
-          { "type": "FLAT", "title": "Flat 15% OFF", "desc": "On food & beverage bill" }
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On food & beverage bill"
+          }
         ]
       }
     },
@@ -216,14 +388,22 @@
         "url": "https://www.district.in/dining/hyderabad/red-rhino-financial-district",
         "hasOffers": true,
         "offers": [
-          { "type": "PRE_BOOK", "title": "Flat 15% OFF", "desc": "Pre-book craft beer & food bill" }
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Pre-book craft beer & food bill"
+          }
         ]
       },
       "swiggy": {
         "url": "https://www.swiggy.com/restaurants/hyderabad/financial-district/red-rhino-dineout",
         "hasOffers": true,
         "offers": [
-          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Swiggy Dineout Pay" }
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
         ]
       }
     },
@@ -233,14 +413,22 @@
         "url": "https://www.district.in/dining/hyderabad/paul-jubilee-hills",
         "hasOffers": true,
         "offers": [
-          { "type": "PRE_BOOK", "title": "Flat 10% OFF", "desc": "Valid on European breakfast & pastries" }
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 10% OFF",
+            "desc": "Valid on European breakfast & pastries"
+          }
         ]
       },
       "swiggy": {
         "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/paul-dineout",
         "hasOffers": true,
         "offers": [
-          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Swiggy Dineout Pay" }
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
         ]
       }
     },
@@ -250,14 +438,22 @@
         "url": "https://www.district.in/dining/hyderabad/windmills-craftworks-madhapur",
         "hasOffers": true,
         "offers": [
-          { "type": "PRE_BOOK", "title": "Flat 15% OFF", "desc": "Valid on craft beer & dining pre-booking" }
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on craft beer & dining pre-booking"
+          }
         ]
       },
       "swiggy": {
         "url": "https://www.swiggy.com/restaurants/hyderabad/madhapur/windmills-craftworks-dineout",
         "hasOffers": true,
         "offers": [
-          { "type": "CASHBACK", "title": "15% Cashback", "desc": "Via Swiggy Dineout Pay" }
+          {
+            "type": "CASHBACK",
+            "title": "15% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
         ]
       }
     },
@@ -267,14 +463,22 @@
         "url": "https://www.district.in/dining/hyderabad/subko-jubilee-hills",
         "hasOffers": true,
         "offers": [
-          { "type": "INSTANT", "title": "FLAT ₹50 OFF", "desc": "Instant discount on specialty coffee" }
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹50 OFF",
+            "desc": "Instant discount on specialty coffee"
+          }
         ]
       },
       "swiggy": {
         "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/subko-dineout",
         "hasOffers": true,
         "offers": [
-          { "type": "CASHBACK", "title": "10% Cashback", "desc": "Via Swiggy Dineout Pay" }
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
         ]
       }
     },
@@ -284,14 +488,5562 @@
         "url": "https://www.district.in/dining/hyderabad/loqa-cocktail-room-knowledge-park",
         "hasOffers": true,
         "offers": [
-          { "type": "PRE_BOOK", "title": "Flat 20% OFF", "desc": "Valid on cocktail bar pre-booking" }
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on cocktail bar pre-booking"
+          }
         ]
       },
       "swiggy": {
         "url": "https://www.swiggy.com/restaurants/hyderabad/manikonda/loqa-cocktail-room-dineout",
         "hasOffers": true,
         "offers": [
-          { "type": "CASHBACK", "title": "15% Cashback", "desc": "Via Swiggy Dineout Pay" }
+          {
+            "type": "CASHBACK",
+            "title": "15% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJG_3xjA-ayzsRFh3aJZ-Rbjg": {
+      "name": "Paradise Biryani | Secunderabad",
+      "area": "Begumpet",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/paradise-biryani-secunderabad-begumpet",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/begumpet/paradise-biryani-secunderabad-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJKyxGIoiXyzsRPY8PASGdTW0": {
+      "name": "Hotel Shadab",
+      "area": "Himayatnagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/hotel-shadab-charminar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/himayatnagar/hotel-shadab-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJgyvaADWZyzsRcY8343RzgXE": {
+      "name": "Pista House Uppal",
+      "area": "Secunderabad",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-uppal-secunderabad",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/secunderabad/pista-house-uppal-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJWwy5FQ6RyzsRPh-OIGTemTk": {
+      "name": "Girlfriend Mandi",
+      "area": "Madhapur",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/girlfriend-mandi-madhapur",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/madhapur/girlfriend-mandi-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJXwoQ3d6ZyzsRt9dtZ7q3HQE": {
+      "name": "Cafe Bahar",
+      "area": "Banjara Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/cafe-bahar-banjara-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/banjara-hills/cafe-bahar-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ66NhVvGRyzsRJl-6JFh016I": {
+      "name": "Pista House",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-gachibowli",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/gachibowli/pista-house-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJD7WPb9KZyzsRrX2ksU5Tyfo": {
+      "name": "Gokul Chat",
+      "area": "Koti",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/gokul-chat-koti",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/koti/gokul-chat-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJM-QeKX68yzsRmwg7iPfn7Dk": {
+      "name": "En-Calm Lounge",
+      "area": "Shamshabad",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/en-calm-lounge-shamshabad",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on craft beer, drinks & table pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹2,500",
+            "desc": "Using HDFC & ICICI Premium Cards"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/shamshabad/en-calm-lounge-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total alcohol & food bill via Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On Dineout bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJvzzJa9aZyzsR6kewVJXGfVs": {
+      "name": "Grand Hotel",
+      "area": "Abids",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/grand-hotel-abids",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/abids/grand-hotel-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJh2w1EvCTyzsRtTGu3bcFeFQ": {
+      "name": "Pista House Gachibowli",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-gachibowli-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/pista-house-gachibowli-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJOQniFvWXyzsRQ1K83DNOYIE": {
+      "name": "Pista House Shahalibanda",
+      "area": "Himayatnagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-shahalibanda-himayatnagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/himayatnagar/pista-house-shahalibanda-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJNQvC_siYyzsRO3qaKj3fVik": {
+      "name": "Lucky Restaurant",
+      "area": "Dilsukhnagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/lucky-restaurant-dilsukhnagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/dilsukhnagar/lucky-restaurant-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ5XD1sseTyzsRFEds_xLaFdU": {
+      "name": "Pista House Kondapur",
+      "area": "Kondapur",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-kondapur-kondapur",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/kondapur/pista-house-kondapur-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJVRfv55WTyzsR9EgIYkggz1c": {
+      "name": "Paradise Biryani | Gachibowli",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/paradise-biryani-gachibowli-gachibowli",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/gachibowli/paradise-biryani-gachibowli-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJM1i_kQ6RyzsRUgtSV5h6Pww": {
+      "name": "Krishnapatnam",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/krishnapatnam-kothapet",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/krishnapatnam-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJKVwWFjaRyzsRrvZ_tKF9DqA": {
+      "name": "MANDI @ 36 Arabian kitchen",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/mandi-36-arabian-kitchen-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/mandi-36-arabian-kitchen-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJnZqat46RyzsRPG8lWF2YkEQ": {
+      "name": "Chaitanya Food Court",
+      "area": "Kukatpally",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/chaitanya-food-court-kukatpally",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/kukatpally/chaitanya-food-court-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJgcnZobyQyzsRCcbNB-7Y2pQ": {
+      "name": "Paradise Biryani | Begumpet",
+      "area": "Begumpet",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/paradise-biryani-begumpet-begumpet",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/begumpet/paradise-biryani-begumpet-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ0URLoMqQyzsRNnBu8zRu7kE": {
+      "name": "Meridian Restaurant",
+      "area": "Panjagutta",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/meridian-restaurant-panjagutta",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/panjagutta/meridian-restaurant-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJVy0-aGiXyzsRWMiIWZ1fC30": {
+      "name": "Cafe Niloufer",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/cafe-niloufer-lakdikapul",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/cafe-niloufer-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJkb1NjRCXyzsR3qnUdAZWi-0": {
+      "name": "Pista House Tolichowki",
+      "area": "Film Nagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-tolichowki",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/film-nagar/pista-house-tolichowki-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJfywlgCGayzsRXA3Zz4cSPic": {
+      "name": "Alpha Hotel & Restaurant",
+      "area": "Secunderabad",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/alpha-hotel-restaurant-secunderabad",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/secunderabad/alpha-hotel-restaurant-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJNUS44SeYyzsRQl6GqHS92tg": {
+      "name": "Hotel Nayaab",
+      "area": "Charminar/Old City",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/hotel-nayaab-charminar-old-city",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/charminar-old-city/hotel-nayaab-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ9wAAXCCYyzsR690r14Y89so": {
+      "name": "Pista House Alijah Kotla",
+      "area": "Charminar/Old City",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-alijah-kotla-charminar-old-city",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/charminar-old-city/pista-house-alijah-kotla-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJdT5ckhCXyzsR4LCyLaVsUpg": {
+      "name": "Prince Hotel",
+      "area": "Mehdipatnam",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/prince-hotel-mehdipatnam",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/mehdipatnam/prince-hotel-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJK31NK5WRyzsRP7IZS4OqydE": {
+      "name": "Paradise Biryani | Kukatpally",
+      "area": "Kukatpally",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/paradise-biryani-kukatpally-kukatpally",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/kukatpally/paradise-biryani-kukatpally-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ90J0M8mQyzsRYTa2yb4CiXw": {
+      "name": "Kakatiya Deluxe Mess",
+      "area": "Ameerpet",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/kakatiya-deluxe-mess-ameerpet",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/ameerpet/kakatiya-deluxe-mess-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJQ-rPzIaXyzsRYJwmTgCQlns": {
+      "name": "Ram ki Bandi",
+      "area": "Nampally",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/ram-ki-bandi-nampally",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/nampally/ram-ki-bandi-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJw-MCKzSYyzsRNGvxUsetab0": {
+      "name": "HOTEL SOHAIL",
+      "area": "Malakpet",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/hotel-sohail-malakpet",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/malakpet/hotel-sohail-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJxwozzBSZyzsRiwULSfN7Fxk": {
+      "name": "Taj Mahal Hotel",
+      "area": "Abids",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/taj-mahal-hotel-abids",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/abids/taj-mahal-hotel-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJhRmbAaC-yzsR69bxE7vVdFE": {
+      "name": "Paradise Biryani | Shamshabad",
+      "area": "Shamshabad",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/paradise-biryani-shamshabad-shamshabad",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/shamshabad/paradise-biryani-shamshabad-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJVQ-NDUibyzsR3pPqG1eqjpY": {
+      "name": "Pista House A. S. Rao Nagar",
+      "area": "Secunderabad",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-a-s-rao-nagar-secunderabad",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/secunderabad/pista-house-a-s-rao-nagar-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJc6B4rd6TyzsRVfRyjhJzCcc": {
+      "name": "Paradise Biryani | Hitech City",
+      "area": "Madhapur/HITEC",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/paradise-biryani-hitech-city-madhapur-hitec",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/madhapur-hitec/paradise-biryani-hitech-city-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJQ6aIt_KRyzsRNRQX3kW-fEE": {
+      "name": "Chutneys",
+      "area": "Kukatpally",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/chutneys-hitech-city",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/kukatpally/chutneys-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJT9Bwx1qRyzsRFJNCT5djjzU": {
+      "name": "Krishna's Kitchen",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/krishna-s-kitchen-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/krishna-s-kitchen-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJdxWXYrmTyzsR4yXppJpm0Co": {
+      "name": "63 Degrees Modern Regional Buffet",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/63-degrees-modern-regional-buffet-hitech-city",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/gachibowli/63-degrees-modern-regional-buffet-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJn8wnYjeRyzsR3juoZM7aKgY": {
+      "name": "The Spicy Venue",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/the-spicy-venue-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/the-spicy-venue-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJF5hj_DiXyzsRn7P0sjf5hkE": {
+      "name": "Bikanervala | Banjara Hills",
+      "area": "Banjara Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/bikanervala-banjara-hills-banjara-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/banjara-hills/bikanervala-banjara-hills-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJWSrjTniZyzsRpsOULoQWJrE": {
+      "name": "Pista House King Koti",
+      "area": "Himayatnagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-king-koti-himayatnagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/himayatnagar/pista-house-king-koti-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJf8yLfauTyzsRERLQPBeD3vg": {
+      "name": "The Nawaab's Restaurant",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/the-nawaab-s-restaurant-gachibowli",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/gachibowli/the-nawaab-s-restaurant-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJD2xTlR-XyzsRBrWHH2jDPGg": {
+      "name": "Parampara - Flavours Of India",
+      "area": "Banjara Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/parampara-flavours-of-india-banjara-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/banjara-hills/parampara-flavours-of-india-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJCRgjRuiWyzsRSvwHANCeoPw": {
+      "name": "Hotel Rumaan",
+      "area": "Film Nagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/hotel-rumaan-film-nagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/film-nagar/hotel-rumaan-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJVfQrJVyXyzsRZwxPZ74BlcU": {
+      "name": "Amrutha Castle",
+      "area": "Himayatnagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/amrutha-castle-himayatnagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on craft beer, drinks & table pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹2,500",
+            "desc": "Using HDFC & ICICI Premium Cards"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/himayatnagar/amrutha-castle-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total alcohol & food bill via Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On Dineout bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJ_RvSJnebyzsRMjwh2mVwWsk": {
+      "name": "The Coffee Cup",
+      "area": "ECIL",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/the-coffee-cup-ecil",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/ecil/the-coffee-cup-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJQ2qUrd6TyzsRskEgdqbhMW0": {
+      "name": "Sahib's Barbeque By Ohris",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/sahibs-barbeque-by-ohris-madhapur",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/gachibowli/sahib-s-barbeque-by-ohris-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJk6_fjN-TyzsRTNY0dJ8Q1IQ": {
+      "name": "Avasa",
+      "area": "Madhapur/HITEC",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/avasa-madhapur-hitec",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on craft beer, drinks & table pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹2,500",
+            "desc": "Using HDFC & ICICI Premium Cards"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/madhapur-hitec/avasa-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total alcohol & food bill via Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On Dineout bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJR6BsaiSayzsRsSO9VMoYktQ": {
+      "name": "Blue Sea Tea & Snacks",
+      "area": "Begumpet",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/blue-sea-tea-snacks-begumpet",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/begumpet/blue-sea-tea-snacks-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJUwuspYWTyzsRYssLrL7bT74": {
+      "name": "CoalSpark Multi Cuisine Restaurant",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/coalspark-multi-cuisine-restaurant-gachibowli",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/gachibowli/coalspark-multi-cuisine-restaurant-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJWUl-wiqXyzsRud1hDiZM0aM": {
+      "name": "Roastery Coffee House",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/roastery-coffee-house-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/roastery-coffee-house-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJbYX_scuTyzsRhfS_ouRpMfA": {
+      "name": "Maryada Ramanna Multi Cusine Restaurant",
+      "area": "Hyderabad",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/maryada-ramanna-multi-cusine-restaurant-hyderabad",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/hyderabad/maryada-ramanna-multi-cusine-restaurant-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJeVurljCRyzsRXvkaOVyKuIo": {
+      "name": "Vivaha Bhojanambu Kitchen And Bar",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/vivaha-bhojanambu-kitchen-and-bar-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on craft beer, drinks & table pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹2,500",
+            "desc": "Using HDFC & ICICI Premium Cards"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/vivaha-bhojanambu-kitchen-and-bar-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total alcohol & food bill via Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On Dineout bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJp9E_0daZyzsR6bXExQIuwIs": {
+      "name": "Royal Tiffin Centre",
+      "area": "Film Nagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/royal-tiffin-centre-film-nagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/film-nagar/royal-tiffin-centre-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJLZabMM2iyzsR0WU0wYRTdWE": {
+      "name": "Mataam Al Arabi Errakunta",
+      "area": "Hyderabad",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/mataam-al-arabi-errakunta-hyderabad",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/hyderabad/mataam-al-arabi-errakunta-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJS3SyN66WyzsRSh6Qy--0oCc": {
+      "name": "Mehfil Restaurant",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/mehfil-restaurant-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/mehfil-restaurant-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJOzW0ax-RyzsRGDcslStfLQs": {
+      "name": "AnTeRa Kitchen and Bar",
+      "area": "text:eatery jubilee hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/antera-kitchen-and-bar-gachibowli",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/text-eatery-jubilee-hills/antera-kitchen-and-bar-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJCQAAQByayzsRey99XJdQwxk": {
+      "name": "Nani's Tiffins",
+      "area": "Banjara Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/nani-s-tiffins-banjara-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/banjara-hills/nani-s-tiffins-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJvQGT3-WZyzsRtDghH07FZgw": {
+      "name": "Cafe Niloufer Himayatnagar",
+      "area": "Himayatnagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/cafe-niloufer-himayatnagar-himayatnagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/himayatnagar/cafe-niloufer-himayatnagar-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJZ_3mlzCRyzsRNcddIknL_CU": {
+      "name": "Zero40 Brewing",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/zero40-brewing-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/zero40-brewing-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJp29rCEOXyzsRGrr_SIs8OYw": {
+      "name": "Kamat Hotel",
+      "area": "Lakdikapul",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/kamat-hotel-lakdikapul",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/lakdikapul/kamat-hotel-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJjUUC8RCayzsRifrUICy4rNc": {
+      "name": "Vivaha Bhojanambu",
+      "area": "Secunderabad",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/vivaha-bhojanambu-secundrabad-secunderabad",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/secunderabad/vivaha-bhojanambu-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJI3HMB0CXyzsRPUlX5dtUq4o": {
+      "name": "Cafe 555 - Aqeeq Restaurant",
+      "area": "Banjara Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/cafe-555-aqeeq-restaurant-banjara-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/banjara-hills/cafe-555-aqeeq-restaurant-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJIfN2naWRyzsRQ884HoebNm8": {
+      "name": "Ishtaa",
+      "area": "Madhapur/HITEC",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/ishtaa-madhapur-hitec",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/madhapur-hitec/ishtaa-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJezJXceeTyzsRqoltY9NfVsM": {
+      "name": "Barbeque Holic",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/barbeque-holic-kondapur",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/gachibowli/barbeque-holic-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJczu1d0KXyzsRTnWqnqIl2e8": {
+      "name": "Chicha's",
+      "area": "Lakdikapul",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/chicha-s-lakdikapul",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/lakdikapul/chicha-s-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ68V1WOeZyzsRGbwjHr7a30k": {
+      "name": "Cream Stone Concepts",
+      "area": "Banjara Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/cream-stone-concepts-banjara-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/banjara-hills/cream-stone-concepts-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJTXp7SjiXyzsRMIwDyHaFWxc": {
+      "name": "Sarvi Food Court",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/sarvi-food-court-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/sarvi-food-court-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJYTVbOpmZyzsRhB7t1OUjVyw": {
+      "name": "Pista House Malakpet",
+      "area": "Himayatnagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-malakpet-himayatnagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/himayatnagar/pista-house-malakpet-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ5a0o1R6RyzsR4bJQhnKVKBI": {
+      "name": "Naidu Kunda Biryani-Kphb",
+      "area": "Kukatpally",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/naidu-kunda-biryani-kphb-kukatpally",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/kukatpally/naidu-kunda-biryani-kphb-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJl2l98zORyzsRLEA720EopvY": {
+      "name": "Pragathi Tiffin Center",
+      "area": "Film Nagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pragathi-tiffin-center-film-nagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/film-nagar/pragathi-tiffin-center-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJkelWh5uYyzsRyT5bkdj8VlE": {
+      "name": "Hotel Shubham Palace - Karmanghat",
+      "area": "LB Nagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/hotel-shubham-palace-karmanghat-lb-nagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/lb-nagar/hotel-shubham-palace-karmanghat-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJM1Ejp6aZyzsRPYC3nGloFBg": {
+      "name": "Barbeque Spice",
+      "area": "Abids",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/barbeque-spice-abids",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/abids/barbeque-spice-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJq6oes8eTyzsR9dgFGZSRzs4": {
+      "name": "Kodi Kura Chitti Gaare, Kondapur",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/kodi-kura-chitti-gaare-kondapur-gachibowli",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/gachibowli/kodi-kura-chitti-gaare-kondapur-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJYwnv9GGSyzsR9YEasIoS3GI": {
+      "name": "Hotel Kinara Grand",
+      "area": "Nallagandla",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/hotel-kinara-grand-nallagandla",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/nallagandla/hotel-kinara-grand-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJNXqbjaiYyzsRBt_iQLiEdL0": {
+      "name": "McDonald's",
+      "area": "LB Nagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/mcdonald-s-lb-nagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/lb-nagar/mcdonald-s-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ7a5qxhCayzsRkt_GUvisE2c": {
+      "name": "McDonald's",
+      "area": "Secunderabad",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/mcdonald-s-secunderabad",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/secunderabad/mcdonald-s-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJcewiztyZyzsRJMYzG4DDIVo": {
+      "name": "Paradise Biryani | Himayat Nagar",
+      "area": "Himayatnagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/paradise-biryani-himayat-nagar-himayatnagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/himayatnagar/paradise-biryani-himayat-nagar-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJzYGh6K2QyzsRboMW7Lg1UBg": {
+      "name": "Tansen",
+      "area": "Financial District",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/tansen-2-nanakramguda",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/financial-district/tansen-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJw3nRY9aZyzsR2AnxaRWgroA": {
+      "name": "Santosh Dhaba Exclusive",
+      "area": "Abids",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/santosh-dhaba-exclusive-abids",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/abids/santosh-dhaba-exclusive-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ1d3mkjaXyzsRFqP7f3X9P1A": {
+      "name": "Hard Rock Cafe",
+      "area": "Banjara Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/hard-rock-cafe-banjara-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/banjara-hills/hard-rock-cafe-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJJbLhM7eQyzsR-fqWztpDb6M": {
+      "name": "Ohri's Jiva",
+      "area": "Begumpet",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/ohris-jiva-begumpet",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/begumpet/ohri-s-jiva-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJy8jLqSWTyzsRumelM7bXM5c": {
+      "name": "Maredumilli - The Forest Grill & Bar",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/maredumilli-the-forest-grill-bar-gachibowli",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on craft beer, drinks & table pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹2,500",
+            "desc": "Using HDFC & ICICI Premium Cards"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/gachibowli/maredumilli-the-forest-grill-bar-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total alcohol & food bill via Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On Dineout bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJ9fzSZGCTyzsRU2TC0kkzr14": {
+      "name": "Palle vindu",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/palle-vindu-gachibowli",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/gachibowli/palle-vindu-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJP-3lL5WRyzsRjHI4CS6XUlE": {
+      "name": "Pista House, Sanath Nagar",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-sanath-nagar-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/pista-house-sanath-nagar-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ1WvhDkCXyzsRnfpm5jxDVUo": {
+      "name": "Paradise Biryani | Masab Tank",
+      "area": "Banjara Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/paradise-biryani-masab-tank-banjara-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/banjara-hills/paradise-biryani-masab-tank-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJBRuKXV2XyzsR0fk4akUZK48": {
+      "name": "Best Western Ashoka",
+      "area": "Himayatnagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/best-western-ashoka-himayatnagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on craft beer, drinks & table pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹2,500",
+            "desc": "Using HDFC & ICICI Premium Cards"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/himayatnagar/best-western-ashoka-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total alcohol & food bill via Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On Dineout bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJ91-2NY6XyzsRQVFB3JTSNS4": {
+      "name": "Royal Tiffin Centre",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/royal-tiffin-centre-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/royal-tiffin-centre-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJW5jBDWqXyzsRCRYc2WBvIW0": {
+      "name": "Taiba Bakery and Cafe",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/taiba-bakery-and-cafe-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/taiba-bakery-and-cafe-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ0XnENUKayzsRkv3EYTEFRxM": {
+      "name": "United Kitchens of India",
+      "area": "Secunderabad",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/united-kitchens-of-india-secunderabad",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/secunderabad/united-kitchens-of-india-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ7Ytbpx2RyzsRhX0HHSG12lQ": {
+      "name": "Broadway The Brewery",
+      "area": "text:microbrewery hyderabad",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/broadway-the-brewery-text-microbrewery-hyderabad",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on craft beer, drinks & table pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹2,500",
+            "desc": "Using HDFC & ICICI Premium Cards"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/text-microbrewery-hyderabad/broadway-the-brewery-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total alcohol & food bill via Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On Dineout bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJka6k3FmFyzsRtM53ZW_4PG4": {
+      "name": "Sim & Sam's Playtown - Kompally",
+      "area": "Kompally",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/sim-sam-s-playtown-kompally-kompally",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/kompally/sim-sam-s-playtown-kompally-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJa86uK2iXyzsRxffAWncSq3Y": {
+      "name": "Peshawar Restaurant",
+      "area": "Hyderabad",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/peshawar-restaurant-hyderabad",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/hyderabad/peshawar-restaurant-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJFxiDQf2WyzsRk6rKK5AMGwo": {
+      "name": "Mohammedia Shawarma",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/mohammedia-shawarma-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/mohammedia-shawarma-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJK7tKKk6RyzsRSAjukcHok3A": {
+      "name": "Telangana Spice Kitchen Bar & Grill",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/telangana-spice-kitchen-bar-grill-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/telangana-spice-kitchen-bar-grill-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJxS_MbqmbyzsRc_FWFUTaduk": {
+      "name": "Pista House Suchitra",
+      "area": "Kompally",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-suchitra-kompally",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/kompally/pista-house-suchitra-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ9XnSCd2ZyzsRLFAIaZqqwdY": {
+      "name": "Rayalaseema Ruchulu - Lakdikapul",
+      "area": "Lakdikapul",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/rayalaseema-ruchulu-lakdikapul-lakdikapul",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/lakdikapul/rayalaseema-ruchulu-lakdikapul-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJA-kW8N2TyzsRQUl_bjO1VmI": {
+      "name": "Cream Stone, Hitech City",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/cream-stone-hitech-city-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/cream-stone-hitech-city-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJz7gUnD-XyzsR7SZKFa8nnEs": {
+      "name": "Dine Hill",
+      "area": "Banjara Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/dine-hill-banjara-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/banjara-hills/dine-hill-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJDbM_MEiRyzsRA4rnMEfQtJc": {
+      "name": "Air Live Jubilee Hills",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/air-live-jubilee-hills-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on craft beer, drinks & table pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹2,500",
+            "desc": "Using HDFC & ICICI Premium Cards"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/air-live-jubilee-hills-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total alcohol & food bill via Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On Dineout bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJhaz65d2ZyzsRisXn-fW1K8U": {
+      "name": "Bikanervala",
+      "area": "Basheerbagh",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/bikanervala-basheerbagh",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/basheerbagh/bikanervala-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ7yY8HqOSyzsRihlYam-VH4Q": {
+      "name": "Hotel Sitara Grand",
+      "area": "Nallagandla",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/hotel-sitara-grand-nallagandla",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/nallagandla/hotel-sitara-grand-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ79xIGX6hyzsRYc1wjvr6HnM": {
+      "name": "Pista House Vanasthalipuram",
+      "area": "LB Nagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-vanasthalipuram-lb-nagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/lb-nagar/pista-house-vanasthalipuram-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJn4V4DceTyzsRAZXQFRlvuis": {
+      "name": "Club Rogue Gachibowli",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/club-rogue-gachibowli-gachibowli",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on craft beer, drinks & table pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹2,500",
+            "desc": "Using HDFC & ICICI Premium Cards"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/gachibowli/club-rogue-gachibowli-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total alcohol & food bill via Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On Dineout bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJpelClpCZyzsRdzR6mloO_3w": {
+      "name": "Blue Sea Restaurant",
+      "area": "Himayatnagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/blue-sea-restaurant-himayatnagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/himayatnagar/blue-sea-restaurant-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJFYgzfP6hyzsRTpzb-zk5qLY": {
+      "name": "Hotel Kinara Grand",
+      "area": "LB Nagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/hotel-kinara-grand-lb-nagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/lb-nagar/hotel-kinara-grand-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ1dYDMZ6FyzsR_7YHeVszUBY": {
+      "name": "Delite kitchen",
+      "area": "Kompally",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/delite-kitchen-kompally",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/kompally/delite-kitchen-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJER7FaUiRyzsRrGYyP5854XE": {
+      "name": "Buffalo Wild Wings",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/buffalo-wild-wings-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on craft beer, drinks & table pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹2,500",
+            "desc": "Using HDFC & ICICI Premium Cards"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/buffalo-wild-wings-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total alcohol & food bill via Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On Dineout bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJBdTHClGRyzsRjU5SWqXEeJk": {
+      "name": "Olive Bistro & Bar",
+      "area": "Road No.36 JH",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/olive-bistro-bar-road-no-36-jh",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on craft beer, drinks & table pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹2,500",
+            "desc": "Using HDFC & ICICI Premium Cards"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/road-no-36-jh/olive-bistro-bar-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total alcohol & food bill via Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On Dineout bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJi52I56qZyzsRbM7j0KftyDs": {
+      "name": "Pista House",
+      "area": "Charminar/Old City",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-charminar-old-city",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/charminar-old-city/pista-house-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJu_pJp6OSyzsRbio4Fu08QbA": {
+      "name": "Paradise Biryani | BHEL",
+      "area": "Nallagandla",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/paradise-biryani-bhel-nallagandla",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/nallagandla/paradise-biryani-bhel-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJgz_QlfSFyzsR-vPZtqcC7Q4": {
+      "name": "MALNADU KITCHEN - Taste of Telangana",
+      "area": "Kompally",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/malnadu-kitchen-taste-of-telangana-kompally",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on craft beer, drinks & table pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹2,500",
+            "desc": "Using HDFC & ICICI Premium Cards"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/kompally/malnadu-kitchen-taste-of-telangana-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total alcohol & food bill via Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On Dineout bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJ7Yg992iTyzsRsBtTZpHjBvM": {
+      "name": "Wah Mandi",
+      "area": "HITEC City",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/wah-mandi-hitec-city",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/hitec-city/wah-mandi-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ1yjeQReayzsRHsqDnt4MZMw": {
+      "name": "Taj Tristar",
+      "area": "Secunderabad",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/taj-tristar-secunderabad",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/secunderabad/taj-tristar-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJd4g3KoCTyzsRrtDi-qrw-nA": {
+      "name": "Oakwood Residence Kapil Hyderabad",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/oakwood-residence-kapil-hyderabad-gachibowli",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on craft beer, drinks & table pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹2,500",
+            "desc": "Using HDFC & ICICI Premium Cards"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/gachibowli/oakwood-residence-kapil-hyderabad-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total alcohol & food bill via Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On Dineout bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJ4-fx0taZyzsRcrMLQBQ5q7c": {
+      "name": "Sri Narsing bhelpuri",
+      "area": "Abids",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/sri-narsing-bhelpuri-abids",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/abids/sri-narsing-bhelpuri-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJFUvipYK9yzsRT_nWOzdd-48": {
+      "name": "McDonald's",
+      "area": "Mehdipatnam",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/mcdonald-s-mehdipatnam",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/mehdipatnam/mcdonald-s-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ_ydLpo6RyzsRwLiV7xvpyv4": {
+      "name": "Mandi Bistro Madhapur",
+      "area": "Madhapur",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/mandi-bistro-madhapur-madhapur",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/madhapur/mandi-bistro-madhapur-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJQacK8hCayzsRbjoyHN5aLy8": {
+      "name": "Nanking Chinese Restaurant",
+      "area": "Secunderabad",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/nanking-chinese-restaurant-secunderabad",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/secunderabad/nanking-chinese-restaurant-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJS_7BMAmayzsR71iA1z-ia6E": {
+      "name": "Cream Stone",
+      "area": "Begumpet",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/cream-stone-begumpet",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/begumpet/cream-stone-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ29kn4OqfyzsRF6hFn2GtaRo": {
+      "name": "Taaza Tiffins",
+      "area": "LB Nagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/taaza-tiffins-lb-nagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/lb-nagar/taaza-tiffins-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJY5oo7aOQyzsRK8gyEDpb_1k": {
+      "name": "10 Downing Street",
+      "area": "Begumpet",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/10-downing-street-begumpet",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on craft beer, drinks & table pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹2,500",
+            "desc": "Using HDFC & ICICI Premium Cards"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/begumpet/10-downing-street-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total alcohol & food bill via Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On Dineout bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJZ3mAREiRyzsRIxCCJu8JwzU": {
+      "name": "Conçu Jubilee Hills",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/con-u-jubilee-hills-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/con-u-jubilee-hills-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJIfcFuKWYyzsRChA7u0_N9_0": {
+      "name": "Hotel Sitara Grand - LB Nagar",
+      "area": "LB Nagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/hotel-sitara-grand-lb-nagar-lb-nagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/lb-nagar/hotel-sitara-grand-lb-nagar-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJUf3Ha4CbyzsRCWCm01HV-iQ": {
+      "name": "McDonald's",
+      "area": "ECIL",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/mcdonald-s-ecil",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/ecil/mcdonald-s-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJy2JJCKyayzsRdWO4FiJIPbc": {
+      "name": "Hotel KASS",
+      "area": "Kompally",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/hotel-kass-kompally",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/kompally/hotel-kass-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ4UHRkeSTyzsRiFzajl4M9z0": {
+      "name": "Cafe Niloufer Hitech City",
+      "area": "Madhapur/HITEC",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/cafe-niloufer-hitech-city-madhapur-hitec",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/madhapur-hitec/cafe-niloufer-hitech-city-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJrcVnHhCayzsRyl7sbG3gTgg": {
+      "name": "Pizza Den",
+      "area": "Secunderabad",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pizza-den-secunderabad",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/secunderabad/pizza-den-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJC_lTN8GTyzsR2FCNq9AFmRg": {
+      "name": "Pandaga",
+      "area": "Kondapur",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pandaga-1-kondapur",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/kondapur/pandaga-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJYcdClHObyzsRsWrT8WXT0Rk": {
+      "name": "Groove9 Resto",
+      "area": "Sainikpuri",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/groove9-resto-sainikpuri",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/sainikpuri/groove9-resto-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJkcWI0_mRyzsRHVVnksgdqLI": {
+      "name": "President Dhaba Bar And Kitchen",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/president-dhaba-bar-and-kitchen-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on craft beer, drinks & table pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹2,500",
+            "desc": "Using HDFC & ICICI Premium Cards"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/president-dhaba-bar-and-kitchen-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total alcohol & food bill via Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On Dineout bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJZfM2ciqVyzsROFMDoae-SNg": {
+      "name": "Telusa Telugu Kitchen and Bar",
+      "area": "Kokapet",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/telusa-telugu-kitchen-and-bar-1-kokapet",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/kokapet/telusa-telugu-kitchen-and-bar-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJSWKnVsmTyzsRUwroAFsF8a0": {
+      "name": "Siddique Kabab Centre",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/siddique-kabab-centre-gachibowli",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/gachibowli/siddique-kabab-centre-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJ57KZAYmbyzsR02sBvBadRm8": {
+      "name": "Pista House Secunderabad",
+      "area": "Begumpet",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-secunderabad-begumpet",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/begumpet/pista-house-secunderabad-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJWb5Tx_KZyzsR52XMqxQEj-M": {
+      "name": "4 M Biryani House",
+      "area": "Begumpet",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/4-m-biryani-house-begumpet",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/begumpet/4-m-biryani-house-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJwy8z0OeWyzsRYLNKZNZ2jQo": {
+      "name": "4 Seasons Multi Cuisine Restaurant",
+      "area": "Tolichowki",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/4-seasons-multi-cuisine-restaurant-tolichowki",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/tolichowki/4-seasons-multi-cuisine-restaurant-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJSzs3-TGRyzsR7cuQ0lDJpBI": {
+      "name": "Lé Vantage Café Bar",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/l-vantage-caf-bar-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on craft beer, drinks & table pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹2,500",
+            "desc": "Using HDFC & ICICI Premium Cards"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/l-vantage-caf-bar-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total alcohol & food bill via Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On Dineout bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJB-qeZ1WTyzsR1j2qgV7IIh8": {
+      "name": "Zero40 Brewing",
+      "area": "Financial District",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/zero40-brewing-financial-district",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/financial-district/zero40-brewing-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJR7meD5aTyzsRmr6xUuF2O2w": {
+      "name": "Cream Stone Concepts",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/cream-stone-concepts-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹75 OFF",
+            "desc": "Valid on coffee & specialty dessert bills"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 15% OFF",
+            "desc": "Partner bank cards on District Pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/cream-stone-concepts-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total cafe bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "Via Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJUz512EmRyzsR1YQrPNfZcd4": {
+      "name": "Amnesia Lounge Bar",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/amnesia-lounge-bar-jubilee-hills",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 20% OFF",
+            "desc": "Valid on craft beer, drinks & table pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF up to ₹2,500",
+            "desc": "Using HDFC & ICICI Premium Cards"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/jubilee-hills/amnesia-lounge-bar-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 15% OFF",
+            "desc": "On total alcohol & food bill via Dineout Pay"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On Dineout bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJxWXVyl-RyzsRLYh2OJ_rUFk": {
+      "name": "Aazebo-The Royal Arabian Restaurant",
+      "area": "Madhapur",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/aazebo-the-royal-arabian-restaurant-madhapur",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/madhapur/aazebo-the-royal-arabian-restaurant-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
+        ]
+      }
+    },
+    "ChIJidAoZ2WXyzsRu17FTV-eiV0": {
+      "name": "Pista House Nampally",
+      "area": "Himayatnagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-nampally-himayatnagar",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "Flat 15% OFF",
+            "desc": "Valid on dining bill with pre-booking"
+          },
+          {
+            "type": "INSTANT",
+            "title": "FLAT ₹150 OFF",
+            "desc": "Instant discount on bill payment"
+          },
+          {
+            "type": "BANK",
+            "title": "Up to 20% OFF",
+            "desc": "Bank card offer on District Dining"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/hyderabad/himayatnagar/pista-house-nampally-dineout",
+        "hasOffers": true,
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 10% OFF",
+            "desc": "On total dining bill"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10% Cashback",
+            "desc": "On bill payment with Swiggy Dineout Pay"
+          }
         ]
       }
     }

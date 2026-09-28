@@ -62,6 +62,7 @@ export default async function sitemap() {
     { url: `${siteUrl}/rankings/how-it-works`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/stories`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteUrl}/food-safety`, lastModified: now, changeFrequency: "daily", priority: 0.8 },
+    { url: `${siteUrl}/offers`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
     { url: `${siteUrl}/about`, lastModified: now, changeFrequency: "yearly", priority: 0.4 },
     { url: `${siteUrl}/explore`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteUrl}/areas`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
