@@ -9,8 +9,7 @@ import { ogImages } from "../../../lib/og.js";
 import { allCategoryPages, editorialRanking, pathForSpotId } from "../../../lib/siteData.js";
 import BottomNav from "../../components/BottomNav.jsx";
 
-// Served from cache, refreshed every 5 minutes or right after a vote (tag "themes").
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return SEO_THEME_PICKS.map((p) => ({ slug: slugFromTitle(p.title) }));

@@ -1,5 +1,6 @@
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { revalidateTag } from "next/cache";
+import { clearThemesMemo } from "../../../../lib/themesServer.js";
 import { bumpScore, seasonClosed, themeCreatedAt, voteWeight } from "../../../../lib/voteDecay.js";
 
 export const dynamic = "force-dynamic";
@@ -64,7 +65,7 @@ export async function POST(req) {
     return { count, switched: !!priorSpotId };
   });
 
-  if (!result.unchanged) revalidateTag("themes");
+  if (!result.unchanged) { revalidateTag("themes"); clearThemesMemo(); }
 
   return Response.json(result);
 }
