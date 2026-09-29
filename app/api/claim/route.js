@@ -66,7 +66,8 @@ export async function POST(req) {
   // Testers listed in RACE_TEST_UIDS (comma-separated Firebase uids) can claim from
   // anywhere, so the Race can be tested without travelling. Local dev skips it too.
   const testers = (process.env.RACE_TEST_UIDS || "").split(",").map((s) => s.trim()).filter(Boolean);
-  const bypass = testers.includes(uid) || process.env.NODE_ENV === "development";
+  const gpsRequired = process.env.RACE_REQUIRE_GPS === "1"; // off while the Race is being tested
+  const bypass = !gpsRequired || testers.includes(uid) || process.env.NODE_ENV === "development";
   if (dist > CLAIM_RADIUS_KM && !bypass) {
     return Response.json(
       { error: "too-far", distanceKm: Math.round(dist * 100) / 100, radiusKm: CLAIM_RADIUS_KM },

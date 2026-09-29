@@ -7,6 +7,9 @@ import { spotPhotoUrl } from "../lib/photos.js";
 import * as passportStore from "../lib/passport.js";
 import { Icon } from "./components/Icons.jsx";
 import dynamic from "next/dynamic";
+
+// Race claims need GPS proof (within 250 m) only when this is on. Off while testing.
+const RACE_REQUIRE_GPS = process.env.NEXT_PUBLIC_RACE_REQUIRE_GPS === "1";
 const MapCanvas = dynamic(() => import("./components/MapCanvas.jsx"), { ssr: false });
 import CardRail from "./components/CardRail.jsx";
 import TopBar from "./components/TopBar.jsx";
@@ -462,6 +465,29 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   // there, so it's attempted separately and is allowed to fail ("too far")
   // without affecting the stamp.
   const attemptRaceClaim = useCallback((id) => {
+    const report = (res) => {
+      if (res.ok && !res.already) {
+        setToast(`Claimed for the Race, +${res.awarded} pts`);
+        setDiaryTick((t) => t + 1); // refresh the board
+      } else if (res.ok && res.already) {
+        setToast("Already claimed for the Race");
+      } else if (res.reason === "too-far") {
+        setToast(`You're ${res.distanceKm} km away. Claim it when you're within 250 m`);
+      } else if (res.reason === "not-authenticated") {
+        setToast(`Race sign-in failed (${res.detail || "no token"}), try again`);
+      } else {
+        setToast(`Couldn't reach the Race board (${res.reason}), try again`);
+      }
+    };
+    // GPS proof is off while the Race is being tested (RACE_REQUIRE_GPS): the claim
+    // is sent with the spot's own coordinates, so it works from anywhere.
+    if (!RACE_REQUIRE_GPS) {
+      const spot = byId[id];
+      if (!spot) return;
+      setToast("Claiming…");
+      claimSpot(id, { lat: Number(spot.lat), lng: Number(spot.lng) }).then(report);
+      return;
+    }
     if (!navigator.geolocation) {
       setToast("Turn on location to claim spots for the Race");
       return;
@@ -469,25 +495,12 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
     setToast("Checking your location…");
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
-        const res = await claimSpot(id, { lat: pos.coords.latitude, lng: pos.coords.longitude });
-        if (res.ok && !res.already) {
-          setToast(`Claimed for the Race, +${res.awarded} pts`);
-          setDiaryTick((t) => t + 1); // refresh the board
-        } else if (res.ok && res.already) {
-          setToast("Already claimed for the Race");
-        } else if (res.reason === "too-far") {
-          setToast(`You're ${res.distanceKm} km away. Claim it when you're within 250 m`);
-        } else if (res.reason === "not-authenticated") {
-          setToast(`Race sign-in failed (${res.detail || "no token"}), try again`);
-        } else {
-          // backend / network / write-failed
-          setToast(`Couldn't reach the Race board (${res.reason}), try again`);
-        }
+        report(await claimSpot(id, { lat: pos.coords.latitude, lng: pos.coords.longitude }));
       },
       () => setToast("Location is blocked, allow it to claim for the Race"),
       { enableHighAccuracy: true, timeout: 8000 }
     );
-  }, []);
+  }, [byId]);
 
   const completeStamp = useCallback((id) => {
     const next = passportStore.toggleVisited(id);

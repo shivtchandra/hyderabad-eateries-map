@@ -843,7 +843,7 @@ export default function DetailSheet({
             <button type="button" onClick={() => onClaimRace(eatery.id)} className="race-claim-btn">
               <Icon name="trophy" size={15} width={2.1} color="var(--violet-deep)" />
               Claim for the Race{tier ? ` (+${tier.points} pts)` : ""}
-              <small>be within 250 m</small>
+              {process.env.NEXT_PUBLIC_RACE_REQUIRE_GPS === "1" && <small>be within 250 m</small>}
             </button>
           )}
 
