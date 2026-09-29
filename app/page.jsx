@@ -463,9 +463,10 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   // without affecting the stamp.
   const attemptRaceClaim = useCallback((id) => {
     if (!navigator.geolocation) {
-      setToast("Stamped, turn on location to also claim it for the Race");
+      setToast("Turn on location to claim spots for the Race");
       return;
     }
+    setToast("Checking your location…");
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         const res = await claimSpot(id, { lat: pos.coords.latitude, lng: pos.coords.longitude });
@@ -475,15 +476,15 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
         } else if (res.ok && res.already) {
           setToast("Already claimed for the Race");
         } else if (res.reason === "too-far") {
-          setToast(`Stamped, but you're ${res.distanceKm} km away, too far to claim for the Race`);
+          setToast(`You're ${res.distanceKm} km away. Claim it when you're within 250 m`);
         } else if (res.reason === "not-authenticated") {
-          setToast("Stamped, Race sign-in unavailable, claim didn't count");
+          setToast(`Race sign-in failed (${res.detail || "no token"}), try again`);
         } else {
           // backend / network / write-failed
-          setToast("Stamped, couldn't reach the Race board, claim didn't count");
+          setToast(`Couldn't reach the Race board (${res.reason}), try again`);
         }
       },
-      () => setToast("Stamped, location denied, so it wasn't claimed for the Race"),
+      () => setToast("Location is blocked, allow it to claim for the Race"),
       { enableHighAccuracy: true, timeout: 8000 }
     );
   }, []);
@@ -498,8 +499,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
     setDiaryTick((t) => t + 1);
     trackEvent("stamp");
     setToast("Stamped, added to your passport");
-    attemptRaceClaim(id);
-  }, [attemptRaceClaim]);
+  }, []);
 
   const handleToggleSaved = useCallback((id) => {
     const next = passportStore.toggleSaved(id);
@@ -839,6 +839,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
                 dist={dist}
                 passportState={passportStore.stateOf(passport, selectedFull.id)}
                 onToggleVisited={handleToggleVisited}
+                onClaimRace={attemptRaceClaim}
                 onToggleSaved={handleToggleSaved}
                 onAddSticker={(e) => setStickerFor(e)}
                 onClose={() => setSheetOpen(false)}
@@ -934,6 +935,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
                 dist={dist}
                 passportState={passportStore.stateOf(passport, selectedFull.id)}
                 onToggleVisited={handleToggleVisited}
+                onClaimRace={attemptRaceClaim}
                 onToggleSaved={handleToggleSaved}
                 onAddSticker={(e) => setStickerFor(e)}
                 onClose={() => setSheetOpen(false)}

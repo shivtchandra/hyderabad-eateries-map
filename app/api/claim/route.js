@@ -63,7 +63,11 @@ export async function POST(req) {
   if (!spot) return Response.json({ error: "unknown-spot" }, { status: 404 });
 
   const dist = haversineKm({ lat: spot.lat, lng: spot.lng }, { lat, lng });
-  if (dist > CLAIM_RADIUS_KM) {
+  // Testers listed in RACE_TEST_UIDS (comma-separated Firebase uids) can claim from
+  // anywhere, so the Race can be tested without travelling. Local dev skips it too.
+  const testers = (process.env.RACE_TEST_UIDS || "").split(",").map((s) => s.trim()).filter(Boolean);
+  const bypass = testers.includes(uid) || process.env.NODE_ENV === "development";
+  if (dist > CLAIM_RADIUS_KM && !bypass) {
     return Response.json(
       { error: "too-far", distanceKm: Math.round(dist * 100) / 100, radiusKm: CLAIM_RADIUS_KM },
       { status: 403 }
@@ -95,7 +99,9 @@ export async function POST(req) {
           name: cleanName,
           score: FieldValue.increment(points),
           covered: FieldValue.increment(1),
-          [`areas.${area}`]: FieldValue.increment(1),
+          // Nested object, not a dotted key: set() with merge treats "areas.X" as one
+          // literal field name, which left every player's areas map empty.
+          areas: { [area]: FieldValue.increment(1) },
           updatedAt: FieldValue.serverTimestamp(),
         },
         { merge: true }
