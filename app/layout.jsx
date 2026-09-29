@@ -102,7 +102,9 @@ const homeLd = {
 };
 
 
-export const viewport = { themeColor: "#7c3aed" };
+// viewportFit "cover" makes phones report safe-area insets (the gesture bar), so the
+// floating bottom bar can sit above it instead of underneath.
+export const viewport = { themeColor: "#7c3aed", viewportFit: "cover" };
 
 export default function RootLayout({ children }) {
   return (

@@ -19,7 +19,7 @@ const TABS = [
 // label is ever shown, so the state reads instantly and the bar stays calm.
 export default function BottomNav({ tab, setTab, visitedCount, savedCount, routed = false, activeKey }) {
   return (
-    <div className={`safe-bottom${routed ? " bottomnav-site" : ""}`} style={{ flexShrink: 0, padding: "8px 12px 10px", zIndex: 1300 }}>
+    <div className={`safe-bottom${routed ? " bottomnav-site" : ""}`} style={{ flexShrink: 0, padding: "8px 12px calc(10px + env(safe-area-inset-bottom, 0px))", zIndex: 1300 }}>
       <div
         className="material"
         style={{

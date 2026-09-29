@@ -512,7 +512,7 @@ body::after {
   transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+/* Bottom safe-area spacing lives in BottomNav's inline padding (calc with env()). */
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
