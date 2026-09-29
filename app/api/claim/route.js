@@ -1,4 +1,5 @@
 import { getAdminDb, verifyUidDetailed } from "../../../lib/firebaseAdmin.js";
+import { revalidateTag } from "next/cache";
 
 export const dynamic = "force-dynamic";
 
@@ -113,6 +114,7 @@ export async function POST(req) {
     if (result.already) {
       return Response.json({ ok: true, already: true }, { status: 200 });
     }
+    revalidateTag("leaderboard"); // new score shows on everyone's board right away
     return Response.json({ ok: true, awarded: result.awarded, area }, { status: 200 });
   } catch (e) {
     return Response.json({ error: "write-failed" }, { status: 500 });
