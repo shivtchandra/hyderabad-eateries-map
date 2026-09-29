@@ -7,7 +7,8 @@ import { pageMeta, getSiteUrl } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
 import { breadcrumbJsonLd } from "../../lib/schema.js";
 
-export const dynamic = "force-dynamic";
+// Served from cache, refreshed every 5 minutes or right after a vote (tag "themes").
+export const revalidate = 300;
 
 const title = "Hyderabad Food Rankings";
 const description = "Community-voted weekly rankings for the best biryani, buffet, fine dining, cafes, and restaurants in Hyderabad.";
