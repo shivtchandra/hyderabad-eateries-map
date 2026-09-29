@@ -784,7 +784,7 @@ a.review-fact-value:hover { opacity: 0.85; }
 @media (prefers-reduced-motion: reduce) { .stories-tabs button, .stories-cats button { transition: none; } }
 .stories-row[hidden] { display: none; }
 
-/* ---- One nav per screen: desktop = top link row, phone = bottom bar + menu button ---- */
+/* ---- Nav: top link row on desktop, menu button on phones; bottom bar on every width ---- */
 .site-topnav { position: relative; }
 .site-menu { display: none; margin-left: auto; position: relative; }
 .site-menu summary {
@@ -806,9 +806,6 @@ a.review-fact-value:hover { opacity: 0.85; }
   .site-topnav { flex-wrap: nowrap; }
   .site-topnav-link { display: none; }
   .site-menu { display: block; }
-}
-@media (min-width: 768px) {
-  .bottomnav-site { display: none; }
 }
 .stories-tabs-divider { flex: none; width: 1px; align-self: stretch; margin: 4px 4px; background: var(--line); }
 .stories-tabs .stories-tabs-link {
@@ -880,3 +877,4 @@ a.of-card-name:hover { text-decoration: underline; }
 .of-card > .of-hours { margin: 0; padding: 0 14px 14px; text-align: left; }
 .of-card > .of-cards { margin-bottom: 4px; }
 .of-card > :last-child { margin-bottom: 14px; }
+

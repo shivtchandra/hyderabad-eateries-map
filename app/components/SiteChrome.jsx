@@ -21,7 +21,7 @@ const MENU = [
   { href: "/about", label: "About" },
 ];
 
-// Desktop: full link row (no bottom bar). Phone: logo + menu button, the bottom bar is the nav.
+// Desktop: full link row. Phone: logo + menu button. The floating bottom bar shows on every width.
 // linksHidden is kept for old callers; every page gets the same nav now.
 // eslint-disable-next-line no-unused-vars
 export function SiteNav({ active, linksHidden }) {
