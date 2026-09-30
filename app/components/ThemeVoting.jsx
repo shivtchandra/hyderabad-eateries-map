@@ -8,6 +8,7 @@ import { slugFromTitle, themeDescription } from "../../lib/rankings.js";
 import { isPastEndDate } from "../../lib/themeCrown.js";
 import { seasonClosed, seasonYear } from "../../lib/voteDecay.js";
 import ThemeSuggest from "./ThemeSuggest.jsx";
+import AddPlace, { isUserSpot } from "./AddPlace.jsx";
 
 function themeKeyword(title = "") {
   return String(title)
@@ -454,7 +455,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
                   {isCrown ? <Icon name="crown" size={16} width={2} color="#d97706" /> : `#${i + 1}`}
                 </span>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontWeight: 700, fontSize: 14, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}</div>
+                  <div style={{ fontWeight: 700, fontSize: 14, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}{isUserSpot(r.spotId) && <span className="new-place-chip">New</span>}</div>
                   <div style={{ fontSize: 11.5, color: "var(--muted)", fontWeight: 500, marginTop: 1 }}>
                     {(() => {
                       const loc = dupNames.has(r.name) ? r.area : "";
@@ -513,7 +514,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
               onFocus={(e) => { e.target.style.borderColor = "var(--violet)"; }}
               onBlur={(e) => { e.target.style.borderColor = "var(--line)"; }}
             />
-            {suggestions.length > 0 && (
+            {(suggestions.length > 0 || searchQ.trim().length >= 3) && (
               <div style={{
                 position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0,
                 background: "var(--cream-hi)", border: "1.5px solid var(--line)",
@@ -542,6 +543,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
                     </span>
                   </button>
                 ))}
+                <AddPlace query={searchQ} onAdded={pickSpot} />
               </div>
             )}
           </div>
@@ -680,7 +682,7 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
                 color: "var(--ink)", outline: "none",
               }}
             />
-            {suggestions.length > 0 && (
+            {(suggestions.length > 0 || searchQ.trim().length >= 3) && (
               <div style={{
                 position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0,
                 background: "var(--cream-hi)", border: "1.5px solid var(--line)",
@@ -702,6 +704,7 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
                     <span style={{ fontWeight: 700, fontSize: 13, color: "var(--ink)" }}>{s.name}</span>
                   </button>
                 ))}
+                <AddPlace query={searchQ} onAdded={pickSpot} />
               </div>
             )}
           </div>
@@ -718,7 +721,7 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
                     <span style={{ width: 22, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, color: isCrown ? "#d97706" : "var(--muted)", fontSize: 12 }}>
                       {isCrown ? <Icon name="crown" size={13} width={2} color="#d97706" /> : `#${i + 1}`}
                     </span>
-                    <span style={{ flex: 1, fontWeight: 600, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}</span>
+                    <span style={{ flex: 1, fontWeight: 600, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}{isUserSpot(r.spotId) && <span className="new-place-chip">New</span>}</span>
                     <span style={{ color: "var(--muted)", fontWeight: 500, fontSize: 12 }}>{r.count} vote{r.count === 1 ? "" : "s"}</span>
                     {closed ? null : r.spotId === votedSpotId ? (
                       <span style={{ fontSize: 11, fontWeight: 700, color: "var(--violet-deep)" }}>Voted</span>

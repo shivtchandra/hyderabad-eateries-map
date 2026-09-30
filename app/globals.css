@@ -655,3 +655,17 @@ body::after {
 /* ---- Race claim button (separate from Stamp) ---- */
 .race-claim-btn { width: 100%; height: 44px; border-radius: 999px; border: 1.5px solid var(--violet); background: var(--violet-wash); color: var(--violet-deep); font: 700 14px Outfit, sans-serif; display: flex; align-items: center; justify-content: center; gap: 7px; cursor: pointer; }
 .race-claim-btn small { font-size: 11px; font-weight: 600; color: var(--ink-soft); opacity: .8; }
+
+/* ---- Add a place that isn't on the map (ranking search) ---- */
+.add-place-cta { display: flex; align-items: center; gap: 8px; width: 100%; padding: 12px 14px; border: none; border-top: 1px solid var(--line); background: var(--violet-wash); color: var(--violet-deep); font: 700 13px Outfit, sans-serif; text-align: left; cursor: pointer; }
+.add-place-form { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border-top: 1px solid var(--line); background: var(--cream-hi); }
+.add-place-form b { font-size: 13.5px; color: var(--ink); }
+.add-place-form label { display: flex; flex-direction: column; gap: 4px; font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.add-place-form input { height: 40px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--cream); padding: 0 12px; font: 500 14px Outfit, sans-serif; color: var(--ink); outline: none; text-transform: none; letter-spacing: 0; }
+.add-place-form input:focus { border-color: var(--violet); }
+.add-place-actions { display: flex; gap: 8px; justify-content: flex-end; }
+.add-place-actions button { height: 36px; padding: 0 14px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--cream); font: 700 13px Outfit, sans-serif; color: var(--ink-soft); cursor: pointer; }
+.add-place-actions button.primary { background: var(--violet); border-color: var(--violet); color: #fff; }
+.add-place-form small, .add-place-msg { font-size: 11.5px; color: var(--muted); margin: 0; }
+.add-place-msg { color: var(--pop-deep); }
+.new-place-chip { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 999px; background: var(--pop-wash); color: var(--pop-deep); font-size: 10.5px; font-weight: 700; vertical-align: middle; }

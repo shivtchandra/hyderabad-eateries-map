@@ -172,7 +172,7 @@ export default async function RankingPage({ params }) {
               <span className="rk-crown" aria-hidden="true">🏆</span>
               <div>
                 <div className="rk-eyebrow">{isCrowned ? "This week's crown" : "Leading right now"}</div>
-                <h2 className="rk-leader-name"><Link href={pathForSpotId(leader.spotId)}>{leader.name}</Link></h2>
+                <h2 className="rk-leader-name">{leader.spotId.startsWith("user-") ? leader.name : <Link href={pathForSpotId(leader.spotId)}>{leader.name}</Link>}</h2>
                 <p className="rk-leader-sub">
                   {leader.count || 0} of {totalVotes} votes{totalVotes ? `, ${Math.round(((leader.count || 0) / totalVotes) * 100)}%` : ""}. If someone else takes #1, the crown moves.
                 </p>
@@ -203,7 +203,9 @@ export default async function RankingPage({ params }) {
                 <li key={r.spotId} className={`rk-row ${r.spotId === leader?.spotId ? "lead" : ""}`}>
                   <span className="rk-rank">{i + 1}</span>
                   <div>
-                    <Link href={pathForSpotId(r.spotId)} className="rk-name">{r.name}</Link>
+                    {r.spotId.startsWith("user-")
+                      ? <span className="rk-name">{r.name} <span className="new-place-chip">New</span></span>
+                      : <Link href={pathForSpotId(r.spotId)} className="rk-name">{r.name}</Link>}
                     <div className="rk-bar"><span style={{ width: `${topCount ? (n / topCount) * 100 : 0}%` }} /></div>
                   </div>
                   <span className="rk-count"><b>{n}</b><small>{share}%</small></span>
