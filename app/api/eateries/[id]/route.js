@@ -16,6 +16,16 @@ function getDetails() {
 export async function GET(_req, { params }) {
   try {
     const details = getDetails();
+    // Visitor-added places live in Firestore, not the built detail file.
+    if (params.id.startsWith("user-")) {
+      const { getAddedPlace } = await import("../../../../lib/addedPlaces.js");
+      const p = await getAddedPlace(params.id);
+      if (!p) return Response.json({ error: "Restaurant not found" }, { status: 404 });
+      return Response.json(
+        { id: p.id, name: p.name, category: p.category, lat: p.lat, lng: p.lng, discoveredIn: p.area, status: "approved", tags: [] },
+        { headers: { "Cache-Control": "no-store" } }
+      );
+    }
     if (!Object.prototype.hasOwnProperty.call(details, params.id)) {
       return Response.json({ error: "Restaurant not found" }, { status: 404 });
     }

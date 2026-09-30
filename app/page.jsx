@@ -206,9 +206,15 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   // Static index, 74KB gzipped, cacheable, zero Firestore reads at runtime
   // (querying ~1600 docs per page load blew the free-tier quota).
   useEffect(() => {
+    // Approved places that visitors added aren't in the static index (built at deploy),
+    // so merge them in from a tiny endpoint. A failure just leaves them out.
+    const added = fetch("/api/spots/added").then((r) => (r.ok ? r.json() : [])).catch(() => []);
     fetch("/eateries-index.json")
       .then((r) => r.json())
-      .then((rows) => {
+      .then(async (base) => {
+        const extra = await added;
+        const known = new Set(base.map((e) => e.id));
+        const rows = [...base, ...extra.filter((e) => !known.has(e.id))];
         setEateries(rows.map((e) => ({
           id: e.id, name: e.n, category: e.c, lat: e.lat, lng: e.lng,
           rating: e.r, ratingCount: e.rc, tier: e.t, tags: e.g,

@@ -3,6 +3,7 @@
 import { SEO_THEME_PICKS, slugFromTitle } from "../../lib/rankings.js";
 import { useState, useEffect, useCallback } from "react";
 import InspectionsAdmin from "./InspectionsAdmin.jsx";
+import PlacesAdmin from "./PlacesAdmin.jsx";
 
 const STATUS_COLORS = { live: "#16a34a", scheduled: "#d97706", ended: "#6b7280" };
 
@@ -460,6 +461,8 @@ export default function AdminPage() {
             </div>
           ))
         )}
+
+        <PlacesAdmin secret={secret} />
 
         <InspectionsAdmin secret={secret} />
       </div>
