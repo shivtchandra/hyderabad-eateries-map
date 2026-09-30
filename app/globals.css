@@ -670,3 +670,20 @@ body::after {
 .add-place-msg { color: var(--pop-deep); }
 .new-place-chip { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 999px; background: var(--pop-wash); color: var(--pop-deep); font-size: 10.5px; font-weight: 700; vertical-align: middle; }
 .add-place-done { display: flex; align-items: center; gap: 8px; padding: 12px 14px; border-top: 1px solid var(--line); font-size: 13px; font-weight: 600; color: var(--forest); background: #eef8f2; }
+
+/* ---- "I ate here" confirmation popup ---- */
+.ate-backdrop { position: absolute; inset: 0; z-index: 1600; background: rgba(38,48,92,0.4); display: flex; align-items: center; justify-content: center; padding: 20px; animation: fade-in .18s ease; }
+.ate-card { width: 100%; max-width: 340px; background: var(--cream-hi); border-radius: 26px; padding: 26px 20px 16px; text-align: center; box-shadow: 0 24px 60px rgba(38,48,92,0.3); animation: sheet-up .28s cubic-bezier(.22,1,.36,1); }
+.ate-badge { width: 64px; height: 64px; margin: 0 auto 12px; border-radius: 50%; display: grid; place-items: center; background: var(--violet); }
+.ate-badge.claimed, .ate-badge.already { background: var(--pop); }
+.ate-badge.failed { background: var(--forest); }
+.ate-badge.claiming { background: var(--violet); animation: ate-pulse 1s ease-in-out infinite; }
+@keyframes ate-pulse { 50% { transform: scale(.92); opacity: .8; } }
+.ate-title { font-family: var(--font-bagel), Fraunces, serif; font-size: 30px; line-height: 1.1; color: var(--ink); }
+.ate-spot { margin-top: 4px; font-weight: 700; font-size: 15px; color: var(--ink-soft); }
+.ate-sub { margin: 6px 0 16px; font-size: 13.5px; color: var(--muted); line-height: 1.4; }
+.ate-primary { width: 100%; height: 46px; border: none; border-radius: 999px; background: var(--violet); color: #fff; font: 700 14.5px Outfit, sans-serif; cursor: pointer; }
+.ate-primary:disabled { opacity: .5; cursor: default; }
+.ate-row { display: flex; gap: 8px; margin-top: 8px; }
+.ate-row button { flex: 1; height: 42px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--cream); color: var(--ink-soft); font: 700 13.5px Outfit, sans-serif; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { .ate-badge.claiming { animation: none; } }

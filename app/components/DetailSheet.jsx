@@ -26,7 +26,7 @@ const PRICE_ESTIMATE = {
 
 export default function DetailSheet({
   eatery, isMobile, photoUrl, dist, featured = false,
-  passportState, onToggleVisited, onToggleSaved, onAddSticker, onClose, onClaimRace,
+  passportState, onToggleVisited, onToggleSaved, onAddSticker, onClose, onAteHere,
   voteData, onVote, currentTheme, detailPending = false, pick, safety,
 }) {
   const [themeVotePending, setThemeVotePending] = useState(false);
@@ -805,7 +805,7 @@ export default function DetailSheet({
         >
           {/* Primary Action Button: Luxury Obsidian Stamp CTA */}
           <button
-            onClick={() => onToggleVisited(eatery.id)}
+            onClick={() => (visited || !onAteHere ? onToggleVisited(eatery.id) : onAteHere(eatery.id))}
             style={{
               width: "100%",
               height: 50,
@@ -835,17 +835,9 @@ export default function DetailSheet({
               width={2.2}
               color={visited ? "#15803d" : "#ffffff"}
             />
-            {visited ? "Collected ✓" : "Stamp Spot"}
+            {visited ? "You ate here ✓" : `I ate here${tier ? ` (+${tier.points} pts)` : ""}`}
           </button>
 
-          {/* Race claim is separate from stamping: it needs you physically at the spot. */}
-          {onClaimRace && (
-            <button type="button" onClick={() => onClaimRace(eatery.id)} className="race-claim-btn">
-              <Icon name="trophy" size={15} width={2.1} color="var(--violet-deep)" />
-              Claim for the Race{tier ? ` (+${tier.points} pts)` : ""}
-              {process.env.NEXT_PUBLIC_RACE_REQUIRE_GPS === "1" && <small>be within 250 m</small>}
-            </button>
-          )}
 
           {/* Secondary Action Row: Sleek Frosted Pills */}
           <div style={{ display: "flex", gap: 8 }}>

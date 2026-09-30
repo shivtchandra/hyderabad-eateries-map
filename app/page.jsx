@@ -26,7 +26,9 @@ import BottomNav from "./components/BottomNav.jsx";
 import RoutePanel from "./components/RoutePanel.jsx";
 import InstallPrompt from "./components/InstallPrompt.jsx";
 import { canOfferInstall } from "../lib/install.js";
-import { claimSpot } from "../lib/leaderboard.js";
+import { claimSpot, fetchLeaderboard } from "../lib/leaderboard.js";
+import { getUid } from "../lib/identity.js";
+import AteHerePopup from "./components/AteHerePopup.jsx";
 import { fetchVoteCounts, fetchStarOfWeek, castVote as castVoteApi, removeVote as removeVoteApi, hasVoted } from "../lib/voting.js";
 import { fetchCurrentTheme } from "../lib/themeVoting.js";
 import ThemeIntro from "./components/ThemeIntro.jsx";
@@ -121,7 +123,8 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   const [isMobile, setIsMobile] = useState(false);
   const [passport, setPassport] = useState({ visited: {}, saved: {} });
   const [stamping, setStamping] = useState(null);
-  const [installAsk, setInstallAsk] = useState(0); // stamp count when we ask to install, 0 = hidden
+  const [installAsk, setInstallAsk] = useState(0);
+  const [ateHere, setAteHere] = useState(null); // { spot, result } for the post-visit popup // stamp count when we ask to install, 0 = hidden
   const [diaryTick, setDiaryTick] = useState(0);
   const [stickerFor, setStickerFor] = useState(undefined); // undefined = closed
   const [stickerTick, setStickerTick] = useState(0);
@@ -466,50 +469,10 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
     }
   }, [byId]);
 
-  // Passport stamping is personal and works anywhere, logging a memory. The
-  // Race claim is the competitive half: it needs live GPS proof you're actually
-  // there, so it's attempted separately and is allowed to fail ("too far")
-  // without affecting the stamp.
-  const attemptRaceClaim = useCallback((id) => {
-    const report = (res) => {
-      if (res.ok && !res.already) {
-        setToast(`Claimed for the Race, +${res.awarded} pts`);
-        setDiaryTick((t) => t + 1); // refresh the board
-      } else if (res.ok && res.already) {
-        setToast("Already claimed for the Race");
-      } else if (res.reason === "too-far") {
-        setToast(`You're ${res.distanceKm} km away. Claim it when you're within 250 m`);
-      } else if (res.reason === "not-authenticated") {
-        setToast(`Race sign-in failed (${res.detail || "no token"}), try again`);
-      } else {
-        setToast(`Couldn't reach the Race board (${res.reason}), try again`);
-      }
-    };
-    // GPS proof is off while the Race is being tested (RACE_REQUIRE_GPS): the claim
-    // is sent with the spot's own coordinates, so it works from anywhere.
-    if (!RACE_REQUIRE_GPS) {
-      const spot = byId[id];
-      if (!spot) return;
-      setToast("Claiming…");
-      claimSpot(id, { lat: Number(spot.lat), lng: Number(spot.lng) }).then(report);
-      return;
-    }
-    if (!navigator.geolocation) {
-      setToast("Turn on location to claim spots for the Race");
-      return;
-    }
-    setToast("Checking your location…");
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        report(await claimSpot(id, { lat: pos.coords.latitude, lng: pos.coords.longitude }));
-      },
-      () => setToast("Location is blocked, allow it to claim for the Race"),
-      { enableHighAccuracy: true, timeout: 8000 }
-    );
-  }, [byId]);
 
   const completeStamp = useCallback((id) => {
-    const next = passportStore.toggleVisited(id);
+    const already = Boolean(passportStore.getState().visited[id]);
+    const next = already ? passportStore.getState() : passportStore.toggleVisited(id);
     setPassport({ ...next });
     // After the 2nd stamp they are a real user: offer the home-screen install.
     const stamps = Object.keys(next.visited || {}).length;
@@ -517,7 +480,74 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
     setStamping(null);
     setDiaryTick((t) => t + 1);
     trackEvent("stamp");
-    setToast("Stamped, added to your passport");
+    setToast(already ? "Saved to your food diary" : "Stamped, added to your passport");
+  }, []);
+
+  // One tap for a visit: stamp the passport, close the sheet, claim Race points, and
+  // confirm in a popup (the old flow left the sheet open with only a toast, so it
+  // looked stuck, and split one visit across "Stamp" and "Claim for the Race").
+  const claimForPopup = useCallback(async (spot) => {
+    setAteHere({ spot, result: { state: "claiming" } });
+    // With the GPS rule on, the claim must carry the phone's real position; while it's
+    // off (testing), the spot's own coordinates are sent so it works from anywhere.
+    let coords = { lat: Number(spot.lat), lng: Number(spot.lng) };
+    if (RACE_REQUIRE_GPS) {
+      coords = await new Promise((resolve) => {
+        if (!navigator.geolocation) return resolve(null);
+        navigator.geolocation.getCurrentPosition(
+          (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+          () => resolve(null),
+          { enableHighAccuracy: true, timeout: 8000 }
+        );
+      });
+      if (!coords) {
+        setAteHere({ spot, result: { state: "failed", reason: "location blocked" } });
+        return;
+      }
+    }
+    const res = await claimSpot(spot.id, coords);
+    if (res.reason === "too-far") {
+      setAteHere({ spot, result: { state: "failed", reason: `you're ${res.distanceKm} km away` } });
+      return;
+    }
+    if (!res.ok) {
+      setAteHere({ spot, result: { state: "failed", reason: res.reason === "not-authenticated" ? (res.detail || "sign-in") : res.reason } });
+      return;
+    }
+    setDiaryTick((t) => t + 1);
+    let rank = null;
+    try {
+      const uid = await getUid();
+      const board = uid ? await fetchLeaderboard(uid) : null;
+      rank = board?.me?.rank ?? null;
+    } catch {}
+    setAteHere({ spot, result: { state: res.already ? "already" : "claimed", awarded: res.awarded, rank } });
+  }, []);
+
+  const handleAteHere = useCallback((id) => {
+    const spot = byId[id];
+    if (!spot) return;
+    if (!passportStore.getState().visited[id]) {
+      const next = passportStore.toggleVisited(id);
+      setPassport({ ...next });
+      setDiaryTick((t) => t + 1);
+      trackEvent("stamp");
+      const stamps = Object.keys(next.visited || {}).length;
+      if (stamps >= 2 && canOfferInstall()) setTimeout(() => setInstallAsk(stamps), 4000);
+    }
+    setSheetOpen(false);
+    claimForPopup(spot);
+  }, [byId, claimForPopup]);
+
+  const shareAteHere = useCallback(async (spot, result) => {
+    const text = result?.rank
+      ? `I just claimed ${spot.name} and I'm #${result.rank} in Hyderabad's food race. Can you beat me?`
+      : `I just claimed ${spot.name} in Hyderabad's food race.`;
+    const url = `${window.location.origin}/race`;
+    try {
+      if (navigator.share) await navigator.share({ title: "The Race, Hyderabad Eats", text, url });
+      else { await navigator.clipboard.writeText(`${text} ${url}`); setToast("Link copied"); }
+    } catch {}
   }, []);
 
   const handleToggleSaved = useCallback((id) => {
@@ -858,7 +888,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
                 dist={dist}
                 passportState={passportStore.stateOf(passport, selectedFull.id)}
                 onToggleVisited={handleToggleVisited}
-                onClaimRace={attemptRaceClaim}
+                onAteHere={handleAteHere}
                 onToggleSaved={handleToggleSaved}
                 onAddSticker={(e) => setStickerFor(e)}
                 onClose={() => setSheetOpen(false)}
@@ -954,7 +984,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
                 dist={dist}
                 passportState={passportStore.stateOf(passport, selectedFull.id)}
                 onToggleVisited={handleToggleVisited}
-                onClaimRace={attemptRaceClaim}
+                onAteHere={handleAteHere}
                 onToggleSaved={handleToggleSaved}
                 onAddSticker={(e) => setStickerFor(e)}
                 onClose={() => setSheetOpen(false)}
@@ -971,6 +1001,17 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
         )}
 
         {installAsk > 0 && <InstallPrompt stamps={installAsk} onClose={() => setInstallAsk(0)} />}
+
+        {ateHere && (
+          <AteHerePopup
+            spot={ateHere.spot}
+            result={ateHere.result}
+            onOrder={() => { const s = ateHere.spot; setAteHere(null); setStamping(s); }}
+            onShare={() => shareAteHere(ateHere.spot, ateHere.result)}
+            onRetry={() => claimForPopup(ateHere.spot)}
+            onClose={() => setAteHere(null)}
+          />
+        )}
 
         {stamping && (
           <StampSheet
