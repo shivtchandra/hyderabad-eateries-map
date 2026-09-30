@@ -22,7 +22,7 @@ export function isUserSpot(id) {
   return typeof id === "string" && id.startsWith("user-");
 }
 
-export default function AddPlace({ query, onAdded }) {
+export default function AddPlace({ query, onAdded, submitLabel = "Add and vote", note = "It shows as \u201cNew\u201d while we verify it." }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [area, setArea] = useState("");
@@ -80,10 +80,10 @@ export default function AddPlace({ query, onAdded }) {
       <div className="add-place-actions">
         <button type="button" onClick={() => setOpen(false)}>Cancel</button>
         <button type="submit" disabled={state === "saving"} className="primary">
-          {state === "saving" ? "Adding…" : "Add and vote"}
+          {state === "saving" ? "Adding…" : submitLabel}
         </button>
       </div>
-      <small>It shows as &ldquo;New&rdquo; while we verify it.</small>
+      <small>{note}</small>
     </form>
   );
 }

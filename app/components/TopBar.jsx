@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Icon } from "./Icons.jsx";
+import AddPlace from "./AddPlace.jsx";
 
 const CATEGORY_META = {
   restaurant: { label: "Restaurant", color: "var(--restaurant)" },
@@ -19,6 +20,8 @@ export default function TopBar({
   searchResults = [], onSelectResult, onPreviewResult,
   count, visitedCount,
 }) {
+  const [added, setAdded] = useState(null); // name of a place just added from search
+  useEffect(() => { setAdded(null); }, [search]);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -161,6 +164,19 @@ export default function TopBar({
           );
         }) : (
           <div className="search-result-empty">No matching spots</div>
+        )}
+        {added ? (
+          <div className="add-place-done">
+            <Icon name="check" size={14} width={2.4} color="var(--forest)" />
+            Thanks! {added} is added. It shows on the map once we verify it.
+          </div>
+        ) : (
+          <AddPlace
+            query={search}
+            onAdded={(p) => setAdded(p.name)}
+            submitLabel="Add place"
+            note="We check new places before they appear on the map."
+          />
         )}
       </div>
     )}
