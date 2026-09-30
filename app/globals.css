@@ -669,10 +669,3 @@ body::after {
 .add-place-form small, .add-place-msg { font-size: 11.5px; color: var(--muted); margin: 0; }
 .add-place-msg { color: var(--pop-deep); }
 .new-place-chip { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 999px; background: var(--pop-wash); color: var(--pop-deep); font-size: 10.5px; font-weight: 700; vertical-align: middle; }
-
-/* ---- This Week / The Race switch ---- */
-.race-switch-wrap { position: sticky; top: 0; z-index: 30; padding: 8px 16px 10px; background: var(--cream); }
-.race-switch { display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: var(--cream-hi); box-shadow: var(--e1); }
-.race-switch button { flex: 1; height: 34px; border: none; border-radius: 999px; background: transparent; color: var(--ink-soft); font: 700 13px Outfit, sans-serif; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; transition: background .15s ease, color .15s ease; }
-.race-switch button.active { background: var(--violet); color: #fff; box-shadow: 0 2px 8px rgba(124,58,237,0.28); }
-@media (prefers-reduced-motion: reduce) { .race-switch button { transition: none; } }
