@@ -121,6 +121,7 @@ export default function LeaderboardPanel({
                   </div>
                 )}
               </div>
+              <RaceShare me={me} />
             </>
           ) : (
             <>
@@ -288,6 +289,47 @@ export default function LeaderboardPanel({
         )}
       </div>}
     </div>
+  );
+}
+
+// Share the Race board: your rank if you have one, an invite otherwise.
+// Native share sheet on phones; WhatsApp or copy-link as the fallback.
+function RaceShare({ me }) {
+  const [state, setState] = useState("idle"); // idle | copied
+  const text = me
+    ? `I'm #${me.rank} in Hyderabad's food race with ${me.score} pts. Can you beat me?`
+    : "Hyderabad's food race: claim the spots you eat at and climb the board.";
+
+  const share = async () => {
+    const url = `${window.location.origin}/race`;
+    if (navigator.share) {
+      try { await navigator.share({ title: "The Race, Hyderabad Eats", text, url }); } catch {}
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(`${text} ${url}`);
+      setState("copied");
+      setTimeout(() => setState("idle"), 1800);
+    } catch {
+      window.open(`https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`, "_blank", "noopener,noreferrer");
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={share}
+      style={{
+        marginTop: 12, marginBottom: 2, height: 34, padding: "0 16px",
+        display: "inline-flex", alignItems: "center", gap: 6,
+        border: "1px solid rgba(255,255,255,0.35)", borderRadius: "var(--r-pill)",
+        background: "rgba(255,255,255,0.16)", color: "#fff",
+        fontWeight: 700, fontSize: 13, cursor: "pointer",
+      }}
+    >
+      <Icon name={state === "copied" ? "check" : "share"} size={14} width={2} color="#fff" />
+      {state === "copied" ? "Link copied" : me ? "Share my rank" : "Invite friends"}
+    </button>
   );
 }
 
