@@ -86,8 +86,10 @@ export default function LeaderboardPanel({
 
   return (
     <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", background: "var(--cream)", scrollPaddingTop: 56 }}>
-      {/* Purple top band on both tabs so Race / This Week feel like one surface */}
-      <div style={{ background: "var(--violet)", position: "relative", paddingTop: 24, overflow: "hidden" }}>
+      {/* Purple band only on the Race tab, where it shows your rank. On This Week it just
+          repeated the tab name above a challenge card that is already a violet hero. */}
+      {innerTab === "race" && (
+      <div style={{ background: "var(--violet)", position: "relative", paddingTop: 20, overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: "-10% -5% 30%", opacity: 0.26, pointerEvents: "none" }}>
           <Squiggles color="var(--cream-hi)" opacity={1} />
         </div>
@@ -111,12 +113,10 @@ export default function LeaderboardPanel({
                 ) : (
                   <div style={{ color: "var(--cream-hi)", padding: "8px 20px 4px" }}>
                     <div className="groovy" style={{ fontSize: 26, lineHeight: 1.05 }}>
-                      {stampCount > 0 ? "Passport ≠ Race" : "Not in the race yet"}
+                      Not in the race yet
                     </div>
                     <div style={{ fontSize: 12.5, opacity: 0.9, marginTop: 8, fontWeight: 500, lineHeight: 1.45 }}>
-                      {stampCount > 0
-                        ? `You stamped ${stampCount} spot${stampCount === 1 ? "" : "s"} on Passport. That does not add Race points. Go to the spot, turn location on, and stamp while you are there.`
-                        : "To score Race points, stamp a spot while you are physically there with location on."}
+                      Open any spot and tap <b>Claim for the Race</b> to score points. Stamps are just for your passport.
                     </div>
                   </div>
                 )}
@@ -132,28 +132,27 @@ export default function LeaderboardPanel({
             </>
           )}
         </div>
-        <Wave height={innerTab === "theme" ? 24 : 44} color="var(--cream)" style={{ marginTop: innerTab === "theme" ? 6 : 10 }} />
+        <Wave height={36} color="var(--cream)" style={{ marginTop: 10 }} />
       </div>
+      )}
 
       {/* Tab switcher */}
-      <div ref={tabsRef} style={{ display: "flex", gap: 6, padding: "10px 16px 12px", background: "var(--cream)", position: "sticky", top: 0, zIndex: 30, boxShadow: "0 1px 0 var(--line)" }}>
-        {[["theme", "crown", "This Week"], ["race", "trophy", "The Race"]].map(([key, icon, label]) => (
-          <button
-            key={key}
-            onClick={() => selectInnerTab(key)}
-            style={{
-              flex: 1, height: 38, display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-              border: "none", borderRadius: "var(--r-pill)",
-              background: innerTab === key ? "var(--violet)" : "var(--cream)",
-              color: innerTab === key ? "#fff" : "var(--muted)",
-              fontWeight: 700, fontSize: 13, cursor: "pointer",
-              boxShadow: innerTab === key ? "0 2px 8px rgba(124,58,237,0.3)" : "var(--e1)",
-            }}
-          >
-            <Icon name={icon} size={15} width={1.9} />
-            {label}
-          </button>
-        ))}
+      <div ref={tabsRef} className="race-switch-wrap">
+        <div className="race-switch" role="tablist" aria-label="This Week or The Race">
+          {[["theme", "crown", "This Week"], ["race", "trophy", "The Race"]].map(([key, icon, label]) => (
+            <button
+              key={key}
+              type="button"
+              role="tab"
+              aria-selected={innerTab === key}
+              className={innerTab === key ? "active" : undefined}
+              onClick={() => selectInnerTab(key)}
+            >
+              <Icon name={icon} size={14} width={2} />
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {innerTab === "theme" && <div style={{ paddingBottom: 120, paddingTop: 8 }}><ThemeVoting initialDishSlug={initialDishSlug} /></div>}
@@ -228,10 +227,10 @@ export default function LeaderboardPanel({
             <div style={{ fontSize: 13.5, color: "var(--ink-soft)", fontWeight: 500, lineHeight: 1.5 }}>
               <b>Passport</b> = your diary. Works from anywhere.
               <br />
-              <b>The Race</b> = points. Only counts when you stamp at the restaurant with GPS on (within about 250 m).
+              <b>The Race</b> = points. Tap <b>Claim for the Race</b> on a spot to score.
             </div>
             <div style={{ fontSize: 12.5, color: "var(--muted)", fontWeight: 500, marginTop: 8, lineHeight: 1.4 }}>
-              You have {stampCount} Passport stamp{stampCount === 1 ? "" : "s"}. None are Race claims yet. Visit the place and stamp again on-site.
+              You have {stampCount} Passport stamp{stampCount === 1 ? "" : "s"}, but no Race claims yet. Open one of those spots and tap Claim for the Race.
             </div>
           </div>
         )}
@@ -241,8 +240,8 @@ export default function LeaderboardPanel({
             icon="sparkle"
             title={stampCount > 0 ? "No Race claims yet" : "Be the first"}
             sub={stampCount > 0
-              ? "The board only lists GPS check-ins. Passport stamps will not appear here."
-              : "Nobody has claimed a spot for the Race yet. Stamp on-site to top the board."}
+              ? "The board only lists Race claims. Passport stamps don't appear here."
+              : "Nobody has claimed a spot for the Race yet. Open a spot and tap Claim for the Race."}
           />
         )}
 
