@@ -423,6 +423,69 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
         </div>
       )}
 
+      {/* Search above the standings: a long list hid it, and it's the only way to add a missing place. */}
+      <div style={{ margin: "0 16px 16px", position: "relative", zIndex: 2 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 8 }}>
+            {votedSpotId ? "Switch to another place" : "Search or add a place"}
+          </div>
+          <div style={{ position: "relative" }}>
+            <span style={{
+              position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)",
+              display: "flex", pointerEvents: "none", opacity: 0.55,
+            }}>
+              <Icon name="search" size={16} width={2} color="var(--muted)" />
+            </span>
+            <input
+              value={searchQ}
+              onChange={(e) => searchSpots(e.target.value)}
+              placeholder="Search any restaurant, or add a new one…"
+              autoComplete="off"
+              style={{
+                width: "100%", boxSizing: "border-box",
+                border: "1.5px solid var(--line)", borderRadius: "var(--r-md)",
+                padding: "12px 14px 12px 38px", fontSize: 14.5,
+                fontFamily: "Outfit, sans-serif", background: "var(--cream-hi)",
+                color: "var(--ink)", outline: "none",
+                boxShadow: "var(--e1)",
+              }}
+              onFocus={(e) => { e.target.style.borderColor = "var(--violet)"; }}
+              onBlur={(e) => { e.target.style.borderColor = "var(--line)"; }}
+            />
+            {(suggestions.length > 0 || searchQ.trim().length >= 3) && (
+              <div style={{
+                position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0,
+                background: "var(--cream-hi)", border: "1.5px solid var(--line)",
+                borderRadius: "var(--r-md)", zIndex: 40,
+                boxShadow: "0 8px 24px rgba(44,36,24,0.14)", overflow: "hidden",
+              }}>
+                {suggestions.map((s, i) => (
+                  <button
+                    key={s.spotId}
+                    type="button"
+                    onClick={() => pickSpot(s)}
+                    style={{
+                      display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10,
+                      width: "100%", textAlign: "left",
+                      padding: "12px 14px", border: "none", background: "transparent",
+                      cursor: "pointer",
+                      borderBottom: i < suggestions.length - 1 ? "1px solid var(--line)" : "none",
+                    }}
+                  >
+                    <span style={{ minWidth: 0 }}>
+                      <span style={{ display: "block", fontWeight: 700, fontSize: 13.5, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.name}</span>
+                      {locLabel(s.area) && <span style={{ display: "block", color: "var(--muted)", fontSize: 11.5, marginTop: 2 }}>{locLabel(s.area)}</span>}
+                    </span>
+                    <span style={{ flexShrink: 0, fontSize: 12, fontWeight: 800, color: "var(--violet)" }}>
+                      {votedSpotId ? "Switch" : "Vote"}
+                    </span>
+                  </button>
+                ))}
+                <AddPlace query={searchQ} onAdded={pickSpot} />
+              </div>
+            )}
+          </div>
+        </div>
+
       {/* Standings / suggested picks (always show ~10 once we have seeds) */}
       {standings.length > 0 && (
         <div style={{ padding: "0 16px 8px", display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
@@ -486,68 +549,6 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
         </div>
       )}
 
-      {/* Search sits under the standings: vote from the list first, add a missing place here. */}
-      <div style={{ margin: "0 16px 16px", position: "relative", zIndex: 2 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 8 }}>
-            {votedSpotId ? "Switch to another place" : "Not listed? Add a place"}
-          </div>
-          <div style={{ position: "relative" }}>
-            <span style={{
-              position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)",
-              display: "flex", pointerEvents: "none", opacity: 0.55,
-            }}>
-              <Icon name="search" size={16} width={2} color="var(--muted)" />
-            </span>
-            <input
-              value={searchQ}
-              onChange={(e) => searchSpots(e.target.value)}
-              placeholder="Restaurant name…"
-              autoComplete="off"
-              style={{
-                width: "100%", boxSizing: "border-box",
-                border: "1.5px solid var(--line)", borderRadius: "var(--r-md)",
-                padding: "12px 14px 12px 38px", fontSize: 14.5,
-                fontFamily: "Outfit, sans-serif", background: "var(--cream-hi)",
-                color: "var(--ink)", outline: "none",
-                boxShadow: "var(--e1)",
-              }}
-              onFocus={(e) => { e.target.style.borderColor = "var(--violet)"; }}
-              onBlur={(e) => { e.target.style.borderColor = "var(--line)"; }}
-            />
-            {(suggestions.length > 0 || searchQ.trim().length >= 3) && (
-              <div style={{
-                position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0,
-                background: "var(--cream-hi)", border: "1.5px solid var(--line)",
-                borderRadius: "var(--r-md)", zIndex: 40,
-                boxShadow: "0 8px 24px rgba(44,36,24,0.14)", overflow: "hidden",
-              }}>
-                {suggestions.map((s, i) => (
-                  <button
-                    key={s.spotId}
-                    type="button"
-                    onClick={() => pickSpot(s)}
-                    style={{
-                      display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10,
-                      width: "100%", textAlign: "left",
-                      padding: "12px 14px", border: "none", background: "transparent",
-                      cursor: "pointer",
-                      borderBottom: i < suggestions.length - 1 ? "1px solid var(--line)" : "none",
-                    }}
-                  >
-                    <span style={{ minWidth: 0 }}>
-                      <span style={{ display: "block", fontWeight: 700, fontSize: 13.5, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.name}</span>
-                      {locLabel(s.area) && <span style={{ display: "block", color: "var(--muted)", fontSize: 11.5, marginTop: 2 }}>{locLabel(s.area)}</span>}
-                    </span>
-                    <span style={{ flexShrink: 0, fontSize: 12, fontWeight: 800, color: "var(--violet)" }}>
-                      {votedSpotId ? "Switch" : "Vote"}
-                    </span>
-                  </button>
-                ))}
-                <AddPlace query={searchQ} onAdded={pickSpot} />
-              </div>
-            )}
-          </div>
-        </div>
 
     </div>
   );
