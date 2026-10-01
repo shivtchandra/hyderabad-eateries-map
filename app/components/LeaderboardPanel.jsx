@@ -17,6 +17,7 @@ export default function LeaderboardPanel({
   onInnerTabChange,
   initialDishSlug = null,
   stampCount = 0,
+  onOpenClaim,
 }) {
   const [innerTab, setInnerTab] = useState(initialInnerTab); // "race" | "theme"
   const scrollRef = useRef(null);
@@ -116,6 +117,31 @@ export default function LeaderboardPanel({
                     <div style={{ fontSize: 12.5, opacity: 0.9, marginTop: 8, fontWeight: 500, lineHeight: 1.45 }}>
                       Open any spot you ate at and tap <b>I ate here</b>. One tap stamps your passport and scores Race points.
                     </div>
+                    {onOpenClaim && (
+                      <button
+                        type="button"
+                        onClick={onOpenClaim}
+                        className="pressable-sm"
+                        style={{
+                          marginTop: 12,
+                          background: "#fff",
+                          color: "var(--violet-deep)",
+                          border: "none",
+                          borderRadius: "var(--r-pill)",
+                          padding: "8px 18px",
+                          fontWeight: 750,
+                          fontSize: 13.5,
+                          cursor: "pointer",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 6,
+                          boxShadow: "0 4px 14px rgba(0,0,0,0.18)",
+                        }}
+                      >
+                        <Icon name="trophy" size={15} width={2.2} color="var(--violet-deep)" />
+                        Claim a spot you ate at
+                      </button>
+                    )}
                   </div>
                 )}
               </div>
@@ -230,17 +256,67 @@ export default function LeaderboardPanel({
             <div style={{ fontSize: 12.5, color: "var(--muted)", fontWeight: 500, marginTop: 8, lineHeight: 1.4 }}>
               Open a spot you ate at and tap <b>I ate here</b> to get on the board.
             </div>
+            {onOpenClaim && (
+              <button
+                type="button"
+                onClick={onOpenClaim}
+                className="pressable-sm"
+                style={{
+                  marginTop: 12,
+                  background: "var(--violet)",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "var(--r-pill)",
+                  padding: "9px 18px",
+                  fontWeight: 700,
+                  fontSize: 13.5,
+                  cursor: "pointer",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                }}
+              >
+                <Icon name="trophy" size={15} width={2.2} color="#fff" />
+                Claim a spot now
+              </button>
+            )}
           </div>
         )}
 
         {status === "ready" && players.length === 0 && (
-          <Empty
-            icon="sparkle"
-            title={stampCount > 0 ? "No Race claims yet" : "Be the first"}
-            sub={stampCount > 0
-              ? "Earlier stamps didn't score. Tap I ate here on a spot to get on the board."
-              : "Nobody is on the board yet. Open a spot you ate at and tap I ate here."}
-          />
+          <div style={{ textAlign: "center" }}>
+            <Empty
+              icon="sparkle"
+              title={stampCount > 0 ? "No Race claims yet" : "Be the first"}
+              sub={stampCount > 0
+                ? "Earlier stamps didn't score. Tap I ate here on a spot to get on the board."
+                : "Nobody is on the board yet. Open a spot you ate at and tap I ate here."}
+            />
+            {onOpenClaim && (
+              <button
+                type="button"
+                onClick={onOpenClaim}
+                className="pressable-sm"
+                style={{
+                  marginTop: 8,
+                  background: "var(--violet)",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "var(--r-pill)",
+                  padding: "9px 20px",
+                  fontWeight: 700,
+                  fontSize: 13.5,
+                  cursor: "pointer",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                }}
+              >
+                <Icon name="trophy" size={15} width={2.2} color="#fff" />
+                Claim a spot now
+              </button>
+            )}
+          </div>
         )}
 
         {status === "ready" && top3.length > 0 && (
@@ -281,6 +357,47 @@ export default function LeaderboardPanel({
               A spot&apos;s tier comes from its Google review count. Famous places score least, deeper cuts score more.
               Tap I ate here on a spot and these points land on the board right away.
             </div>
+          </div>
+        )}
+
+        {/* Floating Claim Action on Race screen */}
+        {onOpenClaim && (
+          <div
+            style={{
+              position: "fixed",
+              bottom: "calc(74px + env(safe-area-inset-bottom, 0px))",
+              left: 0,
+              right: 0,
+              display: "flex",
+              justifyContent: "center",
+              pointerEvents: "none",
+              zIndex: 1200,
+            }}
+          >
+            <button
+              type="button"
+              onClick={onOpenClaim}
+              className="pressable-sm"
+              style={{
+                pointerEvents: "auto",
+                height: 44,
+                padding: "0 22px",
+                background: "var(--violet)",
+                color: "#fff",
+                borderRadius: "var(--r-pill)",
+                border: "2px solid rgba(255,255,255,0.9)",
+                boxShadow: "0 8px 24px rgba(124,58,237,0.45)",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                fontSize: 14,
+                fontWeight: 750,
+                cursor: "pointer",
+              }}
+            >
+              <Icon name="trophy" size={17} width={2.2} color="#fff" />
+              Claim a spot (+pts)
+            </button>
           </div>
         )}
       </div>}

@@ -29,6 +29,7 @@ import { canOfferInstall } from "../lib/install.js";
 import { claimSpot, fetchLeaderboard } from "../lib/leaderboard.js";
 import { getUid } from "../lib/identity.js";
 import AteHerePopup from "./components/AteHerePopup.jsx";
+import QuickClaimSheet from "./components/QuickClaimSheet.jsx";
 import { fetchVoteCounts, fetchStarOfWeek, castVote as castVoteApi, removeVote as removeVoteApi, hasVoted } from "../lib/voting.js";
 import { fetchCurrentTheme } from "../lib/themeVoting.js";
 import ThemeIntro from "./components/ThemeIntro.jsx";
@@ -96,6 +97,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   const [openNowOnly, setOpenNowOnly] = useState(false);
   const [search, setSearch] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
+  const [quickClaimOpen, setQuickClaimOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [heroes, setHeroes] = useState([]);
@@ -740,6 +742,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
             initialDishSlug={dishSlug ?? initialDishSlug}
             refreshTick={diaryTick}
             stampCount={visitedCount}
+            onOpenClaim={() => setQuickClaimOpen(true)}
           />
         )}
         {tab === "passport" && (
@@ -1010,8 +1013,22 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
             onShare={() => shareAteHere(ateHere.spot, ateHere.result)}
             onRetry={() => claimForPopup(ateHere.spot)}
             onClose={() => setAteHere(null)}
+            onViewRace={() => { setAteHere(null); openRaceView("race"); }}
           />
         )}
+
+        <QuickClaimSheet
+          isOpen={quickClaimOpen}
+          onClose={() => setQuickClaimOpen(false)}
+          eateries={eateries}
+          userLoc={userLoc}
+          passport={passport}
+          onClaimSpot={(spot) => handleAteHere(spot.id)}
+          onViewOnMap={(spot) => {
+            setTab("map");
+            if (spot) handleSelect(spot.id);
+          }}
+        />
 
         {stamping && (
           <StampSheet

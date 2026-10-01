@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { TIERS } from "../../lib/eateryUtils.js";
+import { TIERS, tierFor } from "../../lib/eateryUtils.js";
 import { photoUrl } from "../../lib/spotlight.js";
 import { Icon, CategoryIcon } from "./Icons.jsx";
 import { hasVoted } from "../../lib/voting.js";
@@ -143,7 +143,8 @@ export default function CardRail({
           const area = e.a ?? e.discoveredIn;
           const rating = e.r ?? e.rating;
           const ratingCount = e.rc ?? e.ratingCount;
-          const tier = TIERS[e.t ?? e.tier];
+          const tierKey = e.t ?? e.tier ?? tierFor(ratingCount);
+          const tier = TIERS[tierKey] || TIERS["hidden-gem"];
           const priceLevel = e.p ?? e.priceLevel;
 
           const formattedReviews = ratingCount
@@ -342,8 +343,25 @@ export default function CardRail({
                   />
                 </div>
 
-                {/* Top Row: Collected status or Vote Button */}
-                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", minHeight: 22 }}>
+                {/* Top Row: Points Badge & Collected status or Vote Button */}
+                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 5, minHeight: 22 }}>
+                  <span
+                    style={{
+                      background: "var(--violet-wash)",
+                      color: "var(--violet-deep)",
+                      borderRadius: 999,
+                      padding: "2px 7px",
+                      fontSize: 10,
+                      fontWeight: 800,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 2.5,
+                      letterSpacing: "-0.01em",
+                    }}
+                    title={`${tier.label} · ${tier.points} pts in The Race`}
+                  >
+                    +{tier.points} pts
+                  </span>
                   {collected ? (
                     <span
                       style={{
@@ -359,7 +377,7 @@ export default function CardRail({
                         gap: 3,
                       }}
                     >
-                      <Icon name="check" size={10} width={2.5} color="#15803d" /> Collected
+                      <Icon name="check" size={10} width={2.5} color="#15803d" /> Claimed
                     </span>
                   ) : (
                     <button

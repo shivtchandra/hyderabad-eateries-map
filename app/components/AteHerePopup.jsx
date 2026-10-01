@@ -5,7 +5,7 @@ import { Icon } from "./Icons.jsx";
 // Shown after "I ate here": the sheet has closed, this confirms what just happened
 // (stamp + Race points + rank) and offers the optional next steps.
 // result: { state: "claiming" | "claimed" | "already" | "failed", awarded?, rank?, reason? }
-export default function AteHerePopup({ spot, result, onOrder, onShare, onRetry, onClose }) {
+export default function AteHerePopup({ spot, result, onOrder, onShare, onRetry, onClose, onViewRace }) {
   const s = result?.state || "claiming";
   const title =
     s === "claiming" ? "Adding to the Race…" :
@@ -30,11 +30,23 @@ export default function AteHerePopup({ spot, result, onOrder, onShare, onRetry, 
         {s === "failed" ? (
           <button type="button" className="ate-primary" onClick={onRetry}>Try the Race claim again</button>
         ) : (
-          <button type="button" className="ate-primary" onClick={onOrder} disabled={s === "claiming"}>
-            What did you order?
+          <button
+            type="button"
+            className="ate-primary"
+            onClick={onViewRace || onClose}
+            disabled={s === "claiming"}
+            style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 7 }}
+          >
+            <Icon name="trophy" size={17} width={2.1} color="#fff" />
+            View on Leaderboard
           </button>
         )}
         <div className="ate-row">
+          {s !== "failed" && onOrder && (
+            <button type="button" onClick={onOrder} disabled={s === "claiming"}>
+              What did you order?
+            </button>
+          )}
           {(s === "claimed" || s === "already") && (
             <button type="button" onClick={onShare}>
               <Icon name="share" size={14} width={2} color="var(--violet-deep)" /> Share
