@@ -111,12 +111,10 @@ export default function LeaderboardPanel({
                 ) : (
                   <div style={{ color: "var(--cream-hi)", padding: "8px 20px 4px" }}>
                     <div className="groovy" style={{ fontSize: 26, lineHeight: 1.05 }}>
-                      {stampCount > 0 ? "Passport ≠ Race" : "Not in the race yet"}
+                      Not in the race yet
                     </div>
                     <div style={{ fontSize: 12.5, opacity: 0.9, marginTop: 8, fontWeight: 500, lineHeight: 1.45 }}>
-                      {stampCount > 0
-                        ? `You stamped ${stampCount} spot${stampCount === 1 ? "" : "s"} on Passport. That does not add Race points. Go to the spot, turn location on, and stamp while you are there.`
-                        : "To score Race points, stamp a spot while you are physically there with location on."}
+                      Open any spot you ate at and tap <b>I ate here</b>. One tap stamps your passport and scores Race points.
                     </div>
                   </div>
                 )}
@@ -227,12 +225,10 @@ export default function LeaderboardPanel({
               Why you are not on this board
             </div>
             <div style={{ fontSize: 13.5, color: "var(--ink-soft)", fontWeight: 500, lineHeight: 1.5 }}>
-              <b>Passport</b> = your diary. Works from anywhere.
-              <br />
-              <b>The Race</b> = points. Only counts when you stamp at the restaurant with GPS on (within about 250 m).
+              Your {stampCount} earlier stamp{stampCount === 1 ? " was" : "s were"} saved before the Race became one tap, so {stampCount === 1 ? "it didn't" : "they didn't"} score points.
             </div>
             <div style={{ fontSize: 12.5, color: "var(--muted)", fontWeight: 500, marginTop: 8, lineHeight: 1.4 }}>
-              You have {stampCount} Passport stamp{stampCount === 1 ? "" : "s"}. None are Race claims yet. Visit the place and stamp again on-site.
+              Open a spot you ate at and tap <b>I ate here</b> to get on the board.
             </div>
           </div>
         )}
@@ -242,8 +238,8 @@ export default function LeaderboardPanel({
             icon="sparkle"
             title={stampCount > 0 ? "No Race claims yet" : "Be the first"}
             sub={stampCount > 0
-              ? "The board only lists GPS check-ins. Passport stamps will not appear here."
-              : "Nobody has claimed a spot for the Race yet. Stamp on-site to top the board."}
+              ? "Earlier stamps didn't score. Tap I ate here on a spot to get on the board."
+              : "Nobody is on the board yet. Open a spot you ate at and tap I ate here."}
           />
         )}
 
