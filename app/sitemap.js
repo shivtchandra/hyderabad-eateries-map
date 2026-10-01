@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { getAllRankingsThemes } from "../lib/themesServer.js";
 import { SEO_THEME_PICKS, slugFromTitle } from "../lib/rankings.js";
-import { allAreaPages, allCategoryPages, getEditorialSpotIds, spotSlug, getEateryById, getEateries } from "../lib/siteData.js";
+import { allAreaPages, allCategoryPages, allAreaCategoryCombinations, getEditorialSpotIds, spotSlug, getEateryById, getEateries } from "../lib/siteData.js";
 import { getSiteUrl } from "../lib/site.js";
 
 export const dynamic = "force-dynamic";
@@ -99,6 +99,15 @@ export default async function sitemap() {
       priority: 0.8,
     }));
   } catch {}
+  let areaCategoryUrls = [];
+  try {
+    areaCategoryUrls = allAreaCategoryCombinations().map((c) => ({
+      url: `${siteUrl}/areas/${c.areaSlug}/${c.categorySlug}`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    }));
+  } catch {}
   try {
     areaUrls = allAreaPages().map((a) => ({
       url: `${siteUrl}/areas/${a.slug}`,
@@ -130,6 +139,7 @@ export default async function sitemap() {
     ...themeUrls,
     ...exploreUrls,
     ...areaUrls,
+    ...areaCategoryUrls,
     ...spotUrls,
   ].filter((e) => {
     if (seen.has(e.url)) return false;

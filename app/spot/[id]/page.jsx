@@ -12,6 +12,8 @@ import { ogImages } from "../../../lib/og.js";
 import { getInspectionsForSpot, ACTIONS, STATUSES, formatDate } from "../../../lib/inspectionsServer.js";
 import { verifiedOffers } from "../../../lib/offers.js";
 import MustOrder from "../../components/MustOrder.jsx";
+import { TIERS, tierFor } from "../../../lib/eateryUtils.js";
+import { Icon } from "../../components/Icons.jsx";
 
 const CAT_LABEL = {
   cafe: "Cafe", local: "Local Eats", "restro-bar": "Restro Bar", bakery: "Bakery", "ice-cream": "Ice Cream",
@@ -66,16 +68,24 @@ export function generateMetadata({ params }) {
   // The layout template appends " | Mapping HYD Eats" (18 chars), so aim for <= 42 here.
   const place = area === "Hyderabad" || name.toLowerCase().includes(area.toLowerCase()) ? name : `${name}, ${area}`;
   const rated = spot.rating ? `${spot.rating}★ ` : "";
-  const hook = spot.signatureDish?.name ? "What to Order" : "Reviews & Hours";
-  const title = [`${place}: ${rated}${hook}`, `${place}: ${hook}`, place, name].find((t) => t.length <= 42) || name;
+  // Searchers explicitly query: "{name} reviews", "{name} menu", "{name} must order"
+  const candidates = [
+    `${place}: Reviews, Menu & Must-Orders`,
+    `${place}: Reviews, Menu & Prices`,
+    `${place}: Reviews & Menu`,
+    `${place}: ${rated}Reviews & Hours`,
+    place,
+    name,
+  ];
+  // Target max 44-52 chars for the title fragment so with "| Mapping HYD Eats" it stays under ~65 chars.
+  const title = candidates.find((t) => t.length <= 44) || candidates.find((t) => t.length <= 54) || place;
 
   const cleanEditorial = (spot.originStory?.[0]
     || (spot.signatureDish ? `Famous for ${spot.signatureDish.name}. ${spot.signatureDish.why}` : "")).replace(/—/g, ",");
-  const ratingDetails = spot.rating ? `Rated ${spot.rating}★ (${spot.ratingCount ? spot.ratingCount.toLocaleString("en-IN") : ""} reviews). ` : "";
-  const costDetails = spot.costForTwo ? `₹${spot.costForTwo} for two. ` : "";
-  // Rating first (what searchers compare on), then the editorial hook; pageMeta clips to 160.
-  // No "open today" line: pages are cached for a day, so it could show the wrong day's hours.
-  const description = `${ratingDetails}${costDetails}${cleanEditorial || `${name} in ${area}.${spot.signatureDish?.name ? ` Famous for ${spot.signatureDish.name}.` : ""}`} Address, hours and what to order.`
+  const ratingDetails = spot.rating ? `${spot.rating}★ rating (${spot.ratingCount ? spot.ratingCount.toLocaleString("en-IN") : ""} reviews). ` : "";
+  const costDetails = spot.costForTwo ? `₹${Number(spot.costForTwo).toLocaleString("en-IN")} for two. ` : "";
+  const dishHook = spot.signatureDish?.name ? `Must-try: ${spot.signatureDish.name}. ` : "";
+  const description = `${ratingDetails}${costDetails}${dishHook}${cleanEditorial || `${name} in ${area}.`} Explore menu prices, hours, reviews, and TG food safety status on Hyderabad Eats.`
     .replace(/—/g, ",")
     .trim();
 
@@ -128,7 +138,9 @@ export default async function SpotPage({ params }) {
   } catch {}
 
   const jsonLd = restaurantJsonLd(spot, siteUrl, AUTHOR);
-  const faqs = getSpotFaqs(spot);
+  const faqs = getSpotFaqs(spot, { spotOffers, safety });
+  const tierKey = spot.tier || tierFor(spot.ratingCount || 0);
+  const tier = TIERS[tierKey] || TIERS["hidden-gem"];
   const breadcrumbItems = [
     { name: "Home", url: siteUrl },
     ...(areaLink ? [{ name: spot.discoveredIn, url: `${siteUrl}${areaLink}` }] : []),
@@ -201,6 +213,57 @@ export default async function SpotPage({ params }) {
         { href: `/explore/${spot.category === "local" ? "biryani-and-local" : spot.category === "restro-bar" ? "bars" : spot.category === "ice-cream" ? "ice-cream" : spot.category === "bakery" ? "bakeries" : "cafes"}`, label: `More ${CAT_LABEL[spot.category] || "spots"}` },
       ]}
     >
+      {/* Race Claim Banner */}
+      <div style={{
+        background: "linear-gradient(135deg, var(--violet-wash) 0%, rgba(124,58,237,0.12) 100%)",
+        border: "1.5px solid rgba(124,58,237,0.25)",
+        borderRadius: 20,
+        padding: "14px 18px",
+        marginBottom: 20,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 12,
+        boxShadow: "0 2px 10px rgba(124,58,237,0.08)",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0 }}>
+          <span style={{
+            width: 40, height: 40, borderRadius: "50%",
+            background: "var(--violet)", color: "#fff",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            flexShrink: 0, boxShadow: "0 3px 8px rgba(124,58,237,0.3)"
+          }}>
+            <Icon name="trophy" size={20} width={2.1} color="#fff" />
+          </span>
+          <div style={{ minWidth: 0 }}>
+            <div style={{ fontWeight: 800, fontSize: 14.5, color: "var(--ink)", lineHeight: 1.25 }}>
+              Ate at {displayName(spot.name)}?
+            </div>
+            <div style={{ fontSize: 12.5, color: "var(--violet-deep)", fontWeight: 600, marginTop: 2 }}>
+              Claim +{tier.points} pts in The Hyderabad Food Race
+            </div>
+          </div>
+        </div>
+        <Link
+          href={`/?spot=${encodeURIComponent(spot.id)}`}
+          className="pressable-sm"
+          style={{
+            padding: "8px 16px",
+            borderRadius: "var(--r-pill)",
+            background: "var(--violet)",
+            color: "#fff",
+            fontSize: 12.5,
+            fontWeight: 750,
+            textDecoration: "none",
+            whiteSpace: "nowrap",
+            flexShrink: 0,
+            boxShadow: "0 2px 6px rgba(124,58,237,0.25)"
+          }}
+        >
+          Claim Spot →
+        </Link>
+      </div>
+
       {isReview ? (
         <div className="review">
           {heroImg && (
@@ -369,7 +432,7 @@ export default async function SpotPage({ params }) {
             </section>
           )}
 
-          <Link href={`/?spot=${encodeURIComponent(spot.id)}`} className="site-cta">Open on map &amp; stamp</Link>
+          <Link href={`/?spot=${encodeURIComponent(spot.id)}`} className="site-cta">Open on map &amp; claim +{tier.points} pts</Link>
         </div>
       ) : (
         <>
@@ -390,7 +453,7 @@ export default async function SpotPage({ params }) {
               {spot.tags?.length > 0 && (
                 <p style={{ fontSize: 13, color: "var(--muted)" }}>{spot.tags.join(" · ")}</p>
               )}
-              <Link href={`/?spot=${encodeURIComponent(spot.id)}`} className="site-cta">Open on map &amp; stamp</Link>
+              <Link href={`/?spot=${encodeURIComponent(spot.id)}`} className="site-cta">Open on map &amp; claim +{tier.points} pts</Link>
             </div>
           </div>
 
