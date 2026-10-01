@@ -8,9 +8,11 @@ import BottomNav from "../components/BottomNav.jsx";
 import OffersClient from "./OffersClient.jsx";
 import { spotSlug } from "../../lib/siteData.js";
 
-// Offers change during the day: render on every request, never from Vercel's cache.
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// Static: the data is data/curated-offers.json inside the deployment, which only
+// changes when a deploy ships a new offers refresh, so a per-request render gave
+// no fresher data. It re-sent the same ~1.6MB on every view (CPU + origin
+// transfer); now it is built once per deploy and served from the CDN.
+export const revalidate = false;
 
 const SLUG = "/offers";
 const TITLE = "Hyderabad Dining Deals & Offers 2026";
