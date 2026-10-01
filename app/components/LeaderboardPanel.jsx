@@ -279,7 +279,7 @@ export default function LeaderboardPanel({
             ))}
             <div style={{ fontSize: 11.5, color: "var(--muted)", marginTop: 9, lineHeight: 1.45, fontWeight: 500 }}>
               A spot&apos;s tier comes from its Google review count. Famous places score least, deeper cuts score more.
-              Passport stamps do not add these points. Only an on-site Race claim does.
+              Tap I ate here on a spot and these points land on the board right away.
             </div>
           </div>
         )}
