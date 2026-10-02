@@ -20,6 +20,8 @@ export const metadata = {
   keywords: [
     "best tiffins in hyderabad reddit",
     "best breakfast places hyderabad",
+    "varalakshmi tiffins dlf poori",
+    "poori spots in hyderabad",
     "ishtaa hitec city review",
     "penam dosa jubilee hills",
     "panchakattu dosa hyderabad",
@@ -84,6 +86,14 @@ const faqLd = {
       acceptedAnswer: {
         "@type": "Answer",
         text: "Panchakattu Dosa in Begumpet and Nallagandla specializes in fiery Rayalaseema-style ghee karam dosas with signature red garlic paste.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where can you find good pooris and late-night ghee tiffins in DLF Gachibowli?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Varalakshmi Tiffins outside DLF Cybercity in Gachibowli is famous for ghee podi idlis and has newly introduced hot, fluffy Pooris served with flavorful potato kurma and spicy chutneys, earning top marks for taste.",
       },
     },
     {

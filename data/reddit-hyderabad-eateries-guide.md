@@ -60,9 +60,9 @@ A curated compilation of the most recommended food spots, legendary breakfast ad
 - **Address:** DLF Cyber City Road, Gachibowli, Hyderabad, Telangana 500032
 - **Coordinates:** 17.4472, 78.3589
 - **Approx. Cost for Two:** ₹220
-- **Must Try:** Ghee Podi Idli, Ghee Karam Dosa, Sambar Vada
+- **Must Try:** Newly added Hot Poori with potato kurma, Ghee Podi Idli, Ghee Karam Dosa, Sambar Vada
 - **Why Redditors Love It:** Rapidly grown sensation renowned for drowning idlis in fragrant melted ghee and spicy gun powder.
-- **Community Tip:** Order the ghee podi idlis swimming in warm ghee, pairs exceptionally well with their spicy chutney.
+- **Community Tip:** Varalakshmi has now added fresh Pooris to the menu—served hot and puffy, they taste exceptionally good paired with potato kurma and their spicy red chutney. Still a mandatory stop for ghee podi idlis swimming in warm ghee.
 
 ### Babai Hotel (Kukatpally)
 - **Address:** KPHB Colony, Kukatpally, Hyderabad, Telangana 500072
@@ -571,10 +571,26 @@ A curated compilation of the most recommended food spots, legendary breakfast ad
 ### DLF Street Food Hub (Gachibowli)
 - **Address:** Opposite DLF Cyber City Gate 2, Gachibowli, Hyderabad, Telangana 500032
 - **Coordinates:** 17.4475, 78.3582
-- **Approx. Cost for Two:** ₹300
-- **Must Try:** Momos Adda steamed & fried momos, Smoky Docky Shawarma, Cheese Maggi, Tiffins
-- **Why Redditors Love It:** The vibrant 24/7 street food street outside DLF IT park buzzing with dozens of food kiosks.
-- **Community Tip:** The prime late-night hunger rescue for the tech corridor, open well past midnight.
+- **Approx. Cost for Two:** ₹350
+- **Must Try:** 1885 Juicy Lamb Burger, Varalakshmi Hot Poori & Ghee Podi Idli, Milan Apricot Delight, Momos Adda steamed & fried momos, Smoky Docky Shawarma
+- **Why Redditors Love It:** The vibrant midnight street food capital of Cyberabad outside DLF Cybercity buzzing with dozens of top-rated food kiosks.
+- **Community Tip:** The ultimate late-night food crawl: start with 1885 Burgers for their mouthwatering juicy lamb burger, hit Varalakshmi for ghee tiffins or newly added pooris, and finish right next door at Milan for their famous Apricot Delight.
+
+### 1885 Burgers (DLF Street Food, Gachibowli)
+- **Address:** DLF Street Food Lane, Opposite Gate 2, Gachibowli, Hyderabad, Telangana 500032
+- **Coordinates:** 17.4473, 78.3585
+- **Approx. Cost for Two:** ₹450
+- **Must Try:** Signature Juicy Lamb Burger (Juicy Lucy), Quad Smash Chicken Burger, Loaded Fries
+- **Why Redditors Love It:** Widely ranked among the absolute best gourmet burger joints in Hyderabad. Famous for expertly smashed, succulent patties and generous seasoning.
+- **Community Tip:** The lamb burger rocks—it is exceptionally juicy, tender, and deeply savory with melted cheese. A must-visit for late-night meat lovers.
+
+### Milan Juice Center (DLF Gachibowli)
+- **Address:** Right beside Varalakshmi Tiffins, Opposite DLF Gate 2, Gachibowli, Hyderabad, Telangana 500032
+- **Coordinates:** 17.4474, 78.3586
+- **Approx. Cost for Two:** ₹250
+- **Must Try:** Apricot Delight, Seasonal Mulberry / Sitaphal Cream, Fresh Fruit Juices
+- **Why Redditors Love It:** Iconic midnight dessert and juice adda located right beside Varalakshmi Tiffins, famous for authentic Hyderabadi khubani-custard treats.
+- **Community Tip:** The Apricot Delight is rich, creamy, and loaded with stewed apricots. The perfect sweet ending after spicy street food in DLF.
 
 ### Sardarji's Chaat (Sindhi Colony)
 - **Address:** Sindhi Colony Main Rd, Secunderabad, Telangana 500003
