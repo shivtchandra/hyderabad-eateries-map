@@ -60,9 +60,9 @@ A curated compilation of the most recommended food spots, legendary breakfast ad
 - **Address:** DLF Cyber City Road, Gachibowli, Hyderabad, Telangana 500032
 - **Coordinates:** 17.4472, 78.3589
 - **Approx. Cost for Two:** ₹220
-- **Must Try:** Newly added Hot Poori with potato kurma, Ghee Podi Idli, Ghee Karam Dosa, Sambar Vada
-- **Why Redditors Love It:** Rapidly grown sensation renowned for drowning idlis in fragrant melted ghee and spicy gun powder.
-- **Community Tip:** Varalakshmi has now added fresh Pooris to the menu—served hot and puffy, they taste exceptionally good paired with potato kurma and their spicy red chutney. Still a mandatory stop for ghee podi idlis swimming in warm ghee.
+- **Must Try:** Mysore Bonda (very precise & crisp), Newly added Hot Poori with potato kurma, Ghee Podi Idli, Ghee Karam Dosa, Sambar Vada
+- **Why Redditors Love It:** Widely praised as easily the best tiffin shop in Hyderabad with respect to both taste and honest pricing.
+- **Community Tip:** The Mysore bondas are phenomenal—wonderfully crisp and precise. The dosa is delicious, though community regulars observe that the quantity/portion size seems to have slightly reduced recently. Don't miss the newly added fresh hot pooris and signature ghee podi idlis swimming in warm ghee.
 
 ### Babai Hotel (Kukatpally)
 - **Address:** KPHB Colony, Kukatpally, Hyderabad, Telangana 500072
