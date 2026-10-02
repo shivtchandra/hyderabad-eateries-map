@@ -9,6 +9,24 @@ export const dynamic = "force-dynamic";
 
 const CATEGORIES = ["cafe", "restaurant", "restro-bar", "bakery", "ice-cream", "local"];
 
+function parseLatLng(s) {
+  const m =
+    s.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/) ||
+    s.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/) ||
+    s.match(/[?&](?:q|query|ll|center)=(-?\d+\.\d+)(?:,|%2C)\s*(-?\d+\.\d+)/i);
+  return m ? { lat: Number(m[1]), lng: Number(m[2]) } : null;
+}
+
+async function resolveMapsLink(link) {
+  if (!/^https:\/\/(maps\.app\.goo\.gl|goo\.gl\/maps|(www\.)?google\.[a-z.]+\/maps|maps\.google\.[a-z.]+)\//i.test(link)) return null;
+  try {
+    const res = await fetch(link, { redirect: "follow", headers: { "User-Agent": "Mozilla/5.0" }, signal: AbortSignal.timeout(8000) });
+    return parseLatLng(decodeURIComponent(res.url)) || parseLatLng(await res.text());
+  } catch {
+    return null;
+  }
+}
+
 function authOk(req) {
   const secret = process.env.ADMIN_SECRET;
   if (!secret) return false;
@@ -30,7 +48,13 @@ export async function GET(req) {
 
 export async function POST(req) {
   if (!authOk(req)) return Response.json({ error: "unauthorized" }, { status: 401 });
-  const { id, action, lat, lng, category } = await req.json().catch(() => ({}));
+  let { id, action, lat, lng, category, link } = await req.json().catch(() => ({}));
+  // Google Maps share links (maps.app.goo.gl/…) carry no coordinates: follow the
+  // redirect to the full /maps/place/… URL and read them from there.
+  if (action === "approve" && (lat == null || lng == null) && typeof link === "string") {
+    const ll = await resolveMapsLink(link);
+    if (ll) ({ lat, lng } = ll);
+  }
   if (!id || typeof id !== "string" || !id.startsWith("user-")) {
     return Response.json({ error: "bad-request" }, { status: 400 });
   }

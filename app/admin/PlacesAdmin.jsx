@@ -36,8 +36,10 @@ function PlaceRow({ place, secret, onDone }) {
     const body = { id: place.id, action };
     if (action === "approve") {
       const p = parseLocation(loc);
-      if (!p) { setMsg("Paste a Google Maps link or lat,lng first."); return; }
-      Object.assign(body, p, { category });
+      const isLink = /^https?:\/\//i.test(loc.trim());
+      if (!p && !isLink) { setMsg("Paste a Google Maps link or lat,lng first."); return; }
+      // Share links (maps.app.goo.gl) have no coordinates; the server follows the redirect.
+      Object.assign(body, p || { link: loc.trim() }, { category });
     }
     setBusy(true);
     const res = await fetch("/api/admin/places", {
