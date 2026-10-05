@@ -1,0 +1,125 @@
+{
+  "reviewedAt": "2026-10-05",
+  "method": "Manually reviewed positive excerpts, three distinct accounts per published association. Imported branch records retain their original verification dates. No unreviewed candidate is published.",
+  "brands": [
+    {
+      "id": "shadab",
+      "status": "approved",
+      "reviewNote": "Read the selected positive comments in thread context. Evidence remains brand scoped. Branch identity, coordinates and recorded operating hours checked against the approved place record; not a live opening-hours guarantee. Other associations from the automated scorer remain pending.",
+      "branches": [
+        {
+          "id": "ChIJKyxGIoiXyzsRPY8PASGdTW0",
+          "status": "approved",
+          "checkedAt": "2026-08-26",
+          "statusSource": "data/eateries.json#ChIJKyxGIoiXyzsRPY8PASGdTW0",
+          "operatingStatus": "recorded-hours",
+          "address": "Madina Circle, 21-1-140-144, High Court Rd, near High Court, Charminar, Ghansi Bazaar, Hyderabad"
+        }
+      ],
+      "dishes": [
+        {
+          "id": "biryani",
+          "accounts": 3,
+          "evidence": [
+            {
+              "url": "https://www.reddit.com/r/hyderabad/comments/1r3nn4y/best_mutton_biryani_in_hyderabad/o55j5at/",
+              "date": "2026-02-13",
+              "commentId": "o55j5at"
+            },
+            {
+              "url": "https://www.reddit.com/r/hyderabad/comments/1r3nn4y/best_mutton_biryani_in_hyderabad/o562qhd/",
+              "date": "2026-02-13",
+              "commentId": "o562qhd"
+            },
+            {
+              "url": "https://www.reddit.com/r/hyderabad/comments/1r3nn4y/best_mutton_biryani_in_hyderabad/o55jui1/",
+              "date": "2026-02-13",
+              "commentId": "o55jui1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "subhan",
+      "status": "approved",
+      "reviewNote": "Read the selected positive comments in thread context. Evidence remains brand scoped. Branch identity, coordinates and recorded operating hours checked against the approved place record; not a live opening-hours guarantee. Other associations from the automated scorer remain pending.",
+      "branches": [
+        {
+          "id": "ChIJqdAUSWWXyzsRNH463ib9vdA",
+          "status": "approved",
+          "checkedAt": "2026-08-26",
+          "statusSource": "data/eateries.json#ChIJqdAUSWWXyzsRNH463ib9vdA",
+          "operatingStatus": "recorded-hours",
+          "address": "11-6-467, Nampally Darga Rd, Devi Bagh, Red Hills, Nampally, Hyderabad"
+        }
+      ],
+      "dishes": [
+        {
+          "id": "osmania-biscuits",
+          "accounts": 3,
+          "evidence": [
+            {
+              "url": "https://www.reddit.com/r/hyderabad/comments/1o68d0h/where_do_i_find_real_irani_chai_in_hyderabad_not/njsfvnx/",
+              "date": "2025-10-16",
+              "commentId": "njsfvnx"
+            },
+            {
+              "url": "https://www.reddit.com/r/hyderabad/comments/1uec1dx/what_to_brought_home/otij5xv/",
+              "date": "2026-06-24",
+              "commentId": "otij5xv"
+            },
+            {
+              "url": "https://www.reddit.com/r/hyderabad/comments/1qtpiut/low_karma_highstakes_question_osmania_biscuits/o34nvwv/",
+              "date": "2026-02-02",
+              "commentId": "o34nvwv"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "panchakattu",
+      "status": "approved",
+      "reviewNote": "Read the selected positive comments in thread context. Evidence remains brand scoped. Branch identity, coordinates and recorded operating hours checked against the approved place record; not a live opening-hours guarantee. Other associations from the automated scorer remain pending.",
+      "branches": [
+        {
+          "id": "ChIJia4xz3KRyzsRoVKZLnQUo7c",
+          "status": "approved",
+          "checkedAt": "2026-08-26",
+          "statusSource": "data/eateries.json#ChIJia4xz3KRyzsRoVKZLnQUo7c",
+          "operatingStatus": "recorded-hours",
+          "address": "1-10-8/6, Tolwala Estates, Old Patigadda, Prakash Nagar, Begumpet, Hyderabad"
+        }
+      ],
+      "dishes": [
+        {
+          "id": "dosa",
+          "accounts": 3,
+          "evidence": [
+            {
+              "url": "https://www.reddit.com/r/hyderabad/comments/1sk7c8n/my_take_on_dosa_scene_and_seeking_more/ofx1g7u/",
+              "date": "2026-04-13",
+              "commentId": "ofx1g7u"
+            },
+            {
+              "url": "https://www.reddit.com/r/hyderabad/comments/1sk7c8n/my_take_on_dosa_scene_and_seeking_more/ofxw4t4/",
+              "date": "2026-04-13",
+              "commentId": "ofxw4t4"
+            },
+            {
+              "url": "https://www.reddit.com/r/hyderabad/comments/1nct17a/where_can_i_find_the_best_dosa_in_hyderabad/nde0jbu/",
+              "date": "2025-09-10",
+              "commentId": "nde0jbu"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "pendingReasons": {
+    "taaza": "Brand collision: Taaza Kitchen versus Taaza Tiffins",
+    "sushi": "Sushi / Japanese aggregation does not prove sushi-specific recommendations.",
+    "remaining": "Needs branch and dish evidence review."
+  }
+}

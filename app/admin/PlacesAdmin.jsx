@@ -31,9 +31,10 @@ function PlaceRow({ place, secret, onDone }) {
   const [busy, setBusy] = useState(false);
   const mapsSearch = `https://www.google.com/maps/search/${encodeURIComponent(`${place.name} ${place.area || ""} Hyderabad`)}`;
 
-  const act = async (action) => {
+  const nom = place.pickNomination;
+  const act = async (action, pick = false) => {
     setMsg("");
-    const body = { id: place.id, action };
+    const body = { id: place.id, action, pick };
     if (action === "approve") {
       const p = parseLocation(loc);
       const isLink = /^https?:\/\//i.test(loc.trim());
@@ -59,6 +60,12 @@ function PlaceRow({ place, secret, onDone }) {
         <b style={{ fontSize: 15 }}>{place.name}</b>
         <span style={{ fontSize: 12, color: "var(--muted)" }}>{place.area} · {String(place.createdAt || "").slice(0, 10)}</span>
       </div>
+      {nom?.count > 0 && (
+        <span style={{ alignSelf: "flex-start", fontSize: 12, fontWeight: 700, color: "var(--violet)", background: "rgba(124,58,237,0.08)", borderRadius: 999, padding: "3px 10px" }}>
+          ★ Picks nomination · {nom.count} {nom.count === 1 ? "person" : "people"}{Object.values(nom.dishes || {}).length ? ` · try: ${Object.values(nom.dishes).slice(0, 3).join(", ")}` : ""}
+        </span>
+      )}
+      {place.status === "approved" && place.pick && <span style={{ fontSize: 12, fontWeight: 700, color: "var(--violet)" }}>★ Listed under Recommended</span>}
       {place.status === "pending" ? (
         <>
           <a href={mapsSearch} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12.5, fontWeight: 700, color: "var(--violet)" }}>
@@ -70,6 +77,7 @@ function PlaceRow({ place, secret, onDone }) {
               {CATEGORIES.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
             </select>
             <button disabled={busy} onClick={() => act("approve")} style={{ height: 36, padding: "0 14px", borderRadius: 999, border: "none", background: "var(--forest)", color: "#fff", fontWeight: 700, cursor: "pointer" }}>Approve</button>
+            {nom?.count > 0 && <button disabled={busy} onClick={() => act("approve", true)} style={{ height: 36, padding: "0 14px", borderRadius: 999, border: "none", background: "var(--violet)", color: "#fff", fontWeight: 700, cursor: "pointer" }}>Approve as Pick</button>}
             <button disabled={busy} onClick={() => act("remove")} style={{ height: 36, padding: "0 14px", borderRadius: 999, border: "1.5px solid var(--line)", background: "var(--cream)", fontWeight: 700, cursor: "pointer" }}>Remove</button>
           </div>
         </>

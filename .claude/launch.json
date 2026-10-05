@@ -19,6 +19,15 @@
         "node scripts/build-static.mjs && npx next build && npx next start -p 3107"
       ],
       "port": 3107
+    },
+    {
+      "name": "eats-curated",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "NEXT_PUBLIC_CURATED_RECOMMENDATIONS=1 NEXT_DIST_DIR=.next-curated npx next dev -p 3001"
+      ],
+      "port": 3001
     }
   ]
 }

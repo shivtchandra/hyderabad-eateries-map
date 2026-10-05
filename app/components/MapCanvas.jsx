@@ -24,6 +24,7 @@ export default function MapCanvas({
   eateries, filtered, passport, selectedId, featuredIds,
   onSelect, onAreaEnter, onHeroesChange, onZoomChange, routeLine = null, heroCap = 120, poolSize,
   pickMode = false, onPick, pickedPoint = null,
+  onViewportChange, onMapError, recommendationMode = false,
 }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
@@ -43,6 +44,8 @@ export default function MapCanvas({
   // whole Leaflet instance).
   const pickModeRef = useRef(pickMode);
   pickModeRef.current = pickMode;
+  const viewportRef = useRef(onViewportChange); viewportRef.current = onViewportChange;
+  const errorRef = useRef(onMapError); errorRef.current = onMapError;
   const onPickRef = useRef(onPick);
   onPickRef.current = onPick;
 
@@ -77,7 +80,7 @@ export default function MapCanvas({
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19,
-      }).addTo(map);
+      }).on("tileerror", () => errorRef.current?.()).addTo(map);
 
       areaLayerRef.current = L.layerGroup().addTo(map);
       spotLayerRef.current = L.layerGroup().addTo(map);
@@ -85,7 +88,11 @@ export default function MapCanvas({
       routeLayerRef.current = L.layerGroup().addTo(map);
       pickLayerRef.current = L.layerGroup().addTo(map);
 
-      const bump = () => setViewTick((t) => t + 1);
+      const bump = () => {
+        setViewTick((t) => t + 1);
+        const b = map.getBounds(); const c = map.getCenter();
+        viewportRef.current?.({ view: [c.lat, c.lng, map.getZoom()], bounds: { south: b.getSouth(), north: b.getNorth(), west: b.getWest(), east: b.getEast() } });
+      };
       map.on("moveend zoomend", bump);
       // Marker clicks are separate Leaflet listeners that don't bubble here,
       // so this only fires for a tap on open map, exactly what pin-drop wants.
@@ -94,8 +101,8 @@ export default function MapCanvas({
       });
       setReady(true);
       bump();
-    })();
-    return () => { cancelled = true; };
+    })().catch(() => errorRef.current?.());
+    return () => { cancelled = true; mapRef.current?.remove(); mapRef.current = null; };
   }, []);
 
   // Crosshair cursor while picking, so it's obvious the next tap places a pin.
@@ -107,6 +114,8 @@ export default function MapCanvas({
   useEffect(() => {
     if (!ready) return;
     onZoomChange?.({
+      setView: (lat, lng, zoom = 15) => mapRef.current?.setView([lat, lng], zoom, { animate: false }),
+      fitPlaces: (places) => { if (places.length) mapRef.current?.fitBounds(places.map((p) => [p.lat, p.lng]), { padding: [35, 35], maxZoom: 15, animate: false }); },
       flyTo: (lat, lng, z = 15) => mapRef.current?.flyTo([lat, lng], z, { duration: 0.42, easeLinearity: 0.22 }),
       reset: () => mapRef.current?.flyTo(HYD_CENTER, 11.6, { duration: 0.55, easeLinearity: 0.22 }),
       showMe: (lat, lng) => {
@@ -271,7 +280,7 @@ export default function MapCanvas({
 
     // The card rail covers the bottom ~185px, so exclude that strip when
     // choosing heroes, otherwise the best-ranked pins land underneath it.
-    const RAIL_PX = 185;
+    const RAIL_PX = recommendationMode ? 0 : 185;
     const southLimit = map.containerPointToLatLng([0, map.getSize().y - RAIL_PX]).lat;
     const bounds = {
       north: b.getNorth(),

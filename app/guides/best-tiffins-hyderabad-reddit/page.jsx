@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { recommendationsEnabled } from "../../../lib/recommendationShared.js";
 import { pageMeta } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
 import { SiteNav, SiteBreadcrumb, SiteFooter, SiteRelated } from "../../components/SiteChrome.jsx";
@@ -210,6 +211,7 @@ export default function BestTiffinsGuidePage() {
           />
           <div className="site-hero">
             <h1>Best Tiffins &amp; Breakfast in Hyderabad (2026)</h1>
+            {recommendationsEnabled() && <p><Link href="/picks/tiffins">See reviewed tiffins recommendations and explore the map</Link></p>}
             <p>
               Unfiltered local insights on Hyderabad's top breakfast spots: from 4-chutney spreads and homestyle pungaralu to spicy Rayalaseema ghee karam dosas.
             </p>

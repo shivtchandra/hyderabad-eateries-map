@@ -1,5 +1,6 @@
 import { readFileSync } from "fs";
 import { join } from "path";
+import { getEateries } from "../../../../lib/siteData.js";
 
 export const dynamic = "force-dynamic";
 
@@ -27,6 +28,8 @@ export async function GET(_req, { params }) {
       );
     }
     if (!Object.prototype.hasOwnProperty.call(details, params.id)) {
+      const extra = getEateries().find((p) => p.id === params.id);
+      if (extra) return Response.json(extra);
       return Response.json({ error: "Restaurant not found" }, { status: 404 });
     }
 

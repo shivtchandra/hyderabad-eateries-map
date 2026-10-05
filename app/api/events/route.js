@@ -12,7 +12,9 @@ async function persistEvent(event) {
     await db.runTransaction(async (tx) => {
       const snap = await tx.get(ref);
       const old = snap.data();
-      if (old?.events?.[event.event] !== undefined) return;
+      const rec = event.event.startsWith("rec_");
+      if (!rec && old?.events?.[event.event] !== undefined) return;
+      if (rec && (old?.recommendationJourney?.length || 0) >= 80) return;
       const started = old?.started || Date.now();
       if (Date.now() - started > 1800000) return;
       tx.set(
@@ -24,7 +26,8 @@ async function persistEvent(event) {
           variant: old?.variant || event.variant,
           device: old?.device || event.device,
           source: old?.source || event.source,
-          events: { ...old?.events, [event.event]: Date.now() - started },
+          events: { ...old?.events, [event.event]: old?.events?.[event.event] ?? Date.now() - started },
+          ...(rec ? { recommendationJourney: [...(old?.recommendationJourney || []), { event: event.event, elapsed: Date.now() - started, ...event.context }] } : {}),
         },
         { merge: true }
       );
@@ -46,6 +49,6 @@ export async function POST(req) {
   } catch {}
   if (!event) return new NextResponse(null, { status: 400 });
 
-  void persistEvent(event);
+  await persistEvent(event);
   return new NextResponse(null, { status: 204 });
 }

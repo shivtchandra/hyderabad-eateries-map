@@ -1,0 +1,56 @@
+name: Locals' picks (r/hyderabad)
+
+# Weekly: re-read recent r/hyderabad food threads through Reddit's official API
+# (read-only, application-only OAuth) and recount which places locals recommend.
+# Needs repo secrets REDDIT_CLIENT_ID and REDDIT_CLIENT_SECRET.
+on:
+  schedule:
+    - cron: "30 21 * * 0" # Monday 03:00 IST
+  workflow_dispatch:
+
+concurrency:
+  group: reddit-picks
+  cancel-in-progress: false
+
+jobs:
+  picks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Collect r/hyderabad threads + comments
+        env:
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+        run: node scripts/reddit-collect.mjs
+      - name: Score locals' picks
+        run: node scripts/reddit-picks.mjs
+      - name: Question pages data + missing places + llms.txt
+        run: |
+          node scripts/reddit-questions.mjs
+          node scripts/reddit-missing-places.mjs
+          node scripts/build-llms.mjs
+      - name: Commit
+        run: |
+          git config user.name  "picks-bot"
+          git config user.email "actions@github.com"
+          git add data/reddit-picks.json public/locals-picks.json data/reddit-questions.json data/reddit-missing-places.json public/llms.txt public/llms-full.txt
+          git diff --staged --quiet && exit 0
+          git commit -m "chore(picks): weekly r/hyderabad locals' picks"
+          git pull --rebase origin master
+          git push
+      # The push redeploys on Vercel; once it is live, ping Bing & co. with the hub pages
+      # (dish, /ask, rankings, areas) so fresh answers get recrawled the same day.
+      - name: Wait for deploy
+        run: sleep 420
+      - name: Install deps for the sitemap
+        run: npm ci --no-audit --no-fund
+      - name: IndexNow (hub pages)
+        env:
+          NEXT_PUBLIC_CURATED_RECOMMENDATIONS: ${{ vars.NEXT_PUBLIC_CURATED_RECOMMENDATIONS }}
+        run: node scripts/submit-indexnow.mjs --hubs

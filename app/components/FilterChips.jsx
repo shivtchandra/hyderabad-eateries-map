@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TAGS } from "../../lib/eateryUtils.js";
 import { Icon, CategoryIcon, TagIcon } from "./Icons.jsx";
 
@@ -16,6 +16,8 @@ const CAT_META = {
 };
 
 export default function FilterChips({
+  curatedEnabled = false, recommendedOnly = false, setRecommendedOnly,
+  recommendationDish = "", setRecommendationDish, recommendationDishes = [],
   activeCategory, setActiveCategory,
   activeTags, toggleTag,
   openNowOnly, setOpenNowOnly, openNowLoading = false,
@@ -23,13 +25,35 @@ export default function FilterChips({
   userLoc, nearbyOnly, setNearbyOnly, nearbyArea,
   newOnly, setNewOnly,
   safetyOnly = false, setSafetyOnly = () => {}, safetyCount = 0,
+  localsOnly = false, setLocalsOnly = () => {}, localsCount = 0,
   showAll = false, setShowAll = () => {}, hiddenCount = 0,
 }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const activeFilterCount = (openNowOnly ? 1 : 0) + activeTags.length + (nearbyOnly ? 1 : 0) + (newOnly ? 1 : 0) + (safetyOnly ? 1 : 0) + (showAll ? 0 : 1);
+  const [dishOpen, setDishOpen] = useState(false);
+  const [menuLeft, setMenuLeft] = useState(14);
+  const rootRef = useRef(null);
+  const dishBtnRef = useRef(null);
+  // Anchor the dropdown under the Dish button, kept inside the screen.
+  const toggleDish = () => {
+    if (!dishOpen && rootRef.current && dishBtnRef.current) {
+      const root = rootRef.current.getBoundingClientRect();
+      const btn = dishBtnRef.current.getBoundingClientRect();
+      setMenuLeft(Math.max(8, Math.min(btn.left - root.left, root.width - 228)));
+    }
+    setDishOpen((v) => !v);
+  };
+  useEffect(() => {
+    if (!dishOpen) return;
+    const onKey = (e) => { if (e.key === "Escape") setDishOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [dishOpen]);
+  const pickDish = (id) => { setRecommendationDish(id); if (id) setRecommendedOnly(true); setDishOpen(false); };
+  const activeFilterCount = (openNowOnly ? 1 : 0) + activeTags.length + (nearbyOnly ? 1 : 0) + (newOnly ? 1 : 0) + (safetyOnly ? 1 : 0) + (localsOnly ? 1 : 0) + (showAll ? 0 : 1) + (curatedEnabled && recommendationDish ? 1 : 0);
+  const activeDish = recommendationDishes.find((d) => d.id === recommendationDish);
 
   return (
-    <div className="material edge-below" style={{ flexShrink: 0, position: "relative", zIndex: 19 }}>
+    <div ref={rootRef} className="material edge-below" style={{ flexShrink: 0, position: "relative", zIndex: dishOpen ? 1300 : 19 }}>
       {/* Category scroll + always-visible filter button as siblings */}
       <div style={{ display: "flex", alignItems: "center", padding: "8px 0 10px" }}>
         {/* Scrollable category chips */}
@@ -40,11 +64,30 @@ export default function FilterChips({
               {nearbyArea ? `Near ${nearbyArea.split(" ").slice(0, 2).join(" ")}` : "Nearby"}
             </button>
           )}
-          {CAT_ORDER.map((key) => {
+          {curatedEnabled && (
+            <>
+              <button className="pressable-sm" aria-pressed={recommendedOnly} onClick={() => setRecommendedOnly(true)} style={chip(recommendedOnly, "var(--violet)")}>
+                <Icon name="star" size={15} width={2} color={recommendedOnly ? "#fff" : "var(--violet)"} />
+                Recommended
+              </button>
+              <button className="pressable-sm" aria-pressed={!recommendedOnly} onClick={() => { setRecommendedOnly(false); setRecommendationDish(""); }} style={chip(!recommendedOnly, "var(--ink)")}>
+                All
+              </button>
+            </>
+          )}
+          {curatedEnabled && recommendationDishes.length > 0 && (
+            <button ref={dishBtnRef} className="pressable-sm" aria-haspopup="listbox" aria-expanded={dishOpen} onClick={toggleDish}
+              style={{ ...chip(!!activeDish, "var(--ink)"), boxShadow: dishOpen && !activeDish ? "inset 0 0 0 1.5px var(--ink)" : "none" }}>
+              <Icon name="utensils" size={15} width={2} color={activeDish ? "#fff" : "var(--ink-soft)"} />
+              {activeDish ? activeDish.name : "Dish"}
+              <Icon name="chevronDown" size={13} width={2.2} color={activeDish ? "#fff" : "var(--ink-soft)"} style={{ transform: dishOpen ? "rotate(180deg)" : "none", transition: "transform .18s ease" }} />
+            </button>
+          )}
+          {CAT_ORDER.filter((key) => !(curatedEnabled && key === "all")).map((key) => {
             const meta = CAT_META[key];
             const active = activeCategory === key;
             return (
-              <button key={key} onClick={() => setActiveCategory(key)} className="pressable-sm" style={chip(active, meta.color)}>
+              <button key={key} aria-pressed={active} onClick={() => setActiveCategory(curatedEnabled && active ? "all" : key)} className="pressable-sm" style={chip(active, meta.color)}>
                 {key === "all"
                   ? <Icon name="utensils" size={15} width={2} color={active ? "#fff" : meta.color} />
                   : <CategoryIcon category={key} size={15} width={2} color={active ? "#fff" : meta.color} />}
@@ -88,7 +131,7 @@ export default function FilterChips({
               width={2}
               color={filtersOpen || activeFilterCount > 0 ? "#fff" : "var(--ink-soft)"}
             />
-            Filters
+            {!curatedEnabled && "Filters"}
             {activeFilterCount > 0 && (
               <span style={{
                 background: "rgba(255,255,255,0.28)",
@@ -104,6 +147,25 @@ export default function FilterChips({
           </button>
         </div>
       </div>
+
+      {/* Dish dropdown: a short list anchored under the Dish button */}
+      {dishOpen && (
+        <>
+          <div className="dish-menu-scrim" onClick={() => setDishOpen(false)} />
+          <div className="dish-menu" role="listbox" aria-label="Pick a dish" style={{ left: menuLeft }}>
+            {[{ id: "", name: "Any dish" }, ...recommendationDishes].map((d) => {
+              const selected = recommendationDish === d.id;
+              return (
+                <button key={d.id || "any"} role="option" aria-selected={selected} onClick={() => pickDish(d.id)}>
+                  <span>{d.name}</span>
+                  {selected ? <Icon name="check" size={15} width={2.4} color="var(--violet)" /> : d.count > 0 && <small>{d.count}</small>}
+                </button>
+              );
+            })}
+            <a href="/picks" className="dish-menu-guides">Dish guides →</a>
+          </div>
+        </>
+      )}
 
       {/* Expanded filter panel, open now + vibe tags */}
       {filtersOpen && (
@@ -124,11 +186,17 @@ export default function FilterChips({
             <Icon name="clock" size={15} width={2} color={openNowOnly ? "#fff" : "var(--forest)"} />
 {openNowLoading ? "Checking hours…" : "Open now"}
           </button>
+          {!curatedEnabled && localsCount > 0 && (
+            <button onClick={() => { setLocalsOnly((v) => !v); setFiltersOpen(false); }} className="pressable-sm" style={chip(localsOnly, "var(--violet)")}>
+              <Icon name="heart" size={15} width={2} color={localsOnly ? "#fff" : "var(--violet)"} />
+              Locals' picks
+            </button>
+          )}
           <button onClick={() => { setNewOnly((v) => !v); setFiltersOpen(false); }} className="pressable-sm" style={chip(newOnly, "var(--pop)")}>
             <Icon name="sparkle" size={15} width={2} color={newOnly ? "#fff" : "var(--pop-deep)"} />
             New
           </button>
-          {hiddenCount > 0 && (
+          {!curatedEnabled && hiddenCount > 0 && (
             <button onClick={() => { setShowAll((v) => !v); setFiltersOpen(false); }} className="pressable-sm" style={chip(!showAll, "var(--ink-soft)")}>
               <Icon name="star" size={15} width={2} color={!showAll ? "#fff" : "var(--ink-soft)"} />
               Top places only

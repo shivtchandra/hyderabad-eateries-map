@@ -22,8 +22,10 @@ export function isUserSpot(id) {
   return typeof id === "string" && id.startsWith("user-");
 }
 
-export default function AddPlace({ query, onAdded, submitLabel = "Add and vote", note = "It shows as \u201cNew\u201d while we verify it." }) {
-  const [open, setOpen] = useState(false);
+// forPicks: nominate a place for the Recommended list, with what to try there.
+export default function AddPlace({ query, onAdded, submitLabel = "Add and vote", note = "It shows as \u201cNew\u201d while we verify it.", forPicks = false, startOpen = false, onCancel }) {
+  const [open, setOpen] = useState(startOpen);
+  const [dish, setDish] = useState("");
   const [name, setName] = useState("");
   const [area, setArea] = useState("");
   const [state, setState] = useState("idle"); // idle | saving | error
@@ -42,7 +44,7 @@ export default function AddPlace({ query, onAdded, submitLabel = "Add and vote",
       const res = await fetch("/api/spots/suggest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, area }),
+        body: JSON.stringify(forPicks ? { name, area, forPicks: true, dish } : { name, area }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.detail || "Couldn't add it, try again.");
@@ -67,7 +69,7 @@ export default function AddPlace({ query, onAdded, submitLabel = "Add and vote",
 
   return (
     <form className="add-place-form" onSubmit={submit}>
-      <b>Add a place we don&apos;t have yet</b>
+      <b>{forPicks ? "Suggest a place for Recommended" : "Add a place we don\u2019t have yet"}</b>
       <label>
         <span>Name</span>
         <input value={name} onChange={(e) => setName(e.target.value)} maxLength={60} required autoFocus />
@@ -76,9 +78,15 @@ export default function AddPlace({ query, onAdded, submitLabel = "Add and vote",
         <span>Area</span>
         <input value={area} onChange={(e) => setArea(e.target.value)} placeholder="e.g. Kondapur" maxLength={40} required />
       </label>
+      {forPicks && (
+        <label>
+          <span>What should people try there?</span>
+          <input value={dish} onChange={(e) => setDish(e.target.value)} placeholder="e.g. Mutton biryani" maxLength={40} />
+        </label>
+      )}
       {msg && <p className="add-place-msg">{msg}</p>}
       <div className="add-place-actions">
-        <button type="button" onClick={() => setOpen(false)}>Cancel</button>
+        <button type="button" onClick={() => { setOpen(false); onCancel?.(); }}>Cancel</button>
         <button type="submit" disabled={state === "saving"} className="primary">
           {state === "saving" ? "Adding…" : submitLabel}
         </button>

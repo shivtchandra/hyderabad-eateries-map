@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { trackEvent } from "../../lib/engagement-client.js";
 import { TAGS, TIERS, isOpenNow, validTagsFor } from "../../lib/eateryUtils.js";
 import { Icon, CategoryIcon, TagIcon } from "./Icons.jsx";
@@ -27,7 +27,8 @@ const PRICE_ESTIMATE = {
 export default function DetailSheet({
   eatery, isMobile, photoUrl, dist, featured = false,
   passportState, onToggleVisited, onToggleSaved, onAddSticker, onClose, onAteHere,
-  voteData, onVote, currentTheme, detailPending = false, pick, safety,
+  voteData, onVote, currentTheme, detailPending = false, pick, safety, locals = 0,
+  curatedContent = null, recommendationContent = null, onShare, onDirections,
 }) {
   const [themeVotePending, setThemeVotePending] = useState(false);
   const [themeCasting, setThemeCasting] = useState(false);
@@ -35,7 +36,26 @@ export default function DetailSheet({
   const [showMoreDetails, setShowMoreDetails] = useState(false);
   const [offersData, setOffersData] = useState(null);
 
+  const dialogRef = useRef(null);
   useEffect(() => {
+    if (!curatedContent) return;
+    const before = document.activeElement;
+    const root = dialogRef.current;
+    root?.querySelector("button")?.focus();
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+      if (e.key !== "Tab") return;
+      const items = [...root.querySelectorAll("a[href], button:not([disabled]), summary, input, select")].filter((el) => el.getClientRects().length);
+      const first = items[0], last = items.at(-1);
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus(); }
+    };
+    root?.addEventListener("keydown", onKey);
+    return () => { root?.removeEventListener("keydown", onKey); before?.focus?.(); };
+  }, [eatery.id, !!curatedContent]);
+
+  useEffect(() => {
+    if (curatedContent) return;
     let active = true;
     fetch(`/api/offers?id=${encodeURIComponent(eatery.id)}`)
       .then((res) => (res.ok ? res.json() : null))
@@ -89,6 +109,21 @@ export default function DetailSheet({
 
   const cardWidth = isMobile ? "min(390px, 94vw)" : "390px";
 
+  if (curatedContent) return <div className="rec-dialog-backdrop" onClick={onClose}>
+    <section ref={dialogRef} className="rec-dialog" role="dialog" aria-modal="true" aria-labelledby="rec-detail-title" onClick={(e) => e.stopPropagation()}>
+      <div className="rec-dialog-top"><span>{eatery.area}</span><button onClick={onClose} aria-label="Close place details">×</button></div>
+      <h2 id="rec-detail-title">{eatery.name}</h2>
+      <p className="rec-muted">{eatery.address}</p>
+      <div className="rec-actions">
+        <a href={`https://www.google.com/maps/dir/?api=1&destination=${eatery.lat},${eatery.lng}`} target="_blank" rel="noopener noreferrer" onClick={onDirections || (() => trackEvent("directions"))}>Directions</a>
+        <button aria-pressed={saved} onClick={() => onToggleSaved(eatery.id)}>{saved ? "Saved" : "Save"}</button>
+        <button onClick={onShare}>Share</button>
+      </div>
+      {curatedContent}
+      <a href={eatery.path}>Full place page</a>
+    </section>
+  </div>;
+
   return (
     <div
       role="dialog"
@@ -139,7 +174,7 @@ export default function DetailSheet({
           {/* Header Banner */}
           <div
             style={{
-              height: isMobile ? 154 : 168,
+              height: recommendationContent ? (isMobile ? 112 : 140) : (isMobile ? 154 : 168),
               position: "relative",
               background: photoUrl ? `url(${photoUrl}) center/cover no-repeat` : cat.gradient,
               backgroundColor: "#1e243d",
@@ -380,6 +415,9 @@ export default function DetailSheet({
             </div>
           </div>
 
+          {/* Why it's recommended: right under the name so it's seen without scrolling */}
+          {recommendationContent && <div style={{ margin: "12px 20px 2px" }}>{recommendationContent}</div>}
+
           {/* Tags & Specialties Row with Sleek Pills */}
           {allTags.length > 0 && (
             <div
@@ -515,6 +553,23 @@ export default function DetailSheet({
                 )}
               </div>
             </div>
+          )}
+
+          {/* Locals' pick: distinct r/hyderabad people recommending it (scripts/reddit-picks.mjs) */}
+          {locals > 0 && (
+            <a
+              href={`/spot/${encodeURIComponent(eatery.id)}#locals`}
+              style={{
+                margin: "10px 20px 0", display: "flex", alignItems: "center", gap: 9, textDecoration: "none",
+                background: "var(--violet-wash)", border: "1px solid #ddd6fe", borderRadius: 16, padding: "10px 14px", color: "var(--violet-deep)",
+              }}
+            >
+              <Icon name="heart" size={15} width={2.1} color="var(--violet)" style={{ flexShrink: 0 }} />
+              <span style={{ fontSize: 12, fontWeight: 700, lineHeight: 1.35 }}>
+                Locals' pick: recommended by {locals} people on r/hyderabad
+                <span style={{ fontWeight: 500, color: "var(--ink-soft)" }}> · see what they said</span>
+              </span>
+            </a>
           )}
 
           {/* Food Safety Inspection Badge */}

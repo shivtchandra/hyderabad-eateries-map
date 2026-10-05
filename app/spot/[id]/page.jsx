@@ -12,6 +12,9 @@ import { ogImages } from "../../../lib/og.js";
 import { getInspectionsForSpot, ACTIONS, STATUSES, formatDate } from "../../../lib/inspectionsServer.js";
 import { verifiedOffers } from "../../../lib/offers.js";
 import MustOrder from "../../components/MustOrder.jsx";
+import RecommendationPanel from "../../components/RecommendationPanel.jsx";
+import { getRecommendations, recommendationFor } from "../../../lib/recommendations.js";
+import { recommendationsEnabled } from "../../../lib/recommendationShared.js";
 import { TIERS, tierFor } from "../../../lib/eateryUtils.js";
 import { Icon } from "../../components/Icons.jsx";
 
@@ -93,8 +96,9 @@ export function generateMetadata({ params }) {
   const base = pageMeta({ title, description, path: spotPath(spot), image: photo || undefined });
   return {
     ...base,
-    // Outside the curated core list: reachable, but kept out of Google's index.
-    ...(spot.core ? {} : { robots: { index: false, follow: true } }),
+    // Outside the core list and not recommended: reachable, but kept out of Google's index.
+    // Recommended adds to the core list; it never removes pages that are indexed today.
+    ...((spot.core || (recommendationsEnabled() && recommendationFor(spot.id)?.recommended)) ? {} : { robots: { index: false, follow: true } }),
     openGraph: {
       ...base.openGraph,
       ...(photo
@@ -118,10 +122,19 @@ export default async function SpotPage({ params }) {
   // Old Google Place ID URLs keep working; canonicalize to the name slug.
   if (params.id !== slug) permanentRedirect(spotPath(spot));
 
+  const recommendation = recommendationsEnabled() ? recommendationFor(spot.id) : null;
+  const recommendationModel = recommendation ? getRecommendations() : null;
   const areaLink = areaPageHref(spot.discoveredIn);
   const safety = await getInspectionsForSpot(spot.id);
 
   // Seed dishes render on the server (indexable); MustOrder then adds live local votes.
+  // Locals' pick from r/hyderabad (scripts/reddit-picks.mjs): real comments, linked.
+  let localsPick = null;
+  try {
+    const rp = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "reddit-picks.json"), "utf-8"));
+    localsPick = rp.spots?.[spot.id] || null;
+  } catch {}
+
   let dishSeeds = null;
   try {
     const seeds = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "dish-seeds.json"), "utf-8"));
@@ -473,7 +486,31 @@ export default async function SpotPage({ params }) {
             {spot.zomatoUrl && (<div><dt>Order</dt><dd><a href={spot.zomatoUrl} target="_blank" rel="noopener noreferrer">Zomato</a></dd></div>)}
           </dl>
 
-          <MustOrder spotId={spot.id} initial={dishSeeds} />
+          {recommendation && <section className="spot-section" id="recommendations">
+            <h2>What to order and why</h2>
+            <RecommendationPanel place={recommendation} brand={recommendationModel.brands[recommendation.redditBrandId]} publishedDishes={recommendationModel.dishes.map((d) => d.id)} />
+            <Link href={`/?spot=${encodeURIComponent(spot.id)}`}>Explore this branch and nearby picks on the map</Link>
+          </section>}
+          {!recommendation && localsPick && (
+            <section id="locals" className="spot-section locals-pick">
+              <h2>Locals' pick</h2>
+              <p>
+                Recommended by <b>{localsPick.locals} people</b> on r/hyderabad
+                {localsPick.lastMentioned ? `, most recently ${new Date(localsPick.lastMentioned + "-01").toLocaleDateString("en-IN", { month: "short", year: "numeric" })}` : ""}.
+                Counted from real comments, one vote per person.
+              </p>
+              <ul>
+                {localsPick.evidence.map((ev) => (
+                  <li key={ev.url}>
+                    <a href={ev.url} target="_blank" rel="noopener noreferrer nofollow">Read the comment on Reddit →</a>
+                    <span>{new Date(ev.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })} · {ev.score} upvotes</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {!recommendation && <MustOrder spotId={spot.id} initial={dishSeeds} />}
 
           {spotOffers && (spotOffers.district?.hasOffers || spotOffers.swiggy?.hasOffers) && (
             <section className="spot-section" style={{ background: "#fff1f2", border: "1px solid #fecdd3", borderRadius: 20, padding: 20 }}>

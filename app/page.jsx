@@ -37,11 +37,16 @@ import ThemeNudge from "./components/ThemeNudge.jsx";
 import Onboarding from "./components/Onboarding.jsx";
 import { fetchPicks } from "../lib/picks.js";
 import { trackEvent } from "../lib/engagement-client.js";
+import { recommendationsEnabled, filterRecommendations, servesDish, DISHES } from "../lib/recommendationShared.js";
+import RecommendationPanel from "./components/RecommendationPanel.jsx";
+import PicksSheet from "./components/PicksSheet.jsx";
+import AddDishSheet from "./components/AddDishSheet.jsx";
+import AddPlace from "./components/AddPlace.jsx";
 
 export default function EateriesApp({ searchParams, initialTab = "map", initialRaceView = "race", initialDishSlug = null }) {
   const mapApi = useRef(null);
 
-  const [eateries, setEateries] = useState([]);
+  const [indexedEateries, setEateries] = useState([]);
   const [details, setDetails] = useState({});
   const detailsRef = useRef({});
   const detailRequests = useRef(new Set());
@@ -137,6 +142,33 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   const [nearbyOnly, setNearbyOnly] = useState(false);
   const [newOnly, setNewOnly] = useState(false);
   const [safetyOnly, setSafetyOnly] = useState(false);
+  const curatedEnabled = recommendationsEnabled();
+  const [recommendedOnly, setRecommendedOnly] = useState(curatedEnabled && searchParams?.mode !== "all");
+  const [recommendationDish, setRecommendationDish] = useState(curatedEnabled ? searchParams?.dish || "" : "");
+  const [recommendationData, setRecommendationData] = useState(null);
+  const [recommendationError, setRecommendationError] = useState(false);
+  const [addDishFor, setAddDishFor] = useState(null);
+  const [dishRev, setDishRev] = useState(0); // bumps so the open card re-reads dish counts after an add // recommended place whose "What's good here?" sheet is open
+  const [suggestOpen, setSuggestOpen] = useState(null); // null | "form" | "thanks"
+  useEffect(() => {
+    if (!curatedEnabled) return;
+    fetch("/api/recommendations").then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+      .then(setRecommendationData).catch(() => setRecommendationError(true));
+  }, [curatedEnabled]);
+  const eateries = useMemo(() => {
+    if (!curatedEnabled || !recommendationData) return indexedEateries;
+    const rows = new Map(indexedEateries.map((p) => [p.id, p]));
+    for (const p of recommendationData.places) if (!rows.has(p.id)) rows.set(p.id, { ...p, tags: [], core: false });
+    return [...rows.values()];
+  }, [indexedEateries, curatedEnabled, recommendationData]);
+  // Dish dropdown options, with how many recommended spots serve each.
+  const recommendationDishOptions = useMemo(() => DISHES.map((d) => ({ ...d, count: (recommendationData?.places || []).filter((p) => p.recommended && servesDish(p, d.id)).length })).filter((d) => d.count > 0), [recommendationData]);
+  const recommendationById = useMemo(() => Object.fromEntries((recommendationData?.places || []).map((p) => [p.id, p])), [recommendationData]);
+  const recommendationIds = useMemo(() => new Set(filterRecommendations(recommendationData?.places || [], {
+    mode: recommendedOnly ? "recommended" : "all", dish: recommendationDish, q: search,
+  }).map((p) => p.id)), [recommendationData, recommendedOnly, recommendationDish, search]);
+  const [localsOnly, setLocalsOnly] = useState(false);
+  const [localsMap, setLocalsMap] = useState({}); // spotId -> distinct r/hyderabad locals recommending it (/locals-picks.json)
   const [showAll, setShowAll] = useState(true); // on by default: every listing; off: only the curated core list (name search still finds everything)
   const [safetyMap, setSafetyMap] = useState({}); // spotId -> latest food safety record (/api/inspections)
   const [nearbyArea, setNearbyArea] = useState(null);
@@ -186,6 +218,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   useEffect(() => {
     fetchPicks().then(setPicksMap);
     fetch("/api/inspections").then((r) => (r.ok ? r.json() : { spots: {} })).then((d) => setSafetyMap(d.spots || {})).catch(() => {});
+    fetch("/locals-picks.json").then((r) => (r.ok ? r.json() : { spots: {} })).then((d) => setLocalsMap(d.spots || {})).catch(() => {});
   }, []);
 
   // Editorial spots (venues with a hand-written story) for the "Stories" rail
@@ -332,7 +365,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   }, [eateries]);
 
   // What the map browses by default: the curated core list, or everything with "Show all spots".
-  const pool = useMemo(() => (showAll ? eateries : eateries.filter((e) => e.core)), [eateries, showAll]);
+  const pool = useMemo(() => curatedEnabled ? eateries.filter((e) => recommendationIds.has(e.id)) : (showAll ? eateries : eateries.filter((e) => e.core)), [eateries, showAll, curatedEnabled, recommendationIds]);
   const hiddenCount = eateries.length - eateries.filter((e) => e.core).length;
   const counts = useMemo(() => {
     const c = { all: pool.length };
@@ -343,7 +376,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   // Per-category counts with only sub-filters applied (tags, openNow, nearby), // not the category filter itself, so each chip shows how many of its own spots
   // pass the active filters.
   const filteredCounts = useMemo(() => {
-    if (!activeTags.length && !openNowOnly && !nearbyOnly && !newOnly && !safetyOnly) return counts;
+    if (!activeTags.length && !openNowOnly && !nearbyOnly && !newOnly && !safetyOnly && !localsOnly) return counts;
     const c = {};
     for (const e of pool) {
       if (activeTags.length && !activeTags.every((t) => validTagsFor(e.category, e.tags).includes(t))) continue;
@@ -354,11 +387,12 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
       }
       if (newOnly && !isNewSpot(e.createdAt)) continue;
       if (safetyOnly && !safetyMap[e.id]) continue;
+      if (localsOnly && !localsMap[e.id]) continue;
       c[e.category] = (c[e.category] ?? 0) + 1;
     }
     c.all = Object.values(c).reduce((s, n) => s + n, 0);
     return c;
-  }, [pool, activeTags, openNowOnly, allDetailsStatus, nearbyOnly, newOnly, safetyOnly, safetyMap, details, userLoc, counts]);
+  }, [pool, activeTags, openNowOnly, allDetailsStatus, nearbyOnly, newOnly, safetyOnly, safetyMap, localsOnly, localsMap, details, userLoc, counts]);
 
   const tagCounts = useMemo(() => {
     const c = {};
@@ -415,10 +449,10 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   const deferredSearch = useDeferredValue(search);
   const filtered = useMemo(() => {
     const q = deferredSearch.trim().toLowerCase();
-    return eateries.filter((e) => {
-      if (!showAll && !e.core && !q) return false; // hidden listings still match a name search
+    return (curatedEnabled ? pool : eateries).filter((e) => {
+      if (!curatedEnabled && !showAll && !e.core && !q && !localsOnly) return false; // locals' picks bypass the core-list cut // hidden listings still match a name search
       if (activeCategory !== "all" && e.category !== activeCategory) return false;
-      if (q && !e.name.toLowerCase().includes(q)) return false;
+      if (!curatedEnabled && q && !e.name.toLowerCase().includes(q)) return false;
       if (activeTags.length && !activeTags.every((t) => validTagsFor(e.category, e.tags).includes(t))) return false;
       if (openNowOnly && allDetailsStatus === "loaded" && isOpenNow(details[e.id]?.hours) !== true) return false;
       if (nearbyOnly && userLoc) {
@@ -427,9 +461,10 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
       }
       if (newOnly && !isNewSpot(e.createdAt)) return false;
       if (safetyOnly && !safetyMap[e.id]) return false;
+      if (localsOnly && !localsMap[e.id]) return false;
       return true;
     });
-  }, [eateries, showAll, activeCategory, deferredSearch, activeTags, openNowOnly, allDetailsStatus, details, nearbyOnly, newOnly, safetyOnly, safetyMap, userLoc]);
+  }, [eateries, pool, curatedEnabled, showAll, activeCategory, deferredSearch, activeTags, openNowOnly, allDetailsStatus, details, nearbyOnly, newOnly, safetyOnly, safetyMap, localsOnly, localsMap, userLoc]);
 
   const byId = useMemo(() => {
     const m = {};
@@ -443,8 +478,8 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   const searchResults = useMemo(() => {
     const q = search.trim().toLowerCase();
     if (!q) return [];
-    return eateries
-      .filter((e) => e.name.toLowerCase().includes(q) || (e.tags || []).some((t) => t.toLowerCase().includes(q)))
+    return (curatedEnabled ? filtered : eateries)
+      .filter((e) => curatedEnabled || e.name.toLowerCase().includes(q) || (e.tags || []).some((t) => t.toLowerCase().includes(q)))
       .map((e) => ({ ...e, _dist: userLoc ? haversineKm(userLoc, { lat: e.lat, lng: e.lng }) : null }))
       .sort((a, b) => {
         const aStarts = a.name.toLowerCase().startsWith(q) ? 1 : 0;
@@ -454,7 +489,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
         return (b.rating ?? 0) - (a.rating ?? 0);
       })
       .slice(0, 7);
-  }, [eateries, search, userLoc]);
+  }, [eateries, filtered, curatedEnabled, search, userLoc]);
 
   const toggleTag = useCallback((t) => {
     setActiveTags((p) => (p.includes(t) ? p.filter((x) => x !== t) : [...p, t]));
@@ -691,6 +726,9 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
 
       {tab === "map" && (
         <FilterChips
+          curatedEnabled={curatedEnabled} recommendedOnly={recommendedOnly} setRecommendedOnly={setRecommendedOnly}
+          recommendationDish={recommendationDish} setRecommendationDish={setRecommendationDish}
+          recommendationDishes={recommendationDishOptions}
           activeCategory={activeCategory} setActiveCategory={setActiveCategory}
           activeTags={activeTags} toggleTag={toggleTag}
           openNowOnly={openNowOnly} setOpenNowOnly={setOpenNowOnly}
@@ -699,6 +737,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
           userLoc={userLoc} nearbyOnly={nearbyOnly} setNearbyOnly={setNearbyOnly} nearbyArea={nearbyArea}
           newOnly={newOnly} setNewOnly={setNewOnly}
           safetyOnly={safetyOnly} setSafetyOnly={setSafetyOnly} safetyCount={Object.keys(safetyMap).length}
+          localsOnly={localsOnly} setLocalsOnly={setLocalsOnly} localsCount={Object.keys(localsMap).length}
           showAll={showAll} setShowAll={setShowAll} hiddenCount={hiddenCount}
         />
       )}
@@ -901,6 +940,8 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
                 detailPending={!!detailPending[selectedFull.id]}
                 pick={picksMap[selectedFull.id]}
                 safety={safetyMap[selectedFull.id]}
+                locals={curatedEnabled ? 0 : localsMap[selectedFull.id]}
+                recommendationContent={curatedEnabled && recommendationById[selectedFull.id]?.recommended ? <RecommendationPanel place={recommendationById[selectedFull.id]} brand={recommendationData?.brands[recommendationById[selectedFull.id].redditBrandId]} publishedDishes={(recommendationData?.dishes || []).map((d) => d.id)} onAddDish={setAddDishFor} rev={dishRev} /> : null}
               />
             )}
           </>
@@ -928,7 +969,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
               </button>
             )}
 
-            <div style={{ position: "absolute", right: 12, bottom: heroes.length ? 186 : 20, display: "flex", flexDirection: "column", gap: 9, zIndex: 1000 }}>
+            <div style={{ position: "absolute", right: 12, bottom: curatedEnabled && recommendedOnly ? 64 : heroes.length ? 186 : 20, display: "flex", flexDirection: "column", gap: 9, zIndex: 1000 }}>
               <button onClick={() => { setAreaLabel(null); setSelectedId(null); mapApi.current?.reset(); }} style={fab} aria-label="Back to city view">
                 <Icon name="city" size={20} width={1.9} color="var(--ink-soft)" />
               </button>
@@ -958,11 +999,23 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
 
             {!loading && filtered.length === 0 && (
               <div style={{ position: "absolute", top: "40%", left: "50%", transform: "translate(-50%,-50%)", background: "var(--cream-hi)", border: "1.5px solid var(--line)", padding: "16px 22px", borderRadius: 18, boxShadow: "var(--shadow-soft)", fontFamily: "Fraunces, serif", fontWeight: 600, textAlign: "center", maxWidth: "80%" }}>
-                No spots match, try another bite
+                {curatedEnabled && !recommendationData ? (recommendationError ? "Recommendations could not load. Please refresh to retry." : "Loading recommendations…") : "No spots match, try another bite"}
               </div>
             )}
 
-            {!sheetOpen && (
+            {!sheetOpen && curatedEnabled && recommendedOnly && recommendationData && (
+              <PicksSheet
+                spots={filtered}
+                recById={recommendationById}
+                userLoc={userLoc}
+                dishName={DISHES.find((d) => d.id === recommendationDish)?.name}
+                onSelect={(id) => handleSelect(id)}
+                onAddDish={setAddDishFor}
+                onSuggest={() => setSuggestOpen("form")}
+              />
+            )}
+
+            {!sheetOpen && !(curatedEnabled && recommendedOnly) && (
               <CardRail
                 spots={heroes}
                 activeId={selectedId}
@@ -997,6 +1050,8 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
                 detailPending={!!detailPending[selectedFull.id]}
                 pick={picksMap[selectedFull.id]}
                 safety={safetyMap[selectedFull.id]}
+                locals={curatedEnabled ? 0 : localsMap[selectedFull.id]}
+                recommendationContent={curatedEnabled && recommendationById[selectedFull.id]?.recommended ? <RecommendationPanel place={recommendationById[selectedFull.id]} brand={recommendationData?.brands[recommendationById[selectedFull.id].redditBrandId]} publishedDishes={(recommendationData?.dishes || []).map((d) => d.id)} onAddDish={setAddDishFor} rev={dishRev} /> : null}
               />
             )}
 
@@ -1056,6 +1111,24 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
         <ThemeIntro theme={currentTheme} onVote={() => openRaceView("theme")} />
       </div>
 
+      {addDishFor && <AddDishSheet place={addDishFor} onClose={() => setAddDishFor(null)} onSaved={() => setDishRev((n) => n + 1)} />}
+      {suggestOpen && (
+        <div className="dish-sheet-backdrop" onClick={() => setSuggestOpen(null)}>
+          <div className="dish-sheet" role="dialog" aria-modal="true" aria-label="Suggest a place" onClick={(e) => e.stopPropagation()}>
+            <div className="dish-sheet-grip" aria-hidden="true" />
+            {suggestOpen === "form" ? (
+              <AddPlace forPicks startOpen query="" submitLabel="Suggest it" note="We check every suggestion before it joins Recommended."
+                onCancel={() => setSuggestOpen(null)} onAdded={() => setSuggestOpen("thanks")} />
+            ) : (
+              <>
+                <h3>Thanks, got it!</h3>
+                <p className="dish-sheet-note">We'll check it out. Once it's approved it shows up under Recommended for everyone.</p>
+                <button type="button" className="dish-sheet-done" onClick={() => setSuggestOpen(null)}>Done</button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
       <BottomNav tab={tab} setTab={goTab} visitedCount={passportBadge} savedCount={savedBadge} />
     </div>
   );

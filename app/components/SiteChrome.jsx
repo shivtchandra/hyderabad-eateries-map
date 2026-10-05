@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { Squiggles } from "./Icons.jsx";
 import BackButton from "./BackButton.jsx";
+import { recommendationsEnabled } from "../../lib/recommendationShared.js";
 
 const NAV = [
   { href: "/", label: "Map" },
+  ...(recommendationsEnabled() ? [{ href: "/picks", label: "Dish guides" }] : []),
   { href: "/offers", label: "Deals" },
   { href: "/food-safety", label: "Food safety" },
   { href: "/stories", label: "Stories" },
