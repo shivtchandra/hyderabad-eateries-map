@@ -1,4 +1,5 @@
 import "./globals.css";
+import "./recommendations.css";
 import { outfit, fraunces, bagel } from "./fonts.js";
 import { Analytics } from "@vercel/analytics/next";
 import { getSiteUrl } from "../lib/site.js";

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { recommendationsEnabled } from "../../../lib/recommendationShared.js";
 import { pageMeta } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
 import { SiteNav, SiteBreadcrumb, SiteFooter, SiteRelated } from "../../components/SiteChrome.jsx";
@@ -168,6 +169,7 @@ export default function BestBiryaniGuidePage() {
           />
           <div className="site-hero">
             <h1>Best Biryani in Hyderabad (2026)</h1>
+            {recommendationsEnabled() && <p><Link href="/picks/biryani">See reviewed biryani recommendations and explore the map</Link></p>}
             <p>
               Unfiltered local recommendations on Hyderabad's best biryani houses: spice profiles, meat cuts, and verified fresh degh timings.
             </p>

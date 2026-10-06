@@ -5,6 +5,10 @@ import { useEffect, useState } from "react";
 import { hasThemeVoted } from "../../lib/themeVoting.js";
 import { Icon } from "./Icons.jsx";
 
+// Closing it hides the banner for this theme only (per device); next week's shows again.
+const DISMISS_KEY = "hyd-theme-nudge-dismissed";
+const isDismissed = (id) => { try { return localStorage.getItem(DISMISS_KEY) === id; } catch { return false; } };
+
 export default function ThemeNudge({ theme, onVote }) {
   const [show, setShow] = useState(false);
 
@@ -13,7 +17,7 @@ export default function ThemeNudge({ theme, onVote }) {
       setShow(false);
       return;
     }
-    const check = () => setShow(!hasThemeVoted(theme.id));
+    const check = () => setShow(!hasThemeVoted(theme.id) && !isDismissed(theme.id));
     check();
     const onFocus = () => check();
     window.addEventListener("focus", onFocus);
@@ -26,11 +30,13 @@ export default function ThemeNudge({ theme, onVote }) {
 
   if (!show || !theme) return null;
 
+  const dismiss = () => {
+    try { localStorage.setItem(DISMISS_KEY, theme.id); } catch {}
+    setShow(false);
+  };
+
   return (
-    <button
-      type="button"
-      onClick={onVote}
-      className="pressable-sm"
+    <div
       style={{
         position: "absolute",
         top: 12,
@@ -41,12 +47,26 @@ export default function ThemeNudge({ theme, onVote }) {
         margin: "0 auto",
         display: "flex",
         alignItems: "center",
-        gap: 10,
-        padding: "11px 14px",
         border: "1.5px solid var(--line)",
         borderRadius: 16,
         background: "var(--cream-hi)",
         boxShadow: "var(--shadow-soft)",
+      }}
+    >
+    <button
+      type="button"
+      onClick={onVote}
+      className="pressable-sm"
+      style={{
+        flex: 1,
+        minWidth: 0,
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "11px 4px 11px 14px",
+        border: "none",
+        borderRadius: 16,
+        background: "transparent",
         cursor: "pointer",
         textAlign: "left",
       }}
@@ -77,5 +97,15 @@ export default function ThemeNudge({ theme, onVote }) {
         Vote
       </span>
     </button>
+    <button
+      type="button"
+      onClick={dismiss}
+      aria-label="Hide this week's vote banner"
+      className="pressable-sm"
+      style={{ flexShrink: 0, width: 40, height: 44, marginRight: 4, border: "none", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+    >
+      <Icon name="close" size={15} width={2.2} color="var(--muted)" />
+    </button>
+    </div>
   );
 }

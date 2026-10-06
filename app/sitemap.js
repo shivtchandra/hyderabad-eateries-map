@@ -4,6 +4,9 @@ import { getAllRankingsThemes } from "../lib/themesServer.js";
 import { SEO_THEME_PICKS, slugFromTitle } from "../lib/rankings.js";
 import { allAreaPages, allCategoryPages, allAreaCategoryCombinations, getEditorialSpotIds, spotSlug, getEateryById, getEateries } from "../lib/siteData.js";
 import { getSiteUrl } from "../lib/site.js";
+import { getRecommendations, dishAreaPages } from "../lib/recommendations.js";
+import { askPages } from "../lib/askPages.js";
+import { recommendationsEnabled } from "../lib/recommendationShared.js";
 
 export const dynamic = "force-dynamic";
 
@@ -118,7 +121,9 @@ export default async function sitemap() {
   } catch {}
   try {
     const editorial = getEditorialSpotIds().map((id) => getEateryById(id)).filter(Boolean);
-    const popular = getEateries().filter((e) => e.core); // curated core list (lib/coreSpots.js)
+    // Core spots always; recommended places on top when the curated layer is on.
+    const recommended = recommendationsEnabled() ? new Set(getRecommendations().places.filter((p) => p.recommended).map((p) => p.id)) : new Set();
+    const popular = getEateries().filter((e) => e.core || recommended.has(e.id));
     spotUrls = [
       ...editorial.map((e) => ({ url: `${siteUrl}/spot/${spotSlug(e)}`, lastModified: now, changeFrequency: "weekly", priority: 0.85 })),
       ...popular.map((e) => ({ url: `${siteUrl}/spot/${spotSlug(e)}`, lastModified: now, changeFrequency: "monthly", priority: 0.6 })),
@@ -141,6 +146,14 @@ export default async function sitemap() {
     ...areaUrls,
     ...areaCategoryUrls,
     ...spotUrls,
+    ...(recommendationsEnabled() ? [
+      { url: `${siteUrl}/picks`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
+      ...getRecommendations().dishes.map((d) => ({ url: `${siteUrl}/picks/${d.id}`, lastModified: now, changeFrequency: "weekly", priority: 0.9 })),
+      ...dishAreaPages().map((p) => ({ url: `${siteUrl}/picks/${p.dish}/${p.area}`, lastModified: now, changeFrequency: "weekly", priority: 0.8 })),
+      { url: `${siteUrl}/ask`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
+      ...askPages().map((p) => ({ url: `${siteUrl}/ask/${p.slug}`, lastModified: now, changeFrequency: "weekly", priority: 0.85 })),
+      { url: `${siteUrl}/about/how-we-pick`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    ] : []),
   ].filter((e) => {
     if (seen.has(e.url)) return false;
     seen.add(e.url);

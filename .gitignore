@@ -2,6 +2,7 @@
 .env
 node_modules/
 .next/
+.next-curated/
 .mini/
 .DS_Store
 out/
@@ -17,3 +18,6 @@ public/eateries-detail.json
 # committed data/photo-ids.json records which venues have one.
 # Push local additions with: node scripts/sync-photos.mjs
 public/photos/
+
+# Raw Reddit dumps (computed picks are committed, raw comments are not)
+data/reddit/raw*.json

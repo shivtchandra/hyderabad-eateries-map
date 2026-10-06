@@ -26,20 +26,34 @@ const PHOTO_CDN =
   process.env.NEXT_PUBLIC_PHOTO_CDN || "https://shivtchandra.github.io/hyd-eats-photos";
 
 /** @type {import('next').NextConfig} */
+// Data files the curated layer reads at runtime (api, spot pages, sitemap, picks, ask).
+const CURATED_DATA = [
+  "./data/reddit-picks.json",
+  "./data/reddit-questions.json",
+  "./data/recommendation-reviews.json",
+  "./data/recommendation-shortlist.json",
+  "./data/recommendation-extra-places.json",
+  "./data/dish-seeds.json",
+];
+
 const nextConfig = {
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   // Keep venue JSON in every serverless/page bundle that reads it at runtime
   // (rankings are force-dynamic; without this the Google baseline list is empty).
   // Next 14.2: file tracing options must live under `experimental` (top level is ignored).
   experimental: {
+    // Curated recommendations + question pages read these with fs at runtime.
     outputFileTracingIncludes: {
-      "/rankings/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
-      "/areas/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
-      "/explore/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
-      "/spot/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
-      "/stories/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
-      "/api/**/*": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
-      "/sitemap.xml": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
-      "/food-safety": ["./data/eateries.json", "./data/venue-content.json", "./data/photo-ids.json"],
+      "/rankings/**/*": ["./data/eateries.json", "./data/recommendation-extra-places.json", "./data/venue-content.json", "./data/photo-ids.json"],
+      "/areas/**/*": ["./data/eateries.json", "./data/recommendation-extra-places.json", "./data/venue-content.json", "./data/photo-ids.json"],
+      "/explore/**/*": ["./data/eateries.json", "./data/recommendation-extra-places.json", "./data/venue-content.json", "./data/photo-ids.json"],
+      "/spot/**/*": ["./data/eateries.json", "./data/recommendation-extra-places.json", "./data/venue-content.json", "./data/photo-ids.json", ...CURATED_DATA],
+      "/stories/**/*": ["./data/eateries.json", "./data/recommendation-extra-places.json", "./data/venue-content.json", "./data/photo-ids.json"],
+      "/api/**/*": ["./data/eateries.json", "./data/recommendation-extra-places.json", "./data/venue-content.json", "./data/photo-ids.json", ...CURATED_DATA],
+      "/sitemap.xml": ["./data/eateries.json", "./data/recommendation-extra-places.json", "./data/venue-content.json", "./data/photo-ids.json", ...CURATED_DATA],
+      "/food-safety": ["./data/eateries.json", "./data/recommendation-extra-places.json", "./data/venue-content.json", "./data/photo-ids.json"],
+      "/picks/**/*": ["./data/eateries.json", "./data/recommendation-extra-places.json", "./data/venue-content.json", "./data/photo-ids.json", ...CURATED_DATA],
+      "/ask/**/*": ["./data/eateries.json", "./data/recommendation-extra-places.json", "./data/venue-content.json", "./data/photo-ids.json", ...CURATED_DATA],
     },
     outputFileTracingExcludes: {
       "*": [

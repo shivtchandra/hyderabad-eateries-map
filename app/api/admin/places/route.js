@@ -48,7 +48,7 @@ export async function GET(req) {
 
 export async function POST(req) {
   if (!authOk(req)) return Response.json({ error: "unauthorized" }, { status: 401 });
-  let { id, action, lat, lng, category, link } = await req.json().catch(() => ({}));
+  let { id, action, lat, lng, category, link, pick } = await req.json().catch(() => ({}));
   // Google Maps share links (maps.app.goo.gl/…) carry no coordinates: follow the
   // redirect to the full /maps/place/… URL and read them from there.
   if (action === "approve" && (lat == null || lng == null) && typeof link === "string") {
@@ -69,7 +69,8 @@ export async function POST(req) {
       return Response.json({ error: "Location must be in Hyderabad (lat,lng)" }, { status: 400 });
     }
     if (!CATEGORIES.includes(category)) return Response.json({ error: "Pick a category" }, { status: 400 });
-    await ref.set({ status: "approved", lat: la, lng: ln, category, approvedAt: new Date().toISOString() }, { merge: true });
+    // pick: also list it under Recommended (from a "Suggest a place" nomination).
+    await ref.set({ status: "approved", lat: la, lng: ln, category, pick: pick === true, approvedAt: new Date().toISOString() }, { merge: true });
   } else if (action === "remove") {
     await ref.set({ status: "removed", removedAt: new Date().toISOString() }, { merge: true });
   } else if (action === "restore") {

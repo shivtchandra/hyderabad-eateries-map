@@ -1,6 +1,9 @@
 /**
- * Submit all site URLs to IndexNow (Bing, Yahoo, Yandex, Naver) for instant indexing.
- * Run: node scripts/submit-indexnow.mjs
+ * Submit site URLs to IndexNow (Bing, Yahoo, Yandex, Naver) for instant indexing.
+ * Run: node scripts/submit-indexnow.mjs            all sitemap URLs
+ *      node scripts/submit-indexnow.mjs --hubs     hubs, dish, /ask and ranking pages only
+ *                                                  (the weekly data refresh: no per-spot spam)
+ *      add --dry-run to print the list without submitting.
  */
 
 import sitemap from "../app/sitemap.js";
@@ -12,9 +15,16 @@ const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
 async function main() {
   console.log("Fetching sitemap URLs...");
   const entries = await sitemap();
-  const urls = entries.map((e) =>
-    e.url.replace(/^https?:\/\/[^\/]+/, `https://${HOST}`)
-  );
+  const hubsOnly = process.argv.includes("--hubs");
+  const dryRun = process.argv.includes("--dry-run");
+  const urls = entries
+    .map((e) => e.url.replace(/^https?:\/\/[^\/]+/, `https://${HOST}`))
+    .filter((u) => !hubsOnly || !/\/spot\//.test(u));
+  if (dryRun) {
+    console.log(urls.join("\n"));
+    console.log(`(dry run) ${urls.length} URLs`);
+    return;
+  }
 
   console.log(`Found ${urls.length} URLs to submit to IndexNow.`);
 

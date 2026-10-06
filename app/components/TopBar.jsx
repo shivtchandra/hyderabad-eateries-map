@@ -57,7 +57,7 @@ export default function TopBar({
             aria-expanded={search.trim().length > 0}
             aria-controls="eatery-search-results"
             aria-autocomplete="list"
-            placeholder="Search cafes, biryani, bars…"
+            placeholder="Search a dish or place, e.g. biryani"
             style={{
               flex: 1,
               minWidth: 0,
