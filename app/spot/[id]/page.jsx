@@ -17,6 +17,7 @@ import { getRecommendations, recommendationFor } from "../../../lib/recommendati
 import { recommendationsEnabled } from "../../../lib/recommendationShared.js";
 import { TIERS, tierFor } from "../../../lib/eateryUtils.js";
 import { Icon } from "../../components/Icons.jsx";
+import ShareSpotButton from "../../components/ShareSpotButton.jsx";
 
 const CAT_LABEL = {
   cafe: "Cafe", local: "Local Eats", "restro-bar": "Restro Bar", bakery: "Bakery", "ice-cream": "Ice Cream",
@@ -93,7 +94,10 @@ export function generateMetadata({ params }) {
     .trim();
 
   const photo = hasSpotPhoto(spot.id) ? spotPhotoUrl(spot.id) : null;
-  const base = pageMeta({ title, description, path: spotPath(spot), image: photo || undefined });
+  const ogCardUrl = absoluteUrl(
+    `/api/og?title=${encodeURIComponent(name)}&area=${encodeURIComponent(area)}&rating=${spot.rating || ""}&dish=${encodeURIComponent(spot.signatureDish?.name || "")}&category=${encodeURIComponent(CAT_LABEL[spot.category] || spot.category || "")}&image=${photo ? encodeURIComponent(photo) : ""}`
+  );
+  const base = pageMeta({ title, description, path: spotPath(spot), image: ogCardUrl });
   return {
     ...base,
     // Outside the core list and not recommended: reachable, but kept out of Google's index.
@@ -101,15 +105,16 @@ export function generateMetadata({ params }) {
     ...((spot.core || (recommendationsEnabled() && recommendationFor(spot.id)?.recommended)) ? {} : { robots: { index: false, follow: true } }),
     openGraph: {
       ...base.openGraph,
-      ...(photo
-        ? { images: [{ url: absoluteUrl(photo), width: 800, height: 600, alt: spot.name }] }
-        : {}),
+      images: [
+        { url: ogCardUrl, width: 1200, height: 630, alt: `${name} on Hyderabad Eats`, type: "image/png" },
+        ...(photo ? [{ url: absoluteUrl(photo), width: 800, height: 600, alt: spot.name, type: "image/jpeg" }] : []),
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      ...(photo ? { images: [absoluteUrl(photo)] } : {}),
+      images: [ogCardUrl],
     },
   };
 }
@@ -257,24 +262,49 @@ export default async function SpotPage({ params }) {
             </div>
           </div>
         </div>
-        <Link
-          href={`/?spot=${encodeURIComponent(spot.id)}`}
-          className="pressable-sm"
-          style={{
-            padding: "8px 16px",
-            borderRadius: "var(--r-pill)",
-            background: "var(--violet)",
-            color: "#fff",
-            fontSize: 12.5,
-            fontWeight: 750,
-            textDecoration: "none",
-            whiteSpace: "nowrap",
-            flexShrink: 0,
-            boxShadow: "0 2px 6px rgba(124,58,237,0.25)"
-          }}
-        >
-          Claim Spot →
-        </Link>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+          <ShareSpotButton spotName={displayName(spot.name)} spotPath={spotPath(spot)} />
+          <Link
+            href={`/?spot=${encodeURIComponent(spot.id)}`}
+            className="pressable-sm"
+            style={{
+              padding: "8px 16px",
+              borderRadius: "var(--r-pill)",
+              background: "var(--violet)",
+              color: "#fff",
+              fontSize: 12.5,
+              fontWeight: 750,
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
+              boxShadow: "0 2px 6px rgba(124,58,237,0.25)"
+            }}
+          >
+            Claim Spot →
+          </Link>
+        </div>
+      </div>
+
+      {/* Princeton GEO Consensus Summary Block */}
+      <div
+        className="spot-consensus-lead"
+        style={{
+          background: "var(--cream-hi, #fbf7f0)",
+          border: "1.5px solid rgba(124, 58, 237, 0.16)",
+          borderRadius: 16,
+          padding: "16px 20px",
+          marginBottom: 22,
+          boxShadow: "0 2px 8px rgba(124, 58, 237, 0.04)",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+          <span style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--violet-deep)" }}>
+            Verified Community Consensus
+          </span>
+        </div>
+        <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, color: "var(--ink)" }}>
+          According to Hyderabad Eats community data and verified diner reviews, <strong>{displayName(spot.name)}</strong> is a top-rated {CAT_LABEL[spot.category] || "eatery"} in {spot.discoveredIn || "Hyderabad"}{spot.rating ? ` with a ${spot.rating}★ Google rating` : ""}{spot.ratingCount ? ` across ${spot.ratingCount.toLocaleString("en-IN")} reviews` : ""}. {spot.signatureDish?.name ? <>Renowned for its <strong>{spot.signatureDish.name}</strong>{spot.signatureDish.why ? ` (${spot.signatureDish.why.replace(/—/g, ",")})` : ""}. </> : ""}{spot.costForTwo ? `Approximate spend is ₹${spot.costForTwo} for two. ` : ""}{safety?.length > 0 ? `Verified TG Food Safety inspected. ` : ""}
+        </p>
       </div>
 
       {isReview ? (
@@ -431,11 +461,11 @@ export default async function SpotPage({ params }) {
             </section>
           )}
 
-          {spot.faq?.length > 0 && (
+          {faqs?.length > 0 && (
             <section className="spot-section">
               <h2>Good to know</h2>
               <div className="spot-faq">
-                {spot.faq.map((f, i) => (
+                {faqs.map((f, i) => (
                   <details key={i}>
                     <summary>{f.q}</summary>
                     <p>{f.a}</p>

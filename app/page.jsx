@@ -579,11 +579,22 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   const shareAteHere = useCallback(async (spot, result) => {
     const text = result?.rank
       ? `I just claimed ${spot.name} and I'm #${result.rank} in Hyderabad's food race. Can you beat me?`
-      : `I just claimed ${spot.name} in Hyderabad's food race.`;
-    const url = `${window.location.origin}/race`;
+      : `I just claimed ${spot.name} in Hyderabad's food race!`;
+    const spotSlug = spot.slug || spot.id;
+    const url = `${window.location.origin}/spot/${encodeURIComponent(spotSlug)}`;
     try {
-      if (navigator.share) await navigator.share({ title: "The Race, Hyderabad Eats", text, url });
+      if (navigator.share) await navigator.share({ title: `${spot.name} — Hyderabad Eats`, text, url });
       else { await navigator.clipboard.writeText(`${text} ${url}`); setToast("Link copied"); }
+    } catch {}
+  }, []);
+
+  const handleShareSpot = useCallback(async (spot) => {
+    const spotSlug = spot.slug || spot.id;
+    const url = `${window.location.origin}/spot/${encodeURIComponent(spotSlug)}`;
+    const text = `Check out ${spot.name} on Hyderabad Eats!`;
+    try {
+      if (navigator.share) await navigator.share({ title: `${spot.name} — Hyderabad Eats`, text, url });
+      else { await navigator.clipboard.writeText(url); setToast("Link copied to clipboard"); }
     } catch {}
   }, []);
 
@@ -941,6 +952,7 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
                 pick={picksMap[selectedFull.id]}
                 safety={safetyMap[selectedFull.id]}
                 locals={curatedEnabled ? 0 : localsMap[selectedFull.id]}
+                onShare={handleShareSpot}
                 recommendationContent={curatedEnabled && recommendationById[selectedFull.id]?.recommended ? <RecommendationPanel place={recommendationById[selectedFull.id]} brand={recommendationData?.brands[recommendationById[selectedFull.id].redditBrandId]} publishedDishes={(recommendationData?.dishes || []).map((d) => d.id)} onAddDish={setAddDishFor} rev={dishRev} /> : null}
               />
             )}

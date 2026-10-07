@@ -35,6 +35,34 @@ export default function DetailSheet({
   const [themeVoteSpotLocal, setThemeVoteSpotLocal] = useState(null);
   const [showMoreDetails, setShowMoreDetails] = useState(false);
   const [offersData, setOffersData] = useState(null);
+  const [shareCopied, setShareCopied] = useState(false);
+
+  const handleShareClick = useCallback(async (e) => {
+    e?.stopPropagation?.();
+    trackEvent("share_sheet");
+    if (onShare) {
+      onShare(eatery);
+      return;
+    }
+    const slug = eatery.slug || eatery.id;
+    const url = typeof window !== "undefined" ? `${window.location.origin}/spot/${encodeURIComponent(slug)}` : `/spot/${encodeURIComponent(slug)}`;
+    const text = `Check out ${eatery.name} on Hyderabad Eats!`;
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share({ title: `${eatery.name} — Hyderabad Eats`, text, url });
+        return;
+      } catch (err) {
+        if (err?.name === "AbortError") return;
+      }
+    }
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      try {
+        await navigator.clipboard.writeText(url);
+        setShareCopied(true);
+        setTimeout(() => setShareCopied(false), 2500);
+      } catch {}
+    }
+  }, [eatery, onShare]);
 
   const dialogRef = useRef(null);
   useEffect(() => {
@@ -239,6 +267,35 @@ export default function DetailSheet({
                 {dist < 1 ? `${Math.round(dist * 1000)}m` : `${dist.toFixed(1)}km`}
               </span>
             )}
+
+            {/* Frosted Glass Share Button */}
+            <button
+              type="button"
+              onClick={handleShareClick}
+              aria-label="Share spot card"
+              style={{
+                position: "absolute",
+                top: 13,
+                right: 52,
+                background: "rgba(255, 255, 255, 0.22)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+                border: "1px solid rgba(255, 255, 255, 0.35)",
+                borderRadius: "50%",
+                width: 32,
+                height: 32,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+                transition: "transform 120ms ease, background 150ms ease",
+                color: "#ffffff",
+              }}
+              title="Share place card"
+            >
+              <Icon name={shareCopied ? "check" : "share"} size={14} width={2.2} color="#ffffff" />
+            </button>
 
             {/* Frosted Glass Close Button */}
             <button
@@ -921,6 +978,25 @@ export default function DetailSheet({
                 <Icon name="phone" size={14} width={2} color="#475569" /> Call
               </a>
             )}
+
+            <button
+              type="button"
+              onClick={handleShareClick}
+              style={{
+                ...secondaryBtn,
+                padding: "0 14px",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 5,
+                cursor: "pointer",
+                color: shareCopied ? "#15803d" : "#475569",
+              }}
+              title="Share place card"
+            >
+              <Icon name={shareCopied ? "check" : "share"} size={14} width={2} color={shareCopied ? "#15803d" : "var(--violet-deep)"} />
+              <span>{shareCopied ? "Copied" : "Share"}</span>
+            </button>
 
             <a
               href={`/spot/${encodeURIComponent(eatery.id)}`}
