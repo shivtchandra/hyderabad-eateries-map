@@ -23,6 +23,8 @@ export default function SeoCrawlNav() {
         <li><Link href="/rankings/best-shawarma-in-hyderabad">Best shawarma in Hyderabad</Link></li>
         <li><Link href="/rankings/best-dosa-in-hyderabad">Best dosa in Hyderabad</Link></li>
         <li><Link href="/rankings/best-cafe-in-hyderabad">Best cafe in Hyderabad</Link></li>
+        <li><Link href="/guides/best-breweries-in-hyderabad">Best breweries in Hyderabad</Link></li>
+        <li><Link href="/rankings/best-brewery-in-hyderabad">Best brewery in Hyderabad</Link></li>
         <li><Link href="/explore/restaurants">Best restaurants in Hyderabad</Link></li>
         <li><Link href="/race/this-week">This week&apos;s food race</Link></li>
         <li><Link href="/rankings">All weekly food rankings</Link></li>
@@ -39,6 +41,7 @@ export default function SeoCrawlNav() {
       </ul>
       <h2>Curated food guides</h2>
       <ul>
+        <li><Link href="/guides/best-breweries-in-hyderabad">Best breweries &amp; craft beer in Hyderabad (2026)</Link></li>
         <li><Link href="/guides/best-biryani-hyderabad-reddit">Best biryani in Hyderabad (Reddit Guide)</Link></li>
         <li><Link href="/guides/best-tiffins-hyderabad-reddit">Best tiffins &amp; breakfast in Hyderabad (2026)</Link></li>
         <li><Link href="/guides/best-cafes-hyderabad-reddit">Best cafes &amp; specialty coffee in Hyderabad (2026)</Link></li>

@@ -190,6 +190,16 @@ export default function StoriesPage() {
 
   const guideCards = [
     <GuideCard
+      key="/guides/best-breweries-in-hyderabad"
+      href="/guides/best-breweries-in-hyderabad"
+      img={spotPhotoUrl("ChIJPU_G2E6RyzsRs95LdTHxZek")}
+      eyebrow="Microbreweries &amp; Craft Beers 2026"
+      title="Best Breweries in Hyderabad: Top Microbreweries &amp; Craft Beers"
+      meta="Prost · Zero40 · Broadway · Windmills · Forge · Red Rhino · Zythum"
+      teaser="The definitive field guide to Hyderabad’s microbreweries: fresh Belgian Wits, crisp ciders, beer flights, and what to order from Jubilee Hills to Financial District."
+      source="Local Beer Trails &amp; Verified Reviews"
+    />,
+    <GuideCard
       key="/guides/best-biryani-hyderabad-reddit"
       href="/guides/best-biryani-hyderabad-reddit"
       img={spotPhotoUrl("ChIJKyxGIoiXyzsRPY8PASGdTW0")}

@@ -52,6 +52,7 @@ export function SiteFooter() {
         <Link href="/rankings">Rankings</Link>
         <Link href="/rankings/best-buffet-in-hyderabad">Best Buffet</Link>
         <Link href="/rankings/best-fine-dining-in-hyderabad">Best Fine Dining</Link>
+        <Link href="/guides/best-breweries-in-hyderabad">Best Breweries</Link>
         <Link href="/rankings/best-biryani-in-hyderabad">Best Biryani</Link>
         <Link href="/rankings/best-cafe-in-hyderabad">Best Cafes</Link>
         <Link href="/areas/jubilee-hills">Jubilee Hills</Link>

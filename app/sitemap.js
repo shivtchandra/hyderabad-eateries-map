@@ -14,6 +14,7 @@ export const dynamic = "force-dynamic";
 // returned [] and every guide was missing from the live sitemap. Keep the list explicit
 // (add new guides here); the fs read only adds any extra folder found in local builds.
 const GUIDE_SLUGS = [
+  "best-breweries-in-hyderabad",
   "best-biryani-hyderabad-reddit",
   "best-cafes-hyderabad-reddit",
   "best-ice-cream-desserts-hyderabad",
@@ -41,6 +42,8 @@ export default async function sitemap() {
   const now = new Date();
 
   const MONEY_RANKINGS = new Set([
+    "best-brewery-in-hyderabad",
+    "best-breweries-in-hyderabad",
     "best-buffet-in-hyderabad",
     "best-fine-dining-in-hyderabad",
     "best-biryani-in-hyderabad",
