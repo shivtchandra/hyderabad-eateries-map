@@ -18,6 +18,7 @@ import { recommendationsEnabled } from "../../../lib/recommendationShared.js";
 import { TIERS, tierFor } from "../../../lib/eateryUtils.js";
 import { Icon } from "../../components/Icons.jsx";
 import ShareSpotButton from "../../components/ShareSpotButton.jsx";
+import { getRedditSpotData } from "../../../lib/redditThreads.js";
 
 const CAT_LABEL = {
   cafe: "Cafe", local: "Local Eats", "restro-bar": "Restro Bar", bakery: "Bakery", "ice-cream": "Ice Cream",
@@ -70,27 +71,32 @@ export function generateMetadata({ params }) {
   if (!spot) return { title: "Spot not found, Hyderabad Eats" };
   const area = spot.discoveredIn && !spot.discoveredIn.startsWith("text:") ? spot.discoveredIn : "Hyderabad";
   const name = displayName(spot.name);
-  // The layout template appends " | Mapping HYD Eats" (18 chars), so aim for <= 42 here.
-  const place = area === "Hyderabad" || name.toLowerCase().includes(area.toLowerCase()) ? name : `${name}, ${area}`;
-  const rated = spot.rating ? `${spot.rating}★ ` : "";
-  // Searchers explicitly query: "{name} reviews", "{name} menu", "{name} must order"
+  const cleanName = displayName(spot.name)
+    .replace(/\s*\(previously.*?\)\s*/i, "")
+    .trim();
+  const cleanArea = area && area !== "Hyderabad" && !cleanName.toLowerCase().includes(area.toLowerCase())
+    ? area.split("/")[0].trim()
+    : "";
+  const place = cleanArea ? `${cleanName} (${cleanArea})` : cleanName;
+
   const candidates = [
-    `${place}: Reviews, Menu & Must-Orders`,
     `${place}: Reviews, Menu & Prices`,
-    `${place}: Reviews & Menu`,
-    `${place}: ${rated}Reviews & Hours`,
-    place,
-    name,
+    `${place}: Reviews, Menu & Timings`,
+    `${cleanName}: Reviews, Menu & Must-Orders`,
+    `${cleanName}: Reviews, Menu & Prices`,
+    `${cleanName}: Reviews & Menu`,
+    `${place}: Reviews & Ratings`,
+    cleanName,
   ];
-  // Target max 44-52 chars for the title fragment so with "| Mapping HYD Eats" it stays under ~65 chars.
-  const title = candidates.find((t) => t.length <= 44) || candidates.find((t) => t.length <= 54) || place;
+  // Target max 48-52 chars so with " | Mapping HYD Eats" it stays under 70 chars.
+  const title = candidates.find((t) => t.length <= 48) || candidates.find((t) => t.length <= 54) || `${cleanName}: Reviews & Menu`;
 
   const cleanEditorial = (spot.originStory?.[0]
     || (spot.signatureDish ? `Famous for ${spot.signatureDish.name}. ${spot.signatureDish.why}` : "")).replace(/—/g, ",");
   const ratingDetails = spot.rating ? `${spot.rating}★ rating (${spot.ratingCount ? spot.ratingCount.toLocaleString("en-IN") : ""} reviews). ` : "";
   const costDetails = spot.costForTwo ? `₹${Number(spot.costForTwo).toLocaleString("en-IN")} for two. ` : "";
   const dishHook = spot.signatureDish?.name ? `Must-try: ${spot.signatureDish.name}. ` : "";
-  const description = `${ratingDetails}${costDetails}${dishHook}${cleanEditorial || `${name} in ${area}.`} Explore menu prices, hours, reviews, and TG food safety status on Hyderabad Eats.`
+  const description = `Verified reviews, menu prices & must-orders for ${cleanName} in ${area}. ${ratingDetails}${costDetails}${dishHook}TG Food Safety inspected.`
     .replace(/—/g, ",")
     .trim();
 
@@ -154,6 +160,8 @@ export default async function SpotPage({ params }) {
     }
   } catch {}
 
+  const redditData = getRedditSpotData(spot.id, spot.name, spotSlug(spot));
+
   const jsonLd = restaurantJsonLd(spot, siteUrl, AUTHOR);
   const faqs = getSpotFaqs(spot, { spotOffers, safety });
   const tierKey = spot.tier || tierFor(spot.ratingCount || 0);
@@ -180,11 +188,21 @@ export default async function SpotPage({ params }) {
     : "Other locations";
 
   const nameLower = (spot.name || "").toLowerCase();
+  const addressLower = (spot.address || "").toLowerCase();
+  const areaLower = (spot.discoveredIn || "").toLowerCase();
   const rankingLinks = [];
+
+  if (addressLower.includes("knowledge city") || areaLower.includes("knowledge city") || nameLower.includes("windmills") || nameLower.includes("beer cartel") || nameLower.includes("burma burma") || nameLower.includes("nexity") || nameLower.includes("the loft")) {
+    rankingLinks.push({ href: "/guides/restaurants-in-sattva-knowledge-city-hyderabad", label: "Knowledge City 60+ Food Guide" });
+  }
+  if (spot.category === "restro-bar" || nameLower.includes("brewery") || nameLower.includes("brewing") || nameLower.includes("prost") || nameLower.includes("zero40") || nameLower.includes("broadway") || nameLower.includes("windmills") || nameLower.includes("forge")) {
+    rankingLinks.push({ href: "/guides/best-breweries-in-hyderabad", label: "Best Breweries in Hyderabad (Guide)" });
+    rankingLinks.push({ href: "/rankings/best-brewery-in-hyderabad", label: "Best Brewery Weekly Ranking" });
+  }
   if (nameLower.includes("niloufer")) {
     rankingLinks.push({ href: "/rankings/best-irani-cafe-in-hyderabad", label: "Best Irani cafe ranking" });
   }
-  if (nameLower.includes("paradise") || nameLower.includes("shah ghouse")) {
+  if (nameLower.includes("paradise") || nameLower.includes("shah ghouse") || nameLower.includes("shadab") || nameLower.includes("meridian") || nameLower.includes("bawarchi")) {
     rankingLinks.push({ href: "/rankings/best-biryani-in-hyderabad", label: "Best biryani in Hyderabad" });
   }
 
@@ -291,19 +309,55 @@ export default async function SpotPage({ params }) {
           background: "var(--cream-hi, #fbf7f0)",
           border: "1.5px solid rgba(124, 58, 237, 0.16)",
           borderRadius: 16,
-          padding: "16px 20px",
+          padding: "18px 20px",
           marginBottom: 22,
           boxShadow: "0 2px 8px rgba(124, 58, 237, 0.04)",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap", marginBottom: 8 }}>
           <span style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--violet-deep)" }}>
             Verified Community Consensus
           </span>
+          {redditData?.thread && (
+            <span style={{ fontSize: 11.5, fontWeight: 700, color: "#ff4500", background: "rgba(255, 69, 0, 0.08)", padding: "2px 8px", borderRadius: 999 }}>
+              💬 r/hyderabad Food Race
+            </span>
+          )}
         </div>
         <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, color: "var(--ink)" }}>
-          According to Hyderabad Eats community data and verified diner reviews, <strong>{displayName(spot.name)}</strong> is a top-rated {CAT_LABEL[spot.category] || "eatery"} in {spot.discoveredIn || "Hyderabad"}{spot.rating ? ` with a ${spot.rating}★ Google rating` : ""}{spot.ratingCount ? ` across ${spot.ratingCount.toLocaleString("en-IN")} reviews` : ""}. {spot.signatureDish?.name ? <>Renowned for its <strong>{spot.signatureDish.name}</strong>{spot.signatureDish.why ? ` (${spot.signatureDish.why.replace(/—/g, ",")})` : ""}. </> : ""}{spot.costForTwo ? `Approximate spend is ₹${spot.costForTwo} for two. ` : ""}{safety?.length > 0 ? `Verified TG Food Safety inspected. ` : ""}
+          Local consensus across {spot.discoveredIn || "Hyderabad"}: <strong>{displayName(spot.name)}</strong> holds a {spot.rating ? `${spot.rating}★ rating` : "notable standing"}{spot.ratingCount ? ` based on ${spot.ratingCount.toLocaleString("en-IN")} diners` : ""}. {spot.signatureDish?.name ? <>Locals specifically order the <strong>{spot.signatureDish.name}</strong>{spot.signatureDish.why ? ` (${spot.signatureDish.why.replace(/—/g, ",")})` : ""}. </> : ""}{spot.costForTwo ? `Approximate spend is ₹${spot.costForTwo} for two. ` : ""}{safety?.length > 0 ? `Inspected under TG Food Safety. ` : ""}
         </p>
+
+        {/* Reddit community discussion context */}
+        {redditData?.thread && (
+          <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid rgba(124, 58, 237, 0.12)" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+              <div style={{ fontSize: 12, color: "var(--ink-soft)" }}>
+                Contender in <strong>{redditData.thread.shortTitle}</strong> by {redditData.thread.author} on r/hyderabad
+              </div>
+              <a
+                href={redditData.thread.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ fontSize: 12, fontWeight: 700, color: "#ff4500", textDecoration: "none" }}
+              >
+                Join Reddit discussion ↗
+              </a>
+            </div>
+          </div>
+        )}
+
+        {/* Real diner quote from r/hyderabad discussions */}
+        {redditData?.brandData?.quotes?.praise?.length > 0 && (
+          <div style={{ marginTop: 12, padding: "10px 14px", background: "rgba(255, 69, 0, 0.05)", borderRadius: 10, border: "1px solid rgba(255, 69, 0, 0.15)" }}>
+            <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "#c2410c", marginBottom: 3 }}>
+              From r/hyderabad local diners:
+            </div>
+            <div style={{ fontSize: 13, fontStyle: "italic", color: "var(--ink)", lineHeight: 1.45 }}>
+              &ldquo;{redditData.brandData.quotes.praise[0].text}&rdquo;
+            </div>
+          </div>
+        )}
       </div>
 
       {isReview ? (

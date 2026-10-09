@@ -7,6 +7,8 @@ import { pageMeta, getSiteUrl } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
 import { galleryPhotoUrl, spotPhotoUrl } from "../../lib/photos.js";
 import { breadcrumbJsonLd } from "../../lib/schema.js";
+import RedditCommunityPost from "../components/RedditCommunityPost.jsx";
+import { REDDIT_COMMUNITY_THREADS } from "../../lib/redditThreads.js";
 
 const title = "Hyderabad Food Stories";
 const description =
@@ -305,6 +307,18 @@ export default function StoriesPage() {
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 {guideCards}
+              </div>
+
+              <div style={{ marginTop: 36 }}>
+                <div className="stories-section-head">
+                  <h2>Weekly Food Races on r/hyderabad</h2>
+                  <p>Live community ranking threads posted by u/EveningTarget3419 on r/hyderabad. No paid placements.</p>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                  {REDDIT_COMMUNITY_THREADS.map((thread) => (
+                    <RedditCommunityPost key={thread.id} thread={thread} />
+                  ))}
+                </div>
               </div>
             </section>
           }

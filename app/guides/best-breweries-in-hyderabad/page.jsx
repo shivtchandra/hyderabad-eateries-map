@@ -6,11 +6,13 @@ import { Icon } from "../../components/Icons.jsx";
 import BottomNav from "../../components/BottomNav.jsx";
 import BackButton from "../../components/BackButton.jsx";
 import { spotPhotoUrl } from "../../../lib/photos.js";
+import RedditCommunityPost from "../../components/RedditCommunityPost.jsx";
+import { getThreadForCategory } from "../../../lib/redditThreads.js";
 
 const SLUG = "/guides/best-breweries-in-hyderabad";
 const TITLE = "Best Breweries in Hyderabad (2026): Top Microbreweries & Craft Beers";
 const DESCRIPTION =
-  "The definitive local guide to Hyderabad's top microbreweries: Prost, Zero40, Broadway, Windmills, Forge, Red Rhino, Zythum, and Onegolf. Craft beers on tap, vibes, and what to order.";
+  "The definitive local guide to Hyderabad's top microbreweries: Broadway, Zero40, Prost, Windmills, Forge, Red Rhino, Zythum, and Onegolf. Craft beers on tap, vibes, and what to order.";
 
 export const metadata = {
   ...pageMeta({ title: TITLE, description: DESCRIPTION, path: SLUG }),
@@ -32,6 +34,29 @@ export const metadata = {
     "forge breu hous hyderabad",
     "breweries financial district hyderabad",
     "top breweries in hyderabad with price",
+  ],
+};
+
+const discussionLd = {
+  "@context": "https://schema.org",
+  "@type": "DiscussionForumPosting",
+  headline: "This week we're ranking the best breweries in Hyderabad. Current standings inside.",
+  url: "https://www.reddit.com/r/hyderabad/comments/1whsnai/this_week_were_ranking_the_best_breweries_in/",
+  author: {
+    "@type": "Person",
+    name: "u/EveningTarget3419",
+  },
+  interactionStatistic: [
+    {
+      "@type": "InteractionCounter",
+      interactionType: "https://schema.org/LikeAction",
+      userInteractionCount: 5,
+    },
+    {
+      "@type": "InteractionCounter",
+      interactionType: "https://schema.org/CommentAction",
+      userInteractionCount: 21,
+    },
   ],
 };
 
@@ -113,11 +138,52 @@ const faqLd = {
 
 const SPOTS = [
   {
+    id: "broadway",
+    name: "Broadway The Brewery",
+    tag: "Massive Energy & Screenings",
+    tagBg: "#fdf2f8",
+    tagColor: "#86198f",
+    redditBadge: "🥇 #1 in r/hyderabad Food Race (19 Votes)",
+    area: "CBI Colony, Jubilee Hills",
+    href: "/spot/broadway-the-brewery",
+    photo: spotPhotoUrl("ChIJ7Ytbpx2RyzsRhX0HHSG12lQ"),
+    rating: "4.3",
+    reviews: "10,800+ Google reviews",
+    priceForTwo: "₹2,200 for two",
+    verdict:
+      "A monumental, glass-walled microbrewery that feels like an amphitheatre of craft beer. Gleaming copper kettles tower behind the bar, while massive projector screens make it Hyderabad's top destination for big match nights. Broadway currently leads the r/hyderabad community vote by a commanding margin.",
+    craftBeers: "Irish Red Ale, Belgian Witbier, Apple Cider, Dark Matter Stout.",
+    whatToOrder: "Craft beer sampler, Wood-Fired Chicken Pizza, Ghee Roast Chicken, Truffle Fries.",
+    vibeTip: "Electric and buzzing during weekend DJ sets and cricket screenings. If you want conversation, grab an outdoor terrace table before 8 PM.",
+    quote: "“Broadway leads our r/hyderabad community poll with 19 votes. The stadium-like energy and wood-fired pizzas are unmatched for weekend groups, but be prepared for high volume after 8:30 PM.”",
+  },
+  {
+    id: "zero40",
+    name: "Zero40 Brewing",
+    tag: "Craft Beer Purist",
+    tagBg: "#f0fdf4",
+    tagColor: "#166534",
+    redditBadge: "Craft Beer Consensus Contender on r/hyderabad",
+    area: "Road No. 10, Jubilee Hills & Financial District",
+    href: "/spot/zero40-brewing-jubilee-hills",
+    photo: spotPhotoUrl("ChIJZ_3mlzCRyzsRNcddIknL_CU"),
+    rating: "4.3",
+    reviews: "14,000+ Google reviews",
+    priceForTwo: "₹2,000 for two",
+    verdict:
+      "Named after Hyderabad's dialing code (040), this is the city's darling for genuine craft beer lovers. Zero40 keeps the focus squarely on brewing excellence: balanced Belgian Wits, bold IPAs, and playful house concoctions like the Cherry Beer-Rita. The Jubilee Hills branch features a sunlit glasshouse and green courtyards, while Financial District offers sprawling lawns.",
+    craftBeers: "Vincent Van Wit (Belgian Wit), Reet (Ginger Beer), Cherry Beer-Rita, Goa Sling.",
+    whatToOrder: "Beer tasting flight, Ghee Roast Chicken Pizza, Pulled Pork Sliders, Buffalo Wings.",
+    vibeTip: "Relaxed, breezy, great conversation volume outdoors during early evenings.",
+    quote: "“As blunt-dagger and local brewers debate on r/hyderabad: if you genuinely care about craft beer nuance rather than just loud party music, Zero40 is the real winner.”",
+  },
+  {
     id: "prost",
     name: "Prost Brewpub",
     tag: "Landmark Pioneer",
     tagBg: "#fef3c7",
     tagColor: "#92400e",
+    redditBadge: "🥉 #3 in r/hyderabad Food Race (3 Votes)",
     area: "Road No. 45, Jubilee Hills",
     href: "/spot/prost-jubilee-hills",
     photo: spotPhotoUrl("ChIJPU_G2E6RyzsRs95LdTHxZek"),
@@ -129,45 +195,7 @@ const SPOTS = [
     craftBeers: "Apple Cider, Belgian Wit, Bangalore Daze IPA, Stout.",
     whatToOrder: "Craft beer sampler flight, Bavarian Pretzel with beer cheese, Crackling Pork, Pepperoni Pizza.",
     vibeTip: "High-energy, DJ music, weekend rush. Arrive before 7:30 PM on Friday/Saturday or book well ahead to avoid long door waits.",
-    quote: "“Prost set the bar for microbreweries in Hyderabad. The apple cider is crisp and easy-drinking, and the multi-level steampunk vibe is legendary.”",
-  },
-  {
-    id: "zero40",
-    name: "Zero40 Brewing",
-    tag: "Craft Beer Purist",
-    tagBg: "#f0fdf4",
-    tagColor: "#166534",
-    area: "Road No. 10, Jubilee Hills & Financial District",
-    href: "/spot/zero40-brewing-jubilee-hills",
-    photo: spotPhotoUrl("ChIJZ_3mlzCRyzsRNcddIknL_CU"),
-    rating: "4.3",
-    reviews: "14,000+ Google reviews",
-    priceForTwo: "₹2,000 for two",
-    verdict:
-      "Named after Hyderabad's dialing code (040), this is the city's darling for true craft beer lovers. Zero40 keeps the focus squarely on brewing excellence: balanced Belgian Wits, bold IPAs, and playful house concoctions like the Cherry Beer-Rita. The Jubilee Hills branch features a sunlit glasshouse and green courtyards, while Financial District offers sprawling lawns.",
-    craftBeers: "Vincent Van Wit (Belgian Wit), Reet (Ginger Beer), Cherry Beer-Rita, Goa Sling.",
-    whatToOrder: "Beer tasting flight, Ghee Roast Chicken Pizza, Pulled Pork Sliders, Buffalo Wings.",
-    vibeTip: "Relaxed, breezy, great conversation volume outdoors during early evenings.",
-    quote: "“If you genuinely care about craft beer nuance rather than just loud party music, Zero40 is the top spot in Hyderabad.”",
-  },
-  {
-    id: "broadway",
-    name: "Broadway The Brewery",
-    tag: "Massive Energy & Screenings",
-    tagBg: "#fdf2f8",
-    tagColor: "#86198f",
-    area: "CBI Colony, Jubilee Hills",
-    href: "/spot/broadway-the-brewery",
-    photo: spotPhotoUrl("ChIJ7Ytbpx2RyzsRhX0HHSG12lQ"),
-    rating: "4.3",
-    reviews: "10,800+ Google reviews",
-    priceForTwo: "₹2,200 for two",
-    verdict:
-      "A monumental, glass-walled microbrewery that feels like an amphitheatre of craft beer. Gleaming copper kettles tower behind the bar, while massive projector screens make it Hyderabad's top destination for cricket and football match nights. Ranked #1 in both the Best Brewery and Best Chicken Pizza city polls.",
-    craftBeers: "Irish Red Ale, Belgian Witbier, Apple Cider, Dark Matter Stout.",
-    whatToOrder: "Craft beer sampler, Wood-Fired Chicken Pizza, Ghee Roast Chicken, Truffle Fries.",
-    vibeTip: "Electric and buzzing during big match screenings and weekend DJ sets. Great al fresco terrace.",
-    quote: "“The sheer scale and stadium energy of Broadway make it unbeatable on game days. And the wood-fired pizzas rival standalone Italian pizzerias.”",
+    quote: "“Prost set the benchmark for microbreweries in Hyderabad. The apple cider is crisp and easy-drinking, and the multi-level steampunk vibe is legendary.”",
   },
   {
     id: "windmills",
@@ -319,12 +347,15 @@ const itemListLd = {
 };
 
 export default function BestBreweriesGuidePage() {
+  const breweryThread = getThreadForCategory("breweries");
+
   return (
     <div className="site-page" style={{ paddingBottom: 84 }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(discussionLd) }} />
 
       <header className="site-header">
         <div className="site-header-inner">
@@ -340,7 +371,7 @@ export default function BestBreweriesGuidePage() {
           <div className="site-hero">
             <h1>Best Breweries in Hyderabad (2026)</h1>
             <p>
-              The definitive local field guide to Hyderabad’s top microbreweries: fresh craft beers on tap, tasting flights, wood-fired pizzas, and where to book for date night vs match screenings.
+              The candid, local field guide to Hyderabad’s top microbreweries: craft beers on tap, tasting flights, wood-fired pizzas, and where to book for dates vs loud match screenings.
             </p>
           </div>
         </div>
@@ -348,19 +379,24 @@ export default function BestBreweriesGuidePage() {
 
       <main className="site-body">
         {/* Byline */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 24, paddingBottom: 16, borderBottom: "1.5px solid var(--line)" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 20, paddingBottom: 16, borderBottom: "1.5px solid var(--line)" }}>
           <div>
             <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--violet)" }}>
-              Editorial Field Guide · Verified Local Consensus
+              Field Guide · Backed by r/hyderabad Community Votes
             </div>
             <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 3 }}>
-              Updated October 2026 · Microbreweries &amp; craft beer trails
+              Updated October 2026 · Microbreweries &amp; craft beer consensus
             </div>
           </div>
           <Link href="/rankings/best-brewery-in-hyderabad" style={{ flexShrink: 0, fontSize: 13, fontWeight: 800, color: "var(--violet)", textDecoration: "none", padding: "8px 14px", borderRadius: 999, background: "var(--violet-wash)" }}>
             Vote in Weekly Race →
           </Link>
         </div>
+
+        {/* Live r/hyderabad Community Thread */}
+        {breweryThread && (
+          <RedditCommunityPost thread={breweryThread} />
+        )}
 
         {/* Quick Picks Summary Card */}
         <section
@@ -429,6 +465,26 @@ export default function BestBreweriesGuidePage() {
                     <span>•</span>
                     <span>{s.priceForTwo}</span>
                   </div>
+                  {s.redditBadge && (
+                    <div style={{ marginTop: 6 }}>
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 5,
+                          fontSize: 11.5,
+                          fontWeight: 700,
+                          color: "#c2410c",
+                          background: "rgba(255, 69, 0, 0.08)",
+                          border: "1px solid rgba(255, 69, 0, 0.2)",
+                          borderRadius: 999,
+                          padding: "2px 9px",
+                        }}
+                      >
+                        💬 {s.redditBadge}
+                      </span>
+                    </div>
+                  )}
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <span

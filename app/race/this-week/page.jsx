@@ -165,6 +165,25 @@ export default async function ThisWeekRacePage() {
           </>
         )}
 
+        <h2>Active Reddit Community Food Races (r/hyderabad)</h2>
+        <ul>
+          <li>
+            <a href="https://www.reddit.com/r/hyderabad/comments/1whsnai/this_week_were_ranking_the_best_breweries_in/" target="_blank" rel="noopener noreferrer">
+              Best Breweries in Hyderabad (Live Reddit Vote by u/EveningTarget3419)
+            </a>
+          </li>
+          <li>
+            <a href="https://www.reddit.com/r/hyderabad/comments/1wouygj/this_week_were_ranking_the_best_chicken_pizza_in/" target="_blank" rel="noopener noreferrer">
+              Best Chicken Pizza in Hyderabad (Live Reddit Vote by u/EveningTarget3419)
+            </a>
+          </li>
+          <li>
+            <a href="https://www.reddit.com/r/hyderabad/comments/1wd7xmi/best_mandi_in_hyderabad/" target="_blank" rel="noopener noreferrer">
+              Best Mandi in Hyderabad (Live Reddit Vote by u/EveningTarget3419)
+            </a>
+          </li>
+        </ul>
+
         <h2>Related ranking pages</h2>
         <ul>
           {liveSlug && (
@@ -172,6 +191,7 @@ export default async function ThisWeekRacePage() {
               <Link href={`/rankings/${liveSlug}`}>{live.title} ranking</Link>
             </li>
           )}
+          <li><Link href="/guides/best-breweries-in-hyderabad">Best Breweries in Hyderabad (Guide)</Link></li>
           <li><Link href="/rankings">All rankings</Link></li>
           <li><Link href="/rankings/best-biryani-in-hyderabad">Best biryani in Hyderabad</Link></li>
           <li><Link href="/rankings/best-mandi-in-hyderabad">Best mandi in Hyderabad</Link></li>

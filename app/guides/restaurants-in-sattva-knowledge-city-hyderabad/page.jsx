@@ -6,9 +6,9 @@ import BottomNav from "../../components/BottomNav.jsx";
 import { photoPathToCdn, spotPhotoUrl } from "../../../lib/photos.js";
 
 const SLUG = "/guides/restaurants-in-sattva-knowledge-city-hyderabad";
-const TITLE = "Restaurants in Sattva Knowledge City (2026)";
+const TITLE = "60+ Best Restaurants in Sattva Knowledge City (2026): Menus & Map";
 const DESCRIPTION =
-  "Every restaurant, cafe, bar and brewery across Sattva Knowledge City, Sattva Knowledge Park, THE LOFT and RMZ Nexity in Hyderabad, plus standalone spots around Raidurg and Hi-Tech City.";
+  "Complete dining guide to 60+ restaurants, cafes & breweries in Sattva Knowledge City, The Loft & RMZ Nexity: Windmills, Burma Burma, Hard Rock Cafe, Beer Cartel & menu prices.";
 
 export const metadata = {
   ...pageMeta({ title: TITLE, description: DESCRIPTION, path: SLUG }),

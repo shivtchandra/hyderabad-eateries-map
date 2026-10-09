@@ -7,9 +7,9 @@ import BottomNav from "../../components/BottomNav.jsx";
 import BackButton from "../../components/BackButton.jsx";
 
 const SLUG = "/guides/late-night-food-hyderabad-reddit";
-const TITLE = "Late Night Food in Hyderabad: Best 24/7 Spots & DLF Food Guide (2026)";
+const TITLE = "Best Late Night Food in Hyderabad (Reddit Verified): 24/7 Spots & DLF (2026)";
 const DESCRIPTION =
-  "Verified late-night food in Hyderabad: DLF Street Food (Varalakshmi's new pooris, 1885's juicy lamb burgers, Milan's Apricot Delight), Roast 24 Seven, Cafe Niloufer, and midnight mutton biryani.";
+  "The unfiltered Reddit consensus on midnight to 5 AM food in Hyderabad: DLF Street Food stalls, Varalakshmi pooris, Roast 24 Seven, midnight chai at Niloufer & 3 AM biryani.";
 
 export const metadata = {
   ...pageMeta({ title: TITLE, description: DESCRIPTION, path: SLUG }),
