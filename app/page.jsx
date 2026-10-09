@@ -162,7 +162,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   const [suggestOpen, setSuggestOpen] = useState(null); // null | "form" | "thanks"
   useEffect(() => {
     if (!curatedEnabled) return;
-    fetch("/api/recommendations").then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+    fetch("/data/recommendations.json").then((r) => { if (!r.ok) throw new Error(); return r.json(); })
       .then(setRecommendationData).catch(() => setRecommendationError(true));
   }, [curatedEnabled]);
   const eateries = useMemo(() => {

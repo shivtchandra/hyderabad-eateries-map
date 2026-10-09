@@ -1,0 +1,59 @@
+name: API worker (Cloudflare)
+
+# Deploys api-worker/ (the site's own app/api route handlers bundled for
+# Cloudflare Workers) and syncs its secrets from this repo's secrets.
+# Free tier: 100k requests/day; responses are edge- and Firestore-cached.
+on:
+  push:
+    branches: [master]
+    paths: ["api-worker/**", "app/api/**", "lib/**", "data/**", ".github/workflows/api-worker.yml"]
+  workflow_dispatch:
+
+concurrency:
+  group: api-worker
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            api-worker/package-lock.json
+      - run: npm ci --ignore-scripts
+      - run: npm ci
+        working-directory: api-worker
+
+      - name: Deploy
+        working-directory: api-worker
+        run: npx wrangler deploy
+
+      - name: Sync secrets
+        working-directory: api-worker
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          ADMIN_SECRET: ${{ secrets.ADMIN_SECRET }}
+          RECOMMENDATION_COOKIE_SECRET: ${{ secrets.RECOMMENDATION_COOKIE_SECRET }}
+          OLA_MAPS_API_KEY: ${{ secrets.OLA_MAPS_API_KEY }}
+          GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+          RACE_TEST_UIDS: ${{ secrets.RACE_TEST_UIDS }}
+          RACE_REQUIRE_GPS: ${{ secrets.RACE_REQUIRE_GPS }}
+        run: |
+          node -e '
+            const names = ["FIREBASE_SERVICE_ACCOUNT","ADMIN_SECRET","RECOMMENDATION_COOKIE_SECRET","OLA_MAPS_API_KEY","GOOGLE_MAPS_API_KEY","RACE_TEST_UIDS","RACE_REQUIRE_GPS"];
+            const out = {};
+            for (const n of names) if (process.env[n]) out[n] = process.env[n];
+            require("fs").writeFileSync("secrets.json", JSON.stringify(out));
+            console.log("syncing", Object.keys(out).join(", "));
+          '
+          npx wrangler secret bulk secrets.json
+          rm -f secrets.json

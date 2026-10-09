@@ -1,0 +1,13 @@
+{
+  "name": "mapmyhyd-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "deploy": "node build.mjs && wrangler deploy"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.10",
+    "wrangler": "4.42.0"
+  }
+}

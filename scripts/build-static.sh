@@ -15,10 +15,17 @@ fi
 # Read-only endpoints whose answer is the same for every visitor are exported
 # as static files at their usual /api URL (out/_routes.json keeps the proxy
 # function off them). Everything else under app/api is removed.
-STATIC_API=("recommendations" "picks" "inspections" "spots/added" "eateries/[id]")
+STATIC_API=("picks" "inspections" "spots/added" "eateries/[id]")
 keep=$(mktemp -d)
 for r in "${STATIC_API[@]}"; do mkdir -p "$keep/$r" && cp "app/api/$r/route.js" "$keep/$r/route.js"; done
+# The recommendations list is static too, but /api/recommendations also takes
+# ?spot= and POST (served by the API worker), so the list lives at
+# /data/recommendations.json instead.
+mkdir -p "$keep/data-recommendations" && cp app/api/recommendations/route.js "$keep/data-recommendations/route.js"
 rm -rf app/api out
+mkdir -p "app/data/recommendations.json" && cp "$keep/data-recommendations/route.js" "app/data/recommendations.json/route.js"
+perl -pi -e 's/export const dynamic = "force-dynamic";/export const dynamic = "force-static";/' "app/data/recommendations.json/route.js"
+perl -0pi -e 's/\nexport async function POST\b/\nasync function POST/g' "app/data/recommendations.json/route.js"
 for r in "${STATIC_API[@]}"; do
   f="app/api/$r/route.js"
   mkdir -p "app/api/$r" && cp "$keep/$r/route.js" "$f"

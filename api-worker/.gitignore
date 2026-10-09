@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.wrangler/
+.dev.vars
+src/routes.gen.js
+src/data.gen.js

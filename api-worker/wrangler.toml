@@ -1,0 +1,19 @@
+name = "mapmyhyd-api"
+main = "dist/index.js"
+no_bundle = true
+compatibility_date = "2025-09-15"
+compatibility_flags = ["nodejs_compat"]
+# Reached through the eats Pages Function proxy (functions/api/[[path]].js).
+workers_dev = true
+
+[build]
+command = "node build.mjs"
+
+[observability]
+enabled = true
+
+[vars]
+NODE_ENV = "production"
+NEXT_PUBLIC_SITE_URL = "https://eats.mapmyhyd.com"
+NEXT_PUBLIC_CURATED_RECOMMENDATIONS = "1"
+NEXT_PUBLIC_FIREBASE_PROJECT_ID = "hydstartups-88207"
