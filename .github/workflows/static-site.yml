@@ -54,9 +54,7 @@ jobs:
         with:
           node-version: "20"
           cache: npm
-      # The lockfile is written by npm 11, which leaves out optional peer deps
-      # (@types/leaflet); Node 20's bundled npm 10 rejects it as out of sync.
-      - run: npm install -g npm@11 && npm ci
+      - run: npm ci
 
       - name: Build static site
         run: bash scripts/build-static.sh
