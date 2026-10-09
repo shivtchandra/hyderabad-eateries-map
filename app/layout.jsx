@@ -123,7 +123,7 @@ export default function RootLayout({ children }) {
         />
         {children}
         <SeoCrawlNav />
-        <Analytics />
+        {process.env.HYD_STATIC_EXPORT !== "1" && <Analytics />}
         <PwaRegister />
       </body>
     </html>

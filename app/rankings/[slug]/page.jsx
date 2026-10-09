@@ -11,8 +11,15 @@ import BottomNav from "../../components/BottomNav.jsx";
 
 export const dynamic = "force-dynamic";
 
-export function generateStaticParams() {
-  return SEO_THEME_PICKS.map((p) => ({ slug: slugFromTitle(p.title) }));
+export async function generateStaticParams() {
+  const slugs = SEO_THEME_PICKS.map((p) => slugFromTitle(p.title));
+  // The static export can't render unknown slugs on demand: add every theme
+  // people have voted on, not just the SEO set.
+  if (process.env.HYD_STATIC_EXPORT === "1") {
+    const { getAllRankingsThemes } = await import("../../../lib/themesServer.js");
+    for (const t of await getAllRankingsThemes(100)) if (t.slug) slugs.push(t.slug);
+  }
+  return [...new Set(slugs)].map((slug) => ({ slug }));
 }
 
 function placeholderForSlug(slug) {

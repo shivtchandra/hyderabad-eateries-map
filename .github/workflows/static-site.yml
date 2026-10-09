@@ -1,0 +1,66 @@
+name: Static site (Cloudflare Pages)
+
+# The whole site is built here as static files and served by Cloudflare Pages
+# (free: no request or bandwidth limits). Vercel paused the Hobby team after
+# page renders, ISR writes and origin transfer blew its limits; nothing
+# user-facing runs there anymore. /api/* goes through functions/api to the
+# API service in the API_ORIGIN Pages variable.
+#
+# Runs on pushes to master, after the offers/picks refreshes (their bot pushes
+# don't trigger workflows), once a day for live vote/theme data, and on demand.
+# This repo is private: each build costs Actions minutes (2,000/month free).
+on:
+  push:
+    branches: [master]
+  workflow_run:
+    workflows: ["Daily offers refresh", "Dining offers (District + Swiggy Dineout)", "Locals' picks (r/hyderabad)"]
+    types: [completed]
+  schedule:
+    - cron: "45 0 * * *"   # 06:15 IST
+  workflow_dispatch:
+
+concurrency:
+  group: static-site
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CI: "true"
+      NEXT_TELEMETRY_DISABLED: "1"
+      FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      NEXT_PUBLIC_SITE_URL: https://eats.mapmyhyd.com
+      NEXT_PUBLIC_FIREBASE_API_KEY: ${{ vars.NEXT_PUBLIC_FIREBASE_API_KEY }}
+      NEXT_PUBLIC_FIREBASE_APP_ID: ${{ vars.NEXT_PUBLIC_FIREBASE_APP_ID }}
+      NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ vars.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
+      NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: ${{ vars.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}
+      NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ vars.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
+      NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ vars.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}
+      NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ vars.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}
+      NEXT_PUBLIC_RACE_REQUIRE_GPS: ${{ vars.NEXT_PUBLIC_RACE_REQUIRE_GPS }}
+      NEXT_PUBLIC_CURATED_RECOMMENDATIONS: ${{ vars.NEXT_PUBLIC_CURATED_RECOMMENDATIONS }}
+      NEXT_PUBLIC_PHOTO_CDN: ${{ vars.NEXT_PUBLIC_PHOTO_CDN }}
+      NEXT_PUBLIC_OLA_MAPS_API_KEY: ${{ vars.NEXT_PUBLIC_OLA_MAPS_API_KEY }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci
+
+      - name: Build static site
+        run: bash scripts/build-static.sh
+
+      - name: Deploy to Cloudflare Pages
+        if: env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ACCOUNT_ID != ''
+        run: |
+          npx --yes wrangler@4 pages project create mapmyhyd-eats --production-branch master || true
+          npx --yes wrangler@4 pages deploy out --project-name mapmyhyd-eats --branch master --commit-dirty=true

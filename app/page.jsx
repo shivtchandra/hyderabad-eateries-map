@@ -43,7 +43,7 @@ import PicksSheet from "./components/PicksSheet.jsx";
 import AddDishSheet from "./components/AddDishSheet.jsx";
 import AddPlace from "./components/AddPlace.jsx";
 
-export default function EateriesApp({ searchParams, initialTab = "map", initialRaceView = "race", initialDishSlug = null }) {
+export default function EateriesApp({ initialTab = "map", initialRaceView = "race", initialDishSlug = null }) {
   const mapApi = useRef(null);
 
   const [indexedEateries, setEateries] = useState([]);
@@ -53,14 +53,11 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   const [detailPending, setDetailPending] = useState({});
   const [allDetailsStatus, setAllDetailsStatus] = useState("idle");
   const [loading, setLoading] = useState(true);
-  // Open the tab named in ?tab= on the very first render (e.g. landing from the
-  // Stories page's bottom nav), so it never flashes the map first. searchParams
-  // is passed by Next on both server and client, so no hydration mismatch.
-  const urlTab = searchParams?.tab;
-  const dishSlug = initialDishSlug || searchParams?.dish || null;
-  const [tab, setTab] = useState(
-    urlTab && ["map", "passport", "saved", "race", "route"].includes(urlTab) ? urlTab : initialTab
-  );
+  // ?tab= / ?dish= / ?mode= are read from window.location after mount (effect
+  // below): the site is a static export, so there are no request-time searchParams.
+  const [urlDish, setUrlDish] = useState(null);
+  const dishSlug = initialDishSlug || urlDish || null;
+  const [tab, setTab] = useState(initialTab);
   const [raceView, setRaceView] = useState(initialRaceView); // which sub-tab the Race panel opens on
   const [activeCategory, setActiveCategory] = useState("all");
 
@@ -143,8 +140,21 @@ export default function EateriesApp({ searchParams, initialTab = "map", initialR
   const [newOnly, setNewOnly] = useState(false);
   const [safetyOnly, setSafetyOnly] = useState(false);
   const curatedEnabled = recommendationsEnabled();
-  const [recommendedOnly, setRecommendedOnly] = useState(curatedEnabled && searchParams?.mode !== "all");
-  const [recommendationDish, setRecommendationDish] = useState(curatedEnabled ? searchParams?.dish || "" : "");
+  const [recommendedOnly, setRecommendedOnly] = useState(curatedEnabled);
+  const [recommendationDish, setRecommendationDish] = useState("");
+  // Static hosting serves one prebuilt HTML for every query string.
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const t = p.get("tab");
+    if (t && ["map", "passport", "saved", "race", "route"].includes(t)) setTab(t);
+    const d = p.get("dish");
+    if (d) {
+      setUrlDish(d);
+      if (curatedEnabled) setRecommendationDish(d);
+    }
+    if (curatedEnabled && p.get("mode") === "all") setRecommendedOnly(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [recommendationData, setRecommendationData] = useState(null);
   const [recommendationError, setRecommendationError] = useState(false);
   const [addDishFor, setAddDishFor] = useState(null);

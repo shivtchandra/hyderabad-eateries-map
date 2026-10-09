@@ -51,8 +51,7 @@ export async function generateMetadata() {
   };
 }
 
-export default async function ThisWeekRacePage({ searchParams }) {
-  const dishSlug = typeof searchParams?.dish === "string" ? searchParams.dish : null;
+export default async function ThisWeekRacePage() {
 
   let themes = [];
   try {
@@ -86,7 +85,7 @@ export default async function ThisWeekRacePage({ searchParams }) {
 
   return (
     <>
-      <EateriesApp initialTab="race" initialRaceView="theme" initialDishSlug={dishSlug} />
+      <EateriesApp initialTab="race" initialRaceView="theme" />
 
       {jsonLd && (
         <script

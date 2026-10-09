@@ -36,8 +36,13 @@ const CURATED_DATA = [
   "./data/dish-seeds.json",
 ];
 
+// HYD_STATIC_EXPORT=1 (CI only, scripts/build-static.sh) builds the whole site
+// as static files for Cloudflare Pages.
+const staticExport = process.env.HYD_STATIC_EXPORT === "1";
+
 const nextConfig = {
   distDir: process.env.NEXT_DIST_DIR || ".next",
+  ...(staticExport ? { output: "export", images: { unoptimized: true } } : {}),
   // Keep venue JSON in every serverless/page bundle that reads it at runtime
   // (rankings are force-dynamic; without this the Google baseline list is empty).
   // Next 14.2: file tracing options must live under `experimental` (top level is ignored).

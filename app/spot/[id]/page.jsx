@@ -52,7 +52,8 @@ export const revalidate = 86400;
 // every deploy and was the second half of the 10GB Hobby storage blowout.
 // The long tail still works: dynamicParams defaults to true, so an unlisted
 // slug is rendered on first request and then cached by ISR.
-const PRERENDERED_SPOT_LIMIT = 200;
+// The static export (Cloudflare Pages) has no server to render the rest on demand.
+const PRERENDERED_SPOT_LIMIT = process.env.HYD_STATIC_EXPORT === "1" ? Infinity : 200;
 
 export function generateStaticParams() {
   const editorial = new Set(getEditorialSpotIds());
@@ -94,9 +95,8 @@ export function generateMetadata({ params }) {
     .trim();
 
   const photo = hasSpotPhoto(spot.id) ? spotPhotoUrl(spot.id) : null;
-  const ogCardUrl = absoluteUrl(
-    `/api/og?title=${encodeURIComponent(name)}&area=${encodeURIComponent(area)}&rating=${spot.rating || ""}&dish=${encodeURIComponent(spot.signatureDish?.name || "")}&category=${encodeURIComponent(CAT_LABEL[spot.category] || spot.category || "")}&image=${photo ? encodeURIComponent(photo) : ""}`
-  );
+  // Static hosting has no /api/og renderer: share the venue photo, else the site card.
+  const ogCardUrl = absoluteUrl(photo || "/og/home.png");
   const base = pageMeta({ title, description, path: spotPath(spot), image: ogCardUrl });
   return {
     ...base,
@@ -105,10 +105,9 @@ export function generateMetadata({ params }) {
     ...((spot.core || (recommendationsEnabled() && recommendationFor(spot.id)?.recommended)) ? {} : { robots: { index: false, follow: true } }),
     openGraph: {
       ...base.openGraph,
-      images: [
-        { url: ogCardUrl, width: 1200, height: 630, alt: `${name} on Hyderabad Eats`, type: "image/png" },
-        ...(photo ? [{ url: absoluteUrl(photo), width: 800, height: 600, alt: spot.name, type: "image/jpeg" }] : []),
-      ],
+      images: photo
+        ? [{ url: ogCardUrl, width: 800, height: 600, alt: spot.name, type: "image/jpeg" }]
+        : [{ url: ogCardUrl, width: 1200, height: 630, alt: `${name} on Hyderabad Eats`, type: "image/png" }],
     },
     twitter: {
       card: "summary_large_image",
