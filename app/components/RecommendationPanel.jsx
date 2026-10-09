@@ -64,13 +64,19 @@ export default function RecommendationPanel({ place, brand, publishedDishes = []
   const tries = mustTry(live, 4);
   const locals = place.locals || 0;
   const placeVote = votes.place || { up: 0, vote: 0 };
-  const rank = place.rankings?.[0];
-  const total = locals + (placeVote.up || 0) + (place.nominations || 0) + (rank?.votes || 0);
+  const rankings = place.rankings || [];
+  const rank = rankings[0];
+  const rankingVotes = rankings.reduce((s, r) => s + (r.votes || 0), 0);
+  const total = locals + (placeVote.up || 0) + (place.nominations || 0) + rankingVotes;
   const kicker = locals >= 3 ? "Locals' top pick" : rank ? `Ranked #${rank.rank}` : place.reviewStatus === "community" ? "Suggested by locals" : "Editor's pick";
   const lovedFor = tries.filter((t) => !t.star).slice(0, 2).map((t) => t.name.toLowerCase());
+  const categoryTitle = rank?.title ? rank.title.replace(/^Best\s+/i, "").replace(/\s+in\s+Hyderabad$/i, "").toLowerCase() : "";
   const tagline = place.signature?.name ? `Famous for the ${place.signature.name.toLowerCase()}`
+    : rank?.dishName ? `Loved for ${rank.dishName.toLowerCase()}`
+    : rank && !rank.dishName ? (rank.rank === 1 ? `Voted Hyderabad's best ${categoryTitle}` : `Top-rated in ${rank.title}`)
     : lovedFor.length ? `Loved for ${lovedFor.join(" and ")}` : "A local favourite";
   const sub = locals >= 3 ? `${locals} locals recommend it on r/hyderabad`
+    : rankings.length > 1 ? `${rankingVotes} total votes across ${rankings.length} weekly rankings`
     : rank ? `${rank.votes} vote${rank.votes === 1 ? "" : "s"} in our ${rank.live ? "live " : ""}ranking`
     : place.reviewStatus === "community" ? "Suggested by visitors, checked by the Eats team" : "Hand-picked by the Eats team";
   const source = place.research?.evidence?.[0]?.url || brand?.dishes?.[0]?.evidence?.[0]?.url;
@@ -82,7 +88,13 @@ export default function RecommendationPanel({ place, brand, publishedDishes = []
         <span className="ph-kicker">★ {kicker}{place.editorial && locals >= 3 ? " · Editor's pick" : ""}</span>
         <p className="ph-tagline">{tagline}</p>
         <p className="ph-sub">{sub}</p>
-        {rank && <a className="ph-rank-link" href={`/rankings/${rank.slug}`}>#{rank.rank} in {rank.title}{rank.winner ? ", winner" : ""} →</a>}
+        {rankings.length > 0 && <div className="ph-rank-links">
+          {rankings.map((r) => (
+            <a key={r.slug} className="ph-rank-link" href={`/rankings/${r.slug}`}>
+              #{r.rank} in {r.title}{r.winner ? ", winner" : ""}{rankings.length > 1 && r.votes ? ` · ${r.votes} votes` : ""} →
+            </a>
+          ))}
+        </div>}
       </div>
       <button type="button" className="ph-upvote" aria-pressed={placeVote.vote === 1} disabled={!available || pending === "place"}
         aria-label={placeVote.vote === 1 ? "Remove your upvote" : `Upvote ${place.name}`} onClick={upvotePlace}>

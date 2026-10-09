@@ -7,7 +7,7 @@ import { trackRecommendationEvent } from "../../lib/recommendationTracking.js";
 
 // Swipe-up list of recommended places over the map: one row per brand (nearest
 // branch when we know where you are), with what to try there and a quick "+ add".
-const score = (p) => (p.locals || 0) + (p.rankings?.[0]?.votes || 0);
+const score = (p) => (p.locals || 0) + (p.rankings || []).reduce((s, r) => s + (r.votes || 0), 0);
 const rankLabel = (r) => `#${r.rank} ${r.title.replace(/ in Hyderabad$/i, "")}`;
 
 export default function PicksSheet({ spots, recById, userLoc, dishName, onSelect, onAddDish, onSuggest }) {
