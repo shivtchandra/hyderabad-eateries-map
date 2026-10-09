@@ -12,7 +12,28 @@ if [ "${CI:-}" != "true" ] && [ "${ALLOW_DESTRUCTIVE_LOCAL:-}" != "1" ]; then
   exit 1
 fi
 
+# Read-only endpoints whose answer is the same for every visitor are exported
+# as static files at their usual /api URL (out/_routes.json keeps the proxy
+# function off them). Everything else under app/api is removed.
+STATIC_API=("recommendations" "picks" "inspections" "spots/added" "eateries/[id]")
+keep=$(mktemp -d)
+for r in "${STATIC_API[@]}"; do mkdir -p "$keep/$r" && cp "app/api/$r/route.js" "$keep/$r/route.js"; done
 rm -rf app/api out
+for r in "${STATIC_API[@]}"; do
+  f="app/api/$r/route.js"
+  mkdir -p "app/api/$r" && cp "$keep/$r/route.js" "$f"
+  if grep -q 'export const dynamic = ' "$f"; then
+    perl -pi -e 's/export const dynamic = "force-dynamic";/export const dynamic = "force-static";/' "$f"
+  else
+    printf '\nexport const dynamic = "force-static";\n' >> "$f"
+  fi
+  # A static file can only answer GET.
+  perl -0pi -e 's/\nexport async function (POST|PUT|PATCH|DELETE)\b/\nasync function $1/g' "$f"
+done
+rm -rf "${keep:?}"
+printf '\n%s\n' 'export function generateStaticParams() {
+  return Object.keys(getDetails()).map((id) => ({ id }));
+}' >> "app/api/eateries/[id]/route.js"
 
 for f in "app/race/this-week/page.jsx" "app/rankings/page.jsx" "app/rankings/[slug]/page.jsx" "app/sitemap.js"; do
   grep -q 'export const dynamic = "force-dynamic";' "$f" || { echo "expected force-dynamic in $f" >&2; exit 1; }
@@ -22,6 +43,10 @@ done
 node scripts/build-static.mjs
 HYD_STATIC_EXPORT=1 npx next build
 node scripts/static-redirects.mjs > out/_redirects
+node -e '
+  const files = process.argv.slice(1).map((r) => "/api/" + r.replace("[id]", "*"));
+  console.log(JSON.stringify({ version: 1, include: ["/api/*"], exclude: files }));
+' "${STATIC_API[@]}" > out/_routes.json
 
 files=$(find out -type f | wc -l | tr -d ' ')
 echo "static export: ${files} files, $(du -sh out | cut -f1)"
