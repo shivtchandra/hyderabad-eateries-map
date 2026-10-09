@@ -12186,7 +12186,9 @@
       "veg-friendly"
     ],
     "tier": "landmark",
-    "detailsUpdatedAt": "2026-08-26T20:49:01.418Z"
+    "detailsUpdatedAt": "2026-08-26T20:49:01.418Z",
+    "mustTry": "Banana Bread Latte, Pistachio Cappuccino, Mezze Platter",
+    "costForTwo": 1000
   },
   {
     "id": "ChIJ91yvFUiRyzsRu0xxJudkYGI",
@@ -40472,7 +40474,9 @@
     "blurb": null,
     "tags": [],
     "tier": "established",
-    "detailsUpdatedAt": "2026-08-26T20:51:58.738Z"
+    "detailsUpdatedAt": "2026-08-26T20:51:58.738Z",
+    "mustTry": "Vanilla, Death By Chocolate (DBC)",
+    "costForTwo": 350
   },
   {
     "id": "ChIJ1brz2EmRyzsR-YoirVzQ4rA",
@@ -43489,7 +43493,9 @@
     "blurb": null,
     "tags": [],
     "tier": "established",
-    "detailsUpdatedAt": "2026-08-26T20:52:17.411Z"
+    "detailsUpdatedAt": "2026-08-26T20:52:17.411Z",
+    "mustTry": "Vanilla, Death By Chocolate (DBC)",
+    "costForTwo": 350
   },
   {
     "id": "ChIJN9KKfO6TyzsR2Re4EZ7YVKs",
@@ -46039,7 +46045,9 @@
       "desserts"
     ],
     "tier": "established",
-    "detailsUpdatedAt": "2026-08-26T20:52:33.197Z"
+    "detailsUpdatedAt": "2026-08-26T20:52:33.197Z",
+    "mustTry": "Vanilla, Death By Chocolate (DBC)",
+    "costForTwo": 350
   },
   {
     "id": "ChIJsYWMZX-byzsRaL3THeXQhH0",
@@ -59883,7 +59891,9 @@
       "date"
     ],
     "tier": "established",
-    "detailsUpdatedAt": "2026-08-26T20:53:58.544Z"
+    "detailsUpdatedAt": "2026-08-26T20:53:58.544Z",
+    "mustTry": "Vanilla, Death By Chocolate (DBC)",
+    "costForTwo": 350
   },
   {
     "id": "ChIJaQbB6_mTyzsRuM8NAtmRFAs",
@@ -62256,7 +62266,9 @@
     "blurb": null,
     "tags": [],
     "tier": "established",
-    "detailsUpdatedAt": "2026-08-26T20:54:13.737Z"
+    "detailsUpdatedAt": "2026-08-26T20:54:13.737Z",
+    "mustTry": "Vanilla, Death By Chocolate (DBC)",
+    "costForTwo": 350
   },
   {
     "id": "ChIJ7zscYDOTyzsRommSVpei8H4",
@@ -74575,7 +74587,9 @@
       "desserts"
     ],
     "tier": "hidden-gem",
-    "detailsUpdatedAt": "2026-08-26T20:55:30.605Z"
+    "detailsUpdatedAt": "2026-08-26T20:55:30.605Z",
+    "mustTry": "Vanilla, Death By Chocolate (DBC)",
+    "costForTwo": 350
   },
   {
     "id": "ChIJxwrFSeiPyzsRT09Wk0QfLVo",
@@ -79375,7 +79389,9 @@
       "date"
     ],
     "tier": "hidden-gem",
-    "detailsUpdatedAt": "2026-08-26T20:56:00.604Z"
+    "detailsUpdatedAt": "2026-08-26T20:56:00.604Z",
+    "mustTry": "Vanilla, Death By Chocolate (DBC)",
+    "costForTwo": 350
   },
   {
     "id": "ChIJ3_zjgBSbyzsRl8LfxHK9qqA",
@@ -120961,7 +120977,9 @@
       "reservable"
     ],
     "tier": "landmark",
-    "detailsUpdatedAt": "2026-08-29T20:39:10.332Z"
+    "detailsUpdatedAt": "2026-08-29T20:39:10.332Z",
+    "mustTry": "Chicken Fry Piece Biryani, Guntur Chicken, Payasam",
+    "costForTwo": 900
   },
   {
     "id": "ChIJdwO4n3eVyzsR_1xSeM-w5nk",
@@ -132536,5 +132554,46 @@
     ],
     "tier": "established",
     "detailsUpdatedAt": "2026-09-24T07:58:27.628Z"
+  },
+  {
+    "id": "ChIJ9Slx4lyXyzsRTFG0AmjiknE",
+    "placeId": "ChIJ9Slx4lyXyzsRTFG0AmjiknE",
+    "name": "SmokeShack",
+    "category": "restaurant",
+    "lat": 17.4217145,
+    "lng": 78.4333571,
+    "address": "plot no.299, h.no. 8-2-309/7/3, sy no, ward no 10, block, 129/81, Street No. 3, Venkat Nagar, Banjara Hills, Hyderabad, Telangana 500034",
+    "rating": 4.7,
+    "ratingCount": 841,
+    "priceLevel": 2,
+    "photoRef": "Aa-ngMbzSg42Ux5JuMS4LLSFpwfvBZBdA1fbezSS3mY6u5IXo9cAiJqLv7ias1F3ICfzQQQoRiYUKnFxRAYjBLz-p-PyWhuU6mBiGv_NXxlWqyeokk4q1G4AeL28kjcWy_Y6pSF50PXMak92Ktq6VKKiWg6w4X1zJ0eSBrPKmL0OhMWDvXzNiMr5jUYUJtgg1ylOWQNbAUlDrXVr2tvBe20oIGsPtIKSXCS7kFLO2kR7nKjPpKrR7ja722qijEuZzQYvgNG3eN_6S3Wb6RwqB5EUlf1KLPk9pfaMzLJk7DaHP4CGpkQHSVZT3lSdA7Rsn3MaPewoqIymCwiP80uskOvbpWDt_vjqahZio9hJz5wsA6g82fRG0LWpV3uj86FQRZ60fkWnn94PbWYxARaQplS3MuVWnra_i4vGZFk7zC7db57Q0w",
+    "zomatoUrl": "https://www.zomato.com/hyderabad/search?q=SmokeShack%20Banjara%20Hills",
+    "offers": [],
+    "offersUpdatedAt": null,
+    "status": "approved",
+    "discoveredIn": "Banjara Hills",
+    "createdAt": "2026-10-09T05:15:00.000Z",
+    "hours": [
+      "Monday: 12:00 PM – 12:30 AM",
+      "Tuesday: 12:00 PM – 12:30 AM",
+      "Wednesday: 12:00 PM – 12:30 AM",
+      "Thursday: 12:00 PM – 12:30 AM",
+      "Friday: 12:00 PM – 12:30 AM",
+      "Saturday: 12:00 PM – 12:30 AM",
+      "Sunday: 12:00 PM – 12:30 AM"
+    ],
+    "website": null,
+    "hasWebsite": false,
+    "phone": "063038 78979",
+    "blurb": "Casual takeout burger joint serving fried chicken buffalo sauce burgers, juicy Nashville smash patties, and crispy wings in Banjara Hills.",
+    "tags": [
+      "takeout",
+      "late-night",
+      "casual"
+    ],
+    "tier": "established",
+    "detailsUpdatedAt": "2026-10-09T05:15:00.000Z",
+    "costForTwo": 500,
+    "mustTry": "Fried Chicken Buffalo Sauce Burger, Nashville Hot Chicken Burger, Nashville Lamb Smash Burger"
   }
 ]

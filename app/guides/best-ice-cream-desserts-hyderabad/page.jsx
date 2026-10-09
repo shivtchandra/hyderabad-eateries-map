@@ -145,6 +145,20 @@ const SPOTS = [
     timingTip: "Higher price tier, but great for celebration desserts.",
     quote: "“Freshly churned gourmet scoops with crisp charcoal waffle cones.”",
   },
+  {
+    id: "dumont",
+    name: "Dumont Creamery",
+    tag: "Artisanal Creamery & Experimental Flavors",
+    tagBg: "#fdf4ff",
+    tagColor: "#a21caf",
+    area: "Jubilee Hills, Begumpet & Citywide",
+    href: "/spot/dumont-experimental-ice-creams-jubilee-hills",
+    verdict:
+      "Dumont has become one of Hyderabad's go-to modern ice cream destinations, celebrated for rich dairy bases and crave-worthy sundaes. Their pure Vanilla is aromatic and velvety, and their Death By Chocolate (DBC) layers warm chocolate fudge with gooey cake.",
+    whatToOrder: "Vanilla, Death By Chocolate (DBC).",
+    timingTip: "Open until 1:00 AM daily across branches for late-night cravings.",
+    quote: "“Their DBC and pure vanilla scoops hit the sweet spot every single time.”",
+  },
 ];
 
 export default function BestIceCreamGuidePage() {
