@@ -1,13 +1,12 @@
 // Cloudflare Pages Function. The site is served as static files from Cloudflare
-// Pages; /api/* (votes, themes, claims, admin, offers search) runs on a separate
-// API service set by the API_ORIGIN Pages variable. This forwards those requests
-// unchanged so the browser code keeps calling same-origin /api paths.
+// Pages; /api/* (votes, themes, claims, admin, search) runs on the mapmyhyd-api
+// Worker (api-worker/). This forwards those requests unchanged so the browser
+// code keeps calling same-origin /api paths.
+const API_ORIGIN = "https://mapmyhyd-api.shivachandra9490.workers.dev";
+
 export async function onRequest({ request, env }) {
-  if (!env.API_ORIGIN) {
-    return Response.json({ error: "API temporarily unavailable" }, { status: 503 });
-  }
   const url = new URL(request.url);
-  const target = new URL(url.pathname + url.search, env.API_ORIGIN);
+  const target = new URL(url.pathname + url.search, env.API_ORIGIN || API_ORIGIN);
   const headers = new Headers(request.headers);
   headers.delete("host");
   headers.set("x-forwarded-host", url.host);

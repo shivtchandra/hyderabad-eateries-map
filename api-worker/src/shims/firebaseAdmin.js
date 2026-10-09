@@ -5,7 +5,8 @@ import { Firestore } from "../firestore.js";
 let db = null;
 let sa = null;
 function serviceAccount() {
-  if (!sa && process.env.FIREBASE_SERVICE_ACCOUNT) sa = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+  // Secrets copied from .env.local can keep its surrounding quotes.
+  if (!sa && process.env.FIREBASE_SERVICE_ACCOUNT) sa = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT.trim().replace(/^'([\s\S]*)'$/, "$1"));
   return sa;
 }
 
