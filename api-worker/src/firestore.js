@@ -23,7 +23,7 @@ async function importPrivateKey(pem) {
   return crypto.subtle.importKey("pkcs8", der, { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" }, false, ["sign"]);
 }
 
-async function accessToken(sa) {
+export async function accessToken(sa) {
   if (tokenCache && tokenCache.exp - 300 > Date.now() / 1000) return tokenCache.token;
   const now = Math.floor(Date.now() / 1000);
   const unsigned = `${b64urlJson({ alg: "RS256", typ: "JWT" })}.${b64urlJson({

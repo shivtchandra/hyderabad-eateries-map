@@ -1,4 +1,4 @@
-// mapmyhyd API Worker: serves eats.mapmyhyd.com/api/* with the site's own
+// mapmyhyd API Worker: serves the site's /api/* with its own
 // route handlers (bundled by build.mjs).
 //
 // Free-tier budget: public GETs are cached twice, so Firestore reads don't grow
@@ -6,20 +6,12 @@
 // Firestore doc per URL in `apiCache` (SHARED_TTL), so at most one recompute
 // per URL per SHARED_TTL across all colos. Votes (revalidateTag) mark the
 // shared entries stale, so new counts show within EDGE_TTL.
-import { routes } from "./routes.gen.js";
+import { routes, site } from "./routes.gen.js";
 import { pendingTags } from "./shims/next-cache.js";
 import { getAdminDb } from "./shims/firebaseAdmin.js";
 
-// path -> { edge, shared (seconds), tags, skip(url) when the answer is per-visitor }
-const CACHE = {
-  "theme/current": { edge: 60, shared: 600, tags: ["themes", "votes"] },
-  "theme/history": { edge: 300, shared: 3600, tags: ["themes"] },
-  "votes": { edge: 60, shared: 900, tags: ["votes"] },
-  "leaderboard": { edge: 60, shared: 900, tags: ["leaderboard"], skip: (u) => u.searchParams.has("uid") },
-  "rankings": { edge: 300, shared: 1800, tags: ["themes", "votes"] },
-};
-
-const ALLOWED_ORIGINS = new Set(["https://eats.mapmyhyd.com", "https://mapmyhyd-eats.pages.dev", "http://localhost:3000"]);
+const CACHE = site.cache;
+const ALLOWED_ORIGINS = new Set(site.origins);
 
 function nextify(request) {
   const url = new URL(request.url);
@@ -103,7 +95,7 @@ export default {
 
     try {
       const policy = CACHE[route.path];
-      if (policy && request.method === "GET" && !policy.skip?.(url)) return await cachedGet(route, request, params, policy, ctx);
+      if (policy && request.method === "GET" && !(policy.privateParams || []).some((p) => url.searchParams.has(p))) return await cachedGet(route, request, params, policy, ctx);
       pendingTags.clear();
       const res = await run(route, request, params);
       if (pendingTags.size) ctx.waitUntil(invalidate([...pendingTags]).catch(() => {}));

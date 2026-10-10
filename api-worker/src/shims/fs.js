@@ -18,5 +18,10 @@ export function readFileSync(p) {
 }
 export const existsSync = (p) => find(p) !== undefined;
 export const readdirSync = () => [];
+// The Worker has no writable disk; routes only write files when Firestore is missing.
+const readOnly = () => { const e = new Error("EROFS: read-only file system"); e.code = "EROFS"; throw e; };
+export const writeFileSync = readOnly;
+export const mkdirSync = readOnly;
+export const appendFileSync = readOnly;
 export const promises = { readFile: async (p) => readFileSync(p) };
-export default { readFileSync, existsSync, readdirSync, promises };
+export default { readFileSync, existsSync, readdirSync, writeFileSync, mkdirSync, appendFileSync, promises };
