@@ -62,6 +62,23 @@ export default function AboutPage() {
             tracker lists only official TG SAFE inspection drives, each linked to its sources.
           </p>
 
+          <h2 id="photo-policy">Photo sources and removal requests</h2>
+          <p>
+            Restaurant photos include images sourced through Google Places and, for some listings, image links from
+            Zomato. These third-party images belong to their respective rights holders. We do not claim ownership of
+            them or imply endorsement by the restaurants or source platforms.
+          </p>
+          <p>
+            This notice explains our sources; it does not grant permission to reuse images or replace the permissions
+            and source-platform terms that apply.
+          </p>
+          <p>
+            If you own the rights to a photo and want it removed or its credit corrected, email{" "}
+            <a href="mailto:shivachandra9490@gmail.com">shivachandra9490@gmail.com</a>. Please include the restaurant page link, identify the photo,
+            and explain your connection to the image. We will review your request and remove or correct the image as
+            appropriate.
+          </p>
+
           <h2>Editorial policy</h2>
           <p>
             Rankings and guides are independent. Restaurants cannot pay to appear, move up a ranking or remove a
