@@ -3,7 +3,7 @@ import SiteChrome from "../../components/SiteChrome.jsx";
 import { pageMeta } from "../../../lib/site.js";
 import { askStats } from "../../../lib/askPages.js";
 
-export const metadata = pageMeta({ title: "How Hyderabad Eats picks places", description: "How we count what r/hyderabad recommends, how dishes and polls work, and what the numbers on Hyderabad Eats mean.", path: "/about/how-we-pick" });
+export const metadata = pageMeta({ title: "How Hyderabad Eats picks places", description: "How we count what r/hyderabad recommends, how dishes and weekly community polls work, and what the verified consensus numbers on Hyderabad Eats mean.", path: "/about/how-we-pick" });
 
 export default function HowWePick() {
   const s = askStats();

@@ -1,5 +1,6 @@
 import "./globals.css";
 import "./recommendations.css";
+import Script from "next/script";
 import { outfit, fraunces, bagel } from "./fonts.js";
 import { Analytics } from "@vercel/analytics/next";
 import { getSiteUrl } from "../lib/site.js";
@@ -9,6 +10,7 @@ import { PHOTO_CDN_ORIGIN } from "../lib/photos.js";
 import PwaRegister from "./components/PwaRegister.jsx";
 
 const siteUrl = getSiteUrl();
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-WSV3VC8ESR";
 
 const title = "Hyderabad Food Map & Local Rankings | Mapping HYD Eats";
 const description =
@@ -123,6 +125,16 @@ export default function RootLayout({ children }) {
         />
         {children}
         <SeoCrawlNav />
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_ID}');`}
+        </Script>
         {process.env.HYD_STATIC_EXPORT !== "1" && <Analytics />}
         <PwaRegister />
       </body>

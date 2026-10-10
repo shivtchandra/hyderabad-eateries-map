@@ -95,8 +95,12 @@ export function generateMetadata({ params }) {
     || (spot.signatureDish ? `Famous for ${spot.signatureDish.name}. ${spot.signatureDish.why}` : "")).replace(/—/g, ",");
   const ratingDetails = spot.rating ? `${spot.rating}★ rating (${spot.ratingCount ? spot.ratingCount.toLocaleString("en-IN") : ""} reviews). ` : "";
   const costDetails = spot.costForTwo ? `₹${Number(spot.costForTwo).toLocaleString("en-IN")} for two. ` : "";
-  const dishHook = spot.signatureDish?.name ? `Must-try: ${spot.signatureDish.name}. ` : "";
-  const description = `Verified reviews, menu prices & must-orders for ${cleanName} in ${area}. ${ratingDetails}${costDetails}${dishHook}TG Food Safety inspected.`
+  const dishHook = spot.signatureDish?.name
+    ? `Must-try: ${spot.signatureDish.name}. `
+    : spot.mustOrder?.[0]?.name
+      ? `Must-try: ${spot.mustOrder[0].name}. `
+      : `Explore top dishes, timings & map pin. `;
+  const description = `Verified reviews, menu prices & must-orders for ${cleanName} in ${area}, Hyderabad. ${ratingDetails}${costDetails}${dishHook}TG Food Safety inspected.`
     .replace(/—/g, ",")
     .trim();
 

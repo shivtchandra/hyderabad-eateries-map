@@ -4,7 +4,7 @@ import { ogImages } from "../../lib/og.js";
 
 const siteUrl = getSiteUrl();
 const title = "The Hyderabad Food Race | Hyderabad Eats";
-const description = "Claim Hyderabad food spots, score points, and see where you rank in the Hyderabad Eats race.";
+const description = "Claim Hyderabad food spots, score points across cafes, biryani legends, and breweries, and see where you rank on the live Hyderabad Eats leaderboard.";
 
 export const metadata = {
   title,

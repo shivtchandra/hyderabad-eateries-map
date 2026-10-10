@@ -38,7 +38,8 @@ export async function generateMetadata({ params }) {
   const pick = placeholderForSlug(params.slug);
   if (!theme && !pick) return { title: "Ranking not found, Hyderabad Eats" };
   const fake = theme || { title: pick.title, description: pick.description, slug: params.slug, results: [] };
-  const meta = rankingMeta(fake);
+  const editorial = editorialRanking(pick || { category: fake?.category }, params.slug, 8);
+  const meta = rankingMeta(fake, editorial);
   const path = `/rankings/${params.slug}`;
 
   // Find the winning/leader spot or top contender with a photo
@@ -46,7 +47,6 @@ export async function generateMetadata({ params }) {
   const leader = fake.winnerId
     ? (fake.results || []).find((r) => r.spotId === fake.winnerId)
     : voteRows[0] || null;
-  const editorial = editorialRanking(pick || { category: fake?.category }, params.slug, 8);
 
   const candidateIds = [
     leader?.spotId,

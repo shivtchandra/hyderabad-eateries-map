@@ -12,7 +12,7 @@ import { REDDIT_COMMUNITY_THREADS } from "../../lib/redditThreads.js";
 
 const title = "Hyderabad Food Stories";
 const description =
-  "First-person notes on Hyderabad cafes and eateries: what the room feels like, what to order, and what to skip.";
+  "First-person notes and Reddit community threads on Hyderabad cafes, breweries, and eateries: what the room feels like, what to order, and what to skip.";
 
 export const metadata = {
   ...pageMeta({ title, description, path: "/stories" }),

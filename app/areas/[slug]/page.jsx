@@ -9,11 +9,12 @@ import { ogImages } from "../../../lib/og.js";
 import { breadcrumbJsonLd } from "../../../lib/schema.js";
 
 
-function areaPageCopy(area, spotCount) {
+function areaPageCopy(area, spotCount, sampleNames = []) {
+  const namesSnippet = sampleNames.length ? ` Popular picks include ${sampleNames.slice(0, 3).join(", ")}.` : "";
   if (area === "Jubilee Hills") {
     return {
       title: `Best Cafes & Restaurants in Jubilee Hills`,
-      description: `Cafes in Jubilee Hills and top restaurants on Hyderabad Eats: ${spotCount} mapped spots with ratings, stories, and the live food map.`,
+      description: `Cafes in Jubilee Hills and top restaurants on Hyderabad Eats: ${spotCount} mapped spots with verified ratings, must-order dishes, menu prices, and live map pins.`,
       lead: (names) =>
         names.length
           ? `Looking for cafes in Jubilee Hills? Popular picks include ${names.join(", ")}, among ${spotCount} mapped cafes and restaurants.`
@@ -24,7 +25,7 @@ function areaPageCopy(area, spotCount) {
   if (area === "Gachibowli") {
     return {
       title: `Best Restaurants in Gachibowli`,
-      description: `Best restaurants in Gachibowli, Hyderabad: ${spotCount} places on Hyderabad Eats with ratings and map pins across the western corridor.`,
+      description: `Best restaurants and cafes in Gachibowli, Hyderabad: ${spotCount} curated places on Hyderabad Eats with ratings, must-order dishes, prices, and map pins.`,
       lead: (names) =>
         names.length
           ? `Best restaurants in Gachibowli right now include ${names.join(", ")}, among ${spotCount} mapped spots.`
@@ -35,7 +36,7 @@ function areaPageCopy(area, spotCount) {
   if (area === "Madhapur/HITEC") {
     return {
       title: `Best Restaurants in Madhapur & HITEC City`,
-      description: `Best restaurants in Madhapur and HITEC City: ${spotCount} cafes and restaurants on Hyderabad Eats near Hyderabad's tech belt.`,
+      description: `Best restaurants in Madhapur and HITEC City: ${spotCount} cafes, breweries, and lunch spots on Hyderabad Eats across Hyderabad's tech corridor.`,
       lead: (names) =>
         names.length
           ? `Best restaurants in Madhapur include ${names.join(", ")}, with HITEC City covered on the same Hyderabad Eats list (${spotCount} spots).`
@@ -46,7 +47,7 @@ function areaPageCopy(area, spotCount) {
   if (area === "Secunderabad") {
     return {
       title: `Best Restaurants in Secunderabad`,
-      description: `Best restaurants in Secunderabad: ${spotCount} places on Hyderabad Eats with ratings, hours, and map locations.`,
+      description: `Best restaurants, iconic bakeries, and cafes in Secunderabad: ${spotCount} places on Hyderabad Eats with verified ratings, must-orders, hours, and map pins.`,
       lead: (names) =>
         names.length
           ? `Best restaurants in Secunderabad include ${names.join(", ")}, among ${spotCount} mapped spots.`
@@ -57,7 +58,7 @@ function areaPageCopy(area, spotCount) {
   if (area === "Kondapur") {
     return {
       title: `Best Restaurants in Kondapur`,
-      description: `Best restaurants in Kondapur, Hyderabad: ${spotCount} cafes and restaurants on Hyderabad Eats near Gachibowli and Madhapur.`,
+      description: `Best restaurants and cafes in Kondapur, Hyderabad: ${spotCount} places on Hyderabad Eats with ratings, must-order dishes, prices, and map pins near Gachibowli.`,
       lead: (names) =>
         names.length
           ? `Best restaurants in Kondapur include ${names.join(", ")}, among ${spotCount} mapped places.`
@@ -67,7 +68,7 @@ function areaPageCopy(area, spotCount) {
   }
   return {
     title: `Best Restaurants & Cafes in ${area}`,
-    description: `Top food spots in ${area}, Hyderabad. ${spotCount} cafes, restaurants and local gems on the map.`,
+    description: `Explore the best restaurants, cafes, and local food spots in ${area}, Hyderabad: ${spotCount} mapped places with ratings, must-orders, and menu prices.${namesSnippet}`,
     lead: (names) =>
       names.length
         ? `Popular food spots in ${area} include ${names.join(", ")}, among ${spotCount} mapped places.`
@@ -84,7 +85,8 @@ export function generateMetadata({ params }) {
   const data = getAreaBySlug(params.slug);
   if (!data) return { title: "Not found" };
   const year = new Date().getFullYear();
-  const copy = areaPageCopy(data.area, data.spots.length);
+  const sampleNames = data.spots.slice(0, 3).map((s) => s.name);
+  const copy = areaPageCopy(data.area, data.spots.length, sampleNames);
   const title = `${copy.title} (${year})`;
   const pillar = getAreaPillar(data.area);
   const description = pillar?.blurb || copy.description;

@@ -10,7 +10,7 @@ import { breadcrumbJsonLd } from "../../lib/schema.js";
 export const dynamic = "force-dynamic";
 
 const title = "Hyderabad Food Rankings";
-const description = "Community-voted weekly rankings for the best biryani, buffet, fine dining, cafes, and restaurants in Hyderabad.";
+const description = "Community-voted weekly rankings for the best biryani, breweries, mandi, buffets, cafes, and fine dining in Hyderabad. Compare votes and cast yours.";
 
 export const metadata = {
   ...pageMeta({ title, description, path: "/rankings" }),
