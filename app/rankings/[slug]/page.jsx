@@ -6,7 +6,9 @@ import { itemListJsonLd, rankingMeta, SEO_THEME_PICKS, slugFromTitle } from "../
 import { breadcrumbJsonLd } from "../../../lib/schema.js";
 import { getSiteUrl } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
-import { allCategoryPages, editorialRanking, pathForSpotId } from "../../../lib/siteData.js";
+import { allCategoryPages, editorialRanking, pathForSpotId, hasSpotPhoto } from "../../../lib/siteData.js";
+import { spotPhotoUrl } from "../../../lib/photos.js";
+import ShareRankingButton from "../../components/ShareRankingButton.jsx";
 import BottomNav from "../../components/BottomNav.jsx";
 
 export const dynamic = "force-dynamic";
@@ -38,11 +40,54 @@ export async function generateMetadata({ params }) {
   const fake = theme || { title: pick.title, description: pick.description, slug: params.slug, results: [] };
   const meta = rankingMeta(fake);
   const path = `/rankings/${params.slug}`;
+
+  // Find the winning/leader spot or top contender with a photo
+  const voteRows = (fake.results || []).filter((r) => (r.count || 0) > 0);
+  const leader = fake.winnerId
+    ? (fake.results || []).find((r) => r.spotId === fake.winnerId)
+    : voteRows[0] || null;
+  const editorial = editorialRanking(pick || { category: fake?.category }, params.slug, 8);
+
+  const candidateIds = [
+    leader?.spotId,
+    ...voteRows.map((r) => r.spotId),
+    ...editorial.map((r) => r.spotId),
+    ...(fake.results || []).map((r) => r.spotId),
+  ].filter(Boolean);
+
+  let photoUrl = null;
+  let photoSpotName = leader?.name || null;
+  for (const cid of candidateIds) {
+    if (hasSpotPhoto(cid)) {
+      photoUrl = spotPhotoUrl(cid);
+      if (!photoSpotName) {
+        const found = (fake.results || []).find((r) => r.spotId === cid) || editorial.find((r) => r.spotId === cid);
+        photoSpotName = found?.name || null;
+      }
+      break;
+    }
+  }
+
+  const ogImagesList = photoUrl
+    ? [{ url: photoUrl, width: 800, height: 600, alt: `${photoSpotName || meta.title} — Hyderabad Eats`, type: "image/jpeg" }]
+    : ogImages(meta.title, meta.description);
+
   return {
     title: meta.title,
     description: meta.description,
-    openGraph: { title: meta.title, description: meta.description, url: `${getSiteUrl()}${path}`, type: "article", images: ogImages(meta.title, meta.description) },
-    twitter: { card: "summary_large_image", title: meta.title, description: meta.description, images: ogImages(meta.title, meta.description).map((i) => i.url) },
+    openGraph: {
+      title: meta.title,
+      description: meta.description,
+      url: `${getSiteUrl()}${path}`,
+      type: "article",
+      images: ogImagesList,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: meta.title,
+      description: meta.description,
+      images: photoUrl ? [photoUrl] : ogImages(meta.title, meta.description).map((i) => i.url),
+    },
     alternates: { canonical: `${getSiteUrl()}${path}` },
   };
 }
@@ -164,7 +209,10 @@ export default async function RankingPage({ params }) {
             <span className="rk-chip">Opening soon</span>
           </div>
           <p className="rk-leader-sub">This weekly vote hasn&apos;t started yet. Explore the spots below and check back, locals will decide the order.</p>
-          <Link href="/rankings" className="site-cta">Browse all dish rankings →</Link>
+          <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap", marginTop: "16px" }}>
+            <Link href="/rankings" className="site-cta" style={{ margin: 0 }}>Browse all dish rankings →</Link>
+            <ShareRankingButton title={data.title} slug={params.slug} leaderName={null} />
+          </div>
         </section>
       ) : (
         <section className="rk-leader">
@@ -176,7 +224,45 @@ export default async function RankingPage({ params }) {
           </div>
           {leader ? (
             <div className="rk-leader-body">
-              <span className="rk-crown" aria-hidden="true">🏆</span>
+              {hasSpotPhoto(leader.spotId) ? (
+                <div style={{ position: "relative", flexShrink: 0 }}>
+                  <img
+                    src={spotPhotoUrl(leader.spotId)}
+                    alt={leader.name}
+                    width={64}
+                    height={64}
+                    style={{
+                      width: 64,
+                      height: 64,
+                      borderRadius: 14,
+                      objectFit: "cover",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+                      border: "2px solid #fff",
+                    }}
+                  />
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      position: "absolute",
+                      bottom: -4,
+                      right: -4,
+                      fontSize: 14,
+                      background: "#fff",
+                      borderRadius: "50%",
+                      width: 22,
+                      height: 22,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: "0 1px 4px rgba(0,0,0,0.15)",
+                    }}
+                  >
+                    🏆
+                  </span>
+                </div>
+              ) : (
+                <span className="rk-crown" aria-hidden="true">🏆</span>
+              )}
               <div>
                 <div className="rk-eyebrow">{isCrowned ? "This week's crown" : "Leading right now"}</div>
                 <h2 className="rk-leader-name">{leader.spotId.startsWith("user-") ? leader.name : <Link href={pathForSpotId(leader.spotId)}>{leader.name}</Link>}</h2>
@@ -188,7 +274,10 @@ export default async function RankingPage({ params }) {
           ) : (
             <p className="rk-leader-sub">No votes yet. Be the first to put a spot on the board.</p>
           )}
-          <Link href={voteHref} className="site-cta">{leader ? "Cast your vote →" : "Vote for this dish →"}</Link>
+          <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap", marginTop: "16px" }}>
+            <Link href={voteHref} className="site-cta" style={{ margin: 0 }}>{leader ? "Cast your vote →" : "Vote for this dish →"}</Link>
+            <ShareRankingButton title={data.title} slug={params.slug} leaderName={leader?.name} />
+          </div>
         </section>
       )}
 

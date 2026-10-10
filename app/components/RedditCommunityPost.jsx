@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Icon } from "./Icons.jsx";
 
 export default function RedditCommunityPost({ thread, showStandings = true, showHighlights = true, style = {} }) {
   if (!thread) return null;
@@ -9,22 +8,22 @@ export default function RedditCommunityPost({ thread, showStandings = true, show
       className="reddit-community-card"
       style={{
         background: "var(--paper, #fff)",
-        border: "1.5px solid #ff4500", // Reddit authentic orange border
-        borderRadius: 14,
-        padding: "18px 20px",
-        boxShadow: "0 2px 8px rgba(255, 69, 0, 0.08)",
-        margin: "20px 0 28px",
+        border: "1.5px solid rgba(255, 69, 0, 0.22)",
+        borderRadius: 16,
+        padding: "16px 18px",
+        boxShadow: "0 2px 10px rgba(255, 69, 0, 0.05)",
+        margin: "18px 0 24px",
         ...style,
       }}
       aria-label="Community discussion on Reddit"
     >
-      {/* Header bar */}
+      {/* Header bar: Subreddit pill + thread link */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap", marginBottom: 10 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
           <div
             style={{
-              width: 28,
-              height: 28,
+              width: 22,
+              height: 22,
               borderRadius: "50%",
               background: "#ff4500",
               display: "flex",
@@ -32,31 +31,19 @@ export default function RedditCommunityPost({ thread, showStandings = true, show
               justifyContent: "center",
               color: "#fff",
               fontWeight: 900,
-              fontSize: 14,
+              fontSize: 11.5,
               flexShrink: 0,
             }}
           >
             r/
           </div>
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <a
-                href="https://www.reddit.com/r/hyderabad/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ fontWeight: 800, fontSize: 13, color: "#ff4500", textDecoration: "none" }}
-              >
-                {thread.subreddit}
-              </a>
-              <span style={{ fontSize: 11, color: "var(--muted)", fontWeight: 600 }}>•</span>
-              <span style={{ fontSize: 12, color: "var(--muted)" }}>
-                Posted by <strong style={{ color: "var(--ink)" }}>{thread.author}</strong>
-              </span>
-            </div>
-            <div style={{ fontSize: 11, color: "var(--muted)", marginTop: 1 }}>
-              Verified Hyderabad Eats Weekly Food Challenge
-            </div>
-          </div>
+          <span style={{ fontSize: 11.5, fontWeight: 800, color: "#ff4500", letterSpacing: "0.03em" }}>
+            {thread.subreddit}
+          </span>
+          <span style={{ fontSize: 11, color: "var(--muted)" }}>•</span>
+          <span style={{ fontSize: 11.5, color: "var(--muted)", fontWeight: 600 }}>
+            Weekly Food Race
+          </span>
         </div>
 
         <a
@@ -64,11 +51,11 @@ export default function RedditCommunityPost({ thread, showStandings = true, show
           target="_blank"
           rel="noopener noreferrer"
           style={{
-            fontSize: 12,
+            fontSize: 11.5,
             fontWeight: 700,
             color: "#ff4500",
-            background: "rgba(255, 69, 0, 0.08)",
-            padding: "5px 11px",
+            background: "rgba(255, 69, 0, 0.07)",
+            padding: "3px 9px",
             borderRadius: 999,
             textDecoration: "none",
             display: "inline-flex",
@@ -80,92 +67,129 @@ export default function RedditCommunityPost({ thread, showStandings = true, show
         </a>
       </div>
 
-      {/* Post title */}
-      <h3 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: 18, color: "var(--ink)", margin: "8px 0 10px", lineHeight: 1.35 }}>
-        <a href={thread.url} target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "none" }}>
-          &ldquo;{thread.title}&rdquo;
-        </a>
-      </h3>
-
-      {thread.summary && (
-        <p style={{ margin: "0 0 14px", fontSize: 13.5, color: "var(--ink-soft)", lineHeight: 1.5 }}>
-          {thread.summary}
+      {/* Title */}
+      <div style={{ marginBottom: 12 }}>
+        <h3 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: 17, color: "var(--ink)", margin: 0, lineHeight: 1.3 }}>
+          {thread.shortTitle || thread.title}
+        </h3>
+        <p style={{ margin: "3px 0 0", fontSize: 12, color: "var(--muted)" }}>
+          Live community standings · 0% sponsored
         </p>
-      )}
+      </div>
 
-      {/* Standings from the user's thread */}
+      {/* Standings Podium */}
       {showStandings && thread.standings?.length > 0 && (
-        <div style={{ background: "var(--cream, #faf7f2)", borderRadius: 10, padding: "12px 14px", marginBottom: 14, border: "1px solid var(--line)" }}>
-          <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.05em", textTransform: "uppercase", color: "var(--violet)", marginBottom: 8 }}>
-            Live Voting Standings in r/hyderabad
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            {thread.standings.map((s) => (
-              <div key={s.name} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: 13, gap: 10 }}>
-                <span style={{ fontWeight: 600, color: "var(--ink)" }}>
-                  {s.rank === 1 ? "🥇" : s.rank === 2 ? "🥈" : "🥉"} {s.name} <small style={{ color: "var(--muted)", fontWeight: 400 }}>({s.area})</small>
+        <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 12 }}>
+          {thread.standings.map((s) => (
+            <div
+              key={s.name}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 10,
+                padding: "8px 12px",
+                borderRadius: 10,
+                background: s.rank === 1 ? "rgba(245, 158, 11, 0.08)" : "var(--cream, #faf7f2)",
+                border: s.rank === 1 ? "1px solid rgba(245, 158, 11, 0.3)" : "1px solid var(--line)",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 800,
+                    fontFamily: "var(--font-mono, monospace)",
+                    color: s.rank === 1 ? "#92400e" : "var(--muted)",
+                    background: s.rank === 1 ? "#fef3c7" : "rgba(0,0,0,0.06)",
+                    padding: "2px 6px",
+                    borderRadius: 6,
+                    flexShrink: 0,
+                  }}
+                >
+                  #{s.rank}
                 </span>
-                <span style={{ fontWeight: 800, color: "var(--violet)", fontSize: 12.5 }}>
-                  {s.votes} vote{s.votes === 1 ? "" : "s"}
-                </span>
+                <div style={{ minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  {s.spotId ? (
+                    <Link
+                      href={`/spot/${s.spotId}`}
+                      style={{ fontWeight: 750, fontSize: 13, color: "var(--ink)", textDecoration: "none" }}
+                    >
+                      {s.name}
+                    </Link>
+                  ) : (
+                    <span style={{ fontWeight: 750, fontSize: 13, color: "var(--ink)" }}>{s.name}</span>
+                  )}
+                  {s.area && (
+                    <span style={{ fontSize: 11.5, color: "var(--muted)", marginLeft: 6 }}>
+                      {s.area}
+                    </span>
+                  )}
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Raw unfiltered comments from locals */}
-      {showHighlights && thread.highlights?.length > 0 && (
-        <div style={{ marginBottom: 14 }}>
-          <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--muted)", marginBottom: 8 }}>
-            Local Diners Debate:
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            {thread.highlights.map((h, i) => (
-              <div
-                key={i}
+              <span
                 style={{
-                  padding: "8px 12px",
-                  borderRadius: 8,
-                  background: h.user.includes("OP") ? "rgba(255, 69, 0, 0.05)" : "var(--paper)",
-                  border: "1px solid var(--line)",
-                  fontSize: 12.5,
-                  color: "var(--ink)",
-                  lineHeight: 1.45,
+                  flexShrink: 0,
+                  fontWeight: 800,
+                  fontSize: 11.5,
+                  color: s.rank === 1 ? "#b45309" : "var(--violet)",
+                  background: "#fff",
+                  border: "1px solid rgba(0,0,0,0.08)",
+                  padding: "2px 8px",
+                  borderRadius: 999,
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
-                  <strong style={{ color: h.user.includes("OP") ? "#ff4500" : "var(--violet)" }}>{h.user}</strong>
-                  <span style={{ fontSize: 11, color: "var(--muted)" }}>▲ {h.score}</span>
-                </div>
-                <span>&ldquo;{h.comment}&rdquo;</span>
-              </div>
-            ))}
+                {s.votes} {s.votes === 1 ? "vote" : "votes"}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Local Consensus Takeaway */}
+      {showHighlights && thread.highlights?.length > 0 && (
+        <div
+          style={{
+            background: "rgba(255, 69, 0, 0.04)",
+            border: "1px solid rgba(255, 69, 0, 0.12)",
+            borderRadius: 10,
+            padding: "9px 12px",
+            marginBottom: 12,
+          }}
+        >
+          <div style={{ fontSize: 12.5, lineHeight: 1.45, color: "var(--ink)" }}>
+            &ldquo;{thread.highlights[0].comment}&rdquo;
+            <span style={{ display: "inline-block", marginLeft: 6, fontSize: 11, color: "var(--muted)", fontWeight: 600 }}>
+              — u/{thread.highlights[0].user}
+            </span>
           </div>
         </div>
       )}
 
-      {/* Call to action */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap", paddingTop: 10, borderTop: "1px solid var(--line)" }}>
-        <span style={{ fontSize: 12, color: "var(--muted)" }}>
-          No sponsored rankings. Voted directly by r/hyderabad foodies.
-        </span>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <Link
-            href="/race/this-week"
-            style={{
-              fontSize: 12,
-              fontWeight: 800,
-              color: "var(--violet)",
-              textDecoration: "none",
-              padding: "6px 12px",
-              borderRadius: 8,
-              background: "var(--violet-wash)",
-            }}
-          >
-            Vote in Live Food Race →
-          </Link>
-        </div>
+      {/* Action footer */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap", paddingTop: 8, borderTop: "1px solid var(--line)" }}>
+        <Link
+          href="/race/this-week"
+          style={{
+            fontSize: 12,
+            fontWeight: 800,
+            color: "var(--violet)",
+            textDecoration: "none",
+            padding: "5px 11px",
+            borderRadius: 8,
+            background: "var(--violet-wash)",
+          }}
+        >
+          Vote in This Week&apos;s Race →
+        </Link>
+        <a
+          href={thread.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ fontSize: 11.5, fontWeight: 600, color: "var(--ink-soft)", textDecoration: "none" }}
+        >
+          r/{thread.subreddit} Discussion ↗
+        </a>
       </div>
     </aside>
   );

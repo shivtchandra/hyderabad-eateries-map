@@ -253,25 +253,21 @@ export default async function SpotPage({ params }) {
         background: "linear-gradient(135deg, var(--violet-wash) 0%, rgba(124,58,237,0.12) 100%)",
         border: "1.5px solid rgba(124,58,237,0.25)",
         borderRadius: 20,
-        padding: "14px 18px",
+        padding: "16px",
         marginBottom: 20,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: 12,
         boxShadow: "0 2px 10px rgba(124,58,237,0.08)",
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
           <span style={{
-            width: 40, height: 40, borderRadius: "50%",
+            width: 38, height: 38, borderRadius: "50%",
             background: "var(--violet)", color: "#fff",
             display: "flex", alignItems: "center", justifyContent: "center",
             flexShrink: 0, boxShadow: "0 3px 8px rgba(124,58,237,0.3)"
           }}>
-            <Icon name="trophy" size={20} width={2.1} color="#fff" />
+            <Icon name="trophy" size={19} width={2.1} color="#fff" />
           </span>
-          <div style={{ minWidth: 0 }}>
-            <div style={{ fontWeight: 800, fontSize: 14.5, color: "var(--ink)", lineHeight: 1.25 }}>
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <div style={{ fontWeight: 800, fontSize: 15, color: "var(--ink)", lineHeight: 1.3 }}>
               Ate at {displayName(spot.name)}?
             </div>
             <div style={{ fontSize: 12.5, color: "var(--violet-deep)", fontWeight: 600, marginTop: 2 }}>
@@ -279,21 +275,34 @@ export default async function SpotPage({ params }) {
             </div>
           </div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
-          <ShareSpotButton spotName={displayName(spot.name)} spotPath={spotPath(spot)} />
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <ShareSpotButton
+            spotName={displayName(spot.name)}
+            spotPath={spotPath(spot)}
+            style={{
+              flex: 1,
+              padding: "9px 12px",
+              fontSize: 12.5,
+              justifyContent: "center",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+            }}
+          />
           <Link
             href={`/?spot=${encodeURIComponent(spot.id)}`}
             className="pressable-sm"
             style={{
-              padding: "8px 16px",
-              borderRadius: "var(--r-pill)",
+              flex: 1,
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "9px 12px",
+              borderRadius: "var(--r-pill, 999px)",
               background: "var(--violet)",
               color: "#fff",
               fontSize: 12.5,
               fontWeight: 750,
               textDecoration: "none",
               whiteSpace: "nowrap",
-              flexShrink: 0,
               boxShadow: "0 2px 6px rgba(124,58,237,0.25)"
             }}
           >
@@ -309,53 +318,145 @@ export default async function SpotPage({ params }) {
           background: "var(--cream-hi, #fbf7f0)",
           border: "1.5px solid rgba(124, 58, 237, 0.16)",
           borderRadius: 16,
-          padding: "18px 20px",
+          padding: "16px 18px",
           marginBottom: 22,
           boxShadow: "0 2px 8px rgba(124, 58, 237, 0.04)",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap", marginBottom: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap", marginBottom: 10 }}>
           <span style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--violet-deep)" }}>
             Verified Community Consensus
           </span>
           {redditData?.thread && (
-            <span style={{ fontSize: 11.5, fontWeight: 700, color: "#ff4500", background: "rgba(255, 69, 0, 0.08)", padding: "2px 8px", borderRadius: 999 }}>
-              💬 r/hyderabad Food Race
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#ff4500", background: "rgba(255, 69, 0, 0.08)", padding: "2px 8px", borderRadius: 999 }}>
+              r/hyderabad Contender
             </span>
           )}
         </div>
-        <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, color: "var(--ink)" }}>
-          Local consensus across {spot.discoveredIn || "Hyderabad"}: <strong>{displayName(spot.name)}</strong> holds a {spot.rating ? `${spot.rating}★ rating` : "notable standing"}{spot.ratingCount ? ` based on ${spot.ratingCount.toLocaleString("en-IN")} diners` : ""}. {spot.signatureDish?.name ? <>Locals specifically order the <strong>{spot.signatureDish.name}</strong>{spot.signatureDish.why ? ` (${spot.signatureDish.why.replace(/—/g, ",")})` : ""}. </> : ""}{spot.costForTwo ? `Approximate spend is ₹${spot.costForTwo} for two. ` : ""}{safety?.length > 0 ? `Inspected under TG Food Safety. ` : ""}
-        </p>
 
-        {/* Reddit community discussion context */}
-        {redditData?.thread && (
-          <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid rgba(124, 58, 237, 0.12)" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
-              <div style={{ fontSize: 12, color: "var(--ink-soft)" }}>
-                Contender in <strong>{redditData.thread.shortTitle}</strong> by {redditData.thread.author} on r/hyderabad
+        {/* Must-Order Dish Spotlight */}
+        {spot.signatureDish?.name ? (
+          <div
+            style={{
+              background: "#fff",
+              border: "1px solid rgba(124, 58, 237, 0.14)",
+              borderRadius: 12,
+              padding: "11px 13px",
+              marginBottom: 10,
+            }}
+          >
+            <div style={{ fontSize: 10.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--violet)", marginBottom: 3 }}>
+              Locals Must-Order
+            </div>
+            <div style={{ fontSize: 15, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3 }}>
+              {spot.signatureDish.name}
+            </div>
+            {spot.signatureDish.why && (
+              <div style={{ fontSize: 12.5, color: "var(--ink-soft)", marginTop: 3, lineHeight: 1.4 }}>
+                {spot.signatureDish.why.replace(/—/g, ",")}
               </div>
-              <a
-                href={redditData.thread.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ fontSize: 12, fontWeight: 700, color: "#ff4500", textDecoration: "none" }}
-              >
-                Join Reddit discussion ↗
-              </a>
+            )}
+          </div>
+        ) : (
+          <p style={{ margin: "0 0 10px", fontSize: 13.5, lineHeight: 1.5, color: "var(--ink)" }}>
+            Local consensus across {spot.discoveredIn || "Hyderabad"}: <strong>{displayName(spot.name)}</strong> is verified by community diners.
+          </p>
+        )}
+
+        {/* Quick Stat Chips */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginBottom: (redditData?.thread || redditData?.brandData?.quotes?.praise?.length) ? 10 : 0 }}>
+          {spot.rating ? (
+            <span
+              style={{
+                fontSize: 12,
+                fontWeight: 700,
+                color: "var(--ink)",
+                background: "#fff",
+                border: "1px solid rgba(0,0,0,0.08)",
+                padding: "4px 9px",
+                borderRadius: 8,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 4,
+              }}
+            >
+              {spot.rating}★
+              {spot.ratingCount ? <span style={{ color: "var(--muted)", fontWeight: 500 }}>({spot.ratingCount.toLocaleString("en-IN")})</span> : null}
+            </span>
+          ) : null}
+          {spot.costForTwo ? (
+            <span
+              style={{
+                fontSize: 12,
+                fontWeight: 650,
+                color: "var(--ink)",
+                background: "#fff",
+                border: "1px solid rgba(0,0,0,0.08)",
+                padding: "4px 9px",
+                borderRadius: 8,
+              }}
+            >
+              ₹{spot.costForTwo} for two
+            </span>
+          ) : null}
+          {spot.discoveredIn ? (
+            <span
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: "var(--ink-soft)",
+                background: "#fff",
+                border: "1px solid rgba(0,0,0,0.08)",
+                padding: "4px 9px",
+                borderRadius: 8,
+              }}
+            >
+              {spot.discoveredIn}
+            </span>
+          ) : null}
+          {safety?.length > 0 ? (
+            <span
+              style={{
+                fontSize: 12,
+                fontWeight: 750,
+                color: "#166534",
+                background: "#f0fdf4",
+                border: "1px solid #bbf7d0",
+                padding: "4px 9px",
+                borderRadius: 8,
+              }}
+            >
+              TG Safety Inspected
+            </span>
+          ) : null}
+        </div>
+
+        {/* Real diner quote from r/hyderabad discussions */}
+        {redditData?.brandData?.quotes?.praise?.length > 0 && (
+          <div style={{ marginTop: 10, padding: "8px 12px", background: "rgba(255, 69, 0, 0.05)", borderRadius: 10, border: "1px solid rgba(255, 69, 0, 0.12)" }}>
+            <div style={{ fontSize: 10.5, fontWeight: 800, textTransform: "uppercase", color: "#c2410c", marginBottom: 2 }}>
+              From r/hyderabad local diners:
+            </div>
+            <div style={{ fontSize: 12.5, fontStyle: "italic", color: "var(--ink)", lineHeight: 1.4 }}>
+              &ldquo;{redditData.brandData.quotes.praise[0].text}&rdquo;
             </div>
           </div>
         )}
 
-        {/* Real diner quote from r/hyderabad discussions */}
-        {redditData?.brandData?.quotes?.praise?.length > 0 && (
-          <div style={{ marginTop: 12, padding: "10px 14px", background: "rgba(255, 69, 0, 0.05)", borderRadius: 10, border: "1px solid rgba(255, 69, 0, 0.15)" }}>
-            <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "#c2410c", marginBottom: 3 }}>
-              From r/hyderabad local diners:
+        {/* Reddit community discussion context */}
+        {redditData?.thread && (
+          <div style={{ marginTop: 10, paddingTop: 10, borderTop: "1px solid rgba(124, 58, 237, 0.1)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+            <div style={{ fontSize: 11.5, color: "var(--ink-soft)" }}>
+              Weekly Race in <strong>{redditData.thread.shortTitle}</strong>
             </div>
-            <div style={{ fontSize: 13, fontStyle: "italic", color: "var(--ink)", lineHeight: 1.45 }}>
-              &ldquo;{redditData.brandData.quotes.praise[0].text}&rdquo;
-            </div>
+            <a
+              href={redditData.thread.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ fontSize: 11.5, fontWeight: 700, color: "#ff4500", textDecoration: "none" }}
+            >
+              Join Reddit discussion ↗
+            </a>
           </div>
         )}
       </div>

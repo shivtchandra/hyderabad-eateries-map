@@ -140,22 +140,21 @@ const SPOTS = [
   {
     id: "broadway",
     name: "Broadway The Brewery",
-    tag: "Massive Energy & Screenings",
+    tag: "Match Screenings & Energy",
     tagBg: "#fdf2f8",
     tagColor: "#86198f",
-    redditBadge: "🥇 #1 in r/hyderabad Food Race (19 Votes)",
+    redditBadge: "#1 in r/hyderabad Food Race (19 Votes)",
     area: "CBI Colony, Jubilee Hills",
     href: "/spot/broadway-the-brewery",
     photo: spotPhotoUrl("ChIJ7Ytbpx2RyzsRhX0HHSG12lQ"),
     rating: "4.3",
-    reviews: "10,800+ Google reviews",
-    priceForTwo: "₹2,200 for two",
+    reviews: "10.8k reviews",
+    priceForTwo: "₹2,200 for 2",
     verdict:
-      "A monumental, glass-walled microbrewery that feels like an amphitheatre of craft beer. Gleaming copper kettles tower behind the bar, while massive projector screens make it Hyderabad's top destination for big match nights. Broadway currently leads the r/hyderabad community vote by a commanding margin.",
-    craftBeers: "Irish Red Ale, Belgian Witbier, Apple Cider, Dark Matter Stout.",
-    whatToOrder: "Craft beer sampler, Wood-Fired Chicken Pizza, Ghee Roast Chicken, Truffle Fries.",
-    vibeTip: "Electric and buzzing during weekend DJ sets and cricket screenings. If you want conversation, grab an outdoor terrace table before 8 PM.",
-    quote: "“Broadway leads our r/hyderabad community poll with 19 votes. The stadium-like energy and wood-fired pizzas are unmatched for weekend groups, but be prepared for high volume after 8:30 PM.”",
+      "Massive glasshouse amphitheatre in Jubilee Hills with towering copper kettles, stadium screens for live matches, and buzzing weekend DJ sets.",
+    craftBeers: "Apple Beer (must-try!), Irish Red Ale, Belgian Wit, Dark Matter Stout",
+    whatToOrder: "Apple Beer, Wood-Fired Chicken Pizza, Ghee Roast Chicken, Truffle Fries",
+    vibeTip: "Electric on match nights. Grab terrace seating before 8 PM if you want conversation.",
   },
   {
     id: "zero40",
@@ -168,34 +167,32 @@ const SPOTS = [
     href: "/spot/zero40-brewing-jubilee-hills",
     photo: spotPhotoUrl("ChIJZ_3mlzCRyzsRNcddIknL_CU"),
     rating: "4.3",
-    reviews: "14,000+ Google reviews",
-    priceForTwo: "₹2,000 for two",
+    reviews: "14k reviews",
+    priceForTwo: "₹2,000 for 2",
     verdict:
-      "Named after Hyderabad's dialing code (040), this is the city's darling for genuine craft beer lovers. Zero40 keeps the focus squarely on brewing excellence: balanced Belgian Wits, bold IPAs, and playful house concoctions like the Cherry Beer-Rita. The Jubilee Hills branch features a sunlit glasshouse and green courtyards, while Financial District offers sprawling lawns.",
-    craftBeers: "Vincent Van Wit (Belgian Wit), Reet (Ginger Beer), Cherry Beer-Rita, Goa Sling.",
-    whatToOrder: "Beer tasting flight, Ghee Roast Chicken Pizza, Pulled Pork Sliders, Buffalo Wings.",
-    vibeTip: "Relaxed, breezy, great conversation volume outdoors during early evenings.",
-    quote: "“As blunt-dagger and local brewers debate on r/hyderabad: if you genuinely care about craft beer nuance rather than just loud party music, Zero40 is the real winner.”",
+      "The city's darling for craft beer nuance. Sunlit glasshouse and green courtyards with balanced Belgian Wits and bold IPAs.",
+    craftBeers: "Vincent Van Wit (Belgian Wit), Reet (Ginger Beer), Cherry Beer-Rita",
+    whatToOrder: "Beer Tasting Flight, Ghee Roast Chicken Pizza, Pulled Pork Sliders",
+    vibeTip: "Relaxed outdoor seating with conversational music volume during early evenings.",
   },
   {
     id: "prost",
     name: "Prost Brewpub",
-    tag: "Landmark Pioneer",
+    tag: "Steampunk Landmark",
     tagBg: "#fef3c7",
     tagColor: "#92400e",
-    redditBadge: "🥉 #3 in r/hyderabad Food Race (3 Votes)",
+    redditBadge: "#3 in r/hyderabad Food Race (3 Votes)",
     area: "Road No. 45, Jubilee Hills",
     href: "/spot/prost-jubilee-hills",
     photo: spotPhotoUrl("ChIJPU_G2E6RyzsRs95LdTHxZek"),
     rating: "4.3",
-    reviews: "18,800+ Google reviews",
-    priceForTwo: "₹2,200 for two",
+    reviews: "18.8k reviews",
+    priceForTwo: "₹2,200 for 2",
     verdict:
-      "The enduring heavyweight of Hyderabad's brewery revolution. Spanning multiple levels with rustic industrial steampunk decor, exposed brick, and copper pipes, Prost is energetic, loud, and consistently packed. Their apple cider and wheat brews remain the gateway craft beers for half the city.",
-    craftBeers: "Apple Cider, Belgian Wit, Bangalore Daze IPA, Stout.",
-    whatToOrder: "Craft beer sampler flight, Bavarian Pretzel with beer cheese, Crackling Pork, Pepperoni Pizza.",
-    vibeTip: "High-energy, DJ music, weekend rush. Arrive before 7:30 PM on Friday/Saturday or book well ahead to avoid long door waits.",
-    quote: "“Prost set the benchmark for microbreweries in Hyderabad. The apple cider is crisp and easy-drinking, and the multi-level steampunk vibe is legendary.”",
+      "Multi-level steampunk heavyweight on Road 45 with exposed pipes, high-energy weekend DJ sets, and legendary bar snacks.",
+    craftBeers: "Apple Beer (signature tap!), Belgian Wit, Bangalore Daze IPA",
+    whatToOrder: "Kodi Chips (must-order!), Cheese Balls, Chicken Popcorn, Apple Beer",
+    vibeTip: "Intense weekend rush. Arrive before 7:30 PM on Fri/Sat or book ahead to avoid door lines.",
   },
   {
     id: "windmills",
@@ -208,32 +205,30 @@ const SPOTS = [
     photo: spotPhotoUrl("ChIJV47u-zeTyzsRg1GyNX8ogOQ"),
     rating: "4.6",
     reviews: "Top-rated in Cyberabad",
-    priceForTwo: "₹2,800 for two",
+    priceForTwo: "₹2,800 for 2",
     verdict:
-      "Windmills does not feel like a typical beer hall; it feels like an upscale library lounge with world-class acoustic architecture. Lined with hundreds of curated design books, soft leather seating, and warm lighting, it pours pristine German Hefeweizen and Golden Ales alongside sophisticated global cuisine.",
-    craftBeers: "German Hefeweizen, Golden Ale, Stout, India Pale Ale.",
-    whatToOrder: "Hefeweizen pint, Butternut Squash Risotto, Mango-Coconut Stew, Bacon-Wrapped Sausages.",
-    vibeTip: "Cozy, refined, conversational. The perfect brewery date night where you can actually hear each other speak without shouting.",
-    quote: "“Unmatched elegance. You drink pristine craft beer surrounded by floor-to-ceiling books and smooth jazz.”",
+      "Upscale library lounge with acoustic architecture and hundreds of curated books. Refined date-night spot with smooth jazz.",
+    craftBeers: "German Hefeweizen (gold standard), Golden Ale, Stout",
+    whatToOrder: "Hefeweizen Pint, Butternut Squash Risotto, Bacon-Wrapped Sausages",
+    vibeTip: "Quiet and conversational. The best brewery in Hyderabad for dates where you want to actually talk.",
   },
   {
     id: "forge",
     name: "Forge Breu-Hous",
-    tag: "Poolside Deck & Industrial Loft",
+    tag: "Poolside Deck & Alfresco",
     tagBg: "#fff7ed",
     tagColor: "#9a3412",
     area: "Road No. 36, Jubilee Hills",
     href: "/spot/forge-breu-hous-jubilee-hills",
     photo: spotPhotoUrl("ChIJR3kyF-6RyzsR7s1vrhhYBEg"),
     rating: "4.5",
-    reviews: "3,100+ Google reviews",
-    priceForTwo: "₹2,000 for two",
+    reviews: "3.1k reviews",
+    priceForTwo: "₹2,000 for 2",
     verdict:
-      "Industrial chic done right. Forge pairs exposed steel and warehouse aesthetics with an open poolside deck and breezy rooftop terrace. Their brewing team takes creative liberties, delivering refreshing fruit ciders and crisp witbiers that go down remarkably smooth in Hyderabad's warm evenings.",
-    craftBeers: "Loki’s Wit, Adam’s Route Cider, House IPA, Belgian Blonde.",
-    whatToOrder: "Flight of four beers, Peri Peri Chicken Skewers, Crisp Calamari, Thin-Crust Pizzas.",
-    vibeTip: "Poolside deck tables during sunset are the prime seats. Great casual social atmosphere.",
-    quote: "“Forge's cider by the pool on a breezy evening is one of Jubilee Hills' most underrated chill experiences.”",
+      "Industrial warehouse design with an open poolside deck and breezy rooftop terrace overlooking Road 36.",
+    craftBeers: "Adam’s Route Cider, Loki’s Wit, House IPA",
+    whatToOrder: "Peri Peri Chicken Skewers, Thin-Crust Pizza, Craft Cider",
+    vibeTip: "Poolside deck tables during sunset are prime seats for a relaxed evening.",
   },
   {
     id: "redrhino",
@@ -241,94 +236,89 @@ const SPOTS = [
     tag: "Tech Belt Taproom",
     tagBg: "#f5f3ff",
     tagColor: "#6d28d9",
-    area: "Dallas Center, Financial District & Madhapur",
+    area: "Dallas Center, Financial District",
     href: "/spot/red-rhino-madhapur",
     photo: spotPhotoUrl("ChIJ97bwQweTyzsRdFUn0_v-2eA"),
     rating: "4.5",
-    reviews: "4,300+ Google reviews",
-    priceForTwo: "₹2,200 for two",
+    reviews: "4.3k reviews",
+    priceForTwo: "₹2,200 for 2",
     verdict:
-      "Originally famous in Bangalore, Red Rhino brought its celebrated craft beers to Hyderabad's tech corridors. Featuring sleek private dining booths, high ceilings, and a polished taproom, it's the undisputed gold standard for corporate teams in Raidurg and Financial District looking for top-flight IPAs.",
-    craftBeers: "Bangalore Daze IPA, Belgian Wit, Black Knight Stout, Soul Beetle.",
-    whatToOrder: "Bangalore Daze pint, Mezze Platter, Wood-Fired Margherita, Chilli Pork.",
-    vibeTip: "Ideal after-work corporate wind-down from 6 PM to 9 PM; transforms into a lively taproom later.",
-    quote: "“Bangalore Daze is genuinely one of the best IPAs in southern India. Having it on tap right at Dallas Center is a blessing for tech folks.”",
+      "Sleek tech-corridor taproom at Dallas Center pouring Bangalore Daze IPA, built for after-work team pints and IPAs.",
+    craftBeers: "Bangalore Daze IPA (top pick!), Belgian Wit, Black Knight Stout",
+    whatToOrder: "Bangalore Daze Pint, Mezze Platter, Wood-Fired Margherita, Chilli Pork",
+    vibeTip: "Peak after-work crowd from 6 PM to 9 PM; vibrant taproom vibe later.",
   },
   {
     id: "zythum",
     name: "Zythum Brewing Co.",
-    tag: "Egyptian Themed Alfresco",
+    tag: "Egyptian Themed Rooftop",
     tagBg: "#fef9c3",
     tagColor: "#854d0e",
     area: "Road No. 36, Jubilee Hills",
     href: "/spot/zythum-brewing-co-jubilee-hills",
     photo: spotPhotoUrl("ChIJ26RxOfiRyzsR8Q68u_UqP2Y"),
     rating: "4.5",
-    reviews: "3,800+ Google reviews",
-    priceForTwo: "₹2,000 for two",
+    reviews: "3.8k reviews",
+    priceForTwo: "₹2,000 for 2",
     verdict:
-      "Spanning three distinct floors with dramatic Egyptian-inspired murals and hieroglyphic accents, Zythum pairs expansive community seating with a breezy rooftop. Known for generous beer flights and reliable live musical performances on weekend nights.",
-    craftBeers: "Zythos Signature, Spaten Wheat, House Lager, Dark Dunkel.",
-    whatToOrder: "Zythos sampler, Loaded Nachos Grande, Spicy Chicken Tikka, Crispy Chilli Corn.",
-    vibeTip: "Top floor terrace is breezy and scenic; live acoustic singers often perform on Thursdays and Sundays.",
-    quote: "“Massive community tables and a great rooftop. The Spaten wheat beer is remarkably refreshing.”",
+      "Three-floor Egyptian-themed microbrewery with expansive community seating, rooftop breezes, and live music.",
+    craftBeers: "Spaten Wheat, Zythos Signature, Dark Dunkel",
+    whatToOrder: "Loaded Nachos Grande, Spicy Chicken Tikka, Crispy Chilli Corn",
+    vibeTip: "Top floor terrace is scenic; live acoustic singers perform Thursdays and Sundays.",
   },
   {
     id: "onegolf",
     name: "Onegolf Brewery",
-    tag: "Craft Beer & Golf Simulators",
+    tag: "Craft Beer & Golf Bays",
     tagBg: "#ecfdf5",
     tagColor: "#065f46",
     area: "Financial District / Gandipet",
     href: "/spot/onegolf-brewery-financial-district",
     photo: spotPhotoUrl("ChIJN3OZCzOTyzsRMnzgaAdgXKM"),
     rating: "4.3",
-    reviews: "7,100+ Google reviews",
-    priceForTwo: "₹2,500 for two",
+    reviews: "7.1k reviews",
+    priceForTwo: "₹2,500 for 2",
     verdict:
-      "A unique experiential brewery concept in Cyberabad that merges craft brewing with virtual golf simulator bays and expansive outdoor lawns. Perfect for active groups who want to swing clubs with a freshly poured Belgian Wit in hand.",
-    craftBeers: "Belgian Wit, German Wheat, House Amber, Craft Cider.",
-    whatToOrder: "Craft beer pitcher, Handcrafted Burgers, Loaded Fries, BBQ Chicken Wings.",
-    vibeTip: "Book a simulator bay ahead of time for weekend parties; lawn seating is great for large corporate groups.",
-    quote: "“Simulator golf combined with fresh craft beer is an absolute blast for weekend group outings.”",
+      "Virtual golf simulator bays meet microbrewery with massive outdoor lawns in Gandipet, great for active group hangouts.",
+    craftBeers: "Belgian Wit, German Wheat, Craft Cider",
+    whatToOrder: "Craft Beer Pitcher, Handcrafted Burgers, BBQ Chicken Wings",
+    vibeTip: "Book a simulator bay ahead on weekends; lawn seating is great for large groups.",
   },
   {
     id: "hoppery",
     name: "The Hoppery",
-    tag: "Lake Views & Garden Cottage",
+    tag: "Lake Views & Romantic Cottage",
     tagBg: "#f0fdf4",
     tagColor: "#15803d",
     area: "Road No. 36, Jubilee Hills",
     href: "/spot/the-hoppery-road-no-36-jh",
     photo: spotPhotoUrl("ChIJSfsvCFGRyzsRVVHDEqPTedg"),
     rating: "4.1",
-    reviews: "1,600+ Google reviews",
-    priceForTwo: "₹2,200 for two",
+    reviews: "1.6k reviews",
+    priceForTwo: "₹2,200 for 2",
     verdict:
-      "Perched beside Durgam Cheruvu on the Olive Bistro property, The Hoppery feels like a whimsical glasshouse and European garden pavilion. While smaller than the mega-breweries, its intimate sunset lake views and gourmet European menu make it a perennial romantic favorite.",
-    craftBeers: "House Witbier, Apple & Pear Cider, English Pale Ale.",
-    whatToOrder: "Craft Apple Cider, Truffle Fries, Artisanal Thin Crust Pizza, Grilled Fish.",
-    vibeTip: "Arrive around 5:30 PM for sunset over Durgam Cheruvu. The outdoor pavilion lights up gorgeously by dusk.",
-    quote: "“The lake view and glasshouse charm make this the prettiest boutique brewery in Jubilee Hills.”",
+      "Charming European glasshouse cottage perched beside Durgam Cheruvu lake. Best sunset date-night view in Jubilee Hills.",
+    craftBeers: "Apple & Pear Cider (signature), House Witbier, Pale Ale",
+    whatToOrder: "Apple & Pear Cider, Truffle Fries, Artisanal Thin Crust Pizza",
+    vibeTip: "Arrive around 5:30 PM for sunset over Durgam Cheruvu before the night rush.",
   },
   {
     id: "beercartel",
     name: "The Beer Cartel",
-    tag: "Office Corridor Quick Pints",
+    tag: "Knowledge Park Quick Pints",
     tagBg: "#fef2f2",
     tagColor: "#991b1b",
     area: "Sattva Knowledge Park, Raidurg",
     href: "/spot/the-beer-cartel",
     photo: spotPhotoUrl("ChIJEy_-QQCTyzsR_6KR4VJT4t8"),
     rating: "4.5",
-    reviews: "1,100+ Google reviews",
-    priceForTwo: "₹1,800 for two",
+    reviews: "1.1k reviews",
+    priceForTwo: "₹1,800 for 2",
     verdict:
-      "Strategically situated inside Sattva Knowledge Park, The Beer Cartel caters to the bustling Raidurg tech belt. Fast service, crisp craft lagers on tap, and hearty finger snacks make it the prime choice for quick team celebrations without sitting in cross-city traffic.",
-    craftBeers: "Craft Pilsner, Belgian Wit, Seasonal Fruit Brews.",
-    whatToOrder: "Cold beer flight, Butter Garlic Prawns, Cartel Chicken Wings, Masala Peanut chaat.",
-    vibeTip: "Peak crowds hit immediately between 5:30 PM and 8 PM as offices empty out.",
-    quote: "“The quickest, easiest place in Knowledge Park to grab fresh beers right after clocking out.”",
+      "Convenient taproom inside Knowledge Park for after-work craft lagers without battling cross-city traffic.",
+    craftBeers: "Craft Pilsner, Belgian Wit, Seasonal Fruit Brews",
+    whatToOrder: "Cold Beer Flight, Cartel Chicken Wings, Masala Peanut Chaat",
+    vibeTip: "Fills up quickly between 5:30 PM and 8 PM as nearby tech offices clock out.",
   },
 ];
 
@@ -481,7 +471,7 @@ export default function BestBreweriesGuidePage() {
                           padding: "2px 9px",
                         }}
                       >
-                        💬 {s.redditBadge}
+                        {s.redditBadge}
                       </span>
                     </div>
                   )}
@@ -530,41 +520,97 @@ export default function BestBreweriesGuidePage() {
                 </div>
               )}
 
-              <p className="review-prose" style={{ margin: "0 0 16px", fontSize: 15, lineHeight: 1.6, color: "var(--ink-soft, #333)" }}>
+              <p style={{ margin: "0 0 14px", fontSize: 14.5, lineHeight: 1.5, color: "var(--ink)" }}>
                 {s.verdict}
               </p>
 
-              <div style={{ background: "var(--cream)", border: "1px solid var(--line)", borderRadius: 10, padding: "14px 16px", marginBottom: 14 }}>
-                <div style={{ display: "flex", alignItems: "flex-start", gap: 6, fontSize: 13.5, color: "var(--ink)" }}>
-                  <strong style={{ color: "var(--violet)", flexShrink: 0 }}>🍺 On Tap:</strong>
-                  <span>{s.craftBeers}</span>
-                </div>
-                <div style={{ display: "flex", alignItems: "flex-start", gap: 6, fontSize: 13.5, color: "var(--ink)", marginTop: 6 }}>
-                  <Icon name="utensils" size={13} width={2} color="var(--ink-soft)" style={{ marginTop: 2, flexShrink: 0 }} />
-                  <span><strong style={{ color: "var(--ink)" }}>Must order food:</strong> {s.whatToOrder}</span>
-                </div>
-                <div style={{ display: "flex", alignItems: "flex-start", gap: 6, fontSize: 13, color: "var(--muted)", marginTop: 6 }}>
-                  <Icon name="clock" size={13} width={2} color="var(--muted)" style={{ marginTop: 2, flexShrink: 0 }} />
-                  <span><strong style={{ color: "var(--ink)" }}>Vibe &amp; seating tip:</strong> {s.vibeTip}</span>
-                </div>
-              </div>
-
-              <blockquote
+              <div
                 style={{
-                  margin: 0,
-                  padding: "10px 14px",
-                  borderRadius: 8,
-                  background: "var(--violet-wash)",
+                  background: "var(--cream)",
                   border: "1.5px solid var(--line)",
-                  fontFamily: "var(--font-fraunces), serif",
-                  fontSize: 14,
-                  fontStyle: "italic",
-                  lineHeight: 1.45,
-                  color: "var(--ink)",
+                  borderRadius: 12,
+                  padding: "14px 16px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 10,
                 }}
               >
-                {s.quote}
-              </blockquote>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
+                  <span
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 800,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.06em",
+                      color: "var(--violet)",
+                      minWidth: 84,
+                      flexShrink: 0,
+                    }}
+                  >
+                    On Tap
+                  </span>
+                  <span style={{ fontSize: 13.5, fontWeight: 600, color: "var(--ink)", lineHeight: 1.45 }}>
+                    {s.craftBeers}
+                  </span>
+                </div>
+
+                <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap", borderTop: "1px dashed var(--line)", paddingTop: 8 }}>
+                  <span
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 800,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.06em",
+                      color: "#c2410c",
+                      minWidth: 84,
+                      flexShrink: 0,
+                    }}
+                  >
+                    Must-Eat
+                  </span>
+                  <span style={{ fontSize: 13.5, fontWeight: 700, color: "var(--ink)", lineHeight: 1.45 }}>
+                    {s.whatToOrder}
+                  </span>
+                </div>
+
+                {s.vibeTip && (
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap", borderTop: "1px dashed var(--line)", paddingTop: 8 }}>
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 800,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.06em",
+                        color: "var(--muted)",
+                        minWidth: 84,
+                        flexShrink: 0,
+                      }}
+                    >
+                      Pro-Tip
+                    </span>
+                    <span style={{ fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.45 }}>
+                      {s.vibeTip}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              <Link
+                href={s.href}
+                className="site-cta"
+                style={{
+                  margin: "14px 0 0",
+                  width: "100%",
+                  textAlign: "center",
+                  display: "block",
+                  padding: "10px 16px",
+                  fontSize: 13,
+                  textDecoration: "none",
+                  boxSizing: "border-box",
+                }}
+              >
+                View on Map &amp; Menu →
+              </Link>
             </article>
           ))}
         </section>

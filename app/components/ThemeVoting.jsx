@@ -29,7 +29,7 @@ function totalVotes(results = [], localCounts = {}) {
 
 function campaignSharePayload(theme, results = []) {
   const slug = theme.slug || slugFromTitle(theme.title);
-  const url = `${window.location.origin}/race/this-week?dish=${encodeURIComponent(slug)}`;
+  const url = `${window.location.origin}/rankings/${encodeURIComponent(slug)}`;
   const voted = [...results]
     .filter((r) => (r.count || 0) > 0)
     .sort((a, b) => (b.count || 0) - (a.count || 0));
