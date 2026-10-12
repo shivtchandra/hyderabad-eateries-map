@@ -394,33 +394,6 @@ export default function DetailSheet({
               )}
             </div>
 
-            {/* Refined Bookmark Pill Button */}
-            <button
-              type="button"
-              onClick={() => onToggleSaved(eatery.id)}
-              aria-label={saved ? "Remove save" : "Save spot"}
-              style={{
-                width: 44,
-                height: 44,
-                borderRadius: "50%",
-                background: saved ? "#fbe3d5" : "#ffffff",
-                border: `1px solid ${saved ? "var(--violet)" : "var(--line)"}`,
-                boxShadow: "0 4px 14px rgba(15, 23, 42, 0.08)",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                transition: "all 150ms cubic-bezier(0.2, 0, 0, 1)",
-              }}
-            >
-              <Icon
-                name="bookmark"
-                size={18}
-                width={saved ? 0 : 2}
-                color={saved ? "#b8481a" : "var(--ink-soft)"}
-                style={saved ? { fill: "#b8481a" } : {}}
-              />
-            </button>
           </div>
 
           {/* Restaurant Identity: Name & Harmonious Subtitle */}
@@ -428,12 +401,13 @@ export default function DetailSheet({
             <h2
               style={{
                 margin: 0,
-                fontSize: 22,
-                fontWeight: 700,
-                fontFamily: "var(--font-outfit), sans-serif",
+                // Spot mockup: the name in big display type.
+                fontSize: 34,
+                fontWeight: 800,
+                fontFamily: "var(--font-display), system-ui, sans-serif",
                 color: "var(--ink)",
-                lineHeight: 1.22,
-                letterSpacing: "-0.025em",
+                lineHeight: 0.95,
+                letterSpacing: "-0.04em",
               }}
             >
               {eatery.name}
@@ -915,107 +889,50 @@ export default function DetailSheet({
           </div>
         </div>
 
-        {/* Card Sticky Footer / Action Bar */}
-        <div
-          style={{
-            flexShrink: 0,
-            padding: "14px 20px 18px",
-            borderTop: "1px solid var(--line)",
-            background: "#ffffff",
-            display: "flex",
-            flexDirection: "column",
-            gap: 9,
-          }}
-        >
-          {/* Primary Action Button: Luxury Obsidian Stamp CTA */}
+        {/* Footer, the Spot mockup: Directions is the one purple button, Save
+            and Share sit beside it, "I ate here" is a quiet row above. */}
+        <div className="sheet-footer">
           <button
+            type="button"
+            className={`sheet-ate${visited ? " is-done" : ""}`}
             onClick={() => (visited || !onAteHere ? onToggleVisited(eatery.id) : onAteHere(eatery.id))}
-            style={{
-              width: "100%",
-              height: 52,
-              fontSize: 16,
-              fontWeight: 700,
-              letterSpacing: "-0.01em",
-              // The one purple button on the sheet (DESIGN.md: one primary per screen).
-              borderRadius: "var(--r-btn)",
-              border: visited ? "1.5px solid #86efac" : "none",
-              background: visited ? "#f0fdf4" : "var(--violet)",
-              color: visited ? "#15803d" : "#ffffff",
-              boxShadow: visited ? "none" : "0 8px 22px -6px rgba(124, 58, 237, 0.45)",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 8,
-              transition: "transform 100ms ease, box-shadow 150ms ease",
-            }}
           >
-            <Icon
-              name={visited ? "check" : "ticket"}
-              size={18}
-              width={2.2}
-              color={visited ? "#15803d" : "#ffffff"}
-            />
-            {visited ? "You ate here ✓" : `I ate here${tier ? ` (+${tier.points} pts)` : ""}`}
+            <Icon name={visited ? "check" : "ticket"} size={18} width={2.2} color="currentColor" />
+            {visited ? "You ate here" : `I ate here · stamp your passport${tier ? ` (+${tier.points} pts)` : ""}`}
           </button>
-
-
-          {/* Secondary Action Row: Sleek Frosted Pills */}
-          <div style={{ display: "flex", gap: 8 }}>
+          <div className="sheet-actions">
             <a
               href={`https://www.google.com/maps/dir/?api=1&destination=${eatery.lat},${eatery.lng}`}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackEvent("directions")}
-              className="sheet-btn"
-              style={{
-                flex: 1,
-              }}
+              className="sheet-primary"
             >
-              <Icon name="navigate" size={14} width={2.1} color="var(--violet-deep)" /> Directions
+              Directions
             </a>
-
-            {eatery.phone && (
-              <a
-                href={`tel:${eatery.phone.replace(/\s/g, "")}`}
-                onClick={() => trackEvent("call")}
-                className="sheet-btn"
-                style={{
-                  padding: "0 14px",
-                }}
-              >
-                <Icon name="phone" size={14} width={2} color="var(--ink-soft)" /> Call
-              </a>
-            )}
-
+            <button
+              type="button"
+              onClick={() => onToggleSaved(eatery.id)}
+              aria-label={saved ? "Remove from saved" : "Save spot"}
+              aria-pressed={saved}
+              className={`sheet-icon${saved ? " is-on" : ""}`}
+            >
+              <Icon name="bookmark" size={20} width={2} color="currentColor" />
+            </button>
             <button
               type="button"
               onClick={handleShareClick}
-              className="sheet-btn"
-              style={{
-                padding: "0 14px",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 5,
-                cursor: "pointer",
-                color: shareCopied ? "#15803d" : "var(--ink-soft)",
-              }}
-              title="Share place card"
+              aria-label={shareCopied ? "Link copied" : "Share place"}
+              className={`sheet-icon${shareCopied ? " is-on" : ""}`}
             >
-              <Icon name={shareCopied ? "check" : "share"} size={14} width={2} color={shareCopied ? "#15803d" : "var(--violet-deep)"} />
-              <span>{shareCopied ? "Copied" : "Share"}</span>
+              <Icon name={shareCopied ? "check" : "share"} size={20} width={2} color="currentColor" />
             </button>
-
-            <a
-              href={`/spot/${encodeURIComponent(eatery.id)}`}
-              className="sheet-btn"
-              style={{
-                flex: 1,
-              }}
-            >
-              <Icon name="book" size={14} width={2} color="var(--ink-soft)" /> Full Page
-            </a>
+          </div>
+          <div className="sheet-more">
+            {eatery.phone && (
+              <a href={`tel:${eatery.phone.replace(/\s/g, "")}`} onClick={() => trackEvent("call")}>Call</a>
+            )}
+            <a href={`/spot/${encodeURIComponent(eatery.id)}`}>Full page</a>
           </div>
         </div>
       </div>

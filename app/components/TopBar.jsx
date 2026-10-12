@@ -17,6 +17,7 @@ const CATEGORY_META = {
 export default function TopBar({
   search, setSearch, searchOpen, setSearchOpen,
   searchResults = [], onSelectResult, onPreviewResult,
+  onFilters = null, filtersOpen = false, filterCount = 0,
 }) {
   const [added, setAdded] = useState(null); // name of a place just added from search
   useEffect(() => { setAdded(null); }, [search]);
@@ -27,79 +28,40 @@ export default function TopBar({
   }, [searchOpen]);
 
   return (
-    <div className="topbar" style={{ flexShrink: 0, padding: "10px 12px 6px", position: "relative", zIndex: 1400 }}>
-    <div
-      className="material"
-      style={{
-        height: "var(--topbar-h)",
-        display: "flex",
-        alignItems: "center",
-        gap: 9,
-        padding: "0 10px 0 12px",
-        borderRadius: "var(--r-pill)",
-        boxShadow: "var(--e2)",
-      }}
-    >
-      {searchOpen ? (
-        <>
-          <Icon name="search" size={19} color="var(--muted)" />
-          <input
-            ref={inputRef}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Escape") { setSearch(""); setSearchOpen(false); }
-              if (e.key === "Enter" && searchResults[0]) onSelectResult?.(searchResults[0]);
-            }}
-            role="combobox"
-            aria-expanded={search.trim().length > 0}
-            aria-controls="eatery-search-results"
-            aria-autocomplete="list"
-            placeholder="Search a dish or place, e.g. biryani"
-            style={{
-              flex: 1,
-              minWidth: 0,
-              height: 38,
-              border: "none",
-              outline: "none",
-              background: "transparent",
-              fontFamily: "var(--font-ui), sans-serif",
-              fontWeight: 500,
-              fontSize: 15,
-              color: "var(--ink)",
-            }}
-          />
-          <button
-            onClick={() => { setSearch(""); setSearchOpen(false); }}
-            className="pressable-sm" style={iconBtn}
-            aria-label="Close search"
-          >
-            <Icon name="close" size={17} color="var(--ink-soft)" />
-          </button>
-        </>
-      ) : (
-        <>
-          {/* Logo mark, biryani handi */}
-          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
-            <rect width="30" height="30" rx="9" fill="var(--violet)" />
-            {/* steam */}
-            <path d="M11 6.5 Q9.5 4.5 11 3.5" stroke="white" strokeWidth="1.6" strokeLinecap="round"/>
-            <path d="M15 6 Q13.5 4 15 3" stroke="white" strokeWidth="1.6" strokeLinecap="round"/>
-            <path d="M19 6.5 Q20.5 4.5 19 3.5" stroke="white" strokeWidth="1.6" strokeLinecap="round"/>
-            {/* dome lid */}
-            <path d="M9.5 13.5 Q9.5 8 15 7.5 Q20.5 8 20.5 13.5 Z" fill="white" opacity="0.95"/>
-            {/* knob */}
-            <circle cx="15" cy="7.8" r="1.5" fill="white"/>
-            {/* neck band */}
-            <rect x="8.5" y="12.5" width="13" height="2.5" rx="1.25" fill="white"/>
-            {/* wide belly */}
-            <path d="M8.5 15 Q6 15.5 5.5 18.5 Q5.5 23.5 15 24 Q24.5 23.5 24.5 18.5 Q24 15.5 21.5 15 Z" fill="white" opacity="0.95"/>
-            {/* base ring */}
-            <ellipse cx="15" cy="24" rx="6" ry="1.4" fill="white" opacity="0.65"/>
-          </svg>
-          {/* Search-first: the whole bar is the search box. Rankings moved to
-              the Vote tab and the spot count moved out (it showed the filtered
-              count, which read as a different number on every screen). */}
+    <div className="topbar" style={{ flexShrink: 0, padding: "12px 16px 8px", position: "relative", zIndex: 1400 }}>
+    {/* Mockup row: logo tile, search pill, Filters button (map tab only). */}
+    <div className="topbar-row">
+      {!searchOpen && (
+        <span className="topbar-logo" role="img" aria-label="Hyderabad Eats">E</span>
+      )}
+      <div className="topbar-pill">
+        {searchOpen ? (
+          <>
+            <Icon name="search" size={19} color="var(--muted)" />
+            <input
+              ref={inputRef}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Escape") { setSearch(""); setSearchOpen(false); }
+                if (e.key === "Enter" && searchResults[0]) onSelectResult?.(searchResults[0]);
+              }}
+              role="combobox"
+              aria-expanded={search.trim().length > 0}
+              aria-controls="eatery-search-results"
+              aria-autocomplete="list"
+              placeholder="Search a dish, place or area"
+              className="topbar-input"
+            />
+            <button
+              onClick={() => { setSearch(""); setSearchOpen(false); }}
+              className="pressable-sm" style={iconBtn}
+              aria-label="Close search"
+            >
+              <Icon name="close" size={17} color="var(--ink-soft)" />
+            </button>
+          </>
+        ) : (
           <button
             type="button"
             onClick={() => setSearchOpen(true)}
@@ -109,7 +71,19 @@ export default function TopBar({
             <Icon name="search" size={19} color="var(--ink-soft)" />
             <span>Biryani, cafes, an area</span>
           </button>
-        </>
+        )}
+      </div>
+      {!searchOpen && onFilters && (
+        <button
+          type="button"
+          onClick={onFilters}
+          aria-expanded={filtersOpen}
+          aria-label={filterCount > 0 ? `Filters, ${filterCount} on` : "Filters"}
+          className={`topbar-filter pressable-sm${filtersOpen || filterCount > 0 ? " is-lit" : ""}`}
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8" /><circle cx="16" cy="7" r="2" /><circle cx="10" cy="17" r="2" /></svg>
+          {filterCount > 0 && <span className="topbar-filter-badge">{filterCount}</span>}
+        </button>
       )}
     </div>
 

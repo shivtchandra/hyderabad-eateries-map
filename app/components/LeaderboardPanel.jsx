@@ -5,7 +5,7 @@ import { ensureUser, getUid, getName, setName as saveName } from "../../lib/iden
 import { fetchLeaderboard } from "../../lib/leaderboard.js";
 import ThemeVoting from "./ThemeVoting.jsx";
 import { fetchCurrentTheme } from "../../lib/themeVoting.js";
-import { Icon, Wave, Squiggles } from "./Icons.jsx";
+import { Icon } from "./Icons.jsx";
 import { TIERS } from "../../lib/eateryUtils.js";
 
 // The gameboard. Ranks players by points earned checking in at spots. Points
@@ -87,99 +87,41 @@ export default function LeaderboardPanel({
 
   return (
     <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", background: "var(--cream)", scrollPaddingTop: 56 }}>
-      {/* Purple top band on both tabs so Race / This Week feel like one surface */}
-      <div style={{ background: "var(--violet)", position: "relative", paddingTop: 24, overflow: "hidden" }}>
-        <div style={{ position: "absolute", inset: "-10% -5% 30%", opacity: 0.26, pointerEvents: "none" }}>
-          <Squiggles color="var(--cream-hi)" opacity={1} />
-        </div>
-        <div style={{ textAlign: "center", padding: "0 16px 4px", position: "relative" }}>
-          {innerTab === "race" ? (
-            <>
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "var(--cream-hi)" }}>
-                <Icon name="trophy" size={22} width={1.9} />
-                <span className="groovy" style={{ fontSize: 30, lineHeight: 1 }}>The Race</span>
-              </div>
-              <div style={{ marginTop: 16, marginBottom: 4 }}>
-                {me ? (
-                  <>
-                    <div className="groovy" style={{ fontSize: 60, lineHeight: 0.9, color: "var(--cream-hi)", textShadow: "0 3px 0 rgba(20, 20, 20,.2)" }}>
-                      #{me.rank}
-                    </div>
-                    <div style={{ fontSize: 12.5, color: "var(--cream-hi)", opacity: 0.9, marginTop: 6, fontWeight: 600 }}>
-                      {me.score} pts · {me.covered} claimed · {topArea(me.areas)}
-                    </div>
-                  </>
-                ) : (
-                  <div style={{ color: "var(--cream-hi)", padding: "8px 20px 4px" }}>
-                    <div className="groovy" style={{ fontSize: 26, lineHeight: 1.05 }}>
-                      Not in the race yet
-                    </div>
-                    <div style={{ fontSize: 12.5, opacity: 0.9, marginTop: 8, fontWeight: 500, lineHeight: 1.45 }}>
-                      Open any spot you ate at and tap <b>I ate here</b>. One tap stamps your passport and scores Race points.
-                    </div>
-                    {onOpenClaim && (
-                      <button
-                        type="button"
-                        onClick={onOpenClaim}
-                        className="pressable-sm"
-                        style={{
-                          marginTop: 12,
-                          background: "#fff",
-                          color: "var(--violet-deep)",
-                          border: "none",
-                          borderRadius: "var(--r-pill)",
-                          padding: "8px 18px",
-                          fontWeight: 750,
-                          fontSize: 13.5,
-                          cursor: "pointer",
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 6,
-                          boxShadow: "0 4px 14px rgba(0,0,0,0.18)",
-                        }}
-                      >
-                        <Icon name="trophy" size={15} width={2.2} color="var(--violet-deep)" />
-                        Claim a spot you ate at
-                      </button>
-                    )}
-                  </div>
-                )}
-              </div>
-              <RaceShare me={me} />
-            </>
-          ) : (
-            <>
-              {/* Dish name lives on the challenge card below; hero stays a short label. */}
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "var(--cream-hi)", padding: "0 20px" }}>
-                <Icon name="crown" size={20} width={1.9} />
-                <span className="groovy" style={{ fontSize: 26, lineHeight: 1.1 }}>This Week</span>
-              </div>
-            </>
-          )}
-        </div>
-        <Wave height={innerTab === "theme" ? 24 : 44} color="var(--cream)" style={{ marginTop: innerTab === "theme" ? 6 : 10 }} />
-      </div>
-
-      {/* Tab switcher */}
-      <div ref={tabsRef} style={{ display: "flex", gap: 6, padding: "10px 16px 12px", background: "var(--cream)", position: "sticky", top: 0, zIndex: 30, boxShadow: "0 1px 0 var(--line)" }}>
-        {[["theme", "crown", "This Week"], ["race", "trophy", "The Race"]].map(([key, icon, label]) => (
+      {/* Plain segments on paper (Vote mockup), no colour band. */}
+      <div ref={tabsRef} className="vote-switch" role="tablist" aria-label="Vote">
+        {[["theme", "This week"], ["race", "The race"]].map(([key, label]) => (
           <button
             key={key}
+            type="button"
+            role="tab"
+            aria-selected={innerTab === key}
             onClick={() => selectInnerTab(key)}
-            style={{
-              flex: 1, height: 38, display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-              border: "none", borderRadius: "var(--r-pill)",
-              background: innerTab === key ? "var(--violet)" : "var(--cream)",
-              color: innerTab === key ? "#fff" : "var(--muted)",
-              fontWeight: 700, fontSize: 13, cursor: "pointer",
-              boxShadow: innerTab === key ? "0 2px 8px rgba(124,58,237,0.3)" : "var(--e1)",
-            }}
+            className={`vote-switch-tab${innerTab === key ? " is-active" : ""}`}
           >
-            <Icon name={icon} size={15} width={1.9} />
             {label}
           </button>
         ))}
       </div>
+
+      {innerTab === "race" && (
+        <div className="race-hero">
+          <h2 className="race-title">The race</h2>
+          {me ? (
+            <>
+              <div className="race-rank">#{me.rank}</div>
+              <p className="race-meta">{me.score} pts · {me.covered} claimed · {topArea(me.areas)}</p>
+            </>
+          ) : (
+            <>
+              <p className="race-meta">Open any spot you ate at and tap <b>I ate here</b>. One tap stamps your passport and scores race points.</p>
+              {onOpenClaim && (
+                <button type="button" onClick={onOpenClaim} className="race-claim">Claim a spot you ate at</button>
+              )}
+            </>
+          )}
+          <RaceShare me={me} />
+        </div>
+      )}
 
       {innerTab === "theme" && <div style={{ paddingBottom: 120, paddingTop: 8 }}><ThemeVoting initialDishSlug={initialDishSlug} /></div>}
 
@@ -435,12 +377,12 @@ function RaceShare({ me }) {
       style={{
         marginTop: 12, marginBottom: 2, height: 34, padding: "0 16px",
         display: "inline-flex", alignItems: "center", gap: 6,
-        border: "1px solid rgba(255,255,255,0.35)", borderRadius: "var(--r-pill)",
-        background: "rgba(255,255,255,0.16)", color: "#fff",
+        border: "none", borderRadius: "var(--r-pill)",
+        background: "var(--cream-hi)", color: "var(--ink)", boxShadow: "var(--e1)",
         fontWeight: 700, fontSize: 13, cursor: "pointer",
       }}
     >
-      <Icon name={state === "copied" ? "check" : "share"} size={14} width={2} color="#fff" />
+      <Icon name={state === "copied" ? "check" : "share"} size={14} width={2} color="currentColor" />
       {state === "copied" ? "Link copied" : me ? "Share my rank" : "Invite friends"}
     </button>
   );

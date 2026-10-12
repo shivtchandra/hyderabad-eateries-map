@@ -298,23 +298,6 @@ button { font-family: inherit; }
   box-shadow: 0 0 0 2px var(--cream-hi);
 }
 
-/* ---- You tab switcher: Saved / Passport / Route ---- */
-.you-tabs {
-  flex-shrink: 0; position: relative; z-index: 20;
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s2);
-  padding: var(--s1) var(--s4) var(--s3);
-}
-.you-tab {
-  min-width: 0; height: 40px; padding: 0 var(--s2);
-  border: 0; border-radius: var(--r-pill);
-  background: var(--cream-hi); color: var(--ink);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  font-size: 14px; font-weight: 600; cursor: pointer;
-  box-shadow: var(--e1);
-}
-.you-tab.is-active { background: var(--violet); color: #fff; }
-.you-tab:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
-
 /* ---- Top bar search pill (collapsed state) ---- */
 .topbar-search {
   flex: 1; min-width: 0; height: 44px;
@@ -930,7 +913,125 @@ button { font-family: inherit; }
   .bottomnav:not(.bottomnav-site) .bottomnav-tab { border-radius: var(--r-btn); }
   .bottomnav:not(.bottomnav-site) .bottomnav-tab.is-active { background: var(--violet-wash); }
   .bottomnav-site { display: none; }
-  .you-tabs { max-width: 520px; }
   .topbar { width: 100%; max-width: 620px; }
   .vote-card { left: var(--s6); right: auto; width: 420px; margin: 0; }
 }
+
+/* ---- App top bar (TopBar.jsx): logo tile, search pill, Filters button ---- */
+.topbar-row { display: flex; align-items: center; gap: var(--s2); }
+.topbar-logo { flex-shrink: 0; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 18px; background: var(--violet); color: #fff; font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 26px; letter-spacing: -0.04em; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3); }
+.topbar-pill {
+  flex: 1; min-width: 0; height: 52px;
+  display: flex; align-items: center; gap: 10px;
+  padding: 0 var(--s2) 0 var(--s4);
+  background: var(--cream-hi); border-radius: var(--r-pill); box-shadow: var(--e2);
+}
+.topbar-input { flex: 1; min-width: 0; height: 40px; border: 0; outline: none; background: transparent; font: 500 16px var(--font-ui), sans-serif; color: var(--ink); }
+.topbar-filter {
+  flex-shrink: 0; position: relative; width: 52px; height: 52px;
+  display: grid; place-items: center; border: 0; border-radius: var(--r-pill);
+  background: var(--cream-hi); color: var(--ink); box-shadow: var(--e2); cursor: pointer;
+  transition: background var(--dur-2) ease, color var(--dur-2) ease;
+}
+.topbar-filter.is-lit { background: var(--violet); color: #fff; }
+.topbar-filter:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+.topbar-filter-badge { position: absolute; top: -3px; right: -3px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: var(--r-pill); background: var(--yellow); color: var(--ink); font-size: 11px; font-weight: 700; line-height: 18px; text-align: center; }
+
+/* ---- You hub (YouHub.jsx), the "You" mockup ---- */
+.you-hub { flex: 1; overflow-y: auto; background: var(--cream); padding: var(--s5) var(--gutter) var(--s9); display: flex; flex-direction: column; gap: var(--s7); }
+.you-hub-title { margin: 0; font-size: 60px; line-height: 0.9; letter-spacing: -0.045em; color: var(--ink); }
+.you-passport { display: flex; flex-direction: column; gap: var(--s3); width: 100%; padding: var(--s6); border: 0; border-radius: var(--r-sheet); background: var(--violet); color: #fff; text-align: left; cursor: pointer; }
+.you-passport:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+.you-passport-top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s3); }
+.you-passport-kicker { display: block; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--violet-wash); }
+.you-passport-count { display: flex; align-items: baseline; gap: var(--s2); margin-top: var(--s1); font-size: 17px; font-weight: 500; }
+.you-passport-count b { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 64px; line-height: 0.9; letter-spacing: -0.04em; }
+.you-passport-go { flex-shrink: 0; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 16px; background: var(--yellow); color: var(--ink); }
+.you-passport-note { font-size: 15px; line-height: 1.45; color: var(--violet-wash); }
+.you-hub-section { display: flex; flex-direction: column; gap: var(--s3); }
+.you-hub-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s3); }
+.you-hub-head h2 { margin: 0; font-size: 28px; line-height: 1; letter-spacing: -0.03em; color: var(--ink); }
+.you-hub-more { border: 0; background: none; color: var(--violet-deep); font-size: 15px; font-weight: 600; cursor: pointer; padding: var(--s2) 0; }
+.you-saved-empty { display: flex; align-items: center; gap: var(--s4); }
+.you-saved-empty .empty-sticker { margin: 0; flex-shrink: 0; }
+.you-saved-empty > span:last-child { display: flex; flex-direction: column; gap: 2px; font-size: 15px; color: var(--ink-soft); }
+.you-saved-empty b { font-size: 17px; color: var(--ink); }
+.you-links { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line); }
+.you-link { width: 100%; display: flex; align-items: center; gap: var(--s3); min-height: 68px; padding: var(--s3) 0; border: 0; border-top: 1px solid var(--line); background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
+.you-link > span:first-child { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.you-link b { font-size: 18px; font-weight: 600; }
+.you-link > span:first-child > span { font-size: 14px; color: var(--muted); }
+.you-link:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; border-radius: var(--r-xs); }
+.you-arrow { flex-shrink: 0; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 12px; background: var(--violet-wash); color: var(--violet-deep); }
+.you-link:hover .you-arrow { background: var(--violet); color: #fff; }
+.you-back-row { flex-shrink: 0; display: flex; align-items: center; gap: var(--s3); padding: var(--s1) var(--gutter) var(--s3); }
+.you-back { display: inline-flex; align-items: center; gap: 2px; min-height: 40px; padding: 0 var(--s3) 0 var(--s2); border: 0; border-radius: var(--r-pill); background: var(--cream-hi); color: var(--ink); font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: var(--e1); }
+.you-back:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+.you-back-title { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.03em; color: var(--ink); }
+
+/* ---- Vote tab hero (ThemeVoting.jsx), the Vote mockup ---- */
+.vote-hero { padding: var(--s2) var(--gutter) var(--s6); display: flex; flex-direction: column; gap: var(--s3); }
+.vote-hero-top { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); }
+.vote-kicker { display: inline-flex; align-items: center; gap: var(--s2); font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); }
+.vote-kicker-dot { width: 8px; height: 8px; border-radius: var(--r-pill); background: var(--violet); box-shadow: 0 0 0 4px var(--violet-wash); }
+.vote-share { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 var(--s4); border: 0; border-radius: var(--r-pill); background: var(--cream-hi); color: var(--ink); font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: var(--e1); }
+.vote-question { margin: 0; font-size: clamp(40px, 11vw, 64px); line-height: 0.92; letter-spacing: -0.045em; color: var(--ink); }
+.vote-debate { margin: 0; font-size: 17px; font-weight: 500; color: var(--ink); }
+.vote-desc { margin: 0; font-size: 15px; line-height: 1.45; color: var(--ink-soft); }
+.vote-hero-foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4); }
+.vote-voted { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 var(--s3); border-radius: var(--r-pill); background: var(--violet-wash); color: var(--violet-deep); font-size: 13px; font-weight: 700; }
+.vote-full-link { color: var(--violet-deep); font-size: 15px; font-weight: 600; }
+.vote-share:focus-visible, .vote-full-link:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+
+/* ---- Vote tab switcher + race header (LeaderboardPanel.jsx) ---- */
+.vote-switch { position: sticky; top: 0; z-index: 30; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s2); padding: var(--s3) var(--gutter); background: var(--cream); }
+.vote-switch-tab { height: 44px; border: 0; border-radius: var(--r-pill); background: var(--cream-hi); color: var(--ink); font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: var(--e1); }
+.vote-switch-tab.is-active { background: var(--violet); color: #fff; box-shadow: none; }
+.vote-switch-tab:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+.race-hero { padding: var(--s3) var(--gutter) var(--s6); display: flex; flex-direction: column; align-items: flex-start; gap: var(--s3); }
+.race-title { margin: 0; font-size: clamp(40px, 11vw, 60px); line-height: 0.92; letter-spacing: -0.045em; color: var(--ink); }
+.race-rank { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 80px; line-height: 0.9; letter-spacing: -0.04em; color: var(--violet); }
+.race-meta { margin: 0; font-size: 16px; line-height: 1.5; color: var(--ink-soft); max-width: 420px; }
+.race-claim { min-height: 52px; padding: 0 var(--s6); border: 0; border-radius: var(--r-btn); background: var(--violet); color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; }
+.vote-list { margin: 0 var(--gutter) var(--s6); padding: 0 var(--s4); background: var(--cream-hi); border-radius: var(--r-card); }
+.vote-row { display: flex; align-items: center; gap: var(--s3); min-height: 68px; padding: var(--s3) 0; border-top: 1px solid var(--line); }
+.vote-row:first-child { border-top: 0; }
+.vote-row.is-crown, .vote-row.is-lead { margin: 0 calc(-1 * var(--s4)); padding: var(--s3) var(--s4); border-top: 0; }
+.vote-row.is-crown { background: var(--yellow); border-radius: var(--r-card) var(--r-card) 0 0; }
+.vote-row.is-lead { background: var(--violet-wash); border-radius: var(--r-card) var(--r-card) 0 0; }
+.vote-rank { width: 32px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.03em; color: var(--violet); }
+.vote-row.is-crown .vote-rank { color: var(--ink); }
+.vote-name { font-size: 17px; font-weight: 600; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vote-count { margin-top: 2px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.vote-row.is-crown .vote-count { color: var(--ink-soft); }
+.vote-row-btn { flex-shrink: 0; min-height: 44px; padding: 0 var(--s4); border: 2px solid var(--violet); border-radius: var(--r-btn); background: transparent; color: var(--violet-deep); font-size: 15px; font-weight: 700; cursor: pointer; }
+.vote-row.is-crown .vote-row-btn { border-color: var(--ink); color: var(--ink); }
+.vote-row-btn:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+.vote-row-voted { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; min-height: 36px; padding: 0 var(--s3); border-radius: var(--r-pill); background: var(--violet-wash); color: var(--violet-deep); font-size: 13px; font-weight: 700; }
+
+/* ---- Spot sheet footer (DetailSheet.jsx), the Spot mockup ---- */
+.sheet-footer { flex-shrink: 0; display: flex; flex-direction: column; gap: var(--s3); padding: var(--s3) var(--s5) var(--s4); background: var(--cream-hi); border-top: 1px solid var(--line); }
+.sheet-ate { align-self: flex-start; display: inline-flex; align-items: center; gap: var(--s2); min-height: 44px; padding: 0 var(--s1); border: 0; background: none; color: var(--ink); font-size: 15px; font-weight: 600; cursor: pointer; }
+.sheet-ate svg { color: var(--forest); }
+.sheet-ate.is-done { color: var(--forest); }
+.sheet-actions { display: flex; gap: var(--s2); }
+.sheet-primary { flex: 1; display: inline-flex; align-items: center; justify-content: center; min-height: 56px; border-radius: var(--r-btn); background: var(--violet); color: #fff; font-size: 17px; font-weight: 700; text-decoration: none; transition: background var(--dur-2) ease; }
+.sheet-primary:hover { background: var(--violet-deep); }
+.sheet-icon { flex-shrink: 0; width: 56px; height: 56px; display: grid; place-items: center; border: 0; border-radius: var(--r-btn); background: var(--cream); color: var(--ink); cursor: pointer; transition: background var(--dur-2) ease, color var(--dur-2) ease; }
+.sheet-icon.is-on { background: var(--violet-wash); color: var(--violet-deep); }
+.sheet-more { display: flex; gap: var(--s5); }
+.sheet-more a { color: var(--ink-soft); font-size: 14px; font-weight: 600; text-decoration: none; min-height: 32px; display: inline-flex; align-items: center; }
+.sheet-more a:hover { color: var(--ink); }
+.sheet-ate:focus-visible, .sheet-primary:focus-visible, .sheet-icon:focus-visible, .sheet-more a:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; border-radius: var(--r-xs); }
+
+/* ---- Map chrome (mockup): search row and chips float over the map ---- */
+.map-chrome { position: absolute; top: env(safe-area-inset-top, 0px); left: 0; right: 0; z-index: 1400; pointer-events: none; }
+.map-chrome > * { pointer-events: auto; }
+.map-chips { background: transparent; }
+.map-chips .chip-rail { padding-left: var(--s4) !important; }
+.map-chips .chip-rail > button { height: 40px; padding: 0 var(--s4) !important; font-size: 15px !important; box-shadow: var(--e1); }
+.map-chips .chip-rail > button[aria-pressed="false"] { background: var(--cream-hi) !important; color: var(--ink) !important; }
+.filters-panel { display: flex; flex-direction: column; gap: var(--s4); margin: 0 var(--s4); padding: var(--s4); background: var(--cream-hi); border-radius: var(--r-card); box-shadow: var(--e3); max-height: 60dvh; overflow-y: auto; }
+.material .filters-panel { margin: 0; border-radius: 0; box-shadow: none; border-top: 1px solid var(--line); }
+/* Things pinned to the top of the map sit below the floating chrome. */
+.vote-card { top: 140px; }

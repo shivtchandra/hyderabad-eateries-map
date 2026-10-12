@@ -43,8 +43,8 @@ export default function PageSkeleton({ variant = "list" }) {
         <div className="site-header-inner">
           <SiteNav />
           <div className="site-hero">
-            <Sk w="72%" h={40} r={12} onViolet />
-            <Sk w="44%" h={16} onViolet style={{ marginTop: 14 }} />
+            <Sk w="72%" h={48} r={12} />
+            <Sk w="44%" h={16} style={{ marginTop: 14 }} />
           </div>
         </div>
       </header>

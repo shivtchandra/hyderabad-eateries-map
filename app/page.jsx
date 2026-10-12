@@ -13,7 +13,7 @@ const RACE_REQUIRE_GPS = process.env.NEXT_PUBLIC_RACE_REQUIRE_GPS === "1";
 const MapCanvas = dynamic(() => import("./components/MapCanvas.jsx"), { ssr: false });
 import CardRail from "./components/CardRail.jsx";
 import TopBar from "./components/TopBar.jsx";
-import FilterChips from "./components/FilterChips.jsx";
+import FilterChips, { countActiveFilters } from "./components/FilterChips.jsx";
 import DetailSheet from "./components/DetailSheet.jsx";
 import StampSheet from "./components/StampSheet.jsx";
 import StickerStudio from "./components/StickerStudio.jsx";
@@ -21,6 +21,7 @@ import StickerBook from "./components/StickerBook.jsx";
 import { stickerList } from "../lib/stickers.js";
 import PassportPanel from "./components/PassportPanel.jsx";
 import SavedPanel from "./components/SavedPanel.jsx";
+import YouHub from "./components/YouHub.jsx";
 import LeaderboardPanel from "./components/LeaderboardPanel.jsx";
 import BottomNav from "./components/BottomNav.jsx";
 import RoutePanel from "./components/RoutePanel.jsx";
@@ -94,6 +95,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     pushAppPath(nextTab === "map" ? "/" : `/?tab=${nextTab}`);
   };
   const [activeTags, setActiveTags] = useState([]);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const [openNowOnly, setOpenNowOnly] = useState(false);
   const [search, setSearch] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
@@ -144,7 +146,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
     const t = p.get("tab");
-    if (t && ["map", "passport", "saved", "race", "route"].includes(t)) setTab(t);
+    if (t && ["map", "you", "passport", "saved", "race", "route"].includes(t)) setTab(t);
     const d = p.get("dish");
     if (d) {
       setUrlDish(d);
@@ -200,7 +202,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
         setTab("race");
       } else if (path === "/") {
         const q = new URLSearchParams(window.location.search).get("tab");
-        if (q && ["map", "passport", "saved", "race"].includes(q)) setTab(q);
+        if (q && ["map", "you", "passport", "saved", "race"].includes(q)) setTab(q);
         else setTab("map");
       }
     };
@@ -709,53 +711,55 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
       <h1 style={{ position: "absolute", width: 1, height: 1, margin: -1, padding: 0, overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap", border: 0 }}>
         Hyderabad food map and community rankings
       </h1>
-      <TopBar
-        search={search} setSearch={setSearch}
-        searchOpen={searchOpen} setSearchOpen={setSearchOpen}
-        searchResults={searchResults} onSelectResult={handleSearchSelect}
-        onPreviewResult={loadDetail}
-      />
-
-      {/* You tab: saved spots, passport, stickers and the route planner share
-          one tab, switched here (one level, no tabs inside tabs). */}
-      {(tab === "saved" || tab === "passport" || tab === "route") && (
-        <div className="you-tabs" role="tablist" aria-label="You">
-          {[
-            { k: "saved", label: "Saved", active: tab === "saved", go: () => goTab("saved") },
-            { k: "passport", label: "Passport", active: tab === "passport" && passportTab === "passport", go: () => { setPassportTab("passport"); goTab("passport"); } },
-            { k: "stickers", label: stickerCount > 0 ? `Stickers ${stickerCount}` : "Stickers", active: tab === "passport" && passportTab === "stickers", go: () => { setPassportTab("stickers"); goTab("passport"); } },
-            { k: "route", label: "Route", active: tab === "route", go: () => goTab("route") },
-          ].map((t) => (
-            <button
-              key={t.k}
-              type="button"
-              role="tab"
-              aria-selected={t.active}
-              className={`you-tab${t.active ? " is-active" : ""}`}
-              onClick={t.go}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
-      )}
-
+      {/* Map tab only (mockup): search and chips float over the map. Vote,
+          Guides and You open on their own big titles instead. */}
       {tab === "map" && (
-        <FilterChips
-          curatedEnabled={curatedEnabled} recommendedOnly={recommendedOnly} setRecommendedOnly={setRecommendedOnly}
-          recommendationDish={recommendationDish} setRecommendationDish={setRecommendationDish}
-          recommendationDishes={recommendationDishOptions}
-          activeCategory={activeCategory} setActiveCategory={setActiveCategory}
-          activeTags={activeTags} toggleTag={toggleTag}
-          openNowOnly={openNowOnly} setOpenNowOnly={setOpenNowOnly}
-          openNowLoading={allDetailsStatus === "loading"}
-          tagCounts={tagCounts}
-          userLoc={userLoc} nearbyOnly={nearbyOnly} setNearbyOnly={setNearbyOnly} nearbyArea={nearbyArea}
-          newOnly={newOnly} setNewOnly={setNewOnly}
-          safetyOnly={safetyOnly} setSafetyOnly={setSafetyOnly} safetyCount={Object.keys(safetyMap).length}
-          localsOnly={localsOnly} setLocalsOnly={setLocalsOnly} localsCount={Object.keys(localsMap).length}
-          showAll={showAll} setShowAll={setShowAll} hiddenCount={hiddenCount}
+        <div className="map-chrome">
+        <TopBar
+          search={search} setSearch={setSearch}
+          searchOpen={searchOpen} setSearchOpen={setSearchOpen}
+          searchResults={searchResults} onSelectResult={handleSearchSelect}
+          onPreviewResult={loadDetail}
+          onFilters={tab === "map" ? () => setFiltersOpen((v) => !v) : null}
+          filtersOpen={filtersOpen}
+          filterCount={countActiveFilters({
+            openNowOnly, activeTags, nearbyOnly, newOnly, safetyOnly, localsOnly,
+            activeDish: recommendationDishOptions.find((d) => d.id === recommendationDish),
+            curatedEnabled, recommendedOnly, hiddenCount, showAll,
+          })}
         />
+
+        {/* Sub-pages of the You hub get one way back, not a second tab bar. */}
+        {(tab === "saved" || tab === "passport" || tab === "route") && (
+          <div className="you-back-row">
+            <button type="button" className="you-back" onClick={() => goTab("you")}>
+              <Icon name="chevronDown" size={18} width={2.2} style={{ transform: "rotate(90deg)" }} />
+              You
+            </button>
+            {tab !== "saved" && (
+              <span className="you-back-title">
+                {tab === "route" ? "Food on your route" : passportTab === "stickers" ? "Sticker book" : "Passport"}
+              </span>
+            )}
+          </div>
+        )}
+          <FilterChips
+            curatedEnabled={curatedEnabled} recommendedOnly={recommendedOnly} setRecommendedOnly={setRecommendedOnly}
+            recommendationDish={recommendationDish} setRecommendationDish={setRecommendationDish}
+            recommendationDishes={recommendationDishOptions}
+            activeCategory={activeCategory} setActiveCategory={setActiveCategory}
+            activeTags={activeTags} toggleTag={toggleTag}
+            openNowOnly={openNowOnly} setOpenNowOnly={setOpenNowOnly}
+            openNowLoading={allDetailsStatus === "loading"}
+            tagCounts={tagCounts}
+            userLoc={userLoc} nearbyOnly={nearbyOnly} setNearbyOnly={setNearbyOnly} nearbyArea={nearbyArea}
+            newOnly={newOnly} setNewOnly={setNewOnly}
+            safetyOnly={safetyOnly} setSafetyOnly={setSafetyOnly} safetyCount={Object.keys(safetyMap).length}
+            localsOnly={localsOnly} setLocalsOnly={setLocalsOnly} localsCount={Object.keys(localsMap).length}
+            showAll={showAll} setShowAll={setShowAll} hiddenCount={hiddenCount}
+            filtersOpen={filtersOpen} setFiltersOpen={setFiltersOpen} hideFiltersButton
+          />
+        </div>
       )}
 
       <div style={{ flex: 1, position: "relative", minHeight: 0, display: "flex", flexDirection: "column" }}>
@@ -798,6 +802,20 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
             refreshTick={diaryTick}
             stampCount={visitedCount}
             onOpenClaim={() => setQuickClaimOpen(true)}
+          />
+        )}
+        {tab === "you" && (
+          <YouHub
+            visitedCount={visitedCount}
+            saved={eateries.filter((e) => passport.saved[e.id])}
+            stickerCount={stickerCount}
+            onSelectSpot={openFromList}
+            onOpen={(what) => {
+              if (what === "passport" || what === "stickers") { setPassportTab(what === "stickers" ? "stickers" : "passport"); goTab("passport"); }
+              else if (what === "leaderboard") openRaceView("race");
+              else if (what === "add") setSuggestOpen("form");
+              else goTab(what);
+            }}
           />
         )}
         {tab === "passport" && (
@@ -920,7 +938,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
               <button
                 onClick={() => { setAreaLabel(null); setSelectedId(null); mapApi.current?.reset(); }}
                 style={{
-                  position: "absolute", top: 12, left: 12, zIndex: 1000,
+                  position: "absolute", top: 140, left: 16, zIndex: 1000,
                   background: "var(--cream-hi)", border: "1.5px solid var(--line)",
                   borderRadius: 20, padding: "7px 13px", cursor: "pointer",
                   fontSize: 12.5, fontWeight: 600, color: "var(--ink)",

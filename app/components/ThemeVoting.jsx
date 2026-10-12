@@ -26,6 +26,33 @@ function totalVotes(results = [], localCounts = {}) {
   return results.reduce((sum, r) => sum + (localCounts[r.spotId] ?? r.count ?? 0), 0);
 }
 
+// "Best Ice Cream in Hyderabad" reads as a label; the reels open on the
+// question ("Hyderabad's best ice cream?"), so the Vote tab does too.
+function voteHook(title = "") {
+  const m = title.match(/^best (.+?) in hyderabad$/i);
+  return m ? `Hyderabad’s best ${m[1].toLowerCase()}?` : title;
+}
+
+function endLabel(endDate) {
+  if (!endDate) return "";
+  const d = new Date(`${endDate}T12:00:00`);
+  if (Number.isNaN(d.getTime())) return "";
+  return d.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" });
+}
+
+// The debate line from the reels: real counts only. "N votes flips the crown"
+// is how many more the runner-up needs to pass #1.
+function debateLine(results = [], localCounts = {}) {
+  const counts = results.map((r) => localCounts[r.spotId] ?? r.count ?? 0).sort((x, y) => y - x);
+  const total = counts.reduce((a, n) => a + n, 0);
+  if (!total) return "No votes yet. Yours starts it.";
+  const so = `${total} ${total === 1 ? "vote" : "votes"} so far.`;
+  if (counts.length < 2) return `${so} One vote gives #1 a rival.`;
+  if (counts[0] === counts[1]) return `${so} One more breaks the tie.`;
+  const flip = counts[0] - counts[1] + 1;
+  return `${so} ${flip} ${flip === 1 ? "vote flips" : "votes flip"} the crown.`;
+}
+
 
 function campaignSharePayload(theme, results = []) {
   const slug = theme.slug || slugFromTitle(theme.title);
@@ -349,61 +376,28 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
 
   return (
     <div>
-      {/* Hero banner */}
-      <div style={{
-        margin: "0 16px 16px",
-        background: "var(--violet)",
-        borderRadius: "var(--r-lg)", padding: "16px",
-        boxShadow: "0 4px 20px rgba(91,33,182,0.28)",
-      }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 4 }}>
-          <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.7)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-            This week's challenge
-          </div>
-          <button
-            type="button"
-            onClick={shareTheme}
-            aria-label="Share this week's challenge"
-            style={{
-              border: "1px solid rgba(255,255,255,0.28)",
-              borderRadius: "var(--r-pill)",
-              background: "rgba(255,255,255,0.16)",
-              color: "#fff",
-              minWidth: 70,
-              height: 30,
-              padding: "0 10px",
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 5,
-              fontSize: 11,
-              fontWeight: 700,
-              cursor: "pointer",
-            }}
-          >
-            <Icon name={shareState === "copied" || shareState === "shared" ? "check" : "share"} size={13} width={2} color="#fff" />
+      {/* Hero, the Vote mockup: live kicker, the question in huge type, and the
+          debate line (how many votes move the crown). No colour band. */}
+      <div className="vote-hero">
+        <div className="vote-hero-top">
+          <span className="vote-kicker">
+            <span className="vote-kicker-dot" aria-hidden="true" />
+            {theme.winnerId ? "Crowned" : "Live vote"}{endLabel(theme.endDate) ? ` · ends ${endLabel(theme.endDate)}` : ""}
+          </span>
+          <button type="button" onClick={shareTheme} aria-label="Share this week's vote" className="vote-share">
+            <Icon name={shareState === "copied" || shareState === "shared" ? "check" : "share"} size={15} width={2} color="currentColor" />
             {shareState === "copied" ? "Copied" : shareState === "shared" ? "Shared" : shareState === "failed" ? "Try again" : "Share"}
           </button>
         </div>
-        <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 20, color: "#fff", lineHeight: 1.2, marginBottom: 6 }}>
-          {theme.title}
+        <h2 className="vote-question">{voteHook(theme.title)}</h2>
+        <p className="vote-debate">{debateLine(results, localCounts)}</p>
+        {themeDescription(theme) && <p className="vote-desc">{themeDescription(theme)}</p>}
+        <div className="vote-hero-foot">
+          {votedSpotId && (
+            <span className="vote-voted"><Icon name="check" size={13} width={2.5} color="currentColor" /> You voted</span>
+          )}
+          <a href={`/rankings/${slugFromTitle(theme.title)}`} className="vote-full-link">Full ranking page</a>
         </div>
-        <a
-          href={`/rankings/${slugFromTitle(theme.title)}`}
-          style={{ display: "inline-block", fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.88)", textDecoration: "underline", textUnderlineOffset: 3, marginBottom: 8 }}
-        >
-          Full ranking page →
-        </a>
-        {themeDescription(theme) && (
-          <div style={{ fontSize: 13, color: "rgba(255,255,255,0.82)", lineHeight: 1.4, fontWeight: 500 }}>
-            {themeDescription(theme)}
-          </div>
-        )}
-        {votedSpotId && (
-          <div style={{ marginTop: 10, display: "inline-flex", alignItems: "center", gap: 5, background: "rgba(255,255,255,0.18)", borderRadius: "var(--r-pill)", padding: "5px 11px", fontSize: 12, fontWeight: 700, color: "#fff" }}>
-            <Icon name="check" size={12} width={2.5} color="#fff" /> Voted
-          </div>
-        )}
       </div>
 
       {/* Crown phase after endDate: still votable, crown follows live #1 */}
@@ -417,8 +411,8 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
           <Icon name="trophy" size={22} width={1.8} color="var(--ink)" />
           <div>
             <div style={{ fontSize: 10, fontWeight: 700, color: "var(--ink-soft)", letterSpacing: "0.07em", textTransform: "uppercase" }}>Crowned</div>
-            <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 15, color: "var(--ink)" }}>{results[0]?.name || theme.winnerName || ", "}</div>
-            <div style={{ fontSize: 11, color: "rgba(255,255,255,0.75)", marginTop: 2 }}>Votes stay open. Crown follows the live #1</div>
+            <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 15, color: "var(--ink)" }}>{results[0]?.name || theme.winnerName || "-"}</div>
+            <div style={{ fontSize: 12, color: "var(--ink-soft)", marginTop: 2 }}>Votes stay open. The crown follows the live #1.</div>
           </div>
         </div>
       )}
@@ -500,45 +494,37 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
         </div>
       )}
       {standings.length > 0 && (
-        <div style={{ padding: "0 16px", display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }}>
+        <div className="vote-list">
           {standings.map((r, i) => {
             const count = localCounts[r.spotId] ?? r.count ?? 0;
             const crowned = theme.winnerId || isPastEndDate(theme);
             const isCrown = crowned && hasVotes && i === 0;
             const isLead = hasVotes && i === 0;
             return (
-              <div key={r.spotId} style={{
-                display: "flex", alignItems: "center", gap: 10,
-                background: isCrown ? "var(--yellow)" : isLead ? "var(--violet-wash)" : "var(--cream-hi)",
-                borderRadius: "var(--r-md)", padding: "10px 13px",
-                boxShadow: "var(--e1)",
-                border: "none",
-              }}>
-                <span style={{ width: 26, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 13, color: isCrown ? "var(--ink)" : isLead ? "var(--violet)" : "var(--muted)", flexShrink: 0 }}>
+              <div key={r.spotId} className={`vote-row${isCrown ? " is-crown" : isLead ? " is-lead" : ""}`}>
+                <span className="vote-rank">
                   {isCrown ? <Icon name="crown" size={16} width={2} color="var(--ink)" /> : `#${i + 1}`}
                 </span>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontWeight: 700, fontSize: 14, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}{isUserSpot(r.spotId) && <span className="new-place-chip">New</span>}</div>
-                  <div style={{ fontSize: 11.5, color: "var(--muted)", fontWeight: 500, marginTop: 1 }}>
+                  <div className="vote-name">{r.name}{isUserSpot(r.spotId) && <span className="new-place-chip">New</span>}</div>
+                  <div className="vote-count">
                     {(() => {
                       const loc = dupNames.has(r.name) ? r.area : "";
                       const rest = count > 0
                         ? `${count} vote${count !== 1 ? "s" : ""}`
-                        : (r.rating != null
-                          ? `${r.rating}★ on Google · tap to vote`
-                          : "Tap to cast the first vote");
+                        : "Tap to cast the first vote"; // community votes only, no outside ratings
                       return loc ? `${loc} · ${rest}` : rest;
                     })()}
                   </div>
                 </div>
                 {r.spotId === votedSpotId ? (
-                  <span style={{ display: "flex", alignItems: "center", gap: 4, borderRadius: "var(--r-pill)", padding: "6px 12px", fontSize: 12, fontWeight: 700, background: "var(--violet-wash)", color: "var(--violet-deep)", flexShrink: 0 }}>
+                  <span className="vote-row-voted">
                     <Icon name="check" size={12} width={2.5} color="var(--violet-deep)" /> Voted
                   </span>
                 ) : (
                   <button
                     onClick={() => pickSpot({ spotId: r.spotId, name: r.name, category: r.category || "" })}
-                    style={{ border: "none", borderRadius: "var(--r-pill)", padding: "6px 13px", fontSize: 12.5, fontWeight: 700, background: "var(--violet)", color: "#fff", cursor: "pointer", flexShrink: 0 }}
+                    className="vote-row-btn"
                   >
                     {votedSpotId ? "Switch" : "Vote"}
                   </button>

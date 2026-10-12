@@ -11,9 +11,9 @@ import { Icon } from "./Icons.jsx";
 // `keys` are the in-app tab states (and routed activeKeys) that light each tab.
 const TABS = [
   { key: "map", icon: "map", label: "Map", href: "/", keys: ["map"] },
-  { key: "race", icon: "trophy", label: "Vote", href: "/race/this-week", keys: ["race", "rankings"] },
+  { key: "race", icon: "vote", label: "Vote", href: "/race/this-week", keys: ["race", "rankings"] },
   { key: "guides", icon: "book", label: "Guides", href: "/guides", route: true, keys: ["guides", "stories", "explore", "areas", "deals", "about"] },
-  { key: "saved", icon: "user", label: "You", href: "/?tab=saved", keys: ["saved", "passport", "route"] },
+  { key: "you", icon: "user", label: "You", href: "/?tab=you", keys: ["you", "saved", "passport", "route"] },
 ];
 
 export default function BottomNav({ tab, setTab, savedCount = 0, routed = false, activeKey }) {
@@ -28,7 +28,7 @@ export default function BottomNav({ tab, setTab, savedCount = 0, routed = false,
         // Routed (SEO) pages navigate for every tab; the app navigates only for
         // real routes (Guides) and switches state for its own tabs.
         const useHref = routed || t.route;
-        const count = !routed && t.key === "saved" ? savedCount : 0;
+        const count = !routed && t.key === "you" ? savedCount : 0;
         return (
           <button
             key={t.key}

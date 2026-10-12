@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Squiggles } from "./Icons.jsx";
 import BackButton from "./BackButton.jsx";
 
 // Same three destinations as the app's bottom nav (You is app-only). Deals,
@@ -86,16 +85,11 @@ export function SiteRelated({ links }) {
   );
 }
 
-export default function SiteChrome({ active, breadcrumb, title, description, children, related, heroClass, navLinksHidden, heroDecor, backFallback }) {
+export default function SiteChrome({ active, breadcrumb, title, description, children, related, heroClass, navLinksHidden, backFallback }) {
   return (
     <div className="site-page">
-      <header className="site-header" style={heroDecor ? { position: "relative", overflow: "hidden" } : undefined}>
-        {heroDecor && (
-          <div style={{ position: "absolute", inset: "-10% -5% 30%", opacity: 0.22, pointerEvents: "none" }}>
-            <Squiggles color="var(--cream-hi)" opacity={1} />
-          </div>
-        )}
-        <div className="site-header-inner" style={heroDecor ? { position: "relative" } : undefined}>
+      <header className="site-header">
+        <div className="site-header-inner">
           <SiteNav active={active} linksHidden={navLinksHidden} />
           {backFallback && <BackButton fallback={backFallback} />}
           {breadcrumb?.length > 0 && <SiteBreadcrumb items={breadcrumb} />}

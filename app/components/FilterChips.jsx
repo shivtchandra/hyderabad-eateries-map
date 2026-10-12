@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { TAGS } from "../../lib/eateryUtils.js";
-import { Icon, CategoryIcon, TagIcon } from "./Icons.jsx";
+import { Icon, TagIcon } from "./Icons.jsx";
 
 // Five chips at most (DESIGN.md 4a). Tap an active chip again to clear it.
 // Bakery and Ice Cream share one Desserts chip (page.jsx filters both).
@@ -28,19 +28,21 @@ export default function FilterChips({
   safetyOnly = false, setSafetyOnly = () => {}, safetyCount = 0,
   localsOnly = false, setLocalsOnly = () => {}, localsCount = 0,
   showAll = false, setShowAll = () => {}, hiddenCount = 0,
+  // The Filters button lives in the top bar (TopBar.jsx); the page owns the
+  // open state and passes it here so this row can render the panel.
+  filtersOpen: filtersOpenProp, setFiltersOpen: setFiltersOpenProp, hideFiltersButton = false,
 }) {
-  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [filtersOpenLocal, setFiltersOpenLocal] = useState(false);
+  const filtersOpen = filtersOpenProp ?? filtersOpenLocal;
+  const setFiltersOpen = setFiltersOpenProp ?? setFiltersOpenLocal;
   const activeDish = recommendationDishes.find((d) => d.id === recommendationDish);
-  // Counts only what the person changed from the default view.
-  const activeFilterCount = (openNowOnly ? 1 : 0) + activeTags.length + (nearbyOnly ? 1 : 0) + (newOnly ? 1 : 0) +
-    (safetyOnly ? 1 : 0) + (localsOnly ? 1 : 0) + (activeDish ? 1 : 0) +
-    (curatedEnabled && !recommendedOnly ? 1 : 0) + (!curatedEnabled && hiddenCount > 0 && !showAll ? 1 : 0);
+  const activeFilterCount = countActiveFilters({ openNowOnly, activeTags, nearbyOnly, newOnly, safetyOnly, localsOnly, activeDish, curatedEnabled, recommendedOnly, hiddenCount, showAll });
   const close = () => setFiltersOpen(false);
   const pickDish = (id) => { setRecommendationDish(id); if (id) setRecommendedOnly(true); close(); };
   const filtersLit = filtersOpen || activeFilterCount > 0;
 
   return (
-    <div className="material edge-below" style={{ flexShrink: 0, position: "relative", zIndex: 19 }}>
+    <div className={hideFiltersButton ? "map-chips" : "material edge-below"} style={{ flexShrink: 0, position: "relative", zIndex: 19 }}>
       <div style={{ display: "flex", alignItems: "center", padding: "var(--s2) 0 var(--s3)" }}>
         <div className="chip-rail" style={{ flex: 1, paddingLeft: "var(--s4)", minWidth: 0 }}>
           {CHIPS.map((c) => {
@@ -54,14 +56,13 @@ export default function FilterChips({
                 className="pressable-sm"
                 style={chip(active)}
               >
-                <CategoryIcon category={c.icon} size={16} width={2} color={active ? "#fff" : "var(--ink-soft)"} />
                 {c.label}
               </button>
             );
           })}
         </div>
-        {/* Filters button never scrolls away */}
-        <div style={{ flexShrink: 0, paddingLeft: "var(--s2)", paddingRight: "var(--s4)", background: "linear-gradient(to right, transparent, var(--cream-hi) 30%)" }}>
+        {/* Filters button never scrolls away (unless the top bar carries it) */}
+        {!hideFiltersButton && <div style={{ flexShrink: 0, paddingLeft: "var(--s2)", paddingRight: "var(--s4)", background: "linear-gradient(to right, transparent, var(--cream-hi) 30%)" }}>
           <button
             type="button"
             onClick={() => setFiltersOpen((v) => !v)}
@@ -73,11 +74,11 @@ export default function FilterChips({
             Filters
             {activeFilterCount > 0 && <span style={badge}>{activeFilterCount}</span>}
           </button>
-        </div>
+        </div>}
       </div>
 
       {filtersOpen && (
-        <div style={{ display: "flex", flexDirection: "column", gap: "var(--s4)", padding: "var(--s4) var(--s4) var(--s4)", borderTop: "1px solid var(--line)" }}>
+        <div className="filters-panel">
           <div className="chip-wrap">
             <button type="button" onClick={() => { setOpenNowOnly(!openNowOnly); close(); }} aria-busy={openNowLoading} className="pressable-sm" style={chip(openNowOnly)}>
               <Icon name="clock" size={16} width={2} color={openNowOnly ? "#fff" : "var(--ink-soft)"} />
@@ -162,6 +163,14 @@ export default function FilterChips({
       )}
     </div>
   );
+}
+
+// Counts only what the person changed from the default view. Shared with the
+// page so the top bar's Filters button can show the same number.
+export function countActiveFilters({ openNowOnly, activeTags = [], nearbyOnly, newOnly, safetyOnly, localsOnly, activeDish, curatedEnabled, recommendedOnly, hiddenCount = 0, showAll }) {
+  return (openNowOnly ? 1 : 0) + activeTags.length + (nearbyOnly ? 1 : 0) + (newOnly ? 1 : 0) +
+    (safetyOnly ? 1 : 0) + (localsOnly ? 1 : 0) + (activeDish ? 1 : 0) +
+    (curatedEnabled && !recommendedOnly ? 1 : 0) + (!curatedEnabled && hiddenCount > 0 && !showAll ? 1 : 0);
 }
 
 function chip(active) {
