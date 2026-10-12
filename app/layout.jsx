@@ -34,14 +34,14 @@ export const metadata = {
     url: siteUrl,
     siteName: "Mapping HYD Eats",
     locale: "en_IN",
-    images: ogImages(title, description),
+    images: ogImages(title, description, "/"),
   },
   appleWebApp: { capable: true, title: "HYD Eats", statusBarStyle: "default" },
   twitter: {
     card: "summary_large_image",
     title,
     description,
-    images: ogImages(title, description).map((i) => i.url),
+    images: ogImages(title, description, "/").map((i) => i.url),
   },
   alternates: { canonical: siteUrl },
 };

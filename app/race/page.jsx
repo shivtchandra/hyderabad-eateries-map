@@ -14,13 +14,13 @@ export const metadata = {
     title,
     description,
     url: `${siteUrl}/race`,
-    images: ogImages(title, description),
+    images: ogImages(title, description, "/race"),
   },
   twitter: {
     card: "summary_large_image",
     title,
     description,
-    images: ogImages(title, description).map((image) => image.url),
+    images: ogImages(title, description, "/race").map((image) => image.url),
   },
 };
 

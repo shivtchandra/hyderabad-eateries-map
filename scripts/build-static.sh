@@ -12,6 +12,9 @@ if [ "${CI:-}" != "true" ] && [ "${ALLOW_DESTRUCTIVE_LOCAL:-}" != "1" ]; then
   exit 1
 fi
 
+# Share cards: one PNG per page into public/og (+ manifest.json read by lib/og.js).
+node scripts/build-og.mjs
+
 # Read-only endpoints whose answer is the same for every visitor are exported
 # as static files at their usual /api URL (out/_routes.json keeps the proxy
 # function off them). Everything else under app/api is removed.

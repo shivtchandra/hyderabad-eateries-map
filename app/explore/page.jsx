@@ -12,7 +12,7 @@ const description = "Browse the best biryani, cafes, restaurants, bars, bakeries
 
 export const metadata = {
   ...pageMeta({ title, description, path: "/explore", image: "/og/explore.svg" }),
-  openGraph: { ...pageMeta({ title, description, path: "/explore" }).openGraph, images: ogImages(title, description) },
+  openGraph: { ...pageMeta({ title, description, path: "/explore" }).openGraph, images: ogImages(title, description, "/explore") },
 };
 
 const PRIORITY = [

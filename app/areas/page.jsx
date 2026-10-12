@@ -11,7 +11,7 @@ const description = "Best restaurants and cafes by area in Hyderabad. Start with
 
 export const metadata = {
   ...pageMeta({ title, description, path: "/areas" }),
-  openGraph: { ...pageMeta({ title, description, path: "/areas" }).openGraph, images: ogImages(title, description) },
+  openGraph: { ...pageMeta({ title, description, path: "/areas" }).openGraph, images: ogImages(title, description, "/areas") },
 };
 
 const PRIORITY_AREAS = ["gachibowli", "jubilee-hills", "banjara-hills", "madhapur-hitec"];

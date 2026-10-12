@@ -19,7 +19,7 @@ const DESCRIPTION =
 
 export const metadata = {
   ...pageMeta({ title: TITLE, description: DESCRIPTION, path: SLUG }),
-  openGraph: { ...pageMeta({ title: TITLE, description: DESCRIPTION, path: SLUG }).openGraph, images: ogImages(TITLE, DESCRIPTION) },
+  openGraph: { ...pageMeta({ title: TITLE, description: DESCRIPTION, path: SLUG }).openGraph, images: ogImages(TITLE, DESCRIPTION, SLUG) },
   keywords: [
     "hyderabad restaurant food safety raids",
     "restaurants licence suspended hyderabad",

@@ -15,7 +15,7 @@ export const metadata = {
   ...pageMeta({ title: TITLE, description: DESCRIPTION, path: SLUG }),
   openGraph: {
     ...pageMeta({ title: TITLE, description: DESCRIPTION, path: SLUG }).openGraph,
-    images: ogImages(TITLE, DESCRIPTION),
+    images: ogImages(TITLE, DESCRIPTION, SLUG),
   },
   keywords: [
     "best ice cream in hyderabad",

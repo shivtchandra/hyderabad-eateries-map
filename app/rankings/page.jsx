@@ -14,7 +14,7 @@ const description = "Community-voted weekly rankings for the best biryani, brewe
 
 export const metadata = {
   ...pageMeta({ title, description, path: "/rankings" }),
-  openGraph: { ...pageMeta({ title, description, path: "/rankings" }).openGraph, images: ogImages(title, description) },
+  openGraph: { ...pageMeta({ title, description, path: "/rankings" }).openGraph, images: ogImages(title, description, "/rankings") },
 };
 
 function statusOf(theme) {

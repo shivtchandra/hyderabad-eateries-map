@@ -63,7 +63,7 @@ export async function generateMetadata() {
 
   const ogImagesList = photoUrl
     ? [{ url: photoUrl, width: 800, height: 600, alt: `${photoSpotName || title} — Hyderabad Eats`, type: "image/jpeg" }]
-    : ogImages(title, description);
+    : ogImages(title, description, "/race/this-week");
 
   return {
     title,
@@ -79,7 +79,7 @@ export async function generateMetadata() {
       card: "summary_large_image",
       title,
       description,
-      images: photoUrl ? [photoUrl] : ogImages(title, description).map((image) => image.url),
+      images: photoUrl ? [photoUrl] : ogImages(title, description, "/race/this-week").map((image) => image.url),
     },
   };
 }

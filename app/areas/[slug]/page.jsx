@@ -92,7 +92,7 @@ export function generateMetadata({ params }) {
   const description = pillar?.blurb || copy.description;
   return {
     ...pageMeta({ title, description, path: `/areas/${params.slug}` }),
-    openGraph: { ...pageMeta({ title, description, path: `/areas/${params.slug}` }).openGraph, images: ogImages(title, description) },
+    openGraph: { ...pageMeta({ title, description, path: `/areas/${params.slug}` }).openGraph, images: ogImages(title, description, `/areas/${params.slug}`) },
   };
 }
 

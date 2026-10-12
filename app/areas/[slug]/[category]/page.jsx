@@ -28,7 +28,7 @@ export function generateMetadata({ params }) {
     ...pageMeta({ title, description, path: `/areas/${params.slug}/${params.category}` }),
     openGraph: {
       ...pageMeta({ title, description, path: `/areas/${params.slug}/${params.category}` }).openGraph,
-      images: ogImages(title, description),
+      images: ogImages(title, description, `/areas/${params.slug}`),
     },
   };
 }

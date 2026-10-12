@@ -18,7 +18,7 @@ export const metadata = {
   ...pageMeta({ title, description, path: "/stories" }),
   openGraph: {
     ...pageMeta({ title, description, path: "/stories" }).openGraph,
-    images: ogImages(title, description),
+    images: ogImages(title, description, "/stories"),
   },
 };
 
