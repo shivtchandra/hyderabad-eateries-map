@@ -40,13 +40,13 @@ export default function PassportPanel({ eateries, passport, onSelect, diaryTick 
     <div style={{ flex: 1, overflowY: "auto", background: "var(--cream)" }}>
       {/* Hero, the poster moment. Squiggles behind the number give it depth so
           it reads as a printed cover rather than a flat colour block. */}
-      <div style={{ background: "var(--pop)", position: "relative", paddingTop: 26, overflow: "hidden" }}>
+      <div style={{ background: "var(--violet)", position: "relative", paddingTop: 28, overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: "-10% -5% 30%", opacity: 0.28, pointerEvents: "none" }}>
           <Squiggles color="var(--cream-hi)" opacity={1} />
         </div>
 
         <div style={{ textAlign: "center", padding: "0 16px 6px", position: "relative" }}>
-          <div className="groovy" style={{ fontSize: 68, lineHeight: 0.92, color: "var(--cream-hi)", textShadow: "0 3px 0 rgba(20, 20, 20,.18)" }}>
+          <div className="groovy" style={{ fontSize: 84, lineHeight: 0.9, color: "var(--cream-hi)" }}>
             {s.visitedCount}
           </div>
           <div style={{ fontSize: 13, fontWeight: 700, color: "var(--cream-hi)", letterSpacing: "0.08em", textTransform: "uppercase", marginTop: 7 }}>
@@ -70,9 +70,10 @@ export default function PassportPanel({ eateries, passport, onSelect, diaryTick 
               onClick={() => shareProgress(s).catch(() => {})}
               className="pressable-sm"
               style={{
-                width: "100%", border: "1.5px solid var(--line)", borderRadius: 14,
-                padding: "12px 16px", background: "var(--cream-hi)", color: "var(--ink)",
-                fontSize: 14, fontWeight: 600, cursor: "pointer",
+                width: "100%", border: "none", borderRadius: "var(--r-btn)", minHeight: 52,
+                padding: "0 16px", background: "var(--cream-hi)", color: "var(--ink)",
+                boxShadow: "inset 0 0 0 1.5px var(--line)",
+                fontSize: 15, fontWeight: 600, cursor: "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
               }}
             >
@@ -83,27 +84,24 @@ export default function PassportPanel({ eateries, passport, onSelect, diaryTick 
         )}
 
         {nextMilestone && (
-          <div style={{ background: "var(--cream-hi)", border: "1.5px solid var(--line)", borderRadius: 16, padding: "13px 15px", marginBottom: 18 }}>
+          <div style={{ background: "var(--cream-hi)", borderRadius: "var(--r-card)", padding: "var(--s5)", marginBottom: "var(--s6)" }}>
             <div className="progress-track">
               <div className="progress-fill" style={{ width: `${(s.visitedCount / nextMilestone.at) * 100}%` }} />
             </div>
-            <div style={{ fontSize: 12, color: "var(--ink-soft)", marginTop: 8, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
-              <Icon name={nextMilestone.icon} size={15} width={2} color="var(--pop-deep)" />
+            <div style={{ fontSize: 14, color: "var(--ink-soft)", marginTop: 10, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+              <Icon name={nextMilestone.icon} size={15} width={2} color="var(--violet)" />
               {nextMilestone.at - s.visitedCount} more to {nextMilestone.label}
             </div>
           </div>
         )}
 
         {s.visitedCount === 0 && (
-          <div style={{ textAlign: "center", padding: "18px 14px 26px", color: "var(--muted)" }}>
-            <Icon name="passport" size={44} width={1.4} color="var(--line)" style={{ margin: "0 auto 12px" }} />
-            <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 600, fontSize: 16, color: "var(--ink)" }}>
-              Start exploring, every stamp colours the map
-            </div>
-            <div style={{ fontSize: 13.5, marginTop: 6, lineHeight: 1.5, maxWidth: 280, margin: "6px auto 0" }}>
-              Tap a spot you&apos;ve been to and hit{" "}
-              <strong style={{ color: "var(--pop-deep)" }}>Stamp this spot</strong>, it blooms into colour.
-            </div>
+          <div className="empty-state" style={{ background: "transparent", padding: "var(--s6) var(--s2) var(--s7)" }}>
+            <span className="empty-sticker" aria-hidden="true">
+              <Icon name="passport" size={28} width={2.2} color="var(--ink)" />
+            </span>
+            <h2>No stamps yet.</h2>
+            <p>Open a spot you&apos;ve eaten at and tap <strong>I ate here</strong>. It lights up on your map.</p>
           </div>
         )}
 
@@ -144,10 +142,10 @@ export default function PassportPanel({ eateries, passport, onSelect, diaryTick 
                 <div
                   key={m.at}
                   style={{
-                    background: "var(--cream-hi)", border: "1.5px solid var(--pop)",
-                    borderRadius: 20, padding: "7px 13px",
+                    background: "var(--yellow)", border: "none",
+                    borderRadius: "var(--r-pill)", padding: "0 14px", minHeight: 36,
                     display: "flex", alignItems: "center", gap: 7,
-                    fontSize: 12.5, fontWeight: 600, color: "var(--pop-deep)",
+                    fontSize: 14, fontWeight: 600, color: "var(--ink)",
                   }}
                 >
                   <Icon name={m.icon} size={15} width={2} /> {m.label}
@@ -215,11 +213,11 @@ export default function PassportPanel({ eateries, passport, onSelect, diaryTick 
                       gap: 12,
                       width: "100%",
                       textAlign: "left",
-                      border: "1.5px solid var(--line)",
-                      borderRadius: "var(--r-md)",
-                      background: "linear-gradient(155deg, #fdf4e6, var(--pop-wash))",
+                      border: "none",
+                      borderRadius: "var(--r-card)",
+                      background: "var(--cream-hi)",
                       boxShadow: "var(--e1)",
-                      padding: "12px 14px",
+                      padding: "var(--s4)",
                       cursor: "pointer",
                     }}
                   >
@@ -273,16 +271,15 @@ export default function PassportPanel({ eateries, passport, onSelect, diaryTick 
   );
 }
 
-// Outfit, not the display face: Bagel Fat One has no ₹ glyph, so "₹240"
-// fell back mid-string and rendered as two mismatched fonts. The groovy face
-// is reserved for the hero number and the wordmark.
+// UI face for stat values (the old display face had no ₹ glyph). The display
+// face is reserved for the hero number and section titles.
 function Stat({ label, value }) {
   return (
-    <div style={{ background: "var(--cream-hi)", border: "1.5px solid var(--line)", borderRadius: 15, padding: "12px 14px" }}>
-      <div style={{ fontSize: 22, lineHeight: 1, fontWeight: 700, color: "var(--pop-deep)", letterSpacing: "-0.01em" }}>
+    <div style={{ background: "var(--cream-hi)", borderRadius: "var(--r-card)", padding: "var(--s4)" }}>
+      <div style={{ fontSize: 26, lineHeight: 1, fontWeight: 700, color: "var(--violet)", letterSpacing: "-0.02em" }}>
         {value}
       </div>
-      <div style={{ fontSize: 10.5, color: "var(--muted)", fontWeight: 600, marginTop: 5, letterSpacing: "0.02em" }}>
+      <div style={{ fontSize: 12, color: "var(--muted)", fontWeight: 600, marginTop: 6, letterSpacing: "0.02em" }}>
         {label}
       </div>
     </div>
@@ -291,12 +288,12 @@ function Stat({ label, value }) {
 
 function Section({ title, children }) {
   return (
-    <div style={{ marginBottom: 22 }}>
+    <div style={{ marginBottom: "var(--s7)" }}>
       <h3
         style={{
-          margin: "0 0 10px", fontSize: 11, fontWeight: 700,
-          textTransform: "uppercase", letterSpacing: "0.09em", color: "var(--muted)",
-          fontFamily: "var(--font-ui), sans-serif",
+          margin: "0 0 var(--s3)", fontSize: 26, fontWeight: 800, lineHeight: 1,
+          letterSpacing: "-0.03em", color: "var(--ink)",
+          fontFamily: "var(--font-display), system-ui, sans-serif",
         }}
       >
         {title}

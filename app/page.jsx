@@ -716,20 +716,25 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
         onPreviewResult={loadDetail}
       />
 
-      {/* You tab: saved spots, passport and the route planner share one tab,
-          switched here instead of taking three slots in the bottom nav. */}
+      {/* You tab: saved spots, passport, stickers and the route planner share
+          one tab, switched here (one level, no tabs inside tabs). */}
       {(tab === "saved" || tab === "passport" || tab === "route") && (
         <div className="you-tabs" role="tablist" aria-label="You">
-          {[["saved", "Saved"], ["passport", "Passport"], ["route", "Route"]].map(([k, label]) => (
+          {[
+            { k: "saved", label: "Saved", active: tab === "saved", go: () => goTab("saved") },
+            { k: "passport", label: "Passport", active: tab === "passport" && passportTab === "passport", go: () => { setPassportTab("passport"); goTab("passport"); } },
+            { k: "stickers", label: stickerCount > 0 ? `Stickers ${stickerCount}` : "Stickers", active: tab === "passport" && passportTab === "stickers", go: () => { setPassportTab("stickers"); goTab("passport"); } },
+            { k: "route", label: "Route", active: tab === "route", go: () => goTab("route") },
+          ].map((t) => (
             <button
-              key={k}
+              key={t.k}
               type="button"
               role="tab"
-              aria-selected={tab === k}
-              className={`you-tab${tab === k ? " is-active" : ""}`}
-              onClick={() => goTab(k)}
+              aria-selected={t.active}
+              className={`you-tab${t.active ? " is-active" : ""}`}
+              onClick={t.go}
             >
-              {label}
+              {t.label}
             </button>
           ))}
         </div>
@@ -797,60 +802,6 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
         )}
         {tab === "passport" && (
           <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", background: "var(--cream)" }}>
-            {/* Top Navigation Switch: Stickers is the main one */}
-            <div style={{ padding: "10px 14px 6px", background: "var(--cream)", display: "flex", justifyContent: "center", flexShrink: 0 }}>
-              <div style={{ display: "inline-flex", background: "rgba(20, 20, 20,0.08)", padding: 3, borderRadius: "var(--r-pill)" }}>
-                <button
-                  type="button"
-                  onClick={() => setPassportTab("stickers")}
-                  style={{
-                    padding: "7px 18px",
-                    borderRadius: "var(--r-pill)",
-                    border: "none",
-                    background: passportTab === "stickers" ? "#ffffff" : "transparent",
-                    color: passportTab === "stickers" ? "#0f172a" : "#64748b",
-                    fontWeight: 700,
-                    fontSize: 13,
-                    boxShadow: passportTab === "stickers" ? "0 2px 8px rgba(0,0,0,0.1)" : "none",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 6,
-                    transition: "all 120ms ease",
-                    outline: "none",
-                    WebkitTapHighlightColor: "transparent",
-                  }}
-                >
-                  <Icon name="ticket" size={14} width={2} color={passportTab === "stickers" ? "#e2622a" : "#64748b"} />
-                  Dish Stickers {stickerCount > 0 ? `(${stickerCount})` : ""}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPassportTab("passport")}
-                  style={{
-                    padding: "7px 18px",
-                    borderRadius: "var(--r-pill)",
-                    border: "none",
-                    background: passportTab === "passport" ? "#ffffff" : "transparent",
-                    color: passportTab === "passport" ? "#0f172a" : "#64748b",
-                    fontWeight: 700,
-                    fontSize: 13,
-                    boxShadow: passportTab === "passport" ? "0 2px 8px rgba(0,0,0,0.1)" : "none",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 6,
-                    transition: "all 120ms ease",
-                    outline: "none",
-                    WebkitTapHighlightColor: "transparent",
-                  }}
-                >
-                  <Icon name="passport" size={14} width={2} color={passportTab === "passport" ? "#2f4fc4" : "#64748b"} />
-                  Stamps &amp; Diary
-                </button>
-              </div>
-            </div>
-
             {passportTab === "stickers" ? (
               <StickerBook
                 refreshTick={stickerTick}

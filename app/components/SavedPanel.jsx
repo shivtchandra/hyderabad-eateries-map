@@ -29,71 +29,37 @@ export default function SavedPanel({ eateries, passport, onSelect, onToggleVisit
   }
 
   return (
-    <div style={{ flex: 1, overflowY: "auto", background: "var(--cream)", padding: "14px 14px 48px" }}>
-      {saved.map((e) => {
-        const color = CAT_COLOR[e.category] ?? "var(--muted)";
-        const open = isOpenNow(e.hours);
-        return (
-          <div
-            key={e.id}
-            style={{
-              background: "var(--cream-hi)", borderRadius: 17, padding: 12,
-              border: "1.5px solid var(--line)", marginBottom: 9,
-              display: "flex", gap: 11, alignItems: "center",
-            }}
-          >
-            <button
-              onClick={() => onSelect(e)}
-              style={{
-                background: "var(--cream)", border: `1.5px solid ${color}`, borderRadius: 13,
-                width: 44, height: 44, minWidth: 44, cursor: "pointer",
-                display: "flex", alignItems: "center", justifyContent: "center",
-              }}
-              aria-label={e.name}
-            >
-              <CategoryIcon category={e.category} size={22} width={1.85} color={color} />
-            </button>
-
-            <button
-              onClick={() => onSelect(e)}
-              style={{ flex: 1, minWidth: 0, border: "none", background: "transparent", textAlign: "left", cursor: "pointer", padding: 0 }}
-            >
-              <div style={{ fontSize: 14.5, fontWeight: 600, fontFamily: "var(--font-display), system-ui, sans-serif", lineHeight: 1.2, marginBottom: 3 }}>
-                {e.name}
-              </div>
-              <div style={{ fontSize: 11.5, color: "var(--muted)", fontWeight: 500, display: "flex", gap: 9, flexWrap: "wrap", alignItems: "center" }}>
-                {e.rating && (
-                  <span style={{ display: "flex", alignItems: "center", gap: 3 }}>
-                    <Icon name="star" size={12} width={2} color="var(--pop-deep)" /> {e.rating}
+    <div className="you-panel">
+      <div className="you-head">
+        <h2>Saved</h2>
+        <p>{saved.length} {saved.length === 1 ? "spot" : "spots"} to try</p>
+      </div>
+      <ul className="you-list">
+        {saved.map((e) => {
+          const color = CAT_COLOR[e.category] ?? "var(--muted)";
+          const open = isOpenNow(e.hours);
+          return (
+            <li key={e.id} className="you-row">
+              <button type="button" className="you-row-main" onClick={() => onSelect(e)}>
+                <span className="you-row-icon" style={{ color }} aria-hidden="true">
+                  <CategoryIcon category={e.category} size={22} width={1.9} color={color} />
+                </span>
+                <span className="you-row-text">
+                  <span className="you-row-name">{e.name}</span>
+                  <span className="you-row-meta">
+                    {e.rating && <span className="you-row-meta-item"><Icon name="star" size={13} width={2} color="var(--ink-soft)" /> {e.rating}</span>}
+                    {open != null && <span className="you-row-meta-item" style={{ color: open ? "var(--forest)" : "var(--muted)" }}>{open ? "Open now" : "Closed"}</span>}
+                    {TIERS[e.tier] && <span className="you-row-meta-item"><TierIcon tier={e.tier} size={13} width={1.9} /> {TIERS[e.tier].label}</span>}
                   </span>
-                )}
-                {open != null && (
-                  <span style={{ color: open ? "var(--forest)" : "var(--restro-bar)", fontWeight: 600 }}>
-                    {open ? "Open" : "Closed"}
-                  </span>
-                )}
-                {TIERS[e.tier] && (
-                  <span style={{ display: "flex", alignItems: "center", gap: 3 }}>
-                    <TierIcon tier={e.tier} size={12} width={1.9} /> {TIERS[e.tier].label}
-                  </span>
-                )}
-              </div>
-            </button>
-
-            <button
-              onClick={() => onToggleVisited(e.id)}
-              style={{
-                background: "var(--pop)", color: "var(--ink)", border: "none",
-                borderRadius: 12, padding: "0 13px", height: 38, minWidth: 44,
-                fontFamily: "var(--font-ui), sans-serif", fontWeight: 600, fontSize: 12.5, cursor: "pointer",
-                whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 6,
-              }}
-            >
-              <Icon name="ticket" size={15} width={2} /> Stamp
-            </button>
-          </div>
-        );
-      })}
+                </span>
+              </button>
+              <button type="button" className="you-row-action" onClick={() => onToggleVisited(e.id)}>
+                <Icon name="ticket" size={16} width={2} /> Stamp
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
