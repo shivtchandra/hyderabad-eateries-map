@@ -212,7 +212,7 @@ export default function DetailSheet({
               height: recommendationContent ? (isMobile ? 112 : 140) : (isMobile ? 154 : 168),
               position: "relative",
               background: photoUrl ? `url(${photoUrl}) center/cover no-repeat` : cat.gradient,
-              backgroundColor: "#1e243d",
+              backgroundColor: "var(--ink)",
               overflow: "hidden",
             }}
           >
@@ -453,13 +453,13 @@ export default function DetailSheet({
               <span style={{ color: "var(--ink)", fontWeight: 600 }}>{cat.label}</span>
               {(eatery.discoveredIn || eatery.address) && (
                 <>
-                  <span style={{ color: "#cbd5e1" }}>·</span>
+                  <span style={{ color: "var(--line)" }}>·</span>
                   <span>{eatery.discoveredIn || eatery.address}</span>
                 </>
               )}
               {tier && (
                 <>
-                  <span style={{ color: "#cbd5e1" }}>·</span>
+                  <span style={{ color: "var(--line)" }}>·</span>
                   <span
                     style={{
                       background: eatery.tier === "landmark" ? "#fef3c7" : eatery.tier === "hidden-gem" ? "#f3e8ff" : "#ecfdf5",
@@ -605,7 +605,7 @@ export default function DetailSheet({
             >
               <Icon name="utensils" size={15} width={2.1} color="#6d28d9" style={{ marginTop: 2, flexShrink: 0 }} />
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 12.5, fontWeight: 700, color: "#5b21b6", lineHeight: 1.35 }}>
+                <div style={{ fontSize: 12.5, fontWeight: 700, color: "var(--violet-deep)", lineHeight: 1.35 }}>
                   {pick.dishes}
                 </div>
                 {(pick.curator || pick.note) && (
@@ -832,7 +832,7 @@ export default function DetailSheet({
                     {voted ? "Voted" : "Vote"}
                   </button>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontWeight: 700, fontSize: 12.5, color: voted ? "#5b21b6" : "var(--ink)" }}>
+                    <div style={{ fontWeight: 700, fontSize: 12.5, color: voted ? "var(--violet-deep)" : "var(--ink)" }}>
                       {voteCount > 0 ? `${voteCount} vote${voteCount === 1 ? "" : "s"}` : "Be the first to vote"}
                     </div>
                     {weekVotes > 0 && (

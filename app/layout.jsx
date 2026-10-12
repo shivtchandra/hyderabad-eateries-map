@@ -117,6 +117,9 @@ export default function RootLayout({ children }) {
             before the first <img> asks for one. */}
         <link rel="preconnect" href={PHOTO_CDN_ORIGIN} crossOrigin="anonymous" />
         <link rel="dns-prefetch" href={PHOTO_CDN_ORIGIN} />
+        {/* Vector basemap tiles (MapLibre, lib/mapStyle.js): warm the connection
+            before the map chunk asks for the first tile. */}
+        <link rel="preconnect" href="https://tiles.openfreemap.org" crossOrigin="anonymous" />
       </head>
       <body className={ui.className}>
         <script

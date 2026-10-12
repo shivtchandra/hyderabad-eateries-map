@@ -88,11 +88,11 @@ export default function CardRail({
           backdropFilter: "blur(18px)",
           WebkitBackdropFilter: "blur(18px)",
           boxShadow: "0 8px 24px rgba(15,23,42,0.14)",
-          fontSize: 13, fontWeight: 700, color: "#0f172a", cursor: "pointer",
+          fontSize: 13, fontWeight: 700, color: "var(--ink)", cursor: "pointer",
           outline: "none", WebkitTapHighlightColor: "transparent",
         }}
       >
-        <Icon name="chevronDown" size={14} width={2.3} color="#64748b" style={{ transform: "rotate(180deg)" }} />
+        <Icon name="chevronDown" size={14} width={2.3} color="var(--muted)" style={{ transform: "rotate(180deg)" }} />
         {spots.length} spot{spots.length === 1 ? "" : "s"}
       </button>
     );
@@ -117,7 +117,7 @@ export default function CardRail({
           outline: "none", WebkitTapHighlightColor: "transparent",
         }}
       >
-        <Icon name="chevronDown" size={14} width={2.3} color="#64748b" />
+        <Icon name="chevronDown" size={14} width={2.3} color="var(--muted)" />
       </button>
 
       <div
@@ -203,7 +203,7 @@ export default function CardRail({
                   height: 104,
                   position: "relative",
                   background: cat.color,
-                  backgroundColor: "#1e243d",
+                  backgroundColor: "var(--ink)",
                   overflow: "hidden",
                 }}
               >
@@ -240,7 +240,7 @@ export default function CardRail({
                     <span style={{ background: "#e2622a", color: "#fff", fontSize: 9, fontWeight: 800, padding: "2.5px 6px", borderRadius: 999 }}>NEW</span>
                   )}
                   {isTrendingSpot(name) && !featuredIds?.has(e.id) && (
-                    <span style={{ background: "#1e243d", color: "#fff", fontSize: 9, fontWeight: 800, padding: "2.5px 6px", borderRadius: 999 }}>TRENDING</span>
+                    <span style={{ background: "var(--ink)", color: "#fff", fontSize: 9, fontWeight: 800, padding: "2.5px 6px", borderRadius: 999 }}>TRENDING</span>
                   )}
                 </div>
 
@@ -253,7 +253,7 @@ export default function CardRail({
                     WebkitBackdropFilter: "blur(8px)",
                     borderRadius: 999,
                     padding: "2.5px 8px", fontSize: 11, fontWeight: 800,
-                    color: "#0f172a",
+                    color: "var(--ink)",
                     display: "flex", alignItems: "center", gap: 3,
                     boxShadow: "0 2px 6px rgba(0,0,0,0.16)",
                   }}
@@ -317,7 +317,7 @@ export default function CardRail({
                       width: "100%",
                       height: "100%",
                       borderRadius: "50%",
-                      background: `linear-gradient(135deg, ${cat.color}15 0%, ${cat.color}25 100%)`,
+                      background: `${cat.color}1f`,
                       border: `1px solid ${cat.color}35`,
                       display: "flex",
                       alignItems: "center",
@@ -383,8 +383,8 @@ export default function CardRail({
                     <button
                       onClick={(ev) => { ev.stopPropagation(); onVote?.(e.id); }}
                       style={{
-                        background: voted ? "#1e243d" : "rgba(255, 255, 255, 0.8)",
-                        border: `1px solid ${voted ? "#1e243d" : "rgba(0,0,0,0.08)"}`,
+                        background: voted ? "var(--ink)" : "rgba(255, 255, 255, 0.8)",
+                        border: `1px solid ${voted ? "var(--ink)" : "rgba(0,0,0,0.08)"}`,
                         borderRadius: 999,
                         padding: "2.5px 8px",
                         display: "flex",
@@ -392,7 +392,7 @@ export default function CardRail({
                         gap: 3.5,
                         fontSize: 10.5,
                         fontWeight: 700,
-                        color: voted ? "#fff" : "#475569",
+                        color: voted ? "#fff" : "var(--ink-soft)",
                         cursor: "pointer",
                         outline: "none",
                         WebkitTapHighlightColor: "transparent",
@@ -413,7 +413,7 @@ export default function CardRail({
                       fontFamily: "var(--font-outfit), sans-serif",
                       letterSpacing: "-0.015em",
                       lineHeight: 1.22,
-                      color: "#0f172a",
+                      color: "var(--ink)",
                       whiteSpace: "nowrap",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
@@ -425,7 +425,7 @@ export default function CardRail({
                     style={{
                       marginTop: 2,
                       fontSize: 11.5,
-                      color: "#64748b",
+                      color: "var(--muted)",
                       fontWeight: 500,
                       whiteSpace: "nowrap",
                       overflow: "hidden",
@@ -446,14 +446,14 @@ export default function CardRail({
                     alignItems: "center",
                     justifyContent: "space-between",
                     fontSize: 11,
-                    color: "#64748b",
+                    color: "var(--muted)",
                   }}
                 >
                   <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                    {formattedReviews} · <strong style={{ color: "#0f172a", fontWeight: 700 }}>{costLabel}</strong>
+                    {formattedReviews} · <strong style={{ color: "var(--ink)", fontWeight: 700 }}>{costLabel}</strong>
                   </span>
                   {active ? (
-                    <span style={{ color: "#0f172a", fontWeight: 700, fontSize: 10.5, whiteSpace: "nowrap" }}>
+                    <span style={{ color: "var(--ink)", fontWeight: 700, fontSize: 10.5, whiteSpace: "nowrap" }}>
                       Open card →
                     </span>
                   ) : null}
@@ -483,11 +483,11 @@ export default function CardRail({
             alignSelf: "stretch",
           }}
         >
-          <Icon name="map" size={20} width={1.8} color="#64748b" />
-          <div style={{ fontWeight: 700, fontSize: 13, color: "#334155" }}>
+          <Icon name="map" size={20} width={1.8} color="var(--muted)" />
+          <div style={{ fontWeight: 700, fontSize: 13, color: "var(--ink)" }}>
             That&apos;s this area
           </div>
-          <div style={{ fontSize: 11, color: "#64748b", lineHeight: 1.35 }}>
+          <div style={{ fontSize: 11, color: "var(--muted)", lineHeight: 1.35 }}>
             Pan the map to explore another pocket
           </div>
         </div>

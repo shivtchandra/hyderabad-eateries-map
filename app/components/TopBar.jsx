@@ -27,7 +27,7 @@ export default function TopBar({
   }, [searchOpen]);
 
   return (
-    <div style={{ flexShrink: 0, padding: "10px 12px 6px", position: "relative", zIndex: 1400 }}>
+    <div className="topbar" style={{ flexShrink: 0, padding: "10px 12px 6px", position: "relative", zIndex: 1400 }}>
     <div
       className="material"
       style={{

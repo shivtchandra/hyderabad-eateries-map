@@ -704,7 +704,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   }, [tab, visitedCount, savedCount]);
 
   return (
-    <div style={{ position: "fixed", inset: 0, paddingTop: "env(safe-area-inset-top, 0px)", display: "flex", flexDirection: "column", background: "var(--cream)", overflow: "hidden" }}>
+    <div className="app-shell" style={{ position: "fixed", inset: 0, paddingTop: "env(safe-area-inset-top, 0px)", display: "flex", flexDirection: "column", background: "var(--cream)", overflow: "hidden" }}>
       {/* The map UI has no visible page heading; give crawlers and screen readers one H1. */}
       <h1 style={{ position: "absolute", width: 1, height: 1, margin: -1, padding: 0, overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap", border: 0 }}>
         Hyderabad food map and community rankings
