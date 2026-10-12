@@ -202,8 +202,8 @@ export default function CardRail({
                 style={{
                   height: 104,
                   position: "relative",
-                  background: cat.color,
-                  backgroundColor: "var(--ink)",
+                  // Soft paper placeholder while the photo loads (no dark flash).
+                  backgroundColor: "var(--paper)",
                   overflow: "hidden",
                 }}
               >

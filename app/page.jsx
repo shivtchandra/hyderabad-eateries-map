@@ -184,6 +184,8 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   const [nearbyArea, setNearbyArea] = useState(null);
   const [roadDistMap, setRoadDistMap] = useState({});
   const [currentTheme, setCurrentTheme] = useState(null);
+  const [voteTop, setVoteTop] = useState([]);
+  const [mapOffline, setMapOffline] = useState(false);
   const [picksMap, setPicksMap] = useState({});
   const [starOfWeek, setStarOfWeek] = useState(null);
   const [locPulsed, setLocPulsed] = useState(false);
@@ -222,7 +224,14 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   }, []);
 
   useEffect(() => {
-    fetchCurrentTheme().then((cur) => { if (cur.theme?.active && !cur.theme?.winnerId) setCurrentTheme(cur.theme); });
+    fetchCurrentTheme().then((cur) => {
+      if (cur.theme?.active && !cur.theme?.winnerId) {
+        setCurrentTheme(cur.theme);
+        // Top 3 of the live vote become tickets on the map (real counts only).
+        setVoteTop((cur.results || []).filter((r) => (r.count || 0) > 0).slice(0, 3)
+          .map((r, i) => ({ spotId: r.spotId, name: r.name, count: r.count, rank: i + 1 })));
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -781,6 +790,9 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
               onAreaEnter={handleAreaEnter}
               onHeroesChange={setHeroes}
               onZoomChange={(api) => { mapApi.current = api; }}
+              voteTop={tab === "map" ? voteTop : []}
+              voteLabel={currentTheme?.title?.replace(/^best\s+/i, "").replace(/\s+in\s+hyderabad$/i, "")}
+              onMapError={() => setMapOffline(true)}
             />
           ) : (
             <div
@@ -933,6 +945,12 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
           <>
             {!sheetOpen && !areaLabel && (
               <ThemeNudge theme={currentTheme} onVote={() => openRaceView("theme")} />
+            )}
+            {mapOffline && (
+              <div className="map-offline" role="status">
+                <span>Map is offline. Your saved spots still work.</span>
+                <button type="button" onClick={() => window.location.reload()}>Retry</button>
+              </div>
             )}
             {areaLabel && (
               <button

@@ -28,6 +28,7 @@ export default function MapCanvas({
   onSelect, onAreaEnter, onHeroesChange, onZoomChange, routeLine = null, heroCap = 120, poolSize,
   pickMode = false, onPick, pickedPoint = null,
   onViewportChange, onMapError, recommendationMode = false,
+  voteTop = [], voteLabel = "",
 }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
@@ -37,6 +38,7 @@ export default function MapCanvas({
   const meLayerRef = useRef(null);
   const routeLayerRef = useRef(null);
   const pickLayerRef = useRef(null);
+  const ticketLayerRef = useRef(null);
   const [ready, setReady] = useState(false);
   // First open per session: two clouds part when the basemap is ready (the
   // reels' opening). Never blocks taps; skipped for reduced motion.
@@ -133,6 +135,8 @@ export default function MapCanvas({
           }).addTo(map);
           let loaded = false;
           gl.getMaplibreMap().once("load", () => { loaded = true; setBasemapReady(true); });
+          // Tile fetches failing after load (offline) surface the offline card.
+          gl.getMaplibreMap().on("error", (ev) => { if (loaded && ev?.sourceId) errorRef.current?.(); });
           window.setTimeout(() => {
             if (loaded || cancelled || !mapRef.current) return;
             map.removeLayer(gl);
@@ -148,6 +152,7 @@ export default function MapCanvas({
       meLayerRef.current = L.layerGroup().addTo(map);
       routeLayerRef.current = L.layerGroup().addTo(map);
       pickLayerRef.current = L.layerGroup().addTo(map);
+      ticketLayerRef.current = L.layerGroup().addTo(map);
 
       const bump = () => {
         setViewTick((t) => t + 1);
@@ -165,6 +170,29 @@ export default function MapCanvas({
     })().catch(() => errorRef.current?.());
     return () => { cancelled = true; mapRef.current?.remove(); mapRef.current = null; };
   }, []);
+
+  // Live vote tickets (DESIGN.md, Home mockup): the top 3 of this week's vote
+  // sit on the map as small yellow-band tickets. Tap one to open the spot.
+  useEffect(() => {
+    const L = LRef.current;
+    const layer = ticketLayerRef.current;
+    if (!ready || !L || !layer) return;
+    layer.clearLayers();
+    const byId = new Map(eateries.map((e) => [e.id, e]));
+    for (const t of voteTop) {
+      const e = byId.get(t.spotId);
+      if (!e || e.lat == null || e.lng == null) continue;
+      const tied = voteTop.filter((o) => o.count === t.count).length > 1;
+      const band = `${voteLabel ? `${escapeHtml(voteLabel.toUpperCase())} · ` : ""}${tied ? "TIED" : `#${t.rank}`}`;
+      const html = `<div class="map-ticket"><div class="map-ticket-band">${band}</div><div class="map-ticket-body"><b>${escapeHtml(t.name)}</b><span>${t.count} ${t.count === 1 ? "vote" : "votes"}</span></div></div>`;
+      L.marker([e.lat, e.lng], {
+        icon: L.divIcon({ className: "", html, iconSize: [156, 62], iconAnchor: [78, 72] }),
+        zIndexOffset: 5000,
+        keyboard: true,
+        title: `${t.name}, ${t.count} votes`,
+      }).on("click", () => onSelect?.(e.id)).addTo(layer);
+    }
+  }, [ready, voteTop, voteLabel, eateries, onSelect]);
 
   // Crosshair cursor while picking, so it's obvious the next tap places a pin.
   useEffect(() => {

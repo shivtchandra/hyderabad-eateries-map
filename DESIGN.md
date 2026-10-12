@@ -407,6 +407,12 @@ Also done (second pass):
 - Area pages: count chips and a 1 big + 2 small photo strip.
 - Em-dashes removed from our own copy (share titles, verdicts, placeholders). Quoted Reddit text is left as written.
 
+Third pass (mockup match):
+- Map tab: E tile, search pill, sliders Filters and white chips float over the map; search only on Map.
+- Site pages: light header with big black titles; You hub page; Vote tab and /rankings rebuilt around an every-ranking index with live #1, votes and a Vote state; debate line.
+- Spot sheet: Directions + Save + Share footer, I ate here as a quiet row.
+- Live vote top 3 as tickets on the map; Map is offline card; soft photo placeholders.
+
 Still to do:
 - Measure MapLibre on a real mid-range Android phone (bundle loads lazily after the map shell; 8s raster fallback).
 - Remaining one-off inline layout styles in the big components can move to classes as those files are touched.
