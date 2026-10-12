@@ -30,7 +30,8 @@ const getCurrentTheme = unstable_cache(
         for (const d of scheduled.docs) {
           const td = d.data();
           if (td.active) continue;
-          if (td.startDate && today >= td.startDate && !td.winnerId) {
+          // never revive a week that already ended (a stray draft from an earlier week)
+          if (td.startDate && today >= td.startDate && !td.winnerId && (!td.endDate || today <= td.endDate)) {
             await d.ref.update({ active: true });
             doc = d;
             break;

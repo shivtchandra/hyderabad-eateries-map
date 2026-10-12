@@ -73,7 +73,8 @@ export async function POST(req) {
       startDate: startDate || "", endDate: endDate || "",
       displayLimit: displayLimit ? Number(displayLimit) : 20,
       active: shouldBeActive,
-      createdAt: Date.now(),
+      // only on create: editing a theme must not move it to "newest" or reset its vote clock
+      ...(themeId ? {} : { createdAt: Date.now() }),
     },
     { merge: true }
   );

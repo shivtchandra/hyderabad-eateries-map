@@ -1,13 +1,22 @@
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
-import { unstable_cache } from "next/cache";
 import { dedupeThemesBySlug } from "../../../../lib/rankings.js";
 import { rankByFreshness, themeCreatedAt } from "../../../../lib/voteDecay.js";
 
 export const dynamic = "force-dynamic";
 
 // Earlier themes stay votable after a newer one is featured.
-const getHistory = unstable_cache(
-  async (limit) => {
+// In-memory memo (30 s), not Vercel's data cache: the data cache kept serving last
+// week's list after a theme closed (plan limits rule out ISR/data cache anyway).
+const MEMO_MS = 30_000;
+const memo = new Map();
+async function getHistory(limit) {
+  const hit = memo.get(limit);
+  if (hit && Date.now() - hit.at < MEMO_MS) return hit.value;
+  const value = await loadHistory(limit);
+  memo.set(limit, { at: Date.now(), value });
+  return value;
+}
+async function loadHistory(limit) {
     const db = await getAdminDb();
     if (!db) return [];
 
@@ -30,14 +39,13 @@ const getHistory = unstable_cache(
         .limit(20)
         .get();
       const results = rankByFreshness(votesSnap.docs.map((d) => ({ spotId: d.id, ...d.data() })), themeCreatedAt(data));
+      // A theme that never ran (no winner, no votes) is a stray draft, not a past week.
+      if (!data.winnerId && !results.some((r) => (r.count || 0) > 0)) continue;
       out.push({ id: doc.id, ...data, results });
       if (dedupeThemesBySlug(out).length >= limit) break;
     }
     return dedupeThemesBySlug(out).slice(0, limit);
-  },
-  ["theme-history"],
-  { revalidate: 30, tags: ["themes"] }
-);
+}
 
 export async function GET(req) {
   try {
