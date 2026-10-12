@@ -899,9 +899,18 @@ a.of-card-name:hover { text-decoration: underline; }
 .guides-area { display: inline-flex; align-items: center; height: 44px; padding: 0 var(--s4); border: 1.5px solid var(--ink); border-radius: var(--r-pill); color: var(--ink); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; }
 .guides-area:hover { background: var(--ink); color: #fff; }
 
-/* Spot page order: what to order first, the review and photos next, the
-   "Ate here? Claim" ask last. Done in CSS so the page file is untouched.
-   Scoped to spot pages by the consensus card. */
-.site-body:has(> .spot-consensus-lead) { display: flex; flex-direction: column; }
-.site-body:has(> .spot-consensus-lead) > .spot-consensus-lead { order: -1; margin-bottom: var(--s6); }
-.site-body:has(> .spot-consensus-lead) > div:first-child:not(.spot-consensus-lead) { order: 1; margin-top: var(--s6); }
+/* ---- Spot page (app/spot/[id]/page.jsx): photo, one action row, what to
+   order, the review, and the "Ate here?" ask last. ---- */
+.spot-top-photo { display: block; width: 100%; aspect-ratio: 4 / 3; max-height: 520px; object-fit: cover; border-radius: var(--r-card); background: var(--paper); }
+.spot-actions { display: flex; flex-wrap: wrap; gap: var(--s2); margin: var(--s4) 0 var(--s7); }
+.spot-actions-primary { flex: 1 1 160px; display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 var(--s6); border-radius: var(--r-btn); background: var(--violet); color: #fff; font-size: 16px; font-weight: 700; text-decoration: none; }
+.spot-actions-primary:hover { background: var(--violet-deep); }
+.spot-actions-secondary { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 var(--s5); border-radius: var(--r-btn); background: var(--cream-hi); color: var(--ink); font-size: 15px; font-weight: 600; text-decoration: none; box-shadow: inset 0 0 0 1.5px var(--line); }
+.spot-actions a:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+.spot-consensus-lead { background: var(--cream-hi); border-radius: var(--r-card); padding: var(--s5); margin-bottom: var(--s7); }
+.spot-claim { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s4); margin-top: var(--s8); padding: var(--s6); background: var(--violet); color: #fff; border-radius: var(--r-card); }
+.spot-claim-text { min-width: 0; flex: 1 1 220px; }
+.spot-claim h2 { margin: 0 0 4px; font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 26px; line-height: 1; letter-spacing: -0.03em; color: #fff; }
+.spot-claim p { margin: 0; font-size: 15px; color: var(--violet-wash); }
+.spot-claim-cta { display: inline-flex; align-items: center; min-height: 52px; padding: 0 var(--s6); border-radius: var(--r-btn); background: var(--yellow); color: var(--ink); font-size: 16px; font-weight: 700; text-decoration: none; }
+.spot-claim-cta:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }

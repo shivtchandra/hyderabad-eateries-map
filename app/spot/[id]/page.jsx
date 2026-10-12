@@ -16,7 +16,6 @@ import RecommendationPanel from "../../components/RecommendationPanel.jsx";
 import { getRecommendations, recommendationFor } from "../../../lib/recommendations.js";
 import { recommendationsEnabled } from "../../../lib/recommendationShared.js";
 import { TIERS, tierFor } from "../../../lib/eateryUtils.js";
-import { Icon } from "../../components/Icons.jsx";
 import ShareSpotButton from "../../components/ShareSpotButton.jsx";
 import { getRedditSpotData } from "../../../lib/redditThreads.js";
 
@@ -183,6 +182,9 @@ export default async function SpotPage({ params }) {
       ? spotPhotoUrl(spot.id)
       : null;
   const galleryRest = spot.gallery?.length > 1 ? spot.gallery.slice(1) : [];
+  const directionsUrl = spot.lat != null && spot.lng != null
+    ? `https://www.google.com/maps/dir/?api=1&destination=${spot.lat},${spot.lng}`
+    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${spot.name} ${spot.discoveredIn || "Hyderabad"}`)}`;
   const todaysHours = spot.hours?.length
     ? spot.hours[(new Date().getDay() + 6) % 7]?.split(": ").slice(1).join(": ")
     : null;
@@ -252,80 +254,21 @@ export default async function SpotPage({ params }) {
         { href: `/explore/${spot.category === "local" ? "biryani-and-local" : spot.category === "restro-bar" ? "bars" : spot.category === "ice-cream" ? "ice-cream" : spot.category === "bakery" ? "bakeries" : "cafes"}`, label: `More ${CAT_LABEL[spot.category] || "spots"}` },
       ]}
     >
-      {/* Race Claim Banner */}
-      <div style={{
-        background: "linear-gradient(135deg, var(--violet-wash) 0%, rgba(124,58,237,0.12) 100%)",
-        border: "1.5px solid rgba(124,58,237,0.25)",
-        borderRadius: 20,
-        padding: "16px",
-        marginBottom: 20,
-        boxShadow: "0 2px 10px rgba(124,58,237,0.08)",
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
-          <span style={{
-            width: 38, height: 38, borderRadius: "50%",
-            background: "var(--violet)", color: "#fff",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            flexShrink: 0, boxShadow: "0 3px 8px rgba(124,58,237,0.3)"
-          }}>
-            <Icon name="trophy" size={19} width={2.1} color="#fff" />
-          </span>
-          <div style={{ minWidth: 0, flex: 1 }}>
-            <div style={{ fontWeight: 800, fontSize: 15, color: "var(--ink)", lineHeight: 1.3 }}>
-              Ate at {displayName(spot.name)}?
-            </div>
-            <div style={{ fontSize: 12.5, color: "var(--violet-deep)", fontWeight: 600, marginTop: 2 }}>
-              Claim +{tier.points} pts in The Hyderabad Food Race
-            </div>
-          </div>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <ShareSpotButton
-            spotName={displayName(spot.name)}
-            spotPath={spotPath(spot)}
-            style={{
-              flex: 1,
-              padding: "9px 12px",
-              fontSize: 12.5,
-              justifyContent: "center",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-            }}
-          />
-          <Link
-            href={`/?spot=${encodeURIComponent(spot.id)}`}
-            className="pressable-sm"
-            style={{
-              flex: 1,
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "9px 12px",
-              borderRadius: "var(--r-pill, 999px)",
-              background: "var(--violet)",
-              color: "#fff",
-              fontSize: 12.5,
-              fontWeight: 750,
-              textDecoration: "none",
-              whiteSpace: "nowrap",
-              boxShadow: "0 2px 6px rgba(124,58,237,0.25)"
-            }}
-          >
-            Claim Spot →
-          </Link>
-        </div>
+      {/* Photo first, then the one primary action (DESIGN.md section 4). The
+          "Ate here? Claim" ask moved to the end of the page. */}
+      {heroImg && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={heroImg} alt={displayName(spot.name)} className="spot-top-photo" />
+      )}
+      <div className="spot-actions">
+        <a href={directionsUrl} target="_blank" rel="noopener noreferrer" className="spot-actions-primary">Directions</a>
+        <ShareSpotButton spotName={displayName(spot.name)} spotPath={spotPath(spot)} style={{ minHeight: 52, padding: "0 20px", fontSize: 15, justifyContent: "center" }} />
+        <Link href={`/?spot=${encodeURIComponent(spot.id)}`} className="spot-actions-secondary">Open on map</Link>
       </div>
 
       {/* Princeton GEO Consensus Summary Block */}
       <div
         className="spot-consensus-lead"
-        style={{
-          background: "var(--cream-hi, #fbf7f0)",
-          border: "1.5px solid rgba(124, 58, 237, 0.16)",
-          borderRadius: 16,
-          padding: "16px 18px",
-          marginBottom: 22,
-          boxShadow: "0 2px 8px rgba(124, 58, 237, 0.04)",
-        }}
       >
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap", marginBottom: 10 }}>
           <span style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--violet-deep)" }}>
@@ -467,16 +410,6 @@ export default async function SpotPage({ params }) {
 
       {isReview ? (
         <div className="review">
-          {heroImg && (
-            <figure className="review-hero">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={heroImg} alt={displayName(spot.name)} />
-              <figcaption>
-                {CAT_LABEL[spot.category] || "Spot"}
-                {spot.discoveredIn ? ` · ${spot.discoveredIn}` : ""}
-              </figcaption>
-            </figure>
-          )}
 
           <div className="review-byline">
             <div>
@@ -638,12 +571,6 @@ export default async function SpotPage({ params }) {
       ) : (
         <>
           <div className="site-spot-hero">
-            {heroImg && (
-              <>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={heroImg} alt={spot.name} className={`site-spot-photo${spot.gallery?.length ? " site-spot-photo--full" : ""}`} />
-              </>
-            )}
             <div>
               <p style={{ fontSize: 15, lineHeight: 1.6, color: "var(--ink-soft)", margin: "0 0 12px" }}>
                 {spot.address || spot.discoveredIn || "Hyderabad"}
@@ -842,6 +769,15 @@ export default async function SpotPage({ params }) {
           )}
         </>
       )}
+
+      {/* The ask comes after the page has given something. */}
+      <section className="spot-claim">
+        <div className="spot-claim-text">
+          <h2>Ate at {displayName(spot.name)}?</h2>
+          <p>Claim +{tier.points} pts in the Hyderabad Food Race.</p>
+        </div>
+        <Link href={`/?spot=${encodeURIComponent(spot.id)}`} className="spot-claim-cta">Claim spot</Link>
+      </section>
     </SiteChrome>
     <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
       <BottomNav routed activeKey={spot.originStory?.length || spot.regularNote || spot.highlight ? "stories" : "map"} />
