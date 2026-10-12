@@ -97,6 +97,7 @@ add("/areas", "areas", { label: "Areas", title: "Where to eat, *area by area.*",
 add("/explore", "explore", { label: "Explore", title: "Explore Hyderabad, *by craving.*", sub: "Cafes, biryani, tiffins, late night and more.", visual: vLandmark() });
 add("/offers", "offers", { label: "Deals", title: "Dining deals in Hyderabad, *today.*", sub: "Live offers from District and Swiggy Dineout.", visual: vLandmark() });
 add("/stories", "stories", { label: "Stories", title: "Hyderabad food *stories.*", sub: "The places, people and dishes behind the map.", visual: vLandmark() });
+add("/guides", "guides", { label: "Guides", title: "Read Hyderabad *before you go.*", sub: "Local rankings, dish guides, areas, deals and food safety.", visual: vLandmark() });
 add("/picks", "picks", { label: "Dish guides", title: "Best food in Hyderabad, *dish by dish.*", sub: "Counted from what r/hyderabad actually recommends.", visual: vLandmark() });
 add("/ask", "ask", { label: "Questions", title: "Hyderabad food questions, *answered by locals.*", visual: vLandmark() });
 add("/about/how-we-pick", "how-we-pick", { label: "Method", title: "How we pick *what's good.*", sub: "People, not comments. Votes, not ads.", visual: vLandmark() });

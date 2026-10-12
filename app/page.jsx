@@ -740,8 +740,26 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
         searchOpen={searchOpen} setSearchOpen={setSearchOpen}
         searchResults={searchResults} onSelectResult={handleSearchSelect}
         onPreviewResult={loadDetail}
-        count={filtered.length} visitedCount={visitedCount}
       />
+
+      {/* You tab: saved spots, passport and the route planner share one tab,
+          switched here instead of taking three slots in the bottom nav. */}
+      {(tab === "saved" || tab === "passport" || tab === "route") && (
+        <div className="you-tabs" role="tablist" aria-label="You">
+          {[["saved", "Saved"], ["passport", "Passport"], ["route", "Route"]].map(([k, label]) => (
+            <button
+              key={k}
+              type="button"
+              role="tab"
+              aria-selected={tab === k}
+              className={`you-tab${tab === k ? " is-active" : ""}`}
+              onClick={() => goTab(k)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
 
       {tab === "map" && (
         <FilterChips
@@ -1147,7 +1165,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
           </div>
         </div>
       )}
-      <BottomNav tab={tab} setTab={goTab} visitedCount={passportBadge} savedCount={savedBadge} />
+      <BottomNav tab={tab} setTab={goTab} savedCount={savedBadge + passportBadge} />
     </div>
   );
 }

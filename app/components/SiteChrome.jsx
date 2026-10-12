@@ -1,17 +1,14 @@
 import Link from "next/link";
 import { Squiggles } from "./Icons.jsx";
 import BackButton from "./BackButton.jsx";
-import { recommendationsEnabled } from "../../lib/recommendationShared.js";
 
+// Same three destinations as the app's bottom nav (You is app-only). Deals,
+// food safety, stories, areas and dish guides all live under Guides now; the
+// footer keeps every link for crawlers.
 const NAV = [
   { href: "/", label: "Map" },
-  ...(recommendationsEnabled() ? [{ href: "/picks", label: "Dish guides" }] : []),
-  { href: "/offers", label: "Deals" },
-  { href: "/food-safety", label: "Food safety" },
-  { href: "/stories", label: "Stories" },
-  { href: "/rankings", label: "Rankings" },
-  { href: "/explore", label: "Explore" },
-  { href: "/areas", label: "Areas" },
+  { href: "/rankings", label: "Vote", match: ["/rankings", "/race"] },
+  { href: "/guides", label: "Guides", match: ["/guides", "/stories", "/explore", "/areas", "/offers", "/food-safety", "/picks"] },
 ];
 
 
@@ -23,7 +20,7 @@ export function SiteNav({ active, linksHidden }) {
     <nav className="site-topnav" aria-label="Main">
       <Link href="/" className="site-logo">Hyderabad Eats</Link>
       {NAV.map((item) => (
-        <Link key={item.href} href={item.href} className={`site-topnav-link${active === item.href ? " active" : ""}`}>
+        <Link key={item.href} href={item.href} className={`site-topnav-link${(item.match ? item.match.includes(active) : active === item.href) ? " active" : ""}`}>
           {item.label}
         </Link>
       ))}

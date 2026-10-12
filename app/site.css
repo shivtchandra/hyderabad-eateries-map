@@ -875,3 +875,21 @@ a.of-card-name:hover { text-decoration: underline; }
 .locals-pick li { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-size: 13px; }
 .locals-pick li a { font-weight: 700; color: var(--violet-deep); text-decoration: none; }
 .locals-pick li span { color: var(--muted); }
+
+/* ---- Guides hub (app/guides/page.jsx): big headings, hairline rows, arrow tiles ---- */
+.guides-section { margin-top: var(--s8); }
+.guides-section:first-child { margin-top: var(--s2); }
+.guides-h2 { margin: 0 0 var(--s3); font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: clamp(28px, 5vw, 36px); line-height: 1; letter-spacing: -0.03em; color: var(--ink); }
+.guides-h2-row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s4); }
+.guides-more { color: var(--violet-deep); font-size: 15px; font-weight: 600; text-decoration: none; }
+.guides-list { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line); }
+.guides-row { display: flex; align-items: center; gap: var(--s3); min-height: 60px; padding: var(--s3) 0; border-top: 1px solid var(--line); color: var(--ink); text-decoration: none; }
+.guides-row-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.guides-row-label { font-size: 18px; font-weight: 600; line-height: 1.25; }
+.guides-row-note { font-size: 14px; color: var(--muted); }
+.guides-arrow { flex-shrink: 0; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 12px; background: var(--violet-wash); color: var(--violet-deep); transition: background var(--dur-2) ease, color var(--dur-2) ease; }
+.guides-row:hover .guides-arrow, .guides-row:focus-visible .guides-arrow { background: var(--violet); color: #fff; }
+.guides-row:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; border-radius: var(--r-xs); }
+.guides-areas { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.guides-area { display: inline-flex; align-items: center; height: 44px; padding: 0 var(--s4); border: 1.5px solid var(--ink); border-radius: var(--r-pill); color: var(--ink); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; }
+.guides-area:hover { background: var(--ink); color: #fff; }

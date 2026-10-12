@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { Icon } from "./Icons.jsx";
 import AddPlace from "./AddPlace.jsx";
 
@@ -18,7 +17,6 @@ const CATEGORY_META = {
 export default function TopBar({
   search, setSearch, searchOpen, setSearchOpen,
   searchResults = [], onSelectResult, onPreviewResult,
-  count, visitedCount,
 }) {
   const [added, setAdded] = useState(null); // name of a place just added from search
   useEffect(() => { setAdded(null); }, [search]);
@@ -99,32 +97,17 @@ export default function TopBar({
             {/* base ring */}
             <ellipse cx="15" cy="24" rx="6" ry="1.4" fill="white" opacity="0.65"/>
           </svg>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div
-              className="groovy"
-              style={{
-                fontSize: 17,
-                lineHeight: 1.15,
-                color: "var(--violet-deep)",
-                letterSpacing: "-0.005em",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-            >
-              Hyderabad Eats
-            </div>
-            <div className="t-cap" style={{ color: "var(--muted)", fontWeight: 500, marginTop: 2 }}>
-              {visitedCount > 0
-                ? `${visitedCount} stamped · ${count} spots`
-                : `${count} spots · stamp your passport`}
-            </div>
-          </div>
-          <Link href="/rankings" className="pressable-sm" style={{ ...iconBtn, textDecoration: "none" }} aria-label="Rankings" title="Weekly rankings">
-            <Icon name="trophy" size={17} color="var(--ink-soft)" />
-          </Link>
-          <button onClick={() => setSearchOpen(true)} className="pressable-sm" style={iconBtn} aria-label="Search">
-            <Icon name="search" size={18} color="var(--ink-soft)" />
+          {/* Search-first: the whole bar is the search box. Rankings moved to
+              the Vote tab and the spot count moved out (it showed the filtered
+              count, which read as a different number on every screen). */}
+          <button
+            type="button"
+            onClick={() => setSearchOpen(true)}
+            className="topbar-search"
+            aria-label="Search dishes, places or areas"
+          >
+            <Icon name="search" size={19} color="var(--ink-soft)" />
+            <span>Biryani, cafes, an area</span>
           </button>
         </>
       )}
