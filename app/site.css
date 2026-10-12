@@ -898,3 +898,10 @@ a.of-card-name:hover { text-decoration: underline; }
 .guides-areas { display: flex; flex-wrap: wrap; gap: var(--s2); }
 .guides-area { display: inline-flex; align-items: center; height: 44px; padding: 0 var(--s4); border: 1.5px solid var(--ink); border-radius: var(--r-pill); color: var(--ink); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; }
 .guides-area:hover { background: var(--ink); color: #fff; }
+
+/* Spot page order: what to order first, the review and photos next, the
+   "Ate here? Claim" ask last. Done in CSS so the page file is untouched.
+   Scoped to spot pages by the consensus card. */
+.site-body:has(> .spot-consensus-lead) { display: flex; flex-direction: column; }
+.site-body:has(> .spot-consensus-lead) > .spot-consensus-lead { order: -1; margin-bottom: var(--s6); }
+.site-body:has(> .spot-consensus-lead) > div:first-child:not(.spot-consensus-lead) { order: 1; margin-top: var(--s6); }

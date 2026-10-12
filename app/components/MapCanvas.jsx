@@ -38,6 +38,31 @@ export default function MapCanvas({
   const routeLayerRef = useRef(null);
   const pickLayerRef = useRef(null);
   const [ready, setReady] = useState(false);
+  // First open per session: two clouds part when the basemap is ready (the
+  // reels' opening). Never blocks taps; skipped for reduced motion.
+  const [clouds, setClouds] = useState(() => {
+    try {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+      if (sessionStorage.getItem("eats-clouds")) return false;
+      sessionStorage.setItem("eats-clouds", "1");
+      return true;
+    } catch { return false; }
+  });
+  const [basemapReady, setBasemapReady] = useState(false);
+  const [cloudsParted, setCloudsParted] = useState(false);
+  useEffect(() => {
+    if (!clouds) return;
+    if (!basemapReady) {
+      const cap = window.setTimeout(() => setCloudsParted(true), 2500); // never hold the map hostage
+      return () => window.clearTimeout(cap);
+    }
+    setCloudsParted(true);
+  }, [clouds, basemapReady]);
+  useEffect(() => {
+    if (!cloudsParted) return;
+    const t = window.setTimeout(() => setClouds(false), 800);
+    return () => window.clearTimeout(t);
+  }, [cloudsParted]);
   const [viewTick, setViewTick] = useState(0);
   const fixedHeroes = useRef({ key: "", ids: new Set() }); // photo-pin set, fixed per working set
 
@@ -87,6 +112,7 @@ export default function MapCanvas({
           maxZoom: 19,
           className: "raster-basemap",
         }).on("tileerror", () => errorRef.current?.()).addTo(map);
+        setBasemapReady(true);
       };
       const hasWebGL = (() => {
         try { const c = document.createElement("canvas"); return !!(c.getContext("webgl2") || c.getContext("webgl")); } catch { return false; }
@@ -106,7 +132,7 @@ export default function MapCanvas({
               '&copy; <a href="https://openfreemap.org">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org/">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
           }).addTo(map);
           let loaded = false;
-          gl.getMaplibreMap().once("load", () => { loaded = true; });
+          gl.getMaplibreMap().once("load", () => { loaded = true; setBasemapReady(true); });
           window.setTimeout(() => {
             if (loaded || cancelled || !mapRef.current) return;
             map.removeLayer(gl);
@@ -446,7 +472,30 @@ export default function MapCanvas({
     }
   }, [ready, eateries, filtered, passport, selectedId, featuredIds, viewTick, onSelect, onAreaEnter, onHeroesChange, heroCap, poolSize]);
 
-  return <div ref={containerRef} style={{ position: "absolute", inset: 0 }} />;
+  return (
+    <>
+      <div ref={containerRef} style={{ position: "absolute", inset: 0 }} />
+      {clouds && (
+        <div className={`map-clouds${cloudsParted ? " is-parted" : ""}`} aria-hidden="true">
+          <Cloud className="map-cloud map-cloud--l" />
+          <Cloud className="map-cloud map-cloud--r" />
+        </div>
+      )}
+    </>
+  );
+}
+
+function Cloud({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 200 110">
+      <g fill="#fff">
+        <circle cx="50" cy="70" r="35" />
+        <circle cx="95" cy="50" r="45" />
+        <circle cx="145" cy="65" r="38" />
+        <rect x="15" y="70" width="170" height="40" rx="20" />
+      </g>
+    </svg>
+  );
 }
 
 function escapeHtml(s = "") {

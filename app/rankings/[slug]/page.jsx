@@ -10,6 +10,7 @@ import { allCategoryPages, editorialRanking, pathForSpotId, hasSpotPhoto } from 
 import { spotPhotoUrl } from "../../../lib/photos.js";
 import ShareRankingButton from "../../components/ShareRankingButton.jsx";
 import BottomNav from "../../components/BottomNav.jsx";
+import { Icon } from "../../components/Icons.jsx";
 
 export const dynamic = "force-dynamic";
 
@@ -229,39 +230,39 @@ export default async function RankingPage({ params }) {
                   <img
                     src={spotPhotoUrl(leader.spotId)}
                     alt={leader.name}
-                    width={64}
-                    height={64}
+                    width={72}
+                    height={72}
                     style={{
-                      width: 64,
-                      height: 64,
-                      borderRadius: 14,
+                      width: 72,
+                      height: 72,
+                      borderRadius: "var(--r-btn)",
                       objectFit: "cover",
                       boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
-                      border: "2px solid #fff",
+                      border: "3px solid #fff",
                     }}
                   />
                   <span
                     aria-hidden="true"
                     style={{
                       position: "absolute",
-                      bottom: -4,
-                      right: -4,
-                      fontSize: 14,
-                      background: "#fff",
+                      bottom: -6,
+                      right: -6,
+                      background: "var(--ink)",
+                      color: "var(--yellow)",
                       borderRadius: "50%",
-                      width: 22,
-                      height: 22,
+                      width: 28,
+                      height: 28,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      boxShadow: "0 1px 4px rgba(0,0,0,0.15)",
+                      boxShadow: "0 1px 4px rgba(0,0,0,0.2)",
                     }}
                   >
-                    🏆
+                    <Icon name="crown" size={15} width={2.2} />
                   </span>
                 </div>
               ) : (
-                <span className="rk-crown" aria-hidden="true">🏆</span>
+                <span className="rk-crown" aria-hidden="true"><Icon name="crown" size={28} width={2} /></span>
               )}
               <div>
                 <div className="rk-eyebrow">{isCrowned ? "This week's crown" : "Leading right now"}</div>

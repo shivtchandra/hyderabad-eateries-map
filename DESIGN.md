@@ -209,7 +209,7 @@ exactly one place.** First screen drops to 14 taps.
 | Map | find somewhere to eat | search (dish, place, area), Filters sheet, 5 chips (Local, Restaurants, Cafes, Bars, Desserts), Find me, this-week vote card in the sheet, local favourites strip |
 | Vote | pick this week's best | this week's vote, last week's winner + results, past winners, suggest a theme |
 | Guides | read before you go | dish guides (best biryani, cafes...), areas, dining deals, food safety, stories |
-| You | your stuff | saved, food passport + stamps, sticker book, leaderboard, add a place, get the app |
+| You | your stuff | Saved / Passport / Route switcher at the top (route planner lives here), sticker book, leaderboard, add a place, get the app |
 
 Inside the spot sheet: Directions (primary), Save, Share, I ate here, Add a dish.
 
@@ -220,7 +220,7 @@ Removed or merged:
 - Recommended / All / Local Eats chips (map shows local favourites first, no toggle)
 - Dish menu chip + "Dish guides" link (dishes go in search, guides in Guides)
 - Bakery + Ice Cream chips (merged into Desserts)
-- Route tab (Directions on the spot), Stories tab (Guides)
+- Route tab (now You > Route; Directions stays on every spot), Stories tab (Guides)
 - Install prompt on first visit (show from 2nd visit, also in You)
 - Desktop header: 13 links become Map · Vote · Guides · You + search. SEO
   links stay in the footer crawl nav.
@@ -378,3 +378,30 @@ touched (DetailSheet, ThemeVoting, LeaderboardPanel first). No big-bang rewrite.
   tap target >= 44px; visible focus ring; reduced motion respected.
 - No fake data, no invented counts, no em-dashes in copy.
 - Existing routes, votes, saves, filters and SEO pages still work.
+
+---
+
+## 7. Status (branch `redesign-atlas`, Oct 2026)
+
+Done:
+- Tokens, Bricolage Grotesque + Space Grotesk (local woff2), violet kept, film grain removed.
+- First-visit Onboarding and ThemeIntro pop-ups removed; root 404 styled.
+- Skeleton `loading.jsx` on every dynamic site route; root `error.jsx` card.
+- Bottom nav Map / Vote / Guides / You; search-first top bar; site header Map / Vote / Guides; `/guides` hub.
+- Chips: Local, Restaurants, Cafes, Bars, Desserts (bakery + ice cream). Nearby, dish, open now, vibes, every-spot toggle live in Filters.
+- Live vote card (purple, question hook, yellow arrow tile).
+- Light vector basemap via MapLibre inside Leaflet. MapLibre 6 needs its worker served from
+  `public/vendor/maplibre/<version>/` (copy `maplibre-gl-worker.mjs` + `maplibre-gl-shared.mjs`
+  from node_modules on upgrade). Falls back to OSM raster. First-open clouds part on load.
+- Site pages: borderless white cards, big display titles, 52px buttons, #1 ranking as the yellow ticket.
+- Spot page order (CSS only): consensus first, review + photos, "Ate here? Claim" last.
+- Map spot sheet: "I ate here" is the one purple button.
+- Share cards use the new fonts and palette (CI redraws them on deploy).
+- Optimistic theme vote with a stamp press; Saved empty state (sticker, sentence, Open the map).
+
+Still to do:
+- Spot page JSX pass (photo first, sticky Directions bar) once the in-progress spot page edits land.
+- Passport panel and saved-list rows visual pass.
+- Move the remaining inline styles in DetailSheet, ThemeVoting, LeaderboardPanel to classes.
+- Check MapLibre performance on a mid-range Android phone.
+

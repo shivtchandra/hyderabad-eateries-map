@@ -33,6 +33,7 @@ export default function DetailSheet({
   const [themeVotePending, setThemeVotePending] = useState(false);
   const [themeCasting, setThemeCasting] = useState(false);
   const [themeVoteSpotLocal, setThemeVoteSpotLocal] = useState(null);
+  const [themeVoteFailed, setThemeVoteFailed] = useState(false);
   const [showMoreDetails, setShowMoreDetails] = useState(false);
   const [offersData, setOffersData] = useState(null);
   const [shareCopied, setShareCopied] = useState(false);
@@ -111,11 +112,17 @@ export default function DetailSheet({
   const handleThemeVote = useCallback(async () => {
     if (!currentTheme || votedForThis || themeCasting) return;
     if (votedForOther && !themeVotePending) { setThemeVotePending(true); return; }
+    // Optimistic: show the vote (and the VOTED stamp) straight away, roll back
+    // with a short message if the server says no.
+    const previous = themeVoteSpotLocal;
     setThemeCasting(true);
+    setThemeVoteFailed(false);
+    setThemeVoteSpotLocal(eatery.id);
+    setThemeVotePending(false);
     const result = await castThemeVote(currentTheme.id, eatery.id, eatery.name, { title: currentTheme.title });
     setThemeCasting(false);
-    if (result.ok) { setThemeVoteSpotLocal(eatery.id); setThemeVotePending(false); }
-  }, [currentTheme, votedForThis, votedForOther, themeCasting, themeVotePending, eatery.id, eatery.name]);
+    if (!result.ok) { setThemeVoteSpotLocal(previous); setThemeVoteFailed(true); }
+  }, [currentTheme, votedForThis, votedForOther, themeCasting, themeVotePending, themeVoteSpotLocal, eatery.id, eatery.name]);
 
   const allTags = validTagsFor(eatery.category, eatery.tags || []);
   const visibleTags = allTags.slice(0, 3);
@@ -867,6 +874,7 @@ export default function DetailSheet({
                     <button
                       onClick={handleThemeVote}
                       disabled={votedForThis || themeCasting}
+                      className={votedForThis ? "vote-stamped" : undefined}
                       style={{
                         ...secondaryBtn,
                         width: "100%",
@@ -880,6 +888,11 @@ export default function DetailSheet({
                       <Icon name="crown" size={14} width={2} color={votedForThis ? "#7c3aed" : themeVotePending ? "#92400e" : "#ffffff"} />
                       {votedForThis ? `Voted · ${currentTheme.title}` : themeVotePending ? "Confirm vote switch" : `Vote for "${currentTheme.title}"`}
                     </button>
+                    {themeVoteFailed && (
+                      <p role="status" style={{ margin: "6px 0 0", fontSize: 13, color: "var(--ink-soft)" }}>
+                        That vote didn’t go through. Try again.
+                      </p>
+                    )}
                   </div>
                 )}
 
@@ -920,19 +933,16 @@ export default function DetailSheet({
             onClick={() => (visited || !onAteHere ? onToggleVisited(eatery.id) : onAteHere(eatery.id))}
             style={{
               width: "100%",
-              height: 50,
-              fontSize: 15,
+              height: 52,
+              fontSize: 16,
               fontWeight: 700,
               letterSpacing: "-0.01em",
-              borderRadius: 999,
+              // The one purple button on the sheet (DESIGN.md: one primary per screen).
+              borderRadius: "var(--r-btn)",
               border: visited ? "1.5px solid #86efac" : "none",
-              background: visited
-                ? "#f0fdf4"
-                : "linear-gradient(180deg, #1e2540 0%, #111425 100%)",
+              background: visited ? "#f0fdf4" : "var(--violet)",
               color: visited ? "#15803d" : "#ffffff",
-              boxShadow: visited
-                ? "none"
-                : "0 8px 24px -4px rgba(17, 20, 37, 0.35), 0 2px 6px rgba(17, 20, 37, 0.15)",
+              boxShadow: visited ? "none" : "0 8px 22px -6px rgba(124, 58, 237, 0.45)",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
@@ -963,7 +973,7 @@ export default function DetailSheet({
                 flex: 1,
               }}
             >
-              <Icon name="navigate" size={14} width={2.1} color="#2f4fc4" /> Directions
+              <Icon name="navigate" size={14} width={2.1} color="var(--violet-deep)" /> Directions
             </a>
 
             {eatery.phone && (

@@ -375,33 +375,6 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   // What the map browses by default: the curated core list, or everything with "Show all spots".
   const pool = useMemo(() => curatedEnabled ? eateries.filter((e) => recommendationIds.has(e.id)) : (showAll ? eateries : eateries.filter((e) => e.core)), [eateries, showAll, curatedEnabled, recommendationIds]);
   const hiddenCount = eateries.length - eateries.filter((e) => e.core).length;
-  const counts = useMemo(() => {
-    const c = { all: pool.length };
-    for (const e of pool) c[e.category] = (c[e.category] ?? 0) + 1;
-    return c;
-  }, [pool]);
-
-  // Per-category counts with only sub-filters applied (tags, openNow, nearby), // not the category filter itself, so each chip shows how many of its own spots
-  // pass the active filters.
-  const filteredCounts = useMemo(() => {
-    if (!activeTags.length && !openNowOnly && !nearbyOnly && !newOnly && !safetyOnly && !localsOnly) return counts;
-    const c = {};
-    for (const e of pool) {
-      if (activeTags.length && !activeTags.every((t) => validTagsFor(e.category, e.tags).includes(t))) continue;
-      if (openNowOnly && allDetailsStatus === "loaded" && isOpenNow(details[e.id]?.hours) !== true) continue;
-      if (nearbyOnly && userLoc) {
-        const d = haversineKm(userLoc, { lat: e.lat, lng: e.lng });
-        if (d == null || d > 3) continue;
-      }
-      if (newOnly && !isNewSpot(e.createdAt)) continue;
-      if (safetyOnly && !safetyMap[e.id]) continue;
-      if (localsOnly && !localsMap[e.id]) continue;
-      c[e.category] = (c[e.category] ?? 0) + 1;
-    }
-    c.all = Object.values(c).reduce((s, n) => s + n, 0);
-    return c;
-  }, [pool, activeTags, openNowOnly, allDetailsStatus, nearbyOnly, newOnly, safetyOnly, safetyMap, localsOnly, localsMap, details, userLoc, counts]);
-
   const tagCounts = useMemo(() => {
     const c = {};
     for (const e of pool) for (const t of e.tags ?? []) c[t] = (c[t] ?? 0) + 1;
@@ -771,7 +744,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
           activeTags={activeTags} toggleTag={toggleTag}
           openNowOnly={openNowOnly} setOpenNowOnly={setOpenNowOnly}
           openNowLoading={allDetailsStatus === "loading"}
-          counts={filteredCounts} tagCounts={tagCounts}
+          tagCounts={tagCounts}
           userLoc={userLoc} nearbyOnly={nearbyOnly} setNearbyOnly={setNearbyOnly} nearbyArea={nearbyArea}
           newOnly={newOnly} setNewOnly={setNewOnly}
           safetyOnly={safetyOnly} setSafetyOnly={setSafetyOnly} safetyCount={Object.keys(safetyMap).length}
@@ -893,6 +866,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
           <SavedPanel
             eateries={eateries} passport={passport}
             onSelect={openFromList} onToggleVisited={handleToggleVisited}
+            onBrowse={() => goTab("map")}
           />
         )}
 

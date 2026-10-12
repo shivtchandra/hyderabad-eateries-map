@@ -11,21 +11,19 @@ const CAT_COLOR = {
   local: "var(--local)",
 };
 
-export default function SavedPanel({ eateries, passport, onSelect, onToggleVisited }) {
+export default function SavedPanel({ eateries, passport, onSelect, onToggleVisited, onBrowse }) {
   const saved = eateries.filter((e) => passport.saved[e.id]);
 
   if (!saved.length) {
     return (
-      <div style={{ flex: 1, background: "var(--cream)", display: "flex", alignItems: "center", justifyContent: "center", padding: 30 }}>
-        <div style={{ textAlign: "center", color: "var(--muted)", maxWidth: 290 }}>
-          <Icon name="bookmark" size={44} width={1.4} color="var(--line)" style={{ margin: "0 auto 12px" }} />
-          <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 600, fontSize: 16, color: "var(--ink)" }}>
-            Nothing saved yet
-          </div>
-          <div style={{ fontSize: 13.5, marginTop: 6, lineHeight: 1.5 }}>
-            Tap a spot and hit <strong style={{ color: "var(--cafe)" }}>Want to go</strong> to build your hit-list.
-          </div>
-        </div>
+      // Empty state (DESIGN.md section 5): sticker, one sentence, one button.
+      <div className="empty-state">
+        <span className="empty-sticker" aria-hidden="true">
+          <Icon name="bookmark" size={28} width={2.2} color="var(--ink)" />
+        </span>
+        <h2>Nothing saved yet.</h2>
+        <p>Tap the bookmark on any spot and it lands here.</p>
+        {onBrowse && <button type="button" className="empty-cta" onClick={onBrowse}>Open the map</button>}
       </div>
     );
   }
