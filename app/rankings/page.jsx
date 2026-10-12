@@ -17,6 +17,16 @@ export const metadata = {
   openGraph: { ...pageMeta({ title, description, path: "/rankings" }).openGraph, images: ogImages(title, description, "/rankings") },
 };
 
+// "Best Dosa in Hyderabad" -> question hook / short label for the index.
+function hook(title = "") {
+  const m = title.match(/^best (.+?) in hyderabad$/i);
+  return m ? `Hyderabad’s best ${m[1].toLowerCase()}?` : title;
+}
+function short(title = "") {
+  const t = title.replace(/\s+in\s+hyderabad$/i, "");
+  return t.charAt(0) + t.slice(1).toLowerCase();
+}
+
 function statusOf(theme) {
   if (theme.active && !theme.winnerId) return "live";
   if (theme.winnerId) return "winner";
@@ -58,49 +68,67 @@ export default async function RankingsHubPage() {
         { href: "/areas", label: "Browse areas" },
       ]}
     >
+      {/* One index of every ranking (Vote mockup): the live one first as a
+          yellow card, then every past ranking with its live #1. Votes stay
+          open, so nothing here says "ended". */}
       {live.map((theme) => {
         const totalVotes = (theme.results || []).reduce((s, r) => s + (r.count || 0), 0);
         const leader = theme.results?.[0];
         return (
-          <Link key={theme.id} href={`/rankings/${theme.slug}`} className="site-card" style={{ borderColor: "var(--violet)", marginBottom: 12 }}>
-            <span className="rankings-status live">Voting open</span>
-            <h2>{theme.title}</h2>
-            <p>{leader ? `Leading: ${leader.name} (${leader.count} votes)` : "Be the first to vote"}{totalVotes > 0 ? ` · ${totalVotes} total` : ""}</p>
+          <Link key={theme.id} href={`/rankings/${theme.slug}`} className="rk-live-card">
+            <span className="rk-live-kicker">Live vote</span>
+            <span className="rk-live-q">{hook(theme.title)}</span>
+            <span className="rk-live-meta">
+              {leader ? `#1 ${leader.name} · ${totalVotes} ${totalVotes === 1 ? "vote" : "votes"} so far` : "No votes yet. Yours starts it."}
+            </span>
+            <span className="rk-live-cta">Vote now</span>
           </Link>
         );
       })}
-
       {live.length === 0 && (
         <div className="site-card" style={{ marginBottom: 16 }}>
-          <p>No live vote right now. Pick a ranking below or explore the map.</p>
-          <Link href="/" className="site-cta">Open the map</Link>
+          <p>No live vote this week. Every ranking below is still open.</p>
         </div>
       )}
 
-      <h2 className="site-section-title">Vote by dish</h2>
-      <div className="site-grid">
-        {SEO_THEME_PICKS.map((p) => (
-          <Link key={p.title} href={`/rankings/${slugFromTitle(p.title)}`} className="site-card">
-            <h3>{p.title}</h3>
-            <p>{p.description}</p>
-          </Link>
-        ))}
-      </div>
-
       {past.length > 0 && (
         <>
-          <h2 className="site-section-title">Past rankings</h2>
-          {past.map((theme) => {
-            const st = statusOf(theme);
-            const totalVotes = (theme.results || []).reduce((s, r) => s + (r.count || 0), 0);
-            return (
-              <Link key={theme.id} href={`/rankings/${theme.slug}`} className="site-card" style={{ marginBottom: 10 }}>
-                <span className={`rankings-status ${st}`}>{st === "winner" ? "Winner crowned" : "Ended"}</span>
-                <h2>{theme.title}</h2>
-                <p>{theme.winnerName ? `Winner: ${theme.winnerName}` : theme.results?.[0] ? `#1: ${theme.results[0].name}` : "View results"}{totalVotes > 0 ? ` · ${totalVotes} votes` : ""}</p>
+          <h2 className="site-section-title">Every ranking</h2>
+          <ul className="rk-index">
+            {past.map((theme) => {
+              const st = statusOf(theme);
+              const totalVotes = (theme.results || []).reduce((s, r) => s + (r.count || 0), 0);
+              const leader = theme.results?.[0];
+              return (
+                <li key={theme.id}>
+                  <Link href={`/rankings/${theme.slug}`} className="rank-card rk-index-card">
+                    <span className="rank-card-main">
+                      <span className="rank-card-title">{short(theme.title)}</span>
+                      <span className="rank-card-meta">
+                        {leader ? <><b>{theme.winnerName || leader.name}</b>{totalVotes > 0 ? ` · ${totalVotes} votes` : ""}</> : "No votes yet"}
+                        {" · "}{st === "winner" ? "Crowned, still open" : "Still open"}
+                      </span>
+                    </span>
+                    <span className="rank-card-vote" aria-hidden="true">Vote</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      )}
+
+      {upcoming.length > 0 && (
+        <>
+          <h2 className="site-section-title">More to vote on</h2>
+          <div className="site-grid">
+            {upcoming.map((p) => (
+              <Link key={p.title} href={`/rankings/${slugFromTitle(p.title)}`} className="site-card">
+                <h3>{p.title}</h3>
+                <p>{p.description}</p>
               </Link>
-            );
-          })}
+            ))}
+          </div>
         </>
       )}
     </SiteChrome>

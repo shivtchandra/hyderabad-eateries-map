@@ -28,6 +28,12 @@ function totalVotes(results = [], localCounts = {}) {
 
 // "Best Ice Cream in Hyderabad" reads as a label; the reels open on the
 // question ("Hyderabad's best ice cream?"), so the Vote tab does too.
+// "Best Dosa in Hyderabad" -> "Best dosa": the index is all Hyderabad.
+function shortTitle(title = "") {
+  const t = title.replace(/\s+in\s+hyderabad$/i, "");
+  return t.charAt(0) + t.slice(1).toLowerCase();
+}
+
 function voteHook(title = "") {
   const m = title.match(/^best (.+?) in hyderabad$/i);
   return m ? `Hyderabad’s best ${m[1].toLowerCase()}?` : title;
@@ -168,7 +174,9 @@ export default function ThemeVoting({ initialDishSlug = null }) {
     const [cur, hist] = await Promise.all([fetchCurrentTheme(), fetchThemeHistory(12)]);
     setCurrent(cur);
     setLocalResults(null);
-    const past = hist.themes || [];
+    // Not-yet-voted rankings first, decided once per load so a card doesn't
+    // jump away the moment you vote in it.
+    const past = [...(hist.themes || [])].sort((x, y) => (getThemeVoteSpot(x.id) ? 1 : 0) - (getThemeVoteSpot(y.id) ? 1 : 0));
     setHistory(past);
     setLoading(false);
     if (cur.theme) setVotedSpotId(getThemeVoteSpot(cur.theme.id));
@@ -224,7 +232,13 @@ export default function ThemeVoting({ initialDishSlug = null }) {
     }
 
     const hist = await fetchThemeHistory(12);
-    const past = hist.themes || [];
+    const fresh = hist.themes || [];
+    // Keep the on-screen order; new themes (rare) go to the end.
+    const past = (() => {
+      const byId = new Map(fresh.map((th) => [th.id, th]));
+      const kept = history.map((th) => byId.get(th.id)).filter(Boolean);
+      return [...kept, ...fresh.filter((th) => !history.some((h) => h.id === th.id))];
+    })();
     setHistory(past);
     setVoteTick((n) => n + 1);
 
@@ -270,22 +284,19 @@ export default function ThemeVoting({ initialDishSlug = null }) {
           votedSpotId={votedSpotId}
           onVote={handleVote}
           localCounts={localCounts}
+          rankingsCount={history.length + 1}
+          onSeeAll={() => prevWeeksRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
         />
       )}
 
       {history.length > 0 && (
-        <div ref={prevWeeksRef} style={{ marginTop: current.theme ? 20 : 0, scrollMarginTop: 56 }}>
-          <div style={{
-            margin: "4px 16px 12px",
-            padding: "10px 0 0",
-            borderTop: "1.5px solid var(--line)",
-            fontFamily: "var(--font-display), system-ui, sans-serif",
-            fontSize: 18,
-            fontWeight: 700,
-            color: "var(--ink)",
-            letterSpacing: "-0.01em",
-          }}>
-            Previous weeks
+        <div ref={prevWeeksRef} className="rank-index" style={{ scrollMarginTop: 72 }}>
+          <div className="rank-index-head">
+            <h2>Every ranking</h2>
+            <p>
+              You’ve voted in {history.filter((th) => getThemeVoteSpot(th.id)).length + (current.theme && votedSpotId ? 1 : 0)} of {history.length + (current.theme ? 1 : 0)}.
+              {" "}Votes stay open for a year, so every ranking keeps moving.
+            </p>
           </div>
           {nudgePast && (
             <div style={{
@@ -299,8 +310,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
               color: "var(--violet-deep)",
               lineHeight: 1.4,
             }}>
-              Nice. This week&apos;s locked in. Next, vote last week&apos;s challenge below.
-              Past dishes stay open for a year.
+              Nice, this week is locked in. Here are the rankings you haven&apos;t voted in yet.
             </div>
           )}
           {history.map((th) => (
@@ -328,7 +338,9 @@ export default function ThemeVoting({ initialDishSlug = null }) {
   );
 }
 
-function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
+function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, rankingsCount = 0, onSeeAll }) {
+  const [showAllRows, setShowAllRows] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
   const [searchQ, setSearchQ] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [seedSuggestions, setSeedSuggestions] = useState([]);
@@ -396,6 +408,9 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
           {votedSpotId && (
             <span className="vote-voted"><Icon name="check" size={13} width={2.5} color="currentColor" /> You voted</span>
           )}
+          {rankingsCount > 1 && onSeeAll && (
+            <button type="button" className="vote-all-link" onClick={onSeeAll}>Every ranking ({rankingsCount})</button>
+          )}
           <a href={`/rankings/${slugFromTitle(theme.title)}`} className="vote-full-link">Full ranking page</a>
         </div>
       </div>
@@ -417,7 +432,72 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
         </div>
       )}
 
-      {/* Search above the standings: a long list hid it, and it's the only way to add a missing place. */}
+      {/* Standings / suggested picks (always show ~10 once we have seeds) */}
+      {standings.length > 0 && (
+        <div style={{ padding: "0 16px 8px", display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.04em", textTransform: "uppercase" }}>
+            {!hasVotes ? "Suggested picks" : totalVotes(standings, localCounts) < 20 ? "Early votes" : "Live standings"}
+          </div>
+          {hasVotes && (
+            <div style={{ fontSize: 12, fontWeight: 700, color: "var(--violet-deep)" }}>
+              {totalVotes(standings, localCounts).toLocaleString()} votes
+            </div>
+          )}
+        </div>
+      )}
+      {standings.length > 0 && (
+        <div className="vote-list">
+          {(showAllRows ? standings : standings.slice(0, 5)).map((r, i) => {
+            const count = localCounts[r.spotId] ?? r.count ?? 0;
+            const crowned = theme.winnerId || isPastEndDate(theme);
+            const isCrown = crowned && hasVotes && i === 0;
+            const isLead = hasVotes && i === 0;
+            return (
+              <div key={r.spotId} className={`vote-row${isCrown ? " is-crown" : isLead ? " is-lead" : ""}`}>
+                <span className="vote-rank">
+                  {isCrown ? <Icon name="crown" size={16} width={2} color="var(--ink)" /> : `#${i + 1}`}
+                </span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div className="vote-name">{r.name}{isUserSpot(r.spotId) && <span className="new-place-chip">New</span>}</div>
+                  <div className="vote-count">
+                    {(() => {
+                      const loc = dupNames.has(r.name) ? r.area : "";
+                      const rest = count > 0
+                        ? `${count} vote${count !== 1 ? "s" : ""}`
+                        : "Tap to cast the first vote"; // community votes only, no outside ratings
+                      return loc ? `${loc} · ${rest}` : rest;
+                    })()}
+                  </div>
+                </div>
+                {r.spotId === votedSpotId ? (
+                  <span className="vote-row-voted">
+                    <Icon name="check" size={12} width={2.5} color="var(--violet-deep)" /> Voted
+                  </span>
+                ) : (
+                  <button
+                    onClick={() => pickSpot({ spotId: r.spotId, name: r.name, category: r.category || "" })}
+                    className="vote-row-btn"
+                  >
+                    {votedSpotId ? "Switch" : "Vote"}
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <div className="vote-more">
+        {standings.length > 5 && (
+          <button type="button" className="vote-more-btn" onClick={() => setShowAllRows((v) => !v)} aria-expanded={showAllRows}>
+            {showAllRows ? "Show top 5" : `Show all ${standings.length}`}
+          </button>
+        )}
+        <button type="button" className="vote-add-link" onClick={() => setAddOpen((v) => !v)} aria-expanded={addOpen}>
+          {addOpen ? "Close search" : votedSpotId ? "Switch to another place" : "Can’t see your pick? Add it"}
+        </button>
+      </div>
+      {addOpen && (
       <div style={{ margin: "0 16px 16px", position: "relative", zIndex: 2 }}>
           <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 8 }}>
             {votedSpotId ? "Switch to another place" : "Search or add a place"}
@@ -479,63 +559,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
             )}
           </div>
         </div>
-
-      {/* Standings / suggested picks (always show ~10 once we have seeds) */}
-      {standings.length > 0 && (
-        <div style={{ padding: "0 16px 8px", display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.04em", textTransform: "uppercase" }}>
-            {!hasVotes ? "Suggested picks" : totalVotes(standings, localCounts) < 20 ? "Early votes" : "Live standings"}
-          </div>
-          {hasVotes && (
-            <div style={{ fontSize: 12, fontWeight: 700, color: "var(--violet-deep)" }}>
-              {totalVotes(standings, localCounts).toLocaleString()} votes
-            </div>
-          )}
-        </div>
       )}
-      {standings.length > 0 && (
-        <div className="vote-list">
-          {standings.map((r, i) => {
-            const count = localCounts[r.spotId] ?? r.count ?? 0;
-            const crowned = theme.winnerId || isPastEndDate(theme);
-            const isCrown = crowned && hasVotes && i === 0;
-            const isLead = hasVotes && i === 0;
-            return (
-              <div key={r.spotId} className={`vote-row${isCrown ? " is-crown" : isLead ? " is-lead" : ""}`}>
-                <span className="vote-rank">
-                  {isCrown ? <Icon name="crown" size={16} width={2} color="var(--ink)" /> : `#${i + 1}`}
-                </span>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div className="vote-name">{r.name}{isUserSpot(r.spotId) && <span className="new-place-chip">New</span>}</div>
-                  <div className="vote-count">
-                    {(() => {
-                      const loc = dupNames.has(r.name) ? r.area : "";
-                      const rest = count > 0
-                        ? `${count} vote${count !== 1 ? "s" : ""}`
-                        : "Tap to cast the first vote"; // community votes only, no outside ratings
-                      return loc ? `${loc} · ${rest}` : rest;
-                    })()}
-                  </div>
-                </div>
-                {r.spotId === votedSpotId ? (
-                  <span className="vote-row-voted">
-                    <Icon name="check" size={12} width={2.5} color="var(--violet-deep)" /> Voted
-                  </span>
-                ) : (
-                  <button
-                    onClick={() => pickSpot({ spotId: r.spotId, name: r.name, category: r.category || "" })}
-                    className="vote-row-btn"
-                  >
-                    {votedSpotId ? "Switch" : "Vote"}
-                  </button>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-
     </div>
   );
 }
@@ -576,51 +600,44 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
   };
 
   return (
-    <div style={{ margin: "0 16px 8px", background: "var(--cream-hi)", borderRadius: "var(--r-md)", boxShadow: "var(--e1)", overflow: "hidden" }}>
-      <div style={{ display: "flex", alignItems: "stretch", gap: 0 }}>
-        <button
-          type="button"
-          onClick={onToggle}
-          style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: 10, padding: "12px 8px 12px 14px", border: "none", background: "transparent", cursor: "pointer", textAlign: "left" }}
-        >
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontWeight: 700, fontSize: 13.5, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {theme.title}
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11.5, color: "var(--muted)", fontWeight: 500, marginTop: 2, overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
-              {leader && crowned && <Icon name="crown" size={12} width={2} color="var(--ink)" />}
-              {leader && <span style={{ fontWeight: 650, color: crowned ? "var(--ink)" : "var(--ink-soft)" }}>{leader.name}</span>}
-              <span>
-                {(() => {
-                  const n = (theme.results || []).reduce((s, r) => s + (r.count || 0), 0);
-                  const bits = [];
-                  if (n > 0) bits.push(`${n.toLocaleString()} vote${n === 1 ? "" : "s"}`);
-                  bits.push(closed ? `${year} season closed` : year ? `${year} season` : "Votes open");
-                  return `${leader ? " · " : ""}${bits.join(" · ")}`;
-                })()}
-              </span>
-            </div>
-          </div>
-          <Icon name={open ? "close" : "navigate"} size={16} width={2} color="var(--muted)" />
+    <div className={`rank-card${open ? " is-open" : ""}`}>
+      <div className="rank-card-head">
+        <button type="button" onClick={onToggle} className="rank-card-main" aria-expanded={open}>
+          <span className="rank-card-title">{shortTitle(theme.title)}</span>
+          <span className="rank-card-meta">
+            {leader ? (
+              <>
+                {crowned && <Icon name="crown" size={13} width={2.2} color="var(--ink)" />}
+                <b>{leader.name}</b>
+                {" · "}{(() => { const n = (theme.results || []).reduce((t, r) => t + (r.count || 0), 0); return `${n.toLocaleString()} ${n === 1 ? "vote" : "votes"}`; })()}
+              </>
+            ) : "No votes yet"}
+            {closed ? ` · ${year} season closed` : ""}
+          </span>
         </button>
+        {votedSpotId ? (
+          <span className="rank-card-voted"><Icon name="check" size={13} width={2.5} color="currentColor" /> Voted</span>
+        ) : !closed ? (
+          <button type="button" className="rank-card-vote" onClick={onToggle} aria-expanded={open}>{open ? "Close" : "Vote"}</button>
+        ) : null}
         <button
           type="button"
           onClick={share}
           aria-label={`Share ${theme.title}`}
           title={shareState === "copied" ? "Link copied" : "Share"}
-          style={{ flexShrink: 0, width: 44, border: "none", borderLeft: "1px solid var(--line)", background: "transparent", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+          className="rank-card-share"
         >
           <Icon
             name={shareState === "copied" || shareState === "shared" ? "check" : "share"}
             size={16}
             width={2}
-            color={shareState === "failed" ? "var(--pop-deep)" : "var(--violet)"}
+            color="currentColor"
           />
         </button>
       </div>
 
       {open && (
-        <div style={{ padding: "12px 14px 14px", borderTop: "1.5px solid var(--line)", isolation: "isolate" }}>
+        <div className="rank-card-body">
           {(() => {
             const campaignVotes = (theme.results || []).reduce((s, r) => s + (r.count || 0), 0);
             return campaignVotes > 0 ? (

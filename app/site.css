@@ -931,3 +931,16 @@ a.of-card-name:hover { text-decoration: underline; }
 .area-strip-name { position: absolute; left: var(--s3); right: var(--s3); bottom: var(--s3); z-index: 1; font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 17px; line-height: 1; letter-spacing: -0.02em; }
 .area-strip-card--big .area-strip-name { font-size: 26px; left: var(--s4); bottom: var(--s4); }
 .area-strip-card:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+
+/* ---- /rankings: live card + every-ranking index (shares .rank-card from globals) ---- */
+.rk-live-card { display: flex; flex-direction: column; gap: var(--s3); padding: var(--s6); margin-bottom: var(--s4); border-radius: var(--r-sheet); background: var(--violet); color: #fff; text-decoration: none; }
+.rk-live-kicker { display: inline-flex; align-items: center; gap: var(--s2); font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--violet-wash); }
+.rk-live-kicker::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: var(--yellow); }
+.rk-live-q { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: clamp(34px, 8vw, 52px); line-height: 0.95; letter-spacing: -0.04em; }
+.rk-live-meta { font-size: 16px; color: var(--violet-wash); }
+.rk-live-cta { align-self: flex-start; display: inline-flex; align-items: center; min-height: 52px; padding: 0 var(--s6); border-radius: var(--r-btn); background: var(--yellow); color: var(--ink); font-size: 16px; font-weight: 700; }
+.rk-live-card:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+.rk-index { list-style: none; margin: 0; padding: 0; }
+.rk-index-card { display: flex; align-items: center; gap: var(--s2); padding: var(--s2) var(--s3) var(--s2) 0; margin: 0 0 var(--s3); text-decoration: none; }
+.rk-index-card:hover { box-shadow: var(--e2); }
+.rk-index-card:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
