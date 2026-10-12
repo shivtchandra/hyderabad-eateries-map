@@ -459,7 +459,8 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     const q = deferredSearch.trim().toLowerCase();
     return (curatedEnabled ? pool : eateries).filter((e) => {
       if (!curatedEnabled && !showAll && !e.core && !q && !localsOnly) return false; // locals' picks bypass the core-list cut // hidden listings still match a name search
-      if (activeCategory !== "all" && e.category !== activeCategory) return false;
+      // "desserts" is one chip for two categories (FilterChips.jsx).
+      if (activeCategory === "desserts" ? (e.category !== "bakery" && e.category !== "ice-cream") : (activeCategory !== "all" && e.category !== activeCategory)) return false;
       if (!curatedEnabled && q && !e.name.toLowerCase().includes(q)) return false;
       if (activeTags.length && !activeTags.every((t) => validTagsFor(e.category, e.tags).includes(t))) return false;
       if (openNowOnly && allDetailsStatus === "loaded" && isOpenNow(details[e.id]?.hours) !== true) return false;

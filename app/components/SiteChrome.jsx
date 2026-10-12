@@ -67,7 +67,7 @@ export function SiteFooter() {
         <a href="https://startups.mapmyhyd.com/">Mapping HYD Startups</a>
         <a href="https://startups.mapmyhyd.com/jobs">Jobs in Hyderabad</a>
       </nav>
-      <div>Part of Mapping HYD — community-voted food rankings &amp; map · 3,400+ spots</div>
+      <div>Part of Mapping HYD. Community-voted food rankings &amp; map · 3,400+ spots</div>
     </footer>
   );
 }

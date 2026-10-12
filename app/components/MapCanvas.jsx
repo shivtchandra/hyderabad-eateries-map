@@ -5,6 +5,9 @@ import { spotlight, buildAreas, scoreOf, AREA_ZOOM_MAX, photoUrl } from "../../l
 import * as passportStore from "../../lib/passport.js";
 
 const HYD_CENTER = [17.42, 78.44];
+// Copied from node_modules/maplibre-gl/dist (worker + the shared chunk it
+// imports). Bump the folder when maplibre-gl is upgraded.
+const MAPLIBRE_WORKER_URL = "/vendor/maplibre/6.6.0/maplibre-gl-worker.mjs";
 
 // Mirrors the category tokens in globals.css (Leaflet builds raw HTML strings,
 // so these can't be var() references).
@@ -70,17 +73,49 @@ export default function MapCanvas({
       });
       mapRef.current = map;
 
-      // OSM raster. A vector basemap (MapLibre + OpenFreeMap) was attempted so
-      // the POI layer could simply be omitted, but MapLibre never initialises
-      // here, no 'load' event, no tile requests, no errors, even for a
-      // background-only style. Falling back rather than shipping a blank map.
-      // Removing OSM's baked-in POI icons needs a keyed source (CARTO Voyager
-      // nolabels or Stadia); see lib/mapStyle.js for the intended palette.
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 19,
-      }).on("tileerror", () => errorRef.current?.()).addTo(map);
+      // Basemap: our own light vector style (lib/mapStyle.js, OpenFreeMap tiles,
+      // no POI icons or labels) drawn by MapLibre inside Leaflet, so markers and
+      // clusters stay Leaflet. An earlier attempt "never initialised": MapLibre 6
+      // builds its worker URL from import.meta.url, which webpack rewrites to a
+      // file:// path, so the worker silently never started. We serve the worker
+      // from public/vendor and point MapLibre at it. Anything else going wrong
+      // (no WebGL, import failure, no 'load' within 8s) falls back to OSM raster.
+      const addRaster = () => {
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          maxZoom: 19,
+          className: "raster-basemap",
+        }).on("tileerror", () => errorRef.current?.()).addTo(map);
+      };
+      const hasWebGL = (() => {
+        try { const c = document.createElement("canvas"); return !!(c.getContext("webgl2") || c.getContext("webgl")); } catch { return false; }
+      })();
+      if (!hasWebGL) addRaster();
+      else {
+        try {
+          const maplibregl = await import("maplibre-gl");
+          maplibregl.setWorkerUrl(MAPLIBRE_WORKER_URL);
+          await import("maplibre-gl/dist/maplibre-gl.css");
+          await import("@maplibre/maplibre-gl-leaflet");
+          const { mapStyle } = await import("../../lib/mapStyle.js");
+          if (cancelled) return;
+          const gl = L.maplibreGL({
+            style: mapStyle,
+            attribution:
+              '&copy; <a href="https://openfreemap.org">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org/">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          }).addTo(map);
+          let loaded = false;
+          gl.getMaplibreMap().once("load", () => { loaded = true; });
+          window.setTimeout(() => {
+            if (loaded || cancelled || !mapRef.current) return;
+            map.removeLayer(gl);
+            addRaster();
+          }, 8000);
+        } catch {
+          addRaster();
+        }
+      }
 
       areaLayerRef.current = L.layerGroup().addTo(map);
       spotLayerRef.current = L.layerGroup().addTo(map);
@@ -257,7 +292,7 @@ export default function MapCanvas({
 
         const html = `
           <div class="area-blob" style="width:${size}px;height:${size}px">
-            <div class="area-ring" style="background:conic-gradient(var(--pop) ${pct * 3.6}deg, rgba(0,0,0,0) 0deg)"></div>
+            <div class="area-ring" style="background:conic-gradient(var(--yellow) ${pct * 3.6}deg, rgba(0,0,0,0) 0deg)"></div>
             <div class="area-inner">
               <div class="area-count">${n}</div>
               <div class="area-name">${escapeHtml(a.area)}</div>
