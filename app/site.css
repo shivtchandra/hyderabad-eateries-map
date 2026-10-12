@@ -914,3 +914,17 @@ a.of-card-name:hover { text-decoration: underline; }
 .spot-claim p { margin: 0; font-size: 15px; color: var(--violet-wash); }
 .spot-claim-cta { display: inline-flex; align-items: center; min-height: 52px; padding: 0 var(--s6); border-radius: var(--r-btn); background: var(--yellow); color: var(--ink); font-size: 16px; font-weight: 700; text-decoration: none; }
 .spot-claim-cta:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* ---- Area pages: counts, then an uneven photo strip (1 big + 2 small) ---- */
+.area-counts { display: flex; flex-wrap: wrap; gap: var(--s2); margin: 0 0 var(--s6); }
+.area-count-chip { display: inline-flex; align-items: center; min-height: 36px; padding: 0 var(--s4); border-radius: var(--r-pill); background: var(--cream-hi); color: var(--ink); font-size: 14px; font-weight: 600; }
+.area-count-chip--total { background: var(--yellow); }
+.area-strip { display: grid; grid-template-columns: 1.4fr 1fr; grid-template-rows: 1fr 1fr; gap: var(--s3); margin: 0 0 var(--s7); }
+.area-strip-card { position: relative; display: block; overflow: hidden; border-radius: var(--r-card); background: var(--paper); color: #fff; text-decoration: none; min-height: 140px; }
+.area-strip-card--big { grid-row: 1 / span 2; min-height: 300px; }
+.area-strip-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-3) var(--ease-out); }
+.area-strip-card:hover img { transform: scale(1.03); }
+.area-strip-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 45%, rgba(20, 20, 20, 0.72)); }
+.area-strip-name { position: absolute; left: var(--s3); right: var(--s3); bottom: var(--s3); z-index: 1; font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 17px; line-height: 1; letter-spacing: -0.02em; }
+.area-strip-card--big .area-strip-name { font-size: 26px; left: var(--s4); bottom: var(--s4); }
+.area-strip-card:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }

@@ -14,7 +14,7 @@ export default function ShareRankingButton({ title, slug, leaderName, style }) {
       ? `${title}, live community ranking: ${leaderName} is leading right now! Check out the standings & vote:`
       : `${title}, live community ranking on Hyderabad Eats. Vote your favorite:`;
     const shareData = {
-      title: `${title} — Hyderabad Eats`,
+      title: `${title} | Hyderabad Eats`,
       text: shareText,
       url,
     };

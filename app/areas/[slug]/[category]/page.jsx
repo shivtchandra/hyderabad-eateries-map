@@ -230,7 +230,7 @@ export default function AreaCategoryPage({ params }) {
                       fontWeight: 500,
                     }}>
                       <strong style={{ color: "var(--violet-deep)" }}>Must-Try:</strong> {spot.signatureDish.name}
-                      {spot.signatureDish.why ? ` — ${spot.signatureDish.why}` : ""}
+                      {spot.signatureDish.why ? `: ${spot.signatureDish.why}` : ""}
                     </div>
                   )}
 

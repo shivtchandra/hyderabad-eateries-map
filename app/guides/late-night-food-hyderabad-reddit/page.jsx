@@ -294,7 +294,7 @@ export default function LateNightGuidePage() {
               <strong>Best Gourmet Burgers:</strong> <strong>1885 Burgers</strong> (DLF Street Food Lane) is universally praised as one of the best burger joints in the city; their signature <em>Lamb Burger</em> is extraordinarily juicy, well-seasoned, and grilled fresh.
             </li>
             <li>
-              <strong>Fresh Tiffin Sensation:</strong> <strong>Varalakshmi Tiffins</strong> (DLF) has newly introduced fresh, hot <em>Pooris</em> to their menu—praised by diners for fluffy texture and great taste, paired with spicy potato kurma alongside legendary ghee podi idlis.
+              <strong>Fresh Tiffin Sensation:</strong> <strong>Varalakshmi Tiffins</strong> (DLF) has newly introduced fresh, hot <em>Pooris</em> to their menu, praised by diners for fluffy texture and great taste, paired with spicy potato kurma alongside legendary ghee podi idlis.
             </li>
             <li>
               <strong>Best Midnight Dessert:</strong> <strong>Milan Juice Center</strong>, situated <em>right beside Varalakshmi Tiffins</em> in DLF, is the undisputed destination for <em>Apricot Delight</em> (rich custard layered over stewed apricots).

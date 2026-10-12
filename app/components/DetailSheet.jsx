@@ -50,7 +50,7 @@ export default function DetailSheet({
     const text = `Check out ${eatery.name} on Hyderabad Eats!`;
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
-        await navigator.share({ title: `${eatery.name} — Hyderabad Eats`, text, url });
+        await navigator.share({ title: `${eatery.name} | Hyderabad Eats`, text, url });
         return;
       } catch (err) {
         if (err?.name === "AbortError") return;
@@ -135,7 +135,7 @@ export default function DetailSheet({
       : `${eatery.ratingCount}`
     : voteCount > 0
     ? `${voteCount}`
-    : "—";
+    : "-";
 
   // Clean cost label (never an isolated '₹')
   const costLabel = eatery.costForTwo
@@ -551,7 +551,7 @@ export default function DetailSheet({
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 16, fontWeight: 800, color: "var(--ink)", letterSpacing: "-0.01em" }}>
                 <span style={{ color: "#f59e0b", fontSize: 14 }}>★</span>
-                {eatery.rating != null ? Number(eatery.rating).toFixed(1) : "—"}
+                {eatery.rating != null ? Number(eatery.rating).toFixed(1) : "-"}
               </div>
               <div style={{ fontSize: 10.5, fontWeight: 600, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 3 }}>
                 Rating

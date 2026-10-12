@@ -160,7 +160,7 @@ export default function RedditCommunityPost({ thread, showStandings = true, show
           <div style={{ fontSize: 12.5, lineHeight: 1.45, color: "var(--ink)" }}>
             &ldquo;{thread.highlights[0].comment}&rdquo;
             <span style={{ display: "inline-block", marginLeft: 6, fontSize: 11, color: "var(--muted)", fontWeight: 600 }}>
-              — u/{thread.highlights[0].user}
+              · u/{thread.highlights[0].user}
             </span>
           </div>
         </div>

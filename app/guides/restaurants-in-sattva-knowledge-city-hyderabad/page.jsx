@@ -305,7 +305,7 @@ const LOFT_DINING = [
 ];
 
 const LOFT_CAFES = [
-  { name: "TrueBlack", note: "Specialty cafe (Vietnamese Latte recommended — sit by the peaceful garden)", tag: "Cafe", photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYqdbKyeLgRS1uYLp8ILuRD-klJjDR_yzm8GgjOe2LoQ&s=10" },
+  { name: "TrueBlack", note: "Specialty cafe (Vietnamese Latte recommended, sit by the peaceful garden)", tag: "Cafe", photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYqdbKyeLgRS1uYLp8ILuRD-klJjDR_yzm8GgjOe2LoQ&s=10" },
 ];
 
 const LOFT_BARS = [

@@ -565,7 +565,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     const spotSlug = spot.slug || spot.id;
     const url = `${window.location.origin}/spot/${encodeURIComponent(spotSlug)}`;
     try {
-      if (navigator.share) await navigator.share({ title: `${spot.name} — Hyderabad Eats`, text, url });
+      if (navigator.share) await navigator.share({ title: `${spot.name} | Hyderabad Eats`, text, url });
       else { await navigator.clipboard.writeText(`${text} ${url}`); setToast("Link copied"); }
     } catch {}
   }, []);
@@ -575,7 +575,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     const url = `${window.location.origin}/spot/${encodeURIComponent(spotSlug)}`;
     const text = `Check out ${spot.name} on Hyderabad Eats!`;
     try {
-      if (navigator.share) await navigator.share({ title: `${spot.name} — Hyderabad Eats`, text, url });
+      if (navigator.share) await navigator.share({ title: `${spot.name} | Hyderabad Eats`, text, url });
       else { await navigator.clipboard.writeText(url); setToast("Link copied to clipboard"); }
     } catch {}
   }, []);

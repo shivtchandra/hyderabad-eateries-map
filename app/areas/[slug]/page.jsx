@@ -2,7 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
 import BottomNav from "../../components/BottomNav.jsx";
-import { getAreaBySlug, allAreaPages, spotPath } from "../../../lib/siteData.js";
+import { getAreaBySlug, allAreaPages, spotPath, hasSpotPhoto } from "../../../lib/siteData.js";
+import { spotPhotoUrl } from "../../../lib/photos.js";
 import { getAreaPillar } from "../../../lib/explorePillars.js";
 import { pageMeta, getSiteUrl } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
@@ -103,6 +104,13 @@ export default function AreaPage({ params }) {
   const pillar = getAreaPillar(data.area);
   const year = new Date().getFullYear();
   const top = [...data.spots].sort((a, b) => (b.ratingCount || 0) - (a.ratingCount || 0)).slice(0, 30);
+  // The neighbourhood as the interface: real counts per kind of place, then
+  // its three most-reviewed spots that have photos as an uneven strip.
+  const CAT_PLURAL = { cafe: "cafes", restaurant: "restaurants", local: "local eats", "restro-bar": "bars", bakery: "bakeries", "ice-cream": "ice cream" };
+  const catCounts = Object.entries(
+    data.spots.reduce((acc, sp) => { acc[sp.category] = (acc[sp.category] || 0) + 1; return acc; }, {})
+  ).sort((a, b) => b[1] - a[1]).filter(([c]) => CAT_PLURAL[c]);
+  const featured = top.filter((sp) => hasSpotPhoto(sp.id)).slice(0, 3);
   const copy = areaPageCopy(data.area, data.spots.length);
   const pageTitle = copy.title;
   const topNames = top.slice(0, 3).map((s) => s.name).filter(Boolean);
@@ -147,6 +155,23 @@ export default function AreaPage({ params }) {
         ...allAreaPages().filter((a) => a.slug !== params.slug).slice(0, 3).map((a) => ({ href: `/areas/${a.slug}`, label: a.area })),
       ]}
     >
+      <div className="area-counts" aria-label={`What is in ${data.area}`}>
+        <span className="area-count-chip area-count-chip--total">{data.spots.length} spots</span>
+        {catCounts.map(([c, n]) => (
+          <span key={c} className="area-count-chip">{n} {CAT_PLURAL[c]}</span>
+        ))}
+      </div>
+      {featured.length === 3 && (
+        <div className="area-strip">
+          {featured.map((sp, i) => (
+            <Link key={sp.id} href={spotPath(sp)} className={`area-strip-card${i === 0 ? " area-strip-card--big" : ""}`}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={spotPhotoUrl(sp.id)} alt={sp.name} loading={i === 0 ? "eager" : "lazy"} />
+              <span className="area-strip-name">{sp.name}</span>
+            </Link>
+          ))}
+        </div>
+      )}
       <p className="spot-prose"><strong>{answerLead}</strong></p>
       {pillar?.blurb && <p className="spot-prose">{pillar.blurb}</p>}
       <p className="spot-prose">
@@ -162,7 +187,7 @@ export default function AreaPage({ params }) {
             <Link href={spotPath(s)}>
               <span>
                 <div className="site-spot-name">{i + 1}. {s.name}</div>
-                <div className="site-spot-meta">{s.category} · {s.rating ? `${s.rating}★` : ","}</div>
+                <div className="site-spot-meta">{s.category}{s.rating ? ` · ${s.rating}★` : ""}</div>
               </span>
               <span className="site-spot-meta">View →</span>
             </Link>
@@ -179,7 +204,7 @@ export default function AreaPage({ params }) {
         <h2 className="site-section-title">FAQ</h2>
         <p><strong>{copy.faqWhere}</strong> {answerLead}</p>
         <p><strong>How many places are listed?</strong> {data.spots.length} restaurants and cafes on this map.</p>
-        <p><strong>Can I open them on a map?</strong> Yes — use the map link below for {data.area} pins, hours, and votes.</p>
+        <p><strong>Can I open them on a map?</strong> Yes, use the map link above for {data.area} pins, hours, and votes.</p>
       </section>
     </SiteChrome>
     <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>

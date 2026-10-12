@@ -258,7 +258,7 @@ export default function CardRail({
                     boxShadow: "0 2px 6px rgba(0,0,0,0.16)",
                   }}
                 >
-                  <span style={{ color: "#f59e0b", fontSize: 11 }}>★</span> {rating != null ? Number(rating).toFixed(1) : "—"}
+                  <span style={{ color: "#f59e0b", fontSize: 11 }}>★</span> {rating != null ? Number(rating).toFixed(1) : "-"}
                 </span>
 
                 {/* Distance Badge (Bottom Right on Photo) */}

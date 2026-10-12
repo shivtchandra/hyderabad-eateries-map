@@ -70,7 +70,7 @@ export async function generateMetadata({ params }) {
   }
 
   const ogImagesList = photoUrl
-    ? [{ url: photoUrl, width: 800, height: 600, alt: `${photoSpotName || meta.title} — Hyderabad Eats`, type: "image/jpeg" }]
+    ? [{ url: photoUrl, width: 800, height: 600, alt: `${photoSpotName || meta.title} | Hyderabad Eats`, type: "image/jpeg" }]
     : ogImages(meta.title, meta.description, `/rankings/${params.slug}`);
 
   return {

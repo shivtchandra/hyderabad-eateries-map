@@ -9,7 +9,7 @@ export default function ShareSpotButton({ spotName, spotPath, style, variant = "
   const handleShare = async () => {
     const url = typeof window !== "undefined" ? `${window.location.origin}${spotPath}` : spotPath;
     const shareData = {
-      title: `${spotName} — Hyderabad Eats`,
+      title: `${spotName} | Hyderabad Eats`,
       text: `Check out ${spotName} on Hyderabad Eats!`,
       url,
     };

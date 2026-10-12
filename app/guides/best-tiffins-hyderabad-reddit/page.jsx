@@ -142,7 +142,7 @@ const SPOTS = [
     area: "DLF Gachibowli & Multiple Locations",
     href: "/areas/gachibowli",
     verdict:
-      "Easily the best tiffin shop in Hyderabad when balancing supreme taste against honest pricing. While newer boutique tiffin places charge premium rates, Varalakshmi delivers extraordinary flavor per rupee. The Mysore Bondas here are phenomenal—golden crisp on the outside, soft, airy, and geometrically precise inside without heavy oiliness. Their dosas are equally delicious and flavorful with generous ghee and bold spice, though frequent regulars observe that the overall portion size has slightly reduced recently. Don't skip their newly introduced hot pooris with potato kurma or their signature ghee podi idlis swimming in fragrant melted ghee.",
+      "Easily the best tiffin shop in Hyderabad when balancing supreme taste against honest pricing. While newer boutique tiffin places charge premium rates, Varalakshmi delivers extraordinary flavor per rupee. The Mysore Bondas here are phenomenal, golden crisp on the outside, soft, airy, and geometrically precise inside without heavy oiliness. Their dosas are equally delicious and flavorful with generous ghee and bold spice, though frequent regulars observe that the overall portion size has slightly reduced recently. Don't skip their newly introduced hot pooris with potato kurma or their signature ghee podi idlis swimming in fragrant melted ghee.",
     whatToOrder: "Crispy Mysore Bonda (very precise), Newly added Hot Poori with potato kurma, Ghee Podi Idli, Ghee Karam Dosa.",
     timingTip: "Early morning breakfast starts by 6:30 AM; the DLF outlet stays bustling until late midnight.",
     quote: "“Easily the best tiffin spot in town for taste and pricing. The bondas are wonderfully crisp and precise, and while dosa portions feel slightly smaller lately, the taste remains unbeatable.”",
@@ -156,7 +156,7 @@ const SPOTS = [
     area: "Jubilee Hills",
     href: "/spot/penam-jubilee-hills",
     verdict:
-      "Penam keeps things deliberately focused: rustic village-style dosas, piping hot pungaralu, and a chutney game that carries the entire meal. Nothing overly commercialized—it feels like eating breakfast fresh off a village griddle.",
+      "Penam keeps things deliberately focused: rustic village-style dosas, piping hot pungaralu, and a chutney game that carries the entire meal. Nothing overly commercialized, it feels like eating breakfast fresh off a village griddle.",
     whatToOrder: "Village Style Dosa, Pungaralu, and Ghee Podi Idli.",
     timingTip: "Seating is intimate; perfect for quick, no-nonsense breakfast stops.",
     quote: "“Both the dosa and pungaralu feel like true home cooking. Menu is limited, but that chutney alone makes Penam one of the best small tiffin spots.”",

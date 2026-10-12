@@ -399,9 +399,14 @@ Done:
 - Share cards use the new fonts and palette (CI redraws them on deploy).
 - Optimistic theme vote with a stamp press; Saved empty state (sticker, sentence, Open the map).
 
-Still to do:
-- Spot page JSX pass (photo first, sticky Directions bar) once the in-progress spot page edits land.
-- Passport panel and saved-list rows visual pass.
-- Move the remaining inline styles in DetailSheet, ThemeVoting, LeaderboardPanel to classes.
-- Check MapLibre performance on a mid-range Android phone.
+Also done (second pass):
+- Spot page JSX: photo first, Directions / Share / Open on map, consensus, review, claim card last.
+- You tab: one row Saved / Passport / Stickers / Route (no tabs inside tabs); Saved list and Passport restyled.
+- DetailSheet, ThemeVoting, LeaderboardPanel and the other components on tokens; secondaryBtn is `.sheet-btn`.
+- Desktop (>= 1024px): left nav rail, capped search bar; site pages rely on the header nav.
+- Area pages: count chips and a 1 big + 2 small photo strip.
+- Em-dashes removed from our own copy (share titles, verdicts, placeholders). Quoted Reddit text is left as written.
 
+Still to do:
+- Measure MapLibre on a real mid-range Android phone (bundle loads lazily after the map shell; 8s raster fallback).
+- Remaining one-off inline layout styles in the big components can move to classes as those files are touched.
