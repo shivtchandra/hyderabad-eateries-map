@@ -32,9 +32,7 @@ import AteHerePopup from "./components/AteHerePopup.jsx";
 import QuickClaimSheet from "./components/QuickClaimSheet.jsx";
 import { fetchVoteCounts, fetchStarOfWeek, castVote as castVoteApi, removeVote as removeVoteApi, hasVoted } from "../lib/voting.js";
 import { fetchCurrentTheme } from "../lib/themeVoting.js";
-import ThemeIntro from "./components/ThemeIntro.jsx";
 import ThemeNudge from "./components/ThemeNudge.jsx";
-import Onboarding from "./components/Onboarding.jsx";
 import { fetchPicks } from "../lib/picks.js";
 import { trackEvent } from "../lib/engagement-client.js";
 import { recommendationsEnabled, filterRecommendations, servesDish, DISHES } from "../lib/recommendationShared.js";
@@ -809,7 +807,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
           <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", background: "var(--cream)" }}>
             {/* Top Navigation Switch: Stickers is the main one */}
             <div style={{ padding: "10px 14px 6px", background: "var(--cream)", display: "flex", justifyContent: "center", flexShrink: 0 }}>
-              <div style={{ display: "inline-flex", background: "rgba(38,48,92,0.08)", padding: 3, borderRadius: "var(--r-pill)" }}>
+              <div style={{ display: "inline-flex", background: "rgba(20, 20, 20,0.08)", padding: 3, borderRadius: "var(--r-pill)" }}>
                 <button
                   type="button"
                   onClick={() => setPassportTab("stickers")}
@@ -1013,14 +1011,14 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
             {loading && (
               <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, pointerEvents: "none" }}>
                 <Icon name="sparkle" size={38} width={1.6} color="var(--pop)" className="swirl" />
-                <div style={{ fontFamily: "Fraunces, serif", color: "var(--ink-soft)", fontWeight: 600, fontSize: 15 }}>
+                <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", color: "var(--ink-soft)", fontWeight: 600, fontSize: 15 }}>
                   Finding tasty spots…
                 </div>
               </div>
             )}
 
             {!loading && filtered.length === 0 && (
-              <div style={{ position: "absolute", top: "40%", left: "50%", transform: "translate(-50%,-50%)", background: "var(--cream-hi)", border: "1.5px solid var(--line)", padding: "16px 22px", borderRadius: 18, boxShadow: "var(--shadow-soft)", fontFamily: "Fraunces, serif", fontWeight: 600, textAlign: "center", maxWidth: "80%" }}>
+              <div style={{ position: "absolute", top: "40%", left: "50%", transform: "translate(-50%,-50%)", background: "var(--cream-hi)", border: "1.5px solid var(--line)", padding: "16px 22px", borderRadius: 18, boxShadow: "var(--shadow-soft)", fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 600, textAlign: "center", maxWidth: "80%" }}>
                 {curatedEnabled && !recommendationData ? (recommendationError ? "Recommendations could not load. Please refresh to retry." : "Loading recommendations…") : "No spots match, try another bite"}
               </div>
             )}
@@ -1129,8 +1127,6 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
           </div>
         )}
 
-        <Onboarding />
-        <ThemeIntro theme={currentTheme} onVote={() => openRaceView("theme")} />
       </div>
 
       {addDishFor && <AddDishSheet place={addDishFor} onClose={() => setAddDishFor(null)} onSaved={() => setDishRev((n) => n + 1)} />}

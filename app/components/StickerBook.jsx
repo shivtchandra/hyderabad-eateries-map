@@ -49,7 +49,7 @@ export default function StickerBook({ onAddSticker, onOpenSpot, refreshTick = 0 
       {/* Header Banner */}
       <div style={{ background: "var(--pop)", position: "relative", paddingTop: 24, overflow: "hidden" }}>
         <div style={{ textAlign: "center", padding: "0 16px 4px", position: "relative" }}>
-          <div className="groovy" style={{ fontSize: 60, lineHeight: 0.92, color: "var(--cream-hi)", textShadow: "0 3px 0 rgba(38,48,92,.18)" }}>
+          <div className="groovy" style={{ fontSize: 60, lineHeight: 0.92, color: "var(--cream-hi)", textShadow: "0 3px 0 rgba(20, 20, 20,.18)" }}>
             {count}
           </div>
           <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--cream-hi)", marginTop: 6 }}>
@@ -66,7 +66,7 @@ export default function StickerBook({ onAddSticker, onOpenSpot, refreshTick = 0 
         {count === 0 ? (
           <div style={{ textAlign: "center", padding: "32px 18px", color: "var(--muted)" }}>
             <Icon name="ticket" size={48} width={1.4} color="var(--line)" style={{ margin: "0 auto 12px" }} />
-            <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 17, color: "var(--ink)" }}>
+            <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 600, fontSize: 17, color: "var(--ink)" }}>
               Your sticker book is empty
             </div>
             <div style={{ fontSize: 13.5, marginTop: 6, lineHeight: 1.5, maxWidth: 300, margin: "6px auto 0" }}>
@@ -270,7 +270,7 @@ export default function StickerBook({ onAddSticker, onOpenSpot, refreshTick = 0 
       {/* Floating add button */}
       <button onClick={onAddSticker} className="pressable" style={fab}>
         <Icon name="ticket" size={18} width={2.2} color="#ffffff" />
-        <span style={{ fontFamily: "var(--font-outfit), Outfit, sans-serif", fontWeight: 700, fontSize: 14 }}>
+        <span style={{ fontFamily: "var(--font-outfit), var(--font-ui), sans-serif", fontWeight: 700, fontSize: 14 }}>
           Snap New Sticker
         </span>
       </button>

@@ -19,7 +19,7 @@ export default function SavedPanel({ eateries, passport, onSelect, onToggleVisit
       <div style={{ flex: 1, background: "var(--cream)", display: "flex", alignItems: "center", justifyContent: "center", padding: 30 }}>
         <div style={{ textAlign: "center", color: "var(--muted)", maxWidth: 290 }}>
           <Icon name="bookmark" size={44} width={1.4} color="var(--line)" style={{ margin: "0 auto 12px" }} />
-          <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 16, color: "var(--ink)" }}>
+          <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 600, fontSize: 16, color: "var(--ink)" }}>
             Nothing saved yet
           </div>
           <div style={{ fontSize: 13.5, marginTop: 6, lineHeight: 1.5 }}>
@@ -60,7 +60,7 @@ export default function SavedPanel({ eateries, passport, onSelect, onToggleVisit
               onClick={() => onSelect(e)}
               style={{ flex: 1, minWidth: 0, border: "none", background: "transparent", textAlign: "left", cursor: "pointer", padding: 0 }}
             >
-              <div style={{ fontSize: 14.5, fontWeight: 600, fontFamily: "Fraunces, serif", lineHeight: 1.2, marginBottom: 3 }}>
+              <div style={{ fontSize: 14.5, fontWeight: 600, fontFamily: "var(--font-display), system-ui, sans-serif", lineHeight: 1.2, marginBottom: 3 }}>
                 {e.name}
               </div>
               <div style={{ fontSize: 11.5, color: "var(--muted)", fontWeight: 500, display: "flex", gap: 9, flexWrap: "wrap", alignItems: "center" }}>
@@ -87,7 +87,7 @@ export default function SavedPanel({ eateries, passport, onSelect, onToggleVisit
               style={{
                 background: "var(--pop)", color: "var(--ink)", border: "none",
                 borderRadius: 12, padding: "0 13px", height: 38, minWidth: 44,
-                fontFamily: "Outfit, sans-serif", fontWeight: 600, fontSize: 12.5, cursor: "pointer",
+                fontFamily: "var(--font-ui), sans-serif", fontWeight: 600, fontSize: 12.5, cursor: "pointer",
                 whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 6,
               }}
             >

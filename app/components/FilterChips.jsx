@@ -117,7 +117,7 @@ export default function FilterChips({
               padding: "0 13px",
               border: "none",
               borderRadius: "var(--r-pill)",
-              background: filtersOpen || activeFilterCount > 0 ? "var(--violet)" : "rgba(38,48,92,0.07)",
+              background: filtersOpen || activeFilterCount > 0 ? "var(--violet)" : "rgba(20, 20, 20,0.07)",
               color: filtersOpen || activeFilterCount > 0 ? "#fff" : "var(--ink)",
               fontSize: 13,
               fontWeight: 600,
@@ -234,7 +234,7 @@ export default function FilterChips({
 
 function chip(active, color) {
   return {
-    background: active ? color : "rgba(38,48,92,0.045)",
+    background: active ? color : "rgba(20, 20, 20,0.045)",
     color: active ? "#fff" : "var(--ink)",
     border: "none",
     borderRadius: "var(--r-pill)",
@@ -255,7 +255,7 @@ function chip(active, color) {
 
 function badge(active) {
   return {
-    background: active ? "rgba(255,255,255,0.22)" : "rgba(38,48,92,0.07)",
+    background: active ? "rgba(255,255,255,0.22)" : "rgba(20, 20, 20,0.07)",
     color: active ? "#fff" : "var(--muted)",
     borderRadius: "var(--r-pill)",
     padding: "1px 7px",

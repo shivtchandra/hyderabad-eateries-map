@@ -1,7 +1,7 @@
 import "./globals.css";
 import "./recommendations.css";
 import Script from "next/script";
-import { outfit, fraunces, bagel } from "./fonts.js";
+import { display, ui } from "./fonts.js";
 import { Analytics } from "@vercel/analytics/next";
 import { getSiteUrl } from "../lib/site.js";
 import { ogImages } from "../lib/og.js";
@@ -111,14 +111,14 @@ export const viewport = { themeColor: "#7c3aed", viewportFit: "cover" };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${fraunces.variable} ${bagel.variable}`}>
+    <html lang="en" className={`${display.variable} ${ui.variable}`}>
       <head>
         {/* Venue photos come from a separate CDN origin, so warm the connection
             before the first <img> asks for one. */}
         <link rel="preconnect" href={PHOTO_CDN_ORIGIN} crossOrigin="anonymous" />
         <link rel="dns-prefetch" href={PHOTO_CDN_ORIGIN} />
       </head>
-      <body className={outfit.className}>
+      <body className={ui.className}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(homeLd) }}

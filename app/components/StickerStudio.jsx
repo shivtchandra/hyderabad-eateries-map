@@ -53,7 +53,7 @@ export default function StickerStudio({ spot, onDone, onCancel }) {
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={kicker}>Dish sticker</div>
-            <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 16, lineHeight: 1.2 }}>
+            <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 600, fontSize: 16, lineHeight: 1.2 }}>
               {spot?.name ?? "Your collection"}
             </div>
           </div>
@@ -125,7 +125,7 @@ export default function StickerStudio({ spot, onDone, onCancel }) {
           </button>
         )}
         {phase === "done" && (
-          <div style={{ textAlign: "center", marginTop: 10, fontFamily: "Fraunces, serif", fontWeight: 600, color: "var(--pop-deep)" }}>
+          <div style={{ textAlign: "center", marginTop: 10, fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 600, color: "var(--pop-deep)" }}>
             Added to your book
           </div>
         )}
@@ -136,7 +136,7 @@ export default function StickerStudio({ spot, onDone, onCancel }) {
 
 const backdrop = {
   position: "absolute", inset: 0, zIndex: 1600,
-  background: "rgba(38,48,92,0.4)",
+  background: "rgba(20, 20, 20,0.4)",
   display: "flex", alignItems: "flex-end", justifyContent: "center",
   animation: "fade-in .18s ease",
 };
@@ -161,12 +161,12 @@ const kicker = { fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", textTra
 const input = {
   height: 42, width: "100%", marginTop: 5, borderRadius: 12,
   border: "1.5px solid var(--line)", background: "var(--cream)",
-  padding: "0 12px", fontFamily: "Outfit, sans-serif", fontSize: 14.5, fontWeight: 500, color: "var(--ink)", outline: "none",
+  padding: "0 12px", fontFamily: "var(--font-ui), sans-serif", fontSize: 14.5, fontWeight: 500, color: "var(--ink)", outline: "none",
 };
 const cta = {
   width: "100%", height: 48, marginTop: 14, border: "none", borderRadius: 14,
   background: "var(--pop)", color: "var(--cream-hi)",
-  fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: 15, cursor: "pointer",
+  fontFamily: "var(--font-ui), sans-serif", fontWeight: 700, fontSize: 15, cursor: "pointer",
   display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
 };
 const iconBtn = {

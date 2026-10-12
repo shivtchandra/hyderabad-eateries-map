@@ -46,7 +46,7 @@ export default function PassportPanel({ eateries, passport, onSelect, diaryTick 
         </div>
 
         <div style={{ textAlign: "center", padding: "0 16px 6px", position: "relative" }}>
-          <div className="groovy" style={{ fontSize: 68, lineHeight: 0.92, color: "var(--cream-hi)", textShadow: "0 3px 0 rgba(38,48,92,.18)" }}>
+          <div className="groovy" style={{ fontSize: 68, lineHeight: 0.92, color: "var(--cream-hi)", textShadow: "0 3px 0 rgba(20, 20, 20,.18)" }}>
             {s.visitedCount}
           </div>
           <div style={{ fontSize: 13, fontWeight: 700, color: "var(--cream-hi)", letterSpacing: "0.08em", textTransform: "uppercase", marginTop: 7 }}>
@@ -97,7 +97,7 @@ export default function PassportPanel({ eateries, passport, onSelect, diaryTick 
         {s.visitedCount === 0 && (
           <div style={{ textAlign: "center", padding: "18px 14px 26px", color: "var(--muted)" }}>
             <Icon name="passport" size={44} width={1.4} color="var(--line)" style={{ margin: "0 auto 12px" }} />
-            <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 16, color: "var(--ink)" }}>
+            <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 600, fontSize: 16, color: "var(--ink)" }}>
               Start exploring, every stamp colours the map
             </div>
             <div style={{ fontSize: 13.5, marginTop: 6, lineHeight: 1.5, maxWidth: 280, margin: "6px auto 0" }}>
@@ -296,7 +296,7 @@ function Section({ title, children }) {
         style={{
           margin: "0 0 10px", fontSize: 11, fontWeight: 700,
           textTransform: "uppercase", letterSpacing: "0.09em", color: "var(--muted)",
-          fontFamily: "Outfit, sans-serif",
+          fontFamily: "var(--font-ui), sans-serif",
         }}
       >
         {title}

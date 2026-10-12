@@ -214,7 +214,7 @@ export default function AdminPage() {
   if (!authed) return (
     <div style={{ minHeight: "100dvh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f3f0ea", padding: 24 }}>
       <div style={{ background: "#fff", borderRadius: 20, padding: 28, width: "100%", maxWidth: 360, boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }}>
-        <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 22, marginBottom: 6 }}>Admin Panel</div>
+        <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 22, marginBottom: 6 }}>Admin Panel</div>
         <div style={{ fontSize: 13, color: "#888", marginBottom: 18 }}>Enter your admin secret to continue.</div>
         <input
           type="password"
@@ -222,7 +222,7 @@ export default function AdminPage() {
           onChange={(e) => setSecretInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && tryAuth()}
           placeholder="Admin secret"
-          style={{ width: "100%", border: "1.5px solid #ddd", borderRadius: 10, padding: "10px 14px", fontSize: 14, fontFamily: "Outfit, sans-serif", boxSizing: "border-box", marginBottom: 12 }}
+          style={{ width: "100%", border: "1.5px solid #ddd", borderRadius: 10, padding: "10px 14px", fontSize: 14, fontFamily: "var(--font-ui), sans-serif", boxSizing: "border-box", marginBottom: 12 }}
         />
         <button onClick={tryAuth} style={{ width: "100%", background: "#7c3aed", color: "#fff", border: "none", borderRadius: 10, padding: "11px 0", fontSize: 14, fontWeight: 700, cursor: "pointer" }}>
           Sign in
@@ -237,7 +237,7 @@ export default function AdminPage() {
     <div style={{ minHeight: "100dvh", background: "#f3f0ea", padding: "24px 16px 80px" }}>
       <div style={{ maxWidth: 700, margin: "0 auto" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
-          <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 24 }}>Admin, Weekly Voting</div>
+          <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 24 }}>Admin, Weekly Voting</div>
           <button onClick={newTheme} style={{ background: "#7c3aed", color: "#fff", border: "none", borderRadius: 10, padding: "8px 16px", fontSize: 13, fontWeight: 700, cursor: "pointer" }}>
             + New theme
           </button>
@@ -350,7 +350,7 @@ export default function AdminPage() {
 
         {/* All themes with results */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-          <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 18 }}>All themes</div>
+          <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 18 }}>All themes</div>
           <button onClick={() => loadThemes(secret)} style={{ background: "transparent", border: "1.5px solid #ddd", borderRadius: 8, padding: "5px 12px", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
             Refresh
           </button>
@@ -431,7 +431,7 @@ export default function AdminPage() {
           )}
         </div>
 
-        <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 18, marginBottom: 12 }}>
+        <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 18, marginBottom: 12 }}>
           Current picks {picks.length > 0 && `(${picks.length})`}
         </div>
         {loadingPicks ? (
@@ -558,4 +558,4 @@ function ThemeCard({ theme, onEdit, onPickWinner }) {
 }
 
 const labelStyle = { display: "block", fontSize: 11.5, fontWeight: 700, color: "#888", marginBottom: 4 };
-const inputStyle = { width: "100%", border: "1.5px solid #e5e7eb", borderRadius: 10, padding: "9px 13px", fontSize: 14, fontFamily: "Outfit, sans-serif", boxSizing: "border-box" };
+const inputStyle = { width: "100%", border: "1.5px solid #e5e7eb", borderRadius: 10, padding: "9px 13px", fontSize: 14, fontFamily: "var(--font-ui), sans-serif", boxSizing: "border-box" };

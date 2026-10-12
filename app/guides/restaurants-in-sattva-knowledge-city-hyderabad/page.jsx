@@ -408,7 +408,7 @@ export default function Page() {
             <div style={{
               position: "absolute", left: 12, bottom: 12,
               padding: "5px 10px", borderRadius: 999,
-              background: "rgba(38,48,92,0.78)",
+              background: "rgba(20, 20, 20,0.78)",
               color: "#fff", fontSize: 11, fontWeight: 700,
               letterSpacing: "0.02em", backdropFilter: "blur(8px)"
             }}>RMZ Nexity, Hyderabad</div>

@@ -164,7 +164,7 @@ export default function AreaCategoryPage({ params }) {
                     <div style={{ minWidth: 0 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                         <span style={{
-                          fontFamily: "Fraunces, serif",
+                          fontFamily: "var(--font-display), system-ui, sans-serif",
                           fontSize: 16,
                           fontWeight: 700,
                           color: "var(--muted)",
@@ -224,7 +224,7 @@ export default function AreaCategoryPage({ params }) {
                     <div style={{
                       fontSize: 12.5,
                       color: "var(--ink-soft)",
-                      background: "rgba(38,48,92,0.04)",
+                      background: "rgba(20, 20, 20,0.04)",
                       padding: "6px 12px",
                       borderRadius: 10,
                       fontWeight: 500,

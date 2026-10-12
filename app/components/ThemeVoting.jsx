@@ -217,7 +217,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
   if (loading) return (
     <div style={{ textAlign: "center", padding: "40px 16px", color: "var(--muted)" }}>
       <Icon name="sparkle" size={28} width={1.6} color="var(--violet)" style={{ margin: "0 auto 10px" }} />
-      <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 15 }}>Loading themes…</div>
+      <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 600, fontSize: 15 }}>Loading themes…</div>
     </div>
   );
 
@@ -225,7 +225,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
     <div>
       <div style={{ textAlign: "center", padding: "40px 16px 8px", color: "var(--muted)" }}>
         <Icon name="crown" size={28} width={1.6} color="var(--violet)" style={{ margin: "0 auto 10px" }} />
-        <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 16, color: "var(--ink-soft)" }}>No theme set yet</div>
+        <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 600, fontSize: 16, color: "var(--ink-soft)" }}>No theme set yet</div>
         <div style={{ fontSize: 12.5, marginTop: 6, lineHeight: 1.45, fontWeight: 500 }}>Check back soon, or tell us what next week&apos;s challenge should be.</div>
       </div>
       <ThemeSuggest />
@@ -252,7 +252,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
             margin: "4px 16px 12px",
             padding: "10px 0 0",
             borderTop: "1.5px solid var(--line)",
-            fontFamily: "Fraunces, serif",
+            fontFamily: "var(--font-display), system-ui, sans-serif",
             fontSize: 18,
             fontWeight: 700,
             color: "var(--ink)",
@@ -385,7 +385,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
             {shareState === "copied" ? "Copied" : shareState === "shared" ? "Shared" : shareState === "failed" ? "Try again" : "Share"}
           </button>
         </div>
-        <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 20, color: "#fff", lineHeight: 1.2, marginBottom: 6 }}>
+        <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 20, color: "#fff", lineHeight: 1.2, marginBottom: 6 }}>
           {theme.title}
         </div>
         <a
@@ -417,7 +417,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
           <Icon name="trophy" size={22} width={1.8} color="#fff" />
           <div>
             <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.8)", letterSpacing: "0.07em", textTransform: "uppercase" }}>Crowned</div>
-            <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 15, color: "#fff" }}>{results[0]?.name || theme.winnerName || ", "}</div>
+            <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 15, color: "#fff" }}>{results[0]?.name || theme.winnerName || ", "}</div>
             <div style={{ fontSize: 11, color: "rgba(255,255,255,0.75)", marginTop: 2 }}>Votes stay open. Crown follows the live #1</div>
           </div>
         </div>
@@ -444,7 +444,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
                 width: "100%", boxSizing: "border-box",
                 border: "1.5px solid var(--line)", borderRadius: "var(--r-md)",
                 padding: "12px 14px 12px 38px", fontSize: 14.5,
-                fontFamily: "Outfit, sans-serif", background: "var(--cream-hi)",
+                fontFamily: "var(--font-ui), sans-serif", background: "var(--cream-hi)",
                 color: "var(--ink)", outline: "none",
                 boxShadow: "var(--e1)",
               }}
@@ -679,7 +679,7 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
                 width: "100%", boxSizing: "border-box",
                 border: "1.5px solid var(--line)", borderRadius: "var(--r-md)",
                 padding: "11px 12px 11px 34px", fontSize: 13.5,
-                fontFamily: "Outfit, sans-serif", background: "var(--cream)",
+                fontFamily: "var(--font-ui), sans-serif", background: "var(--cream)",
                 color: "var(--ink)", outline: "none",
               }}
             />

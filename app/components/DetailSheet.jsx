@@ -1020,7 +1020,7 @@ const secondaryBtn = {
   background: "#f8fafc",
   border: "1px solid #e2e8f0",
   color: "#334155",
-  fontFamily: "var(--font-outfit), Outfit, sans-serif",
+  fontFamily: "var(--font-outfit), var(--font-ui), sans-serif",
   fontWeight: 600,
   fontSize: 13,
   textDecoration: "none",

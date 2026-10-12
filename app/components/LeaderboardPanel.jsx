@@ -102,7 +102,7 @@ export default function LeaderboardPanel({
               <div style={{ marginTop: 16, marginBottom: 4 }}>
                 {me ? (
                   <>
-                    <div className="groovy" style={{ fontSize: 60, lineHeight: 0.9, color: "var(--cream-hi)", textShadow: "0 3px 0 rgba(38,48,92,.2)" }}>
+                    <div className="groovy" style={{ fontSize: 60, lineHeight: 0.9, color: "var(--cream-hi)", textShadow: "0 3px 0 rgba(20, 20, 20,.2)" }}>
                       #{me.rank}
                     </div>
                     <div style={{ fontSize: 12.5, color: "var(--cream-hi)", opacity: 0.9, marginTop: 6, fontWeight: 600 }}>
@@ -208,7 +208,7 @@ export default function LeaderboardPanel({
                 placeholder="Your name"
                 style={{
                   flex: 1, minWidth: 0, border: "none", outline: "none", background: "transparent",
-                  fontFamily: "Outfit, sans-serif", fontWeight: 600, fontSize: 15, color: "var(--ink)",
+                  fontFamily: "var(--font-ui), sans-serif", fontWeight: 600, fontSize: 15, color: "var(--ink)",
                 }}
               />
               <button onClick={commitName} className="pressable-sm" style={miniBtn(true)}>Save</button>
@@ -247,7 +247,7 @@ export default function LeaderboardPanel({
             padding: "14px 16px",
             boxShadow: "var(--e1)",
           }}>
-            <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 16, color: "var(--ink)", marginBottom: 6 }}>
+            <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 16, color: "var(--ink)", marginBottom: 6 }}>
               Why you are not on this board
             </div>
             <div style={{ fontSize: 13.5, color: "var(--ink-soft)", fontWeight: 500, lineHeight: 1.5 }}>
@@ -334,7 +334,7 @@ export default function LeaderboardPanel({
         {/* How scoring works */}
         {status === "ready" && (
           <div style={{ marginTop: 22, background: "var(--violet-wash)", borderRadius: "var(--r-md)", padding: "14px 16px" }}>
-            <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 14.5, color: "var(--violet-deep)", marginBottom: 8 }}>
+            <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 600, fontSize: 14.5, color: "var(--violet-deep)", marginBottom: 8 }}>
               How points work
             </div>
             {[
@@ -521,7 +521,7 @@ function Empty({ icon, title, sub }) {
   return (
     <div style={{ textAlign: "center", padding: "28px 24px", color: "var(--muted)" }}>
       <Icon name={icon} size={30} width={1.6} color="var(--periwinkle)" style={{ margin: "0 auto 12px" }} />
-      <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 16, color: "var(--ink-soft)" }}>{title}</div>
+      <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 600, fontSize: 16, color: "var(--ink-soft)" }}>{title}</div>
       {sub && <div style={{ fontSize: 12.5, marginTop: 6, lineHeight: 1.45, fontWeight: 500 }}>{sub}</div>}
     </div>
   );

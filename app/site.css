@@ -6,7 +6,7 @@
 .site-topnav a { color: rgba(255,255,255,0.9); text-decoration: none; font-size: 13px; font-weight: 600; padding: 6px 10px; border-radius: var(--r-pill); }
 .site-topnav a:hover { background: rgba(255,255,255,0.15); }
 .site-topnav a.active { background: rgba(255,255,255,0.22); }
-.site-hero h1 { font-family: var(--font-fraunces), serif; font-size: clamp(26px, 5vw, 36px); margin: 0 0 10px; line-height: 1.12; }
+.site-hero h1 { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: clamp(36px, 8vw, 60px); margin: 0 0 12px; line-height: 0.95; letter-spacing: -0.035em; }
 .site-hero p { margin: 0; opacity: 0.9; font-size: 15px; line-height: 1.55; max-width: 620px; }
 .site-body { max-width: 900px; margin: 0 auto; padding: 24px 20px 56px; }
 .site-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
@@ -172,7 +172,7 @@
 }
 .stories-feature-link:hover {
   border-color: color-mix(in srgb, var(--violet) 40%, var(--line));
-  box-shadow: 0 10px 28px rgba(38, 48, 92, 0.08);
+  box-shadow: 0 10px 28px rgba(20, 20, 20, 0.08);
 }
 .stories-feature-media {
   aspect-ratio: 16 / 10;
@@ -409,7 +409,7 @@
   bottom: 12px;
   padding: 6px 10px;
   border-radius: var(--r-pill);
-  background: rgba(38, 48, 92, 0.78);
+  background: rgba(20, 20, 20, 0.78);
   color: #fff;
   font-size: 11px;
   font-weight: 700;
@@ -772,7 +772,7 @@ a.review-fact-value:hover { opacity: 0.85; }
   flex: none; display: inline-flex; align-items: center; gap: 6px;
   border: 1px solid var(--line); border-radius: 999px;
   background: var(--cream-hi); color: var(--ink-soft);
-  font: 600 13.5px/1 Outfit, sans-serif; padding: 9px 14px; cursor: pointer;
+  font: 600 13.5px/1 var(--font-ui), sans-serif; padding: 9px 14px; cursor: pointer;
   transition: background .15s ease, color .15s ease, border-color .15s ease;
 }
 .stories-tabs button span, .stories-cats button span {
@@ -799,7 +799,7 @@ a.review-fact-value:hover { opacity: 0.85; }
 .stories-tabs .stories-tabs-link {
   flex: none; display: inline-flex; align-items: center;
   border: 1px dashed var(--line); border-radius: 999px; background: transparent;
-  color: var(--ink-soft); font: 600 13.5px/1 Outfit, sans-serif; padding: 9px 14px; text-decoration: none;
+  color: var(--ink-soft); font: 600 13.5px/1 var(--font-ui), sans-serif; padding: 9px 14px; text-decoration: none;
 }
 .stories-tabs .stories-tabs-link:hover { border-color: var(--violet); color: var(--violet-deep); }
 
@@ -810,17 +810,17 @@ a.review-fact-value:hover { opacity: 0.85; }
 .of-stats b { color: var(--ink); }
 .of-controls { position: sticky; top: 0; z-index: 20; background: var(--cream); margin: 0 -20px 18px; padding: 10px 20px; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
 .of-search { display: flex; align-items: center; gap: 8px; background: var(--cream-hi); border: 1px solid var(--line); border-radius: 999px; padding: 0 14px; }
-.of-search input { flex: 1; border: 0; background: transparent; outline: none; font: 500 14.5px Outfit, sans-serif; color: var(--ink); padding: 11px 0; min-width: 0; }
+.of-search input { flex: 1; border: 0; background: transparent; outline: none; font: 500 14.5px var(--font-ui), sans-serif; color: var(--ink); padding: 11px 0; min-width: 0; }
 .of-chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
 .of-chips::-webkit-scrollbar { display: none; }
-.of-chips button { flex: none; border: 1px solid var(--line); border-radius: 999px; background: var(--cream-hi); color: var(--ink-soft); font: 600 13px/1 Outfit, sans-serif; padding: 9px 14px; cursor: pointer; }
+.of-chips button { flex: none; border: 1px solid var(--line); border-radius: 999px; background: var(--cream-hi); color: var(--ink-soft); font: 600 13px/1 var(--font-ui), sans-serif; padding: 9px 14px; cursor: pointer; }
 .of-chips button.active { background: var(--violet); border-color: var(--violet); color: #fff; }
 .of-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }
 .of-card { display: flex; flex-direction: column; background: var(--cream-hi); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
 .of-card-head { display: flex; gap: 12px; align-items: center; padding: 14px 14px 10px; }
 .of-card-head img, .of-card-ph { width: 56px; height: 56px; border-radius: 14px; object-fit: cover; flex: none; background: var(--violet-wash); display: grid; place-items: center; }
 .of-card-id { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.of-card-name { font-family: var(--font-fraunces), Fraunces, serif; font-weight: 600; font-size: 17px; color: var(--ink); text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.of-card-name { font-family: var(--font-display), system-ui, sans-serif; font-weight: 600; font-size: 17px; color: var(--ink); text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 a.of-card-name:hover { text-decoration: underline; }
 .of-card-meta { font-size: 12.5px; color: var(--muted); }
 .of-lead { margin: 0 14px; padding: 12px 14px; border-radius: 14px; background: var(--butter); display: flex; flex-direction: column; gap: 4px; }
@@ -869,7 +869,7 @@ a.of-card-name:hover { text-decoration: underline; }
 
 /* ---- Locals' pick (r/hyderabad) on spot pages ---- */
 .locals-pick { border: 1px solid var(--line); border-radius: 20px; background: var(--violet-wash); padding: 18px 20px; }
-.locals-pick h2 { margin: 0 0 6px; font-family: var(--font-fraunces), Fraunces, serif; font-size: 20px; color: var(--violet-deep); }
+.locals-pick h2 { margin: 0 0 6px; font-family: var(--font-display), system-ui, sans-serif; font-size: 20px; color: var(--violet-deep); }
 .locals-pick p { margin: 0 0 10px; font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
 .locals-pick ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 .locals-pick li { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-size: 13px; }

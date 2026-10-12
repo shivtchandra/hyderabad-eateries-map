@@ -1,5 +1,8 @@
 import Link from "next/link";
 import SiteChrome from "./components/SiteChrome.jsx";
+// Section layouts import site.css; the root 404 renders outside them, so it
+// has to bring its own or every stale Google link lands on unstyled links.
+import "./site.css";
 
 export const metadata = {
   title: "Page not found, Hyderabad Eats",
