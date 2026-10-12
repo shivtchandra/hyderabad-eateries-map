@@ -352,7 +352,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
       {/* Hero banner */}
       <div style={{
         margin: "0 16px 16px",
-        background: "linear-gradient(135deg, var(--violet-deep), var(--violet))",
+        background: "var(--violet)",
         borderRadius: "var(--r-lg)", padding: "16px",
         boxShadow: "0 4px 20px rgba(91,33,182,0.28)",
       }}>
@@ -410,14 +410,14 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
       {(theme.winnerId || isPastEndDate(theme)) && (results[0] || theme.winnerName) && (
         <div style={{
           margin: "0 16px 14px",
-          background: "linear-gradient(135deg, #f59e0b, #d97706)",
+          background: "var(--yellow)",
           borderRadius: "var(--r-md)", padding: "12px 14px",
           display: "flex", alignItems: "center", gap: 10,
         }}>
-          <Icon name="trophy" size={22} width={1.8} color="#fff" />
+          <Icon name="trophy" size={22} width={1.8} color="var(--ink)" />
           <div>
-            <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.8)", letterSpacing: "0.07em", textTransform: "uppercase" }}>Crowned</div>
-            <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 15, color: "#fff" }}>{results[0]?.name || theme.winnerName || ", "}</div>
+            <div style={{ fontSize: 10, fontWeight: 700, color: "var(--ink-soft)", letterSpacing: "0.07em", textTransform: "uppercase" }}>Crowned</div>
+            <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 15, color: "var(--ink)" }}>{results[0]?.name || theme.winnerName || ", "}</div>
             <div style={{ fontSize: 11, color: "rgba(255,255,255,0.75)", marginTop: 2 }}>Votes stay open. Crown follows the live #1</div>
           </div>
         </div>
@@ -509,13 +509,13 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
             return (
               <div key={r.spotId} style={{
                 display: "flex", alignItems: "center", gap: 10,
-                background: isCrown ? "linear-gradient(135deg,#fef3c7,#fde68a)" : isLead ? "var(--violet-wash)" : "var(--cream-hi)",
+                background: isCrown ? "var(--yellow)" : isLead ? "var(--violet-wash)" : "var(--cream-hi)",
                 borderRadius: "var(--r-md)", padding: "10px 13px",
                 boxShadow: "var(--e1)",
-                border: isCrown ? "1.5px solid #f59e0b" : "none",
+                border: "none",
               }}>
-                <span style={{ width: 26, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 13, color: isCrown ? "#d97706" : isLead ? "var(--violet)" : "var(--muted)", flexShrink: 0 }}>
-                  {isCrown ? <Icon name="crown" size={16} width={2} color="#d97706" /> : `#${i + 1}`}
+                <span style={{ width: 26, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 13, color: isCrown ? "var(--ink)" : isLead ? "var(--violet)" : "var(--muted)", flexShrink: 0 }}>
+                  {isCrown ? <Icon name="crown" size={16} width={2} color="var(--ink)" /> : `#${i + 1}`}
                 </span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontWeight: 700, fontSize: 14, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}{isUserSpot(r.spotId) && <span className="new-place-chip">New</span>}</div>
@@ -602,8 +602,8 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
               {theme.title}
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11.5, color: "var(--muted)", fontWeight: 500, marginTop: 2, overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
-              {leader && crowned && <Icon name="crown" size={12} width={2} color="#d97706" />}
-              {leader && <span style={{ fontWeight: 650, color: crowned ? "#d97706" : "var(--ink-soft)" }}>{leader.name}</span>}
+              {leader && crowned && <Icon name="crown" size={12} width={2} color="var(--ink)" />}
+              {leader && <span style={{ fontWeight: 650, color: crowned ? "var(--ink)" : "var(--ink-soft)" }}>{leader.name}</span>}
               <span>
                 {(() => {
                   const n = (theme.results || []).reduce((s, r) => s + (r.count || 0), 0);
@@ -719,8 +719,8 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
                 const isCrown = crowned && i === 0;
                 return (
                   <div key={r.spotId} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13 }}>
-                    <span style={{ width: 22, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, color: isCrown ? "#d97706" : "var(--muted)", fontSize: 12 }}>
-                      {isCrown ? <Icon name="crown" size={13} width={2} color="#d97706" /> : `#${i + 1}`}
+                    <span style={{ width: 22, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, color: isCrown ? "var(--ink)" : "var(--muted)", fontSize: 12 }}>
+                      {isCrown ? <Icon name="crown" size={13} width={2} color="var(--ink)" /> : `#${i + 1}`}
                     </span>
                     <span style={{ flex: 1, fontWeight: 600, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}{isUserSpot(r.spotId) && <span className="new-place-chip">New</span>}</span>
                     <span style={{ color: "var(--muted)", fontWeight: 500, fontSize: 12 }}>{r.count} vote{r.count === 1 ? "" : "s"}</span>
@@ -799,7 +799,7 @@ function YourPicks({ current, history, votedSpotId, results = [] }) {
               gap: 10,
               padding: "11px 13px",
               borderRadius: "var(--r-md)",
-              background: r.status === "won" ? "linear-gradient(135deg,#fef3c7,#fde68a)" : "var(--cream-hi)",
+              background: r.status === "won" ? "var(--yellow)" : "var(--cream-hi)",
               border: "1.5px solid var(--line)",
             }}
           >
@@ -817,7 +817,7 @@ function YourPicks({ current, history, votedSpotId, results = [] }) {
               fontWeight: 800,
               letterSpacing: "0.04em",
               textTransform: "uppercase",
-              color: r.status === "won" ? "#b45309" : r.status === "open" ? "var(--violet)" : "var(--muted)",
+              color: r.status === "won" ? "var(--ink)" : r.status === "open" ? "var(--violet)" : "var(--muted)",
             }}>
               {r.statusLabel}
             </span>

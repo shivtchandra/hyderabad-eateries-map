@@ -901,3 +901,17 @@ button { font-family: inherit; }
 .you-row-meta-item { display: inline-flex; align-items: center; gap: 4px; }
 .you-row-action { flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 var(--s4); border: 0; border-radius: var(--r-btn); background: var(--violet-wash); color: var(--violet-deep); font-size: 14px; font-weight: 700; cursor: pointer; }
 .you-row-action:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+
+/* ---- Map spot sheet secondary buttons (DetailSheet .sheet-btn). Quiet next
+   to the one purple "I ate here" button. ---- */
+.sheet-btn {
+  height: 44px; box-sizing: border-box;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  border: 0; border-radius: var(--r-btn);
+  background: var(--cream-hi); box-shadow: inset 0 0 0 1.5px var(--line);
+  color: var(--ink); font-family: var(--font-ui), sans-serif; font-weight: 600; font-size: 14px;
+  text-decoration: none; cursor: pointer;
+  transition: background var(--dur-2) ease, transform var(--dur-1) var(--ease-out);
+}
+.sheet-btn:active { transform: scale(0.98); }
+.sheet-btn:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }

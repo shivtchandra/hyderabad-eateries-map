@@ -474,7 +474,7 @@ function Podium({ top3, meUid }) {
           <div style={{ fontSize: 11.5, color: "var(--muted)", fontWeight: 600, marginBottom: 6 }}>{p.score} pts</div>
           <div style={{
             height: heights[p.rank], borderRadius: "12px 12px 0 0",
-            background: `linear-gradient(var(--violet), var(--violet-deep))`,
+            background: "var(--violet)",
             display: "flex", alignItems: "flex-start", justifyContent: "center", paddingTop: 8,
             color: "#fff", fontWeight: 800, fontSize: 18,
           }}>
