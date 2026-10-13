@@ -491,9 +491,12 @@ button { font-family: inherit; }
   z-index: 2;
 }
 .photo-pin.active .photo-pin-label {
-  background: var(--c);
-  color: var(--cream-hi);
+  background: var(--violet);
+  color: #fff;
 }
+.photo-pin.active .photo-pin-img { border-color: var(--violet); }
+/* Live vote top 3: a small rank badge on the pin itself (no floating ticket). */
+.photo-pin-rank { position: absolute; top: -6px; left: -8px; min-width: 26px; height: 22px; padding: 0 6px; border-radius: 999px; background: var(--yellow); color: var(--ink); border: 2px solid #fff; font: 800 12px/18px var(--font-display), system-ui, sans-serif; text-align: center; box-shadow: 0 2px 6px rgba(20, 20, 20, 0.25); }
 
 /* ---- Mini dots: "there is more here" without the noise ---- */
 .mini-dot {
@@ -1105,3 +1108,20 @@ button { font-family: inherit; }
 .vote-card-sticker { position: absolute; left: -10px; top: -22px; width: 56px; height: 56px; transform: rotate(-10deg); filter: drop-shadow(0 6px 10px rgba(20, 20, 20, 0.3)); pointer-events: none; }
 .route-error-art { width: 112px; height: 112px; transform: rotate(-8deg); margin-bottom: var(--s2); filter: drop-shadow(0 10px 14px rgba(20, 20, 20, 0.2)); }
 @media (prefers-reduced-motion: reduce) { .sticker-bob { animation: none; } }
+
+/* ---- Map rail: compact cards (CardRail.jsx) ---- */
+.rail { position: absolute; left: 0; right: 0; bottom: 0; z-index: 900; display: flex; gap: var(--s2); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--s4); padding: 0 var(--s4) var(--s3); scrollbar-width: none; }
+.rail::-webkit-scrollbar { display: none; }
+.rail-card { flex: 0 0 auto; width: min(300px, 82vw); scroll-snap-align: start; display: flex; align-items: center; gap: var(--s3); padding: var(--s2); border: 0; border-radius: var(--r-card); background: var(--cream-hi); color: var(--ink); text-align: left; cursor: pointer; box-shadow: var(--e2); transition: box-shadow var(--dur-2) ease, transform var(--dur-1) var(--ease-out); }
+.rail-card.is-active { box-shadow: 0 0 0 2.5px var(--violet), var(--e2); }
+.rail-card:active { transform: scale(0.98); }
+.rail-card:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+.rail-card-photo { position: relative; flex-shrink: 0; width: 84px; height: 84px; border-radius: var(--r-btn); overflow: hidden; }
+.rail-card-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rail-card-stamp { position: absolute; right: 4px; bottom: 4px; width: 20px; height: 20px; display: grid; place-items: center; border-radius: 50%; background: var(--forest); border: 2px solid #fff; }
+.rail-card-text { min-width: 0; display: flex; flex-direction: column; gap: 3px; padding-right: var(--s2); }
+.rail-card-text b { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 17px; line-height: 1.05; letter-spacing: -0.02em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.rail-card-text > span { font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rail-card-signal { color: var(--ink-soft) !important; font-weight: 600; }
+.rail-hide { position: absolute; left: var(--s4); bottom: 116px; z-index: 901; width: 32px; height: 32px; display: grid; place-items: center; border: 0; border-radius: 50%; background: var(--cream-hi); box-shadow: var(--e1); cursor: pointer; }
+.rail-pill { position: absolute; left: var(--s4); bottom: var(--s3); z-index: 900; display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 var(--s4) 0 var(--s3); border: 0; border-radius: var(--r-pill); background: var(--cream-hi); box-shadow: var(--e2); color: var(--ink); font-size: 14px; font-weight: 700; cursor: pointer; }

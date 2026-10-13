@@ -38,7 +38,6 @@ export default function MapCanvas({
   const meLayerRef = useRef(null);
   const routeLayerRef = useRef(null);
   const pickLayerRef = useRef(null);
-  const ticketLayerRef = useRef(null);
   const voteTopRef = useRef(voteTop); voteTopRef.current = voteTop;
   const [ready, setReady] = useState(false);
   // First open per session: two clouds part when the basemap is ready (the
@@ -152,7 +151,6 @@ export default function MapCanvas({
       meLayerRef.current = L.layerGroup().addTo(map);
       routeLayerRef.current = L.layerGroup().addTo(map);
       pickLayerRef.current = L.layerGroup().addTo(map);
-      ticketLayerRef.current = L.layerGroup().addTo(map);
 
       const bump = () => {
         setViewTick((t) => t + 1);
@@ -171,29 +169,32 @@ export default function MapCanvas({
     return () => { cancelled = true; mapRef.current?.remove(); mapRef.current = null; };
   }, []);
 
-  // Live vote tickets (DESIGN.md, Home mockup): the top 3 of this week's vote
-  // sit on the map as small yellow-band tickets. Tap one to open the spot.
+  // When the live vote's top 3 arrive, redraw hero pins once so the ones
+  // already on screen pick up their rank badge.
+  const voteKey = voteTop.map((t) => `${t.spotId}:${t.rank}`).join(",");
   useEffect(() => {
-    const L = LRef.current;
-    const layer = ticketLayerRef.current;
-    if (!ready || !L || !layer) return;
-    layer.clearLayers();
-    if ((mapRef.current?.getZoom?.() ?? 0) >= 14) return; // street level: a yellow ring on the pin instead
-    const byId = new Map(eateries.map((e) => [e.id, e]));
-    for (const t of voteTop) {
-      const e = byId.get(t.spotId);
-      if (!e || e.lat == null || e.lng == null) continue;
-      const tied = voteTop.filter((o) => o.count === t.count).length > 1;
-      const band = `${voteLabel ? `${escapeHtml(voteLabel.toUpperCase())} · ` : ""}${tied ? "TIED" : `#${t.rank}`}`;
-      const html = `<div class="map-ticket"><div class="map-ticket-band">${band}</div><div class="map-ticket-body"><b>${escapeHtml(t.name)}</b><span>${t.count} ${t.count === 1 ? "vote" : "votes"}</span></div></div>`;
-      L.marker([e.lat, e.lng], {
-        icon: L.divIcon({ className: "", html, iconSize: [156, 62], iconAnchor: [78, 72] }),
-        zIndexOffset: 5000,
-        keyboard: true,
-        title: `${t.name}, ${t.count} votes`,
-      }).on("click", () => onSelect?.(e.id)).addTo(layer);
-    }
-  }, [ready, voteTop, voteLabel, eateries, onSelect, viewTick]);
+    const layer = spotLayerRef.current;
+    if (!ready || !layer || !voteKey) return;
+    for (const [, m] of heroMarkers.current) layer.removeLayer(m);
+    heroMarkers.current.clear();
+    heroEls.current = {};
+    setViewTick((t) => t + 1);
+  }, [ready, voteKey]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Spots whose photo failed to load drop to dots (no empty white pins).
+  const noPhoto = useRef(new Set());
+  useEffect(() => {
+    try { JSON.parse(sessionStorage.getItem("eats-nophoto") || "[]").forEach((id) => noPhoto.current.add(id)); } catch {}
+    const onMiss = (ev) => {
+      if (!ev.detail || noPhoto.current.has(ev.detail)) return;
+      noPhoto.current.add(ev.detail);
+      try { sessionStorage.setItem("eats-nophoto", JSON.stringify([...noPhoto.current].slice(-500))); } catch {}
+      setViewTick((t) => t + 1);
+    };
+    window.addEventListener("eats-nophoto", onMiss);
+    return () => window.removeEventListener("eats-nophoto", onMiss);
+  }, []);
+
 
   // Crosshair cursor while picking, so it's obvious the next tap places a pin.
   useEffect(() => {
@@ -404,7 +405,13 @@ export default function MapCanvas({
     const onMap = (e) => e.lat >= fullB.getSouth() && e.lat <= fullB.getNorth() && e.lng >= fullB.getWest() && e.lng <= fullB.getEast();
     const byScore = filtered.filter(onMap).sort((x, y) => scoreOf(y) - scoreOf(x));
     const shown = heroMarkers.current;
-    const ordered = [...byScore.filter((e) => shown.has(e.id)), ...byScore.filter((e) => !shown.has(e.id))];
+    const topIds = new Set(voteTopRef.current.map((t) => t.spotId));
+    const withPhoto = byScore.filter((e) => !noPhoto.current.has(e.id) || e.id === selectedId);
+    const ordered = [
+      ...withPhoto.filter((e) => shown.has(e.id)),
+      ...withPhoto.filter((e) => !shown.has(e.id) && topIds.has(e.id)),
+      ...withPhoto.filter((e) => !shown.has(e.id) && !topIds.has(e.id)),
+    ];
     const boxes = [];
     let heroes = [];
     for (const e of ordered) {
@@ -415,7 +422,7 @@ export default function MapCanvas({
       if (shown.has(e.id)) {
         // Already a pin: keep it while its point is on the map (zooming in
         // pushes pins outward; they shouldn't vanish for that).
-        if (pt.x < 0 || pt.x > W || pt.y < 0 || pt.y > H) continue;
+        if (pt.x < 0 || pt.x > W || pt.y < TOP_PX - 40 || pt.y > H - RAIL_PX + 12) continue; // hidden under the chrome or rail anyway
       } else {
         // New pins only where they're fully readable.
         if (bx.y1 < TOP_PX || bx.y2 > H - RAIL_PX) continue;       // under the chrome or the rail
@@ -501,11 +508,12 @@ export default function MapCanvas({
         <div class="${cls}" style="--c:${color};width:${size}px;height:${size + 10}px">
           <div class="photo-pin-img">
             <img src="${photoUrl(e.id)}" alt="" loading="lazy"
-                 onerror="this.parentNode.classList.add('noimg');this.remove()"/>
+                 onerror="this.parentNode.classList.add('noimg');window.dispatchEvent(new CustomEvent('eats-nophoto',{detail:'${e.id}'}));this.remove()"/>
           </div>
           <div class="photo-pin-stem"></div>
           <div class="photo-pin-label">${escapeHtml(e.name)}</div>
           ${featuredIds?.has(e.id) ? '<div class="photo-pin-story" title="Has a food story"></div>' : ""}
+          ${(() => { const t = voteTopRef.current.find((v) => v.spotId === e.id); return t ? `<div class="photo-pin-rank">#${t.rank}</div>` : ""; })()}
         </div>`;
 
       const marker = L.marker([e.lat, e.lng], {
