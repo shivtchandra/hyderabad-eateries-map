@@ -1305,3 +1305,17 @@ a.of-card-name:hover { text-decoration: underline; }
 .hub-card img { position: absolute; right: -6px; bottom: -6px; width: 92px; height: 92px; object-fit: contain; transform: rotate(-8deg); }
 .hub-card--sun { background: var(--yellow); }
 .hub-card--sun span { color: var(--ink); }
+/* Ranking actions: rows you tap, not underlined links. */
+.rk-action { display: flex; align-items: center; gap: var(--s3); margin: var(--s4) 0 var(--s7); padding: var(--s3) var(--s4); min-height: 64px; border-radius: var(--r-card); background: var(--cream-hi); color: var(--ink); text-decoration: none; transition: box-shadow var(--dur-2) ease, transform var(--dur-1) var(--ease-out); }
+.rk-action:hover { box-shadow: var(--e2); }
+.rk-action:active { transform: scale(0.99); }
+.rk-action:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+.rk-action--add { background: transparent; border: 1.5px dashed var(--line); }
+.rk-action--add:hover { border-color: var(--violet); box-shadow: none; }
+.rk-action-tile { flex-shrink: 0; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 12px; background: var(--violet-wash); color: var(--violet-deep); }
+.rk-action-tile--go { margin-left: auto; background: var(--violet); color: #fff; }
+.rk-action-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.rk-action-text b { font-size: 16px; font-weight: 700; }
+.rk-action-text span { font-size: 13.5px; color: var(--ink-soft); }
+.rk-ballot .rk-title { margin-bottom: 6px; }
+.rk-ballot .rk-lede { margin: 0 0 var(--s4); font-size: 15px; }

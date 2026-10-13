@@ -292,7 +292,14 @@ export default async function RankingPage({ params }) {
           </ol>
         </section>
       )}
-      {!isPlaceholder && <Link href={voteHref} className="rk-add">Can&rsquo;t see your pick? Add it</Link>}
+      {!isPlaceholder && (
+        <Link href={voteHref} className="rk-action rk-action--add">
+          <span className="rk-action-tile" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round"><path d="M12 5v14M5 12h14" /></svg>
+          </span>
+          <span className="rk-action-text"><b>Can&rsquo;t see your pick?</b><span>Add it to the ballot</span></span>
+        </Link>
+      )}
 
       {/* Unvoted spots are not standings: their own compact list, apart from the ranked one. */}
       {contenders.length > 0 && (
@@ -312,7 +319,14 @@ export default async function RankingPage({ params }) {
               </li>
             ))}
           </ul>
-          {!isPlaceholder && <Link href={voteHref} className="rk-add">Vote for one of these</Link>}
+          {!isPlaceholder && (
+            <Link href={voteHref} className="rk-action">
+              <span className="rk-action-text"><b>Vote for one of these</b><span>Put it on the board</span></span>
+              <span className="rk-action-tile rk-action-tile--go" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+              </span>
+            </Link>
+          )}
         </section>
       )}
 
