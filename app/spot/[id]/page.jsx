@@ -566,7 +566,7 @@ export default async function SpotPage({ params }) {
           {recommendation && <section className="spot-section" id="recommendations">
             <h2>What to order and why</h2>
             <RecommendationPanel place={recommendation} brand={recommendationModel.brands[recommendation.redditBrandId]} publishedDishes={recommendationModel.dishes.map((d) => d.id)} />
-            <Link href={`/?spot=${encodeURIComponent(spot.id)}`}>Explore this branch and nearby picks on the map</Link>
+            <Link href={`/?spot=${encodeURIComponent(spot.id)}`} className="link-chip">Explore this branch on the map</Link>
           </section>}
           {!recommendation && localsPick && (
             <section id="locals" className="spot-section locals-pick">
@@ -579,7 +579,7 @@ export default async function SpotPage({ params }) {
               <ul>
                 {localsPick.evidence.map((ev) => (
                   <li key={ev.url}>
-                    <a href={ev.url} target="_blank" rel="noopener noreferrer nofollow">Read the comment on Reddit →</a>
+                    <a href={ev.url} target="_blank" rel="noopener noreferrer nofollow" className="link-chip">Read the comment on Reddit</a>
                     <span>{new Date(ev.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })} · {ev.score} upvotes</span>
                   </li>
                 ))}
