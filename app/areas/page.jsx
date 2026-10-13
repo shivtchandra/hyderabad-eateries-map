@@ -1,7 +1,8 @@
 import Link from "next/link";
 import SiteChrome from "../components/SiteChrome.jsx";
 import BottomNav from "../components/BottomNav.jsx";
-import { allAreaPages, getAreaBySlug } from "../../lib/siteData.js";
+import { allAreaPages, getAreaBySlug, hasSpotPhoto } from "../../lib/siteData.js";
+import { spotPhotoUrl } from "../../lib/photos.js";
 import HubAnswer, { HubFaq } from "../components/HubAnswer.jsx";
 import { hubJsonLd, todayIso } from "../../lib/hubSeo.js";
 import { pageMeta, getSiteUrl } from "../../lib/site.js";
@@ -24,8 +25,10 @@ export default function AreasHubPage() {
   const rest = areas.filter((a) => !PRIORITY_AREAS.includes(a.slug));
   const ordered = [...priority, ...rest].map((a) => {
     const spots = getAreaBySlug(a.slug)?.spots || [];
-    const top = [...spots].sort((x, y) => (y.ratingCount || 0) - (x.ratingCount || 0)).slice(0, 3).map((x) => x.name);
-    return { ...a, count: spots.length, top };
+    const sorted = [...spots].sort((x, y) => (y.ratingCount || 0) - (x.ratingCount || 0));
+    const top = sorted.slice(0, 3).map((x) => x.name);
+    const cover = sorted.find((x) => hasSpotPhoto(x.id));
+    return { ...a, count: spots.length, top, photo: cover ? spotPhotoUrl(cover.id) : null };
   }).filter((a) => a.count > 0);
   const totalSpots = ordered.reduce((n, a) => n + a.count, 0);
   const updated = todayIso();
@@ -52,16 +55,20 @@ export default function AreasHubPage() {
         stats={[{ value: ordered.length, label: "areas" }, { value: totalSpots.toLocaleString("en-IN"), label: "spots mapped" }, { value: ordered[0]?.area.split("/")[0] || "", label: "most popular" }]}
         updated={updated}
       />
-      <ul className="hub-list">
+      <nav className="photo-tiles" aria-label="Areas">
         {ordered.map((a, i) => (
-          <li key={a.slug}>
-            <Link href={`/areas/${a.slug}`} className={`hub-card${i === 0 ? " hub-card--sun" : ""}`}>
+          <Link key={a.slug} href={`/areas/${a.slug}`} className={`photo-tile${i === 0 ? " photo-tile--wide" : ""}`}>
+            {a.photo && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={a.photo} alt="" loading={i < 4 ? "eager" : "lazy"} />
+            )}
+            <span className="photo-tile-cap">
               <b>{a.area}</b>
-              <span>{a.count} spots{a.top.length ? ` · ${a.top.join(", ")}` : ""}</span>
-            </Link>
-          </li>
+              <span>{a.count} spots</span>
+            </span>
+          </Link>
         ))}
-      </ul>
+      </nav>
       <Link href="/" className="site-cta">Open the map</Link>
       <HubFaq faqs={faqs} />
     </SiteChrome>

@@ -1,4 +1,5 @@
 import GuideSpotCard from "../../components/GuideSpotCard.jsx";
+import SwipeDeck from "../../components/SwipeDeck.jsx";
 import Link from "next/link";
 import { recommendationsEnabled } from "../../../lib/recommendationShared.js";
 import { pageMeta } from "../../../lib/site.js";
@@ -224,11 +225,11 @@ export default function BestBiryaniGuidePage() {
         </section>
 
         {/* Spot Deep Dives */}
-        <section className="guide-cards">
+        <SwipeDeck label="Spots in this guide">
           {SPOTS.map((s, idx) => (
             <GuideSpotCard key={s.id} s={s} rank={idx + 1} rows={[["Must order", s.whatToOrder], ["Fresh batch tip", s.timingTip]]} />
           ))}
-        </section>
+        </SwipeDeck>
 
         {/* FAQs */}
         <section className="guide-faq">

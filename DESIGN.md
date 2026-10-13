@@ -112,8 +112,8 @@ Rules:
   - Yellow: #1 / winner tickets (`.ticket`), the highlighter on vote headlines (`.hl`),
     sticker tiles (`.sticker-tile--sun`), the Rankings guide tile, arrow tiles on violet
     cards (vote card, passport), empty-state sticker tiles.
-  - Ink: chips with yellow text (`.ink-chip`: CROWNED, OPENING SOON), arrow tiles on
-    yellow tickets, the Areas guide tile.
+  - Ink: chips (`.ink-chip`: CROWNED, OPENING SOON), arrow tiles on yellow tickets, the
+    Areas guide tile. **Never yellow text on black**: black carries white text, yellow carries black text.
   - Never yellow for warnings: food safety stays neutral (Notice is warm grey `#78716c`).
     Never yellow for plain utility (filter counts, retry buttons, focus rings).
 - Violet gets big moments: full colour blocks (live vote card, passport), not just thin outlines.

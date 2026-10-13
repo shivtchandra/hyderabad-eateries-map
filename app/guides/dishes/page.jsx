@@ -20,6 +20,9 @@ export const metadata = {
   keywords: ["what to eat in hyderabad", "hyderabad food guide", "best biryani hyderabad", "best haleem hyderabad", "irani chai hyderabad", "hyderabad breakfast tiffins", "late night food hyderabad"],
 };
 
+// Same coloured sticker tiles as the Guides home (yellow, violet, ink, wash, white).
+const TONES = ["sun", "grape", "paper", "ink", "violet"];
+
 export default function DishGuidesPage() {
   const rankings = rankingCards();
   const updated = todayIso();
@@ -49,36 +52,32 @@ export default function DishGuidesPage() {
         />
 
         <h2 className="site-section-title">Guides</h2>
-        <ul className="hub-list">
+        <nav className="guides-jump-grid" aria-label="Dish guides">
           {GUIDES.map((g, i) => (
-            <li key={g.href}>
-              <Link href={g.href} className={`hub-card${i === 0 ? " hub-card--sun" : ""}`}>
-                {sticker(g.key) && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={sticker(g.key)} alt="" loading="lazy" />
-                )}
-                <b>{g.label}</b>
-                <span>{g.note}</span>
-              </Link>
-            </li>
+            <Link key={g.href} href={g.href} className={`guides-jump-tile guides-jump-tile--${TONES[i % TONES.length]}`}>
+              {sticker(g.key) && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="guides-jump-art" src={sticker(g.key)} alt="" loading="lazy" />
+              )}
+              <span className="guides-jump-label">{g.label}</span>
+              <span className="guides-jump-note">{g.note}</span>
+            </Link>
           ))}
-        </ul>
+        </nav>
 
         <h2 className="site-section-title">Best in Hyderabad, voted by locals</h2>
-        <ul className="hub-list">
-          {rankings.map((r) => (
-            <li key={r.slug}>
-              <Link href={`/rankings/${r.slug}`} className="hub-card">
-                {r.art && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={r.art} alt="" loading="lazy" />
-                )}
-                <b>{r.label} in Hyderabad</b>
-                <span>See the board and vote</span>
-              </Link>
-            </li>
+        <nav className="guides-jump-grid" aria-label="Dish rankings">
+          {rankings.map((r, i) => (
+            <Link key={r.slug} href={`/rankings/${r.slug}`} className={`guides-jump-tile guides-jump-tile--${TONES[(i + 2) % TONES.length]}`}>
+              {r.art && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="guides-jump-art" src={r.art} alt="" loading="lazy" />
+              )}
+              <span className="guides-jump-label">{r.label}</span>
+              <span className="guides-jump-note">Vote and see the board</span>
+            </Link>
           ))}
-        </ul>
+        </nav>
 
         <HubFaq faqs={faqs} />
       </SiteChrome>

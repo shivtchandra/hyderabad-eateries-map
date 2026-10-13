@@ -1,4 +1,5 @@
 import GuideSpotCard from "../../components/GuideSpotCard.jsx";
+import SwipeDeck from "../../components/SwipeDeck.jsx";
 import Link from "next/link";
 import { recommendationsEnabled } from "../../../lib/recommendationShared.js";
 import { pageMeta } from "../../../lib/site.js";
@@ -243,7 +244,7 @@ export default function BestTiffinsGuidePage() {
           </h2>
           <div className="guide-quick-grid">
             <div className="guide-quick-item">
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "#047857" }}>Best Taste &amp; Pricing</div>
+              <div className="guide-quick-k">Best Taste &amp; Pricing</div>
               <div className="guide-quick-name">Varalakshmi Tiffins</div>
               <div className="guide-quick-note">Precise Mysore bondas, pooris &amp; ghee idlis</div>
             </div>
@@ -271,11 +272,11 @@ export default function BestTiffinsGuidePage() {
         </section>
 
         {/* Spot Deep Dives */}
-        <section className="guide-cards">
+        <SwipeDeck label="Spots in this guide">
           {SPOTS.map((s, idx) => (
             <GuideSpotCard key={s.id} s={s} rank={idx + 1} rows={[["Must order", s.whatToOrder], ["Crowd advisory", s.timingTip]]} />
           ))}
-        </section>
+        </SwipeDeck>
 
         {/* FAQs */}
         <section className="guide-faq">

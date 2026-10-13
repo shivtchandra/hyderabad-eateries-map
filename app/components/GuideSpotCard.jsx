@@ -2,10 +2,10 @@ import Link from "next/link";
 import { getEateryBySlugOrId, getEateries, hasSpotPhoto } from "../../lib/siteData.js";
 import { spotPhotoUrl } from "../../lib/photos.js";
 
-// One spot in a long-form guide, in the mockup's language (canvas GuidesAfter /
-// SpotAfter): photo first with the rank on it (#1 yellow), the name big beside
-// a violet arrow tile, then plain text: verdict, must-order (highlighted label),
-// tips, a light quote. No boxes inside boxes. `rows` = [[label, text], ...].
+// One spot in a long-form guide, as a swipe card (SwipeDeck): full photo with
+// the rank pill (#1 yellow) and the name on it, then must-order, a short
+// verdict, tips folded away, and an Open button. All text stays in the HTML.
+// `rows` = [[label, text], ...].
 const norm = (x = "") => x.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 // The guide's own photo, else the linked spot's, else the best-reviewed spot
 // with the same name (some guide links use older spot addresses).
@@ -24,33 +24,35 @@ function photoFor(s) {
 export default function GuideSpotCard({ s, rank, rows = [] }) {
   const photo = photoFor(s);
   const meta = [s.area, s.rating && `★ ${s.rating}`, s.priceForTwo].filter(Boolean).join(" · ");
-  const Wrap = ({ children, className }) => (s.href ? <Link href={s.href} className={className}>{children}</Link> : <div className={className}>{children}</div>);
+  const must = rows.find(([label, t]) => /must/i.test(label) && t);
+  const rest = rows.filter(([label, t]) => t && !/must/i.test(label));
+  const first = rank === 1;
   return (
-    <article className="gsc">
-      {photo && (
-        <Wrap className="gsc-media">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+    <article className={`sw${first ? " sw--first" : ""}`}>
+      <Link href={s.href || "#"} className={`sw-media${photo ? "" : " sw-media--plain"}`}>
+        {photo && (
+          // eslint-disable-next-line @next/next/no-img-element
           <img src={photo} alt={s.name} loading={rank <= 2 ? "eager" : "lazy"} />
-          <span className={`gsc-rank${rank === 1 ? " is-first" : ""}`}>#{rank}{s.tag ? ` · ${s.tag}` : ""}</span>
-        </Wrap>
-      )}
-      <Wrap className="gsc-title">
-        <span className="gsc-name">{!photo && <span className={`gsc-num${rank === 1 ? " is-first" : ""}`}>#{rank}</span>}{s.name}</span>
-        {s.href && (
-          <span className="gsc-go" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-          </span>
         )}
-      </Wrap>
-      <p className="gsc-meta">{meta}{!photo && s.tag ? ` · ${s.tag}` : ""}</p>
-      {s.redditBadge && <p className="gsc-badge"><mark className="hl">{s.redditBadge}</mark></p>}
-      {s.verdict && <p className="gsc-verdict">{s.verdict}</p>}
-      {rows.filter(([, t]) => t).map(([label, text]) => (
-        <p key={label} className="gsc-line">
-          <b>{/must/i.test(label) ? <mark className="hl">{label}</mark> : label}</b> {text}
-        </p>
-      ))}
-      {s.quote && <p className="gsc-quote">{s.quote.replace(/^[“"]|[”"]$/g, "")}</p>}
+        <span className="sw-rank">#{rank}{s.tag ? ` · ${s.tag}` : ""}</span>
+        <span className="sw-cap">
+          <b>{s.name}</b>
+          <span>{meta}</span>
+        </span>
+      </Link>
+      <div className="sw-body">
+        {must && <p className="sw-order"><mark className="hl">Must order</mark> {must[1]}</p>}
+        {s.redditBadge && <p className="sw-badge">{s.redditBadge}</p>}
+        {s.verdict && <p className="sw-verdict">{s.verdict}</p>}
+        {(rest.length > 0 || s.quote) && (
+          <details className="sw-more">
+            <summary>Tips and what locals say</summary>
+            {rest.map(([label, text]) => <p key={label}><b>{label}</b> {text}</p>)}
+            {s.quote && <p className="sw-quote">{s.quote.replace(/^[“"]|[”"]$/g, "")}</p>}
+          </details>
+        )}
+        {s.href && <Link href={s.href} className="sw-go">Open {s.name}</Link>}
+      </div>
     </article>
   );
 }

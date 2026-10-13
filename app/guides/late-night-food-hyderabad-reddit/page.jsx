@@ -1,4 +1,5 @@
 import GuideSpotCard from "../../components/GuideSpotCard.jsx";
+import SwipeDeck from "../../components/SwipeDeck.jsx";
 import Link from "next/link";
 import { pageMeta } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
@@ -321,17 +322,17 @@ export default function LateNightGuidePage() {
               <div className="guide-quick-note">Tiffins, smash burgers, momos &amp; desserts</div>
             </div>
             <div className="guide-quick-item">
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "#991b1b" }}>Best Late-Night Burger</div>
+              <div className="guide-quick-k">Best Late-Night Burger</div>
               <div className="guide-quick-name">1885 Burgers (DLF)</div>
               <div className="guide-quick-note">Legendary juicy lamb burger &amp; smash patties</div>
             </div>
             <div className="guide-quick-item">
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "#047857" }}>New Tiffins Update</div>
+              <div className="guide-quick-k">New Tiffins Update</div>
               <div className="guide-quick-name">Varalakshmi Tiffins (DLF)</div>
               <div className="guide-quick-note">Newly added hot pooris + ghee podi idli</div>
             </div>
             <div className="guide-quick-item">
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "#b45309" }}>Midnight Dessert Stop</div>
+              <div className="guide-quick-k">Midnight Dessert Stop</div>
               <div className="guide-quick-name">Milan Juice Center (DLF)</div>
               <div className="guide-quick-note">Apricot Delight right beside Varalakshmi</div>
             </div>
@@ -349,11 +350,11 @@ export default function LateNightGuidePage() {
         </section>
 
         {/* Spot Deep Dives */}
-        <section className="guide-cards">
+        <SwipeDeck label="Spots in this guide">
           {SPOTS.map((s, idx) => (
             <GuideSpotCard key={s.id} s={s} rank={idx + 1} rows={[["Must order", s.whatToOrder], ["Timings and police advisory", s.timingTip]]} />
           ))}
-        </section>
+        </SwipeDeck>
 
         {/* FAQs */}
         <section className="guide-faq">

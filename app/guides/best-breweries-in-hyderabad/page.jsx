@@ -1,4 +1,5 @@
 import GuideSpotCard from "../../components/GuideSpotCard.jsx";
+import SwipeDeck from "../../components/SwipeDeck.jsx";
 import Link from "next/link";
 import { pageMeta } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
@@ -419,11 +420,11 @@ export default function BestBreweriesGuidePage() {
         </section>
 
         {/* Spot Deep Dives */}
-        <section className="guide-cards">
+        <SwipeDeck label="Spots in this guide">
           {SPOTS.map((s, idx) => (
             <GuideSpotCard key={s.id} s={s} rank={idx + 1} rows={[["Craft beers", s.craftBeers], ["Must order", s.whatToOrder], ["Pro tip", s.vibeTip]]} cta={"View on map and menu"} />
           ))}
-        </section>
+        </SwipeDeck>
 
         {/* FAQs */}
         <section className="guide-faq">
