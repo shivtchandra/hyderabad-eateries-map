@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { getAllRankingsThemes } from "../lib/themesServer.js";
 import { SEO_THEME_PICKS, slugFromTitle } from "../lib/rankings.js";
+import { getIndexableSpotIds } from "../lib/spotContent.js";
 import { allAreaPages, allCategoryPages, allAreaCategoryCombinations, getEditorialSpotIds, spotSlug, getEateryById, getEateries } from "../lib/siteData.js";
 import { getSiteUrl } from "../lib/site.js";
 import { getRecommendations, dishAreaPages } from "../lib/recommendations.js";
@@ -125,9 +126,11 @@ export default async function sitemap() {
   } catch {}
   try {
     const editorial = getEditorialSpotIds().map((id) => getEateryById(id)).filter(Boolean);
-    // Core spots always; recommended places on top when the curated layer is on.
-    const recommended = recommendationsEnabled() ? new Set(getRecommendations().places.filter((p) => p.recommended).map((p) => p.id)) : new Set();
-    const popular = getEateries().filter((e) => e.core || recommended.has(e.id));
+    // Only spots with something real to say (lib/spotContent.js); basics-only
+    // pages are noindexed, so listing them here would just waste crawl budget.
+    const indexable = await getIndexableSpotIds();
+    const editorialIds = new Set(editorial.map((e) => e.id));
+    const popular = getEateries().filter((e) => indexable.has(e.id) && !editorialIds.has(e.id));
     spotUrls = [
       ...editorial.map((e) => ({ url: `${siteUrl}/spot/${spotSlug(e)}`, lastModified: now, changeFrequency: "weekly", priority: 0.85 })),
       ...popular.map((e) => ({ url: `${siteUrl}/spot/${spotSlug(e)}`, lastModified: now, changeFrequency: "monthly", priority: 0.6 })),

@@ -1044,3 +1044,18 @@ a.of-card-name:hover { text-decoration: underline; }
 .rk-live-card { position: relative; overflow: hidden; padding-right: 140px; }
 .rk-live-sticker { position: absolute; right: 8px; top: 50%; width: 128px; height: 128px; transform: translateY(-50%) rotate(8deg); filter: drop-shadow(0 10px 16px rgba(20, 20, 20, 0.3)); }
 @media (max-width: 480px) { .rk-live-card { padding-right: var(--s6); padding-top: 112px; } .rk-live-sticker { top: 12px; right: 12px; transform: rotate(8deg); width: 100px; height: 100px; } }
+.spot-context { margin: 0 0 var(--s7); padding: var(--s4) var(--s5); border-radius: var(--r-card); background: #fdf3d6; color: var(--ink); font-size: 16px; line-height: 1.5; }
+.spot-context b { font-weight: 700; }
+
+/* ---- Spot page: food safety status (near the top) ---- */
+.spot-safety { display: flex; flex-direction: column; gap: 2px; margin: 0 0 var(--s7); padding: var(--s4) var(--s5); border-radius: var(--r-card); background: #fdf3d6; color: var(--ink); text-decoration: none; }
+.spot-safety b { font-size: 17px; }
+.spot-safety span { font-size: 14px; color: var(--ink-soft); }
+.spot-safety.is-serious { background: var(--ink); color: #fff; }
+.spot-safety.is-serious span { color: #d9d6cf; }
+.spot-safety:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+.spot-safety-none { margin: 0 0 var(--s7); font-size: 14px; color: var(--muted); }
+.spot-safety-none a { color: var(--violet-deep); font-weight: 600; }
+.spot-safety-chip { display: inline-flex; align-items: center; min-height: 28px; padding: 0 var(--s3); border-radius: var(--r-pill); background: #fdf3d6; color: var(--ink); font-size: 12px; font-weight: 700; text-decoration: none; }
+.spot-rank-num--open { color: var(--muted); }
+#food-safety { scroll-margin-top: var(--s5); }

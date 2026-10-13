@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
 import BottomNav from "../../components/BottomNav.jsx";
-import { getEateryBySlugOrId, getEateries, getEditorialSpotIds, getChainSiblings, areaPageHref, hasSpotPhoto, spotSlug, spotPath } from "../../../lib/siteData.js";
+import { editorialRanking, getEateryBySlugOrId, getEateries, getEditorialSpotIds, getChainSiblings, areaPageHref, hasSpotPhoto, spotSlug, spotPath } from "../../../lib/siteData.js";
 import { absoluteUrl, getSiteUrl, pageMeta } from "../../../lib/site.js";
 import { galleryPhotoUrl, spotPhotoUrl } from "../../../lib/photos.js";
 import { restaurantJsonLd, faqJsonLd, breadcrumbJsonLd, getSpotFaqs } from "../../../lib/schema.js";
@@ -19,7 +19,8 @@ import { TIERS, tierFor } from "../../../lib/eateryUtils.js";
 import ShareSpotButton from "../../components/ShareSpotButton.jsx";
 import { getRedditSpotData } from "../../../lib/redditThreads.js";
 import { getAllRankingsThemes } from "../../../lib/themesServer.js";
-import { slugFromTitle } from "../../../lib/rankings.js";
+import { slugFromTitle, SEO_THEME_PICKS } from "../../../lib/rankings.js";
+import { getIndexableSpotIds } from "../../../lib/spotContent.js";
 
 const CAT_LABEL = {
   cafe: "Cafe", local: "Local Eats", "restro-bar": "Restro Bar", bakery: "Bakery", "ice-cream": "Ice Cream",
@@ -109,11 +110,11 @@ export function generateMetadata({ params }) {
   // Static hosting has no /api/og renderer: share the venue photo, else the site card.
   const ogCardUrl = absoluteUrl(photo || "/og/home.png");
   const base = pageMeta({ title, description, path: spotPath(spot), image: ogCardUrl });
-  return {
+  // Indexed only when the page has real content (lib/spotContent.js); basics-only
+  // pages stay reachable for app links and shares but are kept out of Google.
+  return getIndexableSpotIds().then((indexable) => ({
     ...base,
-    // Outside the core list and not recommended: reachable, but kept out of Google's index.
-    // Recommended adds to the core list; it never removes pages that are indexed today.
-    ...((spot.core || (recommendationsEnabled() && recommendationFor(spot.id)?.recommended)) ? {} : { robots: { index: false, follow: true } }),
+    ...(indexable.has(spot.id) ? {} : { robots: { index: false, follow: true } }),
     openGraph: {
       ...base.openGraph,
       images: photo
@@ -126,7 +127,7 @@ export function generateMetadata({ params }) {
       description,
       images: [ogCardUrl],
     },
-  };
+  }));
 }
 
 export default async function SpotPage({ params }) {
@@ -174,13 +175,15 @@ export default async function SpotPage({ params }) {
   // (memoised per process in themesServer, so no extra reads per page).
   const rankedIn = (await getAllRankingsThemes(50).catch(() => []))
     .map((th) => {
-      const i = (th.results || []).findIndex((r) => r.spotId === spot.id);
+      // Only real votes count as a rank; 0-vote entries are "on the ballot".
+      const voted = (th.results || []).filter((r) => (r.count || 0) > 0);
+      const i = voted.findIndex((r) => r.spotId === spot.id);
       if (i < 0) return null;
       return {
         slug: th.slug || slugFromTitle(th.title),
         label: shortRanking(th.title),
         rank: i + 1,
-        votes: th.results[i].count || 0,
+        votes: voted[i].count,
         crowned: !!th.winnerId && th.winnerId === spot.id,
       };
     })
@@ -189,6 +192,11 @@ export default async function SpotPage({ params }) {
     .slice(0, 4);
   // If it's packed: the same kind of place within 2 km, best first.
   const nearby = nearbyAlternatives(spot, getEateries());
+  // Real context from our own data: how this spot sits in its area and city.
+  const context = spotContext(spot, getEateries());
+  // Rankings this spot is on the ballot for but hasn't been voted in yet.
+  const ballots = ballotsFor(spot.id).filter((b) => !rankedIn.some((r) => r.slug === b.slug)).slice(0, 3);
+  const latestSafety = safety?.[0] || null;
   // Only show the consensus card when there is something real to say.
   const hasConsensus = !!(spot.signatureDish?.name || redditData?.thread || redditData?.brandData?.quotes?.praise?.length);
   const tierKey = spot.tier || tierFor(spot.ratingCount || 0);
@@ -290,9 +298,9 @@ export default async function SpotPage({ params }) {
         <Link href={`/?spot=${encodeURIComponent(spot.id)}`} className="spot-actions-secondary">Open on map</Link>
       </div>
 
-      {rankedIn.length > 0 && (
+      {(rankedIn.length > 0 || ballots.length > 0) && (
         <section className="spot-ranks" aria-label="Where locals rank it">
-          <h2>Where locals rank it</h2>
+          <h2>{rankedIn.length > 0 ? "Where locals rank it" : "On the ballot"}</h2>
           <ul>
             {rankedIn.map((r) => (
               <li key={r.slug}>
@@ -306,8 +314,38 @@ export default async function SpotPage({ params }) {
                 </Link>
               </li>
             ))}
+            {ballots.map((b) => (
+              <li key={b.slug}>
+                <Link href={`/rankings/${b.slug}`} className="spot-rank-row">
+                  <span className="spot-rank-num spot-rank-num--open" aria-hidden="true">?</span>
+                  <span className="spot-rank-text">
+                    <b>{b.label}</b>
+                    <span>On the ballot, no votes yet</span>
+                  </span>
+                  <span className="spot-rank-cta">Be first</span>
+                </Link>
+              </li>
+            ))}
           </ul>
         </section>
+      )}
+
+      {context && (
+        <p className="spot-context">
+          {context.area && <><b>One of {context.areaCount} {context.plural} in {context.area}</b>{context.areaRank === 1 ? ", the most reviewed" : context.areaRank <= 10 ? `, the ${ordinal(context.areaRank)} most reviewed` : ""}. </>}
+          {context.cityTopPct <= 25 && <>Among the top {context.cityTopPct}% of Hyderabad {context.plural} by number of reviews.</>}
+        </p>
+      )}
+
+      {latestSafety ? (
+        <a href="#food-safety" className={`spot-safety${/suspen|seiz|clos|cancel/i.test(latestSafety.entry.action || "") ? " is-serious" : ""}`}>
+          <b>Food safety: {ACTIONS[latestSafety.entry.action] || latestSafety.entry.action || "inspection on record"}</b>
+          <span>{formatDate(latestSafety.drive.date)}{latestSafety.drive.authority ? ` · ${latestSafety.drive.authority}` : ""}. See the record.</span>
+        </a>
+      ) : (
+        <p className="spot-safety-none">
+          No food safety notices on record. <Link href="/food-safety">How we track inspections</Link>
+        </p>
       )}
 
       {/* Princeton GEO Consensus Summary Block */}
@@ -402,19 +440,9 @@ export default async function SpotPage({ params }) {
             </span>
           ) : null}
           {safety?.length > 0 ? (
-            <span
-              style={{
-                fontSize: 12,
-                fontWeight: 750,
-                color: "#166534",
-                background: "#f0fdf4",
-                border: "1px solid #bbf7d0",
-                padding: "4px 9px",
-                borderRadius: 8,
-              }}
-            >
-              TG Safety Inspected
-            </span>
+            <a href="#food-safety" className="spot-safety-chip">
+              Food safety: {ACTIONS[safety[0].entry.action] || "record on file"}
+            </a>
           ) : null}
         </div>
 
@@ -711,7 +739,7 @@ export default async function SpotPage({ params }) {
           )}
 
           {safety.length > 0 && (
-            <section className="fs-record" aria-label="Food safety record">
+            <section id="food-safety" className="fs-record" aria-label="Food safety record">
               <h2>Food safety record</h2>
               {safety.map(({ drive, entry }) => (
                 <div key={drive.id} className="fs-record-row">
@@ -867,4 +895,51 @@ function nearbyAlternatives(spot, all) {
     .filter((x) => x.km <= 2)
     .sort((x, y) => (hasSpotPhoto(y.e.id) - hasSpotPhoto(x.e.id)) || ((y.e.rating || 0) * Math.log10((y.e.ratingCount || 0) + 10) - (x.e.rating || 0) * Math.log10((x.e.ratingCount || 0) + 10)))
     .slice(0, 4);
+}
+
+const CAT_PLURAL = { cafe: "cafes", restaurant: "restaurants", local: "local eats", "restro-bar": "bars", bakery: "bakeries", "ice-cream": "ice cream spots" };
+
+// Where the spot sits: its rank by review count within its area and category,
+// and how high it sits citywide. Only real counts; nothing shown if missing.
+function spotContext(spot, all) {
+  const plural = CAT_PLURAL[spot.category];
+  if (!plural) return null;
+  const same = all.filter((e) => e.core && e.category === spot.category);
+  const byReviews = (a, b) => (b.ratingCount || 0) - (a.ratingCount || 0);
+  const area = spot.discoveredIn && !spot.discoveredIn.startsWith("text:") ? spot.discoveredIn : null;
+  let areaCount = 0, areaRank = 99;
+  if (area) {
+    const inArea = same.filter((e) => e.discoveredIn === area).sort(byReviews);
+    areaCount = inArea.length;
+    areaRank = inArea.findIndex((e) => e.id === spot.id) + 1 || 99;
+    if (areaCount < 3) return null;
+  }
+  const cityIdx = [...same].sort(byReviews).findIndex((e) => e.id === spot.id);
+  const cityTopPct = cityIdx >= 0 ? Math.max(1, Math.ceil(((cityIdx + 1) / same.length) * 100)) : 100;
+  if (!area && cityTopPct > 25) return null;
+  return { plural, area, areaCount, areaRank, cityTopPct };
+}
+
+function ordinal(n) {
+  const s = ["th", "st", "nd", "rd"], v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+// Which ranking ballots each spot is on (the editorial shortlist each
+// ranking page starts from), built once per process.
+let ballotIndex = null;
+function ballotsFor(spotId) {
+  if (!ballotIndex) {
+    ballotIndex = new Map();
+    for (const pick of SEO_THEME_PICKS) {
+      const slug = slugFromTitle(pick.title);
+      let list = [];
+      try { list = editorialRanking(pick, slug, 15); } catch {}
+      for (const e of list) {
+        if (!ballotIndex.has(e.id)) ballotIndex.set(e.id, []);
+        ballotIndex.get(e.id).push({ slug, label: shortRanking(pick.title) });
+      }
+    }
+  }
+  return ballotIndex.get(spotId) || [];
 }
