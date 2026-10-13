@@ -103,16 +103,19 @@ Old names stay as aliases during migration so nothing breaks.
 --violet:      #7c3aed;  /* brand: the one button you press, active tab, vote. White text 5.7:1 */
 --violet-deep: #5b21b6;  /* violet text on light backgrounds */
 --violet-wash: #ede9fe;  /* chips, small arrow tiles */
---yellow:      #f5c84c;  /* what locals voted. Ink text only */
+--yellow:      #f5c84c;  /* celebration (colour v3). Ink text only */
 ```
 
 Rules:
 - Violet is for things you press and the active tab. Nothing else gets colour, except yellow.
-- Yellow has ONE job: what locals voted. #1 and rank tiles, crowns, the live-vote dot,
-  vote pins on maps, and the highlighter on the dish a vote is about ("Hyderabad's
-  best ==biryani==?", `.hl`). Never buttons, filter counts, focus rings, decoration or
-  warnings (food safety "Notice" is warm grey `#78716c`). If yellow is on screen, it
-  means "locals decided this".
+- Colour v3, "fun with rules": yellow celebrates and ink is its partner.
+  - Yellow: #1 / winner tickets (`.ticket`), the highlighter on vote headlines (`.hl`),
+    sticker tiles (`.sticker-tile--sun`), the Rankings guide tile, arrow tiles on violet
+    cards (vote card, passport), empty-state sticker tiles.
+  - Ink: chips with yellow text (`.ink-chip`: CROWNED, OPENING SOON), arrow tiles on
+    yellow tickets, the Areas guide tile.
+  - Never yellow for warnings: food safety stays neutral (Notice is warm grey `#78716c`).
+    Never yellow for plain utility (filter counts, retry buttons, focus rings).
 - Violet gets big moments: full colour blocks (live vote card, passport), not just thin outlines.
 - Category colours (`--cafe`, `--bakery`...) only on map pins and small badges. Never section backgrounds.
 - A screen has at most one big colour block (violet or yellow).

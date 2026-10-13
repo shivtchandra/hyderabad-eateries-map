@@ -976,7 +976,7 @@ a.of-card-name:hover { text-decoration: underline; }
 @media (min-width: 720px) { .guides-area-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .guides-area-tile { display: flex; flex-direction: column; justify-content: space-between; gap: var(--s3); min-height: 96px; padding: var(--s4); border-radius: var(--r-card); background: var(--cream-hi); color: var(--ink); text-decoration: none; }
 .guides-area-name { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 19px; line-height: 1; letter-spacing: -0.02em; }
-.guides-area-count { align-self: flex-start; padding: 3px 10px; border-radius: var(--r-pill); background: var(--cream-hi); font-size: 13px; font-weight: 600; }
+.guides-area-count { align-self: flex-start; padding: 3px 10px; border-radius: var(--r-pill); background: var(--yellow); font-size: 13px; font-weight: 600; }
 .guides-tiles { display: grid; gap: var(--s3); }
 @media (min-width: 720px) { .guides-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .guides-tile { display: flex; flex-direction: column; gap: var(--s2); min-height: 120px; padding: var(--s6); border-radius: var(--r-sheet); text-decoration: none; }
@@ -986,7 +986,7 @@ a.of-card-name:hover { text-decoration: underline; }
 .guides-tile--violet .guides-tile-note { color: var(--violet-wash); }
 .guides-tile--ink { background: var(--ink); color: #fff; }
 .guides-tile--ink .guides-tile-note { color: #d9d6cf; }
-.guides-tile--yellow { background: var(--paper); color: var(--ink); border: 1px solid var(--line); }
+.guides-tile--yellow { background: var(--yellow); color: var(--ink); }
 .guides-photo-card:focus-visible, .guides-text-card:focus-visible, .guides-area-tile:focus-visible, .guides-tile:focus-visible, .guides-jump a:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; }
 
 /* ---- Spot page: where locals rank it, and nearby instead ---- */
@@ -1262,3 +1262,15 @@ a.of-card-name:hover { text-decoration: underline; }
 .rk-vote:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
 .rk-add { display: inline-block; margin-top: var(--s4); font-size: 15px; font-weight: 600; color: var(--violet-deep); }
 .rk-share-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 var(--s8); }
+
+/* ---- Colour v3 fun pass: Guides jump tiles, rankings index stickers ---- */
+.guides-jump-tile--sun { background: var(--yellow); }
+.guides-jump-tile--grape { background: var(--violet); color: #fff; }
+.guides-jump-tile--grape .guides-jump-note { color: var(--violet-wash); }
+.guides-jump-tile--ink { background: var(--ink); color: #fff; }
+.guides-jump-tile--ink .guides-jump-note { color: #d9d6cf; }
+.sticker-tile { flex-shrink: 0; width: 64px; height: 64px; margin-left: var(--s3); display: grid; place-items: center; border-radius: 18px; background: var(--violet-wash); color: var(--violet); font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 26px; }
+.sticker-tile img { width: 58px; height: 58px; object-fit: contain; transform: rotate(-6deg); filter: drop-shadow(0 4px 6px rgba(20, 20, 20, 0.18)); }
+.sticker-tile--sun { background: var(--yellow); color: var(--ink); }
+.rk-index-card .rank-card-main { padding-left: var(--s3); }
+.rk-index-card .ink-chip { margin-right: 4px; }

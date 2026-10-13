@@ -80,12 +80,14 @@ const GUIDES = [
 // The top of Guides: six tinted tiles, each with a sticker breaking out of
 // its corner. Food stickers where one fits; die-cut style icons otherwise.
 const JUMP = [
-  { href: "#rankings", label: "Rankings", note: "Voted by locals", tone: "violet", key: "biryani" },
-  { href: "#dish-guides", label: "Dish guides", note: "What to order", tone: "yellow", key: "dosa" },
-  { href: "#areas", label: "Areas", note: "Eat by neighbourhood", tone: "paper", icon: "pin" },
-  { href: "/offers", label: "Deals", note: "Offers today", tone: "yellow", key: "mandi" },
+  // Yellow celebrates (rankings), ink and violet carry the rest; food safety
+  // stays neutral (DESIGN.md colour v3).
+  { href: "#rankings", label: "Rankings", note: "Voted by locals", tone: "sun", key: "biryani" },
+  { href: "#dish-guides", label: "Dish guides", note: "What to order", tone: "grape", key: "dosa" },
+  { href: "#areas", label: "Areas", note: "Eat by neighbourhood", tone: "ink", icon: "pin" },
+  { href: "/offers", label: "Deals", note: "Offers today", tone: "violet", key: "mandi" },
   { href: "/food-safety", label: "Food safety", note: "Inspection records", tone: "paper", icon: "shield" },
-  { href: "/stories", label: "Stories", note: "Old Hyderabad spots", tone: "violet", key: "irani-chai" },
+  { href: "/stories", label: "Stories", note: "Old Hyderabad spots", tone: "yellow", key: "irani-chai" },
 ];
 
 // Flat icons drawn like die-cut stickers (white outline, soft shadow) so they

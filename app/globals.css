@@ -14,7 +14,7 @@
   --ink-soft: #4a4a4a;
   --muted: #6b6b6b;
   --line: #e3dfd6;
-  --yellow: #f5c84c;     /* ONE job: what locals voted (ranks, #1, live vote, highlighter). Ink text on it; never buttons, counts or warnings */
+  --yellow: #f5c84c;     /* Celebration: winners, #1 tickets, highlighter, sticker tiles, fun arrow tiles. Ink text on it. Never warnings */
 
   /* Hero */
   --blue: #2f4fc4;
@@ -891,7 +891,7 @@ button { font-family: inherit; }
 }
 .empty-sticker {
   width: 64px; height: 64px; display: grid; place-items: center; margin-bottom: var(--s2);
-  border-radius: var(--r-btn); background: var(--violet-wash); transform: rotate(-6deg);
+  border-radius: var(--r-btn); background: var(--yellow); transform: rotate(-6deg);
 }
 .empty-state h2 { margin: 0; font-size: 28px; line-height: 1; color: var(--ink); }
 .empty-state p { margin: 0; max-width: 280px; font-size: 16px; line-height: 1.5; color: var(--ink-soft); }
@@ -986,7 +986,7 @@ button { font-family: inherit; }
 .you-passport-kicker { display: block; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--violet-wash); }
 .you-passport-count { display: flex; align-items: baseline; gap: var(--s2); margin-top: var(--s1); font-size: 17px; font-weight: 500; }
 .you-passport-count b { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 64px; line-height: 0.9; letter-spacing: -0.04em; }
-.you-passport-go { flex-shrink: 0; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 16px; background: #fff; color: var(--ink); }
+.you-passport-go { flex-shrink: 0; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 16px; background: var(--yellow); color: var(--ink); }
 .you-passport-note { font-size: 15px; line-height: 1.45; color: var(--violet-wash); }
 .you-hub-section { display: flex; flex-direction: column; gap: var(--s3); }
 .you-hub-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s3); }

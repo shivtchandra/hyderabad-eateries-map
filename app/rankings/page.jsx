@@ -106,12 +106,18 @@ export default async function RankingsHubPage() {
               const leader = theme.results?.[0];
               return (
                 <li key={theme.id}>
-                  <Link href={`/rankings/${theme.slug}`} className="rank-card rk-index-card">
+                  <Link href={`/rankings/${theme.slug}`} className={`rank-card rk-index-card${st === "winner" ? " is-crowned" : ""}`}>
+                    <span className={`sticker-tile${st === "winner" ? " sticker-tile--sun" : ""}`} aria-hidden="true">
+                      {stickerForTitle(theme.title)
+                        // eslint-disable-next-line @next/next/no-img-element
+                        ? <img src={stickerForTitle(theme.title)} alt="" loading="lazy" width={56} height={56} />
+                        : <span>{short(theme.title).replace(/^best\s+/i, "").charAt(0)}</span>}
+                    </span>
                     <span className="rank-card-main">
                       <span className="rank-card-title">{short(theme.title)}</span>
                       <span className="rank-card-meta">
+                        {st === "winner" && <span className="ink-chip">Crowned</span>}
                         {leader ? <><b>{theme.winnerName || leader.name}</b>{totalVotes > 0 ? ` · ${totalVotes} votes` : ""}</> : "No votes yet"}
-                        {" · "}{st === "winner" ? "Crowned, still open" : "Still open"}
                       </span>
                     </span>
                     <span className="rank-card-vote" aria-hidden="true">Vote</span>
