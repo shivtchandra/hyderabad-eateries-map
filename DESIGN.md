@@ -416,3 +416,56 @@ Third pass (mockup match):
 Still to do:
 - Measure MapLibre on a real mid-range Android phone (bundle loads lazily after the map shell; 8s raster fallback).
 - Remaining one-off inline layout styles in the big components can move to classes as those files are touched.
+
+---
+
+## 8. Sticker art (isometric, die-cut)
+
+Files go in `public/stickers/<name>.png` (transparent, square, 1024x1024).
+Any card with a matching file shows it on the next build; without one it
+falls back to a soft tinted card with the dish word.
+
+**Master prompt** (replace {SUBJECT}; keep everything else identical):
+
+> Isometric 3D sticker illustration of {SUBJECT}. Soft clay-like 3D render,
+> rounded chunky shapes, 30-degree isometric angle, centred, one object group,
+> thick clean white die-cut border around the silhouette, soft drop shadow,
+> transparent background. Warm light from top-left. Appetising natural food
+> colours with small accents of violet #7C3AED and saffron yellow #F5C84C,
+> cream #F4F2EE highlights, minimal dark outlines. No text, no letters, no
+> logos, no people, no background scene. Square 1:1, 1024x1024 PNG.
+
+Make the first one, keep it as the style reference, and generate the rest
+against it so all stickers match.
+
+| File | Subject |
+|---|---|
+| biryani.png | a copper handi of Hyderabadi dum biryani, lid half open with its dough seal, saffron and white rice, a piece of mutton on top, steam swirls |
+| haleem.png | a clay bowl of Hyderabadi haleem topped with fried onions, mint leaves and a lemon wedge |
+| irani-chai.png | a small glass of Irani chai on a saucer with two Osmania biscuits |
+| dosa.png | a crisp golden ghee dosa rolled on a steel plate with coconut chutney and a cup of sambar |
+| mandi.png | a mandi platter, a mound of rice with a roast chicken quarter and a small bowl of salan |
+| shawarma.png | a chicken shawarma roll in paper, cut open to show the filling |
+| coffee.png | a ceramic latte cup with heart latte art on a saucer, a few coffee beans |
+| bakery.png | a stack of Karachi-style fruit biscuits next to a flaky puff and a small cake slice |
+| ice-cream.png | a waffle cone with two scoops and a stick of kulfi beside it |
+| beer.png | a frothy pint of craft beer with a small bowl of masala peanuts |
+| street-food.png | a plate of pani puri with a small cup of spiced water |
+| fine-dining.png | a silver cloche lifted over a plated dish with a sprig of garnish |
+| thali.png | a round steel thali with small bowls of dal, curry, rice, roti and a sweet |
+| breakfast.png | a steel plate of idli and medu vada with two chutneys |
+| late-night.png | a crescent moon resting on a plate of biryani beside a small steaming tea glass |
+| lunchbox.png | a stacked steel tiffin carrier (dabba) with a spoon |
+| trophy.png | a small golden trophy cup tied with a violet ribbon |
+| map-pin.png | a violet map pin standing on a tiny isometric street block |
+| deals.png | a violet coupon ticket with a perforated edge and a yellow badge showing a percent symbol |
+| food-safety.png | a white plate with a green shield and check mark rising above it |
+| stories.png | an open old book with a small Irani chai glass resting on it |
+| area-jubilee-hills.png | a rocky hill with a peacock and a small cafe table |
+| area-banjara-hills.png | Deccan granite boulders balanced on each other with a rooftop cafe umbrella |
+| area-kukatpally.png | an elevated metro train on a pillar over a busy street |
+| area-gachibowli.png | two glass IT towers with a small stadium bowl beside them |
+| area-begumpet.png | a vintage propeller airplane on a short runway |
+| area-kompally.png | a roadside food court by a lake |
+| area-himayatnagar.png | a busy market street corner with a tea stall and shop awnings |
+| area-madhapur-hitec.png | the Cyber Towers dome building of HITEC City |
