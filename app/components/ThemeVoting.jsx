@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { fetchCurrentTheme, fetchThemeHistory, castThemeVote, getThemeVoteSpot, getThemePicks } from "../../lib/themeVoting.js";
 import Link from "next/link";
 import { Icon } from "./Icons.jsx";
-import { slugFromTitle, themeDescription } from "../../lib/rankings.js";
+import { slugFromTitle, themeDescription, debateLineFromCounts } from "../../lib/rankings.js";
 import { isPastEndDate } from "../../lib/themeCrown.js";
 import { stickerForTitle } from "../../lib/stickerArt.js";
 import { seasonClosed, seasonYear } from "../../lib/voteDecay.js";
@@ -48,17 +48,9 @@ function endLabel(endDate) {
   return d.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" });
 }
 
-// The debate line from the reels: real counts only. "N votes flips the crown"
-// is how many more the runner-up needs to pass #1.
+// The debate line from the reels (shared with ranking pages, lib/rankings.js).
 function debateLine(results = [], localCounts = {}) {
-  const counts = results.map((r) => localCounts[r.spotId] ?? r.count ?? 0).sort((x, y) => y - x);
-  const total = counts.reduce((a, n) => a + n, 0);
-  if (!total) return "No votes yet. Yours starts it.";
-  const so = `${total} ${total === 1 ? "vote" : "votes"} so far.`;
-  if (counts.length < 2) return `${so} One vote gives #1 a rival.`;
-  if (counts[0] === counts[1]) return `${so} One more breaks the tie.`;
-  const flip = counts[0] - counts[1] + 1;
-  return `${so} ${flip} ${flip === 1 ? "vote flips" : "votes flip"} the crown.`;
+  return debateLineFromCounts(results.map((r) => localCounts[r.spotId] ?? r.count ?? 0));
 }
 
 

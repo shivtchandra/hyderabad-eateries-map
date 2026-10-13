@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
 import { getRankingBySlug } from "../../../lib/themesServer.js";
-import { itemListJsonLd, rankingMeta, SEO_THEME_PICKS, slugFromTitle } from "../../../lib/rankings.js";
+import { itemListJsonLd, rankingMeta, SEO_THEME_PICKS, slugFromTitle, dishOfTitle, debateLineFromCounts } from "../../../lib/rankings.js";
 import { breadcrumbJsonLd } from "../../../lib/schema.js";
 import { getSiteUrl } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
@@ -10,8 +10,8 @@ import { allCategoryPages, editorialRanking, pathForSpotId, hasSpotPhoto, getEat
 import { spotPhotoUrl } from "../../../lib/photos.js";
 import ShareRankingButton from "../../components/ShareRankingButton.jsx";
 import BottomNav from "../../components/BottomNav.jsx";
-import { Icon } from "../../components/Icons.jsx";
 import SpotsMapClient from "../../components/SpotsMapClient.jsx";
+import { stickerForTitle } from "../../../lib/stickerArt.js";
 
 export const dynamic = "force-dynamic";
 
@@ -183,22 +183,71 @@ export default async function RankingPage({ params }) {
   ]);
 
   const voteHref = `/race/this-week?dish=${params.slug}`;
-  const leader = voteRows.find((r) => r.spotId === data.winnerId) || voteRows[0] || null;
-  const topCount = Math.max(0, ...voteRows.map((r) => r.count || 0));
-  const onBoard = new Set(voteRows.map((r) => r.spotId));
-  const contenders = editorial.filter((r) => !onBoard.has(r.spotId)).slice(0, 12);
+  // Standings: only real votes count. #1 is the crowned spot, else the leader.
+  const voted = voteRows.filter((r) => (r.count || 0) > 0);
+  const leader = voted.find((r) => r.spotId === data.winnerId) || voted[0] || null;
+  const rest = voted.filter((r) => r !== leader);
+  const onBoard = new Set(voted.map((r) => r.spotId));
+  const contenders = [
+    ...voteRows.filter((r) => !onBoard.has(r.spotId)),
+    ...editorial.filter((r) => !voteRows.some((v) => v.spotId === r.spotId)),
+  ].slice(0, 12);
+  const runnerUp = rest[0] || null;
+  const leadLine = !leader ? "" : !runnerUp
+    ? "The only spot with votes so far"
+    : leader.count > runnerUp.count ? `${leader.count - runnerUp.count} ahead of ${runnerUp.name}` : `Tied with ${runnerUp.name}`;
   // The ranking as a map: voted spots numbered, shortlisted ones as grey dots.
-  const votedOnMap = voteRows.filter((r) => (r.count || 0) > 0);
   const mapPoints = [
     ...contenders.map((r) => {
       const e = getEateryById(r.spotId);
       return e?.lat != null ? { kind: "spot", lat: e.lat, lng: e.lng, tone: "#a8a29e", title: r.name || e.name, sub: "On the ballot, no votes yet", href: pathForSpotId(r.spotId) } : null;
     }),
-    ...votedOnMap.map((r, i) => {
+    ...voted.map((r, i) => {
       const e = getEateryById(r.spotId);
-      return e?.lat != null ? { kind: "rank", lat: e.lat, lng: e.lng, label: i + 1, tone: i === 0 ? "#5b21b6" : "#7c3aed", title: `#${i + 1} ${r.name}`, sub: `${r.count} ${r.count === 1 ? "vote" : "votes"}`, href: pathForSpotId(r.spotId) } : null;
+      return e?.lat != null ? { kind: "rank", lat: e.lat, lng: e.lng, label: `#${i + 1}`, title: `#${i + 1} ${r.name}`, sub: `${r.count} ${r.count === 1 ? "vote" : "votes"}`, href: pathForSpotId(r.spotId) } : null;
     }),
   ].filter(Boolean);
+
+  // The mockup (canvas VoteAfter): the question as the headline, the debate
+  // line, a yellow #1 ticket, then photo rows with a Vote button each.
+  const dish = dishOfTitle(data.title);
+  const endLabel = data.endDate ? new Date(`${data.endDate}T12:00:00`).toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" }) : null;
+  const sticker = stickerForTitle(data.title);
+  const hero = (
+    <div className="rk-hero">
+      {sticker && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img className="rk-sticker" src={sticker} alt="" width={120} height={120} />
+      )}
+      <p className="rk-kicker">
+        {isPlaceholder ? <span className="ink-chip">Opening soon</span>
+          : isCrowned ? <><span className="ink-chip">Crowned</span>{isLive ? " Votes still open" : ""}</>
+          : isLive ? <><span className="live-dot" aria-hidden="true" />Live vote{endLabel ? ` · ends ${endLabel}` : ""}</>
+          : "Final standings"}
+      </p>
+      <h1 className="rk-q">
+        {dish ? <>Hyderabad&rsquo;s best <mark className="hl">{dish}</mark>?</> : highlightDish(data.title)}
+      </h1>
+      <p className="rk-debate">
+        {isPlaceholder ? "Voting opens soon. Until then, here are the spots locals already rate." : debateLineFromCounts(voted.map((r) => r.count || 0))}
+      </p>
+    </div>
+  );
+  const photoOf = (id) => (id && !id.startsWith("user-") && hasSpotPhoto(id) ? spotPhotoUrl(id) : null);
+  const nameOf = (r) => (r.spotId.startsWith("user-")
+    ? <span className="rk-nm">{r.name} <span className="new-place-chip">New</span></span>
+    : <Link href={pathForSpotId(r.spotId)} className="rk-nm">{r.name}</Link>);
+  const Row = ({ r, n, line, cta }) => (
+    <li className="rk-row2">
+      <span className={`rk-n${n ? "" : " rk-n--open"}`} aria-hidden={!n}>{n || "?"}</span>
+      {photoOf(r.spotId)
+        // eslint-disable-next-line @next/next/no-img-element
+        ? <img className="rk-ph" src={photoOf(r.spotId)} alt="" loading="lazy" width={60} height={60} />
+        : <span className="rk-ph rk-ph--empty" aria-hidden="true">{(r.name || "?").charAt(0)}</span>}
+      <span className="rk-txt">{nameOf(r)}<span className="rk-v">{line}</span></span>
+      {!isPlaceholder && <Link href={voteHref} className="rk-vote">{cta}</Link>}
+    </li>
+  );
 
   return (
   <div style={{ paddingBottom: 84 }}>
@@ -210,156 +259,60 @@ export default async function RankingPage({ params }) {
     <SiteChrome
       active="/rankings"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/rankings", label: "Rankings" }, { href: `/rankings/${params.slug}`, label: data.title }]}
-      title={highlightDish(data.title)}
-      description={isPlaceholder
-        ? "Voting for this dish opens soon. Until then, here are the spots locals already rate."
-        : `Voted by Hyderabad locals, every week. ${totalVotes.toLocaleString("en-IN")} votes so far${data.endDate ? `, week ends ${data.endDate}` : ""}.`}
+      title={data.title}
+      hero={hero}
       related={related}
     >
-
-      {isPlaceholder ? (
-        <section className="rk-leader rk-leader--soon">
-          <div className="rk-leader-top">
-            <span className="rk-chip">Opening soon</span>
-          </div>
-          <p className="rk-leader-sub">This weekly vote hasn&apos;t started yet. Explore the spots below and check back, locals will decide the order.</p>
-          <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap", marginTop: "16px" }}>
-            <Link href="/rankings" className="site-cta" style={{ margin: 0 }}>Browse all dish rankings →</Link>
-            <ShareRankingButton title={data.title} slug={params.slug} leaderName={null} />
-          </div>
-        </section>
-      ) : (
-        <section className="rk-leader">
-          <div className="rk-leader-top">
-            <span className={`rk-chip ${isCrowned ? "crowned" : isLive ? "live" : ""}`}>
-              {isCrowned ? "Crowned, votes still open" : isLive ? "Voting open" : "Final standings"}
-            </span>
-            {data.endDate && <span className="rk-meta">Week ends {data.endDate}</span>}
-          </div>
-          {leader ? (
-            <div className="rk-leader-body">
-              {hasSpotPhoto(leader.spotId) ? (
-                <div style={{ position: "relative", flexShrink: 0 }}>
-                  <img
-                    src={spotPhotoUrl(leader.spotId)}
-                    alt={leader.name}
-                    width={72}
-                    height={72}
-                    style={{
-                      width: 72,
-                      height: 72,
-                      borderRadius: "var(--r-btn)",
-                      objectFit: "cover",
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
-                      border: "3px solid #fff",
-                    }}
-                  />
-                  <span
-                    aria-hidden="true"
-                    style={{
-                      position: "absolute",
-                      bottom: -6,
-                      right: -6,
-                      background: "var(--ink)",
-                      color: "var(--yellow)",
-                      borderRadius: "50%",
-                      width: 28,
-                      height: 28,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      boxShadow: "0 1px 4px rgba(0,0,0,0.2)",
-                    }}
-                  >
-                    <Icon name="crown" size={15} width={2.2} />
-                  </span>
-                </div>
-              ) : (
-                <span className="rk-crown" aria-hidden="true"><Icon name="crown" size={28} width={2} /></span>
-              )}
-              <div>
-                <div className="rk-eyebrow">{isCrowned ? "This week's crown" : "Leading right now"}</div>
-                <h2 className="rk-leader-name">{leader.spotId.startsWith("user-") ? leader.name : <Link href={pathForSpotId(leader.spotId)}>{leader.name}</Link>}</h2>
-                <p className="rk-leader-sub">
-                  {leader.count || 0} of {totalVotes} votes{totalVotes ? `, ${Math.round(((leader.count || 0) / totalVotes) * 100)}%` : ""}. If someone else takes #1, the crown moves.
-                </p>
-              </div>
-            </div>
-          ) : (
-            <p className="rk-leader-sub">No votes yet. Be the first to put a spot on the board.</p>
+      {leader && (
+        <Link href={leader.spotId.startsWith("user-") ? voteHref : pathForSpotId(leader.spotId)} className="ticket rk-ticket">
+          {photoOf(leader.spotId) && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img className="ticket-photo" src={photoOf(leader.spotId)} alt="" width={72} height={72} />
           )}
-          <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap", marginTop: "16px" }}>
-            <Link href={voteHref} className="site-cta" style={{ margin: 0 }}>{leader ? "Cast your vote →" : "Vote for this dish →"}</Link>
-            <ShareRankingButton title={data.title} slug={params.slug} leaderName={leader?.name} />
-          </div>
-        </section>
+          <span className="ticket-body">
+            <span className="ticket-kicker">#1 · {isCrowned ? "Winner" : "Leading"}</span>
+            <span className="ticket-name">{leader.name}</span>
+            <span className="ticket-line">{leader.count} of {totalVotes} votes · {leadLine}</span>
+          </span>
+          <span className="ticket-arrow" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7M9 7h8v8" /></svg>
+          </span>
+        </Link>
       )}
 
-      <p className="rk-summary">{answerLead}</p>
-
-      {voteRows.length > 0 && (
+      {(rest.length > 0 || contenders.length > 0) && (
         <section className="rk-section" aria-label="Standings">
-          <div className="rk-head">
-            <h2 className="rk-title">Standings</h2>
-            <span className="rk-meta">
-              Updated {new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
-            </span>
-          </div>
-          <ol className="rk-board">
-            {voteRows.map((r, i) => {
-              const n = r.count || 0;
-              const share = totalVotes ? Math.round((n / totalVotes) * 100) : 0;
-              return (
-                <li key={r.spotId} className={`rk-row ${r.spotId === leader?.spotId ? "lead" : ""}`}>
-                  <span className="rk-rank">{i + 1}</span>
-                  <div>
-                    {r.spotId.startsWith("user-")
-                      ? <span className="rk-name">{r.name} <span className="new-place-chip">New</span></span>
-                      : <Link href={pathForSpotId(r.spotId)} className="rk-name">{r.name}</Link>}
-                    <div className="rk-bar"><span style={{ width: `${topCount ? (n / topCount) * 100 : 0}%` }} /></div>
-                  </div>
-                  <span className="rk-count"><b>{n}</b><small>{share}%</small></span>
-                </li>
-              );
+          <ol className="rk-rows">
+            {rest.map((r, i) => {
+              const above = i === 0 ? leader : rest[i - 1];
+              const need = (above?.count || 0) - (r.count || 0) + 1;
+              return <Row key={r.spotId} r={r} n={i + 2} cta="Vote"
+                line={`${r.count} ${r.count === 1 ? "vote" : "votes"} · ${need} to pass #${i + 1}`} />;
             })}
+            {contenders.map((r) => (
+              <Row key={r.spotId} r={r} n={null} cta="Be first"
+                line={isPlaceholder ? (r.blurb || "Locals rate it") : "On the ballot, no votes yet"} />
+            ))}
           </ol>
+          {!isPlaceholder && <Link href={voteHref} className="rk-add">Can&rsquo;t see your pick? Add it</Link>}
         </section>
       )}
+
+      <div className="rk-share-row">
+        {!isPlaceholder && <Link href={voteHref} className="site-cta" style={{ margin: 0 }}>{leader ? "Cast your vote" : "Vote for this dish"}</Link>}
+        <ShareRankingButton title={data.title} slug={params.slug} leaderName={leader?.name || null} />
+      </div>
 
       {mapPoints.length > 1 && (
         <section id="map" className="rk-section" aria-label="On the map">
-          <div className="rk-head">
-            <h2 className="rk-title">On the map</h2>
-          </div>
-          <SpotsMapClient points={mapPoints} height={340} />
+          <h2 className="rk-title">On the map</h2>
+          <SpotsMapClient points={mapPoints} height={320} />
         </section>
       )}
 
-      {contenders.length > 0 && (
-        <section className="rk-section" aria-label="More spots">
-          <div className="rk-head">
-            <h2 className="rk-title">{voteRows.length ? "Not on the board yet" : "Spots to watch"}</h2>
-          </div>
-          <p className="rk-lede">
-            {voteRows.length
-              ? "Well-loved spots with no votes this week. Think one deserves the crown? Put it on the board."
-              : "Well-loved spots for this dish. Once voting opens, locals decide the order."}
-          </p>
-          <ul className="rk-grid">
-            {contenders.map((r) => (
-              <li key={r.spotId}>
-                <Link href={pathForSpotId(r.spotId)} className="rk-card">
-                  <span className="rk-card-name">{r.name}</span>
-                  {r.blurb && <span className="rk-card-blurb">{r.blurb}</span>}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      <section className="rk-section rk-faq" aria-label="FAQ">
-        <h2 className="rk-title" style={{ marginBottom: 10 }}>FAQ</h2>
+      <section className="rk-section rk-faq" aria-label="About this ranking">
+        <h2 className="rk-title" style={{ marginBottom: 10 }}>About this ranking</h2>
+        <p className="rk-summary">{answerLead}</p>
         <details>
           <summary>How do you rank places?</summary>
           <p>Locals vote each week in the race. The spot with the most votes holds #1, and the crown moves whenever someone overtakes it.</p>
@@ -373,10 +326,6 @@ export default async function RankingPage({ params }) {
           <p>Yes. Browsing and voting are free, no paid account needed.</p>
         </details>
       </section>
-
-      {!isPlaceholder && (
-        <Link href={voteHref} className="site-cta">Vote in this week&apos;s race →</Link>
-      )}
     </SiteChrome>
     <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
       <BottomNav routed activeKey="rankings" />

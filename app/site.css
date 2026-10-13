@@ -1238,3 +1238,27 @@ a.of-card-name:hover { text-decoration: underline; }
    only "Home" says nothing, so it hides. */
 .site-breadcrumb > span:last-child { display: none; }
 .site-breadcrumb:not(:has(> span:nth-child(3))) { display: none; }
+
+/* ---- Ranking page v2 (canvas VoteAfter): question, ticket, photo rows ---- */
+.rk-hero { position: relative; padding-right: 96px; }
+.rk-sticker { position: absolute; right: -8px; top: -6px; width: 104px; height: 104px; object-fit: contain; transform: rotate(8deg); filter: drop-shadow(0 8px 14px rgba(20, 20, 20, 0.18)); }
+.rk-kicker { display: flex; align-items: center; gap: 8px; margin: 0 0 var(--s3); font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); }
+.rk-q { margin: 0; font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: clamp(42px, 11vw, 68px); line-height: 0.92; letter-spacing: -0.04em; color: var(--ink); }
+.rk-debate { margin: var(--s3) 0 0; font-size: 16px; color: var(--ink-soft); }
+.rk-ticket { margin: 0 0 var(--s5); }
+.rk-rows { list-style: none; margin: 0; padding: 0; }
+.rk-row2 { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-top: 1px solid var(--line); }
+.rk-row2:last-child { border-bottom: 1px solid var(--line); }
+.rk-n { flex-shrink: 0; width: 28px; font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 22px; color: var(--violet); font-variant-numeric: tabular-nums; }
+.rk-n--open { color: var(--muted); }
+.rk-ph { flex-shrink: 0; width: 60px; height: 60px; border-radius: 18px; object-fit: cover; background: var(--paper); }
+.rk-ph--empty { display: grid; place-items: center; background: var(--violet-wash); color: var(--violet); font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 24px; }
+.rk-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.rk-nm { font-weight: 600; font-size: 17px; color: var(--ink); text-decoration: none; overflow-wrap: anywhere; }
+.rk-nm:hover { color: var(--violet-deep); }
+.rk-v { font-size: 14px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.rk-vote { flex-shrink: 0; display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border: 2px solid var(--violet); border-radius: 14px; color: var(--violet-deep); font-size: 15px; font-weight: 700; text-decoration: none; transition: background var(--dur-2) ease, color var(--dur-2) ease; }
+.rk-vote:hover { background: var(--violet); color: #fff; }
+.rk-vote:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+.rk-add { display: inline-block; margin-top: var(--s4); font-size: 15px; font-weight: 600; color: var(--violet-deep); }
+.rk-share-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 var(--s8); }
