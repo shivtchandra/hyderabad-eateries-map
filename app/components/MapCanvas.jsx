@@ -31,7 +31,7 @@ export default function MapCanvas({
   onSelect, onAreaEnter, onHeroesChange, onZoomChange, routeLine = null, heroCap = 120, poolSize,
   pickMode = false, onPick, pickedPoint = null,
   onViewportChange, onMapError, recommendationMode = false, onVisibleChange,
-  voteTop = [], voteLabel = "", dataReady = true, onCloudsDone,
+  voteTop = [], voteLabel = "", dataReady = true, onCloudsDone, recordPins = [],
 }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
@@ -40,6 +40,7 @@ export default function MapCanvas({
   const areaLayerRef = useRef(null);
   const meLayerRef = useRef(null);
   const routeLayerRef = useRef(null);
+  const recordLayerRef = useRef(null);
   const pickLayerRef = useRef(null);
   const voteTopRef = useRef(voteTop); voteTopRef.current = voteTop;
   const [ready, setReady] = useState(false);
@@ -155,6 +156,7 @@ export default function MapCanvas({
       spotLayerRef.current = L.layerGroup().addTo(map);
       meLayerRef.current = L.layerGroup().addTo(map);
       routeLayerRef.current = L.layerGroup().addTo(map);
+      recordLayerRef.current = L.layerGroup().addTo(map);
       pickLayerRef.current = L.layerGroup().addTo(map);
 
       const bump = () => {
@@ -231,6 +233,24 @@ export default function MapCanvas({
       invalidate: () => setTimeout(() => mapRef.current?.invalidateSize(), 60),
     });
   }, [ready, onZoomChange]);
+
+  // Food safety records for places that aren't spots on our map (shown with
+  // the Food safety filter): a small shield pin in the action's colour, with
+  // the record in a popup. Not spots, so no card, sheet or votes.
+  useEffect(() => {
+    const L = LRef.current, layer = recordLayerRef.current;
+    if (!ready || !L || !layer) return;
+    layer.clearLayers();
+    for (const r of recordPins) {
+      const tone = r.action === "closed" ? "#141414" : r.action === "licence-suspended" ? "#c2410c" : "#78716c";
+      L.marker([r.lat, r.lng], {
+        icon: L.divIcon({ className: "", html: `<div class="record-pin" style="--t:${tone}"></div>`, iconSize: [26, 26], iconAnchor: [13, 13] }),
+        title: r.name, keyboard: true, zIndexOffset: 800,
+      })
+        .bindPopup(`<div class="record-pop"><b>${escapeHtml(r.name)}</b><span>${escapeHtml(r.label)} · ${escapeHtml(r.dateLabel)}${r.area ? ` · ${escapeHtml(r.area)}` : ""}</span><a href="/food-safety#drives">See the record</a></div>`, { closeButton: false, offset: [0, -10] })
+        .addTo(layer);
+    }
+  }, [ready, recordPins]);
 
   // Route line, drawn once per new route, fits the view to it. Cleared when
   // routeLine goes null (leaving the Route tab or clearing a search).

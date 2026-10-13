@@ -1179,3 +1179,10 @@ button { font-family: inherit; }
 .map-scope-chip--filter { border-color: var(--violet-wash); background: var(--violet-wash); color: var(--violet-deep); }
 .map-scope-chip--filter span { font-weight: 500; opacity: 0.75; }
 .map-scope-chip:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+/* Food safety record for a place that isn't a spot on our map (MapCanvas). */
+.record-pin { width: 26px; height: 26px; border-radius: 50%; background: var(--t); border: 3px solid #fff; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); display: grid; place-items: center; }
+.record-pin::after { content: "!"; color: #fff; font: 800 13px var(--font-display), system-ui, sans-serif; }
+.record-pop { display: flex; flex-direction: column; gap: 4px; min-width: 170px; font-family: var(--font-ui), system-ui, sans-serif; }
+.record-pop b { font-size: 14px; color: var(--ink); }
+.record-pop span { font-size: 12.5px; color: var(--ink-soft); }
+.record-pop a { font-size: 13px; font-weight: 700; color: var(--violet-deep); }

@@ -162,7 +162,8 @@ const ACTION_TONE = { closed: "#141414", "licence-suspended": "#c2410c", notice:
 const ACTION_LABEL = { closed: "Closed", "licence-suspended": "Licence suspended", notice: "Notice" };
 const normArea = (s = "") => s.toLowerCase().replace(/[^a-z]/g, "");
 
-// Exact pins for records linked to a spot on our map; the rest are counted
+// Exact pins for records linked to a spot on our map or located by hand
+// (data/inspection-places.json); the rest are counted
 // per area and shown as one bubble at that area's centre, so no restaurant is
 // given a location we don't actually know.
 function safetyMapPoints(drives) {
@@ -182,6 +183,13 @@ function safetyMapPoints(drives) {
         pins.push({
           kind: "spot", lat: spot.lat, lng: spot.lng, tone: ACTION_TONE[en.action] || "#141414",
           title: en.name || spot.name, sub: `${ACTION_LABEL[en.action] || "Inspection"} · ${formatDate(d.date)}`, href: pathForSpotId(en.spotId),
+        });
+        continue;
+      }
+      if (en.place) {
+        pins.push({
+          kind: "spot", lat: en.place.lat, lng: en.place.lng, tone: ACTION_TONE[en.action] || "#141414",
+          title: en.name, sub: `${ACTION_LABEL[en.action] || "Inspection"} · ${formatDate(d.date)}${en.area ? ` · ${en.area}` : ""}`, href: "#drives",
         });
         continue;
       }

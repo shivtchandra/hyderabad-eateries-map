@@ -10,6 +10,7 @@ import dynamic from "next/dynamic";
 
 // Race claims need GPS proof (within 250 m) only when this is on. Off while testing.
 const RACE_REQUIRE_GPS = process.env.NEXT_PUBLIC_RACE_REQUIRE_GPS === "1";
+const NO_PINS = [];
 const MapCanvas = dynamic(() => import("./components/MapCanvas.jsx"), { ssr: false });
 import CardRail from "./components/CardRail.jsx";
 import Clouds from "./components/Clouds.jsx";
@@ -184,6 +185,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   const [localsMap, setLocalsMap] = useState({}); // spotId -> distinct r/hyderabad locals recommending it (/locals-picks.json)
   const [showAll, setShowAll] = useState(true); // on by default: every listing; off: only the curated core list (name search still finds everything)
   const [safetyMap, setSafetyMap] = useState({}); // spotId -> latest food safety record (/api/inspections)
+  const [safetyPlaces, setSafetyPlaces] = useState([]); // records for places not on our map, pinned
   const [nearbyArea, setNearbyArea] = useState(null);
   const [roadDistMap, setRoadDistMap] = useState({});
   const [currentTheme, setCurrentTheme] = useState(null);
@@ -246,7 +248,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
 
   useEffect(() => {
     fetchPicks().then(setPicksMap);
-    fetch("/api/inspections").then((r) => (r.ok ? r.json() : { spots: {} })).then((d) => setSafetyMap(d.spots || {})).catch(() => {});
+    fetch("/api/inspections").then((r) => (r.ok ? r.json() : { spots: {} })).then((d) => { setSafetyMap(d.spots || {}); setSafetyPlaces(d.places || []); }).catch(() => {});
     fetch("/locals-picks.json").then((r) => (r.ok ? r.json() : { spots: {} })).then((d) => setLocalsMap(d.spots || {})).catch(() => {});
   }, []);
 
@@ -853,6 +855,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
               onMapError={() => setMapOffline(true)}
               dataReady={!loading}
               onCloudsDone={onCloudsDone}
+              recordPins={safetyOnly && tab === "map" ? safetyPlaces : NO_PINS}
             />
           ) : (
             <div
@@ -1032,7 +1035,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
                   <button type="button" className="map-scope-chip map-scope-chip--filter" onClick={clearFilters} aria-label={`Clear filters: ${activeFilterLabels.join(", ")}`}>
                     <Icon name="close" size={13} width={2.4} color="var(--violet-deep)" />
                     {activeFilterLabels.length === 1 ? activeFilterLabels[0] : `${activeFilterLabels.length} filters`}
-                    <span>{filtered.length} {filtered.length === 1 ? "spot" : "spots"}</span>
+                    <span>{filtered.length + (safetyOnly ? safetyPlaces.length : 0)} {filtered.length === 1 ? "spot" : "spots"}</span>
                   </button>
                 )}
               </div>
