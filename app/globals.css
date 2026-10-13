@@ -1210,7 +1210,8 @@ button { font-family: inherit; }
 /* ---- Ask Eats (AskSheet.jsx): a chat sheet over the map ---- */
 .ask-sheet {
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 1200; max-width: 560px; margin: 0 auto;
-  height: min(78vh, 680px); display: flex; flex-direction: column;
+  /* Starts below the search bar + category chips, never under them. */
+  top: max(132px, calc(100% - 700px)); display: flex; flex-direction: column;
   background: var(--cream-hi); border-radius: var(--r-sheet) var(--r-sheet) 0 0; box-shadow: 0 -10px 40px rgba(20, 20, 20, 0.18);
   transform: translateY(105%); visibility: hidden; transition: transform var(--dur-3) var(--ease-out), visibility 0s linear var(--dur-3);
 }

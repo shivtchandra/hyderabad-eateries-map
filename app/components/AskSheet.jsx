@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { askSpots, answerLine, parseAsk, CRAVINGS, CRAVING_CHIPS } from "../../lib/askEngine.js";
+import { askSpots, answerLine, parseAsk, surpriseFor, CRAVINGS, CRAVING_CHIPS } from "../../lib/askEngine.js";
 import { buildAreaCentroids } from "../../lib/eateryUtils.js";
 import { photoUrl } from "../../lib/spotlight.js";
 
@@ -31,24 +31,26 @@ export default function AskSheet({ open, onClose, seed, eateries, userLoc, onReq
 
   const say = (m) => setMsgs((list) => [...list, m]);
 
-  const run = (q) => {
+  const run = (q0) => {
+    // "Surprise me" becomes a craving that fits the hour (lib/askEngine.js).
+    const q = q0.cravingId === "surprise" ? { ...q0, ...(() => { const s = surpriseFor(new Date()); return { cravingId: s.cravingId, surprise: s }; })() } : q0;
     const area = q.areaName ? areas.find((a) => a.area === q.areaName) : null;
     const origin = area ? { lat: area.lat, lng: area.lng } : userLoc;
     if (!origin) {
-      setPending(q);
+      setPending(q0);
       say({ from: "bot", text: "Where are you? Share your location, or pick an area.", locate: true, areas: areas.slice(0, 8).map((a) => a.area) });
       return;
     }
     const res = askSpots(eateries, {
       origin, cravingId: q.cravingId, cheap: q.cheap, openNow: q.openNow, exclude: q.exclude || [],
-      limit: q.closer ? 20 : 5,
+      limit: q.closer ? 20 : 5, vary: !!q.surprise,
       ctx: { ...ctx, rankBySpot: rankBySpot || {} },
     });
     if (q.closer) res.results = [...res.results].sort((a, b) => a.dist - b.dist).slice(0, 5);
     setLast({ ...q, shown: res.results.map((r) => r.e.id) });
     say({
       from: "bot",
-      text: answerLine(res, { areaName: q.areaName, cheap: q.cheap, openNow: q.openNow }),
+      text: answerLine(res, { areaName: q.areaName, cheap: q.cheap, openNow: q.openNow, surprise: q.surprise }),
       results: res.results,
       followups: res.results.length > 0,
       chips: res.results.length ? null : CRAVING_CHIPS,
