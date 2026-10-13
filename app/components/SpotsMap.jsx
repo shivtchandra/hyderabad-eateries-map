@@ -1,16 +1,21 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-// A small, shareable map of a set of places (food safety records, a ranking).
-// Same light basemap as the main map (lib/mapStyle.js via MapLibre inside
-// Leaflet), raster fallback, no scroll-wheel trap. Points:
+// A small, shareable map of a set of places (food safety records, a ranking,
+// an area). Same light basemap as the main map (lib/mapStyle.js via MapLibre
+// inside Leaflet), raster fallback, no scroll-wheel trap. The map is built
+// once; markers are redrawn when `points` changes (filters), so it never
+// flickers or reloads tiles. Points:
 //   { lat, lng, kind: "spot" | "area" | "rank", title, sub, href, tone, label, count }
 const WORKER_URL = "/vendor/maplibre/6.6.0/maplibre-gl-worker.mjs";
 
 export default function SpotsMap({ points = [], height = 360 }) {
   const ref = useRef(null);
   const mapRef = useRef(null);
+  const LRef = useRef(null);
+  const layerRef = useRef(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -20,6 +25,10 @@ export default function SpotsMap({ points = [], height = 360 }) {
       if (cancelled || !ref.current || mapRef.current) return;
       const map = L.map(ref.current, { zoomControl: true, scrollWheelZoom: false, attributionControl: true, minZoom: 9, maxZoom: 17 });
       mapRef.current = map;
+      LRef.current = L;
+      layerRef.current = L.layerGroup().addTo(map);
+      map.setView([17.42, 78.44], 11);
+      setReady(true);
 
       const raster = () => L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom: 19, className: "raster-basemap",
@@ -41,34 +50,39 @@ export default function SpotsMap({ points = [], height = 360 }) {
           if (cancelled || glMap.loaded() || glMap.isStyleLoaded()) return;
           map.removeLayer(gl); raster();
         }, 8000);
-      } catch { raster(); }
-
-      const esc = (s = "") => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-      const bounds = [];
-      for (const p of points) {
-        if (p.lat == null || p.lng == null) continue;
-        let html, size;
-        if (p.kind === "area") {
-          size = 44;
-          html = `<div class="smap-area" style="--t:${p.tone || "var(--ink)"}">${esc(p.count)}</div>`;
-        } else if (p.kind === "rank") {
-          size = 32;
-          html = `<div class="smap-rank" style="--t:${p.tone || "var(--violet)"}">${esc(p.label)}</div>`;
-        } else {
-          size = 22;
-          html = `<div class="smap-dot" style="--t:${p.tone || "var(--violet)"}"></div>`;
-        }
-        const popup = `<div class="smap-pop"><b>${esc(p.title)}</b>${p.sub ? `<span>${esc(p.sub)}</span>` : ""}${p.href ? `<a href="${esc(p.href)}">Open</a>` : ""}</div>`;
-        L.marker([p.lat, p.lng], { icon: L.divIcon({ className: "", html, iconSize: [size, size], iconAnchor: [size / 2, size / 2] }), keyboard: true, title: p.title })
-          .bindPopup(popup, { closeButton: false, offset: [0, -size / 2] })
-          .addTo(map);
-        bounds.push([p.lat, p.lng]);
-      }
-      if (bounds.length > 1) map.fitBounds(bounds, { padding: [36, 36], maxZoom: 14 });
-      else map.setView(bounds[0] || [17.42, 78.44], bounds.length ? 14 : 11);
+      } catch { if (!cancelled) raster(); }
     })();
-    return () => { cancelled = true; mapRef.current?.remove(); mapRef.current = null; };
-  }, [points]);
+    return () => { cancelled = true; mapRef.current?.remove(); mapRef.current = null; layerRef.current = null; };
+  }, []);
+
+  useEffect(() => {
+    const L = LRef.current, map = mapRef.current, layer = layerRef.current;
+    if (!ready || !L || !map || !layer) return;
+    layer.clearLayers();
+    const esc = (s = "") => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const bounds = [];
+    for (const p of points) {
+      if (p.lat == null || p.lng == null) continue;
+      let html, size;
+      if (p.kind === "area") {
+        size = 44;
+        html = `<div class="smap-area" style="--t:${p.tone || "var(--ink)"}">${esc(p.count)}</div>`;
+      } else if (p.kind === "rank") {
+        size = 32;
+        html = `<div class="smap-rank" style="--t:${p.tone || "var(--violet)"}">${esc(p.label)}</div>`;
+      } else {
+        size = 22;
+        html = `<div class="smap-dot" style="--t:${p.tone || "var(--violet)"}"></div>`;
+      }
+      const popup = `<div class="smap-pop"><b>${esc(p.title)}</b>${p.sub ? `<span>${esc(p.sub)}</span>` : ""}${p.href ? `<a href="${esc(p.href)}">Open</a>` : ""}</div>`;
+      L.marker([p.lat, p.lng], { icon: L.divIcon({ className: "", html, iconSize: [size, size], iconAnchor: [size / 2, size / 2] }), keyboard: true, title: p.title })
+        .bindPopup(popup, { closeButton: false, offset: [0, -size / 2] })
+        .addTo(layer);
+      bounds.push([p.lat, p.lng]);
+    }
+    if (bounds.length > 1) map.fitBounds(bounds, { padding: [36, 36], maxZoom: 15 });
+    else if (bounds.length) map.setView(bounds[0], 15);
+  }, [ready, points]);
 
   return <div ref={ref} className="smap" style={{ height }} role="region" aria-label="Map" />;
 }

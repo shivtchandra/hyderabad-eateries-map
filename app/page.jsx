@@ -12,6 +12,7 @@ import dynamic from "next/dynamic";
 const RACE_REQUIRE_GPS = process.env.NEXT_PUBLIC_RACE_REQUIRE_GPS === "1";
 const MapCanvas = dynamic(() => import("./components/MapCanvas.jsx"), { ssr: false });
 import CardRail from "./components/CardRail.jsx";
+import Clouds from "./components/Clouds.jsx";
 import TopBar from "./components/TopBar.jsx";
 import FilterChips, { countActiveFilters } from "./components/FilterChips.jsx";
 import DetailSheet from "./components/DetailSheet.jsx";
@@ -188,6 +189,11 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   const [picksMap, setPicksMap] = useState({});
   const [starOfWeek, setStarOfWeek] = useState(null);
   const [locPulsed, setLocPulsed] = useState(false);
+  // Clouds cover the first load, so the sticker loader only shows after them.
+  const [cloudsDone, setCloudsDone] = useState(false);
+  const onCloudsDone = useCallback(() => setCloudsDone(true), []);
+  const [locAsk, setLocAsk] = useState(false);
+  const locAskRan = useRef(false);
   useEffect(() => {
     try { if (localStorage.getItem("loc_prompted")) setLocPulsed(true); } catch {}
   }, []);
@@ -651,6 +657,40 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     );
   }, []);
 
+  // Near you first: once the clouds part, a phone that already allowed location
+  // flies straight to the user. Otherwise one soft card asks before the browser
+  // prompt does (a cold prompt on load gets denied, and a denial sticks). Skipped
+  // when the visit opened a spot or another tab. Asked once per device.
+  useEffect(() => {
+    if (!cloudsDone || loading || userLoc || locAskRan.current) return;
+    locAskRan.current = true;
+    if (tab !== "map" || selectedId || !navigator.geolocation) return;
+    if (new URLSearchParams(window.location.search).get("spot")) return;
+    let alive = true;
+    (async () => {
+      let state = "prompt";
+      try { state = (await navigator.permissions?.query({ name: "geolocation" }))?.state || "prompt"; } catch {}
+      if (!alive) return;
+      if (state === "granted") { locateMe(); return; }
+      let asked = false;
+      try { asked = !!localStorage.getItem("loc_prompted"); } catch {}
+      if (state === "prompt" && !asked) setLocAsk(true);
+    })();
+    return () => { alive = false; };
+  }, [cloudsDone, loading, userLoc, tab, selectedId, locateMe]);
+  const answerLocAsk = useCallback((yes) => {
+    setLocAsk(false);
+    if (yes) { locateMe(); return; }
+    try { localStorage.setItem("loc_prompted", "1"); } catch {}
+  }, [locateMe]);
+  useEffect(() => { if (sheetOpen || tab !== "map") setLocAsk(false); }, [sheetOpen, tab]);
+
+  // Rail: closest first once we know where the user is.
+  const railSpots = useMemo(() => {
+    if (!userLoc) return heroes;
+    return [...heroes].sort((a, b) => haversineKm(userLoc, a) - haversineKm(userLoc, b));
+  }, [heroes, userLoc]);
+
   useEffect(() => {
     if (tab === "map") mapApi.current?.invalidate();
   }, [tab]);
@@ -794,6 +834,8 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
               voteTop={tab === "map" ? voteTop : []}
               voteLabel={currentTheme?.title?.replace(/^best\s+/i, "").replace(/\s+in\s+hyderabad$/i, "")}
               onMapError={() => setMapOffline(true)}
+              dataReady={!loading}
+              onCloudsDone={onCloudsDone}
             />
           ) : (
             <div
@@ -803,7 +845,9 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
                 background:
                   "radial-gradient(ellipse at 30% 20%, var(--violet-wash), transparent 55%), var(--cream)",
               }}
-            />
+            >
+              <Clouds />
+            </div>
           )}
         </div>
 
@@ -990,7 +1034,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
               </div>
             </div>
 
-            {loading && (
+            {loading && cloudsDone && (
               <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, pointerEvents: "none" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/stickers/biryani.webp" alt="" width={96} height={96} className="sticker-bob" />
@@ -1018,9 +1062,25 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
               />
             )}
 
-            {!sheetOpen && !(curatedEnabled && recommendedOnly) && (
+            {locAsk && !sheetOpen && (
+              <div className="loc-ask" role="dialog" aria-labelledby="loc-ask-title">
+                <div className="loc-ask-head">
+                  <span className="loc-ask-icon"><Icon name="locate" size={24} width={2} color="var(--violet)" /></span>
+                  <div>
+                    <h2 id="loc-ask-title">Start with what&apos;s near you?</h2>
+                    <p>We&apos;ll fly to where you are and line up the closest spots first.</p>
+                  </div>
+                </div>
+                <div className="loc-ask-actions">
+                  <button type="button" className="loc-ask-yes" onClick={() => answerLocAsk(true)}>Use my location</button>
+                  <button type="button" className="loc-ask-no" onClick={() => answerLocAsk(false)}>Not now</button>
+                </div>
+              </div>
+            )}
+
+            {!sheetOpen && !locAsk && !(curatedEnabled && recommendedOnly) && (
               <CardRail
-                spots={heroes}
+                spots={railSpots}
                 activeId={selectedId}
                 onActivate={handleSelect}
                 onOpen={() => setSheetOpen(true)}

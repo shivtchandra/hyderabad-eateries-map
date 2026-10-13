@@ -3,8 +3,10 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { spotlight, buildAreas, scoreOf, AREA_ZOOM_MAX, photoUrl } from "../../lib/spotlight.js";
 import * as passportStore from "../../lib/passport.js";
+import Clouds from "./Clouds.jsx";
 
 const HYD_CENTER = [17.42, 78.44];
+let cloudsPlayed = false; // per page load, survives map remounts
 // Copied from node_modules/maplibre-gl/dist (worker + the shared chunk it
 // imports). Bump the folder when maplibre-gl is upgraded.
 const MAPLIBRE_WORKER_URL = "/vendor/maplibre/6.6.0/maplibre-gl-worker.mjs";
@@ -28,7 +30,7 @@ export default function MapCanvas({
   onSelect, onAreaEnter, onHeroesChange, onZoomChange, routeLine = null, heroCap = 120, poolSize,
   pickMode = false, onPick, pickedPoint = null,
   onViewportChange, onMapError, recommendationMode = false,
-  voteTop = [], voteLabel = "",
+  voteTop = [], voteLabel = "", dataReady = true, onCloudsDone,
 }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
@@ -40,26 +42,26 @@ export default function MapCanvas({
   const pickLayerRef = useRef(null);
   const voteTopRef = useRef(voteTop); voteTopRef.current = voteTop;
   const [ready, setReady] = useState(false);
-  // First open per session: two clouds part when the basemap is ready (the
-  // reels' opening). Never blocks taps; skipped for reduced motion.
+  // Every cold open: clouds part once the basemap and the spots are ready (the
+  // reels' opening). Not replayed when the map remounts in the same load.
+  // Never blocks taps; skipped for reduced motion.
   const [clouds, setClouds] = useState(() => {
-    try {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
-      if (sessionStorage.getItem("eats-clouds")) return false;
-      sessionStorage.setItem("eats-clouds", "1");
-      return true;
-    } catch { return false; }
+    if (cloudsPlayed) return false;
+    cloudsPlayed = true;
+    try { return !window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; }
   });
+  const cloudsDoneRef = useRef(onCloudsDone); cloudsDoneRef.current = onCloudsDone;
+  useEffect(() => { if (!clouds) cloudsDoneRef.current?.(); }, [clouds]);
   const [basemapReady, setBasemapReady] = useState(false);
   const [cloudsParted, setCloudsParted] = useState(false);
   useEffect(() => {
     if (!clouds) return;
-    if (!basemapReady) {
-      const cap = window.setTimeout(() => setCloudsParted(true), 2500); // never hold the map hostage
+    if (!basemapReady || !dataReady) {
+      const cap = window.setTimeout(() => setCloudsParted(true), 3500); // never hold the map hostage
       return () => window.clearTimeout(cap);
     }
     setCloudsParted(true);
-  }, [clouds, basemapReady]);
+  }, [clouds, basemapReady, dataReady]);
   useEffect(() => {
     if (!cloudsParted) return;
     const t = window.setTimeout(() => setClouds(false), 800);
@@ -538,26 +540,8 @@ export default function MapCanvas({
   return (
     <>
       <div ref={containerRef} style={{ position: "absolute", inset: 0 }} />
-      {clouds && (
-        <div className={`map-clouds${cloudsParted ? " is-parted" : ""}`} aria-hidden="true">
-          <Cloud className="map-cloud map-cloud--l" />
-          <Cloud className="map-cloud map-cloud--r" />
-        </div>
-      )}
+      {clouds && <Clouds parted={cloudsParted} />}
     </>
-  );
-}
-
-function Cloud({ className }) {
-  return (
-    <svg className={className} viewBox="0 0 200 110">
-      <g fill="#fff">
-        <circle cx="50" cy="70" r="35" />
-        <circle cx="95" cy="50" r="45" />
-        <circle cx="145" cy="65" r="38" />
-        <rect x="15" y="70" width="170" height="40" rx="20" />
-      </g>
-    </svg>
   );
 }
 

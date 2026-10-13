@@ -1076,3 +1076,57 @@ a.of-card-name:hover { text-decoration: underline; }
 .fs-legend li { display: inline-flex; align-items: center; gap: 6px; }
 .fs-legend span { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--line); }
 .fs-legend .fs-legend-area { width: 20px; height: 20px; display: grid; place-items: center; background: #141414; color: #fff; font-size: 10px; font-weight: 800; }
+
+/* ---- Area pages: filter, search, sort, map, then cards (AreaExplorer.jsx) ---- */
+.ax { margin: 0 0 var(--s7); }
+.ax-chips { display: flex; gap: var(--s2); overflow-x: auto; scrollbar-width: none; margin: 0 calc(-1 * var(--s1)) var(--s3); padding: var(--s1); }
+.ax-chips::-webkit-scrollbar { display: none; }
+.ax-chip {
+  flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 var(--s4);
+  border: 1px solid var(--line); border-radius: var(--r-pill); background: var(--paper); color: var(--ink);
+  font: 600 14px var(--font-ui), system-ui, sans-serif; cursor: pointer;
+}
+.ax-chip span { color: var(--ink-soft); font-weight: 500; }
+.ax-chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.ax-chip[aria-pressed="true"] span { color: rgba(255, 255, 255, 0.7); }
+.ax-chip:focus-visible, .ax-search:focus-visible, .ax-sort:focus-visible, .ax-more:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+.ax-tools { display: flex; gap: var(--s2); margin: 0 0 var(--s4); }
+.ax-search {
+  flex: 1; min-width: 0; min-height: 44px; padding: 0 var(--s4); border: 1px solid var(--line); border-radius: var(--r-btn);
+  background: var(--paper); color: var(--ink); font: 500 15px var(--font-ui), system-ui, sans-serif;
+}
+.ax-sort {
+  flex-shrink: 0; min-height: 44px; padding: 0 var(--s3); border: 1px solid var(--line); border-radius: var(--r-btn);
+  background: var(--paper); color: var(--ink); font: 600 14px var(--font-ui), system-ui, sans-serif;
+}
+.ax-map { margin: 0 0 var(--s4); }
+.ax-count { margin: 0 0 var(--s3); font-size: 14px; font-weight: 600; color: var(--ink-soft); }
+.ax-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
+@media (min-width: 760px) { .ax-list { grid-template-columns: 1fr 1fr; } }
+.ax-card {
+  display: flex; gap: var(--s3); align-items: center; padding: var(--s3); min-height: 100px;
+  border: 1px solid var(--line); border-radius: var(--r-card); background: var(--paper); color: var(--ink); text-decoration: none;
+  transition: box-shadow var(--dur-2, 200ms) ease, transform var(--dur-2, 200ms) ease;
+}
+.ax-card:hover { box-shadow: var(--e2, 0 8px 20px rgba(20, 20, 20, 0.08)); transform: translateY(-1px); }
+.ax-thumb { flex-shrink: 0; width: 76px; height: 76px; border-radius: calc(var(--r-card) - 6px); overflow: hidden; background: var(--cream-hi); display: grid; place-items: center; }
+.ax-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ax-thumb-letter { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 28px; color: var(--violet); }
+.ax-body { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.ax-name { font-family: var(--font-display), system-ui, sans-serif; font-weight: 700; font-size: 17px; line-height: 1.2; letter-spacing: -0.01em; }
+.ax-meta { font-size: 13px; color: var(--ink-soft); }
+.ax-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.ax-badge { display: inline-flex; align-items: center; min-height: 24px; padding: 0 8px; border-radius: var(--r-chip); font-size: 12px; font-weight: 700; }
+.ax-badge--rank { background: var(--violet-wash); color: var(--violet-deep); }
+.ax-badge--safety { background: color-mix(in srgb, var(--t) 10%, #fff); color: var(--t); }
+.ax-more {
+  display: block; width: 100%; margin-top: var(--s4); min-height: 48px; border: 1px solid var(--line); border-radius: var(--r-btn);
+  background: var(--paper); color: var(--ink); font: 700 15px var(--font-ui), system-ui, sans-serif; cursor: pointer;
+}
+.ax-about { margin-top: var(--s8); color: var(--ink-soft); font-size: 15px; line-height: 1.55; }
+.ax-about p { margin: 0 0 var(--s3); }
+@media (max-width: 600px) {
+  .area-strip { margin-bottom: var(--s5); }
+  .area-strip-card { min-height: 100px; }
+  .area-strip-card--big { min-height: 212px; }
+}
