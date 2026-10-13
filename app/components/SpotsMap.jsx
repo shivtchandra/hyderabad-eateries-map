@@ -69,7 +69,7 @@ export default function SpotsMap({ points = [], height = 360 }) {
         html = `<div class="smap-area" style="--t:${p.tone || "var(--ink)"}">${esc(p.count)}</div>`;
       } else if (p.kind === "rank") {
         size = 32;
-        html = `<div class="smap-rank" style="--t:${p.tone || "var(--violet)"}">${esc(p.label)}</div>`;
+        html = `<div class="smap-rank${p.label === "#1" ? " is-first" : ""}">${esc(p.label)}</div>`;
       } else {
         size = 22;
         html = `<div class="smap-dot" style="--t:${p.tone || "var(--violet)"}"></div>`;

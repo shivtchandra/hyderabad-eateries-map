@@ -352,7 +352,7 @@ export default function MapCanvas({
 
         const html = `
           <div class="area-blob" style="width:${size}px;height:${size}px">
-            <div class="area-ring" style="background:conic-gradient(var(--yellow) ${pct * 3.6}deg, rgba(0,0,0,0) 0deg)"></div>
+            <div class="area-ring" style="background:conic-gradient(var(--pop) ${pct * 3.6}deg, rgba(0,0,0,0) 0deg)"></div>
             <div class="area-inner">
               <div class="area-count">${n}</div>
               <div class="area-name">${escapeHtml(a.area)}</div>

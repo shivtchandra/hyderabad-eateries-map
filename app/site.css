@@ -918,13 +918,13 @@ a.of-card-name:hover { text-decoration: underline; }
 .spot-claim-text { min-width: 0; flex: 1 1 220px; }
 .spot-claim h2 { margin: 0 0 4px; font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 26px; line-height: 1; letter-spacing: -0.03em; color: #fff; }
 .spot-claim p { margin: 0; font-size: 15px; color: var(--violet-wash); }
-.spot-claim-cta { display: inline-flex; align-items: center; min-height: 52px; padding: 0 var(--s6); border-radius: var(--r-btn); background: var(--yellow); color: var(--ink); font-size: 16px; font-weight: 700; text-decoration: none; }
+.spot-claim-cta { display: inline-flex; align-items: center; min-height: 52px; padding: 0 var(--s6); border-radius: var(--r-btn); background: var(--ink); color: #fff; font-size: 16px; font-weight: 700; text-decoration: none; }
 .spot-claim-cta:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 
 /* ---- Area pages: counts, then an uneven photo strip (1 big + 2 small) ---- */
 .area-counts { display: flex; flex-wrap: wrap; gap: var(--s2); margin: 0 0 var(--s6); }
 .area-count-chip { display: inline-flex; align-items: center; min-height: 36px; padding: 0 var(--s4); border-radius: var(--r-pill); background: var(--cream-hi); color: var(--ink); font-size: 14px; font-weight: 600; }
-.area-count-chip--total { background: var(--yellow); }
+.area-count-chip--total { background: var(--ink); color: #fff; }
 .area-strip { display: grid; grid-template-columns: 1.4fr 1fr; grid-template-rows: 1fr 1fr; gap: var(--s3); margin: 0 0 var(--s7); }
 .area-strip-card { position: relative; display: block; overflow: hidden; border-radius: var(--r-card); background: var(--paper); color: #fff; text-decoration: none; min-height: 140px; }
 .area-strip-card--big { grid-row: 1 / span 2; min-height: 300px; }
@@ -942,7 +942,7 @@ a.of-card-name:hover { text-decoration: underline; }
 .rk-live-q { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: clamp(34px, 8vw, 52px); line-height: 0.95; letter-spacing: -0.04em; }
 .rk-live-meta { font-size: 16px; color: var(--violet-wash); }
 .rk-live-cta { align-self: flex-start; display: inline-flex; align-items: center; min-height: 52px; padding: 0 var(--s6); border-radius: var(--r-btn); background: var(--yellow); color: var(--ink); font-size: 16px; font-weight: 700; }
-.rk-live-card:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+.rk-live-card:focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; }
 .rk-index { list-style: none; margin: 0; padding: 0; }
 .rk-index-card { display: flex; align-items: center; gap: var(--s2); padding: var(--s2) var(--s3) var(--s2) 0; margin: 0 0 var(--s3); text-decoration: none; }
 .rk-index-card:hover { box-shadow: var(--e2); }
@@ -976,7 +976,7 @@ a.of-card-name:hover { text-decoration: underline; }
 @media (min-width: 720px) { .guides-area-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .guides-area-tile { display: flex; flex-direction: column; justify-content: space-between; gap: var(--s3); min-height: 96px; padding: var(--s4); border-radius: var(--r-card); background: var(--cream-hi); color: var(--ink); text-decoration: none; }
 .guides-area-name { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 19px; line-height: 1; letter-spacing: -0.02em; }
-.guides-area-count { align-self: flex-start; padding: 3px 10px; border-radius: var(--r-pill); background: var(--yellow); font-size: 13px; font-weight: 600; }
+.guides-area-count { align-self: flex-start; padding: 3px 10px; border-radius: var(--r-pill); background: var(--cream-hi); font-size: 13px; font-weight: 600; }
 .guides-tiles { display: grid; gap: var(--s3); }
 @media (min-width: 720px) { .guides-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .guides-tile { display: flex; flex-direction: column; gap: var(--s2); min-height: 120px; padding: var(--s6); border-radius: var(--r-sheet); text-decoration: none; }
@@ -986,7 +986,7 @@ a.of-card-name:hover { text-decoration: underline; }
 .guides-tile--violet .guides-tile-note { color: var(--violet-wash); }
 .guides-tile--ink { background: var(--ink); color: #fff; }
 .guides-tile--ink .guides-tile-note { color: #d9d6cf; }
-.guides-tile--yellow { background: var(--yellow); color: var(--ink); }
+.guides-tile--yellow { background: var(--paper); color: var(--ink); border: 1px solid var(--line); }
 .guides-photo-card:focus-visible, .guides-text-card:focus-visible, .guides-area-tile:focus-visible, .guides-tile:focus-visible, .guides-jump a:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; }
 
 /* ---- Spot page: where locals rank it, and nearby instead ---- */
@@ -995,7 +995,7 @@ a.of-card-name:hover { text-decoration: underline; }
 .spot-ranks ul { list-style: none; margin: 0; padding: 0 var(--s4); background: var(--cream-hi); border-radius: var(--r-card); }
 .spot-rank-row { display: flex; align-items: center; gap: var(--s3); min-height: 68px; padding: var(--s3) 0; border-top: 1px solid var(--line); color: var(--ink); text-decoration: none; }
 .spot-ranks li:first-child .spot-rank-row { border-top: 0; }
-.spot-rank-num { flex-shrink: 0; width: 48px; font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.04em; color: var(--violet); }
+.spot-rank-num { flex-shrink: 0; width: 48px; font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.04em; color: var(--ink); }
 .spot-rank-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .spot-rank-text b { font-size: 17px; font-weight: 600; }
 .spot-rank-text span { font-size: 14px; color: var(--muted); }
@@ -1064,7 +1064,7 @@ a.of-card-name:hover { text-decoration: underline; }
 .smap--loading { background: var(--map-ground); }
 .smap-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--t); border: 3px solid #fff; box-shadow: 0 2px 6px rgba(20, 20, 20, 0.35); }
 .smap-area { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: var(--t); color: #fff; border: 3px solid #fff; font: 800 16px var(--font-display), system-ui, sans-serif; box-shadow: 0 3px 10px rgba(20, 20, 20, 0.3); }
-.smap-rank { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; background: var(--t); color: #fff; border: 3px solid #fff; font: 800 14px var(--font-display), system-ui, sans-serif; box-shadow: 0 2px 8px rgba(20, 20, 20, 0.3); }
+.smap-rank { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; background: var(--yellow); color: var(--ink); border: 3px solid #fff; font: 800 14px var(--font-display), system-ui, sans-serif; box-shadow: 0 2px 8px rgba(20, 20, 20, 0.3); }
 .smap-pop { display: flex; flex-direction: column; gap: 2px; font-family: var(--font-ui), sans-serif; min-width: 160px; }
 .smap-pop b { font-size: 15px; color: var(--ink); }
 .smap-pop span { font-size: 13px; color: var(--ink-soft); }
@@ -1117,7 +1117,7 @@ a.of-card-name:hover { text-decoration: underline; }
 .ax-meta { font-size: 13px; color: var(--ink-soft); }
 .ax-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
 .ax-badge { display: inline-flex; align-items: center; min-height: 24px; padding: 0 8px; border-radius: var(--r-chip); font-size: 12px; font-weight: 700; }
-.ax-badge--rank { background: var(--violet-wash); color: var(--violet-deep); }
+.ax-badge--rank { background: var(--yellow); color: var(--ink); }
 .ax-badge--safety { background: color-mix(in srgb, var(--t) 10%, #fff); color: var(--t); }
 .ax-more {
   display: block; width: 100%; margin-top: var(--s4); min-height: 48px; border: 1px solid var(--line); border-radius: var(--r-btn);
@@ -1130,3 +1130,8 @@ a.of-card-name:hover { text-decoration: underline; }
   .area-strip-card { min-height: 100px; }
   .area-strip-card--big { min-height: 212px; }
 }
+
+/* Yellow = what locals voted: rank tiles on spot pages, #1 on small maps */
+.spot-rank-num:not(.spot-rank-num--open) { width: 52px; height: 52px; display: grid; place-items: center; border-radius: var(--r-btn); background: var(--yellow); font-size: 24px; }
+.spot-rank-num--open { width: 52px; }
+.smap-rank.is-first { background: var(--ink); color: var(--yellow); }

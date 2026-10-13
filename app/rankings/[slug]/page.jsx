@@ -210,7 +210,7 @@ export default async function RankingPage({ params }) {
     <SiteChrome
       active="/rankings"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/rankings", label: "Rankings" }, { href: `/rankings/${params.slug}`, label: data.title }]}
-      title={data.title}
+      title={highlightDish(data.title)}
       description={isPlaceholder
         ? "Voting for this dish opens soon. Until then, here are the spots locals already rate."
         : `Voted by Hyderabad locals, every week. ${totalVotes.toLocaleString("en-IN")} votes so far${data.endDate ? `, week ends ${data.endDate}` : ""}.`}
@@ -218,7 +218,7 @@ export default async function RankingPage({ params }) {
     >
 
       {isPlaceholder ? (
-        <section className="rk-leader">
+        <section className="rk-leader rk-leader--soon">
           <div className="rk-leader-top">
             <span className="rk-chip">Opening soon</span>
           </div>
@@ -383,4 +383,11 @@ export default async function RankingPage({ params }) {
     </div>
   </div>
   );
+}
+
+// "Best Biryani in Hyderabad": the dish gets the yellow highlighter, the mark
+// for what locals vote on (same as the Vote tab's question).
+function highlightDish(title = "") {
+  const m = title.match(/^(best )(.+?)( in hyderabad)$/i);
+  return m ? <>{m[1]}<mark className="hl">{m[2]}</mark>{m[3]}</> : title;
 }

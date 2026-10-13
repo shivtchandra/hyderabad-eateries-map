@@ -65,7 +65,7 @@ export default function AreaExplorer({ area, spots }) {
   const points = useMemo(() => list.map((s) => ({
     lat: s.lat, lng: s.lng, title: s.name, href: s.path,
     sub: [KIND_ONE[s.category], s.rating ? `★ ${s.rating}` : null].filter(Boolean).join(" · "),
-    ...(s.rank ? { kind: "rank", label: `#${s.rank.n}`, tone: s.rank.n === 1 ? "#5b21b6" : "#7c3aed" } : { kind: "spot" }),
+    ...(s.rank ? { kind: "rank", label: `#${s.rank.n}` } : { kind: "spot" }),
   })), [list]);
 
   return (

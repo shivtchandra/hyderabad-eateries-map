@@ -110,7 +110,7 @@ export default async function FoodSafetyPage() {
             <ul className="fs-legend">
               <li><span style={{ background: "#141414" }} />Closed</li>
               <li><span style={{ background: "#c2410c" }} />Licence suspended</li>
-              <li><span style={{ background: "#f5c84c" }} />Notice</li>
+              <li><span style={{ background: "#78716c" }} />Notice</li>
               <li><span className="fs-legend-area">3</span>Records in an area (exact place not on our map)</li>
             </ul>
           </section>
@@ -158,7 +158,7 @@ export default async function FoodSafetyPage() {
   );
 }
 
-const ACTION_TONE = { closed: "#141414", "licence-suspended": "#c2410c", notice: "#f5c84c" };
+const ACTION_TONE = { closed: "#141414", "licence-suspended": "#c2410c", notice: "#78716c" };
 const ACTION_LABEL = { closed: "Closed", "licence-suspended": "Licence suspended", notice: "Notice" };
 const normArea = (s = "") => s.toLowerCase().replace(/[^a-z]/g, "");
 

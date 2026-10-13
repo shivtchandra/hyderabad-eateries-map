@@ -103,11 +103,16 @@ Old names stay as aliases during migration so nothing breaks.
 --violet:      #7c3aed;  /* brand: the one button you press, active tab, vote. White text 5.7:1 */
 --violet-deep: #5b21b6;  /* violet text on light backgrounds */
 --violet-wash: #ede9fe;  /* chips, small arrow tiles */
---yellow:      #f5c84c;  /* winner, live dot, arrow tiles. Ink text only */
+--yellow:      #f5c84c;  /* what locals voted. Ink text only */
 ```
 
 Rules:
-- Violet is for things you press and the active tab. Yellow is for "winner / live". Nothing else gets colour.
+- Violet is for things you press and the active tab. Nothing else gets colour, except yellow.
+- Yellow has ONE job: what locals voted. #1 and rank tiles, crowns, the live-vote dot,
+  vote pins on maps, and the highlighter on the dish a vote is about ("Hyderabad's
+  best ==biryani==?", `.hl`). Never buttons, filter counts, focus rings, decoration or
+  warnings (food safety "Notice" is warm grey `#78716c`). If yellow is on screen, it
+  means "locals decided this".
 - Violet gets big moments: full colour blocks (live vote card, passport), not just thin outlines.
 - Category colours (`--cafe`, `--bakery`...) only on map pins and small badges. Never section backgrounds.
 - A screen has at most one big colour block (violet or yellow).
@@ -185,7 +190,8 @@ Build these once in `app/components/atlas/` and reuse. They are the brand.
 2. **Area tag.** Pill with a 1.5px ink outline, uppercase `--t-xs` text with
    wide spacing: `JUBILEE HILLS`. Every locality mention uses it.
 2b. **Arrow-tile button.** A label button plus a separate square arrow tile
-   (yellow on violet, violet-wash on paper). Used for "open this" actions.
+   (white on violet, violet-wash on paper). Used for "open this" actions.
+   The one yellow tile is the vote card's arrow, because it opens a vote.
 3. **Sticker.** Die-cut category stickers (chai glass, biryani handi, coffee
    cup, beer mug, ice cream, cake). Used for: top-pick map pins, empty states,
    error states. Not as random decoration.

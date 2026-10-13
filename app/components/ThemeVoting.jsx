@@ -35,9 +35,10 @@ function shortTitle(title = "") {
   return t.charAt(0) + t.slice(1).toLowerCase();
 }
 
+// The dish gets the yellow highlighter: yellow marks what locals vote on.
 function voteHook(title = "") {
   const m = title.match(/^best (.+?) in hyderabad$/i);
-  return m ? `Hyderabad’s best ${m[1].toLowerCase()}?` : title;
+  return m ? <>Hyderabad’s best <mark className="hl">{m[1].toLowerCase()}</mark>?</> : title;
 }
 
 function endLabel(endDate) {

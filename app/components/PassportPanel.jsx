@@ -142,7 +142,7 @@ export default function PassportPanel({ eateries, passport, onSelect, diaryTick 
                 <div
                   key={m.at}
                   style={{
-                    background: "var(--yellow)", border: "none",
+                    background: "var(--pop-wash)", border: "none",
                     borderRadius: "var(--r-pill)", padding: "0 14px", minHeight: 36,
                     display: "flex", alignItems: "center", gap: 7,
                     fontSize: 14, fontWeight: 600, color: "var(--ink)",
