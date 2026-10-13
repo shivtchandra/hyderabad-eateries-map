@@ -98,11 +98,10 @@ export default function AskSheet({ open, onClose, seed, eateries, userLoc, onReq
   return (
     <div className={`ask-sheet${open ? " is-open" : ""}`} role="dialog" aria-label="Ask Eats" aria-hidden={!open}>
       <div className="ask-head">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="ask-head-art" src="/stickers/biryani.webp" alt="" width={44} height={44} />
+<span className="ask-bot" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 5h16v11H9l-5 4z" /><circle cx="9" cy="10.5" r="1" fill="currentColor" /><circle cx="15" cy="10.5" r="1" fill="currentColor" /></svg></span>
         <div className="ask-head-text">
-          <b>Ask Eats</b>
-          <span>Locals&apos; votes and our picks first</span>
+          <b>Ask Eats <i className="ask-badge">Chatbot</i></b>
+          <span>An automated helper. Locals&apos; votes and our picks first</span>
         </div>
         <button type="button" className="ask-close" onClick={onClose} aria-label="Close Ask Eats">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
@@ -112,7 +111,7 @@ export default function AskSheet({ open, onClose, seed, eateries, userLoc, onReq
       <div className="ask-log" ref={logRef} aria-live="polite">
         {msgs.map((m, i) => (
           <div key={i} className={`ask-msg ask-msg--${m.from}`}>
-            {m.text && <p className="ask-bubble">{m.text}</p>}
+            {m.text && (m.from === "bot" ? <div className="ask-bot-row"><span className="ask-bot ask-bot--sm" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 5h16v11H9l-5 4z" /><circle cx="9" cy="10.5" r="1" fill="currentColor" /><circle cx="15" cy="10.5" r="1" fill="currentColor" /></svg></span><p className="ask-bubble">{m.text}</p></div> : <p className="ask-bubble">{m.text}</p>)}
             {m.results?.length > 0 && (
               <ul className="ask-results">
                 {m.results.map((r) => (

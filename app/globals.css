@@ -1191,3 +1191,10 @@ button{ font-family: inherit; }
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 60' preserveAspectRatio='none'%3E%3Cpath d='M8 34C6 16 40 6 66 7c26 1 48 9 46 25-2 17-36 24-62 22C24 52 4 44 9 27c3-9 14-15 28-18' fill='none' stroke='%23f5c84c' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
 }
 
+
+/* Ask Eats reads as a chatbot: bot avatar, "Chatbot" badge (TopBar, AskSheet). */
+.ask-bot { flex-shrink: 0; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 14px; background: var(--violet); color: #fff; }
+.ask-bot--sm { width: 28px; height: 28px; border-radius: 10px; }
+.ask-bot--sm svg { width: 16px; height: 16px; }
+.ask-bot-row { display: flex; align-items: flex-end; gap: 8px; }
+.ask-badge { display: inline-flex; align-items: center; margin-left: 6px; padding: 1px 8px; border-radius: var(--r-pill); background: var(--violet-wash); color: var(--violet-deep); font-size: 11px; font-style: normal; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; vertical-align: 3px; }

@@ -72,7 +72,7 @@ export default function TopBar({
             aria-label="Search dishes, places or areas"
           >
             <Icon name="search" size={19} color="var(--ink-soft)" />
-            <span>{onAsk ? "Ask Eats or search" : "Biryani, cafes, an area"}</span>
+            <span>{onAsk ? "Search, or chat with Ask Eats" : "Biryani, cafes, an area"}</span>
           </button>
         )}
       </div>
@@ -93,9 +93,8 @@ export default function TopBar({
     {searchOpen && onAsk && !search.trim() && (
       <div className="material search-results">
         <button type="button" className="ask-entry" onClick={() => onAsk("")}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/stickers/biryani.webp" alt="" width={40} height={40} />
-          <span><b>Not sure what to eat?</b><span>Ask Eats. Locals&apos; votes and our picks first.</span></span>
+<span className="ask-bot" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 5h16v11H9l-5 4z" /><circle cx="9" cy="10.5" r="1" fill="currentColor" /><circle cx="15" cy="10.5" r="1" fill="currentColor" /></svg></span>
+          <span><b>Chat with Ask Eats <i className="ask-badge">Chatbot</i></b><span>Tell it what you crave; it suggests spots near you.</span></span>
         </button>
       </div>
     )}
@@ -109,8 +108,8 @@ export default function TopBar({
       >
         {onAsk && (
           <button type="button" className="ask-entry ask-entry--q" onClick={() => onAsk(search)}>
-            <span className="ask-entry-badge" aria-hidden="true">Ask</span>
-            <span><b>Ask Eats: &ldquo;{search.trim()}&rdquo;</b><span>Get picks near you</span></span>
+            <span className="ask-bot" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 5h16v11H9l-5 4z" /><circle cx="9" cy="10.5" r="1" fill="currentColor" /><circle cx="15" cy="10.5" r="1" fill="currentColor" /></svg></span>
+            <span><b>Ask the chatbot: &ldquo;{search.trim()}&rdquo;</b><span>Get picks near you</span></span>
           </button>
         )}
         {searchResults.length ? searchResults.map((spot) => {
