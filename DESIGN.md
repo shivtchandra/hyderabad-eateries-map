@@ -510,4 +510,4 @@ Checked against this document:
 - **Type:** paragraphs at 16px or more (guide card verdicts were 14.5px).
 - **Motion:** no endless animations on content pages. The marker sweep runs only on headline words, never on labels. Every looping animation (clouds, live dot, skeleton shimmer, loader sticker) stops for reduced motion.
 - **Loading:** spot and ranking skeletons now follow the real layouts (photo first; question + ticket) with the back-button circle, so nothing jumps.
-- **Known debt:** site.css has about 24 selectors redefined by later override blocks; fold them into the originals when those pages are next edited.
+- **CSS cleanup:** 28 duplicated selectors merged, 141 rules for removed components deleted, override blocks (no yellow on black, card borders, text size, sweep scope) folded into the original rules. Verified by comparing computed styles on 12 pages at 375px and 1100px before and after: identical. The app's own screens also lost their last yellow-on-black (Ask tags, email button), which the overrides never reached.
