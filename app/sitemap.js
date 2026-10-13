@@ -22,6 +22,7 @@ const GUIDE_SLUGS = [
   "best-tiffins-hyderabad-reddit",
   "late-night-food-hyderabad-reddit",
   "restaurants-in-sattva-knowledge-city-hyderabad",
+  "dishes", // dish guides hub
 ];
 function getGuideSlugs() {
   let found = [];

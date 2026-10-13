@@ -7,6 +7,8 @@ import { pageMeta, getSiteUrl } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
 import { breadcrumbJsonLd } from "../../lib/schema.js";
 import { stickerForTitle } from "../../lib/stickerArt.js";
+import HubAnswer, { HubFaq } from "../components/HubAnswer.jsx";
+import { hubJsonLd, todayIso } from "../../lib/hubSeo.js";
 
 export const dynamic = "force-dynamic";
 
@@ -50,10 +52,21 @@ export default async function RankingsHubPage() {
     { name: "Home", url: getSiteUrl() },
     { name: "Rankings", url: `${getSiteUrl()}/rankings` },
   ]);
+  // Answer-first: the current #1s are what people (and AI answers) ask for.
+  const allVotes = themes.reduce((n, t) => n + (t.results || []).reduce((m, r) => m + (r.count || 0), 0), 0);
+  const crowned = themes.filter((t) => t.winnerId && t.winnerName).slice(0, 4);
+  const updated = todayIso();
+  const faqs = [
+    ...crowned.slice(0, 2).map((t) => ({ q: `What is the ${t.title.toLowerCase()}?`, a: `${t.winnerName}, voted #1 by Hyderabad locals on Hyderabad Eats. Votes stay open, so the crown can move.` })),
+    { q: "How are Hyderabad Eats rankings decided?", a: "By weekly community votes from Hyderabad locals. One vote per person per ranking; the spot with the most votes holds #1." },
+    { q: "Can I add a restaurant that isn't on the list?", a: "Yes. Open the ranking and use 'Can't see your pick? Add it'. New places show up once checked." },
+  ];
+  const ld = hubJsonLd({ name: title, description, path: "/rankings", updated, faqs, items: themes.map((t) => ({ name: t.title, url: `/rankings/${t.slug}` })) });
 
   return (
     <div style={{ paddingBottom: 84 }}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
+    {ld.map((x, i) => <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(x) }} />)}
     <SiteChrome
       active="/rankings"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/rankings", label: "Rankings" }]}
@@ -69,6 +82,11 @@ export default async function RankingsHubPage() {
         { href: "/areas", label: "Browse areas" },
       ]}
     >
+      <HubAnswer
+        answer={`Hyderabad Eats ranks the city's food by weekly votes from locals: ${themes.length} rankings and ${allVotes.toLocaleString("en-IN")} votes so far.${crowned.length ? ` Current #1s: ${crowned.map((t) => `${t.title.replace(/\s+in\s+hyderabad$/i, "")}, ${t.winnerName}`).join("; ")}.` : ""}`}
+        stats={[{ value: themes.length, label: "rankings" }, { value: allVotes.toLocaleString("en-IN"), label: "local votes" }, { value: live.length, label: live.length === 1 ? "live vote" : "live votes" }]}
+        updated={updated}
+      />
       {/* One index of every ranking (Vote mockup): the live one first as a
           yellow card, then every past ranking with its live #1. Votes stay
           open, so nothing here says "ended". */}
@@ -142,6 +160,7 @@ export default async function RankingsHubPage() {
           </div>
         </>
       )}
+      <HubFaq faqs={faqs} />
     </SiteChrome>
     <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
       <BottomNav routed activeKey="race" />

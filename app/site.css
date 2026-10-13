@@ -1281,3 +1281,27 @@ a.of-card-name:hover { text-decoration: underline; }
 .rk-ballot-card:hover { box-shadow: var(--e2); }
 .rk-ballot-card img, .rk-ballot-empty { flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; object-fit: cover; }
 .rk-ballot-empty { display: grid; place-items: center; background: var(--violet-wash); color: var(--violet); font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; }
+
+/* ---- Guides hubs: answer-first box, stats, questions (HubAnswer.jsx) ---- */
+.hub-answer { margin: 0 0 var(--s7); padding: var(--s5); border-radius: var(--r-card); background: var(--cream-hi); }
+.hub-answer-text { margin: 0; font-size: 17px; line-height: 1.5; color: var(--ink); }
+.hub-stats { list-style: none; margin: var(--s4) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s2); }
+.hub-stats li { display: flex; flex-direction: column; min-width: 92px; padding: 10px 14px; border-radius: 16px; background: var(--yellow); color: var(--ink); }
+.hub-stats li:nth-child(2) { background: var(--ink); color: var(--yellow); }
+.hub-stats li:nth-child(3) { background: var(--violet); color: #fff; }
+.hub-stats b { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 26px; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.hub-stats span { font-size: 12.5px; font-weight: 600; margin-top: 2px; }
+.hub-updated { margin: var(--s3) 0 0; font-size: 12.5px; color: var(--ink-soft); }
+.hub-faq { margin-top: var(--s8); }
+.hub-faq details { padding: 14px 0; border-top: 1px solid var(--line); }
+.hub-faq details:last-child { border-bottom: 1px solid var(--line); }
+.hub-faq summary { cursor: pointer; font-weight: 700; font-size: 16px; color: var(--ink); }
+.hub-faq p { margin: var(--s2) 0 0; font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
+.hub-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--s3); }
+.hub-card { position: relative; display: flex; flex-direction: column; gap: 4px; min-height: 120px; padding: var(--s5); padding-right: 96px; border-radius: var(--r-card); background: var(--cream-hi); color: var(--ink); text-decoration: none; overflow: hidden; }
+.hub-card:hover { box-shadow: var(--e2); }
+.hub-card b { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 21px; line-height: 1.05; letter-spacing: -0.02em; }
+.hub-card span { font-size: 14px; color: var(--ink-soft); line-height: 1.4; }
+.hub-card img { position: absolute; right: -6px; bottom: -6px; width: 92px; height: 92px; object-fit: contain; transform: rotate(-8deg); }
+.hub-card--sun { background: var(--yellow); }
+.hub-card--sun span { color: var(--ink); }

@@ -1,13 +1,12 @@
-import fs from "fs";
-import path from "path";
 import Link from "next/link";
 import SiteChrome from "../components/SiteChrome.jsx";
 import BottomNav from "../components/BottomNav.jsx";
 import { pageMeta } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
-import { recommendationsEnabled } from "../../lib/recommendationShared.js";
-import { SEO_THEME_PICKS, slugFromTitle } from "../../lib/rankings.js";
+import { sticker, rankingCards, GUIDES } from "../../lib/guidesData.js";
 import { allAreaPages, getAreaBySlug } from "../../lib/siteData.js";
+import HubAnswer, { HubFaq } from "../components/HubAnswer.jsx";
+import { hubJsonLd, todayIso } from "../../lib/hubSeo.js";
 
 // The Guides tab: everything you read before you go, scannable at a glance.
 // Jump chips up top, rankings as a row of photo cards, guides as a row of
@@ -25,66 +24,14 @@ const short = (t = "") => {
   return s.charAt(0) + s.slice(1).toLowerCase();
 };
 
-// Stickers (isometric die-cut art) live in public/stickers/<key>.webp (or .png). A card
-// shows its sticker when the file exists, else a bold typographic card, so
-// art can be dropped in later without touching code. See DESIGN.md.
-const STICKER_DIR = path.join(process.cwd(), "public", "stickers");
-function sticker(key) {
-  if (!key) return null;
-  try {
-    for (const ext of ["webp", "png"]) {
-      if (fs.existsSync(path.join(STICKER_DIR, `${key}.${ext}`))) return `/stickers/${key}.${ext}`;
-    }
-  } catch {}
-  return null;
-}
-
-// The headline rankings for the row (the rest are one tap away in /rankings).
-const HEADLINE = [
-  { slug: "best-biryani-in-hyderabad", word: "Biryani", key: "biryani" },
-  { slug: "best-haleem-in-hyderabad", word: "Haleem", key: "haleem" },
-  { slug: "best-irani-cafe-in-hyderabad", word: "Irani chai", key: "irani-chai" },
-  { slug: "best-dosa-in-hyderabad", word: "Dosa", key: "dosa" },
-  { slug: "best-mandi-in-hyderabad", word: "Mandi", key: "mandi" },
-  { slug: "best-shawarma-in-hyderabad", word: "Shawarma", key: "shawarma" },
-  { slug: "best-cafe-in-hyderabad", word: "Cafes", key: "coffee" },
-  { slug: "best-bakery-in-hyderabad", word: "Bakery", key: "bakery" },
-  { slug: "best-ice-cream-in-hyderabad", word: "Ice cream", key: "ice-cream" },
-  { slug: "best-brewery-in-hyderabad", word: "Breweries", key: "beer" },
-  { slug: "best-street-food-in-hyderabad", word: "Street food", key: "street-food" },
-  { slug: "best-fine-dining-in-hyderabad", word: "Fine dining", key: "fine-dining" },
-];
-const TONES = ["violet", "yellow", "ink"];
-
-function rankingCards() {
-  const known = new Set(SEO_THEME_PICKS.map((p) => slugFromTitle(p.title)));
-  return HEADLINE.filter((h) => known.has(h.slug)).map((h, i) => ({
-    ...h,
-    label: short(SEO_THEME_PICKS.find((p) => slugFromTitle(p.title) === h.slug).title),
-    art: sticker(h.key),
-    tone: TONES[i % TONES.length],
-  }));
-}
-
-const GUIDES = [
-  ...(recommendationsEnabled() ? [{ href: "/picks", label: "Best food, dish by dish", note: "What r/hyderabad actually recommends", key: "thali" }] : []),
-  { href: "/guides/best-tiffins-hyderabad-reddit", label: "Tiffins and ghee dosas", note: "Breakfast spots locals swear by", key: "breakfast" },
-  { href: "/guides/late-night-food-hyderabad-reddit", label: "Late night food", note: "Open after midnight", key: "late-night" },
-  { href: "/guides/best-ice-cream-desserts-hyderabad", label: "Ice cream and desserts", note: "Scoops, kulfi, falooda", key: "ice-cream" },
-  { href: "/guides/best-breweries-in-hyderabad", label: "Breweries", note: "Craft beer, ranked", key: "beer" },
-  { href: "/guides/best-biryani-hyderabad-reddit", label: "Biryani, as Reddit picks it", note: "The threads, counted", key: "biryani" },
-  { href: "/guides/best-cafes-hyderabad-reddit", label: "Cafes, as Reddit picks it", note: "Work, coffee, dates", key: "coffee" },
-  { href: "/guides/restaurants-in-sattva-knowledge-city-hyderabad", label: "Around Sattva Knowledge City", note: "Office lunch, sorted", key: "lunchbox" },
-];
-
 // The top of Guides: six tinted tiles, each with a sticker breaking out of
 // its corner. Food stickers where one fits; die-cut style icons otherwise.
 const JUMP = [
   // Yellow celebrates (rankings), ink and violet carry the rest; food safety
   // stays neutral (DESIGN.md colour v3).
-  { href: "#rankings", label: "Rankings", note: "Voted by locals", tone: "sun", key: "biryani" },
-  { href: "#dish-guides", label: "Dish guides", note: "What to order", tone: "grape", key: "dosa" },
-  { href: "#areas", label: "Areas", note: "Eat by neighbourhood", tone: "ink", icon: "pin" },
+  { href: "/rankings", label: "Rankings", note: "Voted by locals", tone: "sun", key: "biryani" },
+  { href: "/guides/dishes", label: "Dish guides", note: "What to order", tone: "grape", key: "dosa" },
+  { href: "/areas", label: "Areas", note: "Eat by neighbourhood", tone: "ink", icon: "pin" },
   { href: "/offers", label: "Deals", note: "Offers today", tone: "violet", key: "mandi" },
   { href: "/food-safety", label: "Food safety", note: "Inspection records", tone: "paper", icon: "shield" },
   { href: "/stories", label: "Stories", note: "Old Hyderabad spots", tone: "yellow", key: "irani-chai" },
@@ -128,14 +75,32 @@ export default function GuidesPage() {
     .filter((a) => a.count > 0)
     .slice(0, 8);
 
+  // Each tile opens its own page; this hub says what's where (SEO + GEO).
+  const updated = todayIso();
+  const faqs = [
+    { q: "Where do locals eat in Hyderabad?", a: `Start with the weekly rankings, where Hyderabad locals vote for the best biryani, haleem, Irani chai, dosa, mandi and more. Then pick an area: ${areas.slice(0, 4).map((a) => a.area).join(", ")} and others each have their own guide.` },
+    { q: "How do I check a restaurant's food safety record in Hyderabad?", a: "The food safety page lists official TG SAFE inspection drives with each restaurant, what was found and what happened next, sourced and dated." },
+    { q: "Are these guides free?", a: "Yes. Every guide, ranking and the food map are free, with no signup to browse." },
+  ];
+  const ld = hubJsonLd({
+    name: title, description, path: "/guides", updated, faqs,
+    items: JUMP.map((j) => ({ name: j.label, url: j.href })),
+  });
+
   return (
     <div style={{ paddingBottom: 84 }}>
+      {ld.map((x, i) => <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(x) }} />)}
       <SiteChrome
         active="/guides"
         breadcrumb={[{ href: "/", label: "Home" }, { href: "/guides", label: "Guides" }]}
         title="Guides"
         description="Rankings, dish guides and areas, picked by locals."
       >
+        <HubAnswer
+          answer={`Hyderabad Eats guides cover where locals eat across Hyderabad: weekly rankings voted by locals, dish guides, ${areas.length}+ neighbourhood guides, dining deals, food safety records and stories of old Hyderabad spots.`}
+          stats={[{ value: rankings.length, label: "dish rankings" }, { value: areas.length, label: "area guides" }, { value: GUIDES.length, label: "dish guides" }]}
+          updated={updated}
+        />
         <nav className="guides-jump-grid" aria-label="Guides sections">
           {JUMP.map((j) => (
             <a key={j.href} href={j.href} className={`guides-jump-tile guides-jump-tile--${j.tone}`}>
@@ -237,6 +202,7 @@ export default function GuidesPage() {
             </Link>
           </div>
         </section>
+        <HubFaq faqs={faqs} />
       </SiteChrome>
       <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
         <BottomNav routed activeKey="guides" />

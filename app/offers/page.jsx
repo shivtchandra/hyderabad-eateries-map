@@ -7,6 +7,8 @@ import SiteChrome from "../components/SiteChrome.jsx";
 import BottomNav from "../components/BottomNav.jsx";
 import OffersClient from "./OffersClient.jsx";
 import { spotSlug } from "../../lib/siteData.js";
+import HubAnswer, { HubFaq } from "../components/HubAnswer.jsx";
+import { hubJsonLd, todayIso } from "../../lib/hubSeo.js";
 
 // Static: the data is data/curated-offers.json inside the deployment, which only
 // changes when a deploy ships a new offers refresh, so a per-request render gave
@@ -109,8 +111,18 @@ export default function OffersPage() {
     ],
   };
 
+  const updated = (updatedAt && String(updatedAt).slice(0, 10)) || todayIso();
+  const areaCount = new Set(spotsList.map((x) => x.area).filter(Boolean)).size;
+  const faqs = [
+    { q: "Which app gives better restaurant offers in Hyderabad, Swiggy Dineout or District?", a: "It depends on the restaurant. This page puts both apps' current deals side by side for each spot, so you can pick the bigger saving before you book." },
+    { q: "Do bank card offers stack with restaurant deals?", a: "Often, yes: many deals list an extra discount for specific bank cards. Check the card line under each offer and the bill minimum." },
+    { q: "How often are the deals updated?", a: `They are fetched from Swiggy Dineout and District regularly; this list was last updated ${updated}. Offers change often, so confirm in the app before you pay.` },
+  ];
+  const hubLd = hubJsonLd({ name: TITLE, description: DESCRIPTION, path: SLUG, updated, faqs });
+
   return (
     <div style={{ paddingBottom: 84 }}>
+      {hubLd.map((x, i) => <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(x) }} />)}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
       <SiteChrome
@@ -124,7 +136,13 @@ export default function OffersPage() {
           { href: "/areas", label: "Food by area" },
         ]}
       >
+        <HubAnswer
+          answer={`${spotsList.length} Hyderabad restaurants have live dining deals right now${areaCount ? ` across ${areaCount} areas` : ""}, with Swiggy Dineout and District offers side by side so you can see which app saves more before you book.`}
+          stats={[{ value: spotsList.length, label: "spots with deals" }, { value: areaCount || "All", label: "areas" }, { value: 2, label: "apps compared" }]}
+          updated={updated}
+        />
         <OffersClient spotsList={spotsList} updatedAt={updatedAt} />
+        <HubFaq faqs={faqs} />
       </SiteChrome>
       <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
         <BottomNav routed activeKey="deals" />
