@@ -60,6 +60,9 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   const [urlDish, setUrlDish] = useState(null);
   const dishSlug = initialDishSlug || urlDish || null;
   const [tab, setTab] = useState(initialTab);
+  // One prebuilt HTML serves every ?tab=, so the first render can't know the
+  // tab; stay blank for that frame instead of flashing the map's clouds.
+  const [tabReady, setTabReady] = useState(false);
   const [raceView, setRaceView] = useState(initialRaceView); // which sub-tab the Race panel opens on
   const [activeCategory, setActiveCategory] = useState("all");
 
@@ -158,6 +161,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
       if (curatedEnabled) setRecommendationDish(d);
     }
     if (curatedEnabled && p.get("mode") === "all") setRecommendedOnly(false);
+    setTabReady(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [recommendationData, setRecommendationData] = useState(null);
@@ -784,7 +788,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   }, [tab, visitedCount, savedCount]);
 
   return (
-    <div className="app-shell" style={{ position: "fixed", inset: 0, paddingTop: "env(safe-area-inset-top, 0px)", display: "flex", flexDirection: "column", background: "var(--cream)", overflow: "hidden" }}>
+    <div className="app-shell" data-ready={tabReady ? "1" : "0"} style={{ position: "fixed", inset: 0, paddingTop: "env(safe-area-inset-top, 0px)", display: "flex", flexDirection: "column", background: "var(--cream)", overflow: "hidden" }}>
       {/* The map UI has no visible page heading; give crawlers and screen readers one H1. */}
       <h1 style={{ position: "absolute", width: 1, height: 1, margin: -1, padding: 0, overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap", border: 0 }}>
         Hyderabad food map and community rankings
@@ -874,7 +878,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
               style={{
                 position: "absolute", inset: 0,
                 background:
-                  "radial-gradient(ellipse at 30% 20%, var(--violet-wash), transparent 55%), var(--cream)",
+                  "var(--cream)", // the clouds' own sky sits on top
               }}
             >
               <Clouds />

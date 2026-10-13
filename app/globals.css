@@ -9,7 +9,8 @@
   --cream: #f4f2ee;      /* page */
   --cream-hi: #ffffff;   /* cards, sheets, nav */
   --butter: #faf0ce;
-  --paper: #e7e3da;      /* wells, skeletons */
+  --paper: #e7e3da;      /* wells */
+  --sk: #e0d9cc;         /* skeleton blocks: a step deeper than --paper so they read on cream */
   --ink: #141414;
   --ink-soft: #4a4a4a;
   --muted: #6b6b6b;
@@ -230,7 +231,7 @@ button { font-family: inherit; }
   display: block;
   position: relative;
   overflow: hidden;
-  background: var(--paper);
+  background: var(--sk);
   border-radius: var(--r-xs);
   opacity: 0;
   animation: sk-in var(--dur-2) var(--ease-out) 150ms forwards;
@@ -841,7 +842,7 @@ button { font-family: inherit; }
 .map-clouds { position: absolute; inset: 0; z-index: 950; pointer-events: none; overflow: hidden; }
 .map-clouds::before {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(180deg, var(--violet-wash) 0%, #f4f0fc 55%, var(--map-ground) 100%);
+  background: linear-gradient(180deg, var(--violet-wash) 0%, #f2eef8 50%, var(--cream) 100%); /* ends on the app's own cream */
   transition: opacity 600ms ease 120ms;
 }
 .map-cloud {
@@ -1259,3 +1260,6 @@ button { font-family: inherit; }
 .ask-entry--q { margin-bottom: var(--s2); background: var(--violet-wash); color: var(--violet-deep); }
 .ask-entry-badge { flex-shrink: 0; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--violet); color: #fff; font-weight: 800; font-size: 13px; }
 @media (prefers-reduced-motion: reduce) { .ask-sheet, .ask-sheet.is-open { transition: none; } }
+
+/* First frame of the app, before it knows which tab the URL asked for. */
+.app-shell[data-ready="0"] > * { visibility: hidden; }
