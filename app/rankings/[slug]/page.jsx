@@ -271,7 +271,7 @@ export default async function RankingPage({ params }) {
             <img className="ticket-photo" src={photoOf(leader.spotId)} alt="" width={72} height={72} />
           )}
           <span className="ticket-body">
-            <span className="ticket-kicker">#1 · {isCrowned ? "Winner" : "Leading"}</span>
+            <span className="ticket-kicker"><span className="ring">#1</span> · {isCrowned ? "Winner" : "Leading"}</span>
             <span className="ticket-name">{leader.name}</span>
             <span className="ticket-line">{leader.count} of {totalVotes} votes · {leadLine}</span>
           </span>

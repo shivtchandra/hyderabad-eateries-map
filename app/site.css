@@ -1486,9 +1486,15 @@ a.of-card-name:hover { text-decoration: underline; }
 /* Food safety: same small caps, no yellow (warnings are not celebrations). */
 .fs-eyebrow { display: inline; min-height: 0; padding: 0; border-radius: 0; background: none; color: var(--ink); font-size: 12px; letter-spacing: 0.1em; }
 
-/* ---- More of the yellow marker: section headings get it under their words ---- */
-.site-section-title, .rk-title, .guide-quick-title, .guide-faq-title, .sp-says h2, .spot-ranks h2, .spot-nearby h2, .sp-offers h2, .hub-faq h2 {
-  text-decoration: underline; text-decoration-color: var(--yellow); text-decoration-thickness: 0.3em;
-  text-underline-offset: -0.12em; text-decoration-skip-ink: none;
-}
-.fs-faq h2, .fs-record h2 { text-decoration: none; }
+
+
+
+/* ---- Yellow accents, each with its own job (not one underline everywhere) ----
+   1. Marker sweep: .hl and highlighted labels roll in left to right as they
+      come into view (scroll-driven where supported, else once on load).
+   2. .ring: a hand-drawn yellow circle around a number ("#1").
+   3. Tilted tag: "Must order" on guide cards, a slapped-on yellow sticker.
+   4. Wavy yellow underline on inline links, on hover only. */
+.sw-order mark.hl { display: inline-block; margin-right: 4px; padding: 1px 8px; border-radius: 6px; background: var(--yellow); transform: rotate(-2.5deg); animation: none; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; box-shadow: 0 2px 0 rgba(20, 20, 20, 0.12); }
+
+.site-body a:not([class]):hover { text-decoration: underline wavy var(--yellow); text-decoration-thickness: 2px; text-underline-offset: 4px; }
