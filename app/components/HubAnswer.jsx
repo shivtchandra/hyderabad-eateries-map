@@ -1,11 +1,11 @@
-// Answer-first box at the top of a Guides hub: one plain sentence a person or
-// an AI answer can lift as-is, the real numbers behind it, and when it was
-// last updated. Server component.
+// The proof under a hub's answer-first subtitle (the subtitle is the quotable
+// sentence): the real numbers as a small chip row, and when it was updated.
+// `answer` is optional, for pages without a subtitle. Server component.
 export default function HubAnswer({ answer, stats = [], updated = null }) {
   const when = updated ? new Date(`${updated}T12:00:00`).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : null;
   return (
     <section className="hub-answer" aria-label="In short">
-      <p className="hub-answer-text">{answer}</p>
+      {answer && <p className="hub-answer-text">{answer}</p>}
       {stats.length > 0 && (
         <ul className="hub-stats">
           {stats.map((s) => (

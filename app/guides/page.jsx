@@ -94,10 +94,9 @@ export default function GuidesPage() {
         active="/guides"
         breadcrumb={[{ href: "/", label: "Home" }, { href: "/guides", label: "Guides" }]}
         title="Guides"
-        description="Rankings, dish guides and areas, picked by locals."
+        description={`Where locals eat in Hyderabad: weekly rankings voted by locals, dish guides, ${areas.length}+ neighbourhood guides, deals, food safety records and old-city stories.`}
       >
         <HubAnswer
-          answer={`Hyderabad Eats guides cover where locals eat across Hyderabad: weekly rankings voted by locals, dish guides, ${areas.length}+ neighbourhood guides, dining deals, food safety records and stories of old Hyderabad spots.`}
           stats={[{ value: rankings.length, label: "dish rankings" }, { value: areas.length, label: "area guides" }, { value: GUIDES.length, label: "dish guides" }]}
           updated={updated}
         />

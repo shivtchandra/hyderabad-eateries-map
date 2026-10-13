@@ -71,7 +71,7 @@ export default async function RankingsHubPage() {
       active="/rankings"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/rankings", label: "Rankings" }]}
       title={title}
-      description={description}
+      description={`Hyderabad Eats ranks the city's food by weekly votes from locals: ${themes.length} rankings and ${allVotes.toLocaleString("en-IN")} votes so far.${crowned.length ? ` Current #1s: ${crowned.map((t) => `${t.title.replace(/\s+in\s+hyderabad$/i, "")}, ${t.winnerName}`).join("; ")}.` : ""}`}
       related={[
         { href: "/rankings/how-it-works", label: "How rankings work" },
         { href: "/rankings/best-biryani-in-hyderabad", label: "Best biryani" },
@@ -83,7 +83,6 @@ export default async function RankingsHubPage() {
       ]}
     >
       <HubAnswer
-        answer={`Hyderabad Eats ranks the city's food by weekly votes from locals: ${themes.length} rankings and ${allVotes.toLocaleString("en-IN")} votes so far.${crowned.length ? ` Current #1s: ${crowned.map((t) => `${t.title.replace(/\s+in\s+hyderabad$/i, "")}, ${t.winnerName}`).join("; ")}.` : ""}`}
         stats={[{ value: themes.length, label: "rankings" }, { value: allVotes.toLocaleString("en-IN"), label: "local votes" }, { value: live.length, label: live.length === 1 ? "live vote" : "live votes" }]}
         updated={updated}
       />

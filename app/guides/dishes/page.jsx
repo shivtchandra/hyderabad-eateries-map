@@ -41,10 +41,9 @@ export default function DishGuidesPage() {
         backFallback="/guides"
         breadcrumb={[{ href: "/", label: "Home" }, { href: "/guides", label: "Guides" }, { href: path, label: "Dish guides" }]}
         title="Dish guides"
-        description="What to eat in Hyderabad, dish by dish, and where locals go for it."
+        description={`To eat like a local in Hyderabad, start with dum biryani, haleem, Irani chai and a ghee dosa breakfast. These ${GUIDES.length} guides and ${rankings.length} dish rankings show where Hyderabad locals go for each, from r/hyderabad threads and weekly community votes.`}
       >
         <HubAnswer
-          answer={`To eat like a local in Hyderabad, start with dum biryani, haleem, Irani chai and a ghee dosa breakfast. These ${GUIDES.length} guides and ${rankings.length} dish rankings show where Hyderabad locals go for each, from r/hyderabad threads and weekly community votes.`}
           stats={[{ value: GUIDES.length, label: "dish guides" }, { value: rankings.length, label: "dish rankings" }, { value: "Weekly", label: "local votes" }]}
           updated={updated}
         />

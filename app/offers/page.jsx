@@ -129,7 +129,7 @@ export default function OffersPage() {
         active={SLUG}
         breadcrumb={[{ href: "/", label: "Home" }, { href: SLUG, label: "Dining Deals & Offers" }]}
         title="Hyderabad Dining Deals & Offers"
-        description="Swiggy Dineout and District deals side by side for every restaurant. See which app saves you more before you book."
+        description={`${spotsList.length} Hyderabad restaurants have live dining deals right now${areaCount ? ` across ${areaCount} areas` : ""}, with Swiggy Dineout and District offers side by side so you can see which app saves more before you book.`}
         related={[
           { href: "/stories", label: "Food stories" },
           { href: "/rankings", label: "Weekly rankings" },
@@ -137,7 +137,6 @@ export default function OffersPage() {
         ]}
       >
         <HubAnswer
-          answer={`${spotsList.length} Hyderabad restaurants have live dining deals right now${areaCount ? ` across ${areaCount} areas` : ""}, with Swiggy Dineout and District offers side by side so you can see which app saves more before you book.`}
           stats={[{ value: spotsList.length, label: "spots with deals" }, { value: areaCount || "All", label: "areas" }, { value: 2, label: "apps compared" }]}
           updated={updated}
         />

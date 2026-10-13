@@ -298,7 +298,7 @@ export default function StoriesPage() {
         active="/stories"
         breadcrumb={[{ href: "/", label: "Home" }, { href: "/stories", label: "Stories" }]}
         title={title}
-        description={description}
+        description={`Stories of ${spots.length} Hyderabad food spots, from Old City Irani cafes to decades-old biryani houses: who started them, what regulars order, and where to find them on the map. Plus ${guideCards.length} long-form food guides.`}
         related={[
           { href: "/explore", label: "Explore by category" },
           { href: "/areas", label: "Food by area" },
@@ -306,7 +306,6 @@ export default function StoriesPage() {
         ]}
       >
         <HubAnswer
-          answer={`Stories of ${spots.length} Hyderabad food spots, from Old City Irani cafes to decades-old biryani houses: who started them, what regulars order, and where to find them on the map. Plus ${guideCards.length} long-form food guides.`}
           stats={[{ value: spots.length, label: "spot stories" }, { value: guideCards.length, label: "food guides" }, { value: "Old City", label: "to HITEC" }]}
           updated={updated}
         />
