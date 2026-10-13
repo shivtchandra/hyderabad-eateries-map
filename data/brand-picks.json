@@ -1,0 +1,23 @@
+{
+  "_about": "What to order at a brand, applied to every branch whose name matches `match` (case-insensitive regex). Shown in Must order on spot pages, after the spot's own picks. Added by the team (source: editor).",
+  "brands": [
+    {
+      "brand": "Cream Stone",
+      "match": "cream ?stone",
+      "dishes": [
+        "Willy Wonka",
+        "Make your own: 1 brownie, 1 scoop marble chocolate, 1 scoop chocolate, 4 spoons almonds, topped with chocolate sauce"
+      ]
+    },
+    {
+      "brand": "Organic Creamery",
+      "match": "organic creamery",
+      "dishes": ["DBC (Death by Chocolate)"]
+    },
+    {
+      "brand": "Baskin Robbins",
+      "match": "baskin",
+      "dishes": ["Shooting Star", "Banana Strawberry", "Biscoff", "Blueberry Cheesecake gelato", "Sizzling Brownie"]
+    }
+  ]
+}

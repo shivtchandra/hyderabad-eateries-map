@@ -21,6 +21,7 @@ import { getRedditSpotData } from "../../../lib/redditThreads.js";
 import { getAllRankingsThemes } from "../../../lib/themesServer.js";
 import { slugFromTitle, SEO_THEME_PICKS } from "../../../lib/rankings.js";
 import { getIndexableSpotIds } from "../../../lib/spotContent.js";
+import { dishSeedsFor } from "../../../lib/dishSeeds.js";
 
 const CAT_LABEL = {
   cafe: "Cafe", local: "Local Eats", "restro-bar": "Restro Bar", bakery: "Bakery", "ice-cream": "Ice Cream",
@@ -151,11 +152,8 @@ export default async function SpotPage({ params }) {
     localsPick = rp.spots?.[spot.id] || null;
   } catch {}
 
-  let dishSeeds = null;
-  try {
-    const seeds = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "dish-seeds.json"), "utf-8"));
-    dishSeeds = (seeds[spot.id] || []).map((d) => ({ ...d, up: 0, down: 0 }));
-  } catch {}
+  // Spot's own picks + brand-wide picks (lib/dishSeeds.js).
+  const dishSeeds = dishSeedsFor(spot);
 
   let spotOffers = null;
   try {
