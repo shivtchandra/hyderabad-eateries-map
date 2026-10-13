@@ -127,6 +127,7 @@ export default function OffersPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
       <SiteChrome
         active={SLUG}
+        backFallback="/guides"
         breadcrumb={[{ href: "/", label: "Home" }, { href: SLUG, label: "Dining Deals & Offers" }]}
         title="Hyderabad Dining Deals & Offers"
         description={`${spotsList.length} Hyderabad restaurants have live dining deals right now${areaCount ? ` across ${areaCount} areas` : ""}, with Swiggy Dineout and District offers side by side so you can see which app saves more before you book.`}

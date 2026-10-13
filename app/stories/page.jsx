@@ -296,6 +296,7 @@ export default function StoriesPage() {
       )}
       <SiteChrome
         active="/stories"
+        backFallback="/guides"
         breadcrumb={[{ href: "/", label: "Home" }, { href: "/stories", label: "Stories" }]}
         title={title}
         description={`Stories of ${spots.length} Hyderabad food spots, from Old City Irani cafes to decades-old biryani houses: who started them, what regulars order, and where to find them on the map. Plus ${guideCards.length} long-form food guides.`}

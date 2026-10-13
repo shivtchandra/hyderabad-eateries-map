@@ -45,7 +45,7 @@ export default function AreasHubPage() {
     <div style={{ paddingBottom: 84 }}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
     {ld.map((x, i) => <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(x) }} />)}
-    <SiteChrome active="/areas" breadcrumb={[{ href: "/", label: "Home" }, { href: "/areas", label: "Areas" }]} title={title} description={`Hyderabad Eats maps ${totalSpots.toLocaleString("en-IN")} restaurants, cafes and local spots across ${ordered.length} Hyderabad neighbourhoods. Each area guide can be filtered by kind of place and shows its spots on a map.`}
+    <SiteChrome active="/areas" backFallback="/guides" breadcrumb={[{ href: "/", label: "Home" }, { href: "/areas", label: "Areas" }]} title={title} description={`Hyderabad Eats maps ${totalSpots.toLocaleString("en-IN")} restaurants, cafes and local spots across ${ordered.length} Hyderabad neighbourhoods. Each area guide can be filtered by kind of place and shows its spots on a map.`}
       related={[{ href: "/explore", label: "Explore by category" }, { href: "/rankings", label: "Weekly rankings" }]}
     >
       <HubAnswer

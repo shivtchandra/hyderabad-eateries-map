@@ -69,6 +69,7 @@ export default async function RankingsHubPage() {
     {ld.map((x, i) => <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(x) }} />)}
     <SiteChrome
       active="/rankings"
+      backFallback="/guides"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/rankings", label: "Rankings" }]}
       title={title}
       description={`Hyderabad Eats ranks the city's food by weekly votes from locals: ${themes.length} rankings and ${allVotes.toLocaleString("en-IN")} votes so far.${crowned.length ? ` Current #1s: ${crowned.map((t) => `${t.title.replace(/\s+in\s+hyderabad$/i, "")}, ${t.winnerName}`).join("; ")}.` : ""}`}

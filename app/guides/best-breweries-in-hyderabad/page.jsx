@@ -1,3 +1,4 @@
+import GuideSpotCard from "../../components/GuideSpotCard.jsx";
 import Link from "next/link";
 import { pageMeta } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
@@ -371,10 +372,10 @@ export default function BestBreweriesGuidePage() {
         {/* Byline */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 20, paddingBottom: 16, borderBottom: "1.5px solid var(--line)" }}>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--violet)" }}>
+            <div className="ink-chip">
               Field Guide · Backed by r/hyderabad Community Votes
             </div>
-            <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 3 }}>
+            <div className="guide-updated">
               Updated October 2026 · Microbreweries &amp; craft beer consensus
             </div>
           </div>
@@ -389,249 +390,50 @@ export default function BestBreweriesGuidePage() {
         )}
 
         {/* Quick Picks Summary Card */}
-        <section
-          style={{
-            background: "var(--paper)",
-            border: "1.5px solid var(--line)",
-            borderRadius: 14,
-            padding: "20px 22px",
-            marginBottom: 32,
-            boxShadow: "var(--e1, 0 1px 3px rgba(0,0,0,0.05))",
-          }}
-        >
-          <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: 20, margin: "0 0 14px", color: "var(--ink)" }}>
+        <section className="guide-quick">
+          <h2 className="guide-quick-title">
             Quick Decision Guide: Where to Go
           </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
-            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Steampunk Landmark &amp; Energy</div>
-              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Prost Brewpub</div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Crisp Apple Cider &amp; Pretzels (Jubilee Hills)</div>
+          <div className="guide-quick-grid">
+            <div className="guide-quick-item">
+              <div className="guide-quick-k">Steampunk Landmark &amp; Energy</div>
+              <div className="guide-quick-name">Prost Brewpub</div>
+              <div className="guide-quick-note">Crisp Apple Cider &amp; Pretzels (Jubilee Hills)</div>
             </div>
-            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Craft Beer Purist</div>
-              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Zero40 Brewing</div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Belgian Wit &amp; Cherry Beer-Rita (JH &amp; Fin Dist)</div>
+            <div className="guide-quick-item">
+              <div className="guide-quick-k">Craft Beer Purist</div>
+              <div className="guide-quick-name">Zero40 Brewing</div>
+              <div className="guide-quick-note">Belgian Wit &amp; Cherry Beer-Rita (JH &amp; Fin Dist)</div>
             </div>
-            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Match Screenings &amp; Pizza</div>
-              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Broadway The Brewery</div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Huge glasshouse &amp; Wood-fired pizza (Jubilee Hills)</div>
+            <div className="guide-quick-item">
+              <div className="guide-quick-k">Match Screenings &amp; Pizza</div>
+              <div className="guide-quick-name">Broadway The Brewery</div>
+              <div className="guide-quick-note">Huge glasshouse &amp; Wood-fired pizza (Jubilee Hills)</div>
             </div>
-            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Quiet Date Night &amp; Jazz</div>
-              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Windmills Craftworks</div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Library atmosphere &amp; German Hefeweizen (Madhapur)</div>
+            <div className="guide-quick-item">
+              <div className="guide-quick-k">Quiet Date Night &amp; Jazz</div>
+              <div className="guide-quick-name">Windmills Craftworks</div>
+              <div className="guide-quick-note">Library atmosphere &amp; German Hefeweizen (Madhapur)</div>
             </div>
           </div>
         </section>
 
         {/* Spot Deep Dives */}
-        <section style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+        <section className="guide-cards">
           {SPOTS.map((s, idx) => (
-            <article
-              key={s.id}
-              style={{
-                background: "var(--paper)",
-                border: "1.5px solid var(--line)",
-                borderRadius: 14,
-                padding: "22px 24px",
-                boxShadow: "var(--e1, 0 1px 3px rgba(0,0,0,0.05))",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 12 }}>
-                <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                    <span style={{ fontSize: 12, fontWeight: 800, color: "var(--muted)" }}>#{idx + 1}</span>
-                    <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: "clamp(20px, 3.5vw, 24px)", margin: 0, color: "var(--ink)" }}>
-                      {s.name}
-                    </h2>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--muted)", marginTop: 4, flexWrap: "wrap" }}>
-                    <span><Icon name="locate" size={12} width={2} color="var(--muted)" /> {s.area}</span>
-                    <span>•</span>
-                    <span style={{ fontWeight: 700, color: "var(--ink)" }}>★ {s.rating}</span>
-                    <span>({s.reviews})</span>
-                    <span>•</span>
-                    <span>{s.priceForTwo}</span>
-                  </div>
-                  {s.redditBadge && (
-                    <div style={{ marginTop: 6 }}>
-                      <span
-                        style={{
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 5,
-                          fontSize: 11.5,
-                          fontWeight: 700,
-                          color: "#c2410c",
-                          background: "rgba(255, 69, 0, 0.08)",
-                          border: "1px solid rgba(255, 69, 0, 0.2)",
-                          borderRadius: 999,
-                          padding: "2px 9px",
-                        }}
-                      >
-                        {s.redditBadge}
-                      </span>
-                    </div>
-                  )}
-                </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 700,
-                      letterSpacing: "0.03em",
-                      textTransform: "uppercase",
-                      padding: "4px 10px",
-                      borderRadius: 999,
-                      background: s.tagBg || "var(--cream)",
-                      color: s.tagColor || "var(--ink)",
-                    }}
-                  >
-                    {s.tag}
-                  </span>
-                  <Link
-                    href={s.href}
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 700,
-                      color: "var(--violet)",
-                      textDecoration: "none",
-                      padding: "4px 10px",
-                      borderRadius: 999,
-                      background: "var(--violet-wash)",
-                    }}
-                  >
-                    View on map →
-                  </Link>
-                </div>
-              </div>
-
-              {s.photo && (
-                <div style={{ margin: "14px 0", borderRadius: 12, overflow: "hidden", maxHeight: 320, background: "var(--cream)" }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={s.photo}
-                    alt={s.name}
-                    style={{ width: "100%", height: "100%", maxHeight: 320, objectFit: "cover", display: "block" }}
-                    loading="lazy"
-                  />
-                </div>
-              )}
-
-              <p style={{ margin: "0 0 14px", fontSize: 14.5, lineHeight: 1.5, color: "var(--ink)" }}>
-                {s.verdict}
-              </p>
-
-              <div
-                style={{
-                  background: "var(--cream)",
-                  border: "1.5px solid var(--line)",
-                  borderRadius: 12,
-                  padding: "14px 16px",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 10,
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
-                  <span
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 800,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.06em",
-                      color: "var(--violet)",
-                      minWidth: 84,
-                      flexShrink: 0,
-                    }}
-                  >
-                    On Tap
-                  </span>
-                  <span style={{ fontSize: 13.5, fontWeight: 600, color: "var(--ink)", lineHeight: 1.45 }}>
-                    {s.craftBeers}
-                  </span>
-                </div>
-
-                <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap", borderTop: "1px dashed var(--line)", paddingTop: 8 }}>
-                  <span
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 800,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.06em",
-                      color: "#c2410c",
-                      minWidth: 84,
-                      flexShrink: 0,
-                    }}
-                  >
-                    Must-Eat
-                  </span>
-                  <span style={{ fontSize: 13.5, fontWeight: 700, color: "var(--ink)", lineHeight: 1.45 }}>
-                    {s.whatToOrder}
-                  </span>
-                </div>
-
-                {s.vibeTip && (
-                  <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap", borderTop: "1px dashed var(--line)", paddingTop: 8 }}>
-                    <span
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 800,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.06em",
-                        color: "var(--muted)",
-                        minWidth: 84,
-                        flexShrink: 0,
-                      }}
-                    >
-                      Pro-Tip
-                    </span>
-                    <span style={{ fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.45 }}>
-                      {s.vibeTip}
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              <Link
-                href={s.href}
-                className="site-cta"
-                style={{
-                  margin: "14px 0 0",
-                  width: "100%",
-                  textAlign: "center",
-                  display: "block",
-                  padding: "10px 16px",
-                  fontSize: 13,
-                  textDecoration: "none",
-                  boxSizing: "border-box",
-                }}
-              >
-                View on Map &amp; Menu →
-              </Link>
-            </article>
+            <GuideSpotCard key={s.id} s={s} rank={idx + 1} rows={[["Craft beers", s.craftBeers], ["Must order", s.whatToOrder], ["Pro tip", s.vibeTip]]} cta={"View on map and menu"} />
           ))}
         </section>
 
         {/* FAQs */}
-        <section style={{ marginTop: 40, borderTop: "1.5px solid var(--line)", paddingTop: 28 }}>
-          <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: 22, color: "var(--ink)", marginBottom: 16 }}>
+        <section className="guide-faq">
+          <h2 className="guide-faq-title">
             Frequently Asked Questions: Hyderabad Breweries
           </h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {faqLd.mainEntity.map((faq, i) => (
-              <details
-                key={i}
-                style={{
-                  background: "var(--paper)",
-                  border: "1.5px solid var(--line)",
-                  borderRadius: 10,
-                  padding: "14px 18px",
-                }}
-              >
-                <summary style={{ fontWeight: 700, fontSize: 15, cursor: "pointer", color: "var(--ink)" }}>
+              <details key={i}>
+                <summary>
                   {faq.name}
                 </summary>
                 <p style={{ margin: "10px 0 0", fontSize: 14, color: "var(--muted)", lineHeight: 1.55 }}>

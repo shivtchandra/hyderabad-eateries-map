@@ -481,3 +481,20 @@ against it so all stickers match.
 | area-kompally.png | a roadside food court by a lake |
 | area-himayatnagar.png | a busy market street corner with a tea stall and shop awnings |
 | area-madhapur-hitec.png | the Cyber Towers dome building of HITEC City |
+
+## 9. Page template (colour v3), Oct 2026
+
+Pages, ranked by how often people land on them, and what each uses:
+
+1. **Spot pages**: ticket (`.sp-ticket`, yellow for #1), stat tiles (1st yellow, 2nd ink), facts list, map, sticky action bar.
+2. **Long-form guides** (`/guides/best-*`): `GuideSpotCard` (#1 yellow rank tile + yellow ring, others ink tiles with yellow numbers; tag as `.ink-chip`; "Must order" highlighted; quote on ink with a yellow quote mark; `.link-chip` to the map). Byline: ink chip + link chip. Quick picks: 1st tile yellow, 2nd ink, rest white.
+3. **Ranking pages**: question headline with `.hl`, yellow `.ticket` for #1, numbered photo rows, ballot grid apart.
+4. **Area pages**: ink chip for the selected filter, yellow vote badges.
+5. **Food safety**: ink only (tracker label, drive dates, headline stat). No yellow anywhere: warnings are not celebrations.
+6. **Stories**: white featured card, ink `FEATURED` chip with yellow text, highlighted "Order the …".
+7. **Hubs** (Guides, Rankings, Areas, Deals): answer-first subtitle, stat chips (yellow, ink, violet).
+
+Shared rules:
+- Every page below a tab has the round back button (`backFallback`).
+- No underlined links: inline links are bold violet, standalone ones `.link-chip`.
+- Cards are white on cream, never the grey `--paper` well.

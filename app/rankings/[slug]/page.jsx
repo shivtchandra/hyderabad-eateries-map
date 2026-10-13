@@ -258,6 +258,7 @@ export default async function RankingPage({ params }) {
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
     <SiteChrome
       active="/rankings"
+      backFallback="/rankings"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/rankings", label: "Rankings" }, { href: `/rankings/${params.slug}`, label: data.title }]}
       title={data.title}
       hero={hero}

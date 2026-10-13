@@ -1336,3 +1336,73 @@ a.of-card-name:hover { text-decoration: underline; }
 .link-chip:focus-visible, .sp-where-row a:focus-visible, .fs-record-row a:focus-visible, .locals-pick li a:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
 .locals-pick li a { background: #fff; }
 .sp-facts dd a { font-weight: 700; }
+
+/* ---- Long-form guides: shared spot card (GuideSpotCard.jsx), yellow/black template ---- */
+.gsc { display: flex; flex-direction: column; gap: var(--s3); padding: var(--s5); border-radius: var(--r-card); background: var(--cream-hi); color: var(--ink); }
+.gsc--first { box-shadow: inset 0 0 0 3px var(--yellow); }
+.gsc-head { display: flex; align-items: center; gap: var(--s3); }
+.gsc-rank { flex-shrink: 0; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 14px; background: var(--ink); color: var(--yellow); font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -0.02em; }
+.gsc--first .gsc-rank { background: var(--yellow); color: var(--ink); }
+.gsc-title { min-width: 0; }
+.gsc-title h2 { margin: 0; font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: clamp(22px, 5vw, 26px); line-height: 1.05; letter-spacing: -0.03em; }
+.gsc-area { margin: 4px 0 0; font-size: 13.5px; color: var(--ink-soft); }
+.gsc-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.gsc-badge { display: inline-flex; align-items: center; min-height: 24px; padding: 0 10px; border-radius: var(--r-pill); background: var(--yellow); color: var(--ink); font-size: 11px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
+.gsc-photo { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 18px; background: var(--paper); }
+.gsc-verdict { margin: 0; font-size: 15.5px; line-height: 1.6; color: var(--ink); }
+.gsc-rows { margin: 0; padding: var(--s3) var(--s4); border-radius: 18px; background: var(--cream); }
+.gsc-rows > div { padding: 8px 0; border-top: 1px solid var(--line); }
+.gsc-rows > div:first-child { border-top: 0; }
+.gsc-rows dt { font-size: 12px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); }
+.gsc-rows dd { margin: 3px 0 0; font-size: 14.5px; line-height: 1.5; color: var(--ink-soft); }
+.gsc-quote { position: relative; margin: 0; padding: var(--s3) var(--s4) var(--s3) 44px; border-radius: 18px; background: var(--ink); color: #f4f2ee; font-size: 14.5px; line-height: 1.5; }
+.gsc-quote::before { content: "“"; position: absolute; left: 14px; top: 2px; font-family: var(--font-display), system-ui, sans-serif; font-size: 40px; line-height: 1; color: var(--yellow); }
+.gsc-cta { align-self: flex-start; }
+.guide-cards { display: flex; flex-direction: column; gap: var(--s4); }
+/* Guide page parts: byline, quick picks (first tile yellow, second ink), FAQ */
+.guide-byline { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); flex-wrap: wrap; margin: 0 0 var(--s6); }
+.guide-byline > div { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.guide-updated { font-size: 12.5px; color: var(--muted); }
+.guide-quick { margin: 0 0 var(--s7); }
+.guide-quick-title { margin: 0 0 var(--s3); font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 26px; letter-spacing: -0.03em; }
+.guide-quick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--s2); }
+.guide-quick-item { padding: var(--s4); border-radius: 20px; background: var(--cream-hi); }
+.guide-quick-item:nth-child(1) { background: var(--yellow); }
+.guide-quick-item:nth-child(2) { background: var(--ink); color: #f4f2ee; }
+.guide-quick-k { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--violet-deep); }
+.guide-quick-item:nth-child(1) .guide-quick-k { color: var(--ink); }
+.guide-quick-item:nth-child(2) .guide-quick-k { color: var(--yellow); }
+.guide-quick-name { margin-top: 4px; font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 18px; line-height: 1.15; letter-spacing: -0.02em; }
+.guide-quick-note { margin-top: 3px; font-size: 13px; color: var(--ink-soft); }
+.guide-quick-item:nth-child(2) .guide-quick-note { color: #d9d6cf; }
+.guide-faq { margin-top: var(--s8); }
+.guide-faq-title { margin: 0 0 var(--s3); font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 26px; letter-spacing: -0.03em; }
+.guide-faq details { padding: 14px 0; border-top: 1px solid var(--line); }
+.guide-faq details:last-child { border-bottom: 1px solid var(--line); }
+.guide-faq summary { cursor: pointer; font-weight: 700; font-size: 16px; color: var(--ink); }
+
+/* ---- Colour v3 pass on the remaining pages (yellow celebrates, ink is its
+   partner; food safety uses ink only, never yellow) ---- */
+/* Spot pages: first stat tile yellow, second ink */
+.sp-stat:nth-child(1) { background: var(--yellow); border-color: var(--yellow); }
+.sp-stat:nth-child(1) span { color: var(--ink); }
+.sp-stat:nth-child(2) { background: var(--ink); border-color: var(--ink); }
+.sp-stat:nth-child(2) b { color: var(--yellow); }
+.sp-stat:nth-child(2) span { color: #d9d6cf; }
+
+/* Food safety: ink for the tracker label, dates and the headline stat */
+.fs-eyebrow { display: inline-flex; align-items: center; min-height: 24px; padding: 0 10px; border-radius: var(--r-pill); background: var(--ink); color: #fff; letter-spacing: 0.08em; }
+.fs-updated { margin-top: 6px; }
+.fs-map-link { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 12px; background: var(--violet-wash); color: var(--violet-deep); }
+.fs-map-link::after { content: "→"; }
+.fs-stats > div:first-child { background: var(--ink); }
+.fs-stats > div:first-child b { color: #fff; }
+.fs-stats > div:first-child span { color: #d9d6cf; }
+.fs-drive-head time { background: var(--ink); color: #fff; }
+.fs-pill--notice, .fs-pill--penalty { background: #ece7df; color: #57534e; }
+
+/* Stories: white featured card, ink FEATURED chip, highlighted order line */
+.stories-feature-link { background: var(--cream-hi); }
+.stories-eyebrow { display: inline-flex; align-items: center; align-self: flex-start; min-height: 24px; padding: 0 10px; border-radius: var(--r-pill); background: var(--ink); color: var(--yellow); }
+.stories-order { align-self: flex-start; color: var(--ink); background: linear-gradient(transparent 55%, var(--yellow) 55%, var(--yellow) 92%, transparent 92%); padding: 0 2px; }
+.stories-cta { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 12px; border-radius: var(--r-pill); background: var(--violet); color: #fff; }

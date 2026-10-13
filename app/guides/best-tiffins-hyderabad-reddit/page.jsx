@@ -1,3 +1,4 @@
+import GuideSpotCard from "../../components/GuideSpotCard.jsx";
 import Link from "next/link";
 import { recommendationsEnabled } from "../../../lib/recommendationShared.js";
 import { pageMeta } from "../../../lib/site.js";
@@ -221,173 +222,70 @@ export default function BestTiffinsGuidePage() {
 
       <main className="site-body">
         {/* Byline */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 24, paddingBottom: 16, borderBottom: "1.5px solid var(--line)" }}>
+        <div className="guide-byline">
           <div>
-            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--violet)" }}>
+            <div className="ink-chip">
               Editorial Field Guide · 2026 Local Consensus
             </div>
-            <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 3 }}>
+            <div className="guide-updated">
               Updated September 2026 · Based on authentic community reviews &amp; food visits
             </div>
           </div>
-          <Link href="/" style={{ flexShrink: 0, fontSize: 13, fontWeight: 800, color: "var(--violet)", textDecoration: "none", padding: "8px 14px", borderRadius: 999, background: "var(--violet-wash)" }}>
+          <Link href="/" className="link-chip">
             Open Map
           </Link>
         </div>
 
         {/* Quick Picks Summary Card */}
-        <section
-          style={{
-            background: "var(--paper)",
-            border: "1.5px solid var(--line)",
-            borderRadius: 14,
-            padding: "20px 22px",
-            marginBottom: 32,
-            boxShadow: "var(--e1, 0 1px 3px rgba(0,0,0,0.05))",
-          }}
-        >
-          <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: 20, margin: "0 0 14px", color: "var(--ink)" }}>
+        <section className="guide-quick">
+          <h2 className="guide-quick-title">
             Quick Picks: Where to Eat
           </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
-            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
+          <div className="guide-quick-grid">
+            <div className="guide-quick-item">
               <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "#047857" }}>Best Taste &amp; Pricing</div>
-              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Varalakshmi Tiffins</div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Precise Mysore bondas, pooris &amp; ghee idlis</div>
+              <div className="guide-quick-name">Varalakshmi Tiffins</div>
+              <div className="guide-quick-note">Precise Mysore bondas, pooris &amp; ghee idlis</div>
             </div>
-            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Top Chutney Spread</div>
-              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Ishtaa (HITEC City)</div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Crisp dosas + multi-chutney platter</div>
+            <div className="guide-quick-item">
+              <div className="guide-quick-k">Top Chutney Spread</div>
+              <div className="guide-quick-name">Ishtaa (HITEC City)</div>
+              <div className="guide-quick-note">Crisp dosas + multi-chutney platter</div>
             </div>
-            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Homestyle &amp; Pungaralu</div>
-              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Penam (Jubilee Hills)</div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Village-style dosas &amp; rich chutney</div>
+            <div className="guide-quick-item">
+              <div className="guide-quick-k">Homestyle &amp; Pungaralu</div>
+              <div className="guide-quick-name">Penam (Jubilee Hills)</div>
+              <div className="guide-quick-note">Village-style dosas &amp; rich chutney</div>
             </div>
-            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Spicy Ghee Karam</div>
-              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Panchakattu Dosa</div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Rayalaseema red garlic karam</div>
+            <div className="guide-quick-item">
+              <div className="guide-quick-k">Spicy Ghee Karam</div>
+              <div className="guide-quick-name">Panchakattu Dosa</div>
+              <div className="guide-quick-note">Rayalaseema red garlic karam</div>
             </div>
-            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Degree Filter Coffee</div>
-              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Kanchi Cafe</div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Kumbakonam degree brew (weekdays best)</div>
+            <div className="guide-quick-item">
+              <div className="guide-quick-k">Degree Filter Coffee</div>
+              <div className="guide-quick-name">Kanchi Cafe</div>
+              <div className="guide-quick-note">Kumbakonam degree brew (weekdays best)</div>
             </div>
           </div>
         </section>
 
         {/* Spot Deep Dives */}
-        <section style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+        <section className="guide-cards">
           {SPOTS.map((s, idx) => (
-            <article
-              key={s.id}
-              style={{
-                background: "var(--paper)",
-                border: "1.5px solid var(--line)",
-                borderRadius: 14,
-                padding: "22px 24px",
-                boxShadow: "var(--e1, 0 1px 3px rgba(0,0,0,0.05))",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 12 }}>
-                <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                    <span style={{ fontSize: 12, fontWeight: 800, color: "var(--muted)" }}>#{idx + 1}</span>
-                    <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: "clamp(20px, 3.5vw, 24px)", margin: 0, color: "var(--ink)" }}>
-                      {s.name}
-                    </h2>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 13, color: "var(--muted)", marginTop: 4 }}>
-                    <Icon name="locate" size={12} width={2} color="var(--muted)" /> {s.area}
-                  </div>
-                </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 700,
-                      letterSpacing: "0.03em",
-                      textTransform: "uppercase",
-                      padding: "4px 10px",
-                      borderRadius: 999,
-                      background: "var(--cream)",
-                      border: "1px solid var(--line)",
-                      color: "var(--ink-soft)",
-                    }}
-                  >
-                    {s.tag}
-                  </span>
-                  <Link
-                    href={s.href}
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 700,
-                      color: "var(--violet)",
-                      textDecoration: "none",
-                      padding: "4px 10px",
-                      borderRadius: 999,
-                      background: "var(--violet-wash)",
-                    }}
-                  >
-                    View on map →
-                  </Link>
-                </div>
-              </div>
-
-              <p className="review-prose" style={{ margin: "0 0 16px", fontSize: 15, lineHeight: 1.6, color: "var(--ink-soft, #333)" }}>
-                {s.verdict}
-              </p>
-
-              <div style={{ background: "var(--cream)", border: "1px solid var(--line)", borderRadius: 10, padding: "12px 16px", marginBottom: 14 }}>
-                <div style={{ display: "flex", alignItems: "flex-start", gap: 6, fontSize: 13.5, color: "var(--ink)" }}>
-                  <Icon name="utensils" size={13} width={2} color="var(--ink-soft)" style={{ marginTop: 2, flexShrink: 0 }} />
-                  <span><strong style={{ color: "var(--ink)" }}>Must order:</strong> {s.whatToOrder}</span>
-                </div>
-                <div style={{ display: "flex", alignItems: "flex-start", gap: 6, fontSize: 13, color: "var(--muted)", marginTop: 6 }}>
-                  <Icon name="clock" size={13} width={2} color="var(--muted)" style={{ marginTop: 2, flexShrink: 0 }} />
-                  <span><strong style={{ color: "var(--ink)" }}>Crowd advisory:</strong> {s.timingTip}</span>
-                </div>
-              </div>
-
-              <blockquote
-                style={{
-                  margin: 0,
-                  padding: "10px 14px",
-                  borderRadius: 8,
-                  background: "var(--violet-wash)",
-                  border: "1.5px solid var(--line)",
-                  fontFamily: "var(--font-fraunces), serif",
-                  fontSize: 14,
-                  fontStyle: "italic",
-                  lineHeight: 1.45,
-                  color: "var(--ink)",
-                }}
-              >
-                {s.quote}
-              </blockquote>
-            </article>
+            <GuideSpotCard key={s.id} s={s} rank={idx + 1} rows={[["Must order", s.whatToOrder], ["Crowd advisory", s.timingTip]]} />
           ))}
         </section>
 
         {/* FAQs */}
-        <section style={{ marginTop: 40, borderTop: "1.5px solid var(--line)", paddingTop: 28 }}>
-          <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: 22, color: "var(--ink)", marginBottom: 16 }}>
+        <section className="guide-faq">
+          <h2 className="guide-faq-title">
             Frequently Asked Questions
           </h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {faqLd.mainEntity.map((faq, i) => (
-              <details
-                key={i}
-                style={{
-                  background: "var(--paper)",
-                  border: "1.5px solid var(--line)",
-                  borderRadius: 10,
-                  padding: "14px 18px",
-                }}
-              >
-                <summary style={{ fontWeight: 700, fontSize: 15, cursor: "pointer", color: "var(--ink)" }}>
+              <details key={i}>
+                <summary>
                   {faq.name}
                 </summary>
                 <p style={{ margin: "10px 0 0", fontSize: 14, color: "var(--muted)", lineHeight: 1.55 }}>

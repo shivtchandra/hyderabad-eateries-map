@@ -167,6 +167,7 @@ export default async function AreaPage({ params }) {
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
     <SiteChrome
       active="/areas"
+      backFallback="/areas"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/areas", label: "Areas" }, { href: `/areas/${params.slug}`, label: data.area }]}
       title={pageTitle}
       description={answerLead}
