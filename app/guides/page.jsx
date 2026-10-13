@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import Link from "next/link";
 import SiteChrome from "../components/SiteChrome.jsx";
 import BottomNav from "../components/BottomNav.jsx";
@@ -5,8 +7,7 @@ import { pageMeta } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
 import { recommendationsEnabled } from "../../lib/recommendationShared.js";
 import { SEO_THEME_PICKS, slugFromTitle } from "../../lib/rankings.js";
-import { editorialRanking, hasSpotPhoto, allAreaPages, getAreaBySlug } from "../../lib/siteData.js";
-import { spotPhotoUrl } from "../../lib/photos.js";
+import { allAreaPages, getAreaBySlug } from "../../lib/siteData.js";
 
 // The Guides tab: everything you read before you go, scannable at a glance.
 // Jump chips up top, rankings as a row of photo cards, guides as a row of
@@ -24,38 +25,60 @@ const short = (t = "") => {
   return s.charAt(0) + s.slice(1).toLowerCase();
 };
 
-// One card per ranking, pictured with the first spot on its list that has a
-// photo. The card only promises the board, not a winner.
+// Stickers (isometric die-cut art) live in public/stickers/<key>.png. A card
+// shows its sticker when the file exists, else a bold typographic card, so
+// art can be dropped in later without touching code. See DESIGN.md.
+const STICKER_DIR = path.join(process.cwd(), "public", "stickers");
+function sticker(key) {
+  try { return key && fs.existsSync(path.join(STICKER_DIR, `${key}.png`)) ? `/stickers/${key}.png` : null; } catch { return null; }
+}
+
+// The headline rankings for the row (the rest are one tap away in /rankings).
+const HEADLINE = [
+  { slug: "best-biryani-in-hyderabad", word: "Biryani", key: "biryani" },
+  { slug: "best-haleem-in-hyderabad", word: "Haleem", key: "haleem" },
+  { slug: "best-irani-cafe-in-hyderabad", word: "Irani chai", key: "irani-chai" },
+  { slug: "best-dosa-in-hyderabad", word: "Dosa", key: "dosa" },
+  { slug: "best-mandi-in-hyderabad", word: "Mandi", key: "mandi" },
+  { slug: "best-shawarma-in-hyderabad", word: "Shawarma", key: "shawarma" },
+  { slug: "best-cafe-in-hyderabad", word: "Cafes", key: "coffee" },
+  { slug: "best-bakery-in-hyderabad", word: "Bakery", key: "bakery" },
+  { slug: "best-ice-cream-in-hyderabad", word: "Ice cream", key: "ice-cream" },
+  { slug: "best-brewery-in-hyderabad", word: "Breweries", key: "beer" },
+  { slug: "best-street-food-in-hyderabad", word: "Street food", key: "street-food" },
+  { slug: "best-fine-dining-in-hyderabad", word: "Fine dining", key: "fine-dining" },
+];
+const TONES = ["violet", "yellow", "ink"];
+
 function rankingCards() {
-  return SEO_THEME_PICKS.map((pick) => {
-    const slug = slugFromTitle(pick.title);
-    let photo = null;
-    try {
-      const top = editorialRanking(pick, slug, 8).find((e) => hasSpotPhoto(e.id));
-      if (top) photo = spotPhotoUrl(top.id);
-    } catch {}
-    return { slug, label: short(pick.title), photo };
-  });
+  const known = new Set(SEO_THEME_PICKS.map((p) => slugFromTitle(p.title)));
+  return HEADLINE.filter((h) => known.has(h.slug)).map((h, i) => ({
+    ...h,
+    label: short(SEO_THEME_PICKS.find((p) => slugFromTitle(p.title) === h.slug).title),
+    art: sticker(h.key),
+    tone: TONES[i % TONES.length],
+  }));
 }
 
 const GUIDES = [
-  ...(recommendationsEnabled() ? [{ href: "/picks", label: "Best food, dish by dish", note: "What r/hyderabad actually recommends" }] : []),
-  { href: "/guides/best-tiffins-hyderabad-reddit", label: "Tiffins and ghee dosas", note: "Breakfast spots locals swear by" },
-  { href: "/guides/late-night-food-hyderabad-reddit", label: "Late night food", note: "Open after midnight" },
-  { href: "/guides/best-ice-cream-desserts-hyderabad", label: "Ice cream and desserts", note: "Scoops, kulfi, falooda" },
-  { href: "/guides/best-breweries-in-hyderabad", label: "Breweries", note: "Craft beer, ranked" },
-  { href: "/guides/best-biryani-hyderabad-reddit", label: "Biryani, as Reddit picks it", note: "The threads, counted" },
-  { href: "/guides/best-cafes-hyderabad-reddit", label: "Cafes, as Reddit picks it", note: "Work, coffee, dates" },
-  { href: "/guides/restaurants-in-sattva-knowledge-city-hyderabad", label: "Around Sattva Knowledge City", note: "Office lunch, sorted" },
+  ...(recommendationsEnabled() ? [{ href: "/picks", label: "Best food, dish by dish", note: "What r/hyderabad actually recommends", key: "thali" }] : []),
+  { href: "/guides/best-tiffins-hyderabad-reddit", label: "Tiffins and ghee dosas", note: "Breakfast spots locals swear by", key: "breakfast" },
+  { href: "/guides/late-night-food-hyderabad-reddit", label: "Late night food", note: "Open after midnight", key: "late-night" },
+  { href: "/guides/best-ice-cream-desserts-hyderabad", label: "Ice cream and desserts", note: "Scoops, kulfi, falooda", key: "ice-cream" },
+  { href: "/guides/best-breweries-in-hyderabad", label: "Breweries", note: "Craft beer, ranked", key: "beer" },
+  { href: "/guides/best-biryani-hyderabad-reddit", label: "Biryani, as Reddit picks it", note: "The threads, counted", key: "biryani" },
+  { href: "/guides/best-cafes-hyderabad-reddit", label: "Cafes, as Reddit picks it", note: "Work, coffee, dates", key: "coffee" },
+  { href: "/guides/restaurants-in-sattva-knowledge-city-hyderabad", label: "Around Sattva Knowledge City", note: "Office lunch, sorted", key: "lunchbox" },
 ];
 
+// The top of Guides: six colour tiles that are both the menu and the art.
 const JUMP = [
-  { href: "#rankings", label: "Rankings" },
-  { href: "#dish-guides", label: "Dish guides" },
-  { href: "#areas", label: "Areas" },
-  { href: "/offers", label: "Deals" },
-  { href: "/food-safety", label: "Food safety" },
-  { href: "/stories", label: "Stories" },
+  { href: "#rankings", label: "Rankings", note: "Voted by locals", tone: "violet", key: "trophy" },
+  { href: "#dish-guides", label: "Dish guides", note: "What to order", tone: "yellow", key: "thali" },
+  { href: "#areas", label: "Areas", note: "Eat by neighbourhood", tone: "ink", key: "map-pin" },
+  { href: "/offers", label: "Deals", note: "Offers today", tone: "wash", key: "deals" },
+  { href: "/food-safety", label: "Food safety", note: "Inspection records", tone: "white", key: "food-safety" },
+  { href: "/stories", label: "Stories", note: "Old Hyderabad spots", tone: "yellow", key: "stories" },
 ];
 
 function Arrow() {
@@ -81,11 +104,18 @@ export default function GuidesPage() {
         active="/guides"
         breadcrumb={[{ href: "/", label: "Home" }, { href: "/guides", label: "Guides" }]}
         title="Guides"
-        description="Read before you go."
+        description="Rankings, dish guides and areas, picked by locals."
       >
-        <nav className="guides-jump" aria-label="Jump to">
+        <nav className="guides-jump-grid" aria-label="Guides sections">
           {JUMP.map((j) => (
-            <a key={j.href} href={j.href}>{j.label}</a>
+            <a key={j.href} href={j.href} className={`guides-jump-tile guides-jump-tile--${j.tone}`}>
+              {sticker(j.key) && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="guides-jump-art" src={sticker(j.key)} alt="" loading="lazy" />
+              )}
+              <span className="guides-jump-label">{j.label}</span>
+              <span className="guides-jump-note">{j.note}</span>
+            </a>
           ))}
         </nav>
 
@@ -97,11 +127,13 @@ export default function GuidesPage() {
           <div className="guides-rail">
             {rankings.map((r) => (
               <Link key={r.slug} href={`/rankings/${r.slug}`} className="guides-photo-card">
-                <span className="guides-photo">
-                  {r.photo ? (
+                <span className={`guides-art guides-art--${r.tone}`}>
+                  {r.art ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={r.photo} alt="" loading="lazy" />
-                  ) : null}
+                    <img src={r.art} alt="" loading="lazy" />
+                  ) : (
+                    <span className="guides-art-word" aria-hidden="true">{r.word}</span>
+                  )}
                 </span>
                 <span className="guides-photo-label">{r.label}</span>
                 <span className="guides-photo-note">See the board and vote</span>
@@ -115,6 +147,10 @@ export default function GuidesPage() {
           <div className="guides-rail">
             {GUIDES.map((g) => (
               <Link key={g.href} href={g.href} className="guides-text-card">
+                {sticker(g.key) && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img className="guides-text-art" src={sticker(g.key)} alt="" loading="lazy" />
+                )}
                 <span className="guides-text-label">{g.label}</span>
                 <span className="guides-text-note">{g.note}</span>
                 <Arrow />
@@ -131,6 +167,10 @@ export default function GuidesPage() {
           <div className="guides-area-grid">
             {areas.map((a) => (
               <Link key={a.slug} href={`/areas/${a.slug}`} className="guides-area-tile">
+                {sticker(`area-${a.slug}`) && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img className="guides-area-art" src={sticker(`area-${a.slug}`)} alt="" loading="lazy" />
+                )}
                 <span className="guides-area-name">{a.area}</span>
                 <span className="guides-area-count">{a.count} spots</span>
               </Link>
@@ -142,14 +182,26 @@ export default function GuidesPage() {
           <h2 className="guides-h2">Also</h2>
           <div className="guides-tiles">
             <Link href="/offers" className="guides-tile guides-tile--violet">
+              {sticker("deals") && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="guides-tile-art" src={sticker("deals")} alt="" loading="lazy" />
+              )}
               <span className="guides-tile-label">Dining deals</span>
               <span className="guides-tile-note">Offers at spots on the map</span>
             </Link>
             <Link href="/food-safety" className="guides-tile guides-tile--ink">
+              {sticker("food-safety") && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="guides-tile-art" src={sticker("food-safety")} alt="" loading="lazy" />
+              )}
               <span className="guides-tile-label">Food safety</span>
               <span className="guides-tile-note">Inspection records, spot by spot</span>
             </Link>
             <Link href="/stories" className="guides-tile guides-tile--yellow">
+              {sticker("stories") && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="guides-tile-art" src={sticker("stories")} alt="" loading="lazy" />
+              )}
               <span className="guides-tile-label">Stories</span>
               <span className="guides-tile-note">The people behind old Hyderabad spots</span>
             </Link>

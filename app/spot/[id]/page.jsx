@@ -18,6 +18,8 @@ import { recommendationsEnabled } from "../../../lib/recommendationShared.js";
 import { TIERS, tierFor } from "../../../lib/eateryUtils.js";
 import ShareSpotButton from "../../components/ShareSpotButton.jsx";
 import { getRedditSpotData } from "../../../lib/redditThreads.js";
+import { getAllRankingsThemes } from "../../../lib/themesServer.js";
+import { slugFromTitle } from "../../../lib/rankings.js";
 
 const CAT_LABEL = {
   cafe: "Cafe", local: "Local Eats", "restro-bar": "Restro Bar", bakery: "Bakery", "ice-cream": "Ice Cream",
@@ -167,6 +169,28 @@ export default async function SpotPage({ params }) {
 
   const jsonLd = restaurantJsonLd(spot, siteUrl, AUTHOR);
   const faqs = getSpotFaqs(spot, { spotOffers, safety });
+
+  // Where locals rank it: every ranking this spot is on, from real votes
+  // (memoised per process in themesServer, so no extra reads per page).
+  const rankedIn = (await getAllRankingsThemes(50).catch(() => []))
+    .map((th) => {
+      const i = (th.results || []).findIndex((r) => r.spotId === spot.id);
+      if (i < 0) return null;
+      return {
+        slug: th.slug || slugFromTitle(th.title),
+        label: shortRanking(th.title),
+        rank: i + 1,
+        votes: th.results[i].count || 0,
+        crowned: !!th.winnerId && th.winnerId === spot.id,
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.rank - b.rank)
+    .slice(0, 4);
+  // If it's packed: the same kind of place within 2 km, best first.
+  const nearby = nearbyAlternatives(spot, getEateries());
+  // Only show the consensus card when there is something real to say.
+  const hasConsensus = !!(spot.signatureDish?.name || redditData?.thread || redditData?.brandData?.quotes?.praise?.length);
   const tierKey = spot.tier || tierFor(spot.ratingCount || 0);
   const tier = TIERS[tierKey] || TIERS["hidden-gem"];
   const breadcrumbItems = [
@@ -266,8 +290,28 @@ export default async function SpotPage({ params }) {
         <Link href={`/?spot=${encodeURIComponent(spot.id)}`} className="spot-actions-secondary">Open on map</Link>
       </div>
 
+      {rankedIn.length > 0 && (
+        <section className="spot-ranks" aria-label="Where locals rank it">
+          <h2>Where locals rank it</h2>
+          <ul>
+            {rankedIn.map((r) => (
+              <li key={r.slug}>
+                <Link href={`/rankings/${r.slug}`} className="spot-rank-row">
+                  <span className="spot-rank-num">#{r.rank}</span>
+                  <span className="spot-rank-text">
+                    <b>{r.label}</b>
+                    <span>{r.crowned ? "Crowned. " : ""}{r.votes} {r.votes === 1 ? "vote" : "votes"} at last count</span>
+                  </span>
+                  <span className="spot-rank-cta">Vote</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {/* Princeton GEO Consensus Summary Block */}
-      <div
+      {hasConsensus && <div
         className="spot-consensus-lead"
       >
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap", marginBottom: 10 }}>
@@ -304,11 +348,7 @@ export default async function SpotPage({ params }) {
               </div>
             )}
           </div>
-        ) : (
-          <p style={{ margin: "0 0 10px", fontSize: 13.5, lineHeight: 1.5, color: "var(--ink)" }}>
-            Local consensus across {spot.discoveredIn || "Hyderabad"}: <strong>{displayName(spot.name)}</strong> is verified by community diners.
-          </p>
-        )}
+        ) : null}
 
         {/* Quick Stat Chips */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginBottom: (redditData?.thread || redditData?.brandData?.quotes?.praise?.length) ? 10 : 0 }}>
@@ -406,7 +446,7 @@ export default async function SpotPage({ params }) {
             </a>
           </div>
         )}
-      </div>
+      </div>}
 
       {isReview ? (
         <div className="review">
@@ -566,7 +606,6 @@ export default async function SpotPage({ params }) {
             </section>
           )}
 
-          <Link href={`/?spot=${encodeURIComponent(spot.id)}`} className="site-cta">Open on map &amp; claim +{tier.points} pts</Link>
         </div>
       ) : (
         <>
@@ -575,13 +614,9 @@ export default async function SpotPage({ params }) {
               <p style={{ fontSize: 15, lineHeight: 1.6, color: "var(--ink-soft)", margin: "0 0 12px" }}>
                 {spot.address || spot.discoveredIn || "Hyderabad"}
               </p>
-              {spot.rating && (
-                <p style={{ fontWeight: 700, margin: "0 0 8px" }}>{spot.rating}★ · {spot.ratingCount?.toLocaleString("en-IN")} reviews</p>
-              )}
               {spot.tags?.length > 0 && (
                 <p style={{ fontSize: 13, color: "var(--muted)" }}>{spot.tags.join(" · ")}</p>
               )}
-              <Link href={`/?spot=${encodeURIComponent(spot.id)}`} className="site-cta">Open on map &amp; claim +{tier.points} pts</Link>
             </div>
           </div>
 
@@ -770,6 +805,26 @@ export default async function SpotPage({ params }) {
         </>
       )}
 
+      {nearby.length > 0 && (
+        <section className="spot-nearby" aria-label="Nearby instead">
+          <h2>If it&apos;s packed, try nearby</h2>
+          <div className="spot-nearby-rail">
+            {nearby.map((n) => (
+              <Link key={n.e.id} href={spotPath(n.e)} className="spot-nearby-card">
+                <span className="spot-nearby-photo">
+                  {hasSpotPhoto(n.e.id) && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={spotPhotoUrl(n.e.id)} alt="" loading="lazy" />
+                  )}
+                </span>
+                <b>{displayName(n.e.name)}</b>
+                <span>{n.km < 1 ? `${Math.round(n.km * 1000)} m` : `${n.km.toFixed(1)} km`} away{n.e.discoveredIn && !n.e.discoveredIn.startsWith("text:") ? ` · ${n.e.discoveredIn}` : ""}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* The ask comes after the page has given something. */}
       <section className="spot-claim">
         <div className="spot-claim-text">
@@ -785,4 +840,31 @@ export default async function SpotPage({ params }) {
     </div>
     </>
   );
+}
+
+// "Best Dosa in Hyderabad" -> "Best dosa".
+function shortRanking(title = "") {
+  const t = title.replace(/\s+in\s+hyderabad$/i, "");
+  return t.charAt(0) + t.slice(1).toLowerCase();
+}
+
+function kmBetween(a, b) {
+  const R = 6371, toRad = (d) => (d * Math.PI) / 180;
+  const dLat = toRad(b.lat - a.lat), dLng = toRad(b.lng - a.lng);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+
+// Same kind of place within 2 km, skipping other branches of the same brand
+// (those have their own "Other locations" list). Photos first, then quality.
+function nearbyAlternatives(spot, all) {
+  if (spot.lat == null || spot.lng == null) return [];
+  const brand = (spot.name || "").toLowerCase().split(/[\s|,-]+/).slice(0, 2).join(" ");
+  return all
+    .filter((e) => e.id !== spot.id && e.core && e.category === spot.category && e.lat != null && e.lng != null)
+    .filter((e) => !(e.name || "").toLowerCase().startsWith(brand))
+    .map((e) => ({ e, km: kmBetween(spot, e) }))
+    .filter((x) => x.km <= 2)
+    .sort((x, y) => (hasSpotPhoto(y.e.id) - hasSpotPhoto(x.e.id)) || ((y.e.rating || 0) * Math.log10((y.e.ratingCount || 0) + 10) - (x.e.rating || 0) * Math.log10((x.e.ratingCount || 0) + 10)))
+    .slice(0, 4);
 }
