@@ -280,7 +280,7 @@ export default async function RankingPage({ params }) {
         </Link>
       )}
 
-      {(rest.length > 0 || contenders.length > 0) && (
+      {rest.length > 0 && (
         <section className="rk-section" aria-label="Standings">
           <ol className="rk-rows">
             {rest.map((r, i) => {
@@ -289,12 +289,30 @@ export default async function RankingPage({ params }) {
               return <Row key={r.spotId} r={r} n={i + 2} cta="Vote"
                 line={`${r.count} ${r.count === 1 ? "vote" : "votes"} · ${need} to pass #${i + 1}`} />;
             })}
-            {contenders.map((r) => (
-              <Row key={r.spotId} r={r} n={null} cta="Be first"
-                line={isPlaceholder ? (r.blurb || "Locals rate it") : "On the ballot, no votes yet"} />
-            ))}
           </ol>
-          {!isPlaceholder && <Link href={voteHref} className="rk-add">Can&rsquo;t see your pick? Add it</Link>}
+        </section>
+      )}
+      {!isPlaceholder && <Link href={voteHref} className="rk-add">Can&rsquo;t see your pick? Add it</Link>}
+
+      {/* Unvoted spots are not standings: their own compact list, apart from the ranked one. */}
+      {contenders.length > 0 && (
+        <section className="rk-section rk-ballot" aria-label={isPlaceholder ? "Spots locals rate" : "On the ballot, no votes yet"}>
+          <h2 className="rk-title">{isPlaceholder ? "Spots locals rate" : "On the ballot, no votes yet"}</h2>
+          {!isPlaceholder && <p className="rk-lede">One vote puts any of these on the board.</p>}
+          <ul className="rk-ballot-grid">
+            {contenders.map((r) => (
+              <li key={r.spotId}>
+                <Link href={pathForSpotId(r.spotId)} className="rk-ballot-card">
+                  {photoOf(r.spotId)
+                    // eslint-disable-next-line @next/next/no-img-element
+                    ? <img src={photoOf(r.spotId)} alt="" loading="lazy" width={44} height={44} />
+                    : <span className="rk-ballot-empty" aria-hidden="true">{(r.name || "?").charAt(0)}</span>}
+                  <span>{r.name}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          {!isPlaceholder && <Link href={voteHref} className="rk-add">Vote for one of these</Link>}
         </section>
       )}
 

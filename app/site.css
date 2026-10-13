@@ -1274,3 +1274,10 @@ a.of-card-name:hover { text-decoration: underline; }
 .sticker-tile--sun { background: var(--yellow); color: var(--ink); }
 .rk-index-card .rank-card-main { padding-left: var(--s3); }
 .rk-index-card .ink-chip { margin-right: 4px; }
+/* Ballot spots (no votes yet): a separate, quieter grid under the standings. */
+.rk-add { margin-bottom: var(--s6); }
+.rk-ballot-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--s2); }
+.rk-ballot-card { display: flex; align-items: center; gap: 10px; min-height: 60px; padding: 8px 10px 8px 8px; border-radius: 16px; background: var(--cream-hi); color: var(--ink); font-size: 14px; font-weight: 600; line-height: 1.2; text-decoration: none; }
+.rk-ballot-card:hover { box-shadow: var(--e2); }
+.rk-ballot-card img, .rk-ballot-empty { flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; object-fit: cover; }
+.rk-ballot-empty { display: grid; place-items: center; background: var(--violet-wash); color: var(--violet); font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; }
