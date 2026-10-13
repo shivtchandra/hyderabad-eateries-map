@@ -1290,3 +1290,8 @@ a.of-card-name:hover{ text-decoration: underline; }
    on headline words (labels stay still). */
 .rk-section, .rk-share-row, .guides-section, .spot-ranks, .sp-where, .sp-says, .sp-offers, .guide-quick, .deck, .ax{ margin-bottom: var(--section); }
 .site-body > .spot-section, .site-body > .must-order, .site-body > .spot-nearby{ margin-top: 0; margin-bottom: var(--section); }
+
+/* Areas: coloured tiles (count chip on top, name, two well-known spots). */
+.area-tiles .guides-jump-tile { min-height: 140px; justify-content: space-between; }
+.area-tile-count { align-self: flex-start; padding: 3px 10px; border-radius: var(--r-pill); background: rgba(255, 255, 255, 0.85); color: var(--ink); font-size: 12px; font-weight: 700; }
+.area-tiles .guides-jump-note { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }

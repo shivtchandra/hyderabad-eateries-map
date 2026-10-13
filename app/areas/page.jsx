@@ -19,6 +19,8 @@ export const metadata = {
 
 const PRIORITY_AREAS = ["gachibowli", "jubilee-hills", "banjara-hills", "madhapur-hitec"];
 
+const AREA_TONES = ["sun", "grape", "paper", "ink", "violet", "paper"];
+
 export default function AreasHubPage() {
   const areas = allAreaPages();
   const priority = PRIORITY_AREAS.map((slug) => areas.find((a) => a.slug === slug)).filter(Boolean);
@@ -55,17 +57,14 @@ export default function AreasHubPage() {
         stats={[{ value: ordered.length, label: "areas" }, { value: totalSpots.toLocaleString("en-IN"), label: "spots mapped" }, { value: ordered[0]?.area.split("/")[0] || "", label: "most popular" }]}
         updated={updated}
       />
-      <nav className="photo-tiles" aria-label="Areas">
+      {/* Coloured tiles like the Guides home (no photos: a random spot's photo
+          says little about an area). */}
+      <nav className="guides-jump-grid area-tiles" aria-label="Areas">
         {ordered.map((a, i) => (
-          <Link key={a.slug} href={`/areas/${a.slug}`} className={`photo-tile${i === 0 ? " photo-tile--wide" : ""}`}>
-            {a.photo && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={a.photo} alt="" loading={i < 4 ? "eager" : "lazy"} />
-            )}
-            <span className="photo-tile-cap">
-              <b>{a.area}</b>
-              <span>{a.count} spots</span>
-            </span>
+          <Link key={a.slug} href={`/areas/${a.slug}`} className={`guides-jump-tile guides-jump-tile--${AREA_TONES[i % AREA_TONES.length]}`}>
+            <span className="area-tile-count">{a.count} spots</span>
+            <span className="guides-jump-label">{a.area}</span>
+            {a.top.length > 0 && <span className="guides-jump-note">{a.top.slice(0, 2).join(" · ")}</span>}
           </Link>
         ))}
       </nav>
