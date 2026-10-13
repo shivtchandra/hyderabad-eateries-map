@@ -77,15 +77,37 @@ const GUIDES = [
   { href: "/guides/restaurants-in-sattva-knowledge-city-hyderabad", label: "Around Sattva Knowledge City", note: "Office lunch, sorted", key: "lunchbox" },
 ];
 
-// The top of Guides: six colour tiles that are both the menu and the art.
+// The top of Guides: six tinted tiles, each with a sticker breaking out of
+// its corner. Food stickers where one fits; die-cut style icons otherwise.
 const JUMP = [
-  { href: "#rankings", label: "Rankings", note: "Voted by locals", tone: "violet", key: "trophy" },
-  { href: "#dish-guides", label: "Dish guides", note: "What to order", tone: "yellow", key: "thali" },
-  { href: "#areas", label: "Areas", note: "Eat by neighbourhood", tone: "ink", key: "map-pin" },
-  { href: "/offers", label: "Deals", note: "Offers today", tone: "wash", key: "deals" },
-  { href: "/food-safety", label: "Food safety", note: "Inspection records", tone: "white", key: "food-safety" },
-  { href: "/stories", label: "Stories", note: "Old Hyderabad spots", tone: "yellow", key: "stories" },
+  { href: "#rankings", label: "Rankings", note: "Voted by locals", tone: "violet", key: "biryani" },
+  { href: "#dish-guides", label: "Dish guides", note: "What to order", tone: "yellow", key: "dosa" },
+  { href: "#areas", label: "Areas", note: "Eat by neighbourhood", tone: "paper", icon: "pin" },
+  { href: "/offers", label: "Deals", note: "Offers today", tone: "yellow", key: "mandi" },
+  { href: "/food-safety", label: "Food safety", note: "Inspection records", tone: "paper", icon: "shield" },
+  { href: "/stories", label: "Stories", note: "Old Hyderabad spots", tone: "violet", key: "irani-chai" },
 ];
+
+// Flat icons drawn like die-cut stickers (white outline, soft shadow) so they
+// sit with the 3D stickers.
+function IconSticker({ kind }) {
+  if (kind === "pin") {
+    return (
+      <svg className="guides-jump-art" viewBox="0 0 96 96" aria-hidden="true">
+        <path d="M48 8c-16 0-28 12-28 27 0 20 28 49 28 49s28-29 28-49C76 20 64 8 48 8z" fill="#fff" />
+        <path d="M48 14c-13 0-22 9.5-22 21.5C26 52 48 76 48 76s22-24 22-40.5C70 23.5 61 14 48 14z" fill="#7c3aed" />
+        <circle cx="48" cy="35" r="9" fill="#f5c84c" stroke="#fff" strokeWidth="3" />
+      </svg>
+    );
+  }
+  return (
+    <svg className="guides-jump-art" viewBox="0 0 96 96" aria-hidden="true">
+      <path d="M48 6l34 12v24c0 22-14 38-34 48C28 80 14 64 14 42V18z" fill="#fff" />
+      <path d="M48 13l27 9.5V42c0 18-11 31-27 40-16-9-27-22-27-40V22.5z" fill="#2e8b6b" />
+      <path d="M35 46l9 9 18-20" fill="none" stroke="#fff" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 function Arrow() {
   return (
@@ -115,7 +137,7 @@ export default function GuidesPage() {
         <nav className="guides-jump-grid" aria-label="Guides sections">
           {JUMP.map((j) => (
             <a key={j.href} href={j.href} className={`guides-jump-tile guides-jump-tile--${j.tone}`}>
-              {sticker(j.key) && (
+              {j.icon ? <IconSticker kind={j.icon} /> : sticker(j.key) && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img className="guides-jump-art" src={sticker(j.key)} alt="" loading="lazy" />
               )}
