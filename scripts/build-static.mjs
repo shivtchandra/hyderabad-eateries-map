@@ -19,6 +19,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { galleryPhotoUrl, spotPhotoUrl } from "../lib/photos.js";
 import { coreIdSet } from "../lib/coreSpots.js";
+import { fixCategory } from "../lib/categoryFix.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA = path.join(__dirname, "..", "data", "eateries.json");
@@ -44,7 +45,7 @@ const index = approved
   .map((e) => ({
     id: e.id,
     n: e.name,
-    c: e.category,
+    c: fixCategory(e),
     lat: +e.lat.toFixed(5),
     lng: +e.lng.toFixed(5),
     r: e.rating ?? null,
@@ -92,7 +93,7 @@ try {
         id,
         name: e.name ?? id,
         area: e.discoveredIn ?? null,
-        category: e.category ?? null,
+        category: fixCategory(e),
         teaser: c.signatureDish?.name ?? c.highlight?.label ?? null,
         image: c.gallery?.length ? galleryPhotoUrl(c.gallery[0]) : spotPhotoUrl(id),
       };
