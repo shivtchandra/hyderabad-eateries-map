@@ -166,6 +166,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
       if (curatedEnabled) setRecommendationDish(d);
     }
     if (curatedEnabled && p.get("mode") === "all") setRecommendedOnly(false);
+    if (p.get("filter") === "safety") setSafetyOnly(true);
     setTabReady(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -420,6 +421,21 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     !curatedEnabled && hiddenCount > 0 && !showAll && "Top places",
     ...activeTags.map((t) => t.charAt(0).toUpperCase() + t.slice(1).replace(/-/g, " ")),
   ].filter(Boolean);
+  // Food safety filter: spots with a record join the off-map records as one
+  // set of red pins.
+  const safetyPins = useMemo(() => {
+    if (!safetyOnly) return NO_PINS;
+    const linked = eateries.filter((e) => safetyMap[e.id]).map((e) => ({ ...safetyMap[e.id], name: e.name, lat: e.lat, lng: e.lng, area: e.discoveredIn && !e.discoveredIn.startsWith("text:") ? e.discoveredIn : null, spotId: e.id }));
+    return [...linked, ...safetyPlaces];
+  }, [safetyOnly, eateries, safetyMap, safetyPlaces]);
+  // Share the map as it is now (the filter travels in the link).
+  const shareFiltered = async () => {
+    const url = `${window.location.origin}/?filter=safety`;
+    try {
+      if (navigator.share) await navigator.share({ title: "Hyderabad food safety records on the map", url });
+      else { await navigator.clipboard.writeText(url); setToast("Link copied"); }
+    } catch {}
+  };
   const clearFilters = () => {
     setOpenNowOnly(false); setNearbyOnly(false); setNewOnly(false);
     setSafetyOnly(false); setLocalsOnly(false); setActiveTags([]); setShowAll(true);
@@ -877,7 +893,8 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
               onMapError={() => setMapOffline(true)}
               dataReady={!loading}
               onCloudsDone={onCloudsDone}
-              recordPins={safetyOnly && tab === "map" ? safetyPlaces : NO_PINS}
+              recordPins={safetyOnly && tab === "map" ? safetyPins : NO_PINS}
+              hideSpots={safetyOnly && tab === "map"}
             />
           ) : (
             <div
@@ -1059,6 +1076,12 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
                     <Icon name="close" size={13} width={2.4} color="var(--violet-deep)" />
                     {activeFilterLabels.length === 1 ? activeFilterLabels[0] : `${activeFilterLabels.length} filters`}
                     <span>{filtered.length + (safetyOnly ? safetyPlaces.length : 0)} {filtered.length === 1 ? "spot" : "spots"}</span>
+                  </button>
+                )}
+                {safetyOnly && (
+                  <button type="button" className="map-scope-chip map-scope-chip--share" onClick={shareFiltered} aria-label="Share this map">
+                    <Icon name="share" size={14} width={2.2} color="var(--ink)" />
+                    Share
                   </button>
                 )}
               </div>

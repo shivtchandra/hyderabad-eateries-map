@@ -31,7 +31,7 @@ export default function MapCanvas({
   onSelect, onAreaEnter, onHeroesChange, onZoomChange, routeLine = null, heroCap = 120, poolSize,
   pickMode = false, onPick, pickedPoint = null,
   onViewportChange, onMapError, recommendationMode = false, onVisibleChange,
-  voteTop = [], voteLabel = "", dataReady = true, onCloudsDone, recordPins = [],
+  voteTop = [], voteLabel = "", dataReady = true, onCloudsDone, recordPins = [], hideSpots = false,
 }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
@@ -41,6 +41,7 @@ export default function MapCanvas({
   const meLayerRef = useRef(null);
   const routeLayerRef = useRef(null);
   const recordLayerRef = useRef(null);
+  const onSelectRef = useRef(onSelect); onSelectRef.current = onSelect;
   const pickLayerRef = useRef(null);
   const voteTopRef = useRef(voteTop); voteTopRef.current = voteTop;
   const [ready, setReady] = useState(false);
@@ -250,7 +251,8 @@ export default function MapCanvas({
         icon: L.divIcon({ className: "", html: `<div class="record-pin" style="--t:${tone}"></div>`, iconSize: [26, 26], iconAnchor: [13, 13] }),
         title: r.name, keyboard: true, zIndexOffset: 800,
       })
-        .bindPopup(`<div class="record-pop"><b>${escapeHtml(r.name)}</b><span>${escapeHtml(r.label)} · ${escapeHtml(r.dateLabel)}${r.area ? ` · ${escapeHtml(r.area)}` : ""}</span><a href="/food-safety#drives">See the record</a></div>`, { closeButton: false, offset: [0, -10] })
+        .bindPopup(`<div class="record-pop"><b>${escapeHtml(r.name)}</b><span>${escapeHtml(r.label)} · ${escapeHtml(r.dateLabel)}${r.area ? ` · ${escapeHtml(r.area)}` : ""}</span>${r.spotId ? "" : '<a href="/food-safety#drives">See the record</a>'}</div>`, { closeButton: false, offset: [0, -10] })
+        .on("click", () => { if (r.spotId) onSelectRef.current?.(r.spotId); })
         .addTo(layer);
     }
   }, [ready, recordPins]);
@@ -475,6 +477,12 @@ export default function MapCanvas({
     const railShown = railAll.slice(0, RAIL_MAX);
     const rk = `${railAll.length}:${railShown.map((e) => e.id).join(",")}`;
     if (rk !== railKey.current) { railKey.current = rk; visibleRef.current?.(railShown, railAll.length); }
+    // Food safety view: every record is a red pin (record layer), so no photo
+    // pins or dots for the same spots. The rail still lists them.
+    if (hideSpots) {
+      spotLayer.clearLayers(); dotMarkers.current.clear(); heroMarkers.current.clear(); heroEls.current = {};
+      return;
+    }
 
     // An exact search result must never disappear into the dot layer just because
     // another nearby spot won the ranking cell. Selection overrides ranking.
@@ -571,7 +579,7 @@ export default function MapCanvas({
         if (e.id === selectedIdRef.current) el.classList.add("active");
       }
     }
-  }, [ready, eateries, filtered, passport, selectedId, featuredIds, viewTick, onSelect, onAreaEnter, onHeroesChange, heroCap, poolSize]);
+  }, [ready, eateries, filtered, passport, selectedId, featuredIds, viewTick, onSelect, onAreaEnter, onHeroesChange, heroCap, poolSize, hideSpots]);
 
   return (
     <>

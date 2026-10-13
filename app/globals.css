@@ -1198,3 +1198,4 @@ button{ font-family: inherit; }
 .ask-bot--sm svg { width: 16px; height: 16px; }
 .ask-bot-row { display: flex; align-items: flex-end; gap: 8px; }
 .ask-badge { display: inline-flex; align-items: center; margin-left: 6px; padding: 1px 8px; border-radius: var(--r-pill); background: var(--violet-wash); color: var(--violet-deep); font-size: 11px; font-style: normal; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; vertical-align: 3px; }
+.map-scope-chip--share { gap: 6px; }
