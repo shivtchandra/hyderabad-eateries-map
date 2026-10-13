@@ -60,7 +60,10 @@
 .site-cta { display: inline-flex; align-items: center; min-height: 52px; margin-top: var(--s4); background: var(--violet); color: #fff; text-decoration: none; font-weight: 700; font-size: 16px; padding: 0 var(--s6); border-radius: var(--r-btn); transition: background var(--dur-2) ease, transform var(--dur-1) var(--ease-out); }
 .site-cta:hover { background: var(--violet-deep); }
 .site-cta:active { transform: scale(0.98); }
-.site-footer { max-width: 900px; margin: 0 auto; padding: 24px 20px 40px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+.site-footer { max-width: 900px; margin: var(--s8) auto 0; padding: var(--s6) 20px var(--s8); border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+.site-footer-brand { margin: 0 0 var(--s3); color: var(--ink-soft); }
+.site-footer-brand b { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); }
+.site-footer-brand a { color: var(--violet-deep); font-weight: 600; text-decoration: none; }
 .site-footer nav { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 10px; }
 .site-footer a { color: var(--ink-soft); text-decoration: none; font-weight: 600; }
 .site-related { margin-top: var(--s8); padding-top: var(--s6); border-top: 1px solid var(--line); }

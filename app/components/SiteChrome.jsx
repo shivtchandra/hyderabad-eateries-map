@@ -40,33 +40,21 @@ export function SiteBreadcrumb({ items }) {
   );
 }
 
+// Slim footer. The full link list for crawlers already ships on every page in
+// SeoCrawlNav (visually hidden), and the bottom nav / Guides cover browsing,
+// so repeating 16 links here was only clutter.
 export function SiteFooter() {
   return (
     <footer className="site-footer">
-      <nav aria-label="Footer">
-        <Link href="/">Map</Link>
-        <Link href="/rankings">Rankings</Link>
-        <Link href="/rankings/best-buffet-in-hyderabad">Best Buffet</Link>
-        <Link href="/rankings/best-fine-dining-in-hyderabad">Best Fine Dining</Link>
-        <Link href="/guides/best-breweries-in-hyderabad">Best Breweries</Link>
-        <Link href="/rankings/best-biryani-in-hyderabad">Best Biryani</Link>
-        <Link href="/rankings/best-cafe-in-hyderabad">Best Cafes</Link>
-        <Link href="/areas/jubilee-hills">Jubilee Hills</Link>
-        <Link href="/areas/gachibowli">Gachibowli</Link>
-        <Link href="/areas/kondapur">Kondapur</Link>
-        <Link href="/areas">Areas</Link>
-        <Link href="/explore">Explore</Link>
-        <Link href="/offers">Dining Deals</Link>
-        <Link href="/stories">Stories</Link>
-        <Link href="/food-safety">Food safety</Link>
+      <p className="site-footer-brand">
+        <b>Hyderabad Eats</b>, part of <a href="https://mapmyhyd.com/">Mapping HYD</a>
+      </p>
+      <nav aria-label="More from Mapping HYD">
         <Link href="/about">About</Link>
-      </nav>
-      <nav aria-label="Mapping HYD series">
-        <a href="https://mapmyhyd.com/">Mapping HYD</a>
-        <a href="https://startups.mapmyhyd.com/">Mapping HYD Startups</a>
+        <Link href="/rankings/how-it-works">How rankings work</Link>
+        <a href="https://startups.mapmyhyd.com/">Startup map</a>
         <a href="https://startups.mapmyhyd.com/jobs">Jobs in Hyderabad</a>
       </nav>
-      <div>Part of Mapping HYD. Community-voted food rankings &amp; map · 3,400+ spots</div>
     </footer>
   );
 }
