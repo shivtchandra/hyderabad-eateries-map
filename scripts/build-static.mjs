@@ -39,6 +39,8 @@ for (const e of all.filter((x) => x.lat && x.lng && x.status === "approved")) {
 }
 const approved = [...byIdBest.values()];
 const core = coreIdSet(approved, { editorialIds });
+let localsDishes = {};
+try { localsDishes = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "locals-dishes.json"), "utf-8")).spots || {}; } catch {}
 
 // Short keys keep the index small over the wire; the client re-expands them.
 const index = approved
@@ -46,6 +48,7 @@ const index = approved
     id: e.id,
     n: e.name,
     c: fixCategory(e),
+    ...(localsDishes[e.id] ? { d: localsDishes[e.id].map((x) => x.dish) } : {}), // dishes locals name (Ask Eats)
     lat: +e.lat.toFixed(5),
     lng: +e.lng.toFixed(5),
     r: e.rating ?? null,

@@ -12,6 +12,8 @@
  * Input:  data/reddit/raw.json, data/eateries.json
  * Output: data/enrich/reddit-pilot.json + a coverage report on stdout
  *   node scripts/enrich-reddit-pilot.mjs
+ *   node scripts/enrich-reddit-pilot.mjs --all   (every area; also writes
+ *     data/locals-dishes.json: the dishes 2+ locals name, for Must order + Ask Eats)
  */
 import fs from "fs";
 import path from "path";
@@ -31,7 +33,8 @@ const CHEAP = /\b(cheap|affordable|budget|value for money|vfm|pocket friendly|re
 const PRICEY = /\b(expensive|pricey|overpriced|over priced|costly)\b/;
 const AMOUNT = /(?:₹|\brs\.? ?|\binr ?)(\d{2,4})\b/g;
 
-const inPilot = (e) => e.core !== false && AREAS.includes(e.discoveredIn);
+const ALL = process.argv.includes("--all");
+const inPilot = (e) => ALL || AREAS.includes(e.discoveredIn);
 const pilot = eateries.filter(inPilot);
 const pilotIds = new Set(pilot.map((e) => e.id));
 
@@ -86,7 +89,21 @@ for (const e of pilot) {
   };
 }
 
-const OUT = path.join(ROOT, "data", "enrich", "reddit-pilot.json");
+// Labels that name a kind of place, not something to order there.
+const GENERIC = new Set(["Cocktails / bar", "Coffee", "Bakery / cakes", "Desserts", "Ice cream", "Breakfast", "Late night", "Buffet", "Healthy / salads", "Vegan"]);
+if (ALL) {
+  const lean = {};
+  for (const [id, s] of Object.entries(spots)) {
+    const d = s.dishes.filter((x) => x.people >= 2 && !GENERIC.has(x.dish)).slice(0, 4);
+    if (d.length) lean[id] = d;
+  }
+  fs.writeFileSync(path.join(ROOT, "data", "locals-dishes.json"), JSON.stringify({
+    _about: "Dishes 2+ different r/hyderabad locals name next to a spot (brand level). Built by scripts/enrich-reddit-pilot.mjs --all. Shown in Must order and used by Ask Eats.",
+    updatedAt: new Date().toISOString(), spots: lean,
+  }, null, 1));
+  console.log(`locals-dishes.json: ${Object.keys(lean).length} spots`);
+}
+const OUT = path.join(ROOT, "data", "enrich", ALL ? "reddit-all.json" : "reddit-pilot.json");
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 const vals = Object.values(spots);
 const stats = {

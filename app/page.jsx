@@ -291,7 +291,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
         setEateries(rows.map((e) => ({
           id: e.id, name: e.n, category: e.c, lat: e.lat, lng: e.lng,
           rating: e.r, ratingCount: e.rc, tier: e.t, tags: e.g,
-          priceLevel: e.p, discoveredIn: e.a, createdAt: e.ca ?? null,
+          priceLevel: e.p, discoveredIn: e.a, createdAt: e.ca ?? null, dishes: e.d || [],
           core: e.k !== 0, // curated list (lib/coreSpots.js); older index files without `k` count as core
         })));
         setLoading(false);
