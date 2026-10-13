@@ -11,5 +11,5 @@ export async function GET() {
       spots[e.spotId] = { action: e.action, label: ACTIONS[e.action] || e.action, status: e.status, date: d.date, dateLabel: formatDate(d.date) };
     }
   }
-  return Response.json({ spots }, { headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600" } });
+  return Response.json({ spots }, { headers: { "Cache-Control": "public, max-age=0, s-maxage=300, stale-while-revalidate=600" } });
 }

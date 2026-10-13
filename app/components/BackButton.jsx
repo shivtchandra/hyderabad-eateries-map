@@ -22,8 +22,8 @@ export default function BackButton({ fallback = "/" }) {
   }
 
   return (
-    <button type="button" className="site-back" onClick={goBack}>
-      ← Back
+    <button type="button" className="site-back" onClick={goBack} aria-label="Back">
+      <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M15 5l-7 7 7 7" /></svg>
     </button>
   );
 }

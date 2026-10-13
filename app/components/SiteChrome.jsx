@@ -17,7 +17,10 @@ const NAV = [
 export function SiteNav({ active, linksHidden }) {
   return (
     <nav className="site-topnav" aria-label="Main">
-      <Link href="/" className="site-logo">Hyderabad Eats</Link>
+      <Link href="/" className="site-logo" aria-label="Hyderabad Eats, open the map">
+        <span className="site-logo-tile" aria-hidden="true">E</span>
+        <span className="site-logo-name">Hyderabad Eats</span>
+      </Link>
       {NAV.map((item) => (
         <Link key={item.href} href={item.href} className={`site-topnav-link${(item.match ? item.match.includes(active) : active === item.href) ? " active" : ""}`}>
           {item.label}
@@ -81,7 +84,8 @@ export default function SiteChrome({ active, breadcrumb, title, description, chi
         <div className="site-header-inner">
           <SiteNav active={active} linksHidden={navLinksHidden} />
           {backFallback && <BackButton fallback={backFallback} />}
-          {breadcrumb?.length > 0 && <SiteBreadcrumb items={breadcrumb} />}
+          {/* A custom hero (spot page) carries its own area kicker. */}
+          {!hero && breadcrumb?.length > 0 && <SiteBreadcrumb items={breadcrumb} />}
           {hero || (
             <div className={`site-hero${heroClass ? ` ${heroClass}` : ""}`}>
               <h1>{title}</h1>

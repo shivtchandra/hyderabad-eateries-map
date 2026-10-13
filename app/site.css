@@ -1209,3 +1209,32 @@ a.of-card-name:hover { text-decoration: underline; }
 .sp-bar-tile[aria-pressed="true"] { background: var(--violet-wash); color: var(--violet-deep); }
 .sp-bar-go:focus-visible, .sp-bar-tile:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
 .sp-bar-note { position: absolute; left: 50%; bottom: calc(100% + 10px); transform: translateX(-50%); margin: 0; padding: 8px 14px; border-radius: var(--r-pill); background: var(--ink); color: #fff; font-size: 13px; font-weight: 600; white-space: nowrap; }
+
+/* ---- Site header v2: one row (round back icon, E tile + name, links on
+   desktop), then the breadcrumb as a small kicker, then the title. CSS grid
+   so every page that composes SiteNav + BackButton + SiteBreadcrumb itself
+   gets the same top without edits. ---- */
+.site-header-inner { display: grid; grid-template-columns: auto 1fr; align-items: center; }
+.site-header-inner > * { grid-column: 1 / -1; min-width: 0; }
+.site-header-inner > .site-back { grid-column: 1; grid-row: 1; margin: 0 var(--s3) var(--s5) 0; }
+.site-header-inner > .site-topnav { grid-column: 2; grid-row: 1; margin: 0 0 var(--s5); }
+.site-back {
+  width: 44px; height: 44px; justify-content: center; gap: 0; padding: 0;
+  border-radius: var(--r-pill); background: var(--cream-hi); color: var(--ink); opacity: 1;
+  box-shadow: 0 1px 2px rgba(20, 20, 20, 0.06), 0 4px 12px rgba(20, 20, 20, 0.06);
+  transition: transform var(--dur-1) var(--ease-out), box-shadow var(--dur-2) ease;
+}
+.site-back:hover { box-shadow: var(--e2); }
+.site-back:active { transform: scale(0.94); }
+.site-back:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+.site-topnav { gap: var(--s1); }
+.site-topnav a.site-logo, .site-topnav a.site-logo:hover { display: inline-flex; align-items: center; gap: 10px; margin-right: auto; padding: 0; background: none; border-radius: 0; }
+.site-logo-tile { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 12px; background: var(--violet); color: #fff; font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 22px; line-height: 1; letter-spacing: -0.02em; }
+.site-logo-name { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -0.02em; color: var(--ink); }
+.site-breadcrumb { margin: 0 0 var(--s2); font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.site-breadcrumb a, .site-breadcrumb a:hover { border-bottom: 0; opacity: 1; }
+.site-breadcrumb a:hover { color: var(--violet-deep); }
+/* The last crumb is the page title, already the h1 below. A trail that is
+   only "Home" says nothing, so it hides. */
+.site-breadcrumb > span:last-child { display: none; }
+.site-breadcrumb:not(:has(> span:nth-child(3))) { display: none; }
