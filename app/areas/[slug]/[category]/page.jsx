@@ -66,7 +66,7 @@ export default function AreaCategoryPage({ params }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemsLd) }} />
 
-      <SiteChrome
+      <SiteChrome backFallback={`/areas/${params.slug}`}
         active="/areas"
         breadcrumb={[
           { href: "/", label: "Home" },

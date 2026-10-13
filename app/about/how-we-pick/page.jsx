@@ -7,7 +7,7 @@ export const metadata = pageMeta({ title: "How Hyderabad Eats picks places", des
 
 export default function HowWePick() {
   const s = askStats();
-  return <SiteChrome title="How we pick" description="What the numbers on Hyderabad Eats mean, and what they don't." breadcrumb={[{ href: "/", label: "Map" }, { href: "/about/how-we-pick", label: "How we pick" }]}>
+  return <SiteChrome backFallback="/about" title="How we pick" description="What the numbers on Hyderabad Eats mean, and what they don't." breadcrumb={[{ href: "/", label: "Map" }, { href: "/about/how-we-pick", label: "How we pick" }]}>
     <div className="ask-page">
       <section className="ask-block"><h2>Where the counts come from</h2>
         <p>Every week we read public r/hyderabad threads about food through Reddit's official API: currently {s.threads.toLocaleString("en-IN")} threads and {s.comments.toLocaleString("en-IN")} comments from the last {s.months} months. Place names are matched literally to the places on our map. No AI writes or scores anything.</p>

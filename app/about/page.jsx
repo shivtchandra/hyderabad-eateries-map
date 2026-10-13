@@ -36,7 +36,7 @@ export default function AboutPage() {
     <div style={{ paddingBottom: 84 }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutLd) }} />
-      <SiteChrome
+      <SiteChrome backFallback="/"
         breadcrumb={[{ href: "/", label: "Home" }, { href: "/about", label: "About" }]}
         title="About Hyderabad Eats"
         description="A free, independent food map of Hyderabad, built with the people who eat here."

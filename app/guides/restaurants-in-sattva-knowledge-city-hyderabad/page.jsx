@@ -2,6 +2,7 @@ import Link from "next/link";
 import { pageMeta } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
 import { SiteNav, SiteBreadcrumb, SiteFooter, SiteRelated } from "../../components/SiteChrome.jsx";
+import BackButton from "../../components/BackButton.jsx";
 import BottomNav from "../../components/BottomNav.jsx";
 import { photoPathToCdn, spotPhotoUrl } from "../../../lib/photos.js";
 
@@ -381,6 +382,7 @@ export default function Page() {
         <header className="site-header">
           <div className="site-header-inner">
             <SiteNav active="/stories" />
+            <BackButton fallback="/guides/dishes" />
             <SiteBreadcrumb
               items={[
                 { href: "/", label: "Home" },

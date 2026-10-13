@@ -63,7 +63,7 @@ export default async function AskPage({ params }) {
     ...(listItems ? [{ "@context": "https://schema.org", "@type": "ItemList", name: p.h1, itemListElement: listItems.map((x, i) => ({ "@type": "ListItem", position: i + 1, name: x.name, ...(x.place ? { url: `${site}${x.place.path}` } : {}) })) }] : []),
   ];
 
-  return <SiteChrome title={p.h1} description={`Updated ${updated.label}. From ${stats.comments.toLocaleString("en-IN")} comments in ${stats.threads.toLocaleString("en-IN")} r/hyderabad threads.`} breadcrumb={crumbs}>
+  return <SiteChrome backFallback="/ask" title={p.h1} description={`Updated ${updated.label}. From ${stats.comments.toLocaleString("en-IN")} comments in ${stats.threads.toLocaleString("en-IN")} r/hyderabad threads.`} breadcrumb={crumbs}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }} />
     <div className="ask-page">
       <section className="ask-answer" aria-label="Short answer">

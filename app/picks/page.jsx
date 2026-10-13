@@ -8,7 +8,7 @@ export const metadata = pageMeta({ title: "Best food in Hyderabad right now, dis
 export default function PicksPage() {
   if (!recommendationsEnabled()) notFound();
   const model = getRecommendations();
-  return <SiteChrome title="What are you craving?" description="The places Hyderabad locals recommend most for each dish, counted from r/hyderabad and updated monthly." breadcrumb={[{ href: "/", label: "Map" }, { href: "/picks", label: "Dish guides" }]}>
+  return <SiteChrome backFallback="/guides" title="What are you craving?" description="The places Hyderabad locals recommend most for each dish, counted from r/hyderabad and updated monthly." breadcrumb={[{ href: "/", label: "Map" }, { href: "/picks", label: "Dish guides" }]}>
     <div className="rec-seo-grid">{model.dishes.map((d) => <article className="rec-seo-card" key={d.id}><h2><Link href={`/picks/${d.id}`}>Best {d.name.toLowerCase()} right now</Link></h2><p>{d.brands} places, {d.mentions} local recommendations</p><Link href={`/?dish=${d.id}`}>Explore on the map</Link></article>)}</div>
     <p>Other dishes stay searchable on the map until enough locals recommend them. <Link href="/">Open Recommended</Link> · <Link href="/ask">Questions locals ask</Link> · <Link href="/about/how-we-pick">How we pick</Link></p>
   </SiteChrome>;
