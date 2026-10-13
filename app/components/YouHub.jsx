@@ -90,6 +90,12 @@ export default function YouHub({ visitedCount = 0, saved = [], stickerCount = 0,
 
       <ul className="you-links">
         <li>
+          <button type="button" className="you-link" onClick={() => onOpen("ask")}>
+            <span><b>Ask Eats</b><span>What to eat near you: locals&apos; votes, our picks and your saves</span></span>
+            <Arrow />
+          </button>
+        </li>
+        <li>
           <button type="button" className="you-link" onClick={() => onOpen("stickers")}>
             <span><b>Sticker book</b><span>{stickerCount > 0 ? `${stickerCount} stickers from spots and votes` : "Stickers from spots and votes"}</span></span>
             <Arrow />

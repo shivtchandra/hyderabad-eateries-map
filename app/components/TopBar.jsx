@@ -17,7 +17,7 @@ const CATEGORY_META = {
 export default function TopBar({
   search, setSearch, searchOpen, setSearchOpen,
   searchResults = [], onSelectResult, onPreviewResult,
-  onFilters = null, filtersOpen = false, filterCount = 0,
+  onFilters = null, filtersOpen = false, filterCount = 0, onAsk = null,
 }) {
   const [added, setAdded] = useState(null); // name of a place just added from search
   useEffect(() => { setAdded(null); }, [search]);
@@ -44,13 +44,16 @@ export default function TopBar({
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Escape") { setSearch(""); setSearchOpen(false); }
-                if (e.key === "Enter" && searchResults[0]) onSelectResult?.(searchResults[0]);
+                if (e.key !== "Enter") return;
+                // A question goes to Ask Eats; a name goes to the top match.
+                if (onAsk && (looksLikeAsk(search) || !searchResults.length)) onAsk(search);
+                else if (searchResults[0]) onSelectResult?.(searchResults[0]);
               }}
               role="combobox"
               aria-expanded={search.trim().length > 0}
               aria-controls="eatery-search-results"
               aria-autocomplete="list"
-              placeholder="Search a dish, place or area"
+              placeholder={onAsk ? "Search a place, or ask: biryani near me" : "Search a dish, place or area"}
               className="topbar-input"
             />
             <button
@@ -69,7 +72,7 @@ export default function TopBar({
             aria-label="Search dishes, places or areas"
           >
             <Icon name="search" size={19} color="var(--ink-soft)" />
-            <span>Biryani, cafes, an area</span>
+            <span>{onAsk ? "Ask Eats or search" : "Biryani, cafes, an area"}</span>
           </button>
         )}
       </div>
@@ -87,6 +90,16 @@ export default function TopBar({
       )}
     </div>
 
+    {searchOpen && onAsk && !search.trim() && (
+      <div className="material search-results">
+        <button type="button" className="ask-entry" onClick={() => onAsk("")}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/stickers/biryani.webp" alt="" width={40} height={40} />
+          <span><b>Not sure what to eat?</b><span>Ask Eats. Locals&apos; votes and our picks first.</span></span>
+        </button>
+      </div>
+    )}
+
     {searchOpen && search.trim() && (
       <div
         id="eatery-search-results"
@@ -94,6 +107,12 @@ export default function TopBar({
         className="material search-results"
         aria-label="Restaurant search results"
       >
+        {onAsk && (
+          <button type="button" className="ask-entry ask-entry--q" onClick={() => onAsk(search)}>
+            <span className="ask-entry-badge" aria-hidden="true">Ask</span>
+            <span><b>Ask Eats: &ldquo;{search.trim()}&rdquo;</b><span>Get picks near you</span></span>
+          </button>
+        )}
         {searchResults.length ? searchResults.map((spot) => {
           const meta = CATEGORY_META[spot.category] ?? CATEGORY_META.cafe;
           const area = spot.discoveredIn && !spot.discoveredIn.startsWith("text:")
@@ -153,3 +172,8 @@ const iconBtn = {
   alignItems: "center",
   justifyContent: "center",
 };
+
+// "biryani near me", "best chai?", "something cheap": a question, not a name.
+function looksLikeAsk(q = "") {
+  return /\?|\b(near|nearby|around|best|where|want|good|cheap|craving|suggest|recommend|open now|hungry|eat)\b/i.test(q);
+}

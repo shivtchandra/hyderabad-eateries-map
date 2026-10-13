@@ -14,6 +14,7 @@ const NO_PINS = [];
 const MapCanvas = dynamic(() => import("./components/MapCanvas.jsx"), { ssr: false });
 import CardRail from "./components/CardRail.jsx";
 import Clouds from "./components/Clouds.jsx";
+import AskSheet from "./components/AskSheet.jsx";
 import TopBar from "./components/TopBar.jsx";
 import FilterChips, { countActiveFilters } from "./components/FilterChips.jsx";
 import DetailSheet from "./components/DetailSheet.jsx";
@@ -198,6 +199,9 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   const [cloudsDone, setCloudsDone] = useState(false);
   const onCloudsDone = useCallback(() => setCloudsDone(true), []);
   const [locAsk, setLocAsk] = useState(false);
+  // Ask Eats (behind the search pill). seed = a question typed into search.
+  const [askOpen, setAskOpen] = useState(false);
+  const [askSeed, setAskSeed] = useState(null);
   const locAskRan = useRef(false);
   useEffect(() => {
     try { if (localStorage.getItem("loc_prompted")) setLocPulsed(true); } catch {}
@@ -703,6 +707,12 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   }, [locateMe]);
   useEffect(() => { if (sheetOpen || tab !== "map") setLocAsk(false); }, [sheetOpen, tab]);
 
+  // What Ask Eats ranks with, beyond the spots themselves (lib/askEngine.js).
+  const askCtx = useMemo(() => ({
+    picksMap, localsMap, passport, safetyMap,
+    isOpen: (e) => (allDetailsStatus === "loaded" ? isOpenNow(details[e.id]?.hours) : null),
+  }), [picksMap, localsMap, passport, safetyMap, allDetailsStatus, details]);
+
   // Rail: every spot on the map, closest first once we know where the user is.
   const railSpots = useMemo(() => {
     if (!userLoc) return railList.spots;
@@ -790,6 +800,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
           onPreviewResult={loadDetail}
           onFilters={tab === "map" ? () => setFiltersOpen((v) => !v) : null}
           filtersOpen={filtersOpen}
+          onAsk={tab === "map" ? (q) => { setSearch(""); setSearchOpen(false); if (q.trim()) setAskSeed({ text: q, key: Date.now() }); setAskOpen(true); } : null}
           filterCount={countActiveFilters({
             openNowOnly, activeTags, nearbyOnly, newOnly, safetyOnly, localsOnly,
             activeDish: recommendationDishOptions.find((d) => d.id === recommendationDish),
@@ -891,6 +902,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
               if (what === "passport" || what === "stickers") { setPassportTab(what === "stickers" ? "stickers" : "passport"); goTab("passport"); }
               else if (what === "leaderboard") openRaceView("race");
               else if (what === "add") setSuggestOpen("form");
+              else if (what === "ask") { goTab("map"); setAskOpen(true); }
               else goTab(what);
             }}
           />
@@ -1088,6 +1100,17 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
               />
             )}
 
+            <AskSheet
+              open={askOpen && tab === "map" && !sheetOpen}
+              onClose={() => setAskOpen(false)}
+              seed={askSeed}
+              eateries={eateries}
+              userLoc={userLoc}
+              onRequestLocation={locateMe}
+              ctx={askCtx}
+              onOpenSpot={(id) => { setAskOpen(false); handleSelect(id); }}
+            />
+
             {locAsk && !sheetOpen && (
               <div className="loc-ask" role="dialog" aria-labelledby="loc-ask-title">
                 <div className="loc-ask-head">
@@ -1104,7 +1127,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
               </div>
             )}
 
-            {!sheetOpen && !locAsk && !(curatedEnabled && recommendedOnly) && (
+            {!sheetOpen && !locAsk && !askOpen && !(curatedEnabled && recommendedOnly) && (
               <CardRail
                 spots={railSpots}
                 total={railList.total}
