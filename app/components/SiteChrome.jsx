@@ -73,7 +73,8 @@ export function SiteRelated({ links }) {
   );
 }
 
-export default function SiteChrome({ active, breadcrumb, title, description, children, related, heroClass, navLinksHidden, backFallback }) {
+// `hero` replaces the default title block (the spot page leads with its photo).
+export default function SiteChrome({ active, breadcrumb, title, description, children, related, heroClass, navLinksHidden, backFallback, hero }) {
   return (
     <div className="site-page">
       <header className="site-header">
@@ -81,10 +82,12 @@ export default function SiteChrome({ active, breadcrumb, title, description, chi
           <SiteNav active={active} linksHidden={navLinksHidden} />
           {backFallback && <BackButton fallback={backFallback} />}
           {breadcrumb?.length > 0 && <SiteBreadcrumb items={breadcrumb} />}
-          <div className={`site-hero${heroClass ? ` ${heroClass}` : ""}`}>
-            <h1>{title}</h1>
-            {description && <p>{description}</p>}
-          </div>
+          {hero || (
+            <div className={`site-hero${heroClass ? ` ${heroClass}` : ""}`}>
+              <h1>{title}</h1>
+              {description && <p>{description}</p>}
+            </div>
+          )}
         </div>
       </header>
       <main className="site-body">{children}</main>

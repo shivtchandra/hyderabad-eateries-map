@@ -3,8 +3,9 @@ import path from "path";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
-import BottomNav from "../../components/BottomNav.jsx";
-import { editorialRanking, getEateryBySlugOrId, getEateries, getEditorialSpotIds, getChainSiblings, areaPageHref, hasSpotPhoto, spotSlug, spotPath } from "../../../lib/siteData.js";
+import SpotActionBar from "../../components/SpotActionBar.jsx";
+import SpotsMapClient from "../../components/SpotsMapClient.jsx";
+import { TOP_AREAS, editorialRanking, getEateryBySlugOrId, getEateries, getEditorialSpotIds, getChainSiblings, areaPageHref, hasSpotPhoto, spotSlug, spotPath } from "../../../lib/siteData.js";
 import { absoluteUrl, getSiteUrl, pageMeta } from "../../../lib/site.js";
 import { galleryPhotoUrl, spotPhotoUrl } from "../../../lib/photos.js";
 import { restaurantJsonLd, faqJsonLd, breadcrumbJsonLd, getSpotFaqs } from "../../../lib/schema.js";
@@ -16,7 +17,6 @@ import RecommendationPanel from "../../components/RecommendationPanel.jsx";
 import { getRecommendations, recommendationFor } from "../../../lib/recommendations.js";
 import { recommendationsEnabled } from "../../../lib/recommendationShared.js";
 import { TIERS, tierFor } from "../../../lib/eateryUtils.js";
-import ShareSpotButton from "../../components/ShareSpotButton.jsx";
 import { getRedditSpotData } from "../../../lib/redditThreads.js";
 import { getAllRankingsThemes } from "../../../lib/themesServer.js";
 import { slugFromTitle, SEO_THEME_PICKS } from "../../../lib/rankings.js";
@@ -184,6 +184,9 @@ export default async function SpotPage({ params }) {
         label: shortRanking(th.title),
         rank: i + 1,
         votes: voted[i].count,
+        total: voted.reduce((a, r) => a + (r.count || 0), 0),
+        // Who it is holding off (#1) or chasing, for the ticket's one line.
+        rival: i === 0 ? voted[1] || null : voted[i - 1],
         crowned: !!th.winnerId && th.winnerId === spot.id,
       };
     })
@@ -258,6 +261,37 @@ export default async function SpotPage({ params }) {
     };
   });
 
+  // The spot template (DESIGN.md, Spot page): photo, area kicker, name, one
+  // line of numbers; then the vote ticket, facts, map, what locals say.
+  // Spots found by text search have no area; read it off the address instead.
+  const areaName = spot.discoveredIn && !spot.discoveredIn.startsWith("text:")
+    ? spot.discoveredIn
+    : TOP_AREAS.flatMap((a) => a.split("/")).find((a) => (spot.address || "").includes(a)) || null;
+  const kickerLink = areaLink || (areaName ? areaPageHref(areaName) : null);
+  const catName = CAT_LABEL[spot.category] || spot.category;
+  const subLine = [
+    spot.rating ? `★ ${spot.rating}${spot.ratingCount ? ` (${Number(spot.ratingCount).toLocaleString("en-IN")})` : ""}` : null,
+    spot.costForTwo ? `₹${Number(spot.costForTwo).toLocaleString("en-IN")} for two` : null,
+  ].filter(Boolean);
+  const spotHero = (
+    <div className="sp-hero">
+      {heroImg && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={heroImg} alt={displayName(spot.name)} className="sp-photo" />
+      )}
+      <p className="sp-kicker">
+        {areaName && (kickerLink ? <Link href={kickerLink}>{areaName}</Link> : areaName)}
+        {areaName && catName ? " · " : ""}{catName}
+      </p>
+      <h1 className="sp-name">{isReview ? displayName(spot.name) : spot.name}</h1>
+      {subLine.length > 0 && <p className="sp-sub">{subLine.join(" · ")}</p>}
+    </div>
+  );
+  const topRank = rankedIn[0] || null;
+  const moreRanks = rankedIn.slice(1);
+  const vibe = spot.vibeLabels?.length ? spot.vibeLabels : (spot.tags || []).map((t) => t.replace(/-/g, " "));
+  const siteHost = (() => { try { return new URL(spot.website).hostname.replace(/^www\./, ""); } catch { return "Visit"; } })();
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -265,7 +299,7 @@ export default async function SpotPage({ params }) {
       {faqs.length > 0 && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(faqs)) }} />
       )}
-    <div style={{ paddingBottom: 84 }}>
+    <div style={{ paddingBottom: 96 }}>
     <SiteChrome
       breadcrumb={[
         { href: "/", label: "Home" },
@@ -274,7 +308,7 @@ export default async function SpotPage({ params }) {
       ]}
       title={isReview ? displayName(spot.name) : spot.name}
       description={`${CAT_LABEL[spot.category] || spot.category}${spot.discoveredIn ? ` · ${spot.discoveredIn}` : ""}${spot.rating ? ` · ${spot.rating}★` : ""}`}
-      heroClass={isReview ? "site-hero--app site-hero--stories" : "site-hero--app"}
+      hero={spotHero}
       navLinksHidden
       heroDecor
       backFallback={spot.originStory?.length || spot.regularNote || spot.highlight ? "/stories" : "/"}
@@ -286,23 +320,24 @@ export default async function SpotPage({ params }) {
         { href: `/explore/${spot.category === "local" ? "biryani-and-local" : spot.category === "restro-bar" ? "bars" : spot.category === "ice-cream" ? "ice-cream" : spot.category === "bakery" ? "bakeries" : "cafes"}`, label: `More ${CAT_LABEL[spot.category] || "spots"}` },
       ]}
     >
-      {/* Photo first, then the one primary action (DESIGN.md section 4). The
-          "Ate here? Claim" ask moved to the end of the page. */}
-      {heroImg && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={heroImg} alt={displayName(spot.name)} className="spot-top-photo" />
+      {topRank && (
+        <Link href={`/rankings/${topRank.slug}`} className={`sp-ticket${topRank.rank === 1 ? " is-first" : ""}`}>
+          <span className="sp-ticket-top">
+            <span className="sp-ticket-kicker">#{topRank.rank} {topRank.label} · Locals&apos; vote</span>
+            <span className="sp-ticket-arrow" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7M9 7h8v8" /></svg>
+            </span>
+          </span>
+          <span className="sp-ticket-count"><b>{topRank.votes}</b> of {topRank.total} {topRank.total === 1 ? "vote" : "votes"}</span>
+          <span className="sp-ticket-line">{ticketLine(topRank)}</span>
+        </Link>
       )}
-      <div className="spot-actions">
-        <a href={directionsUrl} target="_blank" rel="noopener noreferrer" className="spot-actions-primary">Directions</a>
-        <ShareSpotButton spotName={displayName(spot.name)} spotPath={spotPath(spot)} style={{ minHeight: 52, padding: "0 20px", fontSize: 15, justifyContent: "center" }} />
-        <Link href={`/?spot=${encodeURIComponent(spot.id)}`} className="spot-actions-secondary">Open on map</Link>
-      </div>
 
-      {(rankedIn.length > 0 || ballots.length > 0) && (
-        <section className="spot-ranks" aria-label="Where locals rank it">
-          <h2>{rankedIn.length > 0 ? "Where locals rank it" : "On the ballot"}</h2>
+      {(moreRanks.length > 0 || ballots.length > 0) && (
+        <section className="spot-ranks" aria-label="More rankings">
+          <h2>{topRank ? "Also in the running" : "On the ballot"}</h2>
           <ul>
-            {rankedIn.map((r) => (
+            {moreRanks.map((r) => (
               <li key={r.slug}>
                 <Link href={`/rankings/${r.slug}`} className="spot-rank-row">
                   <span className="spot-rank-num">#{r.rank}</span>
@@ -330,151 +365,77 @@ export default async function SpotPage({ params }) {
         </section>
       )}
 
-      {context && (
-        <p className="spot-context">
-          {context.area && <><b>One of {context.areaCount} {context.plural} in {context.area}</b>{context.areaRank === 1 ? ", the most reviewed" : context.areaRank <= 10 ? `, the ${ordinal(context.areaRank)} most reviewed` : ""}. </>}
-          {context.cityTopPct <= 25 && <>Among the top {context.cityTopPct}% of Hyderabad {context.plural} by number of reviews.</>}
-        </p>
-      )}
-
-      {latestSafety ? (
+      {latestSafety && (
         <a href="#food-safety" className={`spot-safety${/suspen|seiz|clos|cancel/i.test(latestSafety.entry.action || "") ? " is-serious" : ""}`}>
           <b>Food safety: {ACTIONS[latestSafety.entry.action] || latestSafety.entry.action || "inspection on record"}</b>
           <span>{formatDate(latestSafety.drive.date)}{latestSafety.drive.authority ? ` · ${latestSafety.drive.authority}` : ""}. See the record.</span>
         </a>
-      ) : (
-        <p className="spot-safety-none">
-          No food safety notices on record. <Link href="/food-safety">How we track inspections</Link>
-        </p>
       )}
 
-      {/* Princeton GEO Consensus Summary Block */}
-      {hasConsensus && <div
-        className="spot-consensus-lead"
-      >
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap", marginBottom: 10 }}>
-          <span style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--violet-deep)" }}>
-            Verified Community Consensus
-          </span>
-          {redditData?.thread && (
-            <span style={{ fontSize: 11, fontWeight: 700, color: "#ff4500", background: "rgba(255, 69, 0, 0.08)", padding: "2px 8px", borderRadius: 999 }}>
-              r/hyderabad Contender
-            </span>
+      {context && (context.area || context.cityTopPct <= 25) && (
+        <div className="sp-stats">
+          {context.area && (
+            <div className="sp-stat">
+              <b>{context.areaRank <= 10 ? `#${context.areaRank}` : context.areaCount}</b>
+              <span>{context.areaRank <= 10 ? `most reviewed of ${context.areaCount} ${context.plural} in ${context.area}` : `${context.plural} in ${context.area}`}</span>
+            </div>
+          )}
+          {context.cityTopPct <= 25 && (
+            <div className="sp-stat">
+              <b>Top {context.cityTopPct}%</b>
+              <span>of Hyderabad {context.plural} by reviews</span>
+            </div>
           )}
         </div>
+      )}
 
-        {/* Must-Order Dish Spotlight */}
-        {spot.signatureDish?.name ? (
-          <div
-            style={{
-              background: "#fff",
-              border: "1px solid rgba(124, 58, 237, 0.14)",
-              borderRadius: 12,
-              padding: "11px 13px",
-              marginBottom: 10,
-            }}
-          >
-            <div style={{ fontSize: 10.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--violet)", marginBottom: 3 }}>
-              Locals Must-Order
-            </div>
-            <div style={{ fontSize: 15, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3 }}>
-              {spot.signatureDish.name}
-            </div>
-            {spot.signatureDish.why && (
-              <div style={{ fontSize: 12.5, color: "var(--ink-soft)", marginTop: 3, lineHeight: 1.4 }}>
-                {spot.signatureDish.why.replace(/—/g, ",")}
-              </div>
-            )}
-          </div>
-        ) : null}
-
-        {/* Quick Stat Chips */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginBottom: (redditData?.thread || redditData?.brandData?.quotes?.praise?.length) ? 10 : 0 }}>
-          {spot.rating ? (
-            <span
-              style={{
-                fontSize: 12,
-                fontWeight: 700,
-                color: "var(--ink)",
-                background: "#fff",
-                border: "1px solid rgba(0,0,0,0.08)",
-                padding: "4px 9px",
-                borderRadius: 8,
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 4,
-              }}
-            >
-              {spot.rating}★
-              {spot.ratingCount ? <span style={{ color: "var(--muted)", fontWeight: 500 }}>({spot.ratingCount.toLocaleString("en-IN")})</span> : null}
-            </span>
-          ) : null}
-          {spot.costForTwo ? (
-            <span
-              style={{
-                fontSize: 12,
-                fontWeight: 650,
-                color: "var(--ink)",
-                background: "#fff",
-                border: "1px solid rgba(0,0,0,0.08)",
-                padding: "4px 9px",
-                borderRadius: 8,
-              }}
-            >
-              ₹{spot.costForTwo} for two
-            </span>
-          ) : null}
-          {spot.discoveredIn ? (
-            <span
-              style={{
-                fontSize: 12,
-                fontWeight: 600,
-                color: "var(--ink-soft)",
-                background: "#fff",
-                border: "1px solid rgba(0,0,0,0.08)",
-                padding: "4px 9px",
-                borderRadius: 8,
-              }}
-            >
-              {spot.discoveredIn}
-            </span>
-          ) : null}
-          {safety?.length > 0 ? (
-            <a href="#food-safety" className="spot-safety-chip">
-              Food safety: {ACTIONS[safety[0].entry.action] || "record on file"}
-            </a>
-          ) : null}
-        </div>
-
-        {/* Real diner quote from r/hyderabad discussions */}
-        {redditData?.brandData?.quotes?.praise?.length > 0 && (
-          <div style={{ marginTop: 10, padding: "8px 12px", background: "rgba(255, 69, 0, 0.05)", borderRadius: 10, border: "1px solid rgba(255, 69, 0, 0.12)" }}>
-            <div style={{ fontSize: 10.5, fontWeight: 800, textTransform: "uppercase", color: "#c2410c", marginBottom: 2 }}>
-              From r/hyderabad local diners:
-            </div>
-            <div style={{ fontSize: 12.5, fontStyle: "italic", color: "var(--ink)", lineHeight: 1.4 }}>
-              &ldquo;{redditData.brandData.quotes.praise[0].text}&rdquo;
-            </div>
-          </div>
+      <dl className="sp-facts">
+        {todaysHours && (<div><dt>Open today</dt><dd>{todaysHours}</dd></div>)}
+        {(spot.visitSpend?.text || spot.costForTwo) && (
+          <div><dt>{spot.visitSpend?.label || "Cost for two"}</dt><dd>{spot.visitSpend?.text || `₹${Number(spot.costForTwo).toLocaleString("en-IN")}`}</dd></div>
         )}
+        {spot.founded && (<div><dt>Since</dt><dd>{spot.founded}</dd></div>)}
+        {vibe.length > 0 && (<div><dt>Good for</dt><dd>{vibe.join(", ")}</dd></div>)}
+        {spot.phone && (<div><dt>Phone</dt><dd><a href={`tel:${String(spot.phone).replace(/\s+/g, "")}`}>{spot.phone}</a></dd></div>)}
+        {spot.website && (<div><dt>Website</dt><dd><a href={spot.website} target="_blank" rel="noopener noreferrer">{siteHost}</a></dd></div>)}
+        {spot.zomatoUrl && (<div><dt>Order</dt><dd><a href={spot.zomatoUrl} target="_blank" rel="noopener noreferrer">Zomato</a></dd></div>)}
+        {!latestSafety && (<div><dt>Food safety</dt><dd>No notices on record. <Link href="/food-safety">How we track</Link></dd></div>)}
+      </dl>
 
-        {/* Reddit community discussion context */}
-        {redditData?.thread && (
-          <div style={{ marginTop: 10, paddingTop: 10, borderTop: "1px solid rgba(124, 58, 237, 0.1)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
-            <div style={{ fontSize: 11.5, color: "var(--ink-soft)" }}>
-              Weekly Race in <strong>{redditData.thread.shortTitle}</strong>
-            </div>
-            <a
-              href={redditData.thread.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ fontSize: 11.5, fontWeight: 700, color: "#ff4500", textDecoration: "none" }}
-            >
-              Join Reddit discussion ↗
-            </a>
+      {spot.lat != null && spot.lng != null && (
+        <section className="sp-where" aria-label="Where it is">
+          <SpotsMapClient points={[{ lat: spot.lat, lng: spot.lng, kind: "spot", title: displayName(spot.name), sub: areaName || "Hyderabad" }]} height={180} />
+          <div className="sp-where-row">
+            <p>{spot.address || areaName || "Hyderabad"}</p>
+            <Link href={`/?spot=${encodeURIComponent(spot.id)}`}>Open on our map</Link>
           </div>
-        )}
-      </div>}
+        </section>
+      )}
+
+      {hasConsensus && (
+        <section className="sp-says" aria-label="What locals say">
+          <h2>What locals say</h2>
+          {spot.signatureDish?.name && (
+            <div className="sp-must">
+              <span className="sp-label">Must order</span>
+              <b>{spot.signatureDish.name}</b>
+              {spot.signatureDish.why && <p>{spot.signatureDish.why.replace(/\s*—\s*/g, ", ")}</p>}
+            </div>
+          )}
+          {redditData?.brandData?.quotes?.praise?.length > 0 && (
+            <blockquote className="sp-quote">
+              <p>&ldquo;{redditData.brandData.quotes.praise[0].text.replace(/\s*—\s*/g, ", ")}&rdquo;</p>
+              <cite>A local on r/hyderabad</cite>
+            </blockquote>
+          )}
+          {redditData?.thread && (
+            <a className="sp-thread" href={redditData.thread.url} target="_blank" rel="noopener noreferrer">
+              <span>Talked about in <b>{redditData.thread.shortTitle}</b> on r/hyderabad</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          )}
+        </section>
+      )}
 
       {isReview ? (
         <div className="review">
@@ -566,48 +527,6 @@ export default async function SpotPage({ params }) {
             </section>
           )}
 
-          <section className="review-facts" aria-label="Visit details">
-            <div className="review-facts-grid">
-              {todaysHours && (
-                <div className="review-fact">
-                  <span className="review-fact-label">Open today</span>
-                  <span className="review-fact-value">{todaysHours}</span>
-                </div>
-              )}
-              {(spot.visitSpend?.text || spot.costForTwo || spot.priceLevel) && (
-                <div className="review-fact review-fact--accent">
-                  <span className="review-fact-label">{spot.visitSpend?.label || "Spend"}</span>
-                  <span className="review-fact-value">
-                    {spot.visitSpend?.text
-                      || (spot.costForTwo ? `About ₹${Number(spot.costForTwo).toLocaleString("en-IN")} for two` : "Premium")}
-                  </span>
-                </div>
-              )}
-              {(spot.vibeLabels?.length || spot.tags?.length) && (
-                <div className="review-fact">
-                  <span className="review-fact-label">Vibe</span>
-                  <span className="review-fact-value">
-                    {(spot.vibeLabels || spot.tags.map((tag) => tag.replace(/-/g, " "))).join(" · ")}
-                  </span>
-                </div>
-              )}
-              {spot.phone && (
-                <div className="review-fact">
-                  <span className="review-fact-label">Phone</span>
-                  <a className="review-fact-value" href={`tel:${String(spot.phone).replace(/\s+/g, "")}`}>{spot.phone}</a>
-                </div>
-              )}
-              {spot.website && (
-                <div className="review-fact">
-                  <span className="review-fact-label">Website</span>
-                  <a className="review-fact-value" href={spot.website} target="_blank" rel="noopener noreferrer">
-                    {(() => { try { return new URL(spot.website).hostname.replace(/^www\./, ""); } catch { return "Visit"; } })()}
-                  </a>
-                </div>
-              )}
-            </div>
-          </section>
-
           {galleryRest.length > 0 && (
             <section className="spot-section">
               <h2>More photos</h2>
@@ -637,16 +556,6 @@ export default async function SpotPage({ params }) {
         </div>
       ) : (
         <>
-          <div className="site-spot-hero">
-            <div>
-              <p style={{ fontSize: 15, lineHeight: 1.6, color: "var(--ink-soft)", margin: "0 0 12px" }}>
-                {spot.address || spot.discoveredIn || "Hyderabad"}
-              </p>
-              {spot.tags?.length > 0 && (
-                <p style={{ fontSize: 13, color: "var(--muted)" }}>{spot.tags.join(" · ")}</p>
-              )}
-            </div>
-          </div>
 
           {spot.highlight?.text && (
             <div className="spot-highlight">
@@ -655,14 +564,6 @@ export default async function SpotPage({ params }) {
             </div>
           )}
 
-          <dl className="spot-facts">
-            {todaysHours && (<div><dt>Open today</dt><dd>{todaysHours}</dd></div>)}
-            {spot.costForTwo && (<div><dt>Cost for two</dt><dd>₹{spot.costForTwo}</dd></div>)}
-            {spot.founded && (<div><dt>Since</dt><dd>{spot.founded}</dd></div>)}
-            {spot.phone && (<div><dt>Phone</dt><dd>{spot.phone}</dd></div>)}
-            {spot.website && (<div><dt>Website</dt><dd><a href={spot.website} target="_blank" rel="noopener noreferrer">Visit</a></dd></div>)}
-            {spot.zomatoUrl && (<div><dt>Order</dt><dd><a href={spot.zomatoUrl} target="_blank" rel="noopener noreferrer">Zomato</a></dd></div>)}
-          </dl>
 
           {recommendation && <section className="spot-section" id="recommendations">
             <h2>What to order and why</h2>
@@ -691,50 +592,21 @@ export default async function SpotPage({ params }) {
           {!recommendation && <MustOrder spotId={spot.id} initial={dishSeeds} />}
 
           {spotOffers && (spotOffers.district?.hasOffers || spotOffers.swiggy?.hasOffers) && (
-            <section className="spot-section" style={{ background: "#fff1f2", border: "1px solid #fecdd3", borderRadius: 20, padding: 20 }}>
-              <h2 style={{ color: "#9f1239", fontSize: 16, margin: "0 0 12px", display: "flex", alignItems: "center", gap: 8 }}>
-                Dining Offers &amp; Deals
-              </h2>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14 }}>
-                {spotOffers.district?.hasOffers && (
-                  <div style={{ background: "#ffffff", borderRadius: 14, padding: "14px 16px", border: "1px solid #fed7aa" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                      <strong style={{ color: "#c2410c", fontSize: 13 }}>District by Zomato</strong>
-                      {spotOffers.district.url && (
-                        <a href={spotOffers.district.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, fontWeight: 700, color: "#ea580c" }}>
-                          Book Table →
-                        </a>
-                      )}
-                    </div>
-                    <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12.5, color: "#334155", lineHeight: 1.6 }}>
-                      {spotOffers.district.offers.map((off, i) => (
-                        <li key={i}>
-                          <strong>{off.title}</strong>{off.desc ? ` — ${off.desc}` : ""}
-                        </li>
-                      ))}
-                    </ul>
+            <section className="spot-section sp-offers" aria-label="Offers">
+              <h2>Offers right now</h2>
+              {[["district", "District by Zomato", "Book a table"], ["swiggy", "Swiggy Dineout", "Pay the bill"]].map(([k, label, cta]) => spotOffers[k]?.hasOffers && (
+                <div key={k} className="sp-offer">
+                  <div className="sp-offer-head">
+                    <b>{label}</b>
+                    {spotOffers[k].url && <a href={spotOffers[k].url} target="_blank" rel="noopener noreferrer">{cta} ↗</a>}
                   </div>
-                )}
-                {spotOffers.swiggy?.hasOffers && (
-                  <div style={{ background: "#ffffff", borderRadius: 14, padding: "14px 16px", border: "1px solid #fed7aa" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                      <strong style={{ color: "#ea580c", fontSize: 13 }}>Swiggy Dineout</strong>
-                      {spotOffers.swiggy.url && (
-                        <a href={spotOffers.swiggy.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, fontWeight: 700, color: "#ea580c" }}>
-                          Pay Bill &amp; Save →
-                        </a>
-                      )}
-                    </div>
-                    <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12.5, color: "#334155", lineHeight: 1.6 }}>
-                      {spotOffers.swiggy.offers.map((off, i) => (
-                        <li key={i}>
-                          <strong>{off.title}</strong>{off.desc ? ` — ${off.desc}` : ""}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
+                  <ul>
+                    {spotOffers[k].offers.map((off, i) => (
+                      <li key={i}><b>{off.title}</b>{off.desc ? <span>{off.desc}</span> : null}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </section>
           )}
 
@@ -862,15 +734,26 @@ export default async function SpotPage({ params }) {
         <Link href={`/?spot=${encodeURIComponent(spot.id)}`} className="spot-claim-cta">Claim spot</Link>
       </section>
     </SiteChrome>
-    <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
-      <BottomNav routed activeKey={spot.originStory?.length || spot.regularNote || spot.highlight ? "stories" : "map"} />
-    </div>
+    <SpotActionBar spotId={spot.id} name={displayName(spot.name)} path={spotPath(spot)} directionsUrl={directionsUrl} />
     </div>
     </>
   );
 }
 
 // "Best Dosa in Hyderabad" -> "Best dosa".
+// One line under the ticket's count, from real votes only.
+function ticketLine(t) {
+  const crowned = t.crowned ? "Crowned. " : "";
+  if (!t.rival) return `${crowned}The only spot with votes so far.`;
+  const name = displayName(t.rival.name || "the next spot");
+  if (t.rank === 1) {
+    const by = t.votes - (t.rival.count || 0);
+    return by > 0 ? `${crowned}${by} ahead of ${name}` : `${crowned}Tied with ${name}`;
+  }
+  const need = (t.rival.count || 0) - t.votes + 1;
+  return `${need} ${need === 1 ? "vote" : "votes"} to pass ${name}`;
+}
+
 function shortRanking(title = "") {
   const t = title.replace(/\s+in\s+hyderabad$/i, "");
   return t.charAt(0) + t.slice(1).toLowerCase();
@@ -918,11 +801,6 @@ function spotContext(spot, all) {
   const cityTopPct = cityIdx >= 0 ? Math.max(1, Math.ceil(((cityIdx + 1) / same.length) * 100)) : 100;
   if (!area && cityTopPct > 25) return null;
   return { plural, area, areaCount, areaRank, cityTopPct };
-}
-
-function ordinal(n) {
-  const s = ["th", "st", "nd", "rd"], v = n % 100;
-  return n + (s[(v - 20) % 10] || s[v] || s[0]);
 }
 
 // Which ranking ballots each spot is on (the editorial shortlist each
