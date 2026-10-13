@@ -61,27 +61,25 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   const [activeCategory, setActiveCategory] = useState("all");
 
   const pushAppPath = (path) => {
-    if (typeof window !== "undefined" && window.location.pathname !== path) {
+    if (typeof window !== "undefined" && window.location.pathname + window.location.search !== path) {
       window.history.pushState({}, "", path);
     }
   };
 
-  // Race views have real URLs so either screen can be opened and shared directly.
+  // Vote is an in-app tab like the others: /?tab=race (This week) or
+  // /?tab=race&view=race (The race). No full reload, and the address stays on
+  // the same route, so the old soft-404 (pushState to /race/this-week while
+  // the router sat on "/") can't happen. /race and /race/this-week remain as
+  // shareable landing pages.
   const openRaceView = (view) => {
     setRaceView(view);
     setTab("race");
-    pushAppPath(view === "theme" ? "/race/this-week" : "/race");
+    if (typeof window !== "undefined" && window.location.pathname.startsWith("/race")) return; // landing page: keep its URL
+    pushAppPath(view === "race" ? "/?tab=race&view=race" : "/?tab=race");
   };
 
-  // Opening Race from the bottom nav lands on This Week via a real URL load.
-  // pushState-only left the App Router on "/" while the address bar said
-  // /race/this-week, which soft-404'd on the next navigation for some users.
   const goTab = (nextTab) => {
     if (nextTab === "race") {
-      if (typeof window !== "undefined" && !window.location.pathname.startsWith("/race")) {
-        window.location.href = "/race/this-week";
-        return;
-      }
       openRaceView("theme");
       return;
     }
@@ -147,6 +145,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     const p = new URLSearchParams(window.location.search);
     const t = p.get("tab");
     if (t && ["map", "you", "passport", "saved", "race", "route"].includes(t)) setTab(t);
+    if (t === "race") setRaceView(p.get("view") === "race" ? "race" : "theme");
     const d = p.get("dish");
     if (d) {
       setUrlDish(d);
@@ -203,9 +202,11 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
         setRaceView("race");
         setTab("race");
       } else if (path === "/") {
-        const q = new URLSearchParams(window.location.search).get("tab");
-        if (q && ["map", "you", "passport", "saved", "race"].includes(q)) setTab(q);
+        const sp = new URLSearchParams(window.location.search);
+        const q = sp.get("tab");
+        if (q && ["map", "you", "passport", "saved", "race", "route"].includes(q)) setTab(q);
         else setTab("map");
+        if (q === "race") setRaceView(sp.get("view") === "race" ? "race" : "theme");
       }
     };
     window.addEventListener("popstate", syncRoute);

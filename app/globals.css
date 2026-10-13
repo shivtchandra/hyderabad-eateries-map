@@ -416,7 +416,9 @@ button { font-family: inherit; }
   filter: saturate(0.9) contrast(1.03) sepia(0.12);
 }
 /* Fallback when a photo is missing: flat category colour */
-.photo-pin-img.noimg { background: var(--c); }
+/* No photo: a light pin with a category-colour centre, not a big flat disc. */
+.photo-pin-img.noimg { background: var(--cream-hi); }
+.photo-pin-img.noimg::after { content: ""; position: absolute; inset: 32%; border-radius: 50%; background: var(--c); }
 
 .photo-pin.collected .photo-pin-img { border-color: var(--pop); }
 /* Selection is expressed purely in CSS so the marker never has to be rebuilt */
@@ -1067,3 +1069,9 @@ button { font-family: inherit; }
 .map-offline { position: absolute; left: var(--s4); right: var(--s4); bottom: var(--s4); z-index: 1100; max-width: 440px; margin: 0 auto; display: flex; align-items: center; gap: var(--s3); padding: var(--s3) var(--s3) var(--s3) var(--s5); border-radius: var(--r-card); background: var(--ink); color: #fff; font-size: 15px; box-shadow: var(--e3); }
 .map-offline span { flex: 1; }
 .map-offline button { flex-shrink: 0; min-height: 44px; padding: 0 var(--s4); border: 0; border-radius: var(--r-btn); background: var(--yellow); color: var(--ink); font-size: 15px; font-weight: 700; cursor: pointer; }
+
+/* Pins: a quiet accent for spots with a food story, a yellow ring for the
+   live vote's top 3 at street level (zoomed out they show as tickets). */
+.photo-pin-story { position: absolute; top: 0; right: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--violet); border: 2.5px solid var(--cream-hi); box-shadow: 0 1px 4px rgba(20, 20, 20, 0.3); }
+.photo-pin.voted-top .photo-pin-img { border-color: var(--yellow); border-width: 4px; }
+.photo-pin-label { font-size: 12px; max-width: 128px; }

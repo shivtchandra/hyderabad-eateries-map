@@ -39,6 +39,7 @@ export default function MapCanvas({
   const routeLayerRef = useRef(null);
   const pickLayerRef = useRef(null);
   const ticketLayerRef = useRef(null);
+  const voteTopRef = useRef(voteTop); voteTopRef.current = voteTop;
   const [ready, setReady] = useState(false);
   // First open per session: two clouds part when the basemap is ready (the
   // reels' opening). Never blocks taps; skipped for reduced motion.
@@ -66,7 +67,6 @@ export default function MapCanvas({
     return () => window.clearTimeout(t);
   }, [cloudsParted]);
   const [viewTick, setViewTick] = useState(0);
-  const fixedHeroes = useRef({ key: "", ids: new Set() }); // photo-pin set, fixed per working set
 
   // Kept as refs (not state), the map's own 'click' listener is registered
   // once in the init effect below and must read the latest values without
@@ -178,6 +178,7 @@ export default function MapCanvas({
     const layer = ticketLayerRef.current;
     if (!ready || !L || !layer) return;
     layer.clearLayers();
+    if ((mapRef.current?.getZoom?.() ?? 0) >= 14) return; // street level: a yellow ring on the pin instead
     const byId = new Map(eateries.map((e) => [e.id, e]));
     for (const t of voteTop) {
       const e = byId.get(t.spotId);
@@ -192,7 +193,7 @@ export default function MapCanvas({
         title: `${t.name}, ${t.count} votes`,
       }).on("click", () => onSelect?.(e.id)).addTo(layer);
     }
-  }, [ready, voteTop, voteLabel, eateries, onSelect]);
+  }, [ready, voteTop, voteLabel, eateries, onSelect, viewTick]);
 
   // Crosshair cursor while picking, so it's obvious the next tap places a pin.
   useEffect(() => {
@@ -377,32 +378,34 @@ export default function MapCanvas({
       east: b.getEast(),
       west: b.getWest(),
     };
-    // ---- Fixed photo pins ----
-    // Pins used to be re-picked on every zoom/pan, so spots kept popping in and out.
-    // Now the hero set is chosen once per working set (filter / area / route): the best
-    // spot in each ~1.5 km patch of the city. Zooming and panning only reveal or hide
-    // those same pins; everything else stays a tappable dot.
-    const fixedKey = `${filtered.length}:${filtered[0]?.id ?? ""}:${filtered[filtered.length - 1]?.id ?? ""}`;
-    if (fixedHeroes.current.key !== fixedKey) {
-      const CELL = 0.007; // ~750 m at Hyderabad latitude
-      const best = new Map();
-      for (const e of filtered) {
-        const k = `${Math.floor(e.lat / CELL)}:${Math.floor(e.lng / CELL)}`;
-        const cur = best.get(k);
-        if (!cur || scoreOf(e) > scoreOf(cur)) best.set(k, e);
-      }
-      fixedHeroes.current = { key: fixedKey, ids: new Set([...best.values()].map((e) => e.id)) };
-    }
+    // ---- Hero pins, placed in screen space so they never overlap ----
+    // Street level used to turn every spot in view into a photo pin (up to
+    // 400), and their photos and labels piled on top of each other. Now the
+    // best spots in view get a photo pin only where pin + label (~128x98px)
+    // fits, capped for the screen size; everything else is a small dot. Pins
+    // already on screen are placed first so panning doesn't make them pop.
+    const PIN = 56;
+    const W = map.getSize().x, H = map.getSize().y;
+    const TOP_PX = 136; // the floating search row + chips
+    const maxHeroes = Math.min(heroCap, Math.max(4, Math.min(W < 600 ? 8 : 20, Math.floor((W * Math.max(0, H - TOP_PX - RAIL_PX)) / (150 * 130)))));
     const inBounds = (e) => e.lat >= bounds.south && e.lat <= bounds.north && e.lng >= bounds.west && e.lng <= bounds.east;
     const visible = filtered.filter(inBounds);
-    // Street level: every spot in view is a photo pin (no dots). Further out, only the fixed set.
-    const ALL_PINS_ZOOM = 15;
-    const allPins = zoom >= ALL_PINS_ZOOM;
-    let heroes = (allPins ? visible : visible.filter((e) => fixedHeroes.current.ids.has(e.id)))
-      .sort((x, y) => scoreOf(y) - scoreOf(x)).slice(0, allPins ? 400 : heroCap);   // 400: DOM safety cap
+    const byScore = [...visible].sort((x, y) => scoreOf(y) - scoreOf(x));
+    const shown = heroMarkers.current;
+    const ordered = [...byScore.filter((e) => shown.has(e.id)), ...byScore.filter((e) => !shown.has(e.id))];
+    const boxes = [];
+    let heroes = [];
+    for (const e of ordered) {
+      if (heroes.length >= maxHeroes) break;
+      const pt = map.latLngToContainerPoint([e.lat, e.lng]);
+      if (pt.y < TOP_PX || pt.y > H - RAIL_PX) continue;
+      const bx = { x1: pt.x - 64, x2: pt.x + 64, y1: pt.y - (PIN + 12), y2: pt.y + 30 };
+      if (boxes.some((q) => bx.x1 < q.x2 && bx.x2 > q.x1 && bx.y1 < q.y2 && bx.y2 > q.y1)) continue;
+      boxes.push(bx);
+      heroes.push(e);
+    }
     const heroIds = new Set(heroes.map((e) => e.id));
     let rest = visible.filter((e) => !heroIds.has(e.id));
-    const target = heroes.length, cellW = 0, cellH = 0, cellLat = 0.0135, cellLng = 0.0135;
 
     // An exact search result must never disappear into the dot layer just because
     // another nearby spot won the ranking cell. Selection overrides ranking.
@@ -416,7 +419,7 @@ export default function MapCanvas({
     }
 
     if (typeof window !== "undefined") {
-      window.__spot = { zoom, target, cellW: Math.round(cellW), cellH: Math.round(cellH), cellLat, cellLng, heroes: heroes.length };
+      window.__spot = { zoom, heroes: heroes.length, max: maxHeroes, dots: rest.length };
     }
 
     const key = heroes.map((e) => e.id).join(",");
@@ -470,7 +473,7 @@ export default function MapCanvas({
       if (liveHeroes.has(e.id)) continue; // already on screen, leave it alone
       const color = CAT_COLOR[e.category] ?? "#948567";
       const state = passportStore.stateOf(passport, e.id);
-      const cls = ["photo-pin", state === "visited" ? "collected" : ""].filter(Boolean).join(" ");
+      const cls = ["photo-pin", state === "visited" ? "collected" : "", voteTopRef.current.some((t) => t.spotId === e.id) ? "voted-top" : ""].filter(Boolean).join(" ");
 
       const html = `
         <div class="${cls}" style="--c:${color};width:${size}px;height:${size + 10}px">
@@ -480,7 +483,7 @@ export default function MapCanvas({
           </div>
           <div class="photo-pin-stem"></div>
           <div class="photo-pin-label">${escapeHtml(e.name)}</div>
-          ${featuredIds?.has(e.id) ? '<div class="photo-pin-star">★ Story</div>' : ""}
+          ${featuredIds?.has(e.id) ? '<div class="photo-pin-story" title="Has a food story"></div>' : ""}
         </div>`;
 
       const marker = L.marker([e.lat, e.lng], {

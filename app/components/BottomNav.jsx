@@ -11,7 +11,7 @@ import { Icon } from "./Icons.jsx";
 // `keys` are the in-app tab states (and routed activeKeys) that light each tab.
 const TABS = [
   { key: "map", icon: "map", label: "Map", href: "/", keys: ["map"] },
-  { key: "race", icon: "vote", label: "Vote", href: "/race/this-week", keys: ["race", "rankings"] },
+  { key: "race", icon: "vote", label: "Vote", href: "/?tab=race", keys: ["race", "rankings"] },
   { key: "guides", icon: "book", label: "Guides", href: "/guides", route: true, keys: ["guides", "stories", "explore", "areas", "deals", "about"] },
   { key: "you", icon: "user", label: "You", href: "/?tab=you", keys: ["you", "saved", "passport", "route"] },
 ];
