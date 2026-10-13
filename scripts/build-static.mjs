@@ -39,6 +39,12 @@ for (const e of all.filter((x) => x.lat && x.lng && x.status === "approved")) {
 }
 const approved = [...byIdBest.values()];
 const core = coreIdSet(approved, { editorialIds });
+// "Recos" chip: spots we recommend something at (editorial, dish picks, brand
+// picks like Cream Stone, dishes locals name on r/hyderabad).
+const readData = (f, fb) => { try { return JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", f), "utf-8")); } catch { return fb; } };
+const dishSeedIds = new Set(Object.keys(readData("dish-seeds.json", {})));
+const brandRes = (readData("brand-picks.json", { brands: [] }).brands || []).map((b) => new RegExp(b.match, "i"));
+const isReco = (e) => editorialIds.has(e.id) || dishSeedIds.has(e.id) || !!localsDishes[e.id] || brandRes.some((re) => re.test(e.name || ""));
 let localsDishes = {};
 try { localsDishes = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "locals-dishes.json"), "utf-8")).spots || {}; } catch {}
 
@@ -49,6 +55,7 @@ const index = approved
     n: e.name,
     c: fixCategory(e),
     ...(localsDishes[e.id] ? { d: localsDishes[e.id].map((x) => x.dish) } : {}), // dishes locals name (Ask Eats)
+    ...(isReco(e) ? { rc: 1 } : {}), // "Recos" chip
     lat: +e.lat.toFixed(5),
     lng: +e.lng.toFixed(5),
     r: e.rating ?? null,

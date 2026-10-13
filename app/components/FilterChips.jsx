@@ -9,7 +9,7 @@ import { Icon, TagIcon } from "./Icons.jsx";
 // Everything else (open now, nearby, dish, vibe tags, the every-spot toggle)
 // sits behind the one Filters button, so the map keeps a single calm row.
 const CHIPS = [
-  { key: "local", label: "Local", icon: "local" },
+  { key: "recos", label: "Recos", icon: "sparkle" }, // spots we recommend something at
   { key: "restaurant", label: "Restaurants", icon: "restaurant" },
   { key: "cafe", label: "Cafes", icon: "cafe" },
   { key: "restro-bar", label: "Bars", icon: "restro-bar" },

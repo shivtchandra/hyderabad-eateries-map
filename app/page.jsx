@@ -7,13 +7,18 @@ import { spotPhotoUrl } from "../lib/photos.js";
 import * as passportStore from "../lib/passport.js";
 import { Icon } from "./components/Icons.jsx";
 import dynamic from "next/dynamic";
+import Clouds from "./components/Clouds.jsx";
 
 // Race claims need GPS proof (within 250 m) only when this is on. Off while testing.
 const RACE_REQUIRE_GPS = process.env.NEXT_PUBLIC_RACE_REQUIRE_GPS === "1";
 const NO_PINS = [];
-const MapCanvas = dynamic(() => import("./components/MapCanvas.jsx"), { ssr: false });
+// While the map's code loads, keep showing the opening clouds (no gap between
+// the placeholder's clouds and MapCanvas's own).
+const MapCanvas = dynamic(() => import("./components/MapCanvas.jsx"), {
+  ssr: false,
+  loading: () => <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "var(--cream)" }}><Clouds /></div>,
+});
 import CardRail from "./components/CardRail.jsx";
-import Clouds from "./components/Clouds.jsx";
 import AskSheet from "./components/AskSheet.jsx";
 import TopBar from "./components/TopBar.jsx";
 import FilterChips, { countActiveFilters } from "./components/FilterChips.jsx";
@@ -295,7 +300,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
         setEateries(rows.map((e) => ({
           id: e.id, name: e.n, category: e.c, lat: e.lat, lng: e.lng,
           rating: e.r, ratingCount: e.rc, tier: e.t, tags: e.g,
-          priceLevel: e.p, discoveredIn: e.a, createdAt: e.ca ?? null, dishes: e.d || [],
+          priceLevel: e.p, discoveredIn: e.a, createdAt: e.ca ?? null, dishes: e.d || [], reco: e.rc === 1,
           core: e.k !== 0, // curated list (lib/coreSpots.js); older index files without `k` count as core
         })));
         setLoading(false);
@@ -477,7 +482,9 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     return (curatedEnabled ? pool : eateries).filter((e) => {
       if (!curatedEnabled && !showAll && !e.core && !q && !localsOnly) return false; // locals' picks bypass the core-list cut // hidden listings still match a name search
       // "desserts" is one chip for two categories (FilterChips.jsx).
-      if (activeCategory === "desserts" ? (e.category !== "bakery" && e.category !== "ice-cream") : (activeCategory !== "all" && e.category !== activeCategory)) return false;
+      // "Recos": anything we recommend (editorial, dish and brand picks, dishes locals name, our and locals' picks).
+      if (activeCategory === "recos") { if (!(e.reco || picksMap[e.id] || (localsMap[e.id] || 0) >= 2)) return false; }
+      else if (activeCategory === "desserts" ? (e.category !== "bakery" && e.category !== "ice-cream") : (activeCategory !== "all" && e.category !== activeCategory)) return false;
       if (!curatedEnabled && q && !e.name.toLowerCase().includes(q)) return false;
       if (activeTags.length && !activeTags.every((t) => validTagsFor(e.category, e.tags).includes(t))) return false;
       if (openNowOnly && allDetailsStatus === "loaded" && isOpenNow(details[e.id]?.hours) !== true) return false;
@@ -490,7 +497,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
       if (localsOnly && !localsMap[e.id]) return false;
       return true;
     });
-  }, [eateries, pool, curatedEnabled, showAll, activeCategory, deferredSearch, activeTags, openNowOnly, allDetailsStatus, details, nearbyOnly, newOnly, safetyOnly, safetyMap, localsOnly, localsMap, userLoc]);
+  }, [eateries, pool, curatedEnabled, showAll, activeCategory, deferredSearch, activeTags, openNowOnly, allDetailsStatus, details, nearbyOnly, newOnly, safetyOnly, safetyMap, localsOnly, localsMap, userLoc, picksMap]);
 
   const byId = useMemo(() => {
     const m = {};
