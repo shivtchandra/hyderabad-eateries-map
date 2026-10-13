@@ -955,6 +955,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
             )}
             {areaLabel && (
               <button
+                data-area-chip=""
                 onClick={() => { setAreaLabel(null); setSelectedId(null); mapApi.current?.reset(); }}
                 style={{
                   position: "absolute", top: 140, left: 16, zIndex: 1000,

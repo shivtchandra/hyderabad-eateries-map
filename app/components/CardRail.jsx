@@ -123,6 +123,7 @@ export default function CardRail({
       <div
         ref={railRef}
         onScroll={onScroll}
+        data-map-rail=""
         className="chip-rail"
         style={{
           position: "absolute", left: 0, right: 0, bottom: 0,

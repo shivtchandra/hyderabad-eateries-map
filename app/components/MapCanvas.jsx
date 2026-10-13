@@ -370,7 +370,15 @@ export default function MapCanvas({
 
     // The card rail covers the bottom ~185px, so exclude that strip when
     // choosing heroes, otherwise the best-ranked pins land underneath it.
-    const RAIL_PX = recommendationMode ? 0 : 185;
+    // Measured, not guessed: the rail's real height (plus its collapse button)
+    // and the bottom of the floating chrome / area chip at the top.
+    const mapRect = containerRef.current?.getBoundingClientRect();
+    const railEl = document.querySelector("[data-map-rail]");
+    const RAIL_PX = recommendationMode || !mapRect ? 0
+      : railEl ? Math.max(0, mapRect.bottom - railEl.getBoundingClientRect().top) + 48
+      : 24;
+    const chipEl = document.querySelector("[data-area-chip]");
+    const chromeBottom = Math.max(136, chipEl && mapRect ? chipEl.getBoundingClientRect().bottom - mapRect.top + 8 : 0);
     const southLimit = map.containerPointToLatLng([0, map.getSize().y - RAIL_PX]).lat;
     const bounds = {
       north: b.getNorth(),
@@ -386,11 +394,15 @@ export default function MapCanvas({
     // already on screen are placed first so panning doesn't make them pop.
     const PIN = 56;
     const W = map.getSize().x, H = map.getSize().y;
-    const TOP_PX = 136; // the floating search row + chips
-    const maxHeroes = Math.min(heroCap, Math.max(4, Math.min(W < 600 ? 8 : 20, Math.floor((W * Math.max(0, H - TOP_PX - RAIL_PX)) / (150 * 130)))));
+    const TOP_PX = chromeBottom; // floating search row + chips (+ area chip)
+    const maxHeroes = Math.min(heroCap, Math.max(4, Math.min(W < 600 ? 12 : 30, Math.floor((W * Math.max(0, H - TOP_PX - RAIL_PX)) / (130 * 110)))));
     const inBounds = (e) => e.lat >= bounds.south && e.lat <= bounds.north && e.lng >= bounds.west && e.lng <= bounds.east;
     const visible = filtered.filter(inBounds);
-    const byScore = [...visible].sort((x, y) => scoreOf(y) - scoreOf(x));
+    // Hero candidates use the whole map (not the rail-trimmed box) so a pin
+    // that drifts toward the edges while zooming keeps its photo.
+    const fullB = map.getBounds();
+    const onMap = (e) => e.lat >= fullB.getSouth() && e.lat <= fullB.getNorth() && e.lng >= fullB.getWest() && e.lng <= fullB.getEast();
+    const byScore = filtered.filter(onMap).sort((x, y) => scoreOf(y) - scoreOf(x));
     const shown = heroMarkers.current;
     const ordered = [...byScore.filter((e) => shown.has(e.id)), ...byScore.filter((e) => !shown.has(e.id))];
     const boxes = [];
@@ -398,8 +410,18 @@ export default function MapCanvas({
     for (const e of ordered) {
       if (heroes.length >= maxHeroes) break;
       const pt = map.latLngToContainerPoint([e.lat, e.lng]);
-      if (pt.y < TOP_PX || pt.y > H - RAIL_PX) continue;
-      const bx = { x1: pt.x - 64, x2: pt.x + 64, y1: pt.y - (PIN + 12), y2: pt.y + 30 };
+      // The pin hangs above its point; its label sits below it.
+      const bx = { x1: pt.x - 64, x2: pt.x + 64, y1: pt.y - (PIN + 12), y2: pt.y + 34 };
+      if (shown.has(e.id)) {
+        // Already a pin: keep it while its point is on the map (zooming in
+        // pushes pins outward; they shouldn't vanish for that).
+        if (pt.x < 0 || pt.x > W || pt.y < 0 || pt.y > H) continue;
+      } else {
+        // New pins only where they're fully readable.
+        if (bx.y1 < TOP_PX || bx.y2 > H - RAIL_PX) continue;       // under the chrome or the rail
+        if (bx.x1 < 4 || bx.x2 > W - 4) continue;                  // label would be cut off
+        if (bx.x2 > W - 72 && bx.y2 > H - RAIL_PX - 130) continue; // map buttons column
+      }
       if (boxes.some((q) => bx.x1 < q.x2 && bx.x2 > q.x1 && bx.y1 < q.y2 && bx.y2 > q.y1)) continue;
       boxes.push(bx);
       heroes.push(e);

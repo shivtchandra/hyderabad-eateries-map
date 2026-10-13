@@ -1075,3 +1075,22 @@ button { font-family: inherit; }
 .photo-pin-story { position: absolute; top: 0; right: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--violet); border: 2.5px solid var(--cream-hi); box-shadow: 0 1px 4px rgba(20, 20, 20, 0.3); }
 .photo-pin.voted-top .photo-pin-img { border-color: var(--yellow); border-width: 4px; }
 .photo-pin-label { font-size: 12px; max-width: 128px; }
+
+/* ---- Arrow tiles: the ↗ turns to → on hover / press, and the tile fills.
+   One rule for every arrow tile in the app. ---- */
+.guides-arrow svg, .you-arrow svg, .you-passport-go svg, .vote-card-go svg {
+  transition: transform var(--dur-2) var(--ease-out);
+}
+.guides-row:hover .guides-arrow svg, .guides-row:focus-visible .guides-arrow svg, .guides-row:active .guides-arrow svg,
+.guides-text-card:hover .guides-arrow svg, .guides-text-card:focus-visible .guides-arrow svg, .guides-text-card:active .guides-arrow svg,
+.you-link:hover .you-arrow svg, .you-link:focus-visible .you-arrow svg, .you-link:active .you-arrow svg,
+.you-passport:hover .you-passport-go svg, .you-passport:focus-visible .you-passport-go svg, .you-passport:active .you-passport-go svg,
+.vote-card-go:hover svg, .vote-card-go:focus-visible svg, .vote-card-go:active svg {
+  transform: rotate(45deg);
+}
+.guides-text-card:hover .guides-arrow, .guides-text-card:active .guides-arrow,
+.you-link:active .you-arrow { background: var(--violet); color: #fff; }
+.guides-arrow, .you-arrow { transition: background var(--dur-2) ease, color var(--dur-2) ease; }
+@media (prefers-reduced-motion: reduce) {
+  .guides-arrow svg, .you-arrow svg, .you-passport-go svg, .vote-card-go svg { transition: none; }
+}
