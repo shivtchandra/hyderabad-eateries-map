@@ -10,6 +10,7 @@ import { stickerForTitle } from "../../lib/stickerArt.js";
 import { seasonClosed, seasonYear } from "../../lib/voteDecay.js";
 import ThemeSuggest from "./ThemeSuggest.jsx";
 import AddPlace, { isUserSpot } from "./AddPlace.jsx";
+import VoteFollowUp from "./VoteFollowUp.jsx";
 
 function themeKeyword(title = "") {
   return String(title)
@@ -158,6 +159,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
   const [loading, setLoading] = useState(true);
   const [openPast, setOpenPast] = useState(null);
   const [votedSpotId, setVotedSpotId] = useState(null);
+  const [justVoted, setJustVoted] = useState(false); // shows the email opt-in once
   const [localCounts, setLocalCounts] = useState({});
   const [localResults, setLocalResults] = useState(null);
   const [voteTick, setVoteTick] = useState(0);
@@ -199,6 +201,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
     const prevSpotId = getThemeVoteSpot(theme.id);
     const result = await castThemeVote(theme.id, spotId, name, { title: theme.title });
     if (!result.ok) return;
+    setJustVoted(true);
 
     if (isCurrent) {
       setVotedSpotId(spotId);
@@ -431,6 +434,8 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, rankin
           <a href={`/rankings/${slugFromTitle(theme.title)}`} className="vote-full-link">Full ranking page</a>
         </div>
       </div>
+
+      {justVoted && <VoteFollowUp themeTitle={theme.title} source="vote-tab" />}
 
       {/* Crown phase after endDate: still votable, crown follows live #1 */}
       {(theme.winnerId || isPastEndDate(theme)) && (results[0] || theme.winnerName) && (

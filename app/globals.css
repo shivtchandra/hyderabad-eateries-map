@@ -1263,3 +1263,21 @@ button { font-family: inherit; }
 
 /* First frame of the app, before it knows which tab the URL asked for. */
 .app-shell[data-ready="0"] > * { visibility: hidden; }
+
+/* ---- After a vote: email opt-in (VoteFollowUp.jsx) ---- */
+.vfu { margin: var(--s3) var(--s4) var(--s4); padding: var(--s4); border-radius: var(--r-card); background: var(--yellow); color: var(--ink); display: flex; flex-direction: column; gap: var(--s2); }
+.vfu-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); }
+.vfu-head b, .vfu--done b { font-family: var(--font-display), system-ui, sans-serif; font-size: 19px; letter-spacing: -0.02em; }
+.vfu-later { border: 0; background: none; color: var(--ink); font-size: 13px; font-weight: 600; text-decoration: none; opacity: 0.7; cursor: pointer; }
+.vfu-sub { margin: 0; font-size: 14px; }
+.vfu-row { display: flex; gap: var(--s2); }
+.vfu-row input { flex: 1; min-width: 0; min-height: 46px; padding: 0 var(--s4); border: 0; border-radius: var(--r-pill); background: #fff; color: var(--ink); font: 500 15px var(--font-ui), system-ui, sans-serif; }
+.vfu-row input:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
+.vfu-row button { flex-shrink: 0; min-height: 46px; padding: 0 var(--s4); border: 0; border-radius: var(--r-pill); background: var(--ink); color: var(--yellow); font: 700 15px var(--font-ui), system-ui, sans-serif; cursor: pointer; }
+.vfu-row button:disabled { opacity: 0.6; cursor: default; }
+.vfu-opt { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; }
+.vfu-opt input { width: 18px; height: 18px; accent-color: var(--ink); }
+.vfu-err { margin: 0; font-size: 13px; font-weight: 600; }
+.vfu-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.vfu--done { gap: 4px; }
+.vfu--done span { font-size: 14px; }

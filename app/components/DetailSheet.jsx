@@ -7,6 +7,7 @@ import { Icon, CategoryIcon, TagIcon } from "./Icons.jsx";
 import { hasVoted } from "../../lib/voting.js";
 import { getThemeVoteSpot, castThemeVote } from "../../lib/themeVoting.js";
 import MustOrder from "./MustOrder.jsx";
+import VoteFollowUp from "./VoteFollowUp.jsx";
 
 const CAT_META = {
   restaurant: { label: "Restaurant", color: "#9d2f4f", gradient: "#9d2f4f" },
@@ -34,6 +35,7 @@ export default function DetailSheet({
   const [themeCasting, setThemeCasting] = useState(false);
   const [themeVoteSpotLocal, setThemeVoteSpotLocal] = useState(null);
   const [themeVoteFailed, setThemeVoteFailed] = useState(false);
+  const [themeJustVoted, setThemeJustVoted] = useState(false);
   const [showMoreDetails, setShowMoreDetails] = useState(false);
   const [offersData, setOffersData] = useState(null);
   const [shareCopied, setShareCopied] = useState(false);
@@ -122,6 +124,7 @@ export default function DetailSheet({
     const result = await castThemeVote(currentTheme.id, eatery.id, eatery.name, { title: currentTheme.title });
     setThemeCasting(false);
     if (!result.ok) { setThemeVoteSpotLocal(previous); setThemeVoteFailed(true); }
+    else setThemeJustVoted(true);
   }, [currentTheme, votedForThis, votedForOther, themeCasting, themeVotePending, themeVoteSpotLocal, eatery.id, eatery.name]);
 
   const allTags = validTagsFor(eatery.category, eatery.tags || []);
@@ -866,6 +869,7 @@ export default function DetailSheet({
                         That vote didn’t go through. Try again.
                       </p>
                     )}
+                    {themeJustVoted && <div style={{ margin: "0 -16px" }}><VoteFollowUp themeTitle={currentTheme.title} source="spot-sheet" /></div>}
                   </div>
                 )}
 
