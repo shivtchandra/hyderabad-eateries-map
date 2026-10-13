@@ -102,6 +102,9 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   const [selectedId, setSelectedId] = useState(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [heroes, setHeroes] = useState([]);
+  // Every spot on the map for the card rail (the map itself shows only a few pins).
+  const [railList, setRailList] = useState({ spots: [], total: 0 });
+  const onVisibleChange = useCallback((spots, total) => setRailList({ spots, total }), []);
   const [areaLabel, setAreaLabel] = useState(null);
   const [userLoc, setUserLoc] = useState(null);
   const [locating, setLocating] = useState(false);
@@ -685,11 +688,11 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   }, [locateMe]);
   useEffect(() => { if (sheetOpen || tab !== "map") setLocAsk(false); }, [sheetOpen, tab]);
 
-  // Rail: closest first once we know where the user is.
+  // Rail: every spot on the map, closest first once we know where the user is.
   const railSpots = useMemo(() => {
-    if (!userLoc) return heroes;
-    return [...heroes].sort((a, b) => haversineKm(userLoc, a) - haversineKm(userLoc, b));
-  }, [heroes, userLoc]);
+    if (!userLoc) return railList.spots;
+    return [...railList.spots].sort((a, b) => haversineKm(userLoc, a) - haversineKm(userLoc, b));
+  }, [railList, userLoc]);
 
   useEffect(() => {
     if (tab === "map") mapApi.current?.invalidate();
@@ -830,6 +833,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
               onSelect={handleSelect}
               onAreaEnter={handleAreaEnter}
               onHeroesChange={setHeroes}
+              onVisibleChange={onVisibleChange}
               onZoomChange={(api) => { mapApi.current = api; }}
               voteTop={tab === "map" ? voteTop : []}
               voteLabel={currentTheme?.title?.replace(/^best\s+/i, "").replace(/\s+in\s+hyderabad$/i, "")}
@@ -1015,7 +1019,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
               </button>
             )}
 
-            <div style={{ position: "absolute", right: 12, bottom: curatedEnabled && recommendedOnly ? 64 : heroes.length ? 186 : 20, display: "flex", flexDirection: "column", gap: 9, zIndex: 1000 }}>
+            <div style={{ position: "absolute", right: 12, bottom: curatedEnabled && recommendedOnly ? 64 : railSpots.length ? 186 : 20, display: "flex", flexDirection: "column", gap: 9, zIndex: 1000 }}>
               <button onClick={() => { setAreaLabel(null); setSelectedId(null); mapApi.current?.reset(); }} style={fab} aria-label="Back to city view">
                 <Icon name="city" size={20} width={1.9} color="var(--ink-soft)" />
               </button>
@@ -1081,6 +1085,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
             {!sheetOpen && !locAsk && !(curatedEnabled && recommendedOnly) && (
               <CardRail
                 spots={railSpots}
+                total={railList.total}
                 activeId={selectedId}
                 onActivate={handleSelect}
                 onOpen={() => setSheetOpen(true)}

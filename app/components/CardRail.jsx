@@ -24,7 +24,7 @@ const PRICE_ESTIMATE = {
 // browsing a short ranked deck beats hunting a field of 1600 identical pins.
 // Scroll ↔ map selection stay in sync in both directions.
 export default function CardRail({
-  spots, activeId, onActivate, onOpen, passport, featuredIds, voteMap = {}, onVote, distMap = {}, picksMap = {}, starOfWeek = null,
+  spots, total, activeId, onActivate, onOpen, passport, featuredIds, voteMap = {}, onVote, distMap = {}, picksMap = {}, starOfWeek = null,
   open: openProp, onOpenChange,
 }) {
   const railRef = useRef(null);
@@ -73,7 +73,7 @@ export default function CardRail({
     return (
       <button type="button" onClick={() => setOpen(true)} className="rail-pill pressable-sm">
         <Icon name="chevronDown" size={14} width={2.3} color="var(--muted)" style={{ transform: "rotate(180deg)" }} />
-        {spots.length} spot{spots.length === 1 ? "" : "s"} here
+        {total ?? spots.length} spot{(total ?? spots.length) === 1 ? "" : "s"} here
       </button>
     );
   }
@@ -121,6 +121,12 @@ export default function CardRail({
             </button>
           );
         })}
+        {total > spots.length && (
+          <div className="rail-more" aria-live="polite">
+            <b>+{total - spots.length}</b>
+            <span>more here. Zoom in to see them.</span>
+          </div>
+        )}
       </div>
     </>
   );

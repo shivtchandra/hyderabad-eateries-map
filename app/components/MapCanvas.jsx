@@ -7,6 +7,7 @@ import Clouds from "./Clouds.jsx";
 
 const HYD_CENTER = [17.42, 78.44];
 let cloudsPlayed = false; // per page load, survives map remounts
+const RAIL_MAX = 60; // cards in the rail; past that, "zoom in for more"
 // Copied from node_modules/maplibre-gl/dist (worker + the shared chunk it
 // imports). Bump the folder when maplibre-gl is upgraded.
 const MAPLIBRE_WORKER_URL = "/vendor/maplibre/6.6.0/maplibre-gl-worker.mjs";
@@ -29,7 +30,7 @@ export default function MapCanvas({
   eateries, filtered, passport, selectedId, featuredIds,
   onSelect, onAreaEnter, onHeroesChange, onZoomChange, routeLine = null, heroCap = 120, poolSize,
   pickMode = false, onPick, pickedPoint = null,
-  onViewportChange, onMapError, recommendationMode = false,
+  onViewportChange, onMapError, recommendationMode = false, onVisibleChange,
   voteTop = [], voteLabel = "", dataReady = true, onCloudsDone,
 }) {
   const containerRef = useRef(null);
@@ -286,6 +287,8 @@ export default function MapCanvas({
   // Only notify the parent when the hero *set* actually changes, firing on
   // every pan would re-render the rail continuously.
   const heroKey = useRef("");
+  const railKey = useRef("");
+  const visibleRef = useRef(onVisibleChange); visibleRef.current = onVisibleChange;
 
   // Selection is a CSS class change, NOT a re-render. Rebuilding ~190 Leaflet
   // markers on every scroll tick of the card rail was the source of the jank.
@@ -327,6 +330,7 @@ export default function MapCanvas({
         heroEls.current = {};
       }
       if (heroKey.current !== "") { heroKey.current = ""; onHeroesChange?.([]); }
+      if (railKey.current !== "") { railKey.current = ""; visibleRef.current?.([], 0); }
       const visibleIds = new Set(filtered.map((e) => e.id));
 
       // Biggest areas first, then skip any that would collide with one already
@@ -439,6 +443,15 @@ export default function MapCanvas({
     }
     const heroIds = new Set(heroes.map((e) => e.id));
     let rest = visible.filter((e) => !heroIds.has(e.id));
+
+    // The map shows a few photo pins; the card rail lists every spot on the
+    // map, best first, capped so it stays light. Ordered by score only (not
+    // by which spots got photo pins), so selecting from the rail, which can
+    // change the pins, never reorders the rail under the user's thumb.
+    const railAll = byScore;
+    const railShown = railAll.slice(0, RAIL_MAX);
+    const rk = `${railAll.length}:${railShown.map((e) => e.id).join(",")}`;
+    if (rk !== railKey.current) { railKey.current = rk; visibleRef.current?.(railShown, railAll.length); }
 
     // An exact search result must never disappear into the dot layer just because
     // another nearby spot won the ranking cell. Selection overrides ranking.
