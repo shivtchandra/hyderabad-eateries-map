@@ -58,15 +58,18 @@ export default function MapCanvas({
   const [cloudsParted, setCloudsParted] = useState(false);
   useEffect(() => {
     if (!clouds) return;
-    if (!basemapReady || !dataReady) {
-      const cap = window.setTimeout(() => setCloudsParted(true), 3500); // never hold the map hostage
-      return () => window.clearTimeout(cap);
-    }
-    setCloudsParted(true);
+    // Timed from page load (the clouds are up from the first paint, before this
+    // component's code arrives): at least ~1.1s so a fast load doesn't flash
+    // the logo, at most 3.5s so a slow map never holds the screen.
+    const since = () => (typeof performance !== "undefined" ? performance.now() : 0);
+    const ready = basemapReady && dataReady;
+    const wait = ready ? Math.max(0, 1100 - since()) : Math.max(0, 3500 - since());
+    const t = window.setTimeout(() => setCloudsParted(true), wait);
+    return () => window.clearTimeout(t);
   }, [clouds, basemapReady, dataReady]);
   useEffect(() => {
     if (!cloudsParted) return;
-    const t = window.setTimeout(() => setClouds(false), 800);
+    const t = window.setTimeout(() => setClouds(false), 1000);
     return () => window.clearTimeout(t);
   }, [cloudsParted]);
   const [viewTick, setViewTick] = useState(0);
@@ -572,7 +575,8 @@ export default function MapCanvas({
 
   return (
     <>
-      <div ref={containerRef} style={{ position: "absolute", inset: 0 }} />
+      {/* The map settles in from a slight zoom as the clouds part. */}
+      <div ref={containerRef} style={{ position: "absolute", inset: 0, transform: clouds && !cloudsParted ? "scale(1.06)" : "none", transition: clouds ? "transform 1000ms cubic-bezier(.2, .8, .2, 1)" : "none" }} />
       {clouds && <Clouds parted={cloudsParted} />}
     </>
   );

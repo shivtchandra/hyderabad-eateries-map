@@ -724,35 +724,43 @@ button{ font-family: inherit; }
 .vote-card-close{ flex-shrink: 0; width: 36px; height: 44px; display: grid; place-items: center; border: 0; background: transparent; color: var(--violet-wash); cursor: pointer; }
 .vote-card-main:focus-visible, .vote-card-go:focus-visible, .vote-card-close:focus-visible{ outline: 2px solid #fff; outline-offset: 2px; border-radius: var(--r-xs); }
 
-/* ---- App open: clouds over a violet sky part when map + spots are ready (Clouds.jsx) ---- */
-.map-clouds{ position: absolute; inset: 0; z-index: 950; pointer-events: none; overflow: hidden; }
-.map-clouds::before{
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(180deg, var(--violet-wash) 0%, #f2eef8 50%, var(--cream) 100%); /* ends on the app's own cream */
-  transition: opacity 600ms ease 120ms;
+/* ---- App opening: clouds over a violet sky, logo in the middle (Clouds.jsx).
+   Parts when map + spots are ready: logo shrinks away, clouds fly outward. ---- */
+/* Fixed and above the app's chrome (search, chips, map buttons, tab bar) so the opening is one full screen. */
+.map-clouds { position: fixed; inset: 0; z-index: 3000; pointer-events: none; overflow: hidden; }
+.map-clouds::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, #d8cbfa 0%, var(--violet-wash) 42%, var(--cream) 100%); transition: opacity 700ms ease 250ms; }
+.mc-sun { position: absolute; top: -110px; right: -90px; width: 340px; height: 340px; border-radius: 50%; background: radial-gradient(circle, rgba(245, 200, 76, 0.55) 0%, rgba(245, 200, 76, 0.18) 45%, transparent 70%); transition: opacity 600ms ease; }
+.mc { position: absolute; display: block; filter: drop-shadow(0 14px 22px rgba(91, 33, 182, 0.14)); transition: transform 950ms cubic-bezier(.2, .8, .2, 1), opacity 750ms ease; animation: mc-drift 7s ease-in-out infinite alternate; }
+.mc svg, svg.mc { display: block; width: 100%; height: auto; }
+.mc--a { left: -8%; top: 7%; width: 44%; max-width: 300px; opacity: 0.85; animation-duration: 9s; }
+.mc--b { right: -12%; top: 15%; width: 50%; max-width: 340px; opacity: 0.9; animation-duration: 10s; animation-delay: -4s; }
+.mc--c { left: -24%; top: 56%; width: 78%; max-width: 520px; animation-delay: -2s; }
+.mc--d { right: -28%; top: 44%; width: 76%; max-width: 500px; animation-delay: -5s; }
+.mc--e { left: 16%; bottom: -5%; width: 72%; max-width: 480px; animation-delay: -3s; }
+.mc-center { position: absolute; left: 0; right: 0; top: 40%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; transition: opacity 260ms ease, transform 420ms cubic-bezier(.2, .8, .2, 1); }
+.mc-logo { width: 76px; height: 76px; display: grid; place-items: center; border-radius: 24px; background: var(--violet); color: #fff; font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 42px; letter-spacing: -0.03em; box-shadow: 0 14px 30px rgba(91, 33, 182, 0.35); animation: mc-pop 520ms cubic-bezier(.2, .8, .2, 1) both; }
+.mc-name { margin-top: 6px; white-space: nowrap; font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 30px; line-height: 1; letter-spacing: -0.03em; color: var(--ink); }
+.mc-line { display: inline-flex; align-items: baseline; font-size: 15px; font-weight: 600; color: var(--violet-deep); }
+.mc-dots { display: inline-flex; gap: 3px; margin-left: 4px; }
+.mc-dots i { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: currentColor; animation: mc-dot 1.2s ease-in-out infinite; }
+.mc-dots i:nth-child(2) { animation-delay: 0.15s; }
+.mc-dots i:nth-child(3) { animation-delay: 0.3s; }
+.map-clouds.is-parted::before, .map-clouds.is-parted .mc-sun { opacity: 0; }
+.map-clouds.is-parted .mc-center { opacity: 0; transform: translateY(-50%) scale(0.88); }
+.map-clouds.is-parted .mc { animation: none; opacity: 0; }
+.map-clouds.is-parted .mc--a { transform: translate(-115%, -40%) scale(1.3); }
+.map-clouds.is-parted .mc--b { transform: translate(115%, -40%) scale(1.3); }
+.map-clouds.is-parted .mc--c { transform: translate(-105%, 25%) scale(1.5); }
+.map-clouds.is-parted .mc--d { transform: translate(105%, 5%) scale(1.5); }
+.map-clouds.is-parted .mc--e { transform: translate(0, 120%) scale(1.4); }
+@keyframes mc-drift { from { translate: -12px 0; } to { translate: 12px 4px; } }
+@keyframes mc-pop { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: none; } }
+@keyframes mc-dot { 0%, 100% { opacity: 0.25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) {
+  .mc, .mc-logo, .mc-dots i { animation: none; }
+  .map-clouds.is-parted .mc { transform: none; }
+  .mc, .mc-center { transition: opacity 200ms ease; }
 }
-.map-cloud{
-  position: absolute; width: 78%; max-width: 560px; height: auto;
-  filter: drop-shadow(0 10px 24px rgba(91, 33, 182, 0.16));
-  transition: transform 800ms var(--ease-out), opacity 800ms ease;
-  animation: cloud-drift 6s ease-in-out infinite alternate;
-}
-.map-cloud--l{ left: -14%; top: 18%; }
-.map-cloud--r{ right: -16%; top: 48%; animation-delay: -3s; }
-.map-cloud--s{ left: 38%; top: 4%; width: 44%; max-width: 300px; opacity: 0.85; animation-delay: -1.5s; }
-.map-clouds-line{
-  position: absolute; left: 0; right: 0; top: 40%; margin: 0; text-align: center;
-  font-family: var(--font-display), system-ui, sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.01em; color: var(--violet-deep, #5b21b6);
-  transition: opacity 300ms ease;
-}
-.map-clouds.is-parted::before{ opacity: 0; }
-.map-clouds.is-parted .map-clouds-line{ opacity: 0; }
-.map-clouds.is-parted .map-cloud{ animation: none; }
-.map-clouds.is-parted .map-cloud--l{ transform: translateX(-115%); opacity: 0; }
-.map-clouds.is-parted .map-cloud--r{ transform: translateX(115%); opacity: 0; }
-.map-clouds.is-parted .map-cloud--s{ transform: translateY(-140%); opacity: 0; }
-@keyframes cloud-drift { from { translate: -10px 0; } to { translate: 10px 0; } }
-@media (prefers-reduced-motion: reduce) { .map-cloud{ animation: none; } }
 
 /* ---- First open: ask for location softly, then the browser prompt (app/page.jsx) ---- */
 .loc-ask{
