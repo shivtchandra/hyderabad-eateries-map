@@ -1173,3 +1173,9 @@ button { font-family: inherit; }
 /* End of the rail when more spots are on the map than it lists (CardRail). */
 .rail-more { flex: 0 0 auto; width: 150px; scroll-snap-align: start; display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: var(--s3) var(--s4); border-radius: var(--r-card); background: var(--cream-hi); color: var(--ink-soft); box-shadow: var(--e2); font-size: 13px; line-height: 1.3; }
 .rail-more b { font-family: var(--font-display), system-ui, sans-serif; font-size: 24px; color: var(--ink); }
+/* Map scope: the area you're in and any filters, each clearable (app/page.jsx). */
+.map-scope { position: absolute; top: 140px; left: 16px; right: 80px; z-index: 1000; display: flex; flex-wrap: wrap; gap: var(--s2); pointer-events: none; }
+.map-scope-chip { pointer-events: auto; display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 13px; border: 1.5px solid var(--line); border-radius: var(--r-pill); background: var(--cream-hi); color: var(--ink); font: 600 13px var(--font-ui), system-ui, sans-serif; box-shadow: var(--shadow-soft); cursor: pointer; }
+.map-scope-chip--filter { border-color: var(--violet-wash); background: var(--violet-wash); color: var(--violet-deep); }
+.map-scope-chip--filter span { font-weight: 500; opacity: 0.75; }
+.map-scope-chip:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }

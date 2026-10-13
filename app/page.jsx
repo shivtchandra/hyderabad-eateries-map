@@ -396,6 +396,19 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   // What the map browses by default: the curated core list, or everything with "Show all spots".
   const pool = useMemo(() => curatedEnabled ? eateries.filter((e) => recommendationIds.has(e.id)) : (showAll ? eateries : eateries.filter((e) => e.core)), [eateries, showAll, curatedEnabled, recommendationIds]);
   const hiddenCount = eateries.length - eateries.filter((e) => e.core).length;
+  const activeFilterLabels = [
+    openNowOnly && "Open now",
+    nearbyOnly && "Nearby",
+    newOnly && "New",
+    safetyOnly && "Food safety record",
+    localsOnly && "Locals’ picks",
+    !curatedEnabled && hiddenCount > 0 && !showAll && "Top places",
+    ...activeTags.map((t) => t.charAt(0).toUpperCase() + t.slice(1).replace(/-/g, " ")),
+  ].filter(Boolean);
+  const clearFilters = () => {
+    setOpenNowOnly(false); setNearbyOnly(false); setNewOnly(false);
+    setSafetyOnly(false); setLocalsOnly(false); setActiveTags([]); setShowAll(true);
+  };
   const tagCounts = useMemo(() => {
     const c = {};
     for (const e of pool) for (const t of e.tags ?? []) c[t] = (c[t] ?? 0) + 1;
@@ -1001,22 +1014,28 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
                 <button type="button" onClick={() => window.location.reload()}>Retry</button>
               </div>
             )}
-            {areaLabel && (
-              <button
-                data-area-chip=""
-                onClick={() => { setAreaLabel(null); setSelectedId(null); mapApi.current?.reset(); }}
-                style={{
-                  position: "absolute", top: 140, left: 16, zIndex: 1000,
-                  background: "var(--cream-hi)", border: "1.5px solid var(--line)",
-                  borderRadius: 20, padding: "7px 13px", cursor: "pointer",
-                  fontSize: 12.5, fontWeight: 600, color: "var(--ink)",
-                  display: "flex", alignItems: "center", gap: 6,
-                  boxShadow: "var(--shadow-soft)",
-                }}
-              >
-                <Icon name="close" size={13} width={2.4} color="var(--muted)" />
-                {areaLabel}
-              </button>
+            {(areaLabel || activeFilterLabels.length > 0) && (
+              // What's narrowing the map, each with an x. A filter hidden behind
+              // the sliders badge made the map look empty ("there are more, right?").
+              <div data-area-chip="" className="map-scope">
+                {areaLabel && (
+                  <button
+                    type="button"
+                    className="map-scope-chip"
+                    onClick={() => { setAreaLabel(null); setSelectedId(null); mapApi.current?.reset(); }}
+                  >
+                    <Icon name="close" size={13} width={2.4} color="var(--muted)" />
+                    {areaLabel}
+                  </button>
+                )}
+                {activeFilterLabels.length > 0 && (
+                  <button type="button" className="map-scope-chip map-scope-chip--filter" onClick={clearFilters} aria-label={`Clear filters: ${activeFilterLabels.join(", ")}`}>
+                    <Icon name="close" size={13} width={2.4} color="var(--violet-deep)" />
+                    {activeFilterLabels.length === 1 ? activeFilterLabels[0] : `${activeFilterLabels.length} filters`}
+                    <span>{filtered.length} {filtered.length === 1 ? "spot" : "spots"}</span>
+                  </button>
+                )}
+              </div>
             )}
 
             <div style={{ position: "absolute", right: 12, bottom: curatedEnabled && recommendedOnly ? 64 : railSpots.length ? 186 : 20, display: "flex", flexDirection: "column", gap: 9, zIndex: 1000 }}>
