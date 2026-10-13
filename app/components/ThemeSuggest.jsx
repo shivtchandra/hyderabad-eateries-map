@@ -31,7 +31,7 @@ export default function ThemeSuggest() {
     <div style={{ margin: "18px 16px 8px", background: "var(--cream-hi)", borderRadius: "var(--r-lg)", boxShadow: "var(--e1)", padding: "16px" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
         <Icon name="sparkle" size={16} width={1.8} color="var(--violet)" />
-        <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 16, color: "var(--ink)" }}>
+        <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 16, color: "var(--ink)" }}>
           Request next week
         </div>
       </div>
@@ -62,7 +62,7 @@ export default function ThemeSuggest() {
               style={{
                 flex: 1, minWidth: 0, boxSizing: "border-box",
                 border: "1.5px solid var(--line)", borderRadius: "var(--r-md)",
-                padding: "10px 14px", fontSize: 14, fontFamily: "Outfit, sans-serif",
+                padding: "10px 14px", fontSize: 14, fontFamily: "var(--font-ui), sans-serif",
                 background: "var(--cream)", color: "var(--ink)", outline: "none",
               }}
             />

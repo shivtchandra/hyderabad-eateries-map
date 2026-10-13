@@ -3,8 +3,14 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { spotlight, buildAreas, scoreOf, AREA_ZOOM_MAX, photoUrl } from "../../lib/spotlight.js";
 import * as passportStore from "../../lib/passport.js";
+import Clouds from "./Clouds.jsx";
 
 const HYD_CENTER = [17.42, 78.44];
+let cloudsPlayed = false; // per page load, survives map remounts
+const RAIL_MAX = 60; // cards in the rail; past that, "zoom in for more"
+// Copied from node_modules/maplibre-gl/dist (worker + the shared chunk it
+// imports). Bump the folder when maplibre-gl is upgraded.
+const MAPLIBRE_WORKER_URL = "/vendor/maplibre/6.6.0/maplibre-gl-worker.mjs";
 
 // Mirrors the category tokens in globals.css (Leaflet builds raw HTML strings,
 // so these can't be var() references).
@@ -24,7 +30,8 @@ export default function MapCanvas({
   eateries, filtered, passport, selectedId, featuredIds,
   onSelect, onAreaEnter, onHeroesChange, onZoomChange, routeLine = null, heroCap = 120, poolSize,
   pickMode = false, onPick, pickedPoint = null,
-  onViewportChange, onMapError, recommendationMode = false,
+  onViewportChange, onMapError, recommendationMode = false, onVisibleChange,
+  voteTop = [], voteLabel = "", dataReady = true, onCloudsDone, recordPins = [], hideSpots = false,
 }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
@@ -33,10 +40,40 @@ export default function MapCanvas({
   const areaLayerRef = useRef(null);
   const meLayerRef = useRef(null);
   const routeLayerRef = useRef(null);
+  const recordLayerRef = useRef(null);
+  const onSelectRef = useRef(onSelect); onSelectRef.current = onSelect;
   const pickLayerRef = useRef(null);
+  const voteTopRef = useRef(voteTop); voteTopRef.current = voteTop;
   const [ready, setReady] = useState(false);
+  // Every cold open: clouds part once the basemap and the spots are ready (the
+  // reels' opening). Not replayed when the map remounts in the same load.
+  // Never blocks taps; skipped for reduced motion.
+  const [clouds, setClouds] = useState(() => {
+    if (cloudsPlayed) return false;
+    cloudsPlayed = true;
+    try { return !window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; }
+  });
+  const cloudsDoneRef = useRef(onCloudsDone); cloudsDoneRef.current = onCloudsDone;
+  useEffect(() => { if (!clouds) cloudsDoneRef.current?.(); }, [clouds]);
+  const [basemapReady, setBasemapReady] = useState(false);
+  const [cloudsParted, setCloudsParted] = useState(false);
+  useEffect(() => {
+    if (!clouds) return;
+    // Timed from page load (the clouds are up from the first paint, before this
+    // component's code arrives): at least ~1.1s so a fast load doesn't flash
+    // the logo, at most 3.5s so a slow map never holds the screen.
+    const since = () => (typeof performance !== "undefined" ? performance.now() : 0);
+    const ready = basemapReady && dataReady;
+    const wait = ready ? Math.max(0, 1100 - since()) : Math.max(0, 3500 - since());
+    const t = window.setTimeout(() => setCloudsParted(true), wait);
+    return () => window.clearTimeout(t);
+  }, [clouds, basemapReady, dataReady]);
+  useEffect(() => {
+    if (!cloudsParted) return;
+    const t = window.setTimeout(() => setClouds(false), 1000);
+    return () => window.clearTimeout(t);
+  }, [cloudsParted]);
   const [viewTick, setViewTick] = useState(0);
-  const fixedHeroes = useRef({ key: "", ids: new Set() }); // photo-pin set, fixed per working set
 
   // Kept as refs (not state), the map's own 'click' listener is registered
   // once in the init effect below and must read the latest values without
@@ -70,22 +107,60 @@ export default function MapCanvas({
       });
       mapRef.current = map;
 
-      // OSM raster. A vector basemap (MapLibre + OpenFreeMap) was attempted so
-      // the POI layer could simply be omitted, but MapLibre never initialises
-      // here, no 'load' event, no tile requests, no errors, even for a
-      // background-only style. Falling back rather than shipping a blank map.
-      // Removing OSM's baked-in POI icons needs a keyed source (CARTO Voyager
-      // nolabels or Stadia); see lib/mapStyle.js for the intended palette.
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 19,
-      }).on("tileerror", () => errorRef.current?.()).addTo(map);
+      // Basemap: our own light vector style (lib/mapStyle.js, OpenFreeMap tiles,
+      // no POI icons or labels) drawn by MapLibre inside Leaflet, so markers and
+      // clusters stay Leaflet. An earlier attempt "never initialised": MapLibre 6
+      // builds its worker URL from import.meta.url, which webpack rewrites to a
+      // file:// path, so the worker silently never started. We serve the worker
+      // from public/vendor and point MapLibre at it. Anything else going wrong
+      // (no WebGL, import failure, no 'load' within 8s) falls back to OSM raster.
+      const addRaster = () => {
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          maxZoom: 19,
+          className: "raster-basemap",
+        }).on("tileerror", () => errorRef.current?.()).addTo(map);
+        setBasemapReady(true);
+      };
+      const hasWebGL = (() => {
+        try { const c = document.createElement("canvas"); return !!(c.getContext("webgl2") || c.getContext("webgl")); } catch { return false; }
+      })();
+      if (!hasWebGL) addRaster();
+      else {
+        try {
+          const maplibregl = await import("maplibre-gl");
+          maplibregl.setWorkerUrl(MAPLIBRE_WORKER_URL);
+          await import("maplibre-gl/dist/maplibre-gl.css");
+          await import("@maplibre/maplibre-gl-leaflet");
+          const { mapStyle } = await import("../../lib/mapStyle.js");
+          if (cancelled) return;
+          const gl = L.maplibreGL({
+            style: mapStyle,
+            attribution:
+              '&copy; <a href="https://openfreemap.org">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org/">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          }).addTo(map);
+          let loaded = false;
+          gl.getMaplibreMap().once("load", () => { loaded = true; setBasemapReady(true); });
+          // Tile fetches failing after load (offline) surface the offline card.
+          gl.getMaplibreMap().on("error", (ev) => { if (loaded && ev?.sourceId) errorRef.current?.(); });
+          window.setTimeout(() => {
+            const glm = gl.getMaplibreMap();
+            if (glm.loaded() || glm.isStyleLoaded()) { if (!loaded) { loaded = true; setBasemapReady(true); } return; }
+            if (loaded || cancelled || !mapRef.current) return;
+            map.removeLayer(gl);
+            addRaster();
+          }, 8000);
+        } catch {
+          addRaster();
+        }
+      }
 
       areaLayerRef.current = L.layerGroup().addTo(map);
       spotLayerRef.current = L.layerGroup().addTo(map);
       meLayerRef.current = L.layerGroup().addTo(map);
       routeLayerRef.current = L.layerGroup().addTo(map);
+      recordLayerRef.current = L.layerGroup().addTo(map);
       pickLayerRef.current = L.layerGroup().addTo(map);
 
       const bump = () => {
@@ -104,6 +179,33 @@ export default function MapCanvas({
     })().catch(() => errorRef.current?.());
     return () => { cancelled = true; mapRef.current?.remove(); mapRef.current = null; };
   }, []);
+
+  // When the live vote's top 3 arrive, redraw hero pins once so the ones
+  // already on screen pick up their rank badge.
+  const voteKey = voteTop.map((t) => `${t.spotId}:${t.rank}`).join(",");
+  useEffect(() => {
+    const layer = spotLayerRef.current;
+    if (!ready || !layer || !voteKey) return;
+    for (const [, m] of heroMarkers.current) layer.removeLayer(m);
+    heroMarkers.current.clear();
+    heroEls.current = {};
+    setViewTick((t) => t + 1);
+  }, [ready, voteKey]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Spots whose photo failed to load drop to dots (no empty white pins).
+  const noPhoto = useRef(new Set());
+  useEffect(() => {
+    try { JSON.parse(sessionStorage.getItem("eats-nophoto") || "[]").forEach((id) => noPhoto.current.add(id)); } catch {}
+    const onMiss = (ev) => {
+      if (!ev.detail || noPhoto.current.has(ev.detail)) return;
+      noPhoto.current.add(ev.detail);
+      try { sessionStorage.setItem("eats-nophoto", JSON.stringify([...noPhoto.current].slice(-500))); } catch {}
+      setViewTick((t) => t + 1);
+    };
+    window.addEventListener("eats-nophoto", onMiss);
+    return () => window.removeEventListener("eats-nophoto", onMiss);
+  }, []);
+
 
   // Crosshair cursor while picking, so it's obvious the next tap places a pin.
   useEffect(() => {
@@ -135,6 +237,25 @@ export default function MapCanvas({
       invalidate: () => setTimeout(() => mapRef.current?.invalidateSize(), 60),
     });
   }, [ready, onZoomChange]);
+
+  // Food safety records for places that aren't spots on our map (shown with
+  // the Food safety filter): a small shield pin in the action's colour, with
+  // the record in a popup. Not spots, so no card, sheet or votes.
+  useEffect(() => {
+    const L = LRef.current, layer = recordLayerRef.current;
+    if (!ready || !L || !layer) return;
+    layer.clearLayers();
+    for (const r of recordPins) {
+      const tone = r.action === "closed" ? "#141414" : r.action === "licence-suspended" ? "#c2410c" : "#78716c";
+      L.marker([r.lat, r.lng], {
+        icon: L.divIcon({ className: "", html: `<div class="record-pin" style="--t:${tone}"></div>`, iconSize: [26, 26], iconAnchor: [13, 13] }),
+        title: r.name, keyboard: true, zIndexOffset: 800,
+      })
+        .bindPopup(`<div class="record-pop"><b>${escapeHtml(r.name)}</b><span>${escapeHtml(r.label)} · ${escapeHtml(r.dateLabel)}${r.area ? ` · ${escapeHtml(r.area)}` : ""}</span>${r.spotId ? "" : '<a href="/food-safety#drives">See the record</a>'}</div>`, { closeButton: false, offset: [0, -10] })
+        .on("click", () => { if (r.spotId) onSelectRef.current?.(r.spotId); })
+        .addTo(layer);
+    }
+  }, [ready, recordPins]);
 
   // Route line, drawn once per new route, fits the view to it. Cleared when
   // routeLine goes null (leaving the Route tab or clearing a search).
@@ -191,6 +312,8 @@ export default function MapCanvas({
   // Only notify the parent when the hero *set* actually changes, firing on
   // every pan would re-render the rail continuously.
   const heroKey = useRef("");
+  const railKey = useRef("");
+  const visibleRef = useRef(onVisibleChange); visibleRef.current = onVisibleChange;
 
   // Selection is a CSS class change, NOT a re-render. Rebuilding ~190 Leaflet
   // markers on every scroll tick of the card rail was the source of the jank.
@@ -232,6 +355,7 @@ export default function MapCanvas({
         heroEls.current = {};
       }
       if (heroKey.current !== "") { heroKey.current = ""; onHeroesChange?.([]); }
+      if (railKey.current !== "") { railKey.current = ""; visibleRef.current?.([], 0); }
       const visibleIds = new Set(filtered.map((e) => e.id));
 
       // Biggest areas first, then skip any that would collide with one already
@@ -280,7 +404,15 @@ export default function MapCanvas({
 
     // The card rail covers the bottom ~185px, so exclude that strip when
     // choosing heroes, otherwise the best-ranked pins land underneath it.
-    const RAIL_PX = recommendationMode ? 0 : 185;
+    // Measured, not guessed: the rail's real height (plus its collapse button)
+    // and the bottom of the floating chrome / area chip at the top.
+    const mapRect = containerRef.current?.getBoundingClientRect();
+    const railEl = document.querySelector("[data-map-rail]");
+    const RAIL_PX = recommendationMode || !mapRect ? 0
+      : railEl ? Math.max(0, mapRect.bottom - railEl.getBoundingClientRect().top) + 48
+      : 24;
+    const chipEl = document.querySelector("[data-area-chip]");
+    const chromeBottom = Math.max(136, chipEl && mapRect ? chipEl.getBoundingClientRect().bottom - mapRect.top + 8 : 0);
     const southLimit = map.containerPointToLatLng([0, map.getSize().y - RAIL_PX]).lat;
     const bounds = {
       north: b.getNorth(),
@@ -288,32 +420,69 @@ export default function MapCanvas({
       east: b.getEast(),
       west: b.getWest(),
     };
-    // ---- Fixed photo pins ----
-    // Pins used to be re-picked on every zoom/pan, so spots kept popping in and out.
-    // Now the hero set is chosen once per working set (filter / area / route): the best
-    // spot in each ~1.5 km patch of the city. Zooming and panning only reveal or hide
-    // those same pins; everything else stays a tappable dot.
-    const fixedKey = `${filtered.length}:${filtered[0]?.id ?? ""}:${filtered[filtered.length - 1]?.id ?? ""}`;
-    if (fixedHeroes.current.key !== fixedKey) {
-      const CELL = 0.007; // ~750 m at Hyderabad latitude
-      const best = new Map();
-      for (const e of filtered) {
-        const k = `${Math.floor(e.lat / CELL)}:${Math.floor(e.lng / CELL)}`;
-        const cur = best.get(k);
-        if (!cur || scoreOf(e) > scoreOf(cur)) best.set(k, e);
-      }
-      fixedHeroes.current = { key: fixedKey, ids: new Set([...best.values()].map((e) => e.id)) };
-    }
+    // ---- Hero pins, placed in screen space so they never overlap ----
+    // Street level used to turn every spot in view into a photo pin (up to
+    // 400), and their photos and labels piled on top of each other. Now the
+    // best spots in view get a photo pin only where pin + label (~128x98px)
+    // fits, capped for the screen size; everything else is a small dot. Pins
+    // already on screen are placed first so panning doesn't make them pop.
+    const PIN = 56;
+    const W = map.getSize().x, H = map.getSize().y;
+    const TOP_PX = chromeBottom; // floating search row + chips (+ area chip)
+    const maxHeroes = Math.min(heroCap, Math.max(4, Math.min(W < 600 ? 12 : 30, Math.floor((W * Math.max(0, H - TOP_PX - RAIL_PX)) / (130 * 110)))));
     const inBounds = (e) => e.lat >= bounds.south && e.lat <= bounds.north && e.lng >= bounds.west && e.lng <= bounds.east;
     const visible = filtered.filter(inBounds);
-    // Street level: every spot in view is a photo pin (no dots). Further out, only the fixed set.
-    const ALL_PINS_ZOOM = 15;
-    const allPins = zoom >= ALL_PINS_ZOOM;
-    let heroes = (allPins ? visible : visible.filter((e) => fixedHeroes.current.ids.has(e.id)))
-      .sort((x, y) => scoreOf(y) - scoreOf(x)).slice(0, allPins ? 400 : heroCap);   // 400: DOM safety cap
+    // Hero candidates use the whole map (not the rail-trimmed box) so a pin
+    // that drifts toward the edges while zooming keeps its photo.
+    const fullB = map.getBounds();
+    const onMap = (e) => e.lat >= fullB.getSouth() && e.lat <= fullB.getNorth() && e.lng >= fullB.getWest() && e.lng <= fullB.getEast();
+    const byScore = filtered.filter(onMap).sort((x, y) => scoreOf(y) - scoreOf(x));
+    const shown = heroMarkers.current;
+    const topIds = new Set(voteTopRef.current.map((t) => t.spotId));
+    const withPhoto = byScore.filter((e) => !noPhoto.current.has(e.id) || e.id === selectedId);
+    const ordered = [
+      ...withPhoto.filter((e) => shown.has(e.id)),
+      ...withPhoto.filter((e) => !shown.has(e.id) && topIds.has(e.id)),
+      ...withPhoto.filter((e) => !shown.has(e.id) && !topIds.has(e.id)),
+    ];
+    const boxes = [];
+    let heroes = [];
+    for (const e of ordered) {
+      if (heroes.length >= maxHeroes) break;
+      const pt = map.latLngToContainerPoint([e.lat, e.lng]);
+      // The pin hangs above its point; its label sits below it.
+      const bx = { x1: pt.x - 64, x2: pt.x + 64, y1: pt.y - (PIN + 12), y2: pt.y + 34 };
+      if (shown.has(e.id)) {
+        // Already a pin: keep it while its point is on the map (zooming in
+        // pushes pins outward; they shouldn't vanish for that).
+        if (pt.x < 0 || pt.x > W || pt.y < TOP_PX - 40 || pt.y > H - RAIL_PX + 12) continue; // hidden under the chrome or rail anyway
+      } else {
+        // New pins only where they're fully readable.
+        if (bx.y1 < TOP_PX || bx.y2 > H - RAIL_PX) continue;       // under the chrome or the rail
+        if (bx.x1 < 4 || bx.x2 > W - 4) continue;                  // label would be cut off
+        if (bx.x2 > W - 72 && bx.y2 > H - RAIL_PX - 130) continue; // map buttons column
+      }
+      if (boxes.some((q) => bx.x1 < q.x2 && bx.x2 > q.x1 && bx.y1 < q.y2 && bx.y2 > q.y1)) continue;
+      boxes.push(bx);
+      heroes.push(e);
+    }
     const heroIds = new Set(heroes.map((e) => e.id));
     let rest = visible.filter((e) => !heroIds.has(e.id));
-    const target = heroes.length, cellW = 0, cellH = 0, cellLat = 0.0135, cellLng = 0.0135;
+
+    // The map shows a few photo pins; the card rail lists every spot on the
+    // map, best first, capped so it stays light. Ordered by score only (not
+    // by which spots got photo pins), so selecting from the rail, which can
+    // change the pins, never reorders the rail under the user's thumb.
+    const railAll = byScore;
+    const railShown = railAll.slice(0, RAIL_MAX);
+    const rk = `${railAll.length}:${railShown.map((e) => e.id).join(",")}`;
+    if (rk !== railKey.current) { railKey.current = rk; visibleRef.current?.(railShown, railAll.length); }
+    // Food safety view: every record is a red pin (record layer), so no photo
+    // pins or dots for the same spots. The rail still lists them.
+    if (hideSpots) {
+      spotLayer.clearLayers(); dotMarkers.current.clear(); heroMarkers.current.clear(); heroEls.current = {};
+      return;
+    }
 
     // An exact search result must never disappear into the dot layer just because
     // another nearby spot won the ranking cell. Selection overrides ranking.
@@ -327,7 +496,7 @@ export default function MapCanvas({
     }
 
     if (typeof window !== "undefined") {
-      window.__spot = { zoom, target, cellW: Math.round(cellW), cellH: Math.round(cellH), cellLat, cellLng, heroes: heroes.length };
+      window.__spot = { zoom, heroes: heroes.length, max: maxHeroes, dots: rest.length };
     }
 
     const key = heroes.map((e) => e.id).join(",");
@@ -381,17 +550,18 @@ export default function MapCanvas({
       if (liveHeroes.has(e.id)) continue; // already on screen, leave it alone
       const color = CAT_COLOR[e.category] ?? "#948567";
       const state = passportStore.stateOf(passport, e.id);
-      const cls = ["photo-pin", state === "visited" ? "collected" : ""].filter(Boolean).join(" ");
+      const cls = ["photo-pin", state === "visited" ? "collected" : "", voteTopRef.current.some((t) => t.spotId === e.id) ? "voted-top" : ""].filter(Boolean).join(" ");
 
       const html = `
         <div class="${cls}" style="--c:${color};width:${size}px;height:${size + 10}px">
           <div class="photo-pin-img">
             <img src="${photoUrl(e.id)}" alt="" loading="lazy"
-                 onerror="this.parentNode.classList.add('noimg');this.remove()"/>
+                 onerror="this.parentNode.classList.add('noimg');window.dispatchEvent(new CustomEvent('eats-nophoto',{detail:'${e.id}'}));this.remove()"/>
           </div>
           <div class="photo-pin-stem"></div>
           <div class="photo-pin-label">${escapeHtml(e.name)}</div>
-          ${featuredIds?.has(e.id) ? '<div class="photo-pin-star">★ Story</div>' : ""}
+          ${featuredIds?.has(e.id) ? '<div class="photo-pin-story" title="Has a food story"></div>' : ""}
+          ${(() => { const t = voteTopRef.current.find((v) => v.spotId === e.id); return t ? `<div class="photo-pin-rank">#${t.rank}</div>` : ""; })()}
         </div>`;
 
       const marker = L.marker([e.lat, e.lng], {
@@ -409,9 +579,15 @@ export default function MapCanvas({
         if (e.id === selectedIdRef.current) el.classList.add("active");
       }
     }
-  }, [ready, eateries, filtered, passport, selectedId, featuredIds, viewTick, onSelect, onAreaEnter, onHeroesChange, heroCap, poolSize]);
+  }, [ready, eateries, filtered, passport, selectedId, featuredIds, viewTick, onSelect, onAreaEnter, onHeroesChange, heroCap, poolSize, hideSpots]);
 
-  return <div ref={containerRef} style={{ position: "absolute", inset: 0 }} />;
+  return (
+    <>
+      {/* The map settles in from a slight zoom as the clouds part. */}
+      <div ref={containerRef} style={{ position: "absolute", inset: 0, transform: clouds && !cloudsParted ? "scale(1.06)" : "none", transition: clouds ? "transform 1000ms cubic-bezier(.2, .8, .2, 1)" : "none" }} />
+      {clouds && <Clouds parted={cloudsParted} />}
+    </>
+  );
 }
 
 function escapeHtml(s = "") {

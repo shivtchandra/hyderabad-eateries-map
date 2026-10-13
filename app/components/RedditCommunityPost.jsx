@@ -160,7 +160,7 @@ export default function RedditCommunityPost({ thread, showStandings = true, show
           <div style={{ fontSize: 12.5, lineHeight: 1.45, color: "var(--ink)" }}>
             &ldquo;{thread.highlights[0].comment}&rdquo;
             <span style={{ display: "inline-block", marginLeft: 6, fontSize: 11, color: "var(--muted)", fontWeight: 600 }}>
-              — u/{thread.highlights[0].user}
+              · u/{thread.highlights[0].user}
             </span>
           </div>
         </div>
@@ -169,7 +169,7 @@ export default function RedditCommunityPost({ thread, showStandings = true, show
       {/* Action footer */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap", paddingTop: 8, borderTop: "1px solid var(--line)" }}>
         <Link
-          href="/race/this-week"
+          href="/?tab=race"
           style={{
             fontSize: 12,
             fontWeight: 800,

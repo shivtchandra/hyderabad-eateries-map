@@ -2,6 +2,7 @@ import Link from "next/link";
 import { pageMeta } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
 import { SiteNav, SiteBreadcrumb, SiteFooter, SiteRelated } from "../../components/SiteChrome.jsx";
+import BackButton from "../../components/BackButton.jsx";
 import BottomNav from "../../components/BottomNav.jsx";
 import { photoPathToCdn, spotPhotoUrl } from "../../../lib/photos.js";
 
@@ -305,7 +306,7 @@ const LOFT_DINING = [
 ];
 
 const LOFT_CAFES = [
-  { name: "TrueBlack", note: "Specialty cafe (Vietnamese Latte recommended — sit by the peaceful garden)", tag: "Cafe", photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYqdbKyeLgRS1uYLp8ILuRD-klJjDR_yzm8GgjOe2LoQ&s=10" },
+  { name: "TrueBlack", note: "Specialty cafe (Vietnamese Latte recommended, sit by the peaceful garden)", tag: "Cafe", photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYqdbKyeLgRS1uYLp8ILuRD-klJjDR_yzm8GgjOe2LoQ&s=10" },
 ];
 
 const LOFT_BARS = [
@@ -381,6 +382,7 @@ export default function Page() {
         <header className="site-header">
           <div className="site-header-inner">
             <SiteNav active="/stories" />
+            <BackButton fallback="/guides/dishes" />
             <SiteBreadcrumb
               items={[
                 { href: "/", label: "Home" },
@@ -408,7 +410,7 @@ export default function Page() {
             <div style={{
               position: "absolute", left: 12, bottom: 12,
               padding: "5px 10px", borderRadius: 999,
-              background: "rgba(38,48,92,0.78)",
+              background: "rgba(20, 20, 20,0.78)",
               color: "#fff", fontSize: 11, fontWeight: 700,
               letterSpacing: "0.02em", backdropFilter: "blur(8px)"
             }}>RMZ Nexity, Hyderabad</div>

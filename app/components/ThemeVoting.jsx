@@ -4,11 +4,13 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { fetchCurrentTheme, fetchThemeHistory, castThemeVote, getThemeVoteSpot, getThemePicks } from "../../lib/themeVoting.js";
 import Link from "next/link";
 import { Icon } from "./Icons.jsx";
-import { slugFromTitle, themeDescription } from "../../lib/rankings.js";
+import { slugFromTitle, themeDescription, debateLineFromCounts } from "../../lib/rankings.js";
 import { isPastEndDate } from "../../lib/themeCrown.js";
+import { stickerForTitle } from "../../lib/stickerArt.js";
 import { seasonClosed, seasonYear } from "../../lib/voteDecay.js";
 import ThemeSuggest from "./ThemeSuggest.jsx";
 import AddPlace, { isUserSpot } from "./AddPlace.jsx";
+import VoteFollowUp from "./VoteFollowUp.jsx";
 
 function themeKeyword(title = "") {
   return String(title)
@@ -24,6 +26,32 @@ const byFresh = (a, b) => ((b.fresh ?? b.count ?? 0) - (a.fresh ?? a.count ?? 0)
 
 function totalVotes(results = [], localCounts = {}) {
   return results.reduce((sum, r) => sum + (localCounts[r.spotId] ?? r.count ?? 0), 0);
+}
+
+// "Best Ice Cream in Hyderabad" reads as a label; the reels open on the
+// question ("Hyderabad's best ice cream?"), so the Vote tab does too.
+// "Best Dosa in Hyderabad" -> "Best dosa": the index is all Hyderabad.
+function shortTitle(title = "") {
+  const t = title.replace(/\s+in\s+hyderabad$/i, "");
+  return t.charAt(0) + t.slice(1).toLowerCase();
+}
+
+// The dish gets the yellow highlighter: yellow marks what locals vote on.
+function voteHook(title = "") {
+  const m = title.match(/^best (.+?) in hyderabad$/i);
+  return m ? <>Hyderabad’s best <mark className="hl">{m[1].toLowerCase()}</mark>?</> : title;
+}
+
+function endLabel(endDate) {
+  if (!endDate) return "";
+  const d = new Date(`${endDate}T12:00:00`);
+  if (Number.isNaN(d.getTime())) return "";
+  return d.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" });
+}
+
+// The debate line from the reels (shared with ranking pages, lib/rankings.js).
+function debateLine(results = [], localCounts = {}) {
+  return debateLineFromCounts(results.map((r) => localCounts[r.spotId] ?? r.count ?? 0));
 }
 
 
@@ -131,6 +159,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
   const [loading, setLoading] = useState(true);
   const [openPast, setOpenPast] = useState(null);
   const [votedSpotId, setVotedSpotId] = useState(null);
+  const [justVoted, setJustVoted] = useState(false); // shows the email opt-in once
   const [localCounts, setLocalCounts] = useState({});
   const [localResults, setLocalResults] = useState(null);
   const [voteTick, setVoteTick] = useState(0);
@@ -141,7 +170,9 @@ export default function ThemeVoting({ initialDishSlug = null }) {
     const [cur, hist] = await Promise.all([fetchCurrentTheme(), fetchThemeHistory(12)]);
     setCurrent(cur);
     setLocalResults(null);
-    const past = hist.themes || [];
+    // Not-yet-voted rankings first, decided once per load so a card doesn't
+    // jump away the moment you vote in it.
+    const past = [...(hist.themes || [])].sort((x, y) => (getThemeVoteSpot(x.id) ? 1 : 0) - (getThemeVoteSpot(y.id) ? 1 : 0));
     setHistory(past);
     setLoading(false);
     if (cur.theme) setVotedSpotId(getThemeVoteSpot(cur.theme.id));
@@ -170,6 +201,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
     const prevSpotId = getThemeVoteSpot(theme.id);
     const result = await castThemeVote(theme.id, spotId, name, { title: theme.title });
     if (!result.ok) return;
+    setJustVoted(true);
 
     if (isCurrent) {
       setVotedSpotId(spotId);
@@ -197,7 +229,13 @@ export default function ThemeVoting({ initialDishSlug = null }) {
     }
 
     const hist = await fetchThemeHistory(12);
-    const past = hist.themes || [];
+    const fresh = hist.themes || [];
+    // Keep the on-screen order; new themes (rare) go to the end.
+    const past = (() => {
+      const byId = new Map(fresh.map((th) => [th.id, th]));
+      const kept = history.map((th) => byId.get(th.id)).filter(Boolean);
+      return [...kept, ...fresh.filter((th) => !history.some((h) => h.id === th.id))];
+    })();
     setHistory(past);
     setVoteTick((n) => n + 1);
 
@@ -214,10 +252,27 @@ export default function ThemeVoting({ initialDishSlug = null }) {
     }
   };
 
+  // Same shape as the loaded Vote tab (kicker, question, five rows), so
+  // nothing jumps when the data lands.
   if (loading) return (
-    <div style={{ textAlign: "center", padding: "40px 16px", color: "var(--muted)" }}>
-      <Icon name="sparkle" size={28} width={1.6} color="var(--violet)" style={{ margin: "0 auto 10px" }} />
-      <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 15 }}>Loading themes…</div>
+    <div className="vote-hero" aria-busy="true">
+      <p className="visually-hidden" role="status">Loading this week&apos;s vote</p>
+      <span className="sk" style={{ width: "46%", height: 14, borderRadius: 6 }} />
+      <span className="sk" style={{ width: "88%", height: 52, borderRadius: 12, marginTop: 6 }} />
+      <span className="sk" style={{ width: "60%", height: 52, borderRadius: 12 }} />
+      <span className="sk" style={{ width: "70%", height: 18, borderRadius: 6, marginTop: 4 }} />
+      <div className="vote-list" style={{ margin: "var(--s4) 0 0" }}>
+        {[0, 1, 2, 3, 4].map((i) => (
+          <div key={i} className="vote-row">
+            <span className="sk" style={{ width: 28, height: 22, borderRadius: 6 }} />
+            <span style={{ flex: 1, display: "flex", flexDirection: "column", gap: 6 }}>
+              <span className="sk" style={{ width: `${70 - i * 8}%`, height: 16, borderRadius: 6 }} />
+              <span className="sk" style={{ width: "30%", height: 12, borderRadius: 6 }} />
+            </span>
+            <span className="sk" style={{ width: 64, height: 44, borderRadius: 14 }} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 
@@ -225,7 +280,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
     <div>
       <div style={{ textAlign: "center", padding: "40px 16px 8px", color: "var(--muted)" }}>
         <Icon name="crown" size={28} width={1.6} color="var(--violet)" style={{ margin: "0 auto 10px" }} />
-        <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 16, color: "var(--ink-soft)" }}>No theme set yet</div>
+        <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 600, fontSize: 16, color: "var(--ink-soft)" }}>No theme set yet</div>
         <div style={{ fontSize: 12.5, marginTop: 6, lineHeight: 1.45, fontWeight: 500 }}>Check back soon, or tell us what next week&apos;s challenge should be.</div>
       </div>
       <ThemeSuggest />
@@ -243,22 +298,19 @@ export default function ThemeVoting({ initialDishSlug = null }) {
           votedSpotId={votedSpotId}
           onVote={handleVote}
           localCounts={localCounts}
+          rankingsCount={history.length + 1}
+          onSeeAll={() => prevWeeksRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
         />
       )}
 
       {history.length > 0 && (
-        <div ref={prevWeeksRef} style={{ marginTop: current.theme ? 20 : 0, scrollMarginTop: 56 }}>
-          <div style={{
-            margin: "4px 16px 12px",
-            padding: "10px 0 0",
-            borderTop: "1.5px solid var(--line)",
-            fontFamily: "Fraunces, serif",
-            fontSize: 18,
-            fontWeight: 700,
-            color: "var(--ink)",
-            letterSpacing: "-0.01em",
-          }}>
-            Previous weeks
+        <div ref={prevWeeksRef} className="rank-index" style={{ scrollMarginTop: 72 }}>
+          <div className="rank-index-head">
+            <h2>Every ranking</h2>
+            <p>
+              You’ve voted in {history.filter((th) => getThemeVoteSpot(th.id)).length + (current.theme && votedSpotId ? 1 : 0)} of {history.length + (current.theme ? 1 : 0)}.
+              {" "}Votes stay open for a year, so every ranking keeps moving.
+            </p>
           </div>
           {nudgePast && (
             <div style={{
@@ -272,8 +324,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
               color: "var(--violet-deep)",
               lineHeight: 1.4,
             }}>
-              Nice. This week&apos;s locked in. Next, vote last week&apos;s challenge below.
-              Past dishes stay open for a year.
+              Nice, this week is locked in. Here are the rankings you haven&apos;t voted in yet.
             </div>
           )}
           {history.map((th) => (
@@ -301,7 +352,9 @@ export default function ThemeVoting({ initialDishSlug = null }) {
   );
 }
 
-function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
+function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, rankingsCount = 0, onSeeAll }) {
+  const [showAllRows, setShowAllRows] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
   const [searchQ, setSearchQ] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [seedSuggestions, setSeedSuggestions] = useState([]);
@@ -349,81 +402,124 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
 
   return (
     <div>
-      {/* Hero banner */}
-      <div style={{
-        margin: "0 16px 16px",
-        background: "linear-gradient(135deg, var(--violet-deep), var(--violet))",
-        borderRadius: "var(--r-lg)", padding: "16px",
-        boxShadow: "0 4px 20px rgba(91,33,182,0.28)",
-      }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 4 }}>
-          <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.7)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-            This week's challenge
-          </div>
-          <button
-            type="button"
-            onClick={shareTheme}
-            aria-label="Share this week's challenge"
-            style={{
-              border: "1px solid rgba(255,255,255,0.28)",
-              borderRadius: "var(--r-pill)",
-              background: "rgba(255,255,255,0.16)",
-              color: "#fff",
-              minWidth: 70,
-              height: 30,
-              padding: "0 10px",
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 5,
-              fontSize: 11,
-              fontWeight: 700,
-              cursor: "pointer",
-            }}
-          >
-            <Icon name={shareState === "copied" || shareState === "shared" ? "check" : "share"} size={13} width={2} color="#fff" />
+      {/* Hero, the Vote mockup: live kicker, the question in huge type, and the
+          debate line (how many votes move the crown). No colour band. */}
+      <div className="vote-hero">
+        <div className="vote-hero-top">
+          <span className="vote-kicker">
+            <span className="vote-kicker-dot" aria-hidden="true" />
+            {theme.winnerId ? "Crowned" : "Live vote"}{endLabel(theme.endDate) ? ` · ends ${endLabel(theme.endDate)}` : ""}
+          </span>
+          <button type="button" onClick={shareTheme} aria-label="Share this week's vote" className="vote-share">
+            <Icon name={shareState === "copied" || shareState === "shared" ? "check" : "share"} size={15} width={2} color="currentColor" />
             {shareState === "copied" ? "Copied" : shareState === "shared" ? "Shared" : shareState === "failed" ? "Try again" : "Share"}
           </button>
         </div>
-        <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 20, color: "#fff", lineHeight: 1.2, marginBottom: 6 }}>
-          {theme.title}
+        <div className="vote-question-row">
+          <h2 className="vote-question">{voteHook(theme.title)}</h2>
+          {stickerForTitle(theme.title) && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img className="vote-sticker" src={stickerForTitle(theme.title)} alt="" width={120} height={120} />
+          )}
         </div>
-        <a
-          href={`/rankings/${slugFromTitle(theme.title)}`}
-          style={{ display: "inline-block", fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.88)", textDecoration: "underline", textUnderlineOffset: 3, marginBottom: 8 }}
-        >
-          Full ranking page →
-        </a>
-        {themeDescription(theme) && (
-          <div style={{ fontSize: 13, color: "rgba(255,255,255,0.82)", lineHeight: 1.4, fontWeight: 500 }}>
-            {themeDescription(theme)}
-          </div>
-        )}
-        {votedSpotId && (
-          <div style={{ marginTop: 10, display: "inline-flex", alignItems: "center", gap: 5, background: "rgba(255,255,255,0.18)", borderRadius: "var(--r-pill)", padding: "5px 11px", fontSize: 12, fontWeight: 700, color: "#fff" }}>
-            <Icon name="check" size={12} width={2.5} color="#fff" /> Voted
-          </div>
-        )}
+        <p className="vote-debate">{debateLine(results, localCounts)}</p>
+        {themeDescription(theme) && <p className="vote-desc">{themeDescription(theme)}</p>}
+        <div className="vote-hero-foot">
+          {votedSpotId && (
+            <span className="vote-voted"><Icon name="check" size={13} width={2.5} color="currentColor" /> You voted</span>
+          )}
+          {rankingsCount > 1 && onSeeAll && (
+            <button type="button" className="vote-all-link" onClick={onSeeAll}>Every ranking ({rankingsCount})</button>
+          )}
+          <a href={`/rankings/${slugFromTitle(theme.title)}`} className="vote-full-link">Full ranking page</a>
+        </div>
       </div>
+
+      {justVoted && <VoteFollowUp themeTitle={theme.title} source="vote-tab" />}
 
       {/* Crown phase after endDate: still votable, crown follows live #1 */}
       {(theme.winnerId || isPastEndDate(theme)) && (results[0] || theme.winnerName) && (
         <div style={{
           margin: "0 16px 14px",
-          background: "linear-gradient(135deg, #f59e0b, #d97706)",
+          background: "var(--yellow)",
           borderRadius: "var(--r-md)", padding: "12px 14px",
           display: "flex", alignItems: "center", gap: 10,
         }}>
-          <Icon name="trophy" size={22} width={1.8} color="#fff" />
+          <Icon name="trophy" size={22} width={1.8} color="var(--ink)" />
           <div>
-            <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.8)", letterSpacing: "0.07em", textTransform: "uppercase" }}>Crowned</div>
-            <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 15, color: "#fff" }}>{results[0]?.name || theme.winnerName || ", "}</div>
-            <div style={{ fontSize: 11, color: "rgba(255,255,255,0.75)", marginTop: 2 }}>Votes stay open. Crown follows the live #1</div>
+            <div style={{ fontSize: 10, fontWeight: 700, color: "var(--ink-soft)", letterSpacing: "0.07em", textTransform: "uppercase" }}>Crowned</div>
+            <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 15, color: "var(--ink)" }}>{results[0]?.name || theme.winnerName || "-"}</div>
+            <div style={{ fontSize: 12, color: "var(--ink-soft)", marginTop: 2 }}>Votes stay open. The crown follows the live #1.</div>
           </div>
         </div>
       )}
 
-      {/* Search above the standings: a long list hid it, and it's the only way to add a missing place. */}
+      {/* Standings / suggested picks (always show ~10 once we have seeds) */}
+      {standings.length > 0 && (
+        <div style={{ padding: "0 16px 8px", display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.04em", textTransform: "uppercase" }}>
+            {!hasVotes ? "Suggested picks" : totalVotes(standings, localCounts) < 20 ? "Early votes" : "Live standings"}
+          </div>
+          {hasVotes && (
+            <div style={{ fontSize: 12, fontWeight: 700, color: "var(--violet-deep)" }}>
+              {totalVotes(standings, localCounts).toLocaleString()} votes
+            </div>
+          )}
+        </div>
+      )}
+      {standings.length > 0 && (
+        <div className="vote-list">
+          {(showAllRows ? standings : standings.slice(0, 5)).map((r, i) => {
+            const count = localCounts[r.spotId] ?? r.count ?? 0;
+            const crowned = theme.winnerId || isPastEndDate(theme);
+            const isCrown = crowned && hasVotes && i === 0;
+            const isLead = hasVotes && i === 0;
+            return (
+              <div key={r.spotId} className={`vote-row${isCrown ? " is-crown" : isLead ? " is-lead" : ""}`}>
+                <span className="vote-rank">
+                  {isCrown ? <Icon name="crown" size={16} width={2} color="var(--ink)" /> : `#${i + 1}`}
+                </span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div className="vote-name">{r.name}{isUserSpot(r.spotId) && <span className="new-place-chip">New</span>}</div>
+                  <div className="vote-count">
+                    {(() => {
+                      const loc = dupNames.has(r.name) ? r.area : "";
+                      const rest = count > 0
+                        ? `${count} vote${count !== 1 ? "s" : ""}`
+                        : "Tap to cast the first vote"; // community votes only, no outside ratings
+                      return loc ? `${loc} · ${rest}` : rest;
+                    })()}
+                  </div>
+                </div>
+                {r.spotId === votedSpotId ? (
+                  <span className="vote-row-voted">
+                    <Icon name="check" size={12} width={2.5} color="var(--violet-deep)" /> Voted
+                  </span>
+                ) : (
+                  <button
+                    onClick={() => pickSpot({ spotId: r.spotId, name: r.name, category: r.category || "" })}
+                    className="vote-row-btn"
+                  >
+                    {votedSpotId ? "Switch" : "Vote"}
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <div className="vote-more">
+        {standings.length > 5 && (
+          <button type="button" className="vote-more-btn" onClick={() => setShowAllRows((v) => !v)} aria-expanded={showAllRows}>
+            {showAllRows ? "Show top 5" : `Show all ${standings.length}`}
+          </button>
+        )}
+        <button type="button" className="vote-add-link" onClick={() => setAddOpen((v) => !v)} aria-expanded={addOpen}>
+          {addOpen ? "Close search" : votedSpotId ? "Switch to another place" : "Can’t see your pick? Add it"}
+        </button>
+      </div>
+      {addOpen && (
       <div style={{ margin: "0 16px 16px", position: "relative", zIndex: 2 }}>
           <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 8 }}>
             {votedSpotId ? "Switch to another place" : "Search or add a place"}
@@ -444,7 +540,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
                 width: "100%", boxSizing: "border-box",
                 border: "1.5px solid var(--line)", borderRadius: "var(--r-md)",
                 padding: "12px 14px 12px 38px", fontSize: 14.5,
-                fontFamily: "Outfit, sans-serif", background: "var(--cream-hi)",
+                fontFamily: "var(--font-ui), sans-serif", background: "var(--cream-hi)",
                 color: "var(--ink)", outline: "none",
                 boxShadow: "var(--e1)",
               }}
@@ -485,71 +581,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts }) {
             )}
           </div>
         </div>
-
-      {/* Standings / suggested picks (always show ~10 once we have seeds) */}
-      {standings.length > 0 && (
-        <div style={{ padding: "0 16px 8px", display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.04em", textTransform: "uppercase" }}>
-            {!hasVotes ? "Suggested picks" : totalVotes(standings, localCounts) < 20 ? "Early votes" : "Live standings"}
-          </div>
-          {hasVotes && (
-            <div style={{ fontSize: 12, fontWeight: 700, color: "var(--violet-deep)" }}>
-              {totalVotes(standings, localCounts).toLocaleString()} votes
-            </div>
-          )}
-        </div>
       )}
-      {standings.length > 0 && (
-        <div style={{ padding: "0 16px", display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }}>
-          {standings.map((r, i) => {
-            const count = localCounts[r.spotId] ?? r.count ?? 0;
-            const crowned = theme.winnerId || isPastEndDate(theme);
-            const isCrown = crowned && hasVotes && i === 0;
-            const isLead = hasVotes && i === 0;
-            return (
-              <div key={r.spotId} style={{
-                display: "flex", alignItems: "center", gap: 10,
-                background: isCrown ? "linear-gradient(135deg,#fef3c7,#fde68a)" : isLead ? "var(--violet-wash)" : "var(--cream-hi)",
-                borderRadius: "var(--r-md)", padding: "10px 13px",
-                boxShadow: "var(--e1)",
-                border: isCrown ? "1.5px solid #f59e0b" : "none",
-              }}>
-                <span style={{ width: 26, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 13, color: isCrown ? "#d97706" : isLead ? "var(--violet)" : "var(--muted)", flexShrink: 0 }}>
-                  {isCrown ? <Icon name="crown" size={16} width={2} color="#d97706" /> : `#${i + 1}`}
-                </span>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontWeight: 700, fontSize: 14, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}{isUserSpot(r.spotId) && <span className="new-place-chip">New</span>}</div>
-                  <div style={{ fontSize: 11.5, color: "var(--muted)", fontWeight: 500, marginTop: 1 }}>
-                    {(() => {
-                      const loc = dupNames.has(r.name) ? r.area : "";
-                      const rest = count > 0
-                        ? `${count} vote${count !== 1 ? "s" : ""}`
-                        : (r.rating != null
-                          ? `${r.rating}★ on Google · tap to vote`
-                          : "Tap to cast the first vote");
-                      return loc ? `${loc} · ${rest}` : rest;
-                    })()}
-                  </div>
-                </div>
-                {r.spotId === votedSpotId ? (
-                  <span style={{ display: "flex", alignItems: "center", gap: 4, borderRadius: "var(--r-pill)", padding: "6px 12px", fontSize: 12, fontWeight: 700, background: "var(--violet-wash)", color: "var(--violet-deep)", flexShrink: 0 }}>
-                    <Icon name="check" size={12} width={2.5} color="var(--violet-deep)" /> Voted
-                  </span>
-                ) : (
-                  <button
-                    onClick={() => pickSpot({ spotId: r.spotId, name: r.name, category: r.category || "" })}
-                    style={{ border: "none", borderRadius: "var(--r-pill)", padding: "6px 13px", fontSize: 12.5, fontWeight: 700, background: "var(--violet)", color: "#fff", cursor: "pointer", flexShrink: 0 }}
-                  >
-                    {votedSpotId ? "Switch" : "Vote"}
-                  </button>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-
     </div>
   );
 }
@@ -590,51 +622,44 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
   };
 
   return (
-    <div style={{ margin: "0 16px 8px", background: "var(--cream-hi)", borderRadius: "var(--r-md)", boxShadow: "var(--e1)", overflow: "hidden" }}>
-      <div style={{ display: "flex", alignItems: "stretch", gap: 0 }}>
-        <button
-          type="button"
-          onClick={onToggle}
-          style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: 10, padding: "12px 8px 12px 14px", border: "none", background: "transparent", cursor: "pointer", textAlign: "left" }}
-        >
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontWeight: 700, fontSize: 13.5, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {theme.title}
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11.5, color: "var(--muted)", fontWeight: 500, marginTop: 2, overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
-              {leader && crowned && <Icon name="crown" size={12} width={2} color="#d97706" />}
-              {leader && <span style={{ fontWeight: 650, color: crowned ? "#d97706" : "var(--ink-soft)" }}>{leader.name}</span>}
-              <span>
-                {(() => {
-                  const n = (theme.results || []).reduce((s, r) => s + (r.count || 0), 0);
-                  const bits = [];
-                  if (n > 0) bits.push(`${n.toLocaleString()} vote${n === 1 ? "" : "s"}`);
-                  bits.push(closed ? `${year} season closed` : year ? `${year} season` : "Votes open");
-                  return `${leader ? " · " : ""}${bits.join(" · ")}`;
-                })()}
-              </span>
-            </div>
-          </div>
-          <Icon name={open ? "close" : "navigate"} size={16} width={2} color="var(--muted)" />
+    <div className={`rank-card${open ? " is-open" : ""}`}>
+      <div className="rank-card-head">
+        <button type="button" onClick={onToggle} className="rank-card-main" aria-expanded={open}>
+          <span className="rank-card-title">{shortTitle(theme.title)}</span>
+          <span className="rank-card-meta">
+            {leader ? (
+              <>
+                {crowned && <Icon name="crown" size={13} width={2.2} color="var(--ink)" />}
+                <b>{leader.name}</b>
+                {" · "}{(() => { const n = (theme.results || []).reduce((t, r) => t + (r.count || 0), 0); return `${n.toLocaleString()} ${n === 1 ? "vote" : "votes"}`; })()}
+              </>
+            ) : "No votes yet"}
+            {closed ? ` · ${year} season closed` : ""}
+          </span>
         </button>
+        {votedSpotId ? (
+          <span className="rank-card-voted"><Icon name="check" size={13} width={2.5} color="currentColor" /> Voted</span>
+        ) : !closed ? (
+          <button type="button" className="rank-card-vote" onClick={onToggle} aria-expanded={open}>{open ? "Close" : "Vote"}</button>
+        ) : null}
         <button
           type="button"
           onClick={share}
           aria-label={`Share ${theme.title}`}
           title={shareState === "copied" ? "Link copied" : "Share"}
-          style={{ flexShrink: 0, width: 44, border: "none", borderLeft: "1px solid var(--line)", background: "transparent", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+          className="rank-card-share"
         >
           <Icon
             name={shareState === "copied" || shareState === "shared" ? "check" : "share"}
             size={16}
             width={2}
-            color={shareState === "failed" ? "var(--pop-deep)" : "var(--violet)"}
+            color="currentColor"
           />
         </button>
       </div>
 
       {open && (
-        <div style={{ padding: "12px 14px 14px", borderTop: "1.5px solid var(--line)", isolation: "isolate" }}>
+        <div className="rank-card-body">
           {(() => {
             const campaignVotes = (theme.results || []).reduce((s, r) => s + (r.count || 0), 0);
             return campaignVotes > 0 ? (
@@ -679,7 +704,7 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
                 width: "100%", boxSizing: "border-box",
                 border: "1.5px solid var(--line)", borderRadius: "var(--r-md)",
                 padding: "11px 12px 11px 34px", fontSize: 13.5,
-                fontFamily: "Outfit, sans-serif", background: "var(--cream)",
+                fontFamily: "var(--font-ui), sans-serif", background: "var(--cream)",
                 color: "var(--ink)", outline: "none",
               }}
             />
@@ -719,8 +744,8 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
                 const isCrown = crowned && i === 0;
                 return (
                   <div key={r.spotId} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13 }}>
-                    <span style={{ width: 22, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, color: isCrown ? "#d97706" : "var(--muted)", fontSize: 12 }}>
-                      {isCrown ? <Icon name="crown" size={13} width={2} color="#d97706" /> : `#${i + 1}`}
+                    <span style={{ width: 22, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, color: isCrown ? "var(--ink)" : "var(--muted)", fontSize: 12 }}>
+                      {isCrown ? <Icon name="crown" size={13} width={2} color="var(--ink)" /> : `#${i + 1}`}
                     </span>
                     <span style={{ flex: 1, fontWeight: 600, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}{isUserSpot(r.spotId) && <span className="new-place-chip">New</span>}</span>
                     <span style={{ color: "var(--muted)", fontWeight: 500, fontSize: 12 }}>{r.count} vote{r.count === 1 ? "" : "s"}</span>
@@ -799,7 +824,7 @@ function YourPicks({ current, history, votedSpotId, results = [] }) {
               gap: 10,
               padding: "11px 13px",
               borderRadius: "var(--r-md)",
-              background: r.status === "won" ? "linear-gradient(135deg,#fef3c7,#fde68a)" : "var(--cream-hi)",
+              background: r.status === "won" ? "var(--yellow)" : "var(--cream-hi)",
               border: "1.5px solid var(--line)",
             }}
           >
@@ -817,7 +842,7 @@ function YourPicks({ current, history, votedSpotId, results = [] }) {
               fontWeight: 800,
               letterSpacing: "0.04em",
               textTransform: "uppercase",
-              color: r.status === "won" ? "#b45309" : r.status === "open" ? "var(--violet)" : "var(--muted)",
+              color: r.status === "won" ? "var(--ink)" : r.status === "open" ? "var(--violet)" : "var(--muted)",
             }}>
               {r.statusLabel}
             </span>

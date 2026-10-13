@@ -1,3 +1,5 @@
+import GuideSpotCard from "../../components/GuideSpotCard.jsx";
+import SwipeDeck from "../../components/SwipeDeck.jsx";
 import Link from "next/link";
 import { pageMeta } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
@@ -152,7 +154,7 @@ const SPOTS = [
       "Universally acclaimed by r/hyderabad foodies as one of the best burger joints in the city. 1885 Burgers elevates midnight street dining to gourmet heights with their artisanal smash technique. The standout crown jewel is their signature Lamb Burger: exceptionally juicy, generously seasoned, crowned with melted cheese, and encased in butter-toasted buns that stay intact to the last bite. A dream late-night meal when you want gourmet meat instead of street snacks.",
     whatToOrder: "Signature Juicy Lamb Burger (Juicy Lucy), Quad Smash Chicken Burger, Loaded Fries.",
     timingTip: "Open from evening through late night (approx. 5:45 PM to 11:30 PM / midnight). Burgers sell fast on weekends.",
-    quote: "“1885’s lamb burger rocks—hands down one of the juiciest, most satisfying burgers in Hyderabad late at night.”",
+    quote: "“1885’s lamb burger rocks, hands down one of the juiciest, most satisfying burgers in Hyderabad late at night.”",
   },
   {
     id: "varalakshmi-dlf",
@@ -255,16 +257,16 @@ export default function LateNightGuidePage() {
 
       <main className="site-body">
         {/* Byline */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 24, paddingBottom: 16, borderBottom: "1.5px solid var(--line)" }}>
+        <div className="guide-byline">
           <div>
-            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--violet)" }}>
+            <div className="ink-chip">
               Editorial Field Guide · 2026 Local Consensus
             </div>
-            <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 3 }}>
+            <div className="guide-updated">
               Updated October 2026 · Verified night owl &amp; midnight food trails
             </div>
           </div>
-          <Link href="/" style={{ flexShrink: 0, fontSize: 13, fontWeight: 800, color: "var(--violet)", textDecoration: "none", padding: "8px 14px", borderRadius: 999, background: "var(--violet-wash)" }}>
+          <Link href="/" className="link-chip">
             Open Map
           </Link>
         </div>
@@ -294,7 +296,7 @@ export default function LateNightGuidePage() {
               <strong>Best Gourmet Burgers:</strong> <strong>1885 Burgers</strong> (DLF Street Food Lane) is universally praised as one of the best burger joints in the city; their signature <em>Lamb Burger</em> is extraordinarily juicy, well-seasoned, and grilled fresh.
             </li>
             <li>
-              <strong>Fresh Tiffin Sensation:</strong> <strong>Varalakshmi Tiffins</strong> (DLF) has newly introduced fresh, hot <em>Pooris</em> to their menu—praised by diners for fluffy texture and great taste, paired with spicy potato kurma alongside legendary ghee podi idlis.
+              <strong>Fresh Tiffin Sensation:</strong> <strong>Varalakshmi Tiffins</strong> (DLF) has newly introduced fresh, hot <em>Pooris</em> to their menu, praised by diners for fluffy texture and great taste, paired with spicy potato kurma alongside legendary ghee podi idlis.
             </li>
             <li>
               <strong>Best Midnight Dessert:</strong> <strong>Milan Juice Center</strong>, situated <em>right beside Varalakshmi Tiffins</em> in DLF, is the undisputed destination for <em>Apricot Delight</em> (rich custard layered over stewed apricots).
@@ -309,163 +311,60 @@ export default function LateNightGuidePage() {
         </section>
 
         {/* Quick Picks Summary Card */}
-        <section
-          style={{
-            background: "var(--paper)",
-            border: "1.5px solid var(--line)",
-            borderRadius: 14,
-            padding: "20px 22px",
-            marginBottom: 32,
-            boxShadow: "var(--e1, 0 1px 3px rgba(0,0,0,0.05))",
-          }}
-        >
-          <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: 20, margin: "0 0 14px", color: "var(--ink)" }}>
+        <section className="guide-quick">
+          <h2 className="guide-quick-title">
             Quick Picks: Where to Go
           </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
-            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Midnight Food Epicentre</div>
-              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>DLF Street Food Lane</div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Tiffins, smash burgers, momos &amp; desserts</div>
+          <div className="guide-quick-grid">
+            <div className="guide-quick-item">
+              <div className="guide-quick-k">Midnight Food Epicentre</div>
+              <div className="guide-quick-name">DLF Street Food Lane</div>
+              <div className="guide-quick-note">Tiffins, smash burgers, momos &amp; desserts</div>
             </div>
-            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "#991b1b" }}>Best Late-Night Burger</div>
-              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>1885 Burgers (DLF)</div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Legendary juicy lamb burger &amp; smash patties</div>
+            <div className="guide-quick-item">
+              <div className="guide-quick-k">Best Late-Night Burger</div>
+              <div className="guide-quick-name">1885 Burgers (DLF)</div>
+              <div className="guide-quick-note">Legendary juicy lamb burger &amp; smash patties</div>
             </div>
-            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "#047857" }}>New Tiffins Update</div>
-              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Varalakshmi Tiffins (DLF)</div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Newly added hot pooris + ghee podi idli</div>
+            <div className="guide-quick-item">
+              <div className="guide-quick-k">New Tiffins Update</div>
+              <div className="guide-quick-name">Varalakshmi Tiffins (DLF)</div>
+              <div className="guide-quick-note">Newly added hot pooris + ghee podi idli</div>
             </div>
-            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "#b45309" }}>Midnight Dessert Stop</div>
-              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Milan Juice Center (DLF)</div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Apricot Delight right beside Varalakshmi</div>
+            <div className="guide-quick-item">
+              <div className="guide-quick-k">Midnight Dessert Stop</div>
+              <div className="guide-quick-name">Milan Juice Center (DLF)</div>
+              <div className="guide-quick-note">Apricot Delight right beside Varalakshmi</div>
             </div>
-            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>24/7 Work &amp; Coffee</div>
-              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Roast 24 Seven</div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Round-the-clock specialty coffee &amp; food</div>
+            <div className="guide-quick-item">
+              <div className="guide-quick-k">24/7 Work &amp; Coffee</div>
+              <div className="guide-quick-name">Roast 24 Seven</div>
+              <div className="guide-quick-note">Round-the-clock specialty coffee &amp; food</div>
             </div>
-            <div style={{ padding: "12px 14px", borderRadius: 10, background: "var(--cream)", border: "1px solid var(--line)" }}>
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: "uppercase", color: "var(--violet)" }}>Midnight Biryani</div>
-              <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", marginTop: 2 }}>Shah Ghouse (Till 2 AM)</div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>Hot mutton biryani + Chicken 65</div>
+            <div className="guide-quick-item">
+              <div className="guide-quick-k">Midnight Biryani</div>
+              <div className="guide-quick-name">Shah Ghouse (Till 2 AM)</div>
+              <div className="guide-quick-note">Hot mutton biryani + Chicken 65</div>
             </div>
           </div>
         </section>
 
         {/* Spot Deep Dives */}
-        <section style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+        <SwipeDeck label="Spots in this guide">
           {SPOTS.map((s, idx) => (
-            <article
-              key={s.id}
-              style={{
-                background: "var(--paper)",
-                border: "1.5px solid var(--line)",
-                borderRadius: 14,
-                padding: "22px 24px",
-                boxShadow: "var(--e1, 0 1px 3px rgba(0,0,0,0.05))",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 12 }}>
-                <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                    <span style={{ fontSize: 12, fontWeight: 800, color: "var(--muted)" }}>#{idx + 1}</span>
-                    <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: "clamp(20px, 3.5vw, 24px)", margin: 0, color: "var(--ink)" }}>
-                      {s.name}
-                    </h2>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 13, color: "var(--muted)", marginTop: 4 }}>
-                    <Icon name="locate" size={12} width={2} color="var(--muted)" /> {s.area}
-                  </div>
-                </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 700,
-                      letterSpacing: "0.03em",
-                      textTransform: "uppercase",
-                      padding: "4px 10px",
-                      borderRadius: 999,
-                      background: "var(--cream)",
-                      border: "1px solid var(--line)",
-                      color: "var(--ink-soft)",
-                    }}
-                  >
-                    {s.tag}
-                  </span>
-                  <Link
-                    href={s.href}
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 700,
-                      color: "var(--violet)",
-                      textDecoration: "none",
-                      padding: "4px 10px",
-                      borderRadius: 999,
-                      background: "var(--violet-wash)",
-                    }}
-                  >
-                    View on map →
-                  </Link>
-                </div>
-              </div>
-
-              <p className="review-prose" style={{ margin: "0 0 16px", fontSize: 15, lineHeight: 1.6, color: "var(--ink-soft, #333)" }}>
-                {s.verdict}
-              </p>
-
-              <div style={{ background: "var(--cream)", border: "1px solid var(--line)", borderRadius: 10, padding: "12px 16px", marginBottom: 14 }}>
-                <div style={{ display: "flex", alignItems: "flex-start", gap: 6, fontSize: 13.5, color: "var(--ink)" }}>
-                  <Icon name="utensils" size={13} width={2} color="var(--ink-soft)" style={{ marginTop: 2, flexShrink: 0 }} />
-                  <span><strong style={{ color: "var(--ink)" }}>Must order:</strong> {s.whatToOrder}</span>
-                </div>
-                <div style={{ display: "flex", alignItems: "flex-start", gap: 6, fontSize: 13, color: "var(--muted)", marginTop: 6 }}>
-                  <Icon name="clock" size={13} width={2} color="var(--muted)" style={{ marginTop: 2, flexShrink: 0 }} />
-                  <span><strong style={{ color: "var(--ink)" }}>Timings &amp; police advisory:</strong> {s.timingTip}</span>
-                </div>
-              </div>
-
-              <blockquote
-                style={{
-                  margin: 0,
-                  padding: "10px 14px",
-                  borderRadius: 8,
-                  background: "var(--violet-wash)",
-                  border: "1.5px solid var(--line)",
-                  fontFamily: "var(--font-fraunces), serif",
-                  fontSize: 14,
-                  fontStyle: "italic",
-                  lineHeight: 1.45,
-                  color: "var(--ink)",
-                }}
-              >
-                {s.quote}
-              </blockquote>
-            </article>
+            <GuideSpotCard key={s.id} s={s} rank={idx + 1} rows={[["Must order", s.whatToOrder], ["Timings and police advisory", s.timingTip]]} />
           ))}
-        </section>
+        </SwipeDeck>
 
         {/* FAQs */}
-        <section style={{ marginTop: 40, borderTop: "1.5px solid var(--line)", paddingTop: 28 }}>
-          <h2 style={{ fontFamily: "var(--font-fraunces), serif", fontSize: 22, color: "var(--ink)", marginBottom: 16 }}>
+        <section className="guide-faq">
+          <h2 className="guide-faq-title">
             Frequently Asked Questions
           </h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {faqLd.mainEntity.map((faq, i) => (
-              <details
-                key={i}
-                style={{
-                  background: "var(--paper)",
-                  border: "1.5px solid var(--line)",
-                  borderRadius: 10,
-                  padding: "14px 18px",
-                }}
-              >
-                <summary style={{ fontWeight: 700, fontSize: 15, cursor: "pointer", color: "var(--ink)" }}>
+              <details key={i}>
+                <summary>
                   {faq.name}
                 </summary>
                 <p style={{ margin: "10px 0 0", fontSize: 14, color: "var(--muted)", lineHeight: 1.55 }}>

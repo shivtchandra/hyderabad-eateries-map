@@ -1,0 +1,23 @@
+{
+  "_about": "Food safety records linked to a spot on our map, checked by hand: the name AND the location must match. TG SAFE lists often name a brand without the branch, and Hyderabad brands run many branches, so a name match alone is not a link. Regenerate candidates with: node scripts/suggest-inspection-links.mjs",
+  "links": [
+    {
+      "date": "2026-09-26",
+      "name": "White Elephant Food Works (63 Degrees Modern Regional Buffet)",
+      "spotId": "ChIJdxWXYrmTyzsR4yXppJpm0Co",
+      "why": "Record names 63 Degrees as the outlet; our spot is on Mindspace Rd, Gachibowli, the drive's area."
+    },
+    {
+      "date": "2026-09-26",
+      "name": "Hotel Avasa",
+      "spotId": "ChIJk6_fjN-TyzsRTNY0dJ8Q1IQ",
+      "why": "Single Avasa hotel; our spot is on Hitech City Main Road, the drive's area."
+    },
+    {
+      "date": "2026-09-16",
+      "name": "Hotel Kinara Grand Restaurant and Bar",
+      "spotId": "ChIJFYgzfP6hyzsRTpzb-zk5qLY",
+      "why": "Record says Vanasthalipuram (LB Nagar zone drive); this branch is on NH 65 by Vishnu Theatre at 17.339, 78.567. The other Kinara Grand is in Hafeezpet and is NOT linked."
+    }
+  ]
+}

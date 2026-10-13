@@ -11,91 +11,55 @@ const CAT_COLOR = {
   local: "var(--local)",
 };
 
-export default function SavedPanel({ eateries, passport, onSelect, onToggleVisited }) {
+export default function SavedPanel({ eateries, passport, onSelect, onToggleVisited, onBrowse }) {
   const saved = eateries.filter((e) => passport.saved[e.id]);
 
   if (!saved.length) {
     return (
-      <div style={{ flex: 1, background: "var(--cream)", display: "flex", alignItems: "center", justifyContent: "center", padding: 30 }}>
-        <div style={{ textAlign: "center", color: "var(--muted)", maxWidth: 290 }}>
-          <Icon name="bookmark" size={44} width={1.4} color="var(--line)" style={{ margin: "0 auto 12px" }} />
-          <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 16, color: "var(--ink)" }}>
-            Nothing saved yet
-          </div>
-          <div style={{ fontSize: 13.5, marginTop: 6, lineHeight: 1.5 }}>
-            Tap a spot and hit <strong style={{ color: "var(--cafe)" }}>Want to go</strong> to build your hit-list.
-          </div>
-        </div>
+      // Empty state (DESIGN.md section 5): sticker, one sentence, one button.
+      <div className="empty-state">
+        <span className="empty-sticker" aria-hidden="true">
+          <Icon name="bookmark" size={28} width={2.2} color="var(--ink)" />
+        </span>
+        <h2>Nothing saved yet.</h2>
+        <p>Tap the bookmark on any spot and it lands here.</p>
+        {onBrowse && <button type="button" className="empty-cta" onClick={onBrowse}>Open the map</button>}
       </div>
     );
   }
 
   return (
-    <div style={{ flex: 1, overflowY: "auto", background: "var(--cream)", padding: "14px 14px 48px" }}>
-      {saved.map((e) => {
-        const color = CAT_COLOR[e.category] ?? "var(--muted)";
-        const open = isOpenNow(e.hours);
-        return (
-          <div
-            key={e.id}
-            style={{
-              background: "var(--cream-hi)", borderRadius: 17, padding: 12,
-              border: "1.5px solid var(--line)", marginBottom: 9,
-              display: "flex", gap: 11, alignItems: "center",
-            }}
-          >
-            <button
-              onClick={() => onSelect(e)}
-              style={{
-                background: "var(--cream)", border: `1.5px solid ${color}`, borderRadius: 13,
-                width: 44, height: 44, minWidth: 44, cursor: "pointer",
-                display: "flex", alignItems: "center", justifyContent: "center",
-              }}
-              aria-label={e.name}
-            >
-              <CategoryIcon category={e.category} size={22} width={1.85} color={color} />
-            </button>
-
-            <button
-              onClick={() => onSelect(e)}
-              style={{ flex: 1, minWidth: 0, border: "none", background: "transparent", textAlign: "left", cursor: "pointer", padding: 0 }}
-            >
-              <div style={{ fontSize: 14.5, fontWeight: 600, fontFamily: "Fraunces, serif", lineHeight: 1.2, marginBottom: 3 }}>
-                {e.name}
-              </div>
-              <div style={{ fontSize: 11.5, color: "var(--muted)", fontWeight: 500, display: "flex", gap: 9, flexWrap: "wrap", alignItems: "center" }}>
-                {e.rating && (
-                  <span style={{ display: "flex", alignItems: "center", gap: 3 }}>
-                    <Icon name="star" size={12} width={2} color="var(--pop-deep)" /> {e.rating}
+    <div className="you-panel">
+      <div className="you-head">
+        <h2>Saved</h2>
+        <p>{saved.length} {saved.length === 1 ? "spot" : "spots"} to try</p>
+      </div>
+      <ul className="you-list">
+        {saved.map((e) => {
+          const color = CAT_COLOR[e.category] ?? "var(--muted)";
+          const open = isOpenNow(e.hours);
+          return (
+            <li key={e.id} className="you-row">
+              <button type="button" className="you-row-main" onClick={() => onSelect(e)}>
+                <span className="you-row-icon" style={{ color }} aria-hidden="true">
+                  <CategoryIcon category={e.category} size={22} width={1.9} color={color} />
+                </span>
+                <span className="you-row-text">
+                  <span className="you-row-name">{e.name}</span>
+                  <span className="you-row-meta">
+                    {e.rating && <span className="you-row-meta-item"><Icon name="star" size={13} width={2} color="var(--ink-soft)" /> {e.rating}</span>}
+                    {open != null && <span className="you-row-meta-item" style={{ color: open ? "var(--forest)" : "var(--muted)" }}>{open ? "Open now" : "Closed"}</span>}
+                    {TIERS[e.tier] && <span className="you-row-meta-item"><TierIcon tier={e.tier} size={13} width={1.9} /> {TIERS[e.tier].label}</span>}
                   </span>
-                )}
-                {open != null && (
-                  <span style={{ color: open ? "var(--forest)" : "var(--restro-bar)", fontWeight: 600 }}>
-                    {open ? "Open" : "Closed"}
-                  </span>
-                )}
-                {TIERS[e.tier] && (
-                  <span style={{ display: "flex", alignItems: "center", gap: 3 }}>
-                    <TierIcon tier={e.tier} size={12} width={1.9} /> {TIERS[e.tier].label}
-                  </span>
-                )}
-              </div>
-            </button>
-
-            <button
-              onClick={() => onToggleVisited(e.id)}
-              style={{
-                background: "var(--pop)", color: "var(--ink)", border: "none",
-                borderRadius: 12, padding: "0 13px", height: 38, minWidth: 44,
-                fontFamily: "Outfit, sans-serif", fontWeight: 600, fontSize: 12.5, cursor: "pointer",
-                whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 6,
-              }}
-            >
-              <Icon name="ticket" size={15} width={2} /> Stamp
-            </button>
-          </div>
-        );
-      })}
+                </span>
+              </button>
+              <button type="button" className="you-row-action" onClick={() => onToggleVisited(e.id)}>
+                <Icon name="ticket" size={16} width={2} /> Stamp
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

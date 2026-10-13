@@ -145,7 +145,7 @@ export default function QuickClaimSheet({
             width: 36,
             height: 4,
             borderRadius: 2,
-            background: "rgba(38,48,92,0.18)",
+            background: "rgba(20, 20, 20,0.18)",
             margin: "0 auto 12px",
           }}
         />
@@ -200,7 +200,7 @@ export default function QuickClaimSheet({
               height: 34,
               borderRadius: "50%",
               border: "none",
-              background: "rgba(38,48,92,0.06)",
+              background: "rgba(20, 20, 20,0.06)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -240,7 +240,7 @@ export default function QuickClaimSheet({
               border: "none",
               outline: "none",
               background: "transparent",
-              fontFamily: "Outfit, sans-serif",
+              fontFamily: "var(--font-ui), sans-serif",
               fontSize: 14.5,
               fontWeight: 500,
               color: "var(--ink)",

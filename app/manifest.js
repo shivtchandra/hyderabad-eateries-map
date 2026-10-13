@@ -9,7 +9,7 @@ export default function manifest() {
     scope: "/",
     display: "standalone",
     orientation: "portrait",
-    background_color: "#f6efe3",
+    background_color: "#f4f2ee",
     theme_color: "#7c3aed",
     icons: [
       { src: "/icon-192.png", sizes: "192x192", type: "image/png" },
@@ -17,7 +17,7 @@ export default function manifest() {
       { src: "/icon-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
     ],
     shortcuts: [
-      { name: "This week's race", url: "/race/this-week", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
+      { name: "This week's race", url: "/?tab=race", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
       { name: "Dining deals", url: "/offers", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
     ],
   };

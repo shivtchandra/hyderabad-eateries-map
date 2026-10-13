@@ -2,11 +2,18 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
 import BottomNav from "../../components/BottomNav.jsx";
-import { getAreaBySlug, allAreaPages, spotPath } from "../../../lib/siteData.js";
+import { getAreaBySlug, allAreaPages, spotPath, hasSpotPhoto } from "../../../lib/siteData.js";
+import { spotPhotoUrl } from "../../../lib/photos.js";
 import { getAreaPillar } from "../../../lib/explorePillars.js";
 import { pageMeta, getSiteUrl } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
 import { breadcrumbJsonLd } from "../../../lib/schema.js";
+import { rankedPlaces } from "../../../lib/recommendationPicks.js";
+import { getInspectionDrives } from "../../../lib/inspectionsServer.js";
+import AreaExplorer from "../../components/AreaExplorer.jsx";
+
+const SAFETY = { closed: ["Closed", "#141414"], "licence-suspended": ["Licence suspended", "#c2410c"], notice: ["Notice", "#78716c"] };
+const shortTitle = (t = "") => t.replace(/^best\s+/i, "").replace(/\s+in\s+hyderabad$/i, "");
 
 
 function areaPageCopy(area, spotCount, sampleNames = []) {
@@ -96,17 +103,41 @@ export function generateMetadata({ params }) {
   };
 }
 
-export default function AreaPage({ params }) {
+export default async function AreaPage({ params }) {
   const data = getAreaBySlug(params.slug);
   if (!data) notFound();
 
   const pillar = getAreaPillar(data.area);
-  const year = new Date().getFullYear();
-  const top = [...data.spots].sort((a, b) => (b.ratingCount || 0) - (a.ratingCount || 0)).slice(0, 30);
+  const top = [...data.spots].sort((a, b) => (b.ratingCount || 0) - (a.ratingCount || 0));
+  const featured = top.filter((sp) => hasSpotPhoto(sp.id)).slice(0, 3);
   const copy = areaPageCopy(data.area, data.spots.length);
   const pageTitle = copy.title;
   const topNames = top.slice(0, 3).map((s) => s.name).filter(Boolean);
   const answerLead = copy.lead(topNames);
+
+  // What makes a row worth more than a map listing: its place in a community
+  // vote and its latest food safety record (both shown as badges).
+  const ranked = await rankedPlaces();
+  const safetyBySpot = new Map();
+  try {
+    const drives = [...(await getInspectionDrives())].sort((a, b) => String(b.date).localeCompare(String(a.date)));
+    for (const d of drives) for (const en of d.entries || []) {
+      if (en.spotId && SAFETY[en.action] && !safetyBySpot.has(en.spotId)) safetyBySpot.set(en.spotId, SAFETY[en.action]);
+    }
+  } catch {}
+  const items = top.map((s) => {
+    const r = ranked.get(s.id)?.[0];
+    const sf = safetyBySpot.get(s.id);
+    return {
+      id: s.id, name: s.name, category: s.category, path: spotPath(s),
+      rating: s.rating ?? null, ratingCount: s.ratingCount ?? null, priceLevel: s.priceLevel ?? null,
+      lat: s.lat, lng: s.lng,
+      photo: hasSpotPhoto(s.id) ? spotPhotoUrl(s.id) : null,
+      rank: r ? { n: r.rank, title: shortTitle(r.title) } : null,
+      safety: sf ? { label: sf[0], tone: sf[1] } : null,
+    };
+  });
+
   const faqLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -136,50 +167,38 @@ export default function AreaPage({ params }) {
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
     <SiteChrome
       active="/areas"
+      backFallback="/areas"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/areas", label: "Areas" }, { href: `/areas/${params.slug}`, label: data.area }]}
       title={pageTitle}
-      description={pillar?.blurb || `${data.spots.length} spots in ${data.area}. Top picks by reviews.`}
+      description={answerLead}
       related={[
         { href: "/explore/cafes", label: "Best cafes" },
         { href: "/explore/biryani-and-local", label: "Best biryani" },
-        { href: "/explore/restaurants", label: "Restaurants" },
         { href: "/rankings/best-cafe-in-hyderabad", label: "Vote: best cafe" },
         ...allAreaPages().filter((a) => a.slug !== params.slug).slice(0, 3).map((a) => ({ href: `/areas/${a.slug}`, label: a.area })),
       ]}
     >
-      <p className="spot-prose"><strong>{answerLead}</strong></p>
-      {pillar?.blurb && <p className="spot-prose">{pillar.blurb}</p>}
-      <p className="spot-prose">
-        Showing top {top.length} of {data.spots.length} spots in {data.area} for {year}. Open any place for details, or jump to the map to stamp and vote.
-      </p>
-      <p className="spot-prose">
-        This {data.area} list ranks places by review volume on Hyderabad Eats so you can compare cafes and restaurants before you go.
-      </p>
-      <h2 className="site-section-title">Top food in {data.area}</h2>
-      <ul className="site-spot-list">
-        {top.map((s, i) => (
-          <li key={s.id}>
-            <Link href={spotPath(s)}>
-              <span>
-                <div className="site-spot-name">{i + 1}. {s.name}</div>
-                <div className="site-spot-meta">{s.category} · {s.rating ? `${s.rating}★` : ","}</div>
-              </span>
-              <span className="site-spot-meta">View →</span>
+      {featured.length === 3 && (
+        <div className="area-strip">
+          {featured.map((sp, i) => (
+            <Link key={sp.id} href={spotPath(sp)} className={`area-strip-card${i === 0 ? " area-strip-card--big" : ""}`}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={spotPhotoUrl(sp.id)} alt={sp.name} loading={i === 0 ? "eager" : "lazy"} />
+              <span className="area-strip-name">{sp.name}</span>
             </Link>
-          </li>
-        ))}
-      </ul>
-      <div className="site-related-links" style={{ marginTop: 20 }}>
-        <Link href="/explore/biryani-and-local">Biryani & local</Link>
-        <Link href="/explore/cafes">Cafes</Link>
-        <Link href="/stories">Stories</Link>
-      </div>
-      <Link href="/" className="site-cta">See {data.area} on the map</Link>
-      <section className="spot-prose" aria-label="FAQ" style={{ marginTop: 24 }}>
-        <h2 className="site-section-title">FAQ</h2>
+          ))}
+        </div>
+      )}
+
+      <AreaExplorer area={data.area} spots={items} />
+
+      <Link href="/" className="site-cta">Open the full map</Link>
+
+      <section className="ax-about" aria-label={`About eating in ${data.area}`}>
+        <h2 className="site-section-title">About {data.area}</h2>
+        {pillar?.blurb && <p>{pillar.blurb}</p>}
         <p><strong>{copy.faqWhere}</strong> {answerLead}</p>
-        <p><strong>How many places are listed?</strong> {data.spots.length} restaurants and cafes on this map.</p>
-        <p><strong>Can I open them on a map?</strong> Yes — use the map link below for {data.area} pins, hours, and votes.</p>
+        <p><strong>How many places are listed?</strong> {data.spots.length} restaurants and cafes, sorted by review count unless you pick another order above.</p>
       </section>
     </SiteChrome>
     <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>

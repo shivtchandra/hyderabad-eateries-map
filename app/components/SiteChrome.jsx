@@ -1,17 +1,13 @@
 import Link from "next/link";
-import { Squiggles } from "./Icons.jsx";
 import BackButton from "./BackButton.jsx";
-import { recommendationsEnabled } from "../../lib/recommendationShared.js";
 
+// Same three destinations as the app's bottom nav (You is app-only). Deals,
+// food safety, stories, areas and dish guides all live under Guides now; the
+// footer keeps every link for crawlers.
 const NAV = [
   { href: "/", label: "Map" },
-  ...(recommendationsEnabled() ? [{ href: "/picks", label: "Dish guides" }] : []),
-  { href: "/offers", label: "Deals" },
-  { href: "/food-safety", label: "Food safety" },
-  { href: "/stories", label: "Stories" },
-  { href: "/rankings", label: "Rankings" },
-  { href: "/explore", label: "Explore" },
-  { href: "/areas", label: "Areas" },
+  { href: "/?tab=race", label: "Vote", match: ["/rankings", "/race"] },
+  { href: "/guides", label: "Guides", match: ["/guides", "/stories", "/explore", "/areas", "/offers", "/food-safety", "/picks"] },
 ];
 
 
@@ -21,9 +17,12 @@ const NAV = [
 export function SiteNav({ active, linksHidden }) {
   return (
     <nav className="site-topnav" aria-label="Main">
-      <Link href="/" className="site-logo">Hyderabad Eats</Link>
+      <Link href="/" className="site-logo" aria-label="Hyderabad Eats, open the map">
+        <span className="site-logo-tile" aria-hidden="true">E</span>
+        <span className="site-logo-name">Hyderabad Eats</span>
+      </Link>
       {NAV.map((item) => (
-        <Link key={item.href} href={item.href} className={`site-topnav-link${active === item.href ? " active" : ""}`}>
+        <Link key={item.href} href={item.href} className={`site-topnav-link${(item.match ? item.match.includes(active) : active === item.href) ? " active" : ""}`}>
           {item.label}
         </Link>
       ))}
@@ -44,33 +43,21 @@ export function SiteBreadcrumb({ items }) {
   );
 }
 
+// Slim footer. The full link list for crawlers already ships on every page in
+// SeoCrawlNav (visually hidden), and the bottom nav / Guides cover browsing,
+// so repeating 16 links here was only clutter.
 export function SiteFooter() {
   return (
     <footer className="site-footer">
-      <nav aria-label="Footer">
-        <Link href="/">Map</Link>
-        <Link href="/rankings">Rankings</Link>
-        <Link href="/rankings/best-buffet-in-hyderabad">Best Buffet</Link>
-        <Link href="/rankings/best-fine-dining-in-hyderabad">Best Fine Dining</Link>
-        <Link href="/guides/best-breweries-in-hyderabad">Best Breweries</Link>
-        <Link href="/rankings/best-biryani-in-hyderabad">Best Biryani</Link>
-        <Link href="/rankings/best-cafe-in-hyderabad">Best Cafes</Link>
-        <Link href="/areas/jubilee-hills">Jubilee Hills</Link>
-        <Link href="/areas/gachibowli">Gachibowli</Link>
-        <Link href="/areas/kondapur">Kondapur</Link>
-        <Link href="/areas">Areas</Link>
-        <Link href="/explore">Explore</Link>
-        <Link href="/offers">Dining Deals</Link>
-        <Link href="/stories">Stories</Link>
-        <Link href="/food-safety">Food safety</Link>
+      <p className="site-footer-brand">
+        <b>Hyderabad Eats</b>, part of <a href="https://mapmyhyd.com/">Mapping HYD</a>
+      </p>
+      <nav aria-label="More from Mapping HYD">
         <Link href="/about">About</Link>
-      </nav>
-      <nav aria-label="Mapping HYD series">
-        <a href="https://mapmyhyd.com/">Mapping HYD</a>
-        <a href="https://startups.mapmyhyd.com/">Mapping HYD Startups</a>
+        <Link href="/rankings/how-it-works">How rankings work</Link>
+        <a href="https://startups.mapmyhyd.com/">Startup map</a>
         <a href="https://startups.mapmyhyd.com/jobs">Jobs in Hyderabad</a>
       </nav>
-      <div>Part of Mapping HYD — community-voted food rankings &amp; map · 3,400+ spots</div>
     </footer>
   );
 }
@@ -89,23 +76,22 @@ export function SiteRelated({ links }) {
   );
 }
 
-export default function SiteChrome({ active, breadcrumb, title, description, children, related, heroClass, navLinksHidden, heroDecor, backFallback }) {
+// `hero` replaces the default title block (the spot page leads with its photo).
+export default function SiteChrome({ active, breadcrumb, title, description, children, related, heroClass, navLinksHidden, backFallback, hero }) {
   return (
     <div className="site-page">
-      <header className="site-header" style={heroDecor ? { position: "relative", overflow: "hidden" } : undefined}>
-        {heroDecor && (
-          <div style={{ position: "absolute", inset: "-10% -5% 30%", opacity: 0.22, pointerEvents: "none" }}>
-            <Squiggles color="var(--cream-hi)" opacity={1} />
-          </div>
-        )}
-        <div className="site-header-inner" style={heroDecor ? { position: "relative" } : undefined}>
+      <header className="site-header">
+        <div className="site-header-inner">
           <SiteNav active={active} linksHidden={navLinksHidden} />
           {backFallback && <BackButton fallback={backFallback} />}
-          {breadcrumb?.length > 0 && <SiteBreadcrumb items={breadcrumb} />}
-          <div className={`site-hero${heroClass ? ` ${heroClass}` : ""}`}>
-            <h1>{title}</h1>
-            {description && <p>{description}</p>}
-          </div>
+          {/* A custom hero (spot page) carries its own area kicker. */}
+          {!hero && breadcrumb?.length > 0 && <SiteBreadcrumb items={breadcrumb} />}
+          {hero || (
+            <div className={`site-hero${heroClass ? ` ${heroClass}` : ""}`}>
+              <h1>{title}</h1>
+              {description && <p>{description}</p>}
+            </div>
+          )}
         </div>
       </header>
       <main className="site-body">{children}</main>

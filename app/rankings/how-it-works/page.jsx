@@ -22,7 +22,7 @@ export default function HowItWorksPage() {
   return (
     <div style={{ paddingBottom: 84 }}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
-    <SiteChrome
+    <SiteChrome backFallback="/rankings"
       active="/rankings"
       breadcrumb={[
         { href: "/", label: "Home" },

@@ -109,7 +109,7 @@ export default function PlacesAdmin({ secret }) {
 
   return (
     <section style={{ marginTop: 28 }}>
-      <h2 style={{ fontFamily: "Fraunces, serif", fontSize: 20, margin: "0 0 4px" }}>New places from visitors</h2>
+      <h2 style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontSize: 20, margin: "0 0 4px" }}>New places from visitors</h2>
       <p style={{ fontSize: 13, color: "var(--muted)", margin: "0 0 10px" }}>
         Added from the search bar or the rankings. Approve to put a place on the map, remove junk.
       </p>

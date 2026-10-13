@@ -7,14 +7,15 @@ import { Icon, CategoryIcon, TagIcon } from "./Icons.jsx";
 import { hasVoted } from "../../lib/voting.js";
 import { getThemeVoteSpot, castThemeVote } from "../../lib/themeVoting.js";
 import MustOrder from "./MustOrder.jsx";
+import VoteFollowUp from "./VoteFollowUp.jsx";
 
 const CAT_META = {
-  restaurant: { label: "Restaurant", color: "#9d2f4f", gradient: "linear-gradient(135deg, #9d2f4f 0%, #e2622a 100%)" },
-  "restro-bar": { label: "Restro Bar", color: "#e2622a", gradient: "linear-gradient(135deg, #e2622a 0%, #dfa43a 100%)" },
-  cafe: { label: "Cafe", color: "#2f4fc4", gradient: "linear-gradient(135deg, #2f4fc4 0%, #7c3aed 100%)" },
-  bakery: { label: "Bakery", color: "#dfa43a", gradient: "linear-gradient(135deg, #dfa43a 0%, #e2622a 100%)" },
-  "ice-cream": { label: "Ice Cream", color: "#e0899e", gradient: "linear-gradient(135deg, #e0899e 0%, #7c3aed 100%)" },
-  local: { label: "Local Eats", color: "#2e8b6b", gradient: "linear-gradient(135deg, #2e8b6b 0%, #2f4fc4 100%)" },
+  restaurant: { label: "Restaurant", color: "#9d2f4f", gradient: "#9d2f4f" },
+  "restro-bar": { label: "Restro Bar", color: "#e2622a", gradient: "#e2622a" },
+  cafe: { label: "Cafe", color: "#2f4fc4", gradient: "#2f4fc4" },
+  bakery: { label: "Bakery", color: "#dfa43a", gradient: "#dfa43a" },
+  "ice-cream": { label: "Ice Cream", color: "#e0899e", gradient: "#e0899e" },
+  local: { label: "Local Eats", color: "#2e8b6b", gradient: "#2e8b6b" },
 };
 
 const PRICE_ESTIMATE = {
@@ -33,6 +34,8 @@ export default function DetailSheet({
   const [themeVotePending, setThemeVotePending] = useState(false);
   const [themeCasting, setThemeCasting] = useState(false);
   const [themeVoteSpotLocal, setThemeVoteSpotLocal] = useState(null);
+  const [themeVoteFailed, setThemeVoteFailed] = useState(false);
+  const [themeJustVoted, setThemeJustVoted] = useState(false);
   const [showMoreDetails, setShowMoreDetails] = useState(false);
   const [offersData, setOffersData] = useState(null);
   const [shareCopied, setShareCopied] = useState(false);
@@ -49,7 +52,7 @@ export default function DetailSheet({
     const text = `Check out ${eatery.name} on Hyderabad Eats!`;
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
-        await navigator.share({ title: `${eatery.name} — Hyderabad Eats`, text, url });
+        await navigator.share({ title: `${eatery.name} | Hyderabad Eats`, text, url });
         return;
       } catch (err) {
         if (err?.name === "AbortError") return;
@@ -111,11 +114,18 @@ export default function DetailSheet({
   const handleThemeVote = useCallback(async () => {
     if (!currentTheme || votedForThis || themeCasting) return;
     if (votedForOther && !themeVotePending) { setThemeVotePending(true); return; }
+    // Optimistic: show the vote (and the VOTED stamp) straight away, roll back
+    // with a short message if the server says no.
+    const previous = themeVoteSpotLocal;
     setThemeCasting(true);
+    setThemeVoteFailed(false);
+    setThemeVoteSpotLocal(eatery.id);
+    setThemeVotePending(false);
     const result = await castThemeVote(currentTheme.id, eatery.id, eatery.name, { title: currentTheme.title });
     setThemeCasting(false);
-    if (result.ok) { setThemeVoteSpotLocal(eatery.id); setThemeVotePending(false); }
-  }, [currentTheme, votedForThis, votedForOther, themeCasting, themeVotePending, eatery.id, eatery.name]);
+    if (!result.ok) { setThemeVoteSpotLocal(previous); setThemeVoteFailed(true); }
+    else setThemeJustVoted(true);
+  }, [currentTheme, votedForThis, votedForOther, themeCasting, themeVotePending, themeVoteSpotLocal, eatery.id, eatery.name]);
 
   const allTags = validTagsFor(eatery.category, eatery.tags || []);
   const visibleTags = allTags.slice(0, 3);
@@ -128,7 +138,7 @@ export default function DetailSheet({
       : `${eatery.ratingCount}`
     : voteCount > 0
     ? `${voteCount}`
-    : "—";
+    : "-";
 
   // Clean cost label (never an isolated '₹')
   const costLabel = eatery.costForTwo
@@ -205,7 +215,7 @@ export default function DetailSheet({
               height: recommendationContent ? (isMobile ? 112 : 140) : (isMobile ? 154 : 168),
               position: "relative",
               background: photoUrl ? `url(${photoUrl}) center/cover no-repeat` : cat.gradient,
-              backgroundColor: "#1e243d",
+              backgroundColor: "var(--ink)",
               overflow: "hidden",
             }}
           >
@@ -252,7 +262,7 @@ export default function DetailSheet({
                   background: "rgba(255, 255, 255, 0.92)",
                   backdropFilter: "blur(8px)",
                   WebkitBackdropFilter: "blur(8px)",
-                  color: "#0f172a",
+                  color: "var(--ink)",
                   borderRadius: 999,
                   padding: "3px 9px",
                   fontSize: 11,
@@ -263,7 +273,7 @@ export default function DetailSheet({
                   boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
                 }}
               >
-                <Icon name="navigate" size={11} width={2.2} color="#2f4fc4" />
+                <Icon name="navigate" size={11} width={2.2} color="var(--violet-deep)" />
                 {dist < 1 ? `${Math.round(dist * 1000)}m` : `${dist.toFixed(1)}km`}
               </span>
             )}
@@ -358,7 +368,7 @@ export default function DetailSheet({
                   width: "100%",
                   height: "100%",
                   borderRadius: "50%",
-                  background: `linear-gradient(135deg, ${cat.color}15 0%, ${cat.color}28 100%)`,
+                  background: `${cat.color}1f`,
                   border: `1px solid ${cat.color}35`,
                   display: "flex",
                   alignItems: "center",
@@ -379,7 +389,7 @@ export default function DetailSheet({
                     width: 15,
                     height: 15,
                     borderRadius: "50%",
-                    background: open ? "#10b981" : "#94a3b8",
+                    background: open ? "#10b981" : "var(--muted)",
                     border: "3px solid #ffffff",
                     boxShadow: open ? "0 0 0 1px rgba(16,185,129,0.3), 0 2px 6px rgba(16,185,129,0.5)" : "none",
                   }}
@@ -387,33 +397,6 @@ export default function DetailSheet({
               )}
             </div>
 
-            {/* Refined Bookmark Pill Button */}
-            <button
-              type="button"
-              onClick={() => onToggleSaved(eatery.id)}
-              aria-label={saved ? "Remove save" : "Save spot"}
-              style={{
-                width: 44,
-                height: 44,
-                borderRadius: "50%",
-                background: saved ? "#fbe3d5" : "#ffffff",
-                border: `1px solid ${saved ? "#f59e0b" : "#e2e8f0"}`,
-                boxShadow: "0 4px 14px rgba(15, 23, 42, 0.08)",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                transition: "all 150ms cubic-bezier(0.2, 0, 0, 1)",
-              }}
-            >
-              <Icon
-                name="bookmark"
-                size={18}
-                width={saved ? 0 : 2}
-                color={saved ? "#b8481a" : "#475569"}
-                style={saved ? { fill: "#b8481a" } : {}}
-              />
-            </button>
           </div>
 
           {/* Restaurant Identity: Name & Harmonious Subtitle */}
@@ -421,12 +404,13 @@ export default function DetailSheet({
             <h2
               style={{
                 margin: 0,
-                fontSize: 22,
-                fontWeight: 700,
-                fontFamily: "var(--font-outfit), sans-serif",
-                color: "#0f172a",
-                lineHeight: 1.22,
-                letterSpacing: "-0.025em",
+                // Spot mockup: the name in big display type.
+                fontSize: 34,
+                fontWeight: 800,
+                fontFamily: "var(--font-display), system-ui, sans-serif",
+                color: "var(--ink)",
+                lineHeight: 0.95,
+                letterSpacing: "-0.04em",
               }}
             >
               {eatery.name}
@@ -436,23 +420,23 @@ export default function DetailSheet({
                 marginTop: 5,
                 fontSize: 13,
                 fontWeight: 500,
-                color: "#64748b",
+                color: "var(--muted)",
                 display: "flex",
                 alignItems: "center",
                 gap: 6,
                 flexWrap: "wrap",
               }}
             >
-              <span style={{ color: "#334155", fontWeight: 600 }}>{cat.label}</span>
+              <span style={{ color: "var(--ink)", fontWeight: 600 }}>{cat.label}</span>
               {(eatery.discoveredIn || eatery.address) && (
                 <>
-                  <span style={{ color: "#cbd5e1" }}>·</span>
+                  <span style={{ color: "var(--line)" }}>·</span>
                   <span>{eatery.discoveredIn || eatery.address}</span>
                 </>
               )}
               {tier && (
                 <>
-                  <span style={{ color: "#cbd5e1" }}>·</span>
+                  <span style={{ color: "var(--line)" }}>·</span>
                   <span
                     style={{
                       background: eatery.tier === "landmark" ? "#fef3c7" : eatery.tier === "hidden-gem" ? "#f3e8ff" : "#ecfdf5",
@@ -493,8 +477,8 @@ export default function DetailSheet({
                   <span
                     key={t}
                     style={{
-                      background: "#f1f5f9",
-                      color: "#334155",
+                      background: "var(--cream)",
+                      color: "var(--ink)",
                       borderRadius: 999,
                       padding: "5px 12px",
                       fontSize: 12,
@@ -504,7 +488,7 @@ export default function DetailSheet({
                       gap: 4.5,
                     }}
                   >
-                    <TagIcon tag={t} size={12} width={1.8} color="#64748b" />
+                    <TagIcon tag={t} size={12} width={1.8} color="var(--muted)" />
                     {meta.label}
                   </span>
                 );
@@ -513,8 +497,8 @@ export default function DetailSheet({
               {remainingTagCount > 0 && (
                 <span
                   style={{
-                    background: "#f1f5f9",
-                    color: "#64748b",
+                    background: "var(--cream)",
+                    color: "var(--muted)",
                     borderRadius: 999,
                     padding: "5px 9px",
                     fontSize: 11.5,
@@ -533,8 +517,8 @@ export default function DetailSheet({
             style={{
               margin: "18px 20px 0",
               padding: "14px 0",
-              borderTop: "1px solid #f1f5f9",
-              borderBottom: "1px solid #f1f5f9",
+              borderTop: "1px solid var(--line)",
+              borderBottom: "1px solid var(--line)",
               display: "grid",
               gridTemplateColumns: "1fr 1fr 1fr",
               textAlign: "center",
@@ -542,11 +526,11 @@ export default function DetailSheet({
           >
             {/* Col 1: Rating */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 16, fontWeight: 800, color: "#0f172a", letterSpacing: "-0.01em" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 16, fontWeight: 800, color: "var(--ink)", letterSpacing: "-0.01em" }}>
                 <span style={{ color: "#f59e0b", fontSize: 14 }}>★</span>
-                {eatery.rating != null ? Number(eatery.rating).toFixed(1) : "—"}
+                {eatery.rating != null ? Number(eatery.rating).toFixed(1) : "-"}
               </div>
-              <div style={{ fontSize: 10.5, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 3 }}>
+              <div style={{ fontSize: 10.5, fontWeight: 600, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 3 }}>
                 Rating
               </div>
             </div>
@@ -558,25 +542,25 @@ export default function DetailSheet({
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                borderLeft: "1px solid #f1f5f9",
-                borderRight: "1px solid #f1f5f9",
+                borderLeft: "1px solid var(--line)",
+                borderRight: "1px solid var(--line)",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 16, fontWeight: 800, color: "#0f172a", letterSpacing: "-0.01em" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 16, fontWeight: 800, color: "var(--ink)", letterSpacing: "-0.01em" }}>
                 <Icon name="trophy" size={13} width={2.2} color="#6366f1" />
                 {formattedReviews}
               </div>
-              <div style={{ fontSize: 10.5, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 3 }}>
+              <div style={{ fontSize: 10.5, fontWeight: 600, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 3 }}>
                 {eatery.ratingCount ? "Reviews" : "Votes"}
               </div>
             </div>
 
             {/* Col 3: Cost for Two */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-              <div style={{ fontSize: 16, fontWeight: 800, color: "#0f172a", letterSpacing: "-0.01em" }}>
+              <div style={{ fontSize: 16, fontWeight: 800, color: "var(--ink)", letterSpacing: "-0.01em" }}>
                 {costLabel}
               </div>
-              <div style={{ fontSize: 10.5, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 3 }}>
+              <div style={{ fontSize: 10.5, fontWeight: 600, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 3 }}>
                 For two
               </div>
             </div>
@@ -598,7 +582,7 @@ export default function DetailSheet({
             >
               <Icon name="utensils" size={15} width={2.1} color="#6d28d9" style={{ marginTop: 2, flexShrink: 0 }} />
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 12.5, fontWeight: 700, color: "#5b21b6", lineHeight: 1.35 }}>
+                <div style={{ fontSize: 12.5, fontWeight: 700, color: "var(--violet-deep)", lineHeight: 1.35 }}>
                   {pick.dishes}
                 </div>
                 {(pick.curator || pick.note) && (
@@ -663,8 +647,8 @@ export default function DetailSheet({
             <div
               style={{
                 margin: "12px 20px 0",
-                background: "linear-gradient(135deg, #fdf4ff 0%, #fff1f2 50%, #fff7ed 100%)",
-                border: "1px solid #fbcfe8",
+                background: "var(--violet-wash)",
+                border: "none",
                 borderRadius: 20,
                 padding: "14px 16px",
                 display: "flex",
@@ -683,10 +667,10 @@ export default function DetailSheet({
 
               {/* District by Zomato Block */}
               {offersData.district?.hasOffers && (
-                <div style={{ background: "#ffffff", borderRadius: 14, padding: "10px 12px", border: "1px solid #fed7aa" }}>
+                <div style={{ background: "#ffffff", borderRadius: 14, padding: "10px 12px", border: "none" }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
                     <span style={{ fontSize: 12, fontWeight: 800, color: "#c2410c", display: "flex", alignItems: "center", gap: 5 }}>
-                      <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#ea580c" }} />
+                      <span style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--violet-deep)" }} />
                       District by Zomato
                     </span>
                     {offersData.district.url && (
@@ -694,7 +678,7 @@ export default function DetailSheet({
                         href={offersData.district.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{ fontSize: 11, fontWeight: 700, color: "#ea580c", textDecoration: "none" }}
+                        style={{ fontSize: 11, fontWeight: 700, color: "var(--violet-deep)", textDecoration: "none" }}
                       >
                         Book Table →
                       </a>
@@ -702,9 +686,9 @@ export default function DetailSheet({
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                     {offersData.district.offers.map((off, i) => (
-                      <div key={i} style={{ fontSize: 11.5, color: "#334155", display: "flex", alignItems: "baseline", gap: 6 }}>
+                      <div key={i} style={{ fontSize: 11.5, color: "var(--ink)", display: "flex", alignItems: "baseline", gap: 6 }}>
                         <span style={{ fontWeight: 700, color: "#9a3412" }}>{off.title}</span>
-                        {off.desc && <span style={{ color: "#64748b", fontSize: 11 }}>· {off.desc}</span>}
+                        {off.desc && <span style={{ color: "var(--muted)", fontSize: 11 }}>· {off.desc}</span>}
                       </div>
                     ))}
                   </div>
@@ -713,9 +697,9 @@ export default function DetailSheet({
 
               {/* Swiggy Dineout Block */}
               {offersData.swiggy?.hasOffers && (
-                <div style={{ background: "#ffffff", borderRadius: 14, padding: "10px 12px", border: "1px solid #fed7aa" }}>
+                <div style={{ background: "#ffffff", borderRadius: 14, padding: "10px 12px", border: "none" }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
-                    <span style={{ fontSize: 12, fontWeight: 800, color: "#ea580c", display: "flex", alignItems: "center", gap: 5 }}>
+                    <span style={{ fontSize: 12, fontWeight: 800, color: "var(--violet-deep)", display: "flex", alignItems: "center", gap: 5 }}>
                       <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#fc8019" }} />
                       Swiggy Dineout
                     </span>
@@ -724,7 +708,7 @@ export default function DetailSheet({
                         href={offersData.swiggy.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{ fontSize: 11, fontWeight: 700, color: "#ea580c", textDecoration: "none" }}
+                        style={{ fontSize: 11, fontWeight: 700, color: "var(--violet-deep)", textDecoration: "none" }}
                       >
                         Pay Bill & Save →
                       </a>
@@ -732,9 +716,9 @@ export default function DetailSheet({
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                     {offersData.swiggy.offers.map((off, i) => (
-                      <div key={i} style={{ fontSize: 11.5, color: "#334155", display: "flex", alignItems: "baseline", gap: 6 }}>
-                        <span style={{ fontWeight: 700, color: "#ea580c" }}>{off.title}</span>
-                        {off.desc && <span style={{ color: "#64748b", fontSize: 11 }}>· {off.desc}</span>}
+                      <div key={i} style={{ fontSize: 11.5, color: "var(--ink)", display: "flex", alignItems: "baseline", gap: 6 }}>
+                        <span style={{ fontWeight: 700, color: "var(--violet-deep)" }}>{off.title}</span>
+                        {off.desc && <span style={{ color: "var(--muted)", fontSize: 11 }}>· {off.desc}</span>}
                       </div>
                     ))}
                   </div>
@@ -750,7 +734,7 @@ export default function DetailSheet({
                 margin: "14px 20px 0",
                 fontSize: 13,
                 lineHeight: 1.5,
-                color: "#475569",
+                color: "var(--ink-soft)",
               }}
             >
               {eatery.blurb}
@@ -766,7 +750,7 @@ export default function DetailSheet({
                 background: "transparent",
                 border: "none",
                 padding: "4px 0",
-                color: "#64748b",
+                color: "var(--muted)",
                 fontSize: 12,
                 fontWeight: 600,
                 cursor: "pointer",
@@ -779,7 +763,7 @@ export default function DetailSheet({
                 name="chevronDown"
                 size={13}
                 width={2.2}
-                color="#94a3b8"
+                color="var(--muted)"
                 style={{
                   transform: showMoreDetails ? "rotate(180deg)" : "rotate(0deg)",
                   transition: "transform 180ms ease",
@@ -793,8 +777,8 @@ export default function DetailSheet({
                 {/* Vote Widget */}
                 <div
                   style={{
-                    background: voted ? "#ede9fe" : "#f8fafc",
-                    border: `1.5px solid ${voted ? "#a78bfa" : "#e2e8f0"}`,
+                    background: voted ? "var(--violet-wash)" : "var(--cream)",
+                    border: `1.5px solid ${voted ? "#a78bfa" : "var(--line)"}`,
                     borderRadius: 16,
                     padding: "10px 14px",
                     display: "flex",
@@ -812,8 +796,8 @@ export default function DetailSheet({
                       display: "flex",
                       alignItems: "center",
                       gap: 5,
-                      background: voted ? "#7c3aed" : "#ffffff",
-                      color: voted ? "#ffffff" : "#0f172a",
+                      background: voted ? "var(--violet)" : "#ffffff",
+                      color: voted ? "#ffffff" : "var(--ink)",
                       fontWeight: 700,
                       fontSize: 12.5,
                       cursor: "pointer",
@@ -821,15 +805,15 @@ export default function DetailSheet({
                       flexShrink: 0,
                     }}
                   >
-                    <Icon name="heart" size={13} width={voted ? 0 : 2} color={voted ? "#ffffff" : "#e2622a"} />
+                    <Icon name="heart" size={13} width={voted ? 0 : 2} color={voted ? "#ffffff" : "var(--violet)"} />
                     {voted ? "Voted" : "Vote"}
                   </button>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontWeight: 700, fontSize: 12.5, color: voted ? "#5b21b6" : "#0f172a" }}>
+                    <div style={{ fontWeight: 700, fontSize: 12.5, color: voted ? "var(--violet-deep)" : "var(--ink)" }}>
                       {voteCount > 0 ? `${voteCount} vote${voteCount === 1 ? "" : "s"}` : "Be the first to vote"}
                     </div>
                     {weekVotes > 0 && (
-                      <div style={{ fontSize: 11, color: "#64748b", fontWeight: 500 }}>
+                      <div style={{ fontSize: 11, color: "var(--muted)", fontWeight: 500 }}>
                         {weekVotes} this week
                       </div>
                     )}
@@ -839,11 +823,11 @@ export default function DetailSheet({
                 {/* Dish Sticker Button */}
                 <button
                   onClick={() => onAddSticker?.(eatery)}
+                  className="sheet-btn"
                   style={{
-                    ...secondaryBtn,
-                    background: "#fff7ed",
-                    color: "#c2410c",
-                    border: "1px solid #fed7aa",
+                    background: "var(--violet-wash)",
+                    color: "var(--violet-deep)",
+                    border: "none",
                     fontSize: 12.5,
                   }}
                 >
@@ -854,11 +838,11 @@ export default function DetailSheet({
                 {themeActive && (
                   <div>
                     {themeVotePending && (
-                      <div style={{ fontSize: 12, color: "#92400e", background: "#fef3c7", border: "1.5px solid #f59e0b", borderRadius: 14, padding: "9px 12px", marginBottom: 6, fontWeight: 600, lineHeight: 1.4 }}>
+                      <div style={{ fontSize: 13, color: "var(--ink)", background: "#fdf3d6", border: "1.5px solid var(--yellow)", borderRadius: 14, padding: "9px 12px", marginBottom: 6, fontWeight: 600, lineHeight: 1.4 }}>
                         Switch theme vote to <b>{eatery.name}</b>?
                         <button
                           onClick={() => setThemeVotePending(false)}
-                          style={{ display: "block", marginTop: 4, border: "none", background: "transparent", color: "#92400e", textDecoration: "underline", fontSize: 11.5, fontWeight: 600, cursor: "pointer", padding: 0 }}
+                          style={{ display: "block", marginTop: 4, border: "none", background: "transparent", color: "var(--ink)", textDecoration: "underline", fontSize: 11.5, fontWeight: 600, cursor: "pointer", padding: 0 }}
                         >
                           Cancel
                         </button>
@@ -867,31 +851,37 @@ export default function DetailSheet({
                     <button
                       onClick={handleThemeVote}
                       disabled={votedForThis || themeCasting}
+                      className={`sheet-btn${votedForThis ? " vote-stamped" : ""}`}
                       style={{
-                        ...secondaryBtn,
                         width: "100%",
                         fontSize: 12.5,
-                        background: votedForThis ? "#ede9fe" : themeVotePending ? "#fde68a" : "#7c3aed",
-                        color: votedForThis ? "#5b21b6" : themeVotePending ? "#92400e" : "#ffffff",
-                        border: votedForThis ? "1.5px solid #7c3aed" : "none",
+                        background: votedForThis ? "var(--violet-wash)" : themeVotePending ? "var(--yellow)" : "var(--violet)",
+                        color: votedForThis ? "var(--violet-deep)" : themeVotePending ? "var(--ink)" : "#ffffff",
+                        border: votedForThis ? "1.5px solid var(--violet)" : "none",
                         opacity: themeCasting ? 0.6 : 1,
                       }}
                     >
-                      <Icon name="crown" size={14} width={2} color={votedForThis ? "#7c3aed" : themeVotePending ? "#92400e" : "#ffffff"} />
+                      <Icon name="crown" size={14} width={2} color={votedForThis ? "var(--violet)" : themeVotePending ? "var(--ink)" : "#ffffff"} />
                       {votedForThis ? `Voted · ${currentTheme.title}` : themeVotePending ? "Confirm vote switch" : `Vote for "${currentTheme.title}"`}
                     </button>
+                    {themeVoteFailed && (
+                      <p role="status" style={{ margin: "6px 0 0", fontSize: 13, color: "var(--ink-soft)" }}>
+                        That vote didn’t go through. Try again.
+                      </p>
+                    )}
+                    {themeJustVoted && <div style={{ margin: "0 -16px" }}><VoteFollowUp themeTitle={currentTheme.title} source="spot-sheet" /></div>}
                   </div>
                 )}
 
                 {/* Opening Hours */}
                 {eatery.hours?.length > 0 && (
                   <details style={{ marginTop: 2 }}>
-                    <summary style={{ fontSize: 12, fontWeight: 600, cursor: "pointer", color: "#475569" }}>
+                    <summary style={{ fontSize: 12, fontWeight: 600, cursor: "pointer", color: "var(--ink-soft)" }}>
                       Weekly opening hours
                     </summary>
                     <div style={{ marginTop: 6, paddingLeft: 4 }}>
                       {eatery.hours.map((h, i) => (
-                        <div key={i} style={{ fontSize: 11.5, color: "#64748b", padding: "1.5px 0", fontWeight: 500 }}>
+                        <div key={i} style={{ fontSize: 11.5, color: "var(--muted)", padding: "1.5px 0", fontWeight: 500 }}>
                           {h}
                         </div>
                       ))}
@@ -903,133 +893,53 @@ export default function DetailSheet({
           </div>
         </div>
 
-        {/* Card Sticky Footer / Action Bar */}
-        <div
-          style={{
-            flexShrink: 0,
-            padding: "14px 20px 18px",
-            borderTop: "1px solid #f1f5f9",
-            background: "#ffffff",
-            display: "flex",
-            flexDirection: "column",
-            gap: 9,
-          }}
-        >
-          {/* Primary Action Button: Luxury Obsidian Stamp CTA */}
+        {/* Footer, the Spot mockup: Directions is the one purple button, Save
+            and Share sit beside it, "I ate here" is a quiet row above. */}
+        <div className="sheet-footer">
           <button
+            type="button"
+            className={`sheet-ate${visited ? " is-done" : ""}`}
             onClick={() => (visited || !onAteHere ? onToggleVisited(eatery.id) : onAteHere(eatery.id))}
-            style={{
-              width: "100%",
-              height: 50,
-              fontSize: 15,
-              fontWeight: 700,
-              letterSpacing: "-0.01em",
-              borderRadius: 999,
-              border: visited ? "1.5px solid #86efac" : "none",
-              background: visited
-                ? "#f0fdf4"
-                : "linear-gradient(180deg, #1e2540 0%, #111425 100%)",
-              color: visited ? "#15803d" : "#ffffff",
-              boxShadow: visited
-                ? "none"
-                : "0 8px 24px -4px rgba(17, 20, 37, 0.35), 0 2px 6px rgba(17, 20, 37, 0.15)",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 8,
-              transition: "transform 100ms ease, box-shadow 150ms ease",
-            }}
           >
-            <Icon
-              name={visited ? "check" : "ticket"}
-              size={18}
-              width={2.2}
-              color={visited ? "#15803d" : "#ffffff"}
-            />
-            {visited ? "You ate here ✓" : `I ate here${tier ? ` (+${tier.points} pts)` : ""}`}
+            <Icon name={visited ? "check" : "ticket"} size={18} width={2.2} color="currentColor" />
+            {visited ? "You ate here" : `I ate here · stamp your passport${tier ? ` (+${tier.points} pts)` : ""}`}
           </button>
-
-
-          {/* Secondary Action Row: Sleek Frosted Pills */}
-          <div style={{ display: "flex", gap: 8 }}>
+          <div className="sheet-actions">
             <a
               href={`https://www.google.com/maps/dir/?api=1&destination=${eatery.lat},${eatery.lng}`}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackEvent("directions")}
-              style={{
-                ...secondaryBtn,
-                flex: 1,
-              }}
+              className="sheet-primary"
             >
-              <Icon name="navigate" size={14} width={2.1} color="#2f4fc4" /> Directions
+              Directions
             </a>
-
-            {eatery.phone && (
-              <a
-                href={`tel:${eatery.phone.replace(/\s/g, "")}`}
-                onClick={() => trackEvent("call")}
-                style={{
-                  ...secondaryBtn,
-                  padding: "0 14px",
-                }}
-              >
-                <Icon name="phone" size={14} width={2} color="#475569" /> Call
-              </a>
-            )}
-
+            <button
+              type="button"
+              onClick={() => onToggleSaved(eatery.id)}
+              aria-label={saved ? "Remove from saved" : "Save spot"}
+              aria-pressed={saved}
+              className={`sheet-icon${saved ? " is-on" : ""}`}
+            >
+              <Icon name="bookmark" size={20} width={2} color="currentColor" />
+            </button>
             <button
               type="button"
               onClick={handleShareClick}
-              style={{
-                ...secondaryBtn,
-                padding: "0 14px",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 5,
-                cursor: "pointer",
-                color: shareCopied ? "#15803d" : "#475569",
-              }}
-              title="Share place card"
+              aria-label={shareCopied ? "Link copied" : "Share place"}
+              className={`sheet-icon${shareCopied ? " is-on" : ""}`}
             >
-              <Icon name={shareCopied ? "check" : "share"} size={14} width={2} color={shareCopied ? "#15803d" : "var(--violet-deep)"} />
-              <span>{shareCopied ? "Copied" : "Share"}</span>
+              <Icon name={shareCopied ? "check" : "share"} size={20} width={2} color="currentColor" />
             </button>
-
-            <a
-              href={`/spot/${encodeURIComponent(eatery.id)}`}
-              style={{
-                ...secondaryBtn,
-                flex: 1,
-              }}
-            >
-              <Icon name="book" size={14} width={2} color="#475569" /> Full Page
-            </a>
+          </div>
+          <div className="sheet-more">
+            {eatery.phone && (
+              <a href={`tel:${eatery.phone.replace(/\s/g, "")}`} onClick={() => trackEvent("call")}>Call</a>
+            )}
+            <a href={`/spot/${encodeURIComponent(eatery.id)}`}>Full page</a>
           </div>
         </div>
       </div>
     </div>
   );
 }
-
-const secondaryBtn = {
-  height: 40,
-  borderRadius: 999,
-  background: "#f8fafc",
-  border: "1px solid #e2e8f0",
-  color: "#334155",
-  fontFamily: "var(--font-outfit), Outfit, sans-serif",
-  fontWeight: 600,
-  fontSize: 13,
-  textDecoration: "none",
-  cursor: "pointer",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: 6,
-  boxSizing: "border-box",
-  boxShadow: "0 1px 2px rgba(0,0,0,0.03)",
-  transition: "all 120ms ease",
-};

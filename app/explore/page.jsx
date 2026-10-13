@@ -45,7 +45,7 @@ export default function ExploreHubPage() {
   return (
     <div style={{ paddingBottom: 84 }}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
-    <SiteChrome active="/explore" breadcrumb={[{ href: "/", label: "Home" }, { href: "/explore", label: "Explore" }]} title={title} description={description}
+    <SiteChrome backFallback="/guides" active="/explore" breadcrumb={[{ href: "/", label: "Home" }, { href: "/explore", label: "Explore" }]} title={title} description={description}
       related={[
         { href: "/rankings", label: "Weekly rankings" },
         { href: "/areas", label: "Browse by area" },

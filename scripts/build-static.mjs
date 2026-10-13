@@ -19,6 +19,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { galleryPhotoUrl, spotPhotoUrl } from "../lib/photos.js";
 import { coreIdSet } from "../lib/coreSpots.js";
+import { fixCategory } from "../lib/categoryFix.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA = path.join(__dirname, "..", "data", "eateries.json");
@@ -38,13 +39,23 @@ for (const e of all.filter((x) => x.lat && x.lng && x.status === "approved")) {
 }
 const approved = [...byIdBest.values()];
 const core = coreIdSet(approved, { editorialIds });
+// "Recos" chip: spots we recommend something at (editorial, dish picks, brand
+// picks like Cream Stone, dishes locals name on r/hyderabad).
+const readData = (f, fb) => { try { return JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", f), "utf-8")); } catch { return fb; } };
+const dishSeedIds = new Set(Object.keys(readData("dish-seeds.json", {})));
+const brandRes = (readData("brand-picks.json", { brands: [] }).brands || []).map((b) => new RegExp(b.match, "i"));
+const isReco = (e) => editorialIds.has(e.id) || dishSeedIds.has(e.id) || !!localsDishes[e.id] || brandRes.some((re) => re.test(e.name || ""));
+let localsDishes = {};
+try { localsDishes = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "locals-dishes.json"), "utf-8")).spots || {}; } catch {}
 
 // Short keys keep the index small over the wire; the client re-expands them.
 const index = approved
   .map((e) => ({
     id: e.id,
     n: e.name,
-    c: e.category,
+    c: fixCategory(e),
+    ...(localsDishes[e.id] ? { d: localsDishes[e.id].map((x) => x.dish) } : {}), // dishes locals name (Ask Eats)
+    ...(isReco(e) ? { rc: 1 } : {}), // "Recos" chip
     lat: +e.lat.toFixed(5),
     lng: +e.lng.toFixed(5),
     r: e.rating ?? null,
@@ -92,7 +103,7 @@ try {
         id,
         name: e.name ?? id,
         area: e.discoveredIn ?? null,
-        category: e.category ?? null,
+        category: fixCategory(e),
         teaser: c.signatureDish?.name ?? c.highlight?.label ?? null,
         image: c.gallery?.length ? galleryPhotoUrl(c.gallery[0]) : spotPhotoUrl(id),
       };

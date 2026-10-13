@@ -17,7 +17,7 @@ export default function AskHub() {
   if (!recommendationsEnabled()) notFound();
   const list = askList();
   const stats = askStats();
-  return <SiteChrome title="Hyderabad food questions, answered by locals" description={`Built from ${stats.comments.toLocaleString("en-IN")} r/hyderabad comments. Updated ${askUpdated().label}.`} breadcrumb={[{ href: "/", label: "Map" }, { href: "/ask", label: "Questions" }]}>
+  return <SiteChrome backFallback="/guides" title="Hyderabad food questions, answered by locals" description={`Built from ${stats.comments.toLocaleString("en-IN")} r/hyderabad comments. Updated ${askUpdated().label}.`} breadcrumb={[{ href: "/", label: "Map" }, { href: "/ask", label: "Questions" }]}>
     <div className="ask-page">
       {GROUPS.map(([type, label]) => {
         const items = list.filter((x) => x.type === type);

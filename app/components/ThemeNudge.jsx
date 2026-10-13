@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { hasThemeVoted } from "../../lib/themeVoting.js";
 import { Icon } from "./Icons.jsx";
+import { stickerForTitle } from "../../lib/stickerArt.js";
 
 // Closing it hides the banner for this theme only (per device); next week's shows again.
 const DISMISS_KEY = "hyd-theme-nudge-dismissed";
@@ -36,76 +37,30 @@ export default function ThemeNudge({ theme, onVote }) {
   };
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        top: 12,
-        left: 12,
-        right: 12,
-        zIndex: 1000,
-        maxWidth: 420,
-        margin: "0 auto",
-        display: "flex",
-        alignItems: "center",
-        border: "1.5px solid var(--line)",
-        borderRadius: 16,
-        background: "var(--cream-hi)",
-        boxShadow: "var(--shadow-soft)",
-      }}
-    >
-    <button
-      type="button"
-      onClick={onVote}
-      className="pressable-sm"
-      style={{
-        flex: 1,
-        minWidth: 0,
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        padding: "11px 4px 11px 14px",
-        border: "none",
-        borderRadius: 16,
-        background: "transparent",
-        cursor: "pointer",
-        textAlign: "left",
-      }}
-    >
-      <span
-        style={{
-          width: 34,
-          height: 34,
-          borderRadius: 12,
-          background: "var(--violet-wash)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexShrink: 0,
-        }}
-      >
-        <Icon name="trophy" size={17} width={1.9} color="var(--violet)" />
-      </span>
-      <span style={{ flex: 1, minWidth: 0 }}>
-        <span style={{ display: "block", fontSize: 11, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
-          This week
-        </span>
-        <span style={{ display: "block", fontSize: 13.5, fontWeight: 750, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-          {theme.title}
-        </span>
-      </span>
-      <span style={{ flexShrink: 0, fontSize: 12.5, fontWeight: 800, color: "var(--violet)" }}>
-        Vote
-      </span>
-    </button>
-    <button
-      type="button"
-      onClick={dismiss}
-      aria-label="Hide this week's vote banner"
-      className="pressable-sm"
-      style={{ flexShrink: 0, width: 40, height: 44, marginRight: 4, border: "none", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
-    >
-      <Icon name="close" size={15} width={2.2} color="var(--muted)" />
-    </button>
+    <div className="vote-card" role="region" aria-label="This week's vote">
+      {stickerForTitle(theme.title) && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img className="vote-card-sticker" src={stickerForTitle(theme.title)} alt="" width={64} height={64} />
+      )}
+      <button type="button" onClick={onVote} className="vote-card-main">
+        <span className="vote-card-kicker"><span className="vote-card-dot" />Live vote</span>
+        <span className="vote-card-title">{hook(theme.title)}</span>
+      </button>
+      <button type="button" onClick={onVote} className="vote-card-go pressable-sm" aria-label={`Vote: ${theme.title}`}>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M7 17L17 7M9 7h8v8" />
+        </svg>
+      </button>
+      <button type="button" onClick={dismiss} aria-label="Hide this week's vote" className="vote-card-close pressable-sm">
+        <Icon name="close" size={15} width={2.2} color="currentColor" />
+      </button>
     </div>
   );
+}
+
+// "Best Ice Cream in Hyderabad" reads as a label; the reels open on a question
+// ("Hyderabad's best ice cream?") and that is what gets the tap.
+function hook(title = "") {
+  const m = title.match(/^best (.+?) in hyderabad$/i);
+  return m ? `Hyderabad’s best ${m[1].toLowerCase()}?` : title;
 }

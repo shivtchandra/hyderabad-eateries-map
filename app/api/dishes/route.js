@@ -1,6 +1,6 @@
-import fs from "fs";
-import path from "path";
 import { getAdminDb } from "../../../lib/firebaseAdmin.js";
+import { dishSeedsFor } from "../../../lib/dishSeeds.js";
+import { getEateryById } from "../../../lib/siteData.js";
 
 // "Must order" dishes per spot: locals' verdicts from the stamp sheet, merged with
 // seed dishes from our editorial and the r/hyderabad guides.
@@ -11,13 +11,9 @@ import { getAdminDb } from "../../../lib/firebaseAdmin.js";
 
 export const dynamic = "force-dynamic";
 
-let SEEDS = null;
+// Same seeds as the spot page: own picks, brand picks, dishes locals name (lib/dishSeeds.js).
 function seedsFor(id) {
-  if (!SEEDS) {
-    try { SEEDS = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "dish-seeds.json"), "utf8")); }
-    catch { SEEDS = {}; }
-  }
-  return SEEDS[id] || [];
+  return dishSeedsFor(getEateryById(id) || { id, name: "" });
 }
 
 const key = (s) => s.toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, " ").trim().slice(0, 60);
@@ -26,7 +22,7 @@ const validId = (id) => typeof id === "string" && id.length > 0 && id.length <= 
 
 function merge(spotId, votes) {
   const out = new Map();
-  for (const s of seedsFor(spotId)) out.set(key(s.name), { name: s.name, up: 0, down: 0, source: s.source });
+  for (const s of seedsFor(spotId)) out.set(key(s.name), { name: s.name, up: 0, down: 0, source: s.source, ...(s.people ? { people: s.people } : {}) });
   for (const [k, v] of Object.entries(votes || {})) {
     const cur = out.get(k) || { name: v.name, up: 0, down: 0, source: "locals" };
     out.set(k, { ...cur, up: v.up || 0, down: v.down || 0 });

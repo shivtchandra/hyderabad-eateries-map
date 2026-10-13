@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 // A drive only goes public once it has at least one source URL.
 
 const labelStyle = { display: "block", fontSize: 11.5, fontWeight: 700, color: "#888", marginBottom: 4 };
-const inputStyle = { width: "100%", border: "1.5px solid #e5e7eb", borderRadius: 10, padding: "9px 13px", fontSize: 14, fontFamily: "Outfit, sans-serif", boxSizing: "border-box" };
+const inputStyle = { width: "100%", border: "1.5px solid #e5e7eb", borderRadius: 10, padding: "9px 13px", fontSize: 14, fontFamily: "var(--font-ui), sans-serif", boxSizing: "border-box" };
 const smallBtn = (bg, color) => ({ background: bg, color, border: "none", borderRadius: 8, padding: "5px 11px", fontSize: 12, fontWeight: 700, cursor: "pointer", flexShrink: 0 });
 const ACTIONS = [["licence-suspended", "Licence suspended"], ["closed", "Operations stopped"], ["notice", "Notice issued"], ["penalty", "Penalty"], ["no-action", "No action"]];
 const STATUSES = [["action-taken", "Action taken"], ["reinspection-due", "Re-inspection due"], ["resumed", "Resumed after re-inspection"]];
@@ -161,7 +161,7 @@ export default function InspectionsAdmin({ secret }) {
         </div>
       </div>
 
-      <div style={{ fontFamily: "Fraunces, serif", fontWeight: 700, fontSize: 18, marginBottom: 12 }}>
+      <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 18, marginBottom: 12 }}>
         Food safety drives {drives.length > 0 && `(${drives.length})`}
       </div>
       {drives.length === 0 ? (

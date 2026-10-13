@@ -2,12 +2,14 @@ import Link from "next/link";
 import { pageMeta, getSiteUrl } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
 import { breadcrumbJsonLd, faqJsonLd } from "../../lib/schema.js";
-import { pathForSpotId } from "../../lib/siteData.js";
+import { pathForSpotId, getEateryById, getEateries } from "../../lib/siteData.js";
 import { getInspectionDrives, driveStats, formatDate } from "../../lib/inspectionsServer.js";
 import { SiteNav, SiteBreadcrumb, SiteFooter, SiteRelated } from "../components/SiteChrome.jsx";
 import BottomNav from "../components/BottomNav.jsx";
 import BackButton from "../components/BackButton.jsx";
 import DriveList from "./DriveList.jsx";
+import SpotsMapClient from "../components/SpotsMapClient.jsx";
+import ShareSpotButton from "../components/ShareSpotButton.jsx";
 
 // Data changes bust the "inspections" tag; a short window only added ISR writes.
 export const revalidate = 86400;
@@ -53,6 +55,8 @@ export default async function FoodSafetyPage() {
     entries: (d.entries || []).map((e) => ({ ...e, href: e.spotId ? pathForSpotId(e.spotId) : null, statusDateLabel: formatDate(e.statusDate) })),
   }));
 
+  const mapPoints = safetyMapPoints(drives);
+
   const articleLd = {
     "@context": "https://schema.org", "@type": "Article", headline: TITLE, description: DESCRIPTION,
     url: siteUrl + SLUG, datePublished: "2026-09-27",
@@ -96,8 +100,24 @@ export default async function FoodSafetyPage() {
           <div><b>{stats.samples}</b><span>samples lifted</span></div>
         </div>
 
+        {mapPoints.length > 0 && (
+          <section id="map" className="fs-mapbox" aria-label="Map of inspections">
+            <div className="fs-mapbox-head">
+              <h2>On the map</h2>
+              <ShareSpotButton spotName="Hyderabad food safety map" spotPath="/food-safety#map" label="Share map" style={{ minHeight: 44, padding: "0 16px", fontSize: 14 }} />
+            </div>
+            <SpotsMapClient points={mapPoints} height={380} />
+            <ul className="fs-legend">
+              <li><span style={{ background: "#141414" }} />Closed</li>
+              <li><span style={{ background: "#c2410c" }} />Licence suspended</li>
+              <li><span style={{ background: "#78716c" }} />Notice</li>
+              <li><span className="fs-legend-area">3</span>Records in an area (exact place not on our map)</li>
+            </ul>
+          </section>
+        )}
+
         {view.length ? (
-          <DriveList drives={view} />
+          <div id="drives"><DriveList drives={view} /></div>
         ) : (
           <div className="site-card fs-empty">
             <b>No drives published yet.</b>
@@ -108,7 +128,7 @@ export default async function FoodSafetyPage() {
         <p className="fs-note">
           Compiled from official TG SAFE releases and cross-checked with news reports. An inspection result reflects the day of the
           visit; restaurants often fix issues and resume after re-inspection. Spotted an update or a correction? Tell us through the
-          request box on the <Link href="/race/this-week">This Week</Link> page and we will update the record.
+          request box on the <Link href="/?tab=race">This Week</Link> page and we will update the record.
         </p>
 
         <section className="fs-faq">
@@ -136,4 +156,51 @@ export default async function FoodSafetyPage() {
       </div>
     </div>
   );
+}
+
+const ACTION_TONE = { closed: "#141414", "licence-suspended": "#c2410c", notice: "#78716c" };
+const ACTION_LABEL = { closed: "Closed", "licence-suspended": "Licence suspended", notice: "Notice" };
+const normArea = (s = "") => s.toLowerCase().replace(/[^a-z]/g, "");
+
+// Exact pins for records linked to a spot on our map or located by hand
+// (data/inspection-places.json); the rest are counted
+// per area and shown as one bubble at that area's centre, so no restaurant is
+// given a location we don't actually know.
+function safetyMapPoints(drives) {
+  const centres = new Map();
+  for (const e of getEateries()) {
+    if (!e.discoveredIn || e.discoveredIn.startsWith("text:") || e.lat == null) continue;
+    const k = normArea(e.discoveredIn);
+    const c = centres.get(k) || { lat: 0, lng: 0, n: 0, name: e.discoveredIn };
+    c.lat += e.lat; c.lng += e.lng; c.n += 1; centres.set(k, c);
+  }
+  const pins = [];
+  const areas = new Map();
+  for (const d of drives) {
+    for (const en of d.entries || []) {
+      const spot = en.spotId ? getEateryById(en.spotId) : null;
+      if (spot?.lat != null) {
+        pins.push({
+          kind: "spot", lat: spot.lat, lng: spot.lng, tone: ACTION_TONE[en.action] || "#141414",
+          title: en.name || spot.name, sub: `${ACTION_LABEL[en.action] || "Inspection"} · ${formatDate(d.date)}`, href: pathForSpotId(en.spotId),
+        });
+        continue;
+      }
+      if (en.place) {
+        pins.push({
+          kind: "spot", lat: en.place.lat, lng: en.place.lng, tone: ACTION_TONE[en.action] || "#141414",
+          title: en.name, sub: `${ACTION_LABEL[en.action] || "Inspection"} · ${formatDate(d.date)}${en.area ? ` · ${en.area}` : ""}`, href: "#drives",
+        });
+        continue;
+      }
+      const c = centres.get(normArea(en.area));
+      if (!c || c.n < 3) continue;
+      const a = areas.get(c.name) || { lat: c.lat / c.n, lng: c.lng / c.n, count: 0, name: c.name };
+      a.count += 1; areas.set(c.name, a);
+    }
+  }
+  return [
+    ...[...areas.values()].map((a) => ({ kind: "area", lat: a.lat, lng: a.lng, count: a.count, tone: "#141414", title: `${a.name}`, sub: `${a.count} inspection ${a.count === 1 ? "record" : "records"} in this area`, href: "#drives" })),
+    ...pins,
+  ];
 }

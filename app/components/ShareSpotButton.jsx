@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { Icon } from "./Icons.jsx";
 
-export default function ShareSpotButton({ spotName, spotPath, style, variant = "pill" }) {
+export default function ShareSpotButton({ spotName, spotPath, style, variant = "pill", label = "Share Place" }) {
   const [copied, setCopied] = useState(false);
 
   const handleShare = async () => {
     const url = typeof window !== "undefined" ? `${window.location.origin}${spotPath}` : spotPath;
     const shareData = {
-      title: `${spotName} — Hyderabad Eats`,
+      title: `${spotName} | Hyderabad Eats`,
       text: `Check out ${spotName} on Hyderabad Eats!`,
       url,
     };
@@ -43,8 +43,8 @@ export default function ShareSpotButton({ spotName, spotPath, style, variant = "
         gap: 6,
         padding: "8px 15px",
         borderRadius: 999,
-        background: copied ? "#15803d" : "#f8fafc",
-        color: copied ? "#ffffff" : "#334155",
+        background: copied ? "#15803d" : "var(--cream)",
+        color: copied ? "#ffffff" : "var(--ink)",
         border: "1.5px solid rgba(0,0,0,0.08)",
         fontSize: 12.5,
         fontWeight: 700,
@@ -56,7 +56,7 @@ export default function ShareSpotButton({ spotName, spotPath, style, variant = "
       title="Share place card"
     >
       <Icon name={copied ? "check" : "share"} size={14} width={2.2} color={copied ? "#ffffff" : "var(--violet-deep)"} />
-      <span>{copied ? "Link Copied!" : "Share Place"}</span>
+      <span>{copied ? "Link Copied!" : label}</span>
     </button>
   );
 }

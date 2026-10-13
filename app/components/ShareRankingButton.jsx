@@ -14,7 +14,7 @@ export default function ShareRankingButton({ title, slug, leaderName, style }) {
       ? `${title}, live community ranking: ${leaderName} is leading right now! Check out the standings & vote:`
       : `${title}, live community ranking on Hyderabad Eats. Vote your favorite:`;
     const shareData = {
-      title: `${title} — Hyderabad Eats`,
+      title: `${title} | Hyderabad Eats`,
       text: shareText,
       url,
     };
@@ -49,7 +49,7 @@ export default function ShareRankingButton({ title, slug, leaderName, style }) {
         padding: "10px 18px",
         borderRadius: "var(--r-pill, 999px)",
         background: copied ? "#15803d" : "rgba(91, 33, 182, 0.08)",
-        color: copied ? "#ffffff" : "var(--violet-deep, #5b21b6)",
+        color: copied ? "#ffffff" : "var(--violet-deep, var(--violet-deep))",
         border: "1.5px solid " + (copied ? "#15803d" : "rgba(91, 33, 182, 0.2)"),
         fontSize: 13,
         fontWeight: 700,
@@ -60,7 +60,7 @@ export default function ShareRankingButton({ title, slug, leaderName, style }) {
       }}
       title="Share ranking"
     >
-      <Icon name={copied ? "check" : "share"} size={14} width={2.2} color={copied ? "#ffffff" : "var(--violet-deep, #5b21b6)"} />
+      <Icon name={copied ? "check" : "share"} size={14} width={2.2} color={copied ? "#ffffff" : "var(--violet-deep, var(--violet-deep))"} />
       <span>{copied ? "Link Copied!" : "Share Ranking"}</span>
     </button>
   );

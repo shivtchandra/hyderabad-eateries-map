@@ -49,7 +49,7 @@ export default function StickerBook({ onAddSticker, onOpenSpot, refreshTick = 0 
       {/* Header Banner */}
       <div style={{ background: "var(--pop)", position: "relative", paddingTop: 24, overflow: "hidden" }}>
         <div style={{ textAlign: "center", padding: "0 16px 4px", position: "relative" }}>
-          <div className="groovy" style={{ fontSize: 60, lineHeight: 0.92, color: "var(--cream-hi)", textShadow: "0 3px 0 rgba(38,48,92,.18)" }}>
+          <div className="groovy" style={{ fontSize: 60, lineHeight: 0.92, color: "var(--cream-hi)", textShadow: "0 3px 0 rgba(20, 20, 20,.18)" }}>
             {count}
           </div>
           <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--cream-hi)", marginTop: 6 }}>
@@ -66,7 +66,7 @@ export default function StickerBook({ onAddSticker, onOpenSpot, refreshTick = 0 
         {count === 0 ? (
           <div style={{ textAlign: "center", padding: "32px 18px", color: "var(--muted)" }}>
             <Icon name="ticket" size={48} width={1.4} color="var(--line)" style={{ margin: "0 auto 12px" }} />
-            <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 17, color: "var(--ink)" }}>
+            <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 600, fontSize: 17, color: "var(--ink)" }}>
               Your sticker book is empty
             </div>
             <div style={{ fontSize: 13.5, marginTop: 6, lineHeight: 1.5, maxWidth: 300, margin: "6px auto 0" }}>
@@ -132,11 +132,11 @@ export default function StickerBook({ onAddSticker, onOpenSpot, refreshTick = 0 
                 </button>
 
                 {/* Labels */}
-                <div style={{ marginTop: 6, fontSize: 12, fontWeight: 700, fontFamily: "var(--font-outfit), sans-serif", color: "#0f172a", lineHeight: 1.2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                <div style={{ marginTop: 6, fontSize: 12, fontWeight: 700, fontFamily: "var(--font-outfit), sans-serif", color: "var(--ink)", lineHeight: 1.2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                   {s.dish ?? "Dish"}
                 </div>
                 {s.spotName && (
-                  <div style={{ fontSize: 10.5, color: "#64748b", fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <div style={{ fontSize: 10.5, color: "var(--muted)", fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     {s.spotName}
                   </div>
                 )}
@@ -182,11 +182,11 @@ export default function StickerBook({ onAddSticker, onOpenSpot, refreshTick = 0 
               style={{
                 position: "absolute", top: 14, right: 14,
                 width: 30, height: 30, borderRadius: "50%",
-                background: "#f1f5f9", border: "none", cursor: "pointer",
+                background: "var(--cream)", border: "none", cursor: "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center",
               }}
             >
-              <Icon name="close" size={14} width={2.2} color="#64748b" />
+              <Icon name="close" size={14} width={2.2} color="var(--muted)" />
             </button>
 
             {/* Sticker Image */}
@@ -200,11 +200,11 @@ export default function StickerBook({ onAddSticker, onOpenSpot, refreshTick = 0 
               )}
             </div>
 
-            <h3 style={{ margin: "0 0 4px", fontSize: 18, fontWeight: 700, color: "#0f172a" }}>
+            <h3 style={{ margin: "0 0 4px", fontSize: 18, fontWeight: 700, color: "var(--ink)" }}>
               {selectedSticker.dish || "Dish Sticker"}
             </h3>
             {selectedSticker.spotName && (
-              <p style={{ margin: "0 0 16px", fontSize: 13, color: "#64748b", fontWeight: 500 }}>
+              <p style={{ margin: "0 0 16px", fontSize: 13, color: "var(--muted)", fontWeight: 500 }}>
                 {selectedSticker.spotName}
               </p>
             )}
@@ -218,7 +218,7 @@ export default function StickerBook({ onAddSticker, onOpenSpot, refreshTick = 0 
                   style={{
                     height: 46,
                     borderRadius: 999,
-                    background: "linear-gradient(180deg, #1e2540 0%, #111425 100%)",
+                    background: "var(--violet)",
                     color: "#ffffff",
                     fontSize: 14,
                     fontWeight: 700,
@@ -246,9 +246,9 @@ export default function StickerBook({ onAddSticker, onOpenSpot, refreshTick = 0 
                   style={{
                     height: 42,
                     borderRadius: 999,
-                    background: "#f1f5f9",
-                    border: "1px solid #e2e8f0",
-                    color: "#334155",
+                    background: "var(--cream)",
+                    border: "1px solid var(--line)",
+                    color: "var(--ink)",
                     fontSize: 13,
                     fontWeight: 600,
                     cursor: "pointer",
@@ -258,7 +258,7 @@ export default function StickerBook({ onAddSticker, onOpenSpot, refreshTick = 0 
                     gap: 6,
                   }}
                 >
-                  <Icon name="map" size={15} width={2} color="#64748b" />
+                  <Icon name="map" size={15} width={2} color="var(--muted)" />
                   View Restaurant on Map
                 </button>
               )}
@@ -270,7 +270,7 @@ export default function StickerBook({ onAddSticker, onOpenSpot, refreshTick = 0 
       {/* Floating add button */}
       <button onClick={onAddSticker} className="pressable" style={fab}>
         <Icon name="ticket" size={18} width={2.2} color="#ffffff" />
-        <span style={{ fontFamily: "var(--font-outfit), Outfit, sans-serif", fontWeight: 700, fontSize: 14 }}>
+        <span style={{ fontFamily: "var(--font-outfit), var(--font-ui), sans-serif", fontWeight: 700, fontSize: 14 }}>
           Snap New Sticker
         </span>
       </button>
@@ -281,7 +281,7 @@ export default function StickerBook({ onAddSticker, onOpenSpot, refreshTick = 0 
 const fab = {
   position: "absolute", bottom: 76, left: "50%", transform: "translateX(-50%)",
   border: "none", borderRadius: "var(--r-pill)",
-  background: "linear-gradient(180deg, #e2622a 0%, #b8481a 100%)",
+  background: "var(--violet)",
   color: "#ffffff",
   padding: "12px 22px", cursor: "pointer",
   display: "flex", alignItems: "center", gap: 8,
@@ -300,7 +300,7 @@ const delBtn = {
 const downloadBtn = {
   position: "absolute", top: -5, left: 6,
   width: 22, height: 22, borderRadius: "50%",
-  background: "#0f172a", border: "1.5px solid #ffffff", cursor: "pointer",
+  background: "var(--ink)", border: "1.5px solid #ffffff", cursor: "pointer",
   display: "flex", alignItems: "center", justifyContent: "center",
   boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
   textDecoration: "none",

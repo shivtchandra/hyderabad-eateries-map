@@ -1,4 +1,5 @@
 import { getAllRankingsThemes, getRankingBySlug } from "../../../lib/themesServer.js";
+import { rankingsBySpot } from "../../../lib/recommendationPicks.js";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +14,10 @@ export async function GET(req) {
   }
 
   const themes = await getAllRankingsThemes(50);
+  // Ask Eats: where each spot ranks ({ spotId: [{ title, slug, rank, votes, winner }] }).
+  if (searchParams.get("bySpot")) {
+    return Response.json({ bySpot: Object.fromEntries(rankingsBySpot(themes)) });
+  }
   const lean = themes.map(({ id, title, slug, description, active, startDate, endDate, winnerId, winnerName, createdAt, results }) => ({
     id,
     title,

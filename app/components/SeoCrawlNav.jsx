@@ -63,11 +63,10 @@ export default function SeoCrawlNav() {
         community rankings for places across the city.
       </p>
       <p>
-        <strong>How are rankings made?</strong> Weekly community votes on the map, shown next to an
-        all-time Google-review baseline so you can compare both lists.
+        <strong>How are rankings made?</strong> Weekly community votes on the map decide every ranking.
       </p>
       <p>
-        <strong>Is it free?</strong> Yes — no signup required to browse the map, rankings, or area pages.
+        <strong>Is it free?</strong> Yes, no signup required to browse the map, rankings, or area pages.
       </p>
       <p>
         Part of <a href="https://mapmyhyd.com/" rel="noopener noreferrer">Mapping HYD</a>

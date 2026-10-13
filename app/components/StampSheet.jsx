@@ -73,7 +73,7 @@ export default function StampSheet({ eatery, onDone, onCancel }) {
             <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--muted)" }}>
               Stamping
             </div>
-            <div style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 16, lineHeight: 1.2 }}>
+            <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 600, fontSize: 16, lineHeight: 1.2 }}>
               {eatery.name}
             </div>
           </div>
@@ -181,7 +181,7 @@ export default function StampSheet({ eatery, onDone, onCancel }) {
           style={{
             width: "100%", height: 48, border: "none", borderRadius: 14,
             background: "var(--pop)", color: "var(--cream-hi)",
-            fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: 15,
+            fontFamily: "var(--font-ui), sans-serif", fontWeight: 700, fontSize: 15,
             cursor: saving ? "default" : "pointer",
             display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
             opacity: saving ? 0.7 : 1,
@@ -197,7 +197,7 @@ export default function StampSheet({ eatery, onDone, onCancel }) {
 
 const backdrop = {
   position: "absolute", inset: 0, zIndex: 1500,
-  background: "rgba(38,48,92,0.35)",
+  background: "rgba(20, 20, 20,0.35)",
   display: "flex", alignItems: "flex-end", justifyContent: "center",
   animation: "fade-in .18s ease",
 };
@@ -220,7 +220,7 @@ const fieldLabel = {
 const input = {
   height: 42, borderRadius: 12, border: "1.5px solid var(--line)",
   background: "var(--cream)", padding: "0 12px",
-  fontFamily: "Outfit, sans-serif", fontSize: 14.5, fontWeight: 500,
+  fontFamily: "var(--font-ui), sans-serif", fontSize: 14.5, fontWeight: 500,
   color: "var(--ink)", outline: "none", width: "100%",
 };
 const iconBtn = {

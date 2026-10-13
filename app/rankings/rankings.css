@@ -2,7 +2,7 @@
   min-height: 100dvh;
   background: var(--cream);
   color: var(--ink);
-  font-family: Outfit, sans-serif;
+  font-family: var(--font-ui), sans-serif;
 }
 
 .rankings-header {
@@ -12,7 +12,7 @@
 }
 
 .rankings-header h1 {
-  font-family: "Bagel Fat One", Fraunces, serif;
+  font-family: var(--font-display), system-ui, sans-serif;
   font-size: clamp(28px, 6vw, 40px);
   margin: 0 0 8px;
   line-height: 1.1;
@@ -69,7 +69,7 @@
 .rankings-card {
   display: block;
   background: var(--cream-hi);
-  border: 1.5px solid var(--line);
+  border: 0;
   border-radius: var(--r-md);
   padding: 16px;
   margin-bottom: 10px;
@@ -83,7 +83,7 @@
 }
 
 .rankings-card h2 {
-  font-family: Fraunces, serif;
+  font-family: var(--font-display), system-ui, sans-serif;
   font-size: 17px;
   margin: 0 0 6px;
   font-weight: 600;
@@ -131,7 +131,7 @@
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  border-bottom: 1.5px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
 .rankings-table td {
@@ -170,7 +170,7 @@
 }
 
 .rankings-section-title {
-  font-family: Fraunces, serif;
+  font-family: var(--font-display), system-ui, sans-serif;
   font-size: 20px;
   font-weight: 600;
   margin: 28px 0 12px;

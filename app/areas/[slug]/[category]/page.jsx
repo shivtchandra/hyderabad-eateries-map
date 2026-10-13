@@ -66,7 +66,7 @@ export default function AreaCategoryPage({ params }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemsLd) }} />
 
-      <SiteChrome
+      <SiteChrome backFallback={`/areas/${params.slug}`}
         active="/areas"
         breadcrumb={[
           { href: "/", label: "Home" },
@@ -80,7 +80,7 @@ export default function AreaCategoryPage({ params }) {
           { href: `/?tab=map`, label: "Open full map" },
           { href: `/areas/${areaSlug}`, label: `All food in ${area}` },
           { href: `/explore/${params.category}`, label: `All ${category.label} in HYD` },
-          { href: "/race", label: "The Food Race" },
+          { href: "/?tab=race&view=race", label: "The Food Race" },
           { href: "/rankings", label: "Community rankings" },
         ]}
       >
@@ -116,7 +116,7 @@ export default function AreaCategoryPage({ params }) {
             </div>
           </div>
           <Link
-            href="/race"
+            href="/?tab=race&view=race"
             className="pressable-sm"
             style={{
               padding: "9px 18px",
@@ -164,7 +164,7 @@ export default function AreaCategoryPage({ params }) {
                     <div style={{ minWidth: 0 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                         <span style={{
-                          fontFamily: "Fraunces, serif",
+                          fontFamily: "var(--font-display), system-ui, sans-serif",
                           fontSize: 16,
                           fontWeight: 700,
                           color: "var(--muted)",
@@ -224,13 +224,13 @@ export default function AreaCategoryPage({ params }) {
                     <div style={{
                       fontSize: 12.5,
                       color: "var(--ink-soft)",
-                      background: "rgba(38,48,92,0.04)",
+                      background: "rgba(20, 20, 20,0.04)",
                       padding: "6px 12px",
                       borderRadius: 10,
                       fontWeight: 500,
                     }}>
                       <strong style={{ color: "var(--violet-deep)" }}>Must-Try:</strong> {spot.signatureDish.name}
-                      {spot.signatureDish.why ? ` — ${spot.signatureDish.why}` : ""}
+                      {spot.signatureDish.why ? `: ${spot.signatureDish.why}` : ""}
                     </div>
                   )}
 

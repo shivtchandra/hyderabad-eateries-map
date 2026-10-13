@@ -61,7 +61,7 @@ export default function ExploreCategoryPage({ params }) {
   return (
     <div style={{ paddingBottom: 84 }}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
-    <SiteChrome
+    <SiteChrome backFallback="/explore"
       active="/explore"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/explore", label: "Explore" }, { href: `/explore/${params.category}`, label: data.label }]}
       title={data.seoTitle}

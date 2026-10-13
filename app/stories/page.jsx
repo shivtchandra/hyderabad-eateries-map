@@ -7,6 +7,8 @@ import { pageMeta, getSiteUrl } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
 import { galleryPhotoUrl, spotPhotoUrl } from "../../lib/photos.js";
 import { breadcrumbJsonLd } from "../../lib/schema.js";
+import HubAnswer, { HubFaq } from "../components/HubAnswer.jsx";
+import { hubJsonLd, todayIso } from "../../lib/hubSeo.js";
 import RedditCommunityPost from "../components/RedditCommunityPost.jsx";
 import { REDDIT_COMMUNITY_THREADS } from "../../lib/redditThreads.js";
 
@@ -276,8 +278,17 @@ export default function StoriesPage() {
     { name: "Stories", url: `${getSiteUrl()}/stories` },
   ]);
 
+  const updated = todayIso();
+  const faqs = [
+    { q: "What are the oldest restaurants and cafes in Hyderabad?", a: `Old Hyderabad institutions like Nilofer Cafe, Irani cafes in the Old City and decades-old biryani houses. ${spots.slice(0, 4).map((x) => x.name).join(", ")} are among the spots with their story told here.` },
+    { q: "Where do these stories come from?", a: "From visits, the people who run the places, and regulars, written by Hyderabad Eats. Each story links to the spot on the map." },
+    { q: "Can I suggest a spot with a story?", a: "Yes. Use the add-a-place box on the map and tell us what makes it special." },
+  ];
+  const hubLd = hubJsonLd({ name: title, description, path: "/stories", updated, faqs, items: spots.map((x) => ({ name: x.name, url: spotPath(x) })) });
+
   return (
     <div style={{ paddingBottom: 84 }}>
+      {hubLd.map((x, i) => <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(x) }} />)}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
       {leadImg && (
         // eslint-disable-next-line @next/next/no-head-element
@@ -285,15 +296,20 @@ export default function StoriesPage() {
       )}
       <SiteChrome
         active="/stories"
+        backFallback="/guides"
         breadcrumb={[{ href: "/", label: "Home" }, { href: "/stories", label: "Stories" }]}
         title={title}
-        description={description}
+        description={`Stories of ${spots.length} Hyderabad food spots, from Old City Irani cafes to decades-old biryani houses: who started them, what regulars order, and where to find them on the map. Plus ${guideCards.length} long-form food guides.`}
         related={[
           { href: "/explore", label: "Explore by category" },
           { href: "/areas", label: "Food by area" },
           { href: "/rankings", label: "Weekly rankings" },
         ]}
       >
+        <HubAnswer
+          stats={[{ value: spots.length, label: "spot stories" }, { value: guideCards.length, label: "food guides" }, { value: "Old City", label: "to HITEC" }]}
+          updated={updated}
+        />
         <StoriesTabs
           guideCount={guideCards.length}
           storyCount={spots.length}
@@ -378,6 +394,7 @@ export default function StoriesPage() {
         <Link href="/" className="site-cta">
           Open the map
         </Link>
+        <HubFaq faqs={faqs} />
       </SiteChrome>
       <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
         <BottomNav routed activeKey="stories" />

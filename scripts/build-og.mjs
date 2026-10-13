@@ -4,7 +4,7 @@
  * The site is a static export, so there is no /api/og renderer. This script draws one
  * 1200x630 PNG per shareable page with Next's bundled ImageResponse (satori + resvg),
  * writes them to public/og/<kind>/<slug>.png and a manifest that lib/og.js reads.
- * Look: the Eats app itself (cream, navy, violet, Fraunces / Outfit / Bagel), one big
+ * Look: the Eats app itself (warm paper, ink, violet, Bricolage Grotesque / Space Grotesk), one big
  * page-specific headline that stays readable when X shrinks the card to ~500px.
  *
  * Run: node scripts/build-og.mjs            all cards
@@ -18,13 +18,14 @@ import { ImageResponse } from "next/og.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const W = 1200, H = 630;
-const C = { cream: "#F6EFE3", creamHi: "#FDF8EE", ink: "#26305C", inkSoft: "#4E5885", violet: "#7C3AED", violetWash: "#EDE9FE", pop: "#E2622A", line: "#DDD3C2" };
+const C = { cream: "#F4F2EE", creamHi: "#FFFFFF", ink: "#141414", inkSoft: "#4A4A4A", violet: "#7C3AED", violetWash: "#EDE9FE", pop: "#7C3AED", line: "#E3DFD6" };
 const font = (f) => fs.readFileSync(path.join(ROOT, "public/fonts", f));
+// Satori reads TTF/OTF/WOFF, not WOFF2, so the cards use .woff copies of the
+// app's two faces (public/fonts/*.woff, from @fontsource).
 const FONTS = [
-  { name: "Fraunces", data: font("fraunces-700.ttf"), weight: 700, style: "normal" },
-  { name: "Outfit", data: font("outfit-500.ttf"), weight: 500, style: "normal" },
-  { name: "Outfit", data: font("outfit-700.ttf"), weight: 700, style: "normal" },
-  { name: "Bagel", data: font("bagel-400.ttf"), weight: 400, style: "normal" },
+  { name: "Display", data: font("bricolage-800.woff"), weight: 800, style: "normal" },
+  { name: "UI", data: font("space-grotesk-500.woff"), weight: 500, style: "normal" },
+  { name: "UI", data: font("space-grotesk-700.woff"), weight: 700, style: "normal" },
 ];
 const dataUrl = (file, mime) => `data:${mime};base64,${fs.readFileSync(path.join(ROOT, file)).toString("base64")}`;
 const ICON = dataUrl("public/icon.svg", "image/svg+xml");
@@ -33,7 +34,7 @@ const CHARMINAR = dataUrl("public/og/assets/charminar.png", "image/png");
 // "*word*" marks the accent (violet) words in a headline.
 function headline(text, size) {
   const parts = text.split("*");
-  return h("div", { style: { display: "flex", flexWrap: "wrap", fontFamily: "Fraunces", fontSize: size, lineHeight: 1.02, letterSpacing: -1.5, color: C.ink } },
+  return h("div", { style: { display: "flex", flexWrap: "wrap", fontFamily: "Display", fontSize: size, lineHeight: 1.02, letterSpacing: -1.5, color: C.ink } },
     ...parts.flatMap((p, i) => p.split(/(\s+)/).filter(Boolean).map((w, j) => w.trim()
       ? h("span", { key: `${i}-${j}`, style: { color: i % 2 ? C.violet : C.ink, marginRight: 14 } }, w)
       : null)).filter(Boolean));
@@ -41,11 +42,11 @@ function headline(text, size) {
 
 /** The shared frame: brand top-left, section label top-right, headline + sub left, visual right. */
 function card({ label, title, sub, visual, size = 74 }) {
-  return h("div", { style: { width: W, height: H, display: "flex", background: C.cream, fontFamily: "Outfit", position: "relative" } },
+  return h("div", { style: { width: W, height: H, display: "flex", background: C.cream, fontFamily: "UI", position: "relative" } },
     h("div", { style: { display: "flex", flexDirection: "column", width: 740, padding: "48px 0 44px 64px", justifyContent: "space-between" } },
       h("div", { style: { display: "flex", alignItems: "center" } },
         h("img", { src: ICON, width: 46, height: 46, style: { borderRadius: 12 } }),
-        h("div", { style: { fontFamily: "Bagel", fontSize: 32, color: C.violet, marginLeft: 14 } }, "Hyderabad Eats")),
+        h("div", { style: { fontFamily: "Display", fontSize: 32, color: C.violet, marginLeft: 14 } }, "Hyderabad Eats")),
       h("div", { style: { display: "flex", flexDirection: "column" } },
         headline(title, size),
         sub ? h("div", { style: { fontSize: 30, color: C.inkSoft, marginTop: 22, lineHeight: 1.25, maxWidth: 640 } }, sub) : null),
@@ -60,7 +61,7 @@ const pill = (text, bg, fg) => h("div", { style: { display: "flex", background: 
 // Right-panel visuals
 const vLandmark = () => h("img", { src: CHARMINAR, width: 300, height: 454, style: { objectFit: "contain", marginTop: 40 } });
 const vStat = (big, small, stamp) => h("div", { style: { display: "flex", flexDirection: "column", alignItems: "center" } },
-  h("div", { style: { fontFamily: "Fraunces", fontSize: 170, color: C.violet, lineHeight: 1 } }, big),
+  h("div", { style: { fontFamily: "Display", fontSize: 170, color: C.violet, lineHeight: 1 } }, big),
   h("div", { style: { fontSize: 30, color: C.ink, fontWeight: 700, marginTop: 6, textAlign: "center" } }, small),
   stamp ? h("div", { style: { display: "flex", marginTop: 30, border: `4px solid ${C.pop}`, color: C.pop, borderRadius: 14, padding: "8px 20px", fontSize: 26, fontWeight: 700, letterSpacing: 2, transform: "rotate(-6deg)" } }, stamp) : null);
 const vList = (rows, unit) => h("div", { style: { display: "flex", flexDirection: "column", width: 360 } },
@@ -97,6 +98,7 @@ add("/areas", "areas", { label: "Areas", title: "Where to eat, *area by area.*",
 add("/explore", "explore", { label: "Explore", title: "Explore Hyderabad, *by craving.*", sub: "Cafes, biryani, tiffins, late night and more.", visual: vLandmark() });
 add("/offers", "offers", { label: "Deals", title: "Dining deals in Hyderabad, *today.*", sub: "Live offers from District and Swiggy Dineout.", visual: vLandmark() });
 add("/stories", "stories", { label: "Stories", title: "Hyderabad food *stories.*", sub: "The places, people and dishes behind the map.", visual: vLandmark() });
+add("/guides", "guides", { label: "Guides", title: "Read Hyderabad *before you go.*", sub: "Local rankings, dish guides, areas, deals and food safety.", visual: vLandmark() });
 add("/picks", "picks", { label: "Dish guides", title: "Best food in Hyderabad, *dish by dish.*", sub: "Counted from what r/hyderabad actually recommends.", visual: vLandmark() });
 add("/ask", "ask", { label: "Questions", title: "Hyderabad food questions, *answered by locals.*", visual: vLandmark() });
 add("/about/how-we-pick", "how-we-pick", { label: "Method", title: "How we pick *what's good.*", sub: "People, not comments. Votes, not ads.", visual: vLandmark() });
