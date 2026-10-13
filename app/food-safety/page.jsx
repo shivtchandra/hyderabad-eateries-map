@@ -128,7 +128,7 @@ export default async function FoodSafetyPage() {
         <p className="fs-note">
           Compiled from official TG SAFE releases and cross-checked with news reports. An inspection result reflects the day of the
           visit; restaurants often fix issues and resume after re-inspection. Spotted an update or a correction? Tell us through the
-          request box on the <Link href="/race/this-week">This Week</Link> page and we will update the record.
+          request box on the <Link href="/?tab=race">This Week</Link> page and we will update the record.
         </p>
 
         <section className="fs-faq">

@@ -154,7 +154,7 @@ const SPOTS = [
       "Universally acclaimed by r/hyderabad foodies as one of the best burger joints in the city. 1885 Burgers elevates midnight street dining to gourmet heights with their artisanal smash technique. The standout crown jewel is their signature Lamb Burger: exceptionally juicy, generously seasoned, crowned with melted cheese, and encased in butter-toasted buns that stay intact to the last bite. A dream late-night meal when you want gourmet meat instead of street snacks.",
     whatToOrder: "Signature Juicy Lamb Burger (Juicy Lucy), Quad Smash Chicken Burger, Loaded Fries.",
     timingTip: "Open from evening through late night (approx. 5:45 PM to 11:30 PM / midnight). Burgers sell fast on weekends.",
-    quote: "“1885’s lamb burger rocks—hands down one of the juiciest, most satisfying burgers in Hyderabad late at night.”",
+    quote: "“1885’s lamb burger rocks, hands down one of the juiciest, most satisfying burgers in Hyderabad late at night.”",
   },
   {
     id: "varalakshmi-dlf",

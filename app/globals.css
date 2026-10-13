@@ -68,6 +68,7 @@
   /* ---- Space: 4px steps. Only these for margin, padding, gap ---- */
   --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px;
   --s6: 24px; --s7: 32px; --s8: 40px; --s9: 56px; --s10: 80px;
+  --section: 48px; /* gap between page sections (DESIGN.md) */
   --gutter: 20px;
 
   /* ---- Motion ---- */
@@ -673,24 +674,24 @@ button { font-family: inherit; }
 /* #1 is the yellow ticket (DESIGN.md: yellow = winner/live). Ink-only text on it. */
 .rk-leader { background: var(--yellow); color: var(--ink); border: 0; border-radius: var(--r-card); padding: var(--s6); margin: 0 0 var(--s6); }
 .rk-leader .rk-meta, .rk-leader .rk-eyebrow, .rk-leader .rk-leader-sub { color: var(--ink-soft); }
-.rk-leader-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
-.rk-chip { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: var(--violet-wash); color: var(--violet-deep); }
+.rk-leader-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+.rk-chip { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; background: var(--violet-wash); color: var(--violet-deep); }
 .rk-leader .rk-chip { background: rgba(20, 20, 20, 0.1); color: var(--ink); }
 .rk-chip.crowned { background: var(--ink); color: var(--yellow); }
-.rk-chip.live::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--violet); margin-right: 6px; vertical-align: middle; }
+.rk-chip.live::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--violet); margin-right: 8px; vertical-align: middle; }
 .rk-meta { font-size: 12.5px; color: var(--muted); }
-.rk-leader-body { display: flex; gap: 14px; align-items: center; }
+.rk-leader-body { display: flex; gap: 16px; align-items: center; }
 .rk-crown { width: 56px; height: 56px; border-radius: var(--r-btn); background: var(--ink); color: var(--yellow); display: grid; place-items: center; flex: none; transform: rotate(-6deg); }
 .rk-eyebrow { font-size: 12px; color: var(--muted); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
-.rk-leader-name { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; letter-spacing: -0.03em; font-size: clamp(28px, 6vw, 40px); line-height: 0.95; margin: 4px 0 6px; }
+.rk-leader-name { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; letter-spacing: -0.03em; font-size: clamp(28px, 6vw, 40px); line-height: 0.95; margin: 4px 0 8px; }
 .rk-leader-name a { color: var(--ink); text-decoration: none; }
 .rk-leader-sub { margin: 0; font-size: 15px; color: var(--ink-soft); line-height: 1.45; }
 .rk-leader .site-cta { margin: 16px 0 0; }
 .rk-summary { font-size: 16px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 var(--s8); }
-.rk-section { margin: 0 0 30px; }
-.rk-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.rk-section { margin: 0 0 32px; }
+.rk-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
 .rk-title { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; letter-spacing: -0.03em; font-size: clamp(26px, 5vw, 34px); line-height: 1; margin: 0; color: var(--ink); }
-.rk-lede { font-size: 13.5px; color: var(--ink-soft); margin: -4px 0 14px; line-height: 1.5; }
+.rk-lede { font-size: 13.5px; color: var(--ink-soft); margin: -4px 0 16px; line-height: 1.5; }
 .rk-board { list-style: none; margin: 0; padding: 0; border: 0; border-radius: var(--r-card); background: var(--cream-hi); overflow: hidden; }
 .rk-row { display: grid; grid-template-columns: 32px 1fr auto; align-items: center; gap: var(--s3); min-height: 64px; padding: var(--s3) var(--s4); border-top: 1px solid var(--line); }
 .rk-row:first-child { border-top: 0; }
@@ -698,13 +699,13 @@ button { font-family: inherit; }
 .rk-rank { font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.03em; color: var(--violet); text-align: center; }
 .rk-name { font-weight: 600; color: var(--ink); text-decoration: none; font-size: 17px; }
 .rk-name:hover { text-decoration: underline; }
-.rk-bar { height: 6px; border-radius: 99px; background: var(--paper); margin-top: 7px; overflow: hidden; }
+.rk-bar { height: 6px; border-radius: 99px; background: var(--paper); margin-top: 8px; overflow: hidden; }
 .rk-bar span { display: block; height: 100%; background: var(--violet); border-radius: inherit; }
 .rk-row.lead .rk-bar span { background: var(--yellow); }
 .rk-count { text-align: right; line-height: 1.15; min-width: 40px; }
 .rk-count b { display: block; font-family: var(--font-display), system-ui, sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
 .rk-count small { font-size: 11.5px; color: var(--muted); }
-.rk-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+.rk-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
 .rk-card { display: block; height: 100%; padding: var(--s4); border: 0; border-radius: var(--r-card); background: var(--cream-hi); text-decoration: none; transition: border-color .15s ease, transform .15s ease; }
 .rk-card:hover { box-shadow: var(--e2); transform: translateY(-1px); }
 .rk-card-name { display: block; font-weight: 600; color: var(--ink); font-size: 14.5px; }
@@ -1176,7 +1177,7 @@ button { font-family: inherit; }
 .rail-more b { font-family: var(--font-display), system-ui, sans-serif; font-size: 24px; color: var(--ink); }
 /* Map scope: the area you're in and any filters, each clearable (app/page.jsx). */
 .map-scope { position: absolute; top: 140px; left: 16px; right: 80px; z-index: 1000; display: flex; flex-wrap: wrap; gap: var(--s2); pointer-events: none; }
-.map-scope-chip { pointer-events: auto; display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 13px; border: 1.5px solid var(--line); border-radius: var(--r-pill); background: var(--cream-hi); color: var(--ink); font: 600 13px var(--font-ui), system-ui, sans-serif; box-shadow: var(--shadow-soft); cursor: pointer; }
+.map-scope-chip { pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 13px; border: 1.5px solid var(--line); border-radius: var(--r-pill); background: var(--cream-hi); color: var(--ink); font: 600 13px var(--font-ui), system-ui, sans-serif; box-shadow: var(--shadow-soft); cursor: pointer; }
 .map-scope-chip--filter { border-color: var(--violet-wash); background: var(--violet-wash); color: var(--violet-deep); }
 .map-scope-chip--filter span { font-weight: 500; opacity: 0.75; }
 .map-scope-chip:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
@@ -1226,10 +1227,10 @@ button { font-family: inherit; }
 .ask-log { flex: 1; overflow-y: auto; padding: var(--s4); display: flex; flex-direction: column; gap: var(--s3); overscroll-behavior: contain; }
 .ask-msg { display: flex; flex-direction: column; gap: var(--s2); }
 .ask-msg--me { align-items: flex-end; }
-.ask-bubble { margin: 0; max-width: 86%; padding: 10px 14px; border-radius: 18px 18px 18px 6px; background: var(--cream); color: var(--ink); font-size: 15px; line-height: 1.4; }
+.ask-bubble { margin: 0; max-width: 86%; padding: 12px 16px; border-radius: 18px 18px 18px 6px; background: var(--cream); color: var(--ink); font-size: 15px; line-height: 1.4; }
 .ask-msg--me .ask-bubble { border-radius: 18px 18px 6px 18px; background: var(--violet); color: #fff; font-weight: 600; }
 .ask-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.ask-chip { min-height: 38px; padding: 0 14px; border: 1.5px solid var(--line); border-radius: var(--r-pill); background: var(--cream-hi); color: var(--ink); font: 600 14px var(--font-ui), system-ui, sans-serif; cursor: pointer; }
+.ask-chip { min-height: 38px; padding: 0 16px; border: 1.5px solid var(--line); border-radius: var(--r-pill); background: var(--cream-hi); color: var(--ink); font: 600 14px var(--font-ui), system-ui, sans-serif; cursor: pointer; }
 .ask-chip:hover { border-color: var(--ink); }
 .ask-chip--sun { background: var(--yellow); border-color: var(--yellow); }
 .ask-chip--go { background: var(--violet); border-color: var(--violet); color: #fff; }

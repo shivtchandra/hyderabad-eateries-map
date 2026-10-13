@@ -6,7 +6,7 @@ import BackButton from "./BackButton.jsx";
 // footer keeps every link for crawlers.
 const NAV = [
   { href: "/", label: "Map" },
-  { href: "/rankings", label: "Vote", match: ["/rankings", "/race"] },
+  { href: "/?tab=race", label: "Vote", match: ["/rankings", "/race"] },
   { href: "/guides", label: "Guides", match: ["/guides", "/stories", "/explore", "/areas", "/offers", "/food-safety", "/picks"] },
 ];
 

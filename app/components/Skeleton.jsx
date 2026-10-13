@@ -31,35 +31,57 @@ function Rows({ n = 5, thumb = true }) {
   );
 }
 
-// Same boxes as the SiteChrome pages (violet header band, 900px body), so
-// nothing jumps when the real page swaps in.
-//   spot:    photo, title lines, a few rows
-//   ranking: big #1 block, then compact rows
+// Same boxes as the real pages (header row with back button, then each
+// page's own order), so nothing jumps when the content swaps in.
+//   spot:    photo first, kicker, name, ticket, two stat tiles, facts
+//   ranking: question headline, #1 ticket, photo rows with a vote button
 //   list:    one big block, then a grid of cards
 export default function PageSkeleton({ variant = "list" }) {
+  const detail = variant === "spot" || variant === "ranking";
   return (
     <div className="site-page" aria-busy="true">
       <header className="site-header">
         <div className="site-header-inner">
           <SiteNav />
-          <div className="site-hero">
-            <Sk w="72%" h={48} r={12} />
-            <Sk w="44%" h={16} style={{ marginTop: 14 }} />
-          </div>
+          {detail && <span className="site-back" aria-hidden="true" />}
+          {variant === "spot" ? (
+            <div className="sp-hero">
+              <Sk h="auto" r={0} style={{ width: "calc(100% + 2 * var(--gutter))", margin: "0 calc(-1 * var(--gutter)) var(--s5)", aspectRatio: "4 / 3", maxHeight: 460 }} />
+              <Sk w="38%" h={12} />
+              <Sk w="78%" h={52} r={12} style={{ marginTop: "var(--s3)" }} />
+              <Sk w="52%" h={16} style={{ marginTop: "var(--s3)" }} />
+            </div>
+          ) : variant === "ranking" ? (
+            <div className="rk-hero" style={{ paddingRight: 0 }}>
+              <Sk w="42%" h={12} />
+              <Sk w="86%" h={52} r={12} style={{ marginTop: "var(--s3)" }} />
+              <Sk w="58%" h={52} r={12} style={{ marginTop: "var(--s2)" }} />
+              <Sk w="64%" h={16} style={{ marginTop: "var(--s3)" }} />
+            </div>
+          ) : (
+            <div className="site-hero">
+              <Sk w="72%" h={48} r={12} />
+              <Sk w="44%" h={16} style={{ marginTop: "var(--s4)" }} />
+            </div>
+          )}
         </div>
       </header>
       <main className="site-body">
         <p className="visually-hidden" role="status">Loading</p>
         {variant === "spot" && (
           <>
-            <Sk h="auto" r="var(--r-card)" style={{ aspectRatio: "4 / 3", maxHeight: 460 }} />
-            <div style={{ marginTop: "var(--s7)" }}><Rows n={3} thumb={false} /></div>
+            <Sk h={150} r="var(--r-card)" />
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--s2)", marginTop: "var(--s7)" }}>
+              <Sk h={92} r="var(--r-card)" />
+              <Sk h={92} r="var(--r-card)" />
+            </div>
+            <div style={{ marginTop: "var(--s6)" }}><Rows n={4} thumb={false} /></div>
           </>
         )}
         {variant === "ranking" && (
           <>
-            <Sk h={168} r="var(--r-card)" />
-            <div style={{ marginTop: "var(--s6)" }}><Rows n={5} /></div>
+            <Sk h={112} r="var(--r-card)" />
+            <div style={{ marginTop: "var(--s5)" }}><Rows n={5} /></div>
           </>
         )}
         {variant === "list" && (

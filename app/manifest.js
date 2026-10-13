@@ -17,7 +17,7 @@ export default function manifest() {
       { src: "/icon-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
     ],
     shortcuts: [
-      { name: "This week's race", url: "/race/this-week", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
+      { name: "This week's race", url: "/?tab=race", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
       { name: "Dining deals", url: "/offers", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
     ],
   };

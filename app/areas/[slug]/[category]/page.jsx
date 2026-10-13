@@ -80,7 +80,7 @@ export default function AreaCategoryPage({ params }) {
           { href: `/?tab=map`, label: "Open full map" },
           { href: `/areas/${areaSlug}`, label: `All food in ${area}` },
           { href: `/explore/${params.category}`, label: `All ${category.label} in HYD` },
-          { href: "/race", label: "The Food Race" },
+          { href: "/?tab=race&view=race", label: "The Food Race" },
           { href: "/rankings", label: "Community rankings" },
         ]}
       >
@@ -116,7 +116,7 @@ export default function AreaCategoryPage({ params }) {
             </div>
           </div>
           <Link
-            href="/race"
+            href="/?tab=race&view=race"
             className="pressable-sm"
             style={{
               padding: "9px 18px",

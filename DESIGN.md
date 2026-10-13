@@ -145,8 +145,10 @@ Vote counts and ranks: `font-variant-numeric: tabular-nums`.
 ### Space (4px base)
 
 ```css
+/* As shipped in app/globals.css (the plan's 24/32/48/64/96 became 20/24/32/40/56/80) */
 --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
---s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px;
+--s5: 20px; --s6: 24px; --s7: 32px; --s8: 40px; --s9: 56px; --s10: 80px;
+--section: 48px;         /* between page sections (added in the Oct 2026 audit) */
 --gutter: 20px;          /* 32px >= 768px, 56px >= 1200px */
 --section: var(--s7);    /* gap between sections: 48 mobile, 80 desktop */
 --tap: 44px;             /* minimum touch target */
@@ -498,3 +500,14 @@ Shared rules:
 - Every page below a tab has the round back button (`backFallback`).
 - No underlined links: inline links are bold violet, standalone ones `.link-chip`.
 - Cards are white on cream, never the grey `--paper` well.
+
+## 10. Design audit (Oct 2026)
+
+Checked against this document:
+- **Spacing:** sections now sit 48px apart (`--section`), related items 20 to 24px. Off-scale values (6/10/14/18px) in the new components snapped to the scale. Older components still have some (about 180 uses in site.css), cleaned as they are touched.
+- **Cards:** page cards have no borders (spot facts and stats, must-order, offers, area cards). Space and white-on-cream group them.
+- **Colour:** one big colour block per screen holds (the #1 ticket). Never yellow text on black. Yellow accents each have one job: marker sweep on headline words, the hand-drawn ring around #1, the tilted must-order tag, a wavy underline on link hover.
+- **Type:** paragraphs at 16px or more (guide card verdicts were 14.5px).
+- **Motion:** no endless animations on content pages. The marker sweep runs only on headline words, never on labels. Every looping animation (clouds, live dot, skeleton shimmer, loader sticker) stops for reduced motion.
+- **Loading:** spot and ranking skeletons now follow the real layouts (photo first; question + ticket) with the back-button circle, so nothing jumps.
+- **Known debt:** site.css has about 24 selectors redefined by later override blocks; fold them into the originals when those pages are next edited.

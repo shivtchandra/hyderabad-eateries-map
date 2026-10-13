@@ -93,7 +93,7 @@ export default function AboutPage() {
           <h2>Corrections and contact</h2>
           <p>
             Found a wrong address, closed place, outdated hours or a food safety record that has changed? Tell us through
-            the request box on the <Link href="/race/this-week">This Week</Link> page, or reach us through{" "}
+            the request box on the <Link href="/?tab=race">This Week</Link> page, or reach us through{" "}
             <a href="https://mapmyhyd.com">Mapping HYD</a>. We review every report and fix confirmed errors quickly.
           </p>
         </div>

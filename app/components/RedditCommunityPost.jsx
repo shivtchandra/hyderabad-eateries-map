@@ -169,7 +169,7 @@ export default function RedditCommunityPost({ thread, showStandings = true, show
       {/* Action footer */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap", paddingTop: 8, borderTop: "1px solid var(--line)" }}>
         <Link
-          href="/race/this-week"
+          href="/?tab=race"
           style={{
             fontSize: 12,
             fontWeight: 800,

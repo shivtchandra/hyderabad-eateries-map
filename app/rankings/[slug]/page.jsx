@@ -139,7 +139,7 @@ export default async function RankingPage({ params }) {
 
   const related = [
     { href: "/rankings", label: "All rankings" },
-    { href: `/race/this-week?dish=${params.slug}`, label: "Vote on race" },
+    { href: `/?tab=race&dish=${params.slug}`, label: "Vote this week" },
     ...SEO_THEME_PICKS.filter((p) => slugFromTitle(p.title) !== params.slug).slice(0, 4).map((p) => ({
       href: `/rankings/${slugFromTitle(p.title)}`,
       label: p.title,
@@ -182,7 +182,7 @@ export default async function RankingPage({ params }) {
     { name: data.title, url: `${getSiteUrl()}/rankings/${params.slug}` },
   ]);
 
-  const voteHref = `/race/this-week?dish=${params.slug}`;
+  const voteHref = `/?tab=race&dish=${params.slug}`; // in-app Vote tab, This week
   // Standings: only real votes count. #1 is the crowned spot, else the leader.
   const voted = voteRows.filter((r) => (r.count || 0) > 0);
   const leader = voted.find((r) => r.spotId === data.winnerId) || voted[0] || null;
