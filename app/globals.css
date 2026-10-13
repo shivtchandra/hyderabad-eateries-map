@@ -1113,7 +1113,7 @@ button { font-family: inherit; }
 .rail { position: absolute; left: 0; right: 0; bottom: 0; z-index: 900; display: flex; gap: var(--s2); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--s4); padding: 0 var(--s4) var(--s3); scrollbar-width: none; }
 .rail::-webkit-scrollbar { display: none; }
 .rail-card { flex: 0 0 auto; width: min(300px, 82vw); scroll-snap-align: start; display: flex; align-items: center; gap: var(--s3); padding: var(--s2); border: 0; border-radius: var(--r-card); background: var(--cream-hi); color: var(--ink); text-align: left; cursor: pointer; box-shadow: var(--e2); transition: box-shadow var(--dur-2) ease, transform var(--dur-1) var(--ease-out); }
-.rail-card.is-active { box-shadow: 0 0 0 2.5px var(--violet), var(--e2); }
+.rail-card.is-active { box-shadow: var(--e3); }
 .rail-card:active { transform: scale(0.98); }
 .rail-card:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
 .rail-card-photo { position: relative; flex-shrink: 0; width: 84px; height: 84px; border-radius: var(--r-btn); overflow: hidden; }

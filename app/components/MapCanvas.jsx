@@ -137,6 +137,8 @@ export default function MapCanvas({
           // Tile fetches failing after load (offline) surface the offline card.
           gl.getMaplibreMap().on("error", (ev) => { if (loaded && ev?.sourceId) errorRef.current?.(); });
           window.setTimeout(() => {
+            const glm = gl.getMaplibreMap();
+            if (glm.loaded() || glm.isStyleLoaded()) { if (!loaded) { loaded = true; setBasemapReady(true); } return; }
             if (loaded || cancelled || !mapRef.current) return;
             map.removeLayer(gl);
             addRaster();

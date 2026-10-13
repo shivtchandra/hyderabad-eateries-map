@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Icon } from "./Icons.jsx";
 
-export default function ShareSpotButton({ spotName, spotPath, style, variant = "pill" }) {
+export default function ShareSpotButton({ spotName, spotPath, style, variant = "pill", label = "Share Place" }) {
   const [copied, setCopied] = useState(false);
 
   const handleShare = async () => {
@@ -56,7 +56,7 @@ export default function ShareSpotButton({ spotName, spotPath, style, variant = "
       title="Share place card"
     >
       <Icon name={copied ? "check" : "share"} size={14} width={2.2} color={copied ? "#ffffff" : "var(--violet-deep)"} />
-      <span>{copied ? "Link Copied!" : "Share Place"}</span>
+      <span>{copied ? "Link Copied!" : label}</span>
     </button>
   );
 }

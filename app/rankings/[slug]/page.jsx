@@ -6,11 +6,12 @@ import { itemListJsonLd, rankingMeta, SEO_THEME_PICKS, slugFromTitle } from "../
 import { breadcrumbJsonLd } from "../../../lib/schema.js";
 import { getSiteUrl } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
-import { allCategoryPages, editorialRanking, pathForSpotId, hasSpotPhoto } from "../../../lib/siteData.js";
+import { allCategoryPages, editorialRanking, pathForSpotId, hasSpotPhoto, getEateryById } from "../../../lib/siteData.js";
 import { spotPhotoUrl } from "../../../lib/photos.js";
 import ShareRankingButton from "../../components/ShareRankingButton.jsx";
 import BottomNav from "../../components/BottomNav.jsx";
 import { Icon } from "../../components/Icons.jsx";
+import SpotsMapClient from "../../components/SpotsMapClient.jsx";
 
 export const dynamic = "force-dynamic";
 
@@ -186,6 +187,18 @@ export default async function RankingPage({ params }) {
   const topCount = Math.max(0, ...voteRows.map((r) => r.count || 0));
   const onBoard = new Set(voteRows.map((r) => r.spotId));
   const contenders = editorial.filter((r) => !onBoard.has(r.spotId)).slice(0, 12);
+  // The ranking as a map: voted spots numbered, shortlisted ones as grey dots.
+  const votedOnMap = voteRows.filter((r) => (r.count || 0) > 0);
+  const mapPoints = [
+    ...contenders.map((r) => {
+      const e = getEateryById(r.spotId);
+      return e?.lat != null ? { kind: "spot", lat: e.lat, lng: e.lng, tone: "#a8a29e", title: r.name || e.name, sub: "On the ballot, no votes yet", href: pathForSpotId(r.spotId) } : null;
+    }),
+    ...votedOnMap.map((r, i) => {
+      const e = getEateryById(r.spotId);
+      return e?.lat != null ? { kind: "rank", lat: e.lat, lng: e.lng, label: i + 1, tone: i === 0 ? "#5b21b6" : "#7c3aed", title: `#${i + 1} ${r.name}`, sub: `${r.count} ${r.count === 1 ? "vote" : "votes"}`, href: pathForSpotId(r.spotId) } : null;
+    }),
+  ].filter(Boolean);
 
   return (
   <div style={{ paddingBottom: 84 }}>
@@ -310,6 +323,15 @@ export default async function RankingPage({ params }) {
               );
             })}
           </ol>
+        </section>
+      )}
+
+      {mapPoints.length > 1 && (
+        <section id="map" className="rk-section" aria-label="On the map">
+          <div className="rk-head">
+            <h2 className="rk-title">On the map</h2>
+          </div>
+          <SpotsMapClient points={mapPoints} height={340} />
         </section>
       )}
 
