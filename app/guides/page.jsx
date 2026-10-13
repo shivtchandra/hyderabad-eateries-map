@@ -25,12 +25,18 @@ const short = (t = "") => {
   return s.charAt(0) + s.slice(1).toLowerCase();
 };
 
-// Stickers (isometric die-cut art) live in public/stickers/<key>.png. A card
+// Stickers (isometric die-cut art) live in public/stickers/<key>.webp (or .png). A card
 // shows its sticker when the file exists, else a bold typographic card, so
 // art can be dropped in later without touching code. See DESIGN.md.
 const STICKER_DIR = path.join(process.cwd(), "public", "stickers");
 function sticker(key) {
-  try { return key && fs.existsSync(path.join(STICKER_DIR, `${key}.png`)) ? `/stickers/${key}.png` : null; } catch { return null; }
+  if (!key) return null;
+  try {
+    for (const ext of ["webp", "png"]) {
+      if (fs.existsSync(path.join(STICKER_DIR, `${key}.${ext}`))) return `/stickers/${key}.${ext}`;
+    }
+  } catch {}
+  return null;
 }
 
 // The headline rankings for the row (the rest are one tap away in /rankings).

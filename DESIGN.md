@@ -421,7 +421,10 @@ Still to do:
 
 ## 8. Sticker art (isometric, die-cut)
 
-Files go in `public/stickers/<name>.png` (transparent, square, 1024x1024).
+Files go in `public/stickers/<name>.webp` (512x512, transparent; .png also works).
+After adding a file, add its key to `STICKER_KEYS` in `lib/stickerArt.js` so the
+Vote tab, the map vote card and /rankings can use it (Guides checks the disk).
+AI exports often bake a fake grey checkerboard in; it has to be cut out first.
 Any card with a matching file shows it on the next build; without one it
 falls back to a soft tinted card with the dish word.
 

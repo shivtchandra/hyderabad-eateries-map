@@ -1041,3 +1041,6 @@ a.of-card-name:hover { text-decoration: underline; }
 .guides-jump-tile--ink { --chip: var(--ink); }
 .guides-jump-tile--wash { --chip: var(--violet-wash); }
 .guides-jump-tile--white { --chip: var(--paper); }
+.rk-live-card { position: relative; overflow: hidden; padding-right: 140px; }
+.rk-live-sticker { position: absolute; right: 8px; top: 50%; width: 128px; height: 128px; transform: translateY(-50%) rotate(8deg); filter: drop-shadow(0 10px 16px rgba(20, 20, 20, 0.3)); }
+@media (max-width: 480px) { .rk-live-card { padding-right: var(--s6); padding-top: 112px; } .rk-live-sticker { top: 12px; right: 12px; transform: rotate(8deg); width: 100px; height: 100px; } }

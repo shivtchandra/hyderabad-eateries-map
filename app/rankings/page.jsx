@@ -6,6 +6,7 @@ import { SEO_THEME_PICKS, slugFromTitle } from "../../lib/rankings.js";
 import { pageMeta, getSiteUrl } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
 import { breadcrumbJsonLd } from "../../lib/schema.js";
+import { stickerForTitle } from "../../lib/stickerArt.js";
 
 export const dynamic = "force-dynamic";
 
@@ -76,6 +77,10 @@ export default async function RankingsHubPage() {
         const leader = theme.results?.[0];
         return (
           <Link key={theme.id} href={`/rankings/${theme.slug}`} className="rk-live-card">
+            {stickerForTitle(theme.title) && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img className="rk-live-sticker" src={stickerForTitle(theme.title)} alt="" width={120} height={120} />
+            )}
             <span className="rk-live-kicker">Live vote</span>
             <span className="rk-live-q">{hook(theme.title)}</span>
             <span className="rk-live-meta">

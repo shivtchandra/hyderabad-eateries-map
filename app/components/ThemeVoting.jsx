@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Icon } from "./Icons.jsx";
 import { slugFromTitle, themeDescription } from "../../lib/rankings.js";
 import { isPastEndDate } from "../../lib/themeCrown.js";
+import { stickerForTitle } from "../../lib/stickerArt.js";
 import { seasonClosed, seasonYear } from "../../lib/voteDecay.js";
 import ThemeSuggest from "./ThemeSuggest.jsx";
 import AddPlace, { isUserSpot } from "./AddPlace.jsx";
@@ -255,10 +256,27 @@ export default function ThemeVoting({ initialDishSlug = null }) {
     }
   };
 
+  // Same shape as the loaded Vote tab (kicker, question, five rows), so
+  // nothing jumps when the data lands.
   if (loading) return (
-    <div style={{ textAlign: "center", padding: "40px 16px", color: "var(--muted)" }}>
-      <Icon name="sparkle" size={28} width={1.6} color="var(--violet)" style={{ margin: "0 auto 10px" }} />
-      <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 600, fontSize: 15 }}>Loading themes…</div>
+    <div className="vote-hero" aria-busy="true">
+      <p className="visually-hidden" role="status">Loading this week&apos;s vote</p>
+      <span className="sk" style={{ width: "46%", height: 14, borderRadius: 6 }} />
+      <span className="sk" style={{ width: "88%", height: 52, borderRadius: 12, marginTop: 6 }} />
+      <span className="sk" style={{ width: "60%", height: 52, borderRadius: 12 }} />
+      <span className="sk" style={{ width: "70%", height: 18, borderRadius: 6, marginTop: 4 }} />
+      <div className="vote-list" style={{ margin: "var(--s4) 0 0" }}>
+        {[0, 1, 2, 3, 4].map((i) => (
+          <div key={i} className="vote-row">
+            <span className="sk" style={{ width: 28, height: 22, borderRadius: 6 }} />
+            <span style={{ flex: 1, display: "flex", flexDirection: "column", gap: 6 }}>
+              <span className="sk" style={{ width: `${70 - i * 8}%`, height: 16, borderRadius: 6 }} />
+              <span className="sk" style={{ width: "30%", height: 12, borderRadius: 6 }} />
+            </span>
+            <span className="sk" style={{ width: 64, height: 44, borderRadius: 14 }} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 
@@ -401,7 +419,13 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, rankin
             {shareState === "copied" ? "Copied" : shareState === "shared" ? "Shared" : shareState === "failed" ? "Try again" : "Share"}
           </button>
         </div>
-        <h2 className="vote-question">{voteHook(theme.title)}</h2>
+        <div className="vote-question-row">
+          <h2 className="vote-question">{voteHook(theme.title)}</h2>
+          {stickerForTitle(theme.title) && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img className="vote-sticker" src={stickerForTitle(theme.title)} alt="" width={120} height={120} />
+          )}
+        </div>
         <p className="vote-debate">{debateLine(results, localCounts)}</p>
         {themeDescription(theme) && <p className="vote-desc">{themeDescription(theme)}</p>}
         <div className="vote-hero-foot">

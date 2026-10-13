@@ -992,7 +992,8 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
 
             {loading && (
               <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, pointerEvents: "none" }}>
-                <Icon name="sparkle" size={38} width={1.6} color="var(--pop)" className="swirl" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/stickers/biryani.webp" alt="" width={96} height={96} className="sticker-bob" />
                 <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", color: "var(--ink-soft)", fontWeight: 600, fontSize: 15 }}>
                   Finding tasty spots…
                 </div>

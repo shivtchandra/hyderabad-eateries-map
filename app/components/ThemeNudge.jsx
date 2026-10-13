@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { hasThemeVoted } from "../../lib/themeVoting.js";
 import { Icon } from "./Icons.jsx";
+import { stickerForTitle } from "../../lib/stickerArt.js";
 
 // Closing it hides the banner for this theme only (per device); next week's shows again.
 const DISMISS_KEY = "hyd-theme-nudge-dismissed";
@@ -37,6 +38,10 @@ export default function ThemeNudge({ theme, onVote }) {
 
   return (
     <div className="vote-card" role="region" aria-label="This week's vote">
+      {stickerForTitle(theme.title) && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img className="vote-card-sticker" src={stickerForTitle(theme.title)} alt="" width={64} height={64} />
+      )}
       <button type="button" onClick={onVote} className="vote-card-main">
         <span className="vote-card-kicker"><span className="vote-card-dot" />Live vote</span>
         <span className="vote-card-title">{hook(theme.title)}</span>

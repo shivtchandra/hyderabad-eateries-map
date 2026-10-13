@@ -1094,3 +1094,14 @@ button { font-family: inherit; }
 @media (prefers-reduced-motion: reduce) {
   .guides-arrow svg, .you-arrow svg, .you-passport-go svg, .vote-card-go svg { transition: none; }
 }
+
+/* ---- Stickers in the app (lib/stickerArt.js) ---- */
+.sticker-bob { width: 96px; height: 96px; filter: drop-shadow(0 10px 14px rgba(20, 20, 20, 0.2)); animation: sticker-bob 1.4s ease-in-out infinite; }
+@keyframes sticker-bob { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-10px) rotate(4deg); } }
+.vote-question-row { display: flex; align-items: center; gap: var(--s3); }
+.vote-question-row .vote-question { flex: 1; min-width: 0; }
+.vote-sticker { flex-shrink: 0; width: clamp(88px, 26vw, 128px); height: auto; transform: rotate(8deg); filter: drop-shadow(0 10px 16px rgba(20, 20, 20, 0.2)); }
+.vote-card { overflow: visible; }
+.vote-card-sticker { position: absolute; left: -10px; top: -22px; width: 56px; height: 56px; transform: rotate(-10deg); filter: drop-shadow(0 6px 10px rgba(20, 20, 20, 0.3)); pointer-events: none; }
+.route-error-art { width: 112px; height: 112px; transform: rotate(-8deg); margin-bottom: var(--s2); filter: drop-shadow(0 10px 14px rgba(20, 20, 20, 0.2)); }
+@media (prefers-reduced-motion: reduce) { .sticker-bob { animation: none; } }
