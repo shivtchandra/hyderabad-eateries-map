@@ -847,6 +847,7 @@ button{ font-family: inherit; }
     padding: var(--s4) var(--s2);
     box-shadow: 1px 0 0 var(--line);
     border-top: 0;
+    height: 100%;
     background: var(--cream-hi);
     pointer-events: auto;
   }
@@ -966,6 +967,9 @@ button{ font-family: inherit; }
 
 /* ---- Map chrome (mockup): search row and chips float over the map ---- */
 .map-chrome{ position: absolute; top: env(safe-area-inset-top, 0px); left: 0; right: 0; z-index: 1400; pointer-events: none; }
+@media (min-width: 1024px) {
+  .map-chrome{ left: 96px; }
+}
 .map-chrome > *{ pointer-events: auto; }
 .map-chips{ background: transparent; }
 .map-chips .chip-rail{ padding-left: var(--s4) !important; }
