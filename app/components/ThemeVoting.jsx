@@ -292,7 +292,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
   return (
     <div style={{ paddingBottom: 8 }}>
       {current.theme && (
-        <CurrentTheme
+        <CurrentTheme justVoted={justVoted}
           theme={current.theme}
           results={displayResults}
           votedSpotId={votedSpotId}
@@ -352,7 +352,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
   );
 }
 
-function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, rankingsCount = 0, onSeeAll }) {
+function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, rankingsCount = 0, onSeeAll, justVoted = false }) {
   const [showAllRows, setShowAllRows] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const [searchQ, setSearchQ] = useState("");

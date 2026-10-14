@@ -170,7 +170,7 @@ export default function FilterChips({
 export function countActiveFilters({ openNowOnly, activeTags = [], nearbyOnly, newOnly, safetyOnly, localsOnly, activeDish, curatedEnabled, recommendedOnly, hiddenCount = 0, showAll }) {
   return (openNowOnly ? 1 : 0) + activeTags.length + (nearbyOnly ? 1 : 0) + (newOnly ? 1 : 0) +
     (safetyOnly ? 1 : 0) + (localsOnly ? 1 : 0) + (activeDish ? 1 : 0) +
-    (curatedEnabled && !recommendedOnly ? 1 : 0) + (!curatedEnabled && hiddenCount > 0 && !showAll ? 1 : 0);
+    (curatedEnabled && recommendedOnly ? 1 : 0) + (!curatedEnabled && hiddenCount > 0 && !showAll ? 1 : 0);
 }
 
 function chip(active) {
