@@ -23,8 +23,31 @@ async function importPrivateKey(pem) {
   return crypto.subtle.importKey("pkcs8", der, { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" }, false, ["sign"]);
 }
 
+// New isolates start without tokenCache; the colo's Cache API keeps the token so a
+// cold isolate skips the ~400 ms round trip to Google. Key is an internal URL only.
+const TOKEN_KEY = "https://token.internal/firestore-access-token";
+
 export async function accessToken(sa) {
   if (tokenCache && tokenCache.exp - 300 > Date.now() / 1000) return tokenCache.token;
+  const edge = typeof caches !== "undefined" ? caches.default : null;
+  const keyUrl = `${TOKEN_KEY}/${encodeURIComponent(sa.client_email)}`;
+  if (edge) {
+    const hit = await edge.match(keyUrl).catch(() => null);
+    const saved = hit ? await hit.json().catch(() => null) : null;
+    if (saved?.token && saved.exp - 300 > Date.now() / 1000) {
+      tokenCache = saved;
+      return saved.token;
+    }
+  }
+  const token = await fetchAccessToken(sa);
+  if (edge) {
+    const ttl = Math.max(60, tokenCache.exp - Math.floor(Date.now() / 1000) - 300);
+    await edge.put(keyUrl, new Response(JSON.stringify(tokenCache), { headers: { "Cache-Control": `s-maxage=${ttl}` } })).catch(() => {});
+  }
+  return token;
+}
+
+async function fetchAccessToken(sa) {
   const now = Math.floor(Date.now() / 1000);
   const unsigned = `${b64urlJson({ alg: "RS256", typ: "JWT" })}.${b64urlJson({
     iss: sa.client_email, scope: SCOPE, aud: "https://oauth2.googleapis.com/token", iat: now, exp: now + 3600,

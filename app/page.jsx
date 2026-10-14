@@ -52,6 +52,13 @@ import AddPlace from "./components/AddPlace.jsx";
 
 export default function EateriesApp({ initialTab = "map", initialRaceView = "race", initialDishSlug = null }) {
   const mapApi = useRef(null);
+  // The map mounts only once its tab is shown, so a jump to a spot from Vote,
+  // search or a deep link waits here until MapCanvas hands over its API.
+  const pendingFly = useRef(null);
+  const flyMap = useCallback((lat, lng, zoom) => {
+    if (mapApi.current) mapApi.current.flyTo(lat, lng, zoom);
+    else pendingFly.current = [lat, lng, zoom];
+  }, []);
 
   const [indexedEateries, setEateries] = useState([]);
   const [details, setDetails] = useState({});
@@ -120,8 +127,12 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   const [locating, setLocating] = useState(false);
   const [toast, setToast] = useState(null);
   const [mapReady, setMapReady] = useState(false);
-  // Let chrome paint first so LCP is not an OSM tile on slow mobile.
+  // Let chrome paint first so LCP is not an OSM tile on slow mobile. The map's
+  // code (~1.5 MB with MapLibre) only loads once the Map or Route tab is shown,
+  // so opening straight on Vote or You doesn't pay for it; it stays mounted after.
+  const showsMap = tab === "map" || tab === "route";
   useEffect(() => {
+    if (mapReady || !tabReady || !showsMap) return;
     let idleId = 0;
     let t = 0;
     const go = () => setMapReady(true);
@@ -134,7 +145,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
       if (idleId && window.cancelIdleCallback) window.cancelIdleCallback(idleId);
       if (t) window.clearTimeout(t);
     };
-  }, []);
+  }, [mapReady, tabReady, showsMap]);
 
   const [isMobile, setIsMobile] = useState(false);
   const [passport, setPassport] = useState({ visited: {}, saved: {} });
@@ -176,11 +187,23 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   const [addDishFor, setAddDishFor] = useState(null);
   const [dishRev, setDishRev] = useState(0); // bumps so the open card re-reads dish counts after an add // recommended place whose "What's good here?" sheet is open
   const [suggestOpen, setSuggestOpen] = useState(null); // null | "form" | "thanks"
+  const recoRequested = useRef(false);
   useEffect(() => {
-    if (!curatedEnabled) return;
-    fetch("/data/recommendations.json").then((r) => { if (!r.ok) throw new Error(); return r.json(); })
-      .then(setRecommendationData).catch(() => setRecommendationError(true));
-  }, [curatedEnabled]);
+    if (!curatedEnabled || recoRequested.current) return;
+    // 2.3 MB of map data: fetch now on the map, but let another opening tab (Vote,
+    // You) get its own data first and pull this in once the browser is idle.
+    const load = () => {
+      if (recoRequested.current) return;
+      recoRequested.current = true;
+      fetch("/data/recommendations.json").then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+        .then(setRecommendationData).catch(() => setRecommendationError(true));
+    };
+    if (tab === "map") { load(); return; }
+    const idle = window.requestIdleCallback
+      ? window.requestIdleCallback(load, { timeout: 3000 })
+      : window.setTimeout(load, 1500);
+    return () => (window.cancelIdleCallback && window.requestIdleCallback ? window.cancelIdleCallback(idle) : window.clearTimeout(idle));
+  }, [curatedEnabled, tab]);
   const eateries = useMemo(() => {
     if (!curatedEnabled || !recommendationData) return indexedEateries;
     const rows = new Map(indexedEateries.map((p) => [p.id, p]));
@@ -665,13 +688,17 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
       setSheetOpen(true);
       trackEvent("place_open");
       const e = byId[id];
-      if (e) mapApi.current?.flyTo(e.lat, e.lng, 16);
+      if (e) flyMap(e.lat, e.lng, 16);
+    } else if (opts.fly) {
+      // Rail card tap: show the spot on the map without opening the sheet.
+      const e = byId[id];
+      if (e) flyMap(e.lat, e.lng, 16);
     }
   }, [byId, loadDetail]);
 
   const handleAreaEnter = useCallback((area) => {
     setAreaLabel(area.area);
-    mapApi.current?.flyTo(area.lat, area.lng, AREA_ZOOM_MAX + 1.4);
+    flyMap(area.lat, area.lng, AREA_ZOOM_MAX + 1.4);
   }, []);
 
   const handleSearchSelect = useCallback((eatery) => {
@@ -685,7 +712,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     setSheetOpen(true);
     trackEvent("place_open");
     loadDetail(eatery.id);
-    mapApi.current?.flyTo(eatery.lat, eatery.lng, 16);
+    flyMap(eatery.lat, eatery.lng, 16);
   }, [loadDetail]);
 
   const locateMe = useCallback(() => {
@@ -756,7 +783,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     setSelectedId(e.id);
     setSheetOpen(true);
     loadDetail(e.id);
-    mapApi.current?.flyTo(e.lat, e.lng, 16);
+    flyMap(e.lat, e.lng, 16);
   }, [loadDetail]);
 
   // Deep link: /?spot=<id> selects that spot, opens its sheet and centres the
@@ -775,7 +802,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     setSelectedId(id);
     setSheetOpen(true);
     loadDetail(id);
-    const focus = () => mapApi.current?.flyTo(e.lat, e.lng, 16);
+    const focus = () => flyMap(e.lat, e.lng, 16);
     focus();
     if (!mapApi.current) setTimeout(focus, 600); // map may still be mounting
   }, [loading, byId, loadDetail]);
@@ -888,7 +915,10 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
               onAreaEnter={handleAreaEnter}
               onHeroesChange={setHeroes}
               onVisibleChange={onVisibleChange}
-              onZoomChange={(api) => { mapApi.current = api; }}
+              onZoomChange={(api) => {
+                mapApi.current = api;
+                if (pendingFly.current) { const [lat, lng, zoom] = pendingFly.current; pendingFly.current = null; api.flyTo(lat, lng, zoom); }
+              }}
               voteTop={tab === "map" ? voteTop : []}
               voteLabel={currentTheme?.title?.replace(/^best\s+/i, "").replace(/\s+in\s+hyderabad$/i, "")}
               onMapError={() => setMapOffline(true)}

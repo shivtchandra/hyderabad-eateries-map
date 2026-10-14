@@ -30,6 +30,16 @@ export async function GET(req) {
   const limit = Math.min(Number(searchParams.get("limit")) || 50, 100);
 
   try {
+    // ?uid=…&me=1: just the caller's own row. The client reads the shared top list
+    // from the edge-cached URL (no uid) alongside, so only this small part is live.
+    if (uid && searchParams.get("me") === "1") {
+      const mine = await db.collection("players").doc(uid).get();
+      if (!mine.exists) return Response.json({ me: null }, { status: 200 });
+      const data = mine.data();
+      const ahead = await db.collection("players").where("score", ">", data.score ?? 0).count().get();
+      return Response.json({ me: { uid, rank: (ahead.data().count ?? 0) + 1, ...pick(data) } }, { status: 200 });
+    }
+
     const players = await getTopPlayers(limit);
 
     let me = uid ? players.find((p) => p.uid === uid) ?? null : null;
