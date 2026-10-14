@@ -781,11 +781,9 @@ a.of-card-name:hover{ text-decoration: underline; }
 .rk-index-card:hover{ box-shadow: var(--e2); }
 .rk-index-card:focus-visible{ outline: 2px solid var(--violet); outline-offset: 2px; }
 
-/* ---- Phones: the bottom bar already has Map / Vote / Guides, so the site
-   header shows only the logo there. Desktop keeps the links (no bottom bar). */
-@media (max-width: 1023px) {
-  .site-topnav .site-topnav-link{ display: none; }
-}
+/* ---- The sidebar (desktop) and bottom bar (phones) already have Map / Vote / Guides,
+   so the site header shows only the brand logo. ---- */
+.site-topnav .site-topnav-link{ display: none; }
 
 /* ---- Guides hub v2: jump chips, photo rails, area tiles, colour tiles ---- */
 .guides-jump{ display: flex; gap: var(--s2); overflow-x: auto; scrollbar-width: none; margin: 0 calc(-1 * var(--gutter)) var(--s2); padding: 0 var(--gutter) var(--s2); }

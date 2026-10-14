@@ -69,7 +69,7 @@ export function generateStaticParams() {
   return [...all.filter((e) => editorial.has(e.id)), ...popular].map((e) => ({ id: spotSlug(e) }));
 }
 
-export function generateMetadata({ params }) {
+export async function generateMetadata({ params }) {
   const spot = getEateryBySlugOrId(params.id);
   if (!spot) return { title: "Spot not found, Hyderabad Eats" };
   const area = spot.discoveredIn && !spot.discoveredIn.startsWith("text:") ? spot.discoveredIn : "Hyderabad";
@@ -82,10 +82,23 @@ export function generateMetadata({ params }) {
     : "";
   const place = cleanArea ? `${cleanName} (${cleanArea})` : cleanName;
 
+  const rec = recommendationsEnabled() ? recommendationFor(spot.id) : null;
+  const hasDishes = (spot.mustOrder && spot.mustOrder.length > 0) ||
+    !!spot.signatureDish?.name ||
+    (rec && (rec.dishes?.length > 0 || rec.signature?.name || rec.localDishes?.length > 0));
+
+  const safety = await getInspectionsForSpot(spot.id);
+  const hasSafety = safety && safety.length > 0;
+  const latestSafety = hasSafety ? safety[0] : null;
+  const safetyAction = latestSafety?.entry?.action
+    ? (ACTIONS[latestSafety.entry.action] || latestSafety.entry.action)
+    : "Inspection";
+
   const candidates = [
+    ...(hasSafety ? [`${place}: Food Safety, Reviews & Menu`, `${cleanName}: Food Safety & Reviews`] : []),
     `${place}: Reviews, Menu & Prices`,
     `${place}: Reviews, Menu & Timings`,
-    `${cleanName}: Reviews, Menu & Must-Orders`,
+    ...(hasDishes ? [`${cleanName}: Reviews, Menu & Must-Orders`] : []),
     `${cleanName}: Reviews, Menu & Prices`,
     `${cleanName}: Reviews & Menu`,
     `${place}: Reviews & Ratings`,
@@ -94,16 +107,20 @@ export function generateMetadata({ params }) {
   // Target max 48-52 chars so with " | Mapping HYD Eats" it stays under 70 chars.
   const title = candidates.find((t) => t.length <= 48) || candidates.find((t) => t.length <= 54) || `${cleanName}: Reviews & Menu`;
 
-  const cleanEditorial = (spot.originStory?.[0]
-    || (spot.signatureDish ? `Famous for ${spot.signatureDish.name}. ${spot.signatureDish.why}` : "")).replace(/—/g, ",");
   const ratingDetails = spot.rating ? `${spot.rating}★ rating (${spot.ratingCount ? spot.ratingCount.toLocaleString("en-IN") : ""} reviews). ` : "";
   const costDetails = spot.costForTwo ? `₹${Number(spot.costForTwo).toLocaleString("en-IN")} for two. ` : "";
   const dishHook = spot.signatureDish?.name
     ? `Must-try: ${spot.signatureDish.name}. `
     : spot.mustOrder?.[0]?.name
       ? `Must-try: ${spot.mustOrder[0].name}. `
-      : `Explore top dishes, timings & map pin. `;
-  const description = `Verified reviews, menu prices & must-orders for ${cleanName} in ${area}, Hyderabad. ${ratingDetails}${costDetails}${dishHook}TG Food Safety inspected.`
+      : rec?.signature?.name
+        ? `Must-try: ${rec.signature.name}. `
+        : "";
+
+  const safetyHook = hasSafety ? `TG SAFE food safety record: ${safetyAction}. ` : "";
+  const ordersLabel = hasDishes ? "must-orders" : "timings";
+  const descTail = dishHook || safetyHook ? `${dishHook}${safetyHook}Verified reviews & map pin.` : "Verified ratings, timings & map pin.";
+  const description = `Verified reviews, menu prices & ${ordersLabel} for ${cleanName} in ${area}, Hyderabad. ${ratingDetails}${costDetails}${descTail}`
     .replace(/—/g, ",")
     .trim();
 
@@ -140,7 +157,15 @@ export default async function SpotPage({ params }) {
   if (params.id !== slug) permanentRedirect(spotPath(spot));
 
   const recommendation = recommendationsEnabled() ? recommendationFor(spot.id) : null;
-  const recommendationModel = recommendation ? getRecommendations() : null;
+  const hasValidRecommendation = !!(
+    recommendation && (
+      (recommendation.dishes && recommendation.dishes.length > 0) ||
+      recommendation.signature?.name ||
+      (recommendation.localDishes && recommendation.localDishes.length > 0) ||
+      recommendation.editorial
+    )
+  );
+  const recommendationModel = hasValidRecommendation ? getRecommendations() : null;
   const areaLink = areaPageHref(spot.discoveredIn);
   const safety = await getInspectionsForSpot(spot.id);
 
@@ -563,12 +588,12 @@ export default async function SpotPage({ params }) {
           )}
 
 
-          {recommendation && <section className="spot-section" id="recommendations">
+          {hasValidRecommendation && <section className="spot-section" id="recommendations">
             <h2>What to order and why</h2>
             <RecommendationPanel place={recommendation} brand={recommendationModel.brands[recommendation.redditBrandId]} publishedDishes={recommendationModel.dishes.map((d) => d.id)} />
             <Link href={`/?spot=${encodeURIComponent(spot.id)}`} className="link-chip">Explore this branch on the map</Link>
           </section>}
-          {!recommendation && localsPick && (
+          {localsPick && (
             <section id="locals" className="spot-section locals-pick">
               <h2>Locals' pick</h2>
               <p>
@@ -587,7 +612,7 @@ export default async function SpotPage({ params }) {
             </section>
           )}
 
-          {!recommendation && <MustOrder spotId={spot.id} initial={dishSeeds} />}
+          <MustOrder spotId={spot.id} initial={dishSeeds} />
 
           {spotOffers && (spotOffers.district?.hasOffers || spotOffers.swiggy?.hasOffers) && (
             <section className="spot-section sp-offers" aria-label="Offers">
