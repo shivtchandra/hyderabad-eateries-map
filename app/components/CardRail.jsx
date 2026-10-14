@@ -29,6 +29,8 @@ export default function CardRail({
 }) {
   const railRef = useRef(null);
   const suppress = useRef(false);
+  const shownId = useRef(null); // card last tapped to show on the map
+  useEffect(() => { if (activeId !== shownId.current) shownId.current = null; }, [activeId]);
   const [openState, setOpenState] = useState(true);
   const open = openProp ?? openState;
   const setOpen = onOpenChange ?? setOpenState;
@@ -105,7 +107,13 @@ export default function CardRail({
               data-id={e.id}
               type="button"
               className={`rail-card${active ? " is-active" : ""}`}
-              onClick={() => { if (!active) onActivate(e.id); onOpen?.(e.id); }}
+              onClick={() => {
+                // First tap shows the spot on the map (fly to its pin, no sheet);
+                // tapping the same card again opens its details.
+                if (shownId.current === e.id) { onOpen?.(e.id); return; }
+                shownId.current = e.id;
+                onActivate(e.id, { fromRail: true, fly: true });
+              }}
               aria-label={`${e.name}, ${cat.label}${area ? `, ${area}` : ""}`}
             >
               <span className="rail-card-photo" style={{ background: cat.color }}>
