@@ -55,7 +55,7 @@ const index = approved
     n: e.name,
     c: fixCategory(e),
     ...(localsDishes[e.id] ? { d: localsDishes[e.id].map((x) => x.dish) } : {}), // dishes locals name (Ask Eats)
-    ...(isReco(e) ? { rc: 1 } : {}), // "Recos" chip
+    ...(isReco(e) ? { ro: 1 } : {}), // "Recos" chip (rc is the rating count)
     lat: +e.lat.toFixed(5),
     lng: +e.lng.toFixed(5),
     r: e.rating ?? null,

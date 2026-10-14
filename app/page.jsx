@@ -152,7 +152,8 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   const [newOnly, setNewOnly] = useState(false);
   const [safetyOnly, setSafetyOnly] = useState(false);
   const curatedEnabled = recommendationsEnabled();
-  const [recommendedOnly, setRecommendedOnly] = useState(curatedEnabled);
+  // The map opens with every spot; picks-only is a filter (and the Recos chip).
+  const [recommendedOnly, setRecommendedOnly] = useState(false);
   const [recommendationDish, setRecommendationDish] = useState("");
   // Static hosting serves one prebuilt HTML for every query string.
   useEffect(() => {
@@ -301,7 +302,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
         setEateries(rows.map((e) => ({
           id: e.id, name: e.n, category: e.c, lat: e.lat, lng: e.lng,
           rating: e.r, ratingCount: e.rc, tier: e.t, tags: e.g,
-          priceLevel: e.p, discoveredIn: e.a, createdAt: e.ca ?? null, dishes: e.d || [], reco: e.rc === 1,
+          priceLevel: e.p, discoveredIn: e.a, createdAt: e.ca ?? null, dishes: e.d || [], reco: e.ro === 1,
           core: e.k !== 0, // curated list (lib/coreSpots.js); older index files without `k` count as core
         })));
         setLoading(false);

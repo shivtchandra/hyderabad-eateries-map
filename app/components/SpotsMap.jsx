@@ -47,7 +47,7 @@ export default function SpotsMap({ points = [], height = 360 }) {
         // 'load' can fire before we listen; ask the map itself before falling back.
         const glMap = gl.getMaplibreMap();
         setTimeout(() => {
-          if (cancelled || glMap.loaded() || glMap.isStyleLoaded()) return;
+          if (cancelled || !glMap || glMap.loaded?.() || glMap.isStyleLoaded?.()) return;
           map.removeLayer(gl); raster();
         }, 8000);
       } catch { if (!cancelled) raster(); }
