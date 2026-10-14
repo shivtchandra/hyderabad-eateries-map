@@ -51,13 +51,45 @@ async function run(route, request, params) {
   return handler(nextify(request), { params });
 }
 
+// Edge copies are kept well past their fresh window (stale-while-revalidate): a
+// stale hit is served at once and refreshed in the background, so visitors never
+// wait on Firestore except the very first request for a URL in a colo.
+const STALE_KEEP = 86400;
+const CACHED_AT = "x-edge-cached-at";
+
+function edgeResponse(body, status, policy, at = Date.now()) {
+  return new Response(body, {
+    status,
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": `public, max-age=${Math.min(policy.edge, 60)}, s-maxage=${Math.max(STALE_KEEP, policy.edge)}`,
+      [CACHED_AT]: String(at),
+    },
+  });
+}
+
 async function cachedGet(route, request, params, policy, ctx) {
   const url = new URL(request.url);
   const edgeKey = new Request(url.toString(), { method: "GET" });
   const edge = caches.default;
   const hit = await edge.match(edgeKey);
-  if (hit) return hit;
+  if (hit) {
+    const at = Number(hit.headers.get(CACHED_AT) || 0);
+    if (Date.now() - at >= policy.edge * 1000) {
+      const stale = await hit.clone().text();
+      ctx.waitUntil((async () => {
+        // Re-stamp first so other requests in this colo don't all refresh too.
+        await edge.put(edgeKey, edgeResponse(stale, 200, policy));
+        await loadFresh(route, request, params, policy, ctx, edge, edgeKey);
+      })().catch(() => {}));
+    }
+    return hit;
+  }
+  return loadFresh(route, request, params, policy, ctx, edge, edgeKey);
+}
 
+async function loadFresh(route, request, params, policy, ctx, edge, edgeKey) {
+  const url = new URL(request.url);
   const db = await getAdminDb();
   const key = await sharedKey(url);
   const ref = db?.collection("apiCache").doc(key);
@@ -71,10 +103,7 @@ async function cachedGet(route, request, params, policy, ctx) {
     status = res.status;
     if (ref && status === 200) ctx.waitUntil(ref.set({ body, status, at: Date.now(), path: route.path, tags: policy.tags }).catch(() => {}));
   }
-  const res = new Response(body, {
-    status,
-    headers: { "Content-Type": "application/json", "Cache-Control": `public, max-age=${Math.min(policy.edge, 60)}, s-maxage=${policy.edge}` },
-  });
+  const res = edgeResponse(body, status, policy);
   if (status === 200) ctx.waitUntil(edge.put(edgeKey, res.clone()));
   return res;
 }

@@ -28,16 +28,18 @@ async function loadHistory(limit) {
       .get();
 
     const today = new Date().toISOString().slice(0, 10);
-    const out = [];
-    for (const doc of snap.docs) {
+    // Skip active / future-scheduled themes, then read every candidate's votes in
+    // parallel (one-by-one was up to 40 serial round trips, the Vote tab's slow load).
+    const candidates = snap.docs.filter((doc) => {
       const data = doc.data() || {};
-      if (data.active) continue;
-      if (data.endDate && data.endDate > today) continue; // skip future-scheduled themes
-      const votesSnap = await doc.ref
-        .collection("votes")
-        .orderBy("count", "desc")
-        .limit(20)
-        .get();
+      return !data.active && !(data.endDate && data.endDate > today);
+    });
+    const votesSnaps = await Promise.all(candidates.map((doc) =>
+      doc.ref.collection("votes").orderBy("count", "desc").limit(20).get()));
+    const out = [];
+    for (const [i, doc] of candidates.entries()) {
+      const data = doc.data() || {};
+      const votesSnap = votesSnaps[i];
       const results = rankByFreshness(votesSnap.docs.map((d) => ({ spotId: d.id, ...d.data() })), themeCreatedAt(data));
       // A theme that never ran (no winner, no votes) is a stray draft, not a past week.
       if (!data.winnerId && !results.some((r) => (r.count || 0) > 0)) continue;
