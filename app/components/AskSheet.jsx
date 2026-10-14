@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { askSpots, answerLine, parseAsk, surpriseFor, CRAVINGS, CRAVING_CHIPS } from "../../lib/askEngine.js";
 import { buildAreaCentroids } from "../../lib/eateryUtils.js";
 import { photoUrl } from "../../lib/spotlight.js";
+import BotIcon from "./BotIcon.jsx";
 
 // Ask Eats v1 (no LLM): craving chips, "near me", simple free text. Answers
 // come from our own data first (lib/askEngine.js). Lives behind the search
@@ -98,7 +99,7 @@ export default function AskSheet({ open, onClose, seed, eateries, userLoc, onReq
   return (
     <div className={`ask-sheet${open ? " is-open" : ""}`} role="dialog" aria-label="Ask Eats" aria-hidden={!open}>
       <div className="ask-head">
-<span className="ask-bot" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 5h16v11H9l-5 4z" /><circle cx="9" cy="10.5" r="1" fill="currentColor" /><circle cx="15" cy="10.5" r="1" fill="currentColor" /></svg></span>
+<span className="ask-bot" aria-hidden="true"><BotIcon /></span>
         <div className="ask-head-text">
           <b>Ask Eats <i className="ask-badge">Chatbot</i></b>
           <span>An automated helper. Locals&apos; votes and our picks first</span>
@@ -111,7 +112,7 @@ export default function AskSheet({ open, onClose, seed, eateries, userLoc, onReq
       <div className="ask-log" ref={logRef} aria-live="polite">
         {msgs.map((m, i) => (
           <div key={i} className={`ask-msg ask-msg--${m.from}`}>
-            {m.text && (m.from === "bot" ? <div className="ask-bot-row"><span className="ask-bot ask-bot--sm" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 5h16v11H9l-5 4z" /><circle cx="9" cy="10.5" r="1" fill="currentColor" /><circle cx="15" cy="10.5" r="1" fill="currentColor" /></svg></span><p className="ask-bubble">{m.text}</p></div> : <p className="ask-bubble">{m.text}</p>)}
+            {m.text && (m.from === "bot" ? <div className="ask-bot-row"><span className="ask-bot ask-bot--sm" aria-hidden="true"><BotIcon size={16} /></span><p className="ask-bubble">{m.text}</p></div> : <p className="ask-bubble">{m.text}</p>)}
             {m.results?.length > 0 && (
               <ul className="ask-results">
                 {m.results.map((r) => (
