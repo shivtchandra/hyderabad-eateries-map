@@ -40,7 +40,7 @@ const FAQ = [
   { q: "Where does this page get its information?",
     a: "Only from official TG SAFE releases and posts, cross-checked with reputable news reports. Every drive links to its sources, and we update the status after re-inspections." },
   { q: "A restaurant here has fixed the issues. How is that shown?",
-    a: "Each restaurant carries a status: action taken, re-inspection due, or resumed after re-inspection, with the date. Send us the official update and we will change it." },
+    a: "Each restaurant carries a dated status such as inspection recorded, notice proposed, action taken, re-inspection due, or resumed after re-inspection. Send us the official update and we will change it." },
 ];
 
 export default async function FoodSafetyPage() {
@@ -158,8 +158,8 @@ export default async function FoodSafetyPage() {
   );
 }
 
-const ACTION_TONE = { closed: "#141414", "licence-suspended": "#c2410c", notice: "#78716c" };
-const ACTION_LABEL = { closed: "Closed", "licence-suspended": "Licence suspended", notice: "Notice" };
+const ACTION_TONE = { closed: "#141414", "licence-suspended": "#c2410c", notice: "#78716c", "notice-proposed": "#78716c", "no-action": "#0f766e" };
+const ACTION_LABEL = { closed: "Closed", "licence-suspended": "Licence suspended", notice: "Notice", "notice-proposed": "Notice proposed", "no-action": "No action listed" };
 const normArea = (s = "") => s.toLowerCase().replace(/[^a-z]/g, "");
 
 // Exact pins for records linked to a spot on our map or located by hand

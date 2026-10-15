@@ -1196,7 +1196,7 @@ a.of-card-name:hover{ text-decoration: underline; }
 .fs-stats > div:first-child b{ color: #fff; }
 .fs-stats > div:first-child span{ color: #d9d6cf; }
 .fs-drive-head time{ display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; border-radius: var(--r-pill); padding: 4px 10px; background: var(--ink); color: #fff; }
-.fs-pill--notice, .fs-pill--penalty{ background: #ece7df; color: #57534e; }
+.fs-pill--notice, .fs-pill--notice-proposed, .fs-pill--penalty{ background: #ece7df; color: #57534e; }
 
 /* Stories: white featured card, ink FEATURED chip, highlighted order line */
 .stories-feature-link{ display: grid; gap: 0; text-decoration: none; color: inherit; border: 0; border-radius: var(--r-lg); overflow: hidden; transition: border-color .18s ease, box-shadow .18s ease; background: var(--cream-hi); }

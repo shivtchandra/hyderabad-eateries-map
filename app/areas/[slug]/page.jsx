@@ -12,7 +12,7 @@ import { rankedPlaces } from "../../../lib/recommendationPicks.js";
 import { getInspectionDrives } from "../../../lib/inspectionsServer.js";
 import AreaExplorer from "../../components/AreaExplorer.jsx";
 
-const SAFETY = { closed: ["Closed", "#141414"], "licence-suspended": ["Licence suspended", "#c2410c"], notice: ["Notice", "#78716c"] };
+const SAFETY = { closed: ["Closed", "#141414"], "licence-suspended": ["Licence suspended", "#c2410c"], notice: ["Notice", "#78716c"], "notice-proposed": ["Notice proposed", "#78716c"] };
 const shortTitle = (t = "") => t.replace(/^best\s+/i, "").replace(/\s+in\s+hyderabad$/i, "");
 
 

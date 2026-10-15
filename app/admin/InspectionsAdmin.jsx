@@ -8,8 +8,8 @@ import { useCallback, useEffect, useState } from "react";
 const labelStyle = { display: "block", fontSize: 11.5, fontWeight: 700, color: "#888", marginBottom: 4 };
 const inputStyle = { width: "100%", border: "1.5px solid #e5e7eb", borderRadius: 10, padding: "9px 13px", fontSize: 14, fontFamily: "var(--font-ui), sans-serif", boxSizing: "border-box" };
 const smallBtn = (bg, color) => ({ background: bg, color, border: "none", borderRadius: 8, padding: "5px 11px", fontSize: 12, fontWeight: 700, cursor: "pointer", flexShrink: 0 });
-const ACTIONS = [["licence-suspended", "Licence suspended"], ["closed", "Operations stopped"], ["notice", "Notice issued"], ["penalty", "Penalty"], ["no-action", "No action"]];
-const STATUSES = [["action-taken", "Action taken"], ["reinspection-due", "Re-inspection due"], ["resumed", "Resumed after re-inspection"]];
+const ACTIONS = [["licence-suspended", "Licence suspended"], ["closed", "Operations stopped"], ["notice", "Notice issued"], ["notice-proposed", "Show-cause notice proposed"], ["penalty", "Penalty"], ["no-action", "No action listed"]];
+const STATUSES = [["action-taken", "Action taken"], ["proposed", "Proposed"], ["recorded", "Inspection recorded"], ["reinspection-due", "Re-inspection due"], ["resumed", "Resumed after re-inspection"]];
 
 const blankEntry = () => ({ name: "", area: "", spotId: "", spotName: "", action: "licence-suspended", findings: "", status: "action-taken", statusNote: "", statusDate: "" });
 const blankDrive = () => ({ id: "", date: "", title: "", areas: "", authority: "TG SAFE (Commissioner of Food Safety, Telangana)", inspected: "", samples: "", summary: "", sources: [{ label: "", url: "" }], entries: [blankEntry()] });

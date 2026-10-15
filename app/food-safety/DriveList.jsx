@@ -7,11 +7,14 @@ const ACTION_LABEL = {
   "licence-suspended": "Licence suspended",
   closed: "Operations stopped",
   notice: "Notice issued",
+  "notice-proposed": "Show-cause notice proposed",
   penalty: "Penalty",
-  "no-action": "No action",
+  "no-action": "No action listed",
 };
 const STATUS_LABEL = {
   "action-taken": "Action taken",
+  proposed: "Proposed",
+  recorded: "Inspection recorded",
   "reinspection-due": "Re-inspection due",
   resumed: "Resumed after re-inspection",
 };

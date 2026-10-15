@@ -246,7 +246,7 @@ export default function MapCanvas({
     if (!ready || !L || !layer) return;
     layer.clearLayers();
     for (const r of recordPins) {
-      const tone = r.action === "closed" ? "#141414" : r.action === "licence-suspended" ? "#c2410c" : "#78716c";
+      const tone = r.action === "closed" ? "#141414" : r.action === "licence-suspended" ? "#c2410c" : r.action === "no-action" ? "#0f766e" : "#78716c";
       L.marker([r.lat, r.lng], {
         icon: L.divIcon({ className: "", html: `<div class="record-pin" style="--t:${tone}"></div>`, iconSize: [26, 26], iconAnchor: [13, 13] }),
         title: r.name, keyboard: true, zIndexOffset: 800,
