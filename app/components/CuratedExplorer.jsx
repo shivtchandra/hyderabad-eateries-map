@@ -59,7 +59,7 @@ export default function CuratedExplorer({ initialDish = "", embedded = false, in
   }, [initialDish]);
   const load = useCallback(() => {
     setLoadError(false);
-    fetch("/data/recommendations.json").then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+    fetch("/api/recommendations", { cache: "no-store" }).then((r) => { if (!r.ok) throw new Error(); return r.json(); })
       .then((d) => { setModel(d); setLoaded(true); }).catch(() => { setLoadError(true); setLoaded(true); });
   }, []);
   useEffect(() => { if (!initialModel) load(); }, [initialModel, load]);

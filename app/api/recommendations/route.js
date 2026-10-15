@@ -19,8 +19,8 @@ function reply(data, voter, status = 200) {
   if (voter && cookieSecret()) res.cookies.set(COOKIE, signVoter(voter, cookieSecret()), { httpOnly: true, sameSite: "strict", secure: process.env.NODE_ENV === "production", path: "/", maxAge: 31_536_000 });
   return res;
 }
-// Dishes people added (public once 2+ agree), approved community picks and places our
-// weekly rankings put on top all ride along on the list payload.
+// Dishes people added (public once 2+ agree), approved community picks and every place
+// in the weekly standings all ride along on the list payload.
 async function withCommunityDishes(model) {
   let summary = {}, picks = [], ranked = new Map();
   try { const db = await getAdminDb(); if (db) [summary, picks, ranked] = await Promise.all([getPublicDishSummary(db), communityPicks(), rankedPlaces()]); } catch {}

@@ -12542,7 +12542,7 @@
     "offers": [],
     "offersUpdatedAt": null,
     "status": "approved",
-    "discoveredIn": "Jubilee Hills",
+    "discoveredIn": "Banjara Hills",
     "createdAt": "2026-08-26T16:27:41.313Z",
     "hours": [
       "Monday: 11:00 AM – 12:45 AM",
@@ -21433,7 +21433,7 @@
     "offers": [],
     "offersUpdatedAt": null,
     "status": "approved",
-    "discoveredIn": "Banjara Hills",
+    "discoveredIn": "Himayatnagar",
     "createdAt": "2026-08-26T16:35:12.168Z",
     "hours": [
       "Monday: 10:00 AM – 1:00 AM",
@@ -62164,7 +62164,8 @@
     "phone": null,
     "blurb": null,
     "tags": [
-      "quiet"
+      "quiet",
+      "view"
     ],
     "tier": "hidden-gem",
     "detailsUpdatedAt": "2026-08-26T20:54:13.072Z"
@@ -77311,7 +77312,7 @@
     "offers": [],
     "offersUpdatedAt": null,
     "status": "approved",
-    "discoveredIn": "text:bakehouse hyderabad",
+    "discoveredIn": "Film Nagar",
     "createdAt": "2026-08-26T17:10:24.390Z",
     "hours": [
       "Monday: 9:00 AM – 1:00 AM",
@@ -132596,5 +132597,37 @@
     "detailsUpdatedAt": "2026-10-09T05:15:00.000Z",
     "costForTwo": 500,
     "mustTry": "Fried Chicken Buffalo Sauce Burger, Nashville Hot Chicken Burger, Nashville Lamb Smash Burger"
+  },
+  {
+    "id": "ChIJhUbXf3yTyzsRT3Lh8GtYOrg",
+    "placeId": "ChIJhUbXf3yTyzsRT3Lh8GtYOrg",
+    "name": "Vindour Madhapur",
+    "category": "ice-cream",
+    "lat": 17.4460576,
+    "lng": 78.3847616,
+    "address": "20, Survey 64, Plot 25, Sector 1, HUDA Techno Enclave Road, Madhapur, Hyderabad, Telangana 500081",
+    "rating": 4.3,
+    "ratingCount": 32,
+    "priceLevel": 1,
+    "photoRef": null,
+    "zomatoUrl": "https://www.zomato.com/hyderabad/vindour-madhapur",
+    "offers": [],
+    "offersUpdatedAt": null,
+    "status": "approved",
+    "discoveredIn": "Madhapur/HITEC",
+    "createdAt": "2026-10-16T00:00:00.000Z",
+    "hours": null,
+    "website": null,
+    "hasWebsite": false,
+    "phone": "099628 90703",
+    "blurb": "Dessert cafe in HUDA Techno Enclave serving soft-serve ice cream, sundaes, crepes, and hot chocolate near HITEC City.",
+    "tags": [
+      "desserts",
+      "date"
+    ],
+    "tier": "hidden-gem",
+    "detailsUpdatedAt": "2026-10-16T00:00:00.000Z",
+    "costForTwo": 300,
+    "mustTry": "Hot Chocolate"
   }
 ]

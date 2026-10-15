@@ -195,7 +195,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     const load = () => {
       if (recoRequested.current) return;
       recoRequested.current = true;
-      fetch("/data/recommendations.json").then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+      fetch("/api/recommendations", { cache: "no-store" }).then((r) => { if (!r.ok) throw new Error(); return r.json(); })
         .then(setRecommendationData).catch(() => setRecommendationError(true));
     };
     if (tab === "map") { load(); return; }

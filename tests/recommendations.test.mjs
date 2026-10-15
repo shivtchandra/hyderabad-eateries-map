@@ -150,16 +150,19 @@ test("must-try merges editorial, community and Reddit dishes by name", () => {
   const folded = mustTry({ signature: { name: "Mutton Dum Biryani" }, dishes: [{ id: "biryani", name: "Biryani" }], localDishes: [{ name: "Biryani", people: 61 }, { name: "Mutton biryani", people: 38 }, { name: "Haleem", people: 4 }] });
   assert.deepEqual(folded.map((d) => [d.name, d.count]), [["Mutton Dum Biryani", 99], ["Haleem", 4]]);
 });
-test("ranked places: winners plus top 3 with 2+ votes, tagged with the ranking's dish", async () => {
+test("ranked places: every published standing is recommended with its category and position", async () => {
   const { rankingsBySpot } = await import("../lib/recommendationPicks.js");
   const m = rankingsBySpot([
-    { title: "Best Dosa in Hyderabad", slug: "best-dosa-in-hyderabad", active: true, results: [{ spotId: "a", count: 9 }, { spotId: "b", count: 1 }, { spotId: "c", count: 4 }, { spotId: "d", count: 8 }] },
+    { title: "Best Dosa in Hyderabad", slug: "best-dosa-in-hyderabad", active: true, results: [{ spotId: "a", count: 9 }, { spotId: "b", count: 1 }, { spotId: "c", count: 4 }, { spotId: "d", count: 8 }, { spotId: "e", count: 0 }] },
     { title: "Best Restaurants in Hyderabad", slug: "best-restaurants", winnerId: "z", results: [{ spotId: "a", count: 3 }, { spotId: "z", count: 1 }] },
   ]);
-  assert.deepEqual([...m.keys()].sort(), ["a", "c", "z"]);
+  assert.deepEqual([...m.keys()].sort(), ["a", "b", "c", "d", "z"]);
   assert.equal(m.get("a")[0].dishId, "dosa");
   assert.equal(m.get("a")[0].rank, 1);
+  assert.equal(m.get("b")[0].rank, 2);
+  assert.equal(m.get("d")[0].rank, 4);
   assert.equal(m.get("z")[0].winner, true);
+  assert.equal(m.get("z")[0].rank, 1);
 });
 
 test("dish mentions don't double count umbrella labels; ranking votes add", () => {

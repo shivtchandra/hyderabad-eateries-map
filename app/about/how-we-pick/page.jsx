@@ -17,7 +17,7 @@ export default function HowWePick() {
         <ul className="ask-related">
           <li>At least 3 different people recommend it, and at least twice as many recommend it as warn against it.</li>
           <li>A mention is a warning when its sentence says avoid, overrated, went downhill, worst, food poisoning and similar.</li>
-          <li>Places also qualify through our editors, through weekly Eats rankings (winners, and the top 3 with 2+ votes), or when visitors suggest them and we verify them.</li>
+          <li>Places also qualify through our editors, by appearing in the weekly Eats standings with at least one vote, or when visitors suggest them and we verify them.</li>
           <li>Movie titles and landmarks ("Paradise circle", "near Paradise metro") are not counted as mentions of the restaurant.</li>
         </ul>
       </section>

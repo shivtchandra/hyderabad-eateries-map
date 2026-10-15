@@ -6,7 +6,7 @@
   - names where locals mean a different place (Harsha Mess, Sai Ram Mess, Mayur Pan House, Smokey Dockey, Rayalaseema Spice).
 - **Same-name strangers are excluded** (other "Bahar" cafes, Grand 4 Seasons, Zam Zam Irani Chai). Branch lists come from the shortlist where it exists.
 - **Tansen dropped:** most of its matches were about the singer.
-- **Ranked places count as Recommended:** each ranking's winner, plus its top 3 with 2+ votes (`RANK_MIN_VOTES`). Watch places that get in on only 2 votes; raise the minimum if it looks too easy.
+- **Ranked places count as Recommended automatically:** every place with at least one vote in the published weekly standings. Recommendation cards show the ranking category and current position; zero-vote ballot options stay out.
 - **Visitor suggestions** become Recommended only after an admin clicks "Approve as Pick".
 
 ## Matching (scripts/lib/redditMatch.mjs)
