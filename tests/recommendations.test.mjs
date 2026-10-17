@@ -151,7 +151,7 @@ test("must-try merges editorial, community and Reddit dishes by name", () => {
   assert.deepEqual(folded.map((d) => [d.name, d.count]), [["Mutton Dum Biryani", 99], ["Haleem", 4]]);
 });
 test("ranked places: every published standing is recommended with its category and position", async () => {
-  const { rankingsBySpot } = await import("../lib/recommendationPicks.js");
+  const { rankingsBySpot, resolveRankedPlaces } = await import("../lib/recommendationPicks.js");
   const m = rankingsBySpot([
     { title: "Best Dosa in Hyderabad", slug: "best-dosa-in-hyderabad", active: true, results: [{ spotId: "a", count: 9 }, { spotId: "b", count: 1 }, { spotId: "c", count: 4 }, { spotId: "d", count: 8 }, { spotId: "e", count: 0 }] },
     { title: "Best Restaurants in Hyderabad", slug: "best-restaurants", winnerId: "z", results: [{ spotId: "a", count: 3 }, { spotId: "z", count: 1 }] },
@@ -163,6 +163,17 @@ test("ranked places: every published standing is recommended with its category a
   assert.equal(m.get("d")[0].rank, 4);
   assert.equal(m.get("z")[0].winner, true);
   assert.equal(m.get("z")[0].rank, 1);
+
+  const visitorRanking = rankingsBySpot([
+    { title: "Best Ice Cream in Hyderabad", slug: "best-ice-cream-in-hyderabad", active: true, results: [{ spotId: "user-vindour-qc9u", name: "Vindour", count: 2 }] },
+  ]);
+  const resolved = resolveRankedPlaces(visitorRanking, [
+    { id: "known-vindour", name: "Vindour Madhapur" },
+    { id: "another-place", name: "Another Place" },
+  ]);
+  assert(!resolved.has("user-vindour-qc9u"));
+  assert.equal(resolved.get("known-vindour")[0].rank, 1);
+  assert.equal(resolved.get("known-vindour")[0].spotName, "Vindour");
 });
 
 test("dish mentions don't double count umbrella labels; ranking votes add", () => {
