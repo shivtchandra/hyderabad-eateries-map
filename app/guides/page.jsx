@@ -203,7 +203,9 @@ export default function GuidesPage() {
         </section>
         <HubFaq faqs={faqs} />
       </SiteChrome>
-      <BottomNav routed activeKey="guides" />
+      <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
+        <BottomNav routed activeKey="guides" />
+      </div>
     </div>
   );
 }
