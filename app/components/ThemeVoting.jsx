@@ -55,9 +55,12 @@ function debateLine(results = [], localCounts = {}) {
 }
 
 
-function campaignSharePayload(theme, results = []) {
+function campaignSharePayload(theme, results = [], { live = false } = {}) {
   const slug = theme.slug || slugFromTitle(theme.title);
-  const url = `${window.location.origin}/rankings/${encodeURIComponent(slug)}`;
+  // The running week shares the race page; closed weeks share their ranking page.
+  const url = live
+    ? `${window.location.origin}/race/this-week`
+    : `${window.location.origin}/rankings/${encodeURIComponent(slug)}`;
   const voted = [...results]
     .filter((r) => (r.count || 0) > 0)
     .sort((a, b) => (b.count || 0) - (a.count || 0));
@@ -70,8 +73,8 @@ function campaignSharePayload(theme, results = []) {
 }
 
 // Native share sheet where available, clipboard otherwise. Returns the state label to show.
-async function shareCampaign(theme, rows) {
-  const payload = campaignSharePayload(theme, rows);
+async function shareCampaign(theme, rows, opts) {
+  const payload = campaignSharePayload(theme, rows, opts);
   try {
     if (navigator.share) {
       await navigator.share(payload);
@@ -395,7 +398,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, rankin
 
   const shareTheme = async () => {
     const rows = (results || []).map((r) => ({ ...r, count: localCounts[r.spotId] ?? r.count ?? 0 }));
-    const next = await shareCampaign(theme, rows);
+    const next = await shareCampaign(theme, rows, { live: true });
     setShareState(next);
     if (next === "shared" || next === "copied") window.setTimeout(() => setShareState("idle"), 1800);
   };
