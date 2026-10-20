@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import SiteChrome from "../components/SiteChrome.jsx";
 import { getRecommendations } from "../../lib/recommendations.js";
 import { recommendationsEnabled } from "../../lib/recommendationShared.js";
 import { pageMeta } from "../../lib/site.js";
 export const metadata = pageMeta({ title: "Best food in Hyderabad right now, dish by dish", description: "Biryani, haleem, dosa, shawarma and more: the places Hyderabad locals recommend most, counted from r/hyderabad and updated monthly.", path: "/picks" });
 export default function PicksPage() {
+  permanentRedirect("/guides/dishes");
   if (!recommendationsEnabled()) notFound();
   const model = getRecommendations();
   return <SiteChrome backFallback="/guides" title="What are you craving?" description="The places Hyderabad locals recommend most for each dish, counted from r/hyderabad and updated monthly." breadcrumb={[{ href: "/", label: "Map" }, { href: "/picks", label: "Dish guides" }]}>

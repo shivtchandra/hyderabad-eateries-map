@@ -41,19 +41,23 @@ function headline(text, size) {
 }
 
 /** The shared frame: brand top-left, section label top-right, headline + sub left, visual right. */
-function card({ label, title, sub, visual, size = 74 }) {
+function card({ label, title, sub, visual, size = 74, cityBackdrop = false }) {
   return h("div", { style: { width: W, height: H, display: "flex", background: C.cream, fontFamily: "UI", position: "relative" } },
-    h("div", { style: { display: "flex", flexDirection: "column", width: 740, padding: "48px 0 44px 64px", justifyContent: "space-between" } },
-      h("div", { style: { display: "flex", alignItems: "center" } },
+    h("div", { style: { display: "flex", flexDirection: "column", width: 740, padding: "48px 0 44px 64px", justifyContent: "space-between", position: "relative", overflow: "hidden" } },
+      cityBackdrop ? h("div", { style: { display: "flex", position: "absolute", width: 260, height: 260, borderRadius: 999, background: "#F6A97A", opacity: 0.16, right: -48, top: 126 } }) : null,
+      cityBackdrop ? h("img", { src: CHARMINAR, width: 246, height: 372, style: { position: "absolute", right: 18, bottom: -118, opacity: 0.1, objectFit: "contain" } }) : null,
+      h("div", { style: { display: "flex", alignItems: "center", position: "relative" } },
         h("img", { src: ICON, width: 46, height: 46, style: { borderRadius: 12 } }),
         h("div", { style: { fontFamily: "Display", fontSize: 32, color: C.violet, marginLeft: 14 } }, "Hyderabad Eats")),
-      h("div", { style: { display: "flex", flexDirection: "column" } },
+      h("div", { style: { display: "flex", flexDirection: "column", position: "relative" } },
         headline(title, size),
         sub ? h("div", { style: { fontSize: 30, color: C.inkSoft, marginTop: 22, lineHeight: 1.25, maxWidth: 640 } }, sub) : null),
-      h("div", { style: { display: "flex", fontSize: 24, fontWeight: 700, color: C.inkSoft, letterSpacing: 0.5 } }, "eats.mapmyhyd.com")),
-    h("div", { style: { display: "flex", flex: 1, background: C.creamHi, borderLeft: `2px solid ${C.line}`, position: "relative", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: 40 } },
+      h("div", { style: { display: "flex", fontSize: 24, fontWeight: 700, color: C.inkSoft, letterSpacing: 0.5, position: "relative" } }, "eats.mapmyhyd.com")),
+    h("div", { style: { display: "flex", flex: 1, background: cityBackdrop ? "#F8FCFB" : C.creamHi, borderLeft: `2px solid ${C.line}`, position: "relative", overflow: "hidden", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: 40 } },
+      cityBackdrop ? h("div", { style: { display: "flex", position: "absolute", width: 390, height: 390, borderRadius: 999, border: "12px solid #60C9C0", opacity: 0.14, right: -155, bottom: -215 } }) : null,
+      cityBackdrop ? h("div", { style: { display: "flex", position: "absolute", width: 170, height: 170, borderRadius: 999, background: "#F4C66A", opacity: 0.13, left: -60, top: 95 } }) : null,
       h("div", { style: { position: "absolute", top: 50, right: 48, display: "flex", fontSize: 20, fontWeight: 700, letterSpacing: 3, color: C.inkSoft } }, label.toUpperCase()),
-      visual));
+      h("div", { style: { display: "flex", position: "relative" } }, visual)));
 }
 
 const pill = (text, bg, fg) => h("div", { style: { display: "flex", background: bg, color: fg, borderRadius: 999, padding: "10px 22px", fontSize: 24, fontWeight: 700 } }, text);
@@ -149,7 +153,7 @@ try {
     const live = t.active && !t.winnerId;
     const title = clean(t.title).replace(/^Best (.+?)( in Hyderabad)?$/i, (m, x, y) => `Best *${x.toLowerCase()}*${y || ""}`);
     const rows = (t.results || []).filter((r) => r.name).map((r) => ({ name: r.name, count: r.count || 0 }));
-    const el = { label: live ? "Vote this week" : "Weekly ranking", title: title + (live ? "" : ": locals voted."), sub: live ? "Voting is open. Pick your spot." : t.winnerName ? `Winner: ${t.winnerName}` : "Hyderabad votes, weekly.", visual: rows.length ? vList(rows, "votes") : vLandmark() };
+    const el = { label: live ? "Vote this week" : "Weekly ranking", title: title + (live ? "" : ": locals voted."), sub: live ? "Voting is open. Pick your spot." : t.winnerName ? `Winner: ${t.winnerName}` : "Hyderabad votes, weekly.", visual: rows.length ? vList(rows, "votes") : vLandmark(), cityBackdrop: true };
     add(`/rankings/${t.slug}`, `rankings/${t.slug}`, el);
     if (live) add("/race/this-week", "race-this-week", el);
   }

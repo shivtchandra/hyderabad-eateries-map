@@ -33,7 +33,7 @@ export default function HowWePick() {
       </section>
       <section className="ask-block"><h2>What the numbers are not</h2>
         <p>They are not ratings, reviews or a guarantee of today's menu, prices or hours. Popular places get talked about more, and branches of the same brand share one count unless locals name a branch.</p>
-        <p><Link href="/ask">Questions locals ask</Link> · <Link href="/picks">Dish guides</Link> · <Link href="/">Map</Link></p>
+        <p><Link href="/ask">Questions locals ask</Link> · <Link href="/guides/dishes">Dish guides</Link> · <Link href="/">Map</Link></p>
       </section>
     </div>
   </SiteChrome>;
