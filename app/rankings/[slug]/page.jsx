@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
 import { getRankingBySlug } from "../../../lib/themesServer.js";
-import { itemListJsonLd, rankingMeta, SEO_THEME_PICKS, slugFromTitle, dishOfTitle, debateLineFromCounts } from "../../../lib/rankings.js";
+import { itemListJsonLd, rankingAnswer, rankingMeta, SEO_THEME_PICKS, slugFromTitle, dishOfTitle, debateLineFromCounts } from "../../../lib/rankings.js";
 import { breadcrumbJsonLd } from "../../../lib/schema.js";
 import { getSiteUrl } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
@@ -12,6 +12,8 @@ import ShareRankingButton from "../../components/ShareRankingButton.jsx";
 import BottomNav from "../../components/BottomNav.jsx";
 import SpotsMapClient from "../../components/SpotsMapClient.jsx";
 import { stickerForTitle } from "../../../lib/stickerArt.js";
+import HubAnswer from "../../components/HubAnswer.jsx";
+import { todayIso } from "../../../lib/hubSeo.js";
 
 export const dynamic = "force-dynamic";
 
@@ -100,15 +102,18 @@ export default async function RankingPage({ params }) {
   // Well-rated spots for this dish from venue data. Keeps the page full of named,
   // described content even before anyone votes.
   const voteRows = data.results || [];
+  const voted = voteRows.filter((r) => (r.count || 0) > 0);
   const editorial = editorialRanking(pick || { category: data.category }, params.slug, 15);
   const showEditorial = editorial.length > 0;
+  const updated = todayIso();
+  const answerLead = rankingAnswer(data, editorial);
 
   // JSON-LD prefers real vote standings; falls back to the editorial list so
   // placeholder pages still emit a valid ItemList.
-  const jsonLd = voteRows.length > 0
-    ? itemListJsonLd(data, getSiteUrl(), pathForSpotId)
+  const jsonLd = voted.length > 0
+    ? itemListJsonLd({ ...data, results: voted }, getSiteUrl(), pathForSpotId, updated)
     : showEditorial
-      ? itemListJsonLd({ ...data, results: editorial }, getSiteUrl(), pathForSpotId)
+      ? itemListJsonLd({ ...data, results: editorial }, getSiteUrl(), pathForSpotId, updated)
       : null;
 
   const related = [
@@ -121,17 +126,13 @@ export default async function RankingPage({ params }) {
     ...allCategoryPages().slice(0, 2).map((c) => ({ href: `/explore/${c.slug}`, label: c.label })),
   ];
 
-  const topNames = (voteRows.length ? voteRows : editorial).slice(0, 3).map((r) => r.name).filter(Boolean);
-  const answerLead = topNames.length
-    ? `Top picks for ${data.title.toLowerCase()} right now include ${topNames.join(", ")}.`
-    : `${data.title} on Hyderabad Eats is decided by a weekly community vote from locals.`;
   const faqLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: [
       {
         "@type": "Question",
-        name: `What is the ${data.title.toLowerCase()} right now?`,
+        name: `Who is #1 for ${data.title.replace(/^Best\s+/i, "").replace(/\s+in\s+Hyderabad$/i, "").toLowerCase()} in Hyderabad right now?`,
         acceptedAnswer: { "@type": "Answer", text: `${answerLead} See the full ranked list and vote on Hyderabad Eats.` },
       },
       {
@@ -147,6 +148,11 @@ export default async function RankingPage({ params }) {
         name: "Is this ranking free to use?",
         acceptedAnswer: { "@type": "Answer", text: "Yes. Rankings and the food map are free, with no signup required to browse." },
       },
+      {
+        "@type": "Question",
+        name: "How current is this Hyderabad ranking?",
+        acceptedAnswer: { "@type": "Answer", text: `This page was refreshed on ${updated}. Votes remain open, so the #1 place can change.` },
+      },
     ],
   };
 
@@ -158,7 +164,6 @@ export default async function RankingPage({ params }) {
 
   const voteHref = `/?tab=race&dish=${params.slug}`; // in-app Vote tab, This week
   // Standings: only real votes count. #1 is the crowned spot, else the leader.
-  const voted = voteRows.filter((r) => (r.count || 0) > 0);
   const leader = voted.find((r) => r.spotId === data.winnerId) || voted[0] || null;
   const rest = voted.filter((r) => r !== leader);
   const onBoard = new Set(voted.map((r) => r.spotId));
@@ -238,6 +243,14 @@ export default async function RankingPage({ params }) {
       hero={hero}
       related={related}
     >
+      <HubAnswer
+        answer={answerLead}
+        stats={[
+          { value: totalVotes.toLocaleString("en-IN"), label: "local votes" },
+          { value: voted.length || editorial.length, label: voted.length ? "ranked places" : "shortlisted places" },
+        ]}
+        updated={updated}
+      />
       {leader && (
         <Link href={leader.spotId.startsWith("user-") ? voteHref : pathForSpotId(leader.spotId)} className="ticket rk-ticket">
           {photoOf(leader.spotId) && (
@@ -331,6 +344,10 @@ export default async function RankingPage({ params }) {
         <details>
           <summary>Is it free?</summary>
           <p>Yes. Browsing and voting are free, no paid account needed.</p>
+        </details>
+        <details>
+          <summary>How current is this ranking?</summary>
+          <p>It was refreshed on {new Date(`${updated}T12:00:00`).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}. Votes remain open, so #1 can change.</p>
         </details>
       </section>
     </SiteChrome>

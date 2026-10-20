@@ -68,10 +68,13 @@ export default function GeoGuidePage({ params }) {
     faqs,
     items: spots.map((spot) => ({ name: spot.name, url: spot.href })),
   });
-  const related = GEO_GUIDES
-    .filter((item) => item.slug !== guide.slug)
-    .slice(0, 5)
-    .map((item) => ({ href: `/guides/${item.slug}`, label: item.title.replace(/ in Hyderabad.*$/, "") }));
+  const related = [
+    { href: "/rankings", label: "Hyderabad food rankings" },
+    ...GEO_GUIDES
+      .filter((item) => item.slug !== guide.slug)
+      .slice(0, 4)
+      .map((item) => ({ href: `/guides/${item.slug}`, label: item.title.replace(/ in Hyderabad.*$/, "") })),
+  ];
 
   return (
     <div style={{ paddingBottom: 84 }}>
