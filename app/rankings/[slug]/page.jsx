@@ -44,35 +44,9 @@ export async function generateMetadata({ params }) {
   const meta = rankingMeta(fake, editorial);
   const path = `/rankings/${params.slug}`;
 
-  // Find the winning/leader spot or top contender with a photo
   const voteRows = (fake.results || []).filter((r) => (r.count || 0) > 0);
-  const leader = fake.winnerId
-    ? (fake.results || []).find((r) => r.spotId === fake.winnerId)
-    : voteRows[0] || null;
-
-  const candidateIds = [
-    leader?.spotId,
-    ...voteRows.map((r) => r.spotId),
-    ...editorial.map((r) => r.spotId),
-    ...(fake.results || []).map((r) => r.spotId),
-  ].filter(Boolean);
-
-  let photoUrl = null;
-  let photoSpotName = leader?.name || null;
-  for (const cid of candidateIds) {
-    if (hasSpotPhoto(cid)) {
-      photoUrl = spotPhotoUrl(cid);
-      if (!photoSpotName) {
-        const found = (fake.results || []).find((r) => r.spotId === cid) || editorial.find((r) => r.spotId === cid);
-        photoSpotName = found?.name || null;
-      }
-      break;
-    }
-  }
-
-  const ogImagesList = photoUrl
-    ? [{ url: photoUrl, width: 800, height: 600, alt: `${photoSpotName || meta.title} | Hyderabad Eats`, type: "image/jpeg" }]
-    : ogImages(meta.title, meta.description, `/rankings/${params.slug}`);
+  // Ranking shares use the branded ranking card, not a photo from one venue.
+  const shareImages = ogImages(meta.title, meta.description, path);
 
   return {
     title: meta.title,
@@ -82,13 +56,13 @@ export async function generateMetadata({ params }) {
       description: meta.description,
       url: `${getSiteUrl()}${path}`,
       type: "article",
-      images: ogImagesList,
+      images: shareImages,
     },
     twitter: {
       card: "summary_large_image",
       title: meta.title,
       description: meta.description,
-      images: photoUrl ? [photoUrl] : ogImages(meta.title, meta.description, `/rankings/${params.slug}`).map((i) => i.url),
+      images: shareImages.map((image) => image.url),
     },
     alternates: { canonical: `${getSiteUrl()}${path}` },
   };
