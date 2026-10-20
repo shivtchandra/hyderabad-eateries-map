@@ -5,7 +5,6 @@ import { SEO_THEME_PICKS, slugFromTitle } from "../lib/rankings.js";
 import { getIndexableSpotIds } from "../lib/spotContent.js";
 import { allAreaPages, allCategoryPages, allAreaCategoryCombinations, getEditorialSpotIds, spotSlug, getEateryById, getEateries } from "../lib/siteData.js";
 import { getSiteUrl } from "../lib/site.js";
-import { getRecommendations, dishAreaPages } from "../lib/recommendations.js";
 import { askPages } from "../lib/askPages.js";
 import { recommendationsEnabled } from "../lib/recommendationShared.js";
 
@@ -155,9 +154,6 @@ export default async function sitemap() {
     ...areaCategoryUrls,
     ...spotUrls,
     ...(recommendationsEnabled() ? [
-      { url: `${siteUrl}/picks`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
-      ...getRecommendations().dishes.map((d) => ({ url: `${siteUrl}/picks/${d.id}`, lastModified: now, changeFrequency: "weekly", priority: 0.9 })),
-      ...dishAreaPages().map((p) => ({ url: `${siteUrl}/picks/${p.dish}/${p.area}`, lastModified: now, changeFrequency: "weekly", priority: 0.8 })),
       { url: `${siteUrl}/ask`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
       ...askPages().map((p) => ({ url: `${siteUrl}/ask/${p.slug}`, lastModified: now, changeFrequency: "weekly", priority: 0.85 })),
       { url: `${siteUrl}/about/how-we-pick`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },

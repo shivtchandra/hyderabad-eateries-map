@@ -115,7 +115,7 @@ export default function CuratedExplorer({ initialDish = "", embedded = false, in
     <header className="rec-header">
       {!embedded && <a className="rec-logo" href="/">Hyderabad Eats<span>Find your next good meal</span></a>}
       <div className="rec-search"><label htmlFor={`rec-search-${embedded}`}>Search a dish, place or neighbourhood</label><input id={`rec-search-${embedded}`} type="search" value={state.q} onChange={(e) => setUrl({ q: e.target.value })} placeholder="Try dosa, Nimrah or Madhapur" /></div>
-      {!embedded && <nav aria-label="Explore Hyderabad Eats"><a href="/picks">Dish guides</a><a href="/?tab=saved">Saved</a><a href="/?tab=route">Routes</a><a href="/rankings">Rankings</a><a href="/stories">Stories</a></nav>}
+      {!embedded && <nav aria-label="Explore Hyderabad Eats"><a href="/guides/dishes">Dish guides</a><a href="/?tab=saved">Saved</a><a href="/?tab=route">Routes</a><a href="/rankings">Rankings</a><a href="/stories">Stories</a></nav>}
     </header>
     <div className="rec-toolbar">
       <div className="rec-segment" aria-label="Places to show" role="group">{[["recommended", "Recommended"], ["all", "All places"]].map(([mode, label]) => <button key={mode} aria-pressed={state.mode === mode} onClick={() => { setUrl({ mode }, true); track("mode", { mode }); }}>{label}</button>)}</div>

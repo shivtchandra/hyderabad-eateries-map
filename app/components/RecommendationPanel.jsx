@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { trackRecommendationEvent } from "../../lib/recommendationTracking.js";
 import { mustTry, normalize } from "../../lib/recommendationShared.js";
+import { dishDestination } from "../../lib/dishDestinations.js";
 
 // Why a place is recommended, Product Hunt style: one big upvote for the place
 // (r/hyderabad locals + site upvotes), then what to order, each dish with its own
@@ -80,7 +81,7 @@ export default function RecommendationPanel({ place, brand, publishedDishes = []
     : rank ? `${rank.votes} vote${rank.votes === 1 ? "" : "s"} in our ${rank.live ? "live " : ""}ranking`
     : place.reviewStatus === "community" ? "Suggested by visitors, checked by the Eats team" : "Hand-picked by the Eats team";
   const source = place.research?.evidence?.[0]?.url || brand?.dishes?.[0]?.evidence?.[0]?.url;
-  const dishHref = (t) => (t.id && publishedDishes.includes(t.id) ? `/picks/${t.id}` : null);
+  const dishHref = (t) => (t.id && publishedDishes.includes(t.id) ? dishDestination(t.id) : null);
 
   return <section className="ph-card" aria-label="Why it's recommended">
     <div className="ph-head">

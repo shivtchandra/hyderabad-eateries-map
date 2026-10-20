@@ -171,7 +171,7 @@ export default function BestBiryaniGuidePage() {
           />
           <div className="site-hero">
             <h1>Best Biryani in Hyderabad (2026)</h1>
-            {recommendationsEnabled() && <p><Link href="/picks/biryani">See reviewed biryani recommendations and explore the map</Link></p>}
+            {recommendationsEnabled() && <p><Link href="/rankings/best-biryani-in-hyderabad">See the live biryani ranking and vote</Link></p>}
             <p>
               Unfiltered local recommendations on Hyderabad's best biryani houses: spice profiles, meat cuts, and verified fresh degh timings.
             </p>
