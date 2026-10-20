@@ -12,6 +12,7 @@ import { getRecommendations, dishAreaPages } from "../lib/recommendations.js";
 import { dishView, monthLabel } from "../lib/dishPageView.js";
 import { askPages, askPage, askStats } from "../lib/askPages.js";
 import { getEateries } from "../lib/siteData.js";
+import { GEO_GUIDES } from "../lib/geoGuides.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://eats.mapmyhyd.com";
@@ -38,6 +39,10 @@ lines.push("", "## Questions answered from r/hyderabad", "");
 for (const p of askPages()) {
   const q = askPage(p.slug);
   if (q) lines.push(`- ${q.h1} ${q.answer} ${SITE}/ask/${p.slug}`);
+}
+lines.push("", "## Local cuisine, dish and occasion answers", "");
+for (const guide of GEO_GUIDES) {
+  lines.push(`- ${guide.title}: ${guide.answer} ${SITE}/guides/${guide.slug}`);
 }
 lines.push("", END);
 const block = lines.join("\n");
