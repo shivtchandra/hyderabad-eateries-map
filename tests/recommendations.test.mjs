@@ -72,6 +72,22 @@ test("dish, name, area and viewport filters produce the same source rows for map
   assert(filterRecommendations(m.places, { ...s, q: p.area }).some((x) => x.id === p.id));
   assert.equal(filterRecommendations(m.places, { ...s, bounds: { south: 17, north: 17.01, west: 78, east: 78.01 } }).length, 0);
 });
+test("new first-hand picks appear in Recommended and their dish filters", () => {
+  const model = getRecommendations();
+  const byId = Object.fromEntries(model.places.map((place) => [place.id, place]));
+  const expected = {
+    ChIJrcVnHhCayzsRyl7sbG3gTgg: "pizza",
+    ChIJQX3oRACTyzsRYITnjwROO9U: "mandi",
+    ChIJT9Bwx1qRyzsRFJNCT5djjzU: "biryani",
+  };
+  for (const [id, dish] of Object.entries(expected)) {
+    assert.equal(byId[id]?.recommended, true, id);
+    assert(byId[id].dishes.some((item) => item.id === dish), `${id}: ${dish}`);
+    assert(filterRecommendations(model.places, { mode: "recommended", dish, q: "" }).some((place) => place.id === id), id);
+  }
+  assert.equal(byId.ChIJFQOGvnOXyzsRaISRRzvIzdE?.recommended, true);
+  assert.equal(byId.ChIJFQOGvnOXyzsRaISRRzvIzdE?.signature?.name, "Rainbow Cake");
+});
 test("URL round trip preserves mode, dish, area, branch, view and bounds", () => {
   const s = parseMapState("mode=all&dish=dosa&area=Madhapur&spot=p&list=1&q=masala&view=17.4,78.4,14&bounds=17.3,17.5,78.3,78.5");
   assert.deepEqual(parseMapState(mapSearch(s)), s);
