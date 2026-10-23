@@ -903,6 +903,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
               eateries={eateries}
               filtered={tab === "route" && routeCardsOpen ? routeMatchesDisplay : filtered}
               poolSize={pool.length}
+              recommendationMode={curatedEnabled && recommendedOnly}
               routeLine={tab === "route" ? routeLine : null}
               heroCap={tab === "route" ? 28 : 120}
               pickMode={tab === "route" && !!pickTarget}
