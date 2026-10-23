@@ -43,16 +43,20 @@ export default function PicksSheet({ spots, recById, userLoc, dishName, onSelect
     else if (dy > 40 && open) toggle(false);
   };
 
-  const title = `${rows.length} local pick${rows.length === 1 ? "" : "s"}${dishName ? ` for ${dishName.toLowerCase()}` : ""}${userLoc ? " near you" : ""}`;
+  const title = `${rows.length} recommended place${rows.length === 1 ? "" : "s"}${dishName ? ` for ${dishName.toLowerCase()}` : ""}${userLoc ? " near you" : ""}`;
   return (
     <section className={`picks-sheet${open ? " is-open" : ""}`} aria-label="Recommended places">
-      <button type="button" className="picks-sheet-handle" aria-expanded={open}
-        onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp}
-        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(!open); } }}>
-        <span className="picks-sheet-grip" aria-hidden="true" />
-        <span className="picks-sheet-title">★ {title}</span>
-        <span className="picks-sheet-hint">{open ? "Show map" : "See list"}</span>
-      </button>
+      <div className="picks-sheet-top">
+        <button type="button" className="picks-sheet-handle" aria-expanded={open}
+          onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp}
+          onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(!open); } }}>
+          <span className="picks-sheet-grip" aria-hidden="true" />
+          <span className="picks-sheet-title">★ {title}</span>
+          <span className="picks-sheet-hint">{open ? "Show map" : "See list"}</span>
+        </button>
+        <button type="button" className="picks-sheet-recommend" onClick={onSuggest}>+ Recommend</button>
+      </div>
+      <p className="picks-sheet-source-note">Mapping HYD picks · weekly-ranked places · approved community recommendations</p>
       <ol className="picks-sheet-list">
         {rows.map(({ best, count }) => {
           const p = best.rec;
@@ -70,7 +74,7 @@ export default function PicksSheet({ spots, recById, userLoc, dishName, onSelect
                     {p.rankings?.[0]?.rank === 1 ? <b>{rankLabel(p.rankings[0])}</b>
                       : p.locals >= 3 ? <b>★ {p.locals} locals</b>
                       : p.rankings?.length ? <b>{rankLabel(p.rankings[0])}</b>
-                      : <b>{p.reviewStatus === "community" ? "Suggested by locals" : "Editor's pick"}</b>}
+                      : <b>{p.reviewStatus === "community" ? "Community pick" : "Mapping HYD pick"}</b>}
                     <span>{p.area}{best.dist != null ? ` · ${best.dist < 1 ? `${Math.round(best.dist * 1000)} m` : `${best.dist.toFixed(1)} km`}` : ""}{count > 1 ? ` · ${count} branches` : ""}</span>
                   </span>
                   {tries.length > 0 && <span className="picks-row-try">Try: {tries.map((t) => t.name).join(", ")}</span>}
@@ -80,10 +84,6 @@ export default function PicksSheet({ spots, recById, userLoc, dishName, onSelect
             </li>
           );
         })}
-        <li className="picks-suggest">
-          <p>Know a spot that belongs here?</p>
-          <button type="button" onClick={onSuggest}>Suggest a place</button>
-        </li>
       </ol>
     </section>
   );

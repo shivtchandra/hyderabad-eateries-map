@@ -236,14 +236,6 @@ A curated compilation of the most recommended food spots, legendary breakfast ad
 - **Why Redditors Love It:** Celebrated Arabian restaurant known for tender slow-braised meats and fragrant long-grain Mandi rice.
 - **Community Tip:** One of the most praised Mandi spots on r/hyderabad. The mutton falls right off the bone.
 
-### Joint Mandi (Gachibowli)
-- **Address:** Near Biodiversity Park, Gachibowli, Hyderabad, Telangana 500032
-- **Coordinates:** 17.4321, 78.3712
-- **Approx. Cost for Two:** ₹800
-- **Must Try:** Special Arabian Mix Mandi, Mutton Juicy Mandi, Broasted Mandi
-- **Why Redditors Love It:** Popular gathering spot for groups and families seeking rich Arabic platters and atmospheric seating.
-- **Community Tip:** Great for big groups. The chicken juicy mandi platter feeds four generously.
-
 ### Mandi @ 36 (Jubilee Hills)
 - **Address:** Road No. 36, Jubilee Hills, Hyderabad, Telangana 500033
 - **Coordinates:** 17.4329, 78.4055

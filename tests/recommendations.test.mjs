@@ -29,6 +29,14 @@ test("one shared curated set, distinct brands and qualified dish pages", () => {
   assert(groups.some((g) => g.branches.length > 1));
   for (const p of m.places.filter((p) => p.redditBrandId)) assert(m.brands[p.redditBrandId]);
 });
+test("unverified Joint Mandi content is not published", () => {
+  const id = "reddit_779b421301aa7d69346f";
+  const eateries = JSON.parse(fs.readFileSync("data/eateries.json", "utf8"));
+  const seeds = JSON.parse(fs.readFileSync("data/dish-seeds.json", "utf8"));
+  assert(!eateries.some((place) => place.id === id));
+  assert.equal(seeds[id], undefined);
+  assert(!getRecommendations().places.some((place) => place.id === id));
+});
 test("reviewed Reddit associations really have three distinct source authors", () => {
   const reviews = JSON.parse(fs.readFileSync("data/recommendation-reviews.json", "utf8"));
   const rawPath = "data/reddit/raw.json";

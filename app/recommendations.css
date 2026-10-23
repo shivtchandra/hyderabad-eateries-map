@@ -133,12 +133,16 @@
 @media (prefers-reduced-motion: reduce) { .ph-upvote { transition: none; } }
 
 /* Swipe-up list of recommended places over the map */
-.picks-sheet { position: absolute; left: 0; right: 0; bottom: 0; z-index: 900; height: 52px; overflow: hidden; display: flex; flex-direction: column; background: var(--cream-hi); border-radius: 22px 22px 0 0; box-shadow: 0 -10px 30px -12px rgba(15, 23, 42, 0.35); transition: height 0.32s cubic-bezier(0.22, 1, 0.36, 1); font-family: var(--font-outfit), system-ui, sans-serif; color: var(--ink); }
+.picks-sheet { position: absolute; left: 0; right: 0; bottom: 0; z-index: 900; height: 58px; overflow: hidden; display: flex; flex-direction: column; background: var(--cream-hi); border-radius: 22px 22px 0 0; box-shadow: 0 -10px 30px -12px rgba(15, 23, 42, 0.35); transition: height 0.32s cubic-bezier(0.22, 1, 0.36, 1); font-family: var(--font-outfit), system-ui, sans-serif; color: var(--ink); }
 .picks-sheet.is-open { height: calc(100% - 56px); z-index: 1001; }
-.picks-sheet-handle { flex-shrink: 0; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 10px; width: 100%; padding: 8px 16px 10px; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: grab; touch-action: none; }
+.picks-sheet-top { display: flex; align-items: center; flex-shrink: 0; padding-right: 10px; }
+.picks-sheet-handle { flex: 1; min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px 10px; padding: 8px 10px 10px 16px; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: grab; touch-action: none; }
 .picks-sheet-grip { grid-column: 1 / -1; justify-self: center; width: 40px; height: 4px; border-radius: 4px; background: var(--line); margin-bottom: 4px; }
-.picks-sheet-title { font-size: 15px; font-weight: 800; letter-spacing: -0.01em; }
+.picks-sheet-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15px; font-weight: 800; letter-spacing: -0.01em; }
 .picks-sheet-hint { font-size: 12px; font-weight: 600; color: var(--violet); }
+.picks-sheet-recommend { flex-shrink: 0; height: 36px; padding: 0 12px; border: 0; border-radius: 999px; background: var(--violet); color: #fff; font: inherit; font-size: 12.5px; font-weight: 800; cursor: pointer; }
+.picks-sheet-source-note { flex-shrink: 0; margin: 0 16px 8px; font-size: 11.5px; color: var(--ink-soft); }
+.picks-sheet:not(.is-open) .picks-sheet-source-note { display: none; }
 .picks-sheet-list { list-style: none; margin: 0; padding: 0 12px calc(16px + env(safe-area-inset-bottom)); overflow-y: auto; overscroll-behavior: contain; flex: 1; min-height: 0; }
 .picks-sheet:not(.is-open) .picks-sheet-list { overflow: hidden; }
 .picks-sheet-list > li { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--line); }
@@ -153,10 +157,6 @@
 .picks-row-meta span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .picks-row-try { font-size: 12.5px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .picks-row-add { flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; border: 1px dashed var(--violet); background: transparent; color: var(--violet); font-size: 20px; font-weight: 600; line-height: 1; cursor: pointer; }
-.picks-suggest { flex-direction: column; align-items: stretch !important; gap: 8px !important; padding: 16px 4px 8px !important; border-bottom: 0 !important; text-align: center; }
-.picks-suggest p { margin: 0; font-size: 13px; color: var(--ink-soft); }
-.picks-suggest button { align-self: center; height: 38px; padding: 0 18px; border-radius: 999px; border: 0; background: var(--violet); color: #fff; font: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer; }
-
 /* "What's good here?" and "Suggest a place" sheets */
 .dish-sheet-backdrop { position: fixed; inset: 0; z-index: 3000; background: rgba(15, 20, 38, 0.5); display: flex; align-items: flex-end; justify-content: center; animation: fade-in 0.2s ease; }
 .dish-sheet { width: min(480px, 100%); max-height: 86dvh; overflow-y: auto; background: var(--cream-hi); border-radius: 24px 24px 0 0; padding: 10px 18px calc(18px + env(safe-area-inset-bottom)); color: var(--ink); font-family: var(--font-outfit), system-ui, sans-serif; box-shadow: 0 -12px 40px -12px rgba(15, 23, 42, 0.45); }
