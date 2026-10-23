@@ -12,7 +12,12 @@ export function generateStaticParams() { return recommendationsEnabled() ? dishA
 export const dynamicParams = false;
 export function generateMetadata({ params }) {
   const v = recommendationsEnabled() && dishView(params.dish, params.area);
-  return v ? pageMeta({ title: v.title, description: v.answer, path: `/picks/${v.dish.id}/${params.area}` }) : { title: "Not found", robots: { index: false } };
+  if (!v) return { title: "Not found", robots: { index: false } };
+  const area = getAreaBySlug(params.area);
+  return {
+    ...pageMeta({ title: v.title, description: v.answer, path: dishDestination(params.dish, area?.area || "") }),
+    robots: { index: false, follow: true },
+  };
 }
 export default function DishAreaPage({ params }) {
   const area = getAreaBySlug(params.area);

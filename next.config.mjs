@@ -76,6 +76,32 @@ const nextConfig = {
       // A redirect, not a rewrite: a rewrite would proxy every image through
       // Vercel and bill the bandwidth back to us.
       { source: "/photos/:path*", destination: `${PHOTO_CDN}/:path*`, permanent: true },
+      // Legacy dish pages are statically exported HTML. A Next
+      // permanentRedirect() becomes a 200 page with a meta refresh on static
+      // hosting, so Cloudflare must issue the real HTTP redirect here.
+      { source: "/picks", destination: "/guides/dishes", permanent: true },
+      { source: "/picks/biryani", destination: "/rankings/best-biryani-in-hyderabad", permanent: true },
+      { source: "/picks/haleem", destination: "/rankings/best-haleem-in-hyderabad", permanent: true },
+      { source: "/picks/mandi", destination: "/rankings/best-mandi-in-hyderabad", permanent: true },
+      { source: "/picks/shawarma", destination: "/rankings/best-shawarma-in-hyderabad", permanent: true },
+      { source: "/picks/dosa", destination: "/rankings/best-dosa-in-hyderabad", permanent: true },
+      { source: "/picks/tiffins", destination: "/guides/best-tiffins-hyderabad-reddit", permanent: true },
+      { source: "/picks/irani-chai", destination: "/rankings/best-irani-cafe-in-hyderabad", permanent: true },
+      { source: "/picks/ice-cream", destination: "/rankings/best-ice-cream-in-hyderabad", permanent: true },
+      { source: "/picks/coffee", destination: "/rankings/best-cafe-in-hyderabad", permanent: true },
+      { source: "/picks/osmania-biscuits", destination: "/?dish=osmania-biscuits", permanent: true },
+      { source: "/picks/pizza", destination: "/?dish=pizza", permanent: true },
+      { source: "/picks/biryani/gachibowli", destination: "/?dish=biryani&area=Gachibowli", permanent: true },
+      { source: "/picks/biryani/jubilee-hills", destination: "/?dish=biryani&area=Jubilee+Hills", permanent: true },
+      { source: "/picks/biryani/banjara-hills", destination: "/?dish=biryani&area=Banjara+Hills", permanent: true },
+      { source: "/picks/biryani/secunderabad", destination: "/?dish=biryani&area=Secunderabad", permanent: true },
+      { source: "/picks/haleem/jubilee-hills", destination: "/?dish=haleem&area=Jubilee+Hills", permanent: true },
+      { source: "/picks/haleem/banjara-hills", destination: "/?dish=haleem&area=Banjara+Hills", permanent: true },
+      { source: "/picks/tiffins/madhapur-hitec", destination: "/?dish=tiffins&area=Madhapur%2FHITEC", permanent: true },
+      { source: "/picks/pizza/jubilee-hills", destination: "/?dish=pizza&area=Jubilee+Hills", permanent: true },
+      { source: "/picks/ice-cream/jubilee-hills", destination: "/?dish=ice-cream&area=Jubilee+Hills", permanent: true },
+      { source: "/picks/coffee/madhapur-hitec", destination: "/?dish=coffee&area=Madhapur%2FHITEC", permanent: true },
+      { source: "/picks/coffee/jubilee-hills", destination: "/?dish=coffee&area=Jubilee+Hills", permanent: true },
       // Common search URL patterns → ranking pages
       { source: "/best-biryani-in-hyderabad", destination: "/rankings/best-biryani-in-hyderabad", permanent: true },
       { source: "/best-biryani-hyderabad", destination: "/rankings/best-biryani-in-hyderabad", permanent: true },
