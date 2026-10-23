@@ -87,6 +87,9 @@ test("new first-hand picks appear in Recommended and their dish filters", () => 
   }
   assert.equal(byId.ChIJFQOGvnOXyzsRaISRRzvIzdE?.recommended, true);
   assert.equal(byId.ChIJFQOGvnOXyzsRaISRRzvIzdE?.signature?.name, "Rainbow Cake");
+  assert.deepEqual(mustTry(byId.ChIJrcVnHhCayzsRyl7sbG3gTgg).slice(0, 2).map((dish) => dish.name), ["Spicy Paneer Pizza", "Softy"]);
+  assert.deepEqual(mustTry(byId.ChIJFQOGvnOXyzsRaISRRzvIzdE).map((dish) => dish.name), ["Rainbow Cake", "Fudge Brownie", "Mini Cupcakes", "Red Velvet Cupcake"]);
+  assert(filterRecommendations(model.places, { mode: "recommended", dish: "", q: "softy" }).some((place) => place.id === "ChIJrcVnHhCayzsRyl7sbG3gTgg"));
 });
 test("URL round trip preserves mode, dish, area, branch, view and bounds", () => {
   const s = parseMapState("mode=all&dish=dosa&area=Madhapur&spot=p&list=1&q=masala&view=17.4,78.4,14&bounds=17.3,17.5,78.3,78.5");
