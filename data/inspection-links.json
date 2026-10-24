@@ -2,6 +2,12 @@
   "_about": "Food safety records linked to a spot on our map, checked by hand: the name AND the location must match. TG SAFE lists often name a brand without the branch, and Hyderabad brands run many branches, so a name match alone is not a link. Regenerate candidates with: node scripts/suggest-inspection-links.mjs",
   "links": [
     {
+      "date": "2026-10-23",
+      "name": "Majestic Sweets",
+      "spotId": "ChIJ72oquumWyzsRm8kNtgmYRzQ",
+      "why": "The official record names Majestic Sweets in Tolichowki; our spot is Majestic Sweets Namkeen on 7 Tombs Road in Toli Chowki."
+    },
+    {
       "date": "2026-09-26",
       "name": "White Elephant Food Works (63 Degrees Modern Regional Buffet)",
       "spotId": "ChIJdxWXYrmTyzsR4yXppJpm0Co",
