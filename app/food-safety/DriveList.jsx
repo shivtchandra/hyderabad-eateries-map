@@ -7,7 +7,7 @@ const ACTION_LABEL = {
   "licence-suspended": "Licence suspended",
   closed: "Operations stopped",
   notice: "Notice issued",
-  "notice-proposed": "Show-cause notice proposed",
+  "notice-proposed": "Notice proposed",
   penalty: "Penalty",
   "no-action": "No action listed",
 };
