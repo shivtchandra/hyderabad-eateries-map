@@ -21,20 +21,20 @@ function photoFor(s) {
   return byName ? spotPhotoUrl(byName.id) : null;
 }
 
-export default function GuideSpotCard({ s, rank, rows = [] }) {
+export default function GuideSpotCard({ s, rank, rows = [], showRank = true }) {
   const photo = photoFor(s);
   const meta = [s.area, s.rating && `★ ${s.rating}`, s.priceForTwo].filter(Boolean).join(" · ");
   const must = rows.find(([label, t]) => /must/i.test(label) && t);
   const rest = rows.filter(([label, t]) => t && !/must/i.test(label));
-  const first = rank === 1;
+  const first = showRank && rank === 1;
   return (
     <article className={`sw${first ? " sw--first" : ""}`}>
       <Link href={s.href || "#"} className={`sw-media${photo ? "" : " sw-media--plain"}`}>
         {photo && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={photo} alt={s.name} loading={rank <= 2 ? "eager" : "lazy"} />
+          <img src={photo} alt={s.name} loading={showRank && rank <= 2 ? "eager" : "lazy"} />
         )}
-        <span className="sw-rank">#{rank}{s.tag ? ` · ${s.tag}` : ""}</span>
+        <span className="sw-rank">{showRank ? `#${rank}${s.tag ? ` · ${s.tag}` : ""}` : (s.tag || "Guide pick")}</span>
         <span className="sw-cap">
           <b>{s.name}</b>
           <span>{meta}</span>

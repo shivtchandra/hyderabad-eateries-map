@@ -2,7 +2,7 @@
 export default {
   // app/api routes NOT served by the Worker: static files (scripts/build-static.sh),
   // dropped (og image, analytics events), GitHub-run cron, or too costly per call.
-  skip: [/^og$/, /^events$/, /^cron\//, /^picks$/, /^inspections$/, /^spots\/added$/, /^eateries\/\[id\]$/, /^eateries$/],
+  skip: [/^og$/, /^events$/, /^cron\//, /^picks$/, /^inspections$/, /^eateries$/],
   // Browser writes are accepted only from these origins.
   origins: ["https://eats.mapmyhyd.com", "https://mapmyhyd-eats.pages.dev", "http://localhost:3000"],
   // Public GETs: edge cache seconds, shared (Firestore) cache seconds, tags that

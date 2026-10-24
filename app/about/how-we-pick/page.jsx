@@ -2,6 +2,7 @@ import Link from "next/link";
 import SiteChrome from "../../components/SiteChrome.jsx";
 import { pageMeta } from "../../../lib/site.js";
 import { askStats } from "../../../lib/askPages.js";
+import { recommendationsEnabled } from "../../../lib/recommendationShared.js";
 
 export const metadata = pageMeta({ title: "How Hyderabad Eats picks places", description: "How we count what r/hyderabad recommends, how dishes and weekly community polls work, and what the verified consensus numbers on Hyderabad Eats mean.", path: "/about/how-we-pick" });
 
@@ -33,7 +34,7 @@ export default function HowWePick() {
       </section>
       <section className="ask-block"><h2>What the numbers are not</h2>
         <p>They are not ratings, reviews or a guarantee of today's menu, prices or hours. Popular places get talked about more, and branches of the same brand share one count unless locals name a branch.</p>
-        <p><Link href="/ask">Questions locals ask</Link> · <Link href="/guides/dishes">Dish guides</Link> · <Link href="/">Map</Link></p>
+        <p>{recommendationsEnabled() && <><Link href="/ask">Questions locals ask</Link> · <Link href="/guides/dishes">Dish guides</Link> · </>}<Link href="/">Map</Link></p>
       </section>
     </div>
   </SiteChrome>;

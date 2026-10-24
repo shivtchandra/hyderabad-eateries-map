@@ -96,7 +96,7 @@ export default function CardRail({
           const area = e.discoveredIn && !String(e.discoveredIn).startsWith("text:") ? e.discoveredIn : "";
           const distKm = distMap[e.id] ?? null;
           const signal = [
-            e.rating ? `★ ${Number(e.rating).toFixed(1)}` : "",
+            e.rating ? `Google ★ ${Number(e.rating).toFixed(1)}` : "",
             PRICE_ESTIMATE[e.priceLevel] || "",
             distKm != null ? (distKm < 1 ? `${Math.round(distKm * 1000)} m` : `${distKm.toFixed(1)} km`) : "",
           ].filter(Boolean).join(" · ");

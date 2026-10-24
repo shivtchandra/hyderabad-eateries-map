@@ -1,0 +1,11 @@
+import { chromium, devices } from "playwright";
+const b = await chromium.launch();
+const ctx = await b.newContext({ ...devices["iPhone 14 Pro Max"], viewport: { width: 440, height: 894 }, screen: { width: 440, height: 956 }, deviceScaleFactor: 3 });
+await ctx.addInitScript(() => { try { localStorage.setItem("loc_prompted", "1"); } catch {} });
+const p = await ctx.newPage();
+await p.goto("https://eats.mapmyhyd.com/?filter=safety", { waitUntil: "networkidle", timeout: 60000 }).catch(() => {});
+await p.waitForTimeout(7000);
+await p.getByLabel("Hide this week's vote").click({ timeout: 4000 }).catch(() => console.log("no banner"));
+await p.waitForTimeout(1500);
+await p.screenshot({ path: process.argv[2] });
+await b.close();

@@ -436,7 +436,13 @@ export default function MapCanvas({
     // that drifts toward the edges while zooming keeps its photo.
     const fullB = map.getBounds();
     const onMap = (e) => e.lat >= fullB.getSouth() && e.lat <= fullB.getNorth() && e.lng >= fullB.getWest() && e.lng <= fullB.getEast();
-    const byScore = filtered.filter(onMap).sort((x, y) => scoreOf(y) - scoreOf(x));
+    const communityOrder = new Map(voteTopRef.current.map((entry, index) => [entry.spotId, index]));
+    const byScore = filtered.filter(onMap).sort((x, y) => {
+      const xRank = communityOrder.get(x.id);
+      const yRank = communityOrder.get(y.id);
+      if (xRank != null || yRank != null) return (xRank ?? Number.MAX_SAFE_INTEGER) - (yRank ?? Number.MAX_SAFE_INTEGER);
+      return scoreOf(y) - scoreOf(x);
+    });
     const shown = heroMarkers.current;
     const topIds = new Set(voteTopRef.current.map((t) => t.spotId));
     const withPhoto = byScore.filter((e) => !noPhoto.current.has(e.id) || e.id === selectedId);

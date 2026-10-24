@@ -2,6 +2,12 @@
   "_about": "Food safety records linked to a spot on our map, checked by hand: the name AND the location must match. TG SAFE lists often name a brand without the branch, and Hyderabad brands run many branches, so a name match alone is not a link. Regenerate candidates with: node scripts/suggest-inspection-links.mjs",
   "links": [
     {
+      "date": "2026-10-23",
+      "name": "Dadus Mithai Vatika",
+      "spotId": "ChIJXfmV-vmRyzsRky9T_UkbR_M",
+      "why": "Official record names Dadus Mithai Vatika in Kukatpally; matches our Dadu's Kukatpally spot at PNR Empire, Pillar A735."
+    },
+    {
       "date": "2026-09-26",
       "name": "White Elephant Food Works (63 Degrees Modern Regional Buffet)",
       "spotId": "ChIJdxWXYrmTyzsR4yXppJpm0Co",

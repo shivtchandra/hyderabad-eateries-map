@@ -22,13 +22,11 @@ import { getAllRankingsThemes } from "../../../lib/themesServer.js";
 import { slugFromTitle, SEO_THEME_PICKS } from "../../../lib/rankings.js";
 import { getIndexableSpotIds } from "../../../lib/spotContent.js";
 import { dishSeedsFor } from "../../../lib/dishSeeds.js";
+import { getSpotSearchProfile } from "../../../lib/searchOpportunities.js";
 
 const CAT_LABEL = {
   cafe: "Cafe", local: "Local Eats", "restro-bar": "Restro Bar", bakery: "Bakery", "ice-cream": "Ice Cream",
 };
-
-const AUTHOR = "Shiva";
-const AUTHOR_ROLE = "Mapping HYD";
 
 function parseDishScore(note = "") {
   const m = String(note).match(/(\d+(?:\.\d+)?)\s*\/\s*10/);
@@ -69,9 +67,68 @@ export function generateStaticParams() {
   return [...all.filter((e) => editorial.has(e.id)), ...popular].map((e) => ({ id: spotSlug(e) }));
 }
 
+function liveRankingsForSpot(spot, themes) {
+  return (themes || [])
+    .map((th) => {
+      const voted = (th.results || []).filter((r) => (r.count || 0) > 0);
+      const i = voted.findIndex((r) => r.spotId === spot.id);
+      if (i < 0) return null;
+      return {
+        slug: th.slug || slugFromTitle(th.title),
+        name: voted[i].name || spot.name,
+        label: shortRanking(th.title),
+        rank: i + 1,
+        votes: voted[i].count,
+        total: voted.reduce((a, r) => a + (r.count || 0), 0),
+        rival: i === 0 ? voted[1] || null : voted[i - 1],
+        crowned: !!th.winnerId && th.winnerId === spot.id,
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.rank - b.rank)
+    .slice(0, 4);
+}
+
+function liveBallotsForSpot(spot, themes, ranked = []) {
+  const rankedSlugs = new Set(ranked.map((entry) => entry.slug));
+  return (themes || [])
+    .map((th) => {
+      if (!th.active || th.winnerId) return null;
+      const candidate = (th.results || []).find((r) => r.spotId === spot.id);
+      if (!candidate || (candidate.count || 0) > 0) return null;
+      const slug = th.slug || slugFromTitle(th.title);
+      if (rankedSlugs.has(slug)) return null;
+      return {
+        slug,
+        name: candidate.name || spot.name,
+        label: shortRanking(th.title),
+      };
+    })
+    .filter(Boolean)
+    .slice(0, 4);
+}
+
+function threadStandingForSpot(spot, redditData) {
+  const clean = (value = "") => String(value).toLowerCase().replace(/[^a-z0-9]/g, "");
+  const identities = [spot.id, spotSlug(spot), spot.name].map(clean).filter(Boolean);
+  const standing = redditData?.thread?.standings?.find((entry) => {
+    const keys = [entry.spotId, entry.name].map(clean).filter(Boolean);
+    return keys.some((key) => identities.includes(key));
+  });
+  if (!standing) return null;
+  return {
+    name: standing.name || spot.name,
+    label: shortRanking(redditData.thread.title),
+    rank: standing.rank,
+    votes: standing.votes || 0,
+    total: redditData.thread.standings.reduce((sum, entry) => sum + (entry.votes || 0), 0),
+  };
+}
+
 export async function generateMetadata({ params }) {
   const spot = getEateryBySlugOrId(params.id);
   if (!spot) return { title: "Spot not found, Hyderabad Eats" };
+  const searchProfile = getSpotSearchProfile(spot.id);
   const area = spot.discoveredIn && !spot.discoveredIn.startsWith("text:") ? spot.discoveredIn : "Hyderabad";
   const name = displayName(spot.name);
   const cleanName = displayName(spot.name)
@@ -87,27 +144,74 @@ export async function generateMetadata({ params }) {
     !!spot.signatureDish?.name ||
     (rec && (rec.dishes?.length > 0 || rec.signature?.name || rec.localDishes?.length > 0));
 
-  const safety = await getInspectionsForSpot(spot.id);
+  const [safety, themes] = await Promise.all([
+    getInspectionsForSpot(spot.id),
+    getAllRankingsThemes(50).catch(() => []),
+  ]);
   const hasSafety = safety && safety.length > 0;
   const latestSafety = hasSafety ? safety[0] : null;
   const safetyAction = latestSafety?.entry?.action
     ? (ACTIONS[latestSafety.entry.action] || latestSafety.entry.action)
     : "Inspection";
 
-  const candidates = [
-    ...(hasSafety ? [`${place}: Food Safety, Reviews & Menu`, `${cleanName}: Food Safety & Reviews`] : []),
-    `${place}: Reviews, Menu & Prices`,
-    `${place}: Reviews, Menu & Timings`,
-    ...(hasDishes ? [`${cleanName}: Reviews, Menu & Must-Orders`] : []),
-    `${cleanName}: Reviews, Menu & Prices`,
-    `${cleanName}: Reviews & Menu`,
-    `${place}: Reviews & Ratings`,
+  const liveRankings = liveRankingsForSpot(spot, themes);
+  const liveRank = liveRankings[0] || null;
+  const liveBallot = liveBallotsForSpot(spot, themes, liveRankings)[0] || null;
+  const redditData = getRedditSpotData(spot.id, spot.name, spotSlug(spot));
+  const communityRank = liveRank || threadStandingForSpot(spot, redditData);
+  // A ballot with zero votes is not a standing and must not replace the
+  // brand/review query in the title. It remains visible in copy and on-page.
+  const rankingSignal = communityRank;
+  const rankingContext = communityRank || liveBallot;
+  const reviewText = spot.verdict?.blurb || spot.highlight?.text || spot.regularNote || "";
+  const hasEditorialReview = !!reviewText && !!spot.author?.name && (
+    !!spot.reviewedAt || /review/i.test(spot.author?.role || "")
+  );
+  const hasVisitNote = !!reviewText && spot.contentMode === "visit-note";
+  const hasOwnedReview = hasEditorialReview || hasVisitNote;
+  const reviewerLabel = spot.author?.name
+    ? `${spot.author.name.split(/\s+/)[0]}'s Review`
+    : "Mapping HYD Review";
+  const rankLabel = rankingContext
+    ? `${rankingContext.label.replace(/\b\w/g, (char) => char.toUpperCase())} in Hyderabad`
+    : "";
+  const rankTitle = communityRank ? `#${communityRank.rank} ${rankLabel}` : "";
+  const rankTopic = communityRank?.label?.replace(/^best\s+/i, "") || "";
+  const rankName = rankingContext?.name ? displayName(rankingContext.name) : cleanName;
+
+  const rankingCandidates = [
+    ...(communityRank && hasEditorialReview ? [`${cleanName}: #${communityRank.rank} ${rankTopic} + ${reviewerLabel}`] : []),
+    ...(communityRank ? [`${rankName}: ${rankTitle}`, `${cleanName}: ${rankTitle}`] : []),
+    ...(liveBallot ? [`${rankName}: ${rankLabel}`, `${cleanName}: ${rankLabel}`] : []),
+  ];
+  const reviewCandidates = [
+    ...(hasEditorialReview ? [`${cleanName}: ${reviewerLabel}`, `${place}: ${reviewerLabel}`] : []),
+    ...(hasVisitNote ? [`${cleanName}: Mapping HYD Visit Notes`, `${place}: Visit Notes`] : []),
+  ];
+  const fallbackCandidates = [
+    ...(hasSafety ? [`${place}: Food Safety & Venue Guide`, `${cleanName}: Food Safety & Details`] : []),
+    ...(hasDishes ? [`${cleanName}: What to Order & Venue Guide`] : []),
+    `${place}: Timings, Map & Venue Guide`,
+    `${cleanName}: Timings, Map & Details`,
+    `${place}: Venue Guide`,
     cleanName,
   ];
+  // Venue pages own branded intent. Rankings remain prominent in the answer
+  // and description, but a #N phrase should not displace the restaurant name,
+  // area, menu or first-hand review query in the document title.
+  const candidates = searchProfile?.title
+    ? [searchProfile.title, ...reviewCandidates, ...rankingCandidates, ...fallbackCandidates]
+    : hasOwnedReview
+      ? [...reviewCandidates, ...rankingCandidates, ...fallbackCandidates]
+      : rankingSignal
+        ? [...rankingCandidates, ...fallbackCandidates]
+        : fallbackCandidates;
   // Target max 48-52 chars so with " | Mapping HYD Eats" it stays under 70 chars.
-  const title = candidates.find((t) => t.length <= 48) || candidates.find((t) => t.length <= 54) || `${cleanName}: Reviews & Menu`;
+  const title = candidates.find((t) => t.length <= 48) || candidates.find((t) => t.length <= 54) || candidates[0] || `${cleanName}: Reviews & Menu`;
 
-  const ratingDetails = spot.rating ? `${spot.rating}★ rating (${spot.ratingCount ? spot.ratingCount.toLocaleString("en-IN") : ""} reviews). ` : "";
+  const ratingDetails = !rankingSignal && !hasOwnedReview && !searchProfile && spot.rating
+    ? `${spot.rating}★ Google rating (${spot.ratingCount ? spot.ratingCount.toLocaleString("en-IN") : ""} reviews). `
+    : "";
   const costDetails = spot.costForTwo ? `₹${Number(spot.costForTwo).toLocaleString("en-IN")} for two. ` : "";
   const dishHook = spot.signatureDish?.name
     ? `Must-try: ${spot.signatureDish.name}. `
@@ -118,11 +222,26 @@ export async function generateMetadata({ params }) {
         : "";
 
   const safetyHook = hasSafety ? `TG SAFE food safety record: ${safetyAction}. ` : "";
-  const ordersLabel = hasDishes ? "must-orders" : "timings";
-  const descTail = dishHook || safetyHook ? `${dishHook}${safetyHook}Verified reviews & map pin.` : "Verified ratings, timings & map pin.";
-  const description = `Verified reviews, menu prices & ${ordersLabel} for ${cleanName} in ${area}, Hyderabad. ${ratingDetails}${costDetails}${descTail}`
+  const rankingHook = communityRank
+    ? `${rankTitle}${communityRank.votes ? ` with ${communityRank.votes} local votes` : ""}. `
+    : liveBallot
+      ? `On the community ballot for ${rankLabel}. `
+      : "";
+  const editorialHook = hasEditorialReview
+    ? `${spot.author?.name ? `${spot.author.name}'s review` : "Mapping HYD review"}: ${reviewText} `
+    : hasVisitNote
+      ? `Mapping HYD visit note: ${reviewText} `
+    : "";
+  const descTail = dishHook || safetyHook ? `${dishHook}${safetyHook}Map pin and timings.` : "Timings and map pin.";
+  const rawDescription = !rankingSignal && !hasOwnedReview && searchProfile?.answer
+    ? `${searchProfile.answer} ${rankingHook}${costDetails}${dishHook}`
+    : `${rankingHook}${editorialHook}${ratingDetails}${costDetails}${descTail}`;
+  const cleanDescription = rawDescription
     .replace(/—/g, ",")
     .trim();
+  const description = cleanDescription.length <= 175
+    ? cleanDescription
+    : `${cleanDescription.slice(0, 172).replace(/\s+\S*$/, "")}...`;
 
   const photo = hasSpotPhoto(spot.id) ? spotPhotoUrl(spot.id) : null;
   // Static hosting has no /api/og renderer: share the venue photo, else the site card.
@@ -152,6 +271,7 @@ export default async function SpotPage({ params }) {
   const siteUrl = getSiteUrl();
   const spot = getEateryBySlugOrId(params.id);
   if (!spot) notFound();
+  const searchProfile = getSpotSearchProfile(spot.id);
   const slug = spotSlug(spot);
   // Old Google Place ID URLs keep working; canonicalize to the name slug.
   if (params.id !== slug) permanentRedirect(spotPath(spot));
@@ -169,18 +289,11 @@ export default async function SpotPage({ params }) {
   const areaLink = areaPageHref(spot.discoveredIn);
   const safety = await getInspectionsForSpot(spot.id);
 
-  // Seed dishes render on the server (indexable); MustOrder then adds live local votes.
-  // Locals' pick from r/hyderabad (scripts/reddit-picks.mjs): real comments, linked.
-  let localsPick = null;
-  try {
-    const rp = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "reddit-picks.json"), "utf-8"));
-    localsPick = rp.spots?.[spot.id] || null;
-  } catch {}
-
   // Spot's own picks + brand-wide picks (lib/dishSeeds.js).
   const dishSeeds = dishSeedsFor(spot);
 
   let spotOffers = null;
+  /* Offers commented out for now
   try {
     const curatedPath = path.join(process.cwd(), "data", "curated-offers.json");
     if (fs.existsSync(curatedPath)) {
@@ -188,40 +301,29 @@ export default async function SpotPage({ params }) {
       spotOffers = verifiedOffers(parsed.spots?.[spot.id]);
     }
   } catch {}
+  */
 
   const redditData = getRedditSpotData(spot.id, spot.name, spotSlug(spot));
+  // Entity-reviewed r/hyderabad evidence from the shared resolver.
+  const localsPick = redditData.pick;
 
-  const jsonLd = restaurantJsonLd(spot, siteUrl, AUTHOR);
+  const jsonLd = restaurantJsonLd(spot, siteUrl, spot.author?.name || null);
   const faqs = getSpotFaqs(spot, { spotOffers, safety });
 
   // Where locals rank it: every ranking this spot is on, from real votes
   // (memoised per process in themesServer, so no extra reads per page).
-  const rankedIn = (await getAllRankingsThemes(50).catch(() => []))
-    .map((th) => {
-      // Only real votes count as a rank; 0-vote entries are "on the ballot".
-      const voted = (th.results || []).filter((r) => (r.count || 0) > 0);
-      const i = voted.findIndex((r) => r.spotId === spot.id);
-      if (i < 0) return null;
-      return {
-        slug: th.slug || slugFromTitle(th.title),
-        label: shortRanking(th.title),
-        rank: i + 1,
-        votes: voted[i].count,
-        total: voted.reduce((a, r) => a + (r.count || 0), 0),
-        // Who it is holding off (#1) or chasing, for the ticket's one line.
-        rival: i === 0 ? voted[1] || null : voted[i - 1],
-        crowned: !!th.winnerId && th.winnerId === spot.id,
-      };
-    })
-    .filter(Boolean)
-    .sort((a, b) => a.rank - b.rank)
-    .slice(0, 4);
+  const rankingThemes = await getAllRankingsThemes(50).catch(() => []);
+  const rankedIn = liveRankingsForSpot(spot, rankingThemes);
   // If it's packed: the same kind of place within 2 km, best first.
   const nearby = nearbyAlternatives(spot, getEateries());
   // Real context from our own data: how this spot sits in its area and city.
   const context = spotContext(spot, getEateries());
   // Rankings this spot is on the ballot for but hasn't been voted in yet.
-  const ballots = ballotsFor(spot.id).filter((b) => !rankedIn.some((r) => r.slug === b.slug)).slice(0, 3);
+  const ballots = [
+    ...liveBallotsForSpot(spot, rankingThemes, rankedIn),
+  ]
+    .filter((b, index, all) => !rankedIn.some((r) => r.slug === b.slug) && all.findIndex((x) => x.slug === b.slug) === index)
+    .slice(0, 3);
   const latestSafety = safety?.[0] || null;
   // Only show the consensus card when there is something real to say.
   const hasConsensus = !!(spot.signatureDish?.name || redditData?.thread || redditData?.brandData?.quotes?.praise?.length);
@@ -243,9 +345,8 @@ export default async function SpotPage({ params }) {
   const directionsUrl = spot.lat != null && spot.lng != null
     ? `https://www.google.com/maps/dir/?api=1&destination=${spot.lat},${spot.lng}`
     : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${spot.name} ${spot.discoveredIn || "Hyderabad"}`)}`;
-  const todaysHours = spot.hours?.length
-    ? spot.hours[(new Date().getDay() + 6) % 7]?.split(": ").slice(1).join(": ")
-    : null;
+  const hydWeekday = new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Kolkata", weekday: "long" }).format(new Date());
+  const todaysHours = spot.hours?.find((line) => line.startsWith(`${hydWeekday}:`))?.split(": ").slice(1).join(": ") || null;
   const siblings = getChainSiblings(spot);
   const siblingsLabel = spot.name.toLowerCase().includes("niloufer")
     ? "Other Cafe Niloufer locations"
@@ -267,10 +368,12 @@ export default async function SpotPage({ params }) {
     rankingLinks.push({ href: "/rankings/best-irani-cafe-in-hyderabad", label: "Best Irani cafe ranking" });
   }
   if (nameLower.includes("paradise") || nameLower.includes("shah ghouse") || nameLower.includes("shadab") || nameLower.includes("meridian") || nameLower.includes("bawarchi")) {
-    rankingLinks.push({ href: "/rankings/best-biryani-in-hyderabad", label: "Best biryani in Hyderabad" });
+    rankingLinks.push({ href: "/rankings/best-biryani-in-hyderabad", label: "Live Hyderabad biryani vote" });
   }
 
-  const isReview = Boolean(spot.originStory?.length);
+  const isReview = Boolean(spot.originStory?.length || spot.contentMode === "visit-note" || spot.verdict?.score != null);
+  const reviewAuthorName = spot.author?.name || "Mapping HYD";
+  const reviewAuthorRole = spot.author?.role || (spot.contentMode === "visit-note" ? "Visit notes" : "Editorial note");
   const scoredDishes = (spot.mustOrder || []).map((d) => {
     const score = parseDishScore(d.note);
     const noteClean = String(d.note || "")
@@ -292,8 +395,15 @@ export default async function SpotPage({ params }) {
     : TOP_AREAS.flatMap((a) => a.split("/")).find((a) => (spot.address || "").includes(a)) || null;
   const kickerLink = areaLink || (areaName ? areaPageHref(areaName) : null);
   const catName = CAT_LABEL[spot.category] || spot.category;
+  const hasOwnedSignal = !!searchProfile
+    || rankedIn.length > 0
+    || ballots.length > 0
+    || hasValidRecommendation
+    || (safety?.length || 0) > 0
+    || !!(localsPick?.evidence?.length || redditData?.thread || redditData?.brandData?.quotes?.praise?.length)
+    || !!(spot.originStory?.length || spot.verdict || spot.highlight?.text || spot.regularNote || spot.signatureDish?.name || spot.mustOrder?.length);
   const subLine = [
-    spot.rating ? `★ ${spot.rating}${spot.ratingCount ? ` (${Number(spot.ratingCount).toLocaleString("en-IN")})` : ""}` : null,
+    !hasOwnedSignal && spot.rating ? `★ ${spot.rating}${spot.ratingCount ? ` (${Number(spot.ratingCount).toLocaleString("en-IN")})` : ""}` : null,
     spot.costForTwo ? `₹${Number(spot.costForTwo).toLocaleString("en-IN")} for two` : null,
   ].filter(Boolean);
   const spotHero = (
@@ -314,6 +424,23 @@ export default async function SpotPage({ params }) {
   const moreRanks = rankedIn.slice(1);
   const vibe = spot.vibeLabels?.length ? spot.vibeLabels : (spot.tags || []).map((t) => t.replace(/-/g, " "));
   const siteHost = (() => { try { return new URL(spot.website).hostname.replace(/^www\./, ""); } catch { return "Visit"; } })();
+  const contentSources = (spot.sources || []).map((source) => {
+    const item = typeof source === "string" ? { url: source } : source;
+    if (!item?.url) return null;
+    const label = item.label || (() => { try { return new URL(item.url).hostname.replace(/^www\./, ""); } catch { return "Source"; } })();
+    return { ...item, label };
+  }).filter(Boolean);
+  const personalTake = spot.verdict?.blurb || spot.highlight?.text || spot.regularNote || "";
+  const threadRank = !topRank ? threadStandingForSpot(spot, redditData) : null;
+  const quickAnswerParts = [
+    searchProfile?.answer || null,
+    topRank ? `${displayName(spot.name)} currently ranks #${topRank.rank} for ${topRank.label.toLowerCase()} with ${topRank.votes} of ${topRank.total} local votes.` : null,
+    threadRank ? `${displayName(spot.name)} is #${threadRank.rank} for ${threadRank.label.toLowerCase()} in the recorded community result, with ${threadRank.votes} of ${threadRank.total} votes.` : null,
+    !topRank && ballots[0] ? `${displayName(spot.name)} is on the Mapping HYD ballot for ${ballots[0].label.toLowerCase()}.` : null,
+    personalTake ? `${spot.author?.name ? `${spot.author.name}'s take` : "Mapping HYD take"}: ${personalTake}` : null,
+    spot.reviewedAt ? `Visited ${new Date(`${spot.reviewedAt}T00:00:00+05:30`).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Kolkata" })}.` : null,
+  ].filter(Boolean);
+  const quickAnswer = quickAnswerParts.join(" ");
 
   return (
     <>
@@ -388,6 +515,21 @@ export default async function SpotPage({ params }) {
         </section>
       )}
 
+      {quickAnswer && (
+        <section className="spot-section" aria-label={`Quick answer about ${displayName(spot.name)}`}>
+          <h2>Quick answer</h2>
+          <p className="spot-prose">{quickAnswer}</p>
+          {searchProfile?.facts?.length > 0 && (
+            <ul className="spot-order-list">
+              {searchProfile.facts.map((fact) => <li key={fact}>{fact}</li>)}
+            </ul>
+          )}
+          {searchProfile?.source && (
+            <p className="ask-muted">Source for the factual venue profile only, not Mapping HYD ranks or opinions: <a href={searchProfile.source.url} target="_blank" rel="noopener noreferrer">{searchProfile.source.label} ↗</a></p>
+          )}
+        </section>
+      )}
+
       {latestSafety && (
         <a href="#food-safety" className={`spot-safety${/suspen|seiz|clos|cancel/i.test(latestSafety.entry.action || "") ? " is-serious" : ""}`}>
           <b>Food safety: {ACTIONS[latestSafety.entry.action] || latestSafety.entry.action || "inspection on record"}</b>
@@ -400,13 +542,13 @@ export default async function SpotPage({ params }) {
           {context.area && (
             <div className="sp-stat">
               <b>{context.areaRank <= 10 ? `#${context.areaRank}` : context.areaCount}</b>
-              <span>{context.areaRank <= 10 ? `most reviewed of ${context.areaCount} ${context.plural} in ${context.area}` : `${context.plural} in ${context.area}`}</span>
+              <span>{context.areaRank <= 10 ? `most reviewed on Google of ${context.areaCount} ${context.plural} in ${context.area}` : `${context.plural} in ${context.area}`}</span>
             </div>
           )}
           {context.cityTopPct <= 25 && (
             <div className="sp-stat">
               <b>Top {context.cityTopPct}%</b>
-              <span>of Hyderabad {context.plural} by reviews</span>
+              <span>of Hyderabad {context.plural} by Google review count</span>
             </div>
           )}
         </div>
@@ -417,12 +559,15 @@ export default async function SpotPage({ params }) {
         {(spot.visitSpend?.text || spot.costForTwo) && (
           <div><dt>{spot.visitSpend?.label || "Cost for two"}</dt><dd>{spot.visitSpend?.text || `₹${Number(spot.costForTwo).toLocaleString("en-IN")}`}</dd></div>
         )}
+        {hasOwnedSignal && spot.rating && (
+          <div><dt>Google rating</dt><dd>{spot.rating}★{spot.ratingCount ? ` (${Number(spot.ratingCount).toLocaleString("en-IN")})` : ""}</dd></div>
+        )}
         {spot.founded && (<div><dt>Since</dt><dd>{spot.founded}</dd></div>)}
         {vibe.length > 0 && (<div><dt>Good for</dt><dd>{vibe.join(", ")}</dd></div>)}
         {spot.phone && (<div><dt>Phone</dt><dd><a href={`tel:${String(spot.phone).replace(/\s+/g, "")}`}>{spot.phone}</a></dd></div>)}
         {spot.website && (<div><dt>Website</dt><dd><a href={spot.website} target="_blank" rel="noopener noreferrer">{siteHost}</a></dd></div>)}
         {spot.zomatoUrl && (<div><dt>Order</dt><dd><a href={spot.zomatoUrl} target="_blank" rel="noopener noreferrer">Zomato</a></dd></div>)}
-        {!latestSafety && (<div><dt>Food safety</dt><dd>No notices on record. <Link href="/food-safety">How we track</Link></dd></div>)}
+        {!latestSafety && (<div><dt>Food safety</dt><dd>No matched TG SAFE record in our current tracker; coverage is incomplete. <Link href="/food-safety">How we track</Link></dd></div>)}
       </dl>
 
       {spot.lat != null && spot.lng != null && (
@@ -430,17 +575,17 @@ export default async function SpotPage({ params }) {
           <SpotsMapClient points={[{ lat: spot.lat, lng: spot.lng, kind: "spot", title: displayName(spot.name), sub: areaName || "Hyderabad" }]} height={180} />
           <div className="sp-where-row">
             <p>{spot.address || areaName || "Hyderabad"}</p>
-            <Link href={`/?spot=${encodeURIComponent(spot.id)}`}>Open on our map</Link>
+            <Link href={`/#spot=${encodeURIComponent(spot.id)}`}>Open on our map</Link>
           </div>
         </section>
       )}
 
       {hasConsensus && (
         <section className="sp-says" aria-label="What locals say">
-          <h2>What locals say</h2>
+          <h2>{redditData?.thread || redditData?.brandData?.quotes?.praise?.length ? "What locals say" : "Mapping HYD's take"}</h2>
           {spot.signatureDish?.name && (
             <div className="sp-must">
-              <span className="sp-label">Must order</span>
+              <span className="sp-label">Mapping HYD pick</span>
               <b>{spot.signatureDish.name}</b>
               {spot.signatureDish.why && <p>{spot.signatureDish.why.replace(/\s*—\s*/g, ", ")}</p>}
             </div>
@@ -475,11 +620,11 @@ export default async function SpotPage({ params }) {
                     {spot.author.role ? <> · {spot.author.role}</> : null}
                   </>
                 ) : (
-                  <>{spot.author?.name || AUTHOR} · {spot.author?.role || AUTHOR_ROLE}</>
+                  <>{reviewAuthorName} · {reviewAuthorRole}</>
                 )}
               </p>
             </div>
-            <Link href={`/?spot=${encodeURIComponent(spot.id)}`} className="review-map-link">
+            <Link href={`/#spot=${encodeURIComponent(spot.id)}`} className="review-map-link">
               Open on map
             </Link>
           </div>
@@ -497,6 +642,26 @@ export default async function SpotPage({ params }) {
                 <p>{spot.verdict?.blurb || spot.highlight?.text}</p>
               </div>
             </div>
+          )}
+
+          {spot.visitItems?.length > 0 && (
+            <section className="spot-section review-plates">
+              <div className="review-section-head">
+                <h2>What we tried</h2>
+                <p>Items from this visit, not general menu recommendations</p>
+              </div>
+              <div className="review-dish-grid">
+                {spot.visitItems.map((item, i) => (
+                  <article key={i} className="review-dish review-dish--low">
+                    <div className="review-dish-top">
+                      <h3>{item.name}</h3>
+                    </div>
+                    {item.note && <p>{item.note}</p>}
+                    <em>Visit note</em>
+                  </article>
+                ))}
+              </div>
+            </section>
           )}
 
           {scoredDishes.length > 0 && (
@@ -525,12 +690,12 @@ export default async function SpotPage({ params }) {
             </section>
           )}
 
-          {spot.originStory?.length > 0 && (
+          {(spot.originStory?.length > 0 || spot.regularNote) && (
             <section className="spot-section review-story">
               <div className="review-section-head">
                 <h2>The visit</h2>
               </div>
-              {spot.originStory.map((para, i) => (
+              {(spot.originStory || []).map((para, i) => (
                 <p key={i} className="review-prose">{para}</p>
               ))}
               {spot.regularNote && (
@@ -542,7 +707,7 @@ export default async function SpotPage({ params }) {
                         {spot.author.name}
                       </a>
                     ) : (
-                      spot.author?.name || AUTHOR
+                      reviewAuthorName
                     )}
                   </cite>
                 </blockquote>
@@ -559,6 +724,22 @@ export default async function SpotPage({ params }) {
                   <img key={i} src={galleryPhotoUrl(f)} alt={`${displayName(spot.name)}, photo ${i + 2}`} loading="lazy" />
                 ))}
               </div>
+            </section>
+          )}
+
+          {(spot.contentScope || contentSources.length > 0) && (
+            <section className="spot-section" aria-label="Editorial sources and scope">
+              <h2>Sources and scope</h2>
+              {spot.contentScope === "brand" && <p className="spot-prose">Brand-level information: dishes and experience can vary by branch.</p>}
+              {spot.contentScope === "branch-comparison" && <p className="spot-prose">This editorial note compares multiple branches. Branch-specific details are identified in the text.</p>}
+              {contentSources.length > 0 && (
+                <div className="site-related-links">
+                  {contentSources.map((source) => (
+                    <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer nofollow">{source.label} ↗</a>
+                  ))}
+                </div>
+              )}
+              <p className="ask-muted">External sources support venue or menu facts; they do not prove Mapping HYD scores or first-hand opinions.</p>
             </section>
           )}
 
@@ -591,7 +772,7 @@ export default async function SpotPage({ params }) {
           {hasValidRecommendation && <section className="spot-section" id="recommendations">
             <h2>What to order and why</h2>
             <RecommendationPanel place={recommendation} brand={recommendationModel.brands[recommendation.redditBrandId]} publishedDishes={recommendationModel.dishes.map((d) => d.id)} />
-            <Link href={`/?spot=${encodeURIComponent(spot.id)}`} className="link-chip">Explore this branch on the map</Link>
+            <Link href={`/#spot=${encodeURIComponent(spot.id)}`} className="link-chip">Explore this branch on the map</Link>
           </section>}
           {localsPick && (
             <section id="locals" className="spot-section locals-pick">
@@ -614,6 +795,8 @@ export default async function SpotPage({ params }) {
 
           <MustOrder spotId={spot.id} initial={dishSeeds} />
 
+          {/* Offers right now - commented out for now */}
+          {/*
           {spotOffers && (spotOffers.district?.hasOffers || spotOffers.swiggy?.hasOffers) && (
             <section className="spot-section sp-offers" aria-label="Offers">
               <h2>Offers right now</h2>
@@ -630,6 +813,23 @@ export default async function SpotPage({ params }) {
                   </ul>
                 </div>
               ))}
+            </section>
+          )}
+          */}
+
+          {(spot.contentScope || contentSources.length > 0) && (
+            <section className="spot-section" aria-label="Editorial sources and scope">
+              <h2>Sources and scope</h2>
+              {spot.contentScope === "brand" && <p className="spot-prose">Brand-level information: dishes and experience can vary by branch.</p>}
+              {spot.contentScope === "branch-comparison" && <p className="spot-prose">This editorial note compares multiple branches. Branch-specific details are identified in the text.</p>}
+              {contentSources.length > 0 && (
+                <div className="site-related-links">
+                  {contentSources.map((source) => (
+                    <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer nofollow">{source.label} ↗</a>
+                  ))}
+                </div>
+              )}
+              <p className="ask-muted">External sources support venue or menu facts; they do not prove Mapping HYD scores or first-hand opinions.</p>
             </section>
           )}
 
@@ -690,10 +890,10 @@ export default async function SpotPage({ params }) {
                     {spot.author?.url ? (
                       <a href={spot.author.url} target="_blank" rel="noopener noreferrer">{spot.author.name}</a>
                     ) : (
-                      spot.author?.name || AUTHOR
+                      spot.author?.name || "Mapping HYD"
                     )}
                     {" · "}
-                    {spot.author?.role || AUTHOR_ROLE}
+                    {spot.author?.role || "Editorial note"}
                   </cite>
                 </blockquote>
               )}
@@ -754,7 +954,7 @@ export default async function SpotPage({ params }) {
           <h2>Ate at {displayName(spot.name)}?</h2>
           <p>Claim +{tier.points} pts in the Hyderabad Food Race.</p>
         </div>
-        <Link href={`/?spot=${encodeURIComponent(spot.id)}`} className="spot-claim-cta">Claim spot</Link>
+        <Link href={`/#spot=${encodeURIComponent(spot.id)}`} className="spot-claim-cta">Claim spot</Link>
       </section>
     </SiteChrome>
     <SpotActionBar spotId={spot.id} name={displayName(spot.name)} path={spotPath(spot)} directionsUrl={directionsUrl} />
@@ -778,7 +978,7 @@ function ticketLine(t) {
 }
 
 function shortRanking(title = "") {
-  const t = title.replace(/\s+in\s+hyderabad$/i, "");
+  const t = title.replace(/[?!.,]+$/, "").replace(/\s+in\s+hyderabad$/i, "");
   return t.charAt(0) + t.slice(1).toLowerCase();
 }
 

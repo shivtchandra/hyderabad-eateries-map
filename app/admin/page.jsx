@@ -4,6 +4,7 @@ import { SEO_THEME_PICKS, slugFromTitle } from "../../lib/rankings.js";
 import { useState, useEffect, useCallback } from "react";
 import InspectionsAdmin from "./InspectionsAdmin.jsx";
 import PlacesAdmin from "./PlacesAdmin.jsx";
+import NewPlacesExport from "./NewPlacesExport.jsx";
 
 const STATUS_COLORS = { live: "#16a34a", scheduled: "#d97706", ended: "#6b7280" };
 
@@ -187,7 +188,7 @@ export default function AdminPage() {
     if (res.ok) {
       const data = await res.json();
       setThemeId(data.id);
-      setMsg(`Saved ✓  Status: ${data.active ? "🟢 Live now" : "🕐 Scheduled"}`);
+      setMsg(`${data.reused ? "Existing ranking resumed" : "Saved"} ✓  Status: ${data.active ? "🟢 Live now" : "🕐 Scheduled"}`);
       loadThemes(secret);
     } else {
       const err = await res.json().catch(() => ({}));
@@ -463,6 +464,8 @@ export default function AdminPage() {
         )}
 
         <PlacesAdmin secret={secret} />
+
+        <NewPlacesExport />
 
         <InspectionsAdmin secret={secret} />
       </div>

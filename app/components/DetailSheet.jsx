@@ -85,6 +85,7 @@ export default function DetailSheet({
     return () => { root?.removeEventListener("keydown", onKey); before?.focus?.(); };
   }, [eatery.id, !!curatedContent]);
 
+  /* Offers commented out for now
   useEffect(() => {
     if (curatedContent) return;
     let active = true;
@@ -96,6 +97,7 @@ export default function DetailSheet({
       .catch(() => {});
     return () => { active = false; };
   }, [eatery.id]);
+  */
 
   const cat = CAT_META[eatery.category] ?? CAT_META.cafe;
   const open = isOpenNow(eatery.hours);
@@ -531,7 +533,7 @@ export default function DetailSheet({
                 {eatery.rating != null ? Number(eatery.rating).toFixed(1) : "-"}
               </div>
               <div style={{ fontSize: 10.5, fontWeight: 600, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 3 }}>
-                Rating
+                Google rating
               </div>
             </div>
 
@@ -551,7 +553,7 @@ export default function DetailSheet({
                 {formattedReviews}
               </div>
               <div style={{ fontSize: 10.5, fontWeight: 600, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 3 }}>
-                {eatery.ratingCount ? "Reviews" : "Votes"}
+                {eatery.ratingCount ? "Google reviews" : "Votes"}
               </div>
             </div>
 
@@ -642,7 +644,8 @@ export default function DetailSheet({
             <MustOrder spotId={eatery.id} limit={3} />
           </div>
 
-          {/* Dual-Platform Dining Offers Widget (District & Swiggy Dineout) */}
+          {/* Dual-Platform Dining Offers Widget (District & Swiggy Dineout) - commented out for now */}
+          {/*
           {offersData && (offersData.district?.hasOffers || offersData.swiggy?.hasOffers) && (
             <div
               style={{
@@ -665,7 +668,6 @@ export default function DetailSheet({
                 </span>
               </div>
 
-              {/* District by Zomato Block */}
               {offersData.district?.hasOffers && (
                 <div style={{ background: "#ffffff", borderRadius: 14, padding: "10px 12px", border: "none" }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
@@ -695,7 +697,6 @@ export default function DetailSheet({
                 </div>
               )}
 
-              {/* Swiggy Dineout Block */}
               {offersData.swiggy?.hasOffers && (
                 <div style={{ background: "#ffffff", borderRadius: 14, padding: "10px 12px", border: "none" }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
@@ -726,6 +727,7 @@ export default function DetailSheet({
               )}
             </div>
           )}
+          */}
 
           {/* Editorial Blurb */}
           {eatery.blurb && (

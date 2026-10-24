@@ -18,7 +18,7 @@ export default function manifest() {
     ],
     shortcuts: [
       { name: "This week's race", url: "/?tab=race", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
-      { name: "Dining deals", url: "/offers", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
+      // { name: "Dining deals", url: "/offers", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
     ],
   };
 }

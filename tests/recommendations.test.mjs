@@ -7,27 +7,58 @@ import { updateCounts, validateVote, writeRecommendationVote } from "../lib/reco
 import { signVoter, verifyVoter } from "../lib/recommendationCookie.js";
 import { safeEvent } from "../lib/engagement.js";
 import { cleanDishName, writeDishAdd, visibleDishes, PUBLIC_AT, DAY_LIMIT } from "../lib/recommendationDishes.js";
-import { mustTry, dishPageEligible, dishMentions } from "../lib/recommendationShared.js";
+import { mustTry, dishPageEligible, dishMentions, isSpecificDishRecommendation } from "../lib/recommendationShared.js";
+import { dishSeedsFor } from "../lib/dishSeeds.js";
+import { getRedditSpotData } from "../lib/redditThreads.js";
+
+test("Mirthy visit note is not promoted as a recommendation", () => {
+  const id = "ChIJI9FVuseRyzsR5qrFwoKDbkw";
+  const place = getRecommendations().places.find((entry) => entry.id === id);
+  assert(place);
+  assert.equal(place.recommended, false);
+  assert.equal(place.seoEligible, false);
+  assert.equal(place.editorial, false);
+  assert.equal(place.reviewStatus, "not-recommended");
+  assert.equal(place.signature, null);
+  assert.deepEqual(place.dishes, []);
+  assert.deepEqual(dishSeedsFor({ id, name: "Mirthy Cafe" }), []);
+  assert.deepEqual(getRedditSpotData(id, "Mirthy Cafe", "mirthy-cafe-jubilee-hills"), {
+    thread: null,
+    pick: null,
+    brandData: null,
+  });
+});
 
 test("one shared curated set, distinct brands and qualified dish pages", () => {
   const m = getRecommendations();
   const shortlist = JSON.parse(fs.readFileSync("data/recommendation-shortlist.json", "utf8"));
   for (const b of shortlist.brands.filter((b) => b.status === "shortlisted")) {
-    assert(b.branchIds.some((id) => m.places.some((p) => p.id === id && p.recommended)), b.name);
+    assert(b.branchIds.some((id) => m.places.some((p) => p.id === id && p.reviewStatus === "shortlisted" && !p.recommended)), b.name);
   }
   for (const p of m.places.filter((p) => p.reviewStatus === "shortlisted")) {
     assert.equal(p.seoEligible, false);
-    assert(p.research.evidence.length > 0);
+    assert(p.research);
   }
   assert.equal(m.brands.subhan.dishes[0].accounts, 3);
-  // Dish pages: earlier reviewed dishes keep their pages; others need 5+ brands and 20+ people.
-  assert(m.dishes.some((d) => d.id === "osmania-biscuits"));
+  // Dish pages still need enough independently reviewed brands; one approved
+  // association must not manufacture a citywide guide.
+  assert(!m.dishes.some((d) => d.id === "osmania-biscuits"));
   assert(!m.dishes.some((d) => d.id === "sushi"));
   for (const d of m.dishes) assert(d.brands >= 3, d.id);
   for (const d of m.dishes.filter((x) => !publishableDishes(m.places).some((r) => r.id === x.id))) assert(dishPageEligible(m.places, d), d.id);
   const groups = groupRecommendations(m.places.filter((p) => p.recommended));
-  assert(groups.some((g) => g.branches.length > 1));
+  assert(groups.length > 0);
+  assert(groups.flatMap((g) => g.branches).every((p) => p.editorial || p.redditBrandId));
   for (const p of m.places.filter((p) => p.redditBrandId)) assert(m.brands[p.redditBrandId]);
+});
+test("editorial content needs an explicit recommendation status", () => {
+  const base = { name: "Place", lat: 17.4, lng: 78.4, category: "restaurant" };
+  const factual = buildRecommendations([{ ...base, id: "factual" }], ["factual"], { brands: [] }, { spots: {} }).places[0];
+  const recommended = buildRecommendations([{ ...base, id: "pick", recommendationStatus: "recommended" }], ["pick"], { brands: [] }, { spots: {} }).places[0];
+  assert.equal(factual.reviewStatus, "factual-only");
+  assert.equal(factual.recommended, false);
+  assert.equal(recommended.reviewStatus, "recommended");
+  assert.equal(recommended.recommended, true);
 });
 test("reviewed Reddit associations really have three distinct source authors", () => {
   const reviews = JSON.parse(fs.readFileSync("data/recommendation-reviews.json", "utf8"));
@@ -61,12 +92,12 @@ test("dish, name, area and viewport filters produce the same source rows for map
   const m = getRecommendations();
   const s = parseMapState("dish=osmania-biscuits&mode=recommended");
   const results = filterRecommendations(m.places, s);
-  // Reviewed tags (4) plus places locals name for the dish.
-  assert(results.length >= 4);
-  assert.equal(results.filter((p) => p.dishes.some((d) => d.id === "osmania-biscuits")).length, 4);
+  // Only entity-reviewed associations can enter the recommended set.
+  assert.equal(results.length, 1);
+  assert.equal(results.filter((p) => p.dishes.some((d) => d.id === "osmania-biscuits")).length, 1);
   assert(results.every((p) => p.recommended));
   assert.equal(groupRecommendations(results).flatMap((g) => g.branches).length, results.length);
-  assert(filterRecommendations(m.places, { ...s, q: "Niloufer" }).length >= 2);
+  assert.equal(filterRecommendations(m.places, { ...s, q: "Niloufer" }).length, 0);
   assert.equal(filterRecommendations(m.places, { ...s, q: "no-such-dish" }).length, 0);
   const p = results[0];
   assert(filterRecommendations(m.places, { ...s, q: p.area }).some((x) => x.id === p.id));
@@ -127,6 +158,14 @@ test("dish names are validated", () => {
   assert.equal(cleanDishName("Ghee podi idli"), "Ghee podi idli");
   for (const bad of ["a", "http://spam.com", "www.x", "<b>", "123", "x".repeat(41), "fuck this"]) assert.equal(cleanDishName(bad), null, bad);
 });
+test("existing public dish summaries hide broad labels", () => {
+  const dishes = {
+    "cocktails bar": { name: "Cocktails / bar", count: 8 },
+    pizza: { name: "Pizza", count: 3 },
+    "chicken popcorn": { name: "Chicken Popcorn", count: 2 },
+  };
+  assert.deepEqual(visibleDishes(dishes).map((dish) => dish.name), ["Chicken Popcorn"]);
+});
 test("dish adds dedupe per visitor, go public at the threshold, and are rate limited", async () => {
   const db = fakeDb(); const base = { placeId: "p1", name: "Mutton biryani", now: Date.UTC(2026, 9, 5) };
   const first = await writeDishAdd(db, { ...base, voter: "a" });
@@ -145,10 +184,28 @@ test("dish adds dedupe per visitor, go public at the threshold, and are rate lim
 });
 test("must-try merges editorial, community and Reddit dishes by name", () => {
   const t = mustTry({ signature: { name: "Ghee podi idli" }, dishes: [{ id: "dosa", name: "Dosa" }], localDishes: [{ name: "Dosa", people: 12 }], communityDishes: [{ name: "Filter coffee", count: 3 }] });
-  assert.deepEqual(t.map((d) => [d.name, d.count, !!d.star]), [["Ghee podi idli", 0, true], ["Dosa", 12, false], ["Filter coffee", 3, false]]);
-  assert.equal(t[1].id, "dosa");
+  assert.deepEqual(t.map((d) => [d.name, d.count, !!d.star]), [["Ghee podi idli", 0, true], ["Filter coffee", 3, false]]);
   const folded = mustTry({ signature: { name: "Mutton Dum Biryani" }, dishes: [{ id: "biryani", name: "Biryani" }], localDishes: [{ name: "Biryani", people: 61 }, { name: "Mutton biryani", people: 38 }, { name: "Haleem", people: 4 }] });
-  assert.deepEqual(folded.map((d) => [d.name, d.count]), [["Mutton Dum Biryani", 99], ["Haleem", 4]]);
+  assert.deepEqual(folded.map((d) => [d.name, d.count]), [["Mutton Dum Biryani", 38], ["Haleem", 4]]);
+});
+test("what-to-order excludes broad cuisines and categories while retaining specific dishes", () => {
+  for (const vague of ["Cocktails / bar", "Pizza", "Biryani", "Coffee", "Desserts", "Bakery / cakes", "Breakfast", "Sushi / Japanese", "Signature House Cocktails"]) {
+    assert.equal(isSpecificDishRecommendation(vague), false, vague);
+    assert.equal(cleanDishName(vague), null, vague);
+  }
+  for (const dish of ["Apple Beer & Kodi Chips", "Mutton Dum Biryani", "Neyyi Kaaram Palyam Dosa", "Hot Chocolate"]) {
+    assert.equal(isSpecificDishRecommendation(dish), true, dish);
+  }
+  const tries = mustTry({
+    signature: { name: "Apple Beer & Kodi Chips" },
+    editorialDishes: [{ name: "Cheese Balls" }, { name: "Signature House Cocktails" }],
+    communityDishes: [{ name: "Cocktails / bar", count: 8 }, { name: "Chicken Popcorn", count: 3 }],
+    localDishes: [{ name: "Pizza", people: 12 }, { name: "Truffle Parmesan Fries", people: 4 }],
+    rankings: [{ dishName: "Pizza", votes: 10, dishId: "pizza" }],
+    dishes: [{ id: "pizza", name: "Pizza" }],
+  });
+  assert.deepEqual(tries.map((dish) => dish.name), ["Apple Beer & Kodi Chips", "Cheese Balls", "Truffle Parmesan Fries", "Chicken Popcorn"]);
+  assert.deepEqual(mustTry({ signature: { name: "Pan-Asian plates & live-music evenings" }, editorialDishes: [{ name: "Pizza" }] }), []);
 });
 test("ranked places: every published standing is recommended with its category and position", async () => {
   const { rankingsBySpot, resolveRankedPlaces } = await import("../lib/recommendationPicks.js");

@@ -8,11 +8,12 @@ import { ogImages } from "../../../../lib/og.js";
 import { breadcrumbJsonLd, itemListJsonLd } from "../../../../lib/schema.js";
 import { TIERS, tierFor } from "../../../../lib/eateryUtils.js";
 import { Icon } from "../../../components/Icons.jsx";
+import { rankedPlaces } from "../../../../lib/recommendationPicks.js";
 
 export const revalidate = 86400;
 
 export function generateStaticParams() {
-  return allAreaCategoryCombinations().map((c) => ({
+  return allAreaCategoryCombinations({ minSpots: 3 }).map((c) => ({
     slug: c.areaSlug,
     category: c.categorySlug,
   }));
@@ -22,25 +23,41 @@ export function generateMetadata({ params }) {
   const data = getAreaCategoryData(params.slug, params.category);
   if (!data) return { title: "Not found, Hyderabad Eats" };
   const year = new Date().getFullYear();
-  const title = `Best ${data.category.label} in ${data.area} (${year})`;
-  const description = `Top-rated ${data.category.label.toLowerCase()} in ${data.area}, Hyderabad. ${data.spots.length} curated spots with ratings, must-order dishes, menu prices, and live map pins.`;
+  const breakfast = data.category.slug === "breakfast";
+  const title = breakfast
+    ? `Best Breakfast Places in ${data.area} (${year})`
+    : `${data.category.label} in ${data.area} (${year})`;
+  const description = breakfast
+    ? `${data.spots.length} mapped breakfast and tiffin places in ${data.area}, Hyderabad, with dosa, idli, cafe and local options plus map links.`
+    : `Browse ${data.spots.length} mapped ${data.category.label.toLowerCase()} in ${data.area}, Hyderabad, with community standings, available venue facts and map links.`;
+  const meta = pageMeta({ title, description, path: `/areas/${params.slug}/${params.category}` });
   return {
-    ...pageMeta({ title, description, path: `/areas/${params.slug}/${params.category}` }),
+    ...meta,
+    ...(!data.indexable ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
-      ...pageMeta({ title, description, path: `/areas/${params.slug}/${params.category}` }).openGraph,
+      ...meta.openGraph,
       images: ogImages(title, description, `/areas/${params.slug}`),
     },
   };
 }
 
-export default function AreaCategoryPage({ params }) {
+export default async function AreaCategoryPage({ params }) {
   const data = getAreaCategoryData(params.slug, params.category);
   if (!data) notFound();
 
   const { area, category, spots, areaSlug } = data;
   const siteUrl = getSiteUrl();
   const year = new Date().getFullYear();
-  const topSpots = spots.slice(0, 35);
+  const breakfast = category.slug === "breakfast";
+  const ranked = await rankedPlaces();
+  const topSpots = [...spots].sort((a, b) => {
+    const ar = ranked.get(a.id)?.[0];
+    const br = ranked.get(b.id)?.[0];
+    return (Boolean(br) - Boolean(ar))
+      || ((ar?.rank || 99) - (br?.rank || 99))
+      || ((br?.votes || 0) - (ar?.votes || 0))
+      || String(a.name || "").localeCompare(String(b.name || ""));
+  }).slice(0, 35);
 
   const breadcrumbsLd = breadcrumbJsonLd([
     { name: "Home", url: siteUrl },
@@ -52,7 +69,8 @@ export default function AreaCategoryPage({ params }) {
   const itemsLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: `Best ${category.label} in ${area}, Hyderabad`,
+    name: `${category.label} in ${area}, Hyderabad`,
+    numberOfItems: topSpots.length,
     itemListElement: topSpots.map((spot, i) => ({
       "@type": "ListItem",
       position: i + 1,
@@ -60,6 +78,10 @@ export default function AreaCategoryPage({ params }) {
       url: `${siteUrl}${spotPath(spot)}`,
     })),
   };
+  const answerNames = topSpots.slice(0, 3).map((spot) => spot.name);
+  const answer = breakfast
+    ? `There are ${spots.length} mapped breakfast and tiffin places in ${area}. ${answerNames.length ? `Start with ${answerNames.join(", ")}, then compare the full list and map below.` : "Use the list and map below to compare nearby options."}`
+    : `There are ${spots.length} mapped ${category.label.toLowerCase()} in ${area}. ${answerNames.length ? `The list includes ${answerNames.join(", ")}.` : "Browse the verified venue list below."}`;
 
   return (
     <div style={{ paddingBottom: 84 }}>
@@ -74,16 +96,23 @@ export default function AreaCategoryPage({ params }) {
           { href: `/areas/${areaSlug}`, label: area },
           { href: `/areas/${areaSlug}/${params.category}`, label: category.label },
         ]}
-        title={`Best ${category.label} in ${area} (${year})`}
-        description={`Top-rated ${category.label.toLowerCase()} in ${area}, Hyderabad. Showing top ${topSpots.length} of ${spots.length} mapped spots.`}
+        title={breakfast ? `Best Breakfast Places in ${area} (${year})` : `${category.label} in ${area}: Map & Guide (${year})`}
+        description={answer}
         related={[
           { href: `/?tab=map`, label: "Open full map" },
           { href: `/areas/${areaSlug}`, label: `All food in ${area}` },
-          { href: `/explore/${params.category}`, label: `All ${category.label} in HYD` },
+          ...(breakfast
+            ? [{ href: "/guides/best-tiffins-hyderabad-reddit", label: "Hyderabad breakfast guide" }]
+            : [{ href: `/explore/${params.category}`, label: `All ${category.label} in HYD` }]),
           { href: "/?tab=race&view=race", label: "The Food Race" },
           { href: "/rankings", label: "Community rankings" },
         ]}
       >
+        <section className="spot-section" aria-label={`${category.label} answer for ${area}`}>
+          <h2 className="site-section-title">{breakfast ? `Where to eat breakfast in ${area}` : `${category.label} in ${area} at a glance`}</h2>
+          <p className="spot-prose">{answer}</p>
+          <p className="spot-prose">Mapping HYD community standings lead when votes exist. Other places are ordered by name, while Google ratings are shown only as labelled third-party facts.</p>
+        </section>
         {/* Race Banner */}
         <div style={{
           background: "linear-gradient(135deg, var(--violet-wash) 0%, rgba(124,58,237,0.12) 100%)",
@@ -138,13 +167,14 @@ export default function AreaCategoryPage({ params }) {
         {/* Spot List */}
         <section className="spot-section">
           <h2 className="site-section-title">
-            Top {category.label} in {area} ({topSpots.length})
+            Browse {category.label} in {area} ({topSpots.length})
           </h2>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 14 }}>
-            {topSpots.map((spot, i) => {
+            {topSpots.map((spot) => {
               const tierKey = spot.tier || tierFor(spot.ratingCount || 0);
               const tier = TIERS[tierKey] || TIERS["hidden-gem"];
+              const localStanding = ranked.get(spot.id)?.[0];
 
               return (
                 <article
@@ -163,14 +193,14 @@ export default function AreaCategoryPage({ params }) {
                   <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10 }}>
                     <div style={{ minWidth: 0 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <span style={{
+                        {localStanding && <span style={{
                           fontFamily: "var(--font-display), system-ui, sans-serif",
-                          fontSize: 16,
+                          fontSize: 12,
                           fontWeight: 700,
-                          color: "var(--muted)",
+                          color: "var(--violet-deep)",
                         }}>
-                          #{i + 1}
-                        </span>
+                          Mapping HYD #{localStanding.rank} {localStanding.title}
+                        </span>}
                         <h3 style={{
                           fontSize: 16.5,
                           fontWeight: 750,
@@ -193,7 +223,7 @@ export default function AreaCategoryPage({ params }) {
                       }}>
                         {spot.rating && (
                           <span style={{ fontWeight: 700, color: "var(--ink-soft)" }}>
-                            ★ {Number(spot.rating).toFixed(1)} {spot.ratingCount ? `(${spot.ratingCount.toLocaleString("en-IN")})` : ""}
+                            Google {Number(spot.rating).toFixed(1)}★ {spot.ratingCount ? `(${spot.ratingCount.toLocaleString("en-IN")})` : ""}
                           </span>
                         )}
                         {spot.costForTwo && (
@@ -244,10 +274,10 @@ export default function AreaCategoryPage({ params }) {
                         textDecoration: "none",
                       }}
                     >
-                      View Menu &amp; Reviews →
+                      View venue details →
                     </Link>
                     <Link
-                      href={`/?spot=${encodeURIComponent(spot.id)}`}
+                      href={`/#spot=${encodeURIComponent(spot.id)}`}
                       className="pressable-sm"
                       style={{
                         fontSize: 12,

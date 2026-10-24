@@ -25,11 +25,14 @@ function parseLocation(text) {
 }
 
 function PlaceRow({ place, secret, onDone }) {
-  const [loc, setLoc] = useState("");
-  const [category, setCategory] = useState("restaurant");
+  const [loc, setLoc] = useState(Number.isFinite(place.lat) && Number.isFinite(place.lng) ? `${place.lat}, ${place.lng}` : "");
+  const [category, setCategory] = useState(place.category || "restaurant");
+  const [area, setArea] = useState(place.area || place.discoveredIn || "");
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
-  const mapsSearch = `https://www.google.com/maps/search/${encodeURIComponent(`${place.name} ${place.area || ""} Hyderabad`)}`;
+  const mapsSearch = Number.isFinite(place.lat) && Number.isFinite(place.lng)
+    ? `https://www.google.com/maps/search/?api=1&query=${place.lat},${place.lng}`
+    : `https://www.google.com/maps/search/${encodeURIComponent(`${place.name} ${place.area || ""} Hyderabad`)}`;
 
   const nom = place.pickNomination;
   const act = async (action, pick = false) => {
@@ -40,7 +43,7 @@ function PlaceRow({ place, secret, onDone }) {
       const isLink = /^https?:\/\//i.test(loc.trim());
       if (!p && !isLink) { setMsg("Paste a Google Maps link or lat,lng first."); return; }
       // Share links (maps.app.goo.gl) have no coordinates; the server follows the redirect.
-      Object.assign(body, p || { link: loc.trim() }, { category });
+      Object.assign(body, p || { link: loc.trim() }, { category, area });
     }
     setBusy(true);
     const res = await fetch("/api/admin/places", {
@@ -60,6 +63,9 @@ function PlaceRow({ place, secret, onDone }) {
         <b style={{ fontSize: 15 }}>{place.name}</b>
         <span style={{ fontSize: 12, color: "var(--muted)" }}>{place.area} · {String(place.createdAt || "").slice(0, 10)}</span>
       </div>
+      <span style={{ alignSelf: "flex-start", fontSize: 11, fontWeight: 800, letterSpacing: 0.5, color: place.source === "weekly-discovery" ? "var(--forest)" : "var(--violet)", textTransform: "uppercase" }}>
+        {place.source === "weekly-discovery" ? "Weekly discovery" : "Visitor suggestion"}
+      </span>
       {nom?.count > 0 && (
         <span style={{ alignSelf: "flex-start", fontSize: 12, fontWeight: 700, color: "var(--violet)", background: "rgba(124,58,237,0.08)", borderRadius: 999, padding: "3px 10px" }}>
           ★ Picks nomination · {nom.count} {nom.count === 1 ? "person" : "people"}{Object.values(nom.dishes || {}).length ? ` · try: ${Object.values(nom.dishes).slice(0, 3).join(", ")}` : ""}
@@ -72,6 +78,7 @@ function PlaceRow({ place, secret, onDone }) {
             Find it on Google Maps →
           </a>
           <input value={loc} onChange={(e) => setLoc(e.target.value)} placeholder="Paste the Google Maps link or lat,lng" style={{ height: 38, border: "1.5px solid var(--line)", borderRadius: 10, padding: "0 10px", fontSize: 13.5 }} />
+          <input value={area} onChange={(e) => setArea(e.target.value)} placeholder="Area, e.g. Jubilee Hills" style={{ height: 38, border: "1.5px solid var(--line)", borderRadius: 10, padding: "0 10px", fontSize: 13.5 }} />
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             <select value={category} onChange={(e) => setCategory(e.target.value)} style={{ height: 36, borderRadius: 10, border: "1.5px solid var(--line)", padding: "0 8px" }}>
               {CATEGORIES.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
@@ -109,9 +116,9 @@ export default function PlacesAdmin({ secret }) {
 
   return (
     <section style={{ marginTop: 28 }}>
-      <h2 style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontSize: 20, margin: "0 0 4px" }}>New places from visitors</h2>
+      <h2 style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontSize: 20, margin: "0 0 4px" }}>Place review queue</h2>
       <p style={{ fontSize: 13, color: "var(--muted)", margin: "0 0 10px" }}>
-        Added from the search bar or the rankings. Approve to put a place on the map, remove junk.
+        Weekly discoveries and visitor suggestions stay off the map until approved here.
       </p>
       <div style={{ display: "flex", gap: 6, marginBottom: 12 }}>
         {["pending", "approved", "removed"].map((s) => (

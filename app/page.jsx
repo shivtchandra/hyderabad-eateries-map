@@ -786,14 +786,14 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     flyMap(e.lat, e.lng, 16);
   }, [loadDetail]);
 
-  // Deep link: /?spot=<id> selects that spot, opens its sheet and centres the
-  // map on it. Lets the spot page's "Open on map" button (and any shared spot
-  // link) land on the right pin instead of the bare city map. Runs once, after
-  // the index has loaded so byId[id] resolves.
+  // Deep link: /#spot=<id> selects that spot, opens its sheet and centres the
+  // map on it without creating another crawlable homepage URL. Keep accepting
+  // the legacy ?spot= form while indexed copies consolidate to the canonical.
   const deepLinkedRef = useRef(false);
   useEffect(() => {
     if (deepLinkedRef.current || loading) return;
-    const id = new URLSearchParams(window.location.search).get("spot");
+    const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+    const id = hashParams.get("spot") || new URLSearchParams(window.location.search).get("spot");
     if (!id) { deepLinkedRef.current = true; return; }
     const e = byId[id];
     if (!e) return; // data not ready to resolve this id yet; retry on next tick

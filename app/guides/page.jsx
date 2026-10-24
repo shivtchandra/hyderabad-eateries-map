@@ -32,7 +32,7 @@ const JUMP = [
   { href: "/rankings", label: "Rankings", note: "Voted by locals", tone: "sun", key: "biryani" },
   { href: "/guides/dishes", label: "Dish guides", note: "What to order", tone: "grape", key: "dosa" },
   { href: "/areas", label: "Areas", note: "Eat by neighbourhood", tone: "ink", icon: "pin" },
-  { href: "/offers", label: "Deals", note: "Offers today", tone: "violet", key: "mandi" },
+  // { href: "/offers", label: "Deals", note: "Offers today", tone: "violet", key: "mandi" },
   { href: "/food-safety", label: "Food safety", note: "Inspection records", tone: "paper", icon: "shield" },
   { href: "/stories", label: "Stories", note: "Old Hyderabad spots", tone: "yellow", key: "irani-chai" },
 ];
@@ -175,14 +175,15 @@ export default function GuidesPage() {
         <section className="guides-section">
           <h2 className="guides-h2">Also</h2>
           <div className="guides-tiles">
+            {/* Deals commented out for now
             <Link href="/offers" className="guides-tile guides-tile--violet">
               {sticker("deals") && (
-                // eslint-disable-next-line @next/next/no-img-element
                 <img className="guides-tile-art" src={sticker("deals")} alt="" loading="lazy" />
               )}
               <span className="guides-tile-label">Dining deals</span>
               <span className="guides-tile-note">Offers at spots on the map</span>
             </Link>
+            */}
             <Link href="/food-safety" className="guides-tile guides-tile--ink">
               {sticker("food-safety") && (
                 // eslint-disable-next-line @next/next/no-img-element

@@ -30,21 +30,31 @@ fs.mkdirSync(PUBLIC, { recursive: true });
 
 // Core list (lib/coreSpots.js): the map shows these by default; the rest stay searchable.
 let editorialIds = new Set();
-try { editorialIds = new Set(Object.keys(JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "venue-content.json"), "utf-8")))); } catch {}
+let recommendedEditorialIds = new Set();
+try {
+  const content = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "venue-content.json"), "utf-8"));
+  editorialIds = new Set(Object.keys(content));
+  recommendedEditorialIds = new Set(Object.entries(content).filter(([, value]) => value.recommendationStatus === "recommended").map(([id]) => id));
+} catch {}
 // eateries.json has a few duplicate ids (same place saved twice); keep the one with most reviews.
 const byIdBest = new Map();
 for (const e of all.filter((x) => x.lat && x.lng && x.status === "approved")) {
   const prev = byIdBest.get(e.id);
-  if (!prev || (Number(e.ratingCount) || 0) > (Number(prev.ratingCount) || 0)) byIdBest.set(e.id, e);
+  const currentUpdated = Date.parse(e.detailsUpdatedAt || "") || 0;
+  const previousUpdated = Date.parse(prev?.detailsUpdatedAt || "") || 0;
+  if (!prev || currentUpdated > previousUpdated || (currentUpdated === previousUpdated && (Number(e.ratingCount) || 0) > (Number(prev.ratingCount) || 0))) byIdBest.set(e.id, e);
 }
 const approved = [...byIdBest.values()];
 const core = coreIdSet(approved, { editorialIds });
-// "Recos" chip: spots we recommend something at (editorial, dish picks, brand
-// picks like Cream Stone, dishes locals name on r/hyderabad).
+// "Recos" chip: explicit editorial recommendations and entity-reviewed Reddit
+// branches only. Content, raw dish seeds and shortlist research are not endorsements.
 const readData = (f, fb) => { try { return JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", f), "utf-8")); } catch { return fb; } };
-const dishSeedIds = new Set(Object.keys(readData("dish-seeds.json", {})));
-const brandRes = (readData("brand-picks.json", { brands: [] }).brands || []).map((b) => new RegExp(b.match, "i"));
-const isReco = (e) => editorialIds.has(e.id) || dishSeedIds.has(e.id) || !!localsDishes[e.id] || brandRes.some((re) => re.test(e.name || ""));
+const reviewedBranchIds = new Set((readData("recommendation-reviews.json", { brands: [] }).brands || [])
+  .filter((brand) => brand.status === "approved")
+  .flatMap((brand) => (brand.branches || [])
+    .filter((branch) => branch.status === "approved" && branch.checkedAt && branch.statusSource)
+    .map((branch) => branch.id)));
+const isReco = (e) => recommendedEditorialIds.has(e.id) || reviewedBranchIds.has(e.id);
 let localsDishes = {};
 try { localsDishes = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "locals-dishes.json"), "utf-8")).spots || {}; } catch {}
 
@@ -135,3 +145,12 @@ console.log(`eateries-detail.json ${Object.keys(detail).length} spots  ${mb("eat
 console.log(
   `photo-ids.json       ${photoIds.length} thumbs  ${fs.existsSync(photosDir) ? "(regenerated)" : "(kept, no local photos dir)"}`
 );
+
+if (process.env.REQUIRE_LIVE_RANKINGS === "1") {
+  const { getAllRankingsThemes } = await import("../lib/themesServer.js");
+  const themes = await getAllRankingsThemes(50);
+  if (!themes.some((theme) => theme.active || theme.winnerId || theme.results?.some((result) => (result.count || 0) > 0))) {
+    throw new Error("Release blocked: live ranking data is empty while REQUIRE_LIVE_RANKINGS=1.");
+  }
+  console.log(`ranking release gate ${themes.length} live/completed themes verified`);
+}

@@ -1,5 +1,12 @@
-import { getAllRankingsThemes, getRankingBySlug } from "../../../lib/themesServer.js";
+import {
+  getAllRankingsThemes,
+  getAreaRanking,
+  getRankingBySlug,
+  getRankingPeriodResults,
+} from "../../../lib/themesServer.js";
 import { rankingsBySpot } from "../../../lib/recommendationPicks.js";
+import { isRankingPeriod, rankingInsights } from "../../../lib/rankings.js";
+import { getAreaBySlug } from "../../../lib/siteData.js";
 
 export const dynamic = "force-dynamic";
 
@@ -8,9 +15,44 @@ export async function GET(req) {
   const slug = searchParams.get("slug");
 
   if (slug) {
-    const theme = await getRankingBySlug(slug);
+    const requestedPeriod = searchParams.get("period") || "all-time";
+    if (!["all-time", "current", "previous"].includes(requestedPeriod) && !isRankingPeriod(requestedPeriod)) {
+      return Response.json({ error: "invalid-period" }, { status: 400 });
+    }
+
+    const areaSlug = searchParams.get("area");
+    const areaRanking = areaSlug ? await getAreaRanking(slug, areaSlug) : null;
+    if (areaSlug && !areaRanking) return Response.json({ error: "not-found" }, { status: 404 });
+    const theme = areaRanking?.theme || await getRankingBySlug(slug);
     if (!theme) return Response.json({ error: "not-found" }, { status: 404 });
-    return Response.json({ theme });
+
+    let selectedPeriod = requestedPeriod;
+    let selectedResults = theme.results;
+    let comparisonResults = [];
+    if (requestedPeriod === "current") {
+      selectedPeriod = theme.currentPeriod;
+      selectedResults = theme.currentPeriodResults || [];
+      comparisonResults = theme.previousPeriodResults || [];
+    } else if (requestedPeriod === "previous") {
+      selectedPeriod = theme.previousPeriod;
+      selectedResults = theme.previousPeriodResults || [];
+    } else if (requestedPeriod !== "all-time") {
+      selectedResults = await getRankingPeriodResults(theme.id, requestedPeriod, theme.displayLimit);
+      if (areaSlug) {
+        const ids = new Set(getAreaBySlug(areaSlug)?.spots.map((spot) => spot.id) || []);
+        selectedResults = selectedResults.filter((row) => ids.has(row.spotId));
+      }
+    }
+
+    return Response.json({
+      theme: {
+        ...theme,
+        selectedPeriod,
+        selectedResults,
+        selectedInsights: rankingInsights(selectedResults, comparisonResults),
+      },
+      ...(areaRanking ? { area: areaRanking.area, qualification: areaRanking.qualification } : {}),
+    });
   }
 
   const themes = await getAllRankingsThemes(50);

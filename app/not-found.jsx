@@ -32,7 +32,7 @@ export default function NotFound() {
           <Link href="/" className="site-card"><h3>Map</h3><p>Explore &amp; vote</p></Link>
           <Link href="/rankings" className="site-card"><h3>Rankings</h3><p>Weekly votes</p></Link>
           <Link href="/explore/cafes" className="site-card"><h3>Cafes</h3><p>Top cafes</p></Link>
-          <Link href="/rankings/best-biryani-in-hyderabad" className="site-card"><h3>Biryani</h3><p>Best biryani vote</p></Link>
+          <Link href="/rankings/best-biryani-in-hyderabad" className="site-card"><h3>Biryani</h3><p>Live local-vote standings</p></Link>
         </div>
       </div>
     </SiteChrome>

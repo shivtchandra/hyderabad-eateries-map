@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 // Other site sections, reachable from the same row (they navigate away, unlike the tabs).
 const SITE_LINKS = [
-  { href: "/offers", label: "Deals" },
+  // { href: "/offers", label: "Deals" },
   { href: "/food-safety", label: "Food safety" },
   { href: "/rankings", label: "Rankings" },
   { href: "/explore", label: "Explore" },

@@ -98,23 +98,26 @@ export default async function ThisWeekRacePage() {
   const liveSlug = live?.slug || (live?.title ? slugFromTitle(live.title) : null);
   const pick = liveSlug ? pickFor(liveSlug, live?.title) : null;
 
-  // Prefer real votes with count > 0 for ItemList; else Google baseline so the
-  // URL still indexes named restaurants even before the first community vote.
+  // Only real votes form an ordered ItemList. Suggested candidates are never
+  // emitted as standings before somebody votes.
   const voteRows = (live?.results || []).filter((r) => (r.count || 0) > 0);
   const editorial = live
     ? editorialRanking(pick || { title: live.title }, liveSlug, 15)
     : [];
-  const listForLd = (voteRows.length ? voteRows : editorial).slice(0, 15);
+  const listForLd = voteRows.slice(0, 15);
   const jsonLd = live && listForLd.length
     ? itemListJsonLd({ ...live, results: listForLd }, siteUrl, pathForSpotId)
     : null;
 
   const topNames = listForLd.slice(0, 5).map((r) => r.name).filter(Boolean);
+  const candidateNames = editorial.slice(0, 5).map((r) => r.name).filter(Boolean);
   const answerLead = topNames.length
-    ? `Top ${live.title.toLowerCase()} picks right now include ${topNames.join(", ")}.`
-    : live
-      ? `Vote for ${live.title.toLowerCase()} on Hyderabad Eats.`
-      : "Vote in this week's Hyderabad food challenge.";
+    ? `Current community standings for ${live.title.toLowerCase()} start with ${topNames.join(", ")}.`
+    : live && candidateNames.length
+      ? `Suggested ballot candidates for ${live.title.toLowerCase()} include ${candidateNames.join(", ")}. They are unranked until locals vote.`
+      : live
+        ? `Vote for ${live.title.toLowerCase()} on Hyderabad Eats.`
+        : "Vote in this week's Hyderabad food challenge.";
 
   return (
     <>
@@ -127,14 +130,12 @@ export default async function ThisWeekRacePage() {
         />
       )}
 
-      {/* Visually hidden via .seo-crawl-nav. Same UI for humans; crawlers get
-          the ranked names + spot links + previous weeks on this URL. */}
-      <nav className="seo-crawl-nav" aria-label="This week's food race listings">
+      <nav className="race-directory" aria-label="This week's food race listings">
         <h1>{live ? live.title : "This week's food race"}</h1>
         <p>{answerLead}</p>
         <p>
           Community vote for this week&apos;s dish on Hyderabad Eats. Previous weeks stay open.
-          Full ranking pages keep the Google-review baseline alongside live votes.
+          Only local votes create numbered standings; suggested candidates stay unranked.
         </p>
 
         {live && voteRows.length > 0 && (
@@ -153,17 +154,17 @@ export default async function ThisWeekRacePage() {
 
         {editorial.length > 0 && (
           <>
-            <h2>Best listing by Google reviews</h2>
-            <ol>
+            <h2>Suggested ballot candidates</h2>
+            <p>These are unranked suggestions until somebody votes.</p>
+            <ul>
               {editorial.map((r) => (
                 <li key={r.spotId}>
                   <Link href={pathForSpotId(r.spotId)}>{r.name}</Link>
                   {r.area ? ` · ${r.area}` : ""}
-                  {r.rating != null ? ` · ${r.rating}★` : ""}
                   {r.blurb ? ` · ${r.blurb}` : ""}
                 </li>
               ))}
-            </ol>
+            </ul>
           </>
         )}
 
@@ -226,7 +227,7 @@ export default async function ThisWeekRacePage() {
           )}
           <li><Link href="/guides/best-breweries-in-hyderabad">Best Breweries in Hyderabad (Guide)</Link></li>
           <li><Link href="/rankings">All rankings</Link></li>
-          <li><Link href="/rankings/best-biryani-in-hyderabad">Best biryani in Hyderabad</Link></li>
+          <li><Link href="/rankings/best-biryani-in-hyderabad">Live Hyderabad biryani vote</Link></li>
           <li><Link href="/rankings/best-mandi-in-hyderabad">Best mandi in Hyderabad</Link></li>
           <li><Link href="/rankings/best-cafe-in-hyderabad">Best cafe in Hyderabad</Link></li>
           <li><Link href="/rankings/best-buffet-in-hyderabad">Best buffet in Hyderabad</Link></li>

@@ -1,0 +1,60 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Space+Grotesk:wght@500;600&display=block" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+body{width:1080px;height:1350px;overflow:hidden;background:#f8f2e4;font-family:"Space Grotesk",sans-serif;color:#16130f;position:relative}
+.grain{position:absolute;inset:0;opacity:.28;mix-blend-mode:multiply;pointer-events:none}
+.vign{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(150,110,60,.10));pointer-events:none}
+.fold{position:absolute;left:0;right:0;top:640px;height:2px;background:linear-gradient(90deg,transparent,rgba(110,80,40,.10),transparent)}
+.charminar{position:absolute;left:30px;bottom:120px;width:400px;opacity:.15}
+.head{position:absolute;left:72px;top:74px;width:600px}
+.kicker{display:inline-flex;gap:10px;align-items:center;font-weight:600;font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#6d3ce8}
+.kicker i{width:10px;height:10px;border-radius:50%;background:#6d3ce8}
+h1{font-family:"Bricolage Grotesque";font-weight:800;font-size:68px;line-height:.98;letter-spacing:-.02em;margin-top:18px}
+h1 em{font-style:normal;background:linear-gradient(transparent 62%,#f2c94c 62%,#f2c94c 92%,transparent 92%)}
+p.sub{font-size:24px;line-height:1.35;margin-top:18px;color:#4a433c;width:390px}
+.stamp{position:absolute;right:64px;top:58px;width:170px;height:170px;border-radius:50%;border:3px solid rgba(157,47,79,.55);color:rgba(157,47,79,.6);display:grid;place-items:center;text-align:center;transform:rotate(-12deg);font-weight:600;font-size:15px;letter-spacing:.12em;line-height:1.5}
+.stamp:before{content:"";position:absolute;inset:9px;border-radius:50%;border:1.5px dashed rgba(157,47,79,.45)}
+.stamp b{display:block;font-family:"Bricolage Grotesque";font-size:30px;letter-spacing:0}
+.url{position:absolute;left:72px;bottom:48px;font-weight:600;font-size:20px;color:#6b6157;letter-spacing:.02em}
+.phone{position:absolute;left:520px;top:262px;width:468px;height:984px;border-radius:72px;background:#1b1b1d;padding:14px;transform:rotate(3deg);transform-origin:top left;
+ box-shadow:0 2px 0 2px #3a3a3e inset,0 40px 70px -20px rgba(70,45,15,.45),0 14px 24px rgba(70,45,15,.22)}
+.phone:before{content:"";position:absolute;inset:-3px;border-radius:75px;border:3px solid #8a8780;opacity:.55}
+.screen{width:440px;height:956px;border-radius:58px;overflow:hidden;position:relative;background:#fff}
+.status{height:62px;display:flex;align-items:center;justify-content:space-between;padding:8px 38px 0 46px;font-weight:600;font-size:18px}
+.island{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:126px;height:37px;border-radius:20px;background:#000;z-index:3}
+.screen img{display:block;filter:saturate(1.12) contrast(1.04);image-rendering:high-quality;width:440px;height:894px}
+.screen:after{content:"";position:absolute;inset:0;border-radius:58px;background:linear-gradient(115deg,rgba(255,255,255,.10),transparent 32%);pointer-events:none}
+.home{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);width:150px;height:5px;border-radius:3px;background:#111;opacity:.85}
+.tape{position:absolute;width:150px;height:44px;background:rgba(242,201,76,.62);box-shadow:0 1px 2px rgba(0,0,0,.08);z-index:5}
+.t1{left:488px;top:250px;transform:rotate(-28deg)}
+.t2{left:880px;top:1200px;transform:rotate(-24deg);background:rgba(224,137,158,.55)}
+</style></head><body>
+<svg class="grain" width="1080" height="1350"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .45  0 0 0 0 .36  0 0 0 0 .24  0 0 0 .55 0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+<div class="fold"></div>
+<svg class="charminar" viewBox="0 0 400 520" fill="none" stroke="#2a2018" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M30 482h340M44 470h312v12M58 470V262h284v208"/>
+ <path d="M140 470V350q0-62 60-86q60 24 60 86v120"/><path d="M156 470V356q0-46 44-68q44 22 44 68v114"/>
+ <path d="M58 262h284M58 244h284v18M58 244V214h284v30"/>
+ <path d="M86 244v-16q11-14 22-0v16M122 244v-16q11-14 22 0v16M158 244v-16q11-14 22 0v16M220 244v-16q11-14 22 0v16M256 244v-16q11-14 22 0v16M292 244v-16q11-14 22 0v16"/>
+ <path d="M80 334h40v40H80zM280 334h40v40h-40zM90 374v-26q10-10 20 0v26M290 374v-26q10-10 20 0v26"/>
+ <path d="M150 214q50-40 100 0"/><path d="M182 184q18-26 36 0M200 160v-22"/>
+ <g id="m"><path d="M40 470V70M76 470V70"/><path d="M32 214h52M30 204h56v10M32 140h52M30 130h56v10M34 300h48"/>
+ <path d="M44 70q14-46 28 0zM58 24v-14M40 70h36"/><path d="M46 90h24M46 112h24M46 160h24M46 180h24"/></g>
+ <use href="#m" x="284"/>
+</svg>
+<div class="head"><span class="kicker"><i></i>Hyderabad Eats</span><h1 id="t"></h1><p class="sub" id="s"></p></div>
+<div class="stamp"><div>HYDERABAD<b>500 002</b>EST. CHARMINAR</div></div>
+<div class="url">eats.mapmyhyd.com</div>
+<div class="vign"></div>
+<div class="tape t1"></div>
+<div class="phone"><div class="screen"><div class="island"></div><div class="status" id="st"><span>9:41</span>
+<svg width="78" height="16" viewBox="0 0 78 16" fill="currentColor"><rect x="0" y="10" width="4" height="6" rx="1"/><rect x="6" y="7" width="4" height="9" rx="1"/><rect x="12" y="4" width="4" height="12" rx="1"/><rect x="18" y="1" width="4" height="15" rx="1"/><path d="M34 5a12 12 0 0 1 16 0l-2 2a9 9 0 0 0-12 0zM37 8a7 7 0 0 1 10 0l-2 2a4 4 0 0 0-6 0zM40 11a2.5 2.5 0 0 1 4 0l-2 2.5z"/><rect x="54" y="2" width="21" height="12" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".5"/><rect x="56" y="4" width="16" height="8" rx="2"/><rect x="76" y="6" width="2" height="4" rx="1" opacity=".5"/></svg></div>
+<img id="img"><div class="home"></div></div></div>
+<div class="tape t2"></div>
+<script>
+const q=new URLSearchParams(location.search);
+document.getElementById('t').innerHTML=q.get('t');document.getElementById('s').textContent=q.get('s');
+document.getElementById('img').src=q.get('img');
+const st=document.getElementById('st');st.style.background=q.get('bg');st.style.color=q.get('dark')==='1'?'#fff':'#111';
+</script></body></html>

@@ -10,6 +10,7 @@ import { ogImages } from "../../../lib/og.js";
 import { breadcrumbJsonLd } from "../../../lib/schema.js";
 import { rankedPlaces } from "../../../lib/recommendationPicks.js";
 import { getInspectionDrives } from "../../../lib/inspectionsServer.js";
+import { getAllRankingsThemes, qualifiedAreaRankings } from "../../../lib/themesServer.js";
 import AreaExplorer from "../../components/AreaExplorer.jsx";
 
 const SAFETY = { closed: ["Closed", "#141414"], "licence-suspended": ["Licence suspended", "#c2410c"], notice: ["Notice", "#78716c"], "notice-proposed": ["Notice proposed", "#78716c"] };
@@ -92,11 +93,9 @@ export function generateMetadata({ params }) {
   const data = getAreaBySlug(params.slug);
   if (!data) return { title: "Not found" };
   const year = new Date().getFullYear();
-  const sampleNames = data.spots.slice(0, 3).map((s) => s.name);
-  const copy = areaPageCopy(data.area, data.spots.length, sampleNames);
-  const title = `${copy.title} (${year})`;
+  const title = `${data.area} Food Map & Local Guide (${year})`;
   const pillar = getAreaPillar(data.area);
-  const description = pillar?.blurb || copy.description;
+  const description = pillar?.blurb || `Explore ${data.spots.length} mapped restaurants, cafes and local-food spots in ${data.area}, Hyderabad, with Mapping HYD standings, available venue facts and map pins.`;
   return {
     ...pageMeta({ title, description, path: `/areas/${params.slug}` }),
     openGraph: { ...pageMeta({ title, description, path: `/areas/${params.slug}` }).openGraph, images: ogImages(title, description, `/areas/${params.slug}`) },
@@ -108,16 +107,28 @@ export default async function AreaPage({ params }) {
   if (!data) notFound();
 
   const pillar = getAreaPillar(data.area);
-  const top = [...data.spots].sort((a, b) => (b.ratingCount || 0) - (a.ratingCount || 0));
+  const ranked = await rankedPlaces();
+  const liveThemes = await getAllRankingsThemes(50).catch(() => []);
+  const areaRankings = qualifiedAreaRankings(liveThemes).filter((item) => item.areaSlug === params.slug).slice(0, 4);
+  const top = [...data.spots].sort((a, b) => {
+    const ar = ranked.get(a.id)?.[0];
+    const br = ranked.get(b.id)?.[0];
+    return (Boolean(br) - Boolean(ar))
+      || ((ar?.rank || 99) - (br?.rank || 99))
+      || ((br?.votes || 0) - (ar?.votes || 0))
+      || String(a.name || "").localeCompare(String(b.name || ""));
+  });
   const featured = top.filter((sp) => hasSpotPhoto(sp.id)).slice(0, 3);
-  const copy = areaPageCopy(data.area, data.spots.length);
-  const pageTitle = copy.title;
-  const topNames = top.slice(0, 3).map((s) => s.name).filter(Boolean);
-  const answerLead = copy.lead(topNames);
+  const breakfastCount = data.spots.filter((spot) => spot.tags?.includes("breakfast") || spot.tags?.includes("tiffin")).length;
+  const pageTitle = `Where to Eat in ${data.area}: Food Map & Local Guide`;
+  const areaQuestion = `What is good to eat in ${data.area}, Hyderabad?`;
+  const topNames = top.filter((s) => ranked.has(s.id)).slice(0, 3).map((s) => s.name).filter(Boolean);
+  const answerLead = topNames.length
+    ? `Mapping HYD community-ranked places in ${data.area} include ${topNames.join(", ")}. Browse all ${data.spots.length} mapped places by category, local standing or Google rating.`
+    : `Browse ${data.spots.length} mapped restaurants and cafes in ${data.area} by category, venue details and map location.`;
 
   // What makes a row worth more than a map listing: its place in a community
   // vote and its latest food safety record (both shown as badges).
-  const ranked = await rankedPlaces();
   const safetyBySpot = new Map();
   try {
     const drives = [...(await getInspectionDrives())].sort((a, b) => String(b.date).localeCompare(String(a.date)));
@@ -144,7 +155,7 @@ export default async function AreaPage({ params }) {
     mainEntity: [
       {
         "@type": "Question",
-        name: copy.faqWhere,
+        name: areaQuestion,
         acceptedAnswer: { "@type": "Answer", text: `${answerLead} Browse the list below or open the map for details.` },
       },
       {
@@ -172,9 +183,13 @@ export default async function AreaPage({ params }) {
       title={pageTitle}
       description={answerLead}
       related={[
-        { href: "/explore/cafes", label: "Best cafes" },
-        { href: "/explore/biryani-and-local", label: "Best biryani" },
-        { href: "/rankings/best-cafe-in-hyderabad", label: "Vote: best cafe" },
+        ...(breakfastCount >= 8 ? [{ href: `/areas/${params.slug}/breakfast`, label: `Breakfast in ${data.area}` }] : []),
+        ...areaRankings.map((item) => ({
+          href: `/rankings/${item.slug}/in/${item.areaSlug}`,
+          label: `${shortTitle(item.title)} ranking`,
+        })),
+        { href: "/explore/cafes", label: "Cafe map" },
+        { href: "/explore/biryani-and-local", label: "Biryani & local-food map" },
         ...allAreaPages().filter((a) => a.slug !== params.slug).slice(0, 3).map((a) => ({ href: `/areas/${a.slug}`, label: a.area })),
       ]}
     >
@@ -197,8 +212,8 @@ export default async function AreaPage({ params }) {
       <section className="ax-about" aria-label={`About eating in ${data.area}`}>
         <h2 className="site-section-title">About {data.area}</h2>
         {pillar?.blurb && <p>{pillar.blurb}</p>}
-        <p><strong>{copy.faqWhere}</strong> {answerLead}</p>
-        <p><strong>How many places are listed?</strong> {data.spots.length} restaurants and cafes, sorted by review count unless you pick another order above.</p>
+        <p><strong>{areaQuestion}</strong> {answerLead}</p>
+        <p><strong>How many places are listed?</strong> {data.spots.length} restaurants and cafes. Mapping HYD community standings appear first when votes exist; Google ratings remain an optional sort.</p>
       </section>
     </SiteChrome>
     <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>

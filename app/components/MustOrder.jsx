@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { fetchDishes, dishSourceLabel } from "../../lib/dishVotes.js";
 
-// "Must order" at a spot: locals' reorder votes first, then our and r/hyderabad picks.
+// Source-labelled dishes at a spot: locals' reorder votes first, then editorial
+// and reviewed r/hyderabad picks.
 // Renders nothing until there is at least one dish, so empty spots stay clean.
 export default function MustOrder({ spotId, initial = null, limit = 4 }) {
   const [dishes, setDishes] = useState(initial);
@@ -16,10 +17,10 @@ export default function MustOrder({ spotId, initial = null, limit = 4 }) {
 
   if (!dishes?.length) return null;
   return (
-    <section className="must-order" aria-label="Must order">
+    <section className="must-order" aria-label="What to order">
       <div className="must-order-head">
-        <h3>Must order</h3>
-        <span>From locals and r/hyderabad</span>
+        <h3>What to order</h3>
+        <span>Each dish is labelled by source</span>
       </div>
       <ol>
         {dishes.slice(0, limit).map((d, i) => (

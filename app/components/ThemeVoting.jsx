@@ -7,7 +7,7 @@ import { Icon } from "./Icons.jsx";
 import { slugFromTitle, themeDescription, debateLineFromCounts } from "../../lib/rankings.js";
 import { isPastEndDate } from "../../lib/themeCrown.js";
 import { stickerForTitle } from "../../lib/stickerArt.js";
-import { seasonClosed, seasonYear } from "../../lib/voteDecay.js";
+
 import ThemeSuggest from "./ThemeSuggest.jsx";
 import AddPlace, { isUserSpot } from "./AddPlace.jsx";
 import VoteFollowUp from "./VoteFollowUp.jsx";
@@ -144,7 +144,8 @@ function mergeStandings(results = [], suggestions = [], limit = 10) {
   for (const s of sug) {
     if (!pad.find((x) => x.spotId === s.spotId)) pad.push(s);
   }
-  pad.sort((a, b) => (b.ratingCount || 0) - (a.ratingCount || 0) || (b.rating || 0) - (a.rating || 0));
+  // Before anybody votes these are ballot candidates, not a Google-derived ranking.
+  pad.sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
 
   for (const row of pad) {
     if (out.length >= limit) break;
@@ -542,7 +543,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, rankin
             return (
               <div key={r.spotId} className={`vote-row${isCrown ? " is-crown" : isLead ? " is-lead" : ""}`}>
                 <span className="vote-rank">
-                  {isCrown ? <Icon name="crown" size={16} width={2} color="var(--ink)" /> : `#${i + 1}`}
+                  {isCrown ? <Icon name="crown" size={16} width={2} color="var(--ink)" /> : hasVotes ? `#${i + 1}` : "?"}
                 </span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div className="vote-name">{r.name}{isUserSpot(r.spotId) && <span className="new-place-chip">New</span>}</div>
@@ -591,8 +592,6 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
   const [suggestions, setSuggestions] = useState([]);
   const debounceRef = useRef(null);
   const leader = theme.results?.[0];
-  const closed = seasonClosed(theme);
-  const year = seasonYear(theme);
   const crowned = theme.winnerId || isPastEndDate(theme);
   const dishSlug = theme.slug || slugFromTitle(theme.title);
   const [shareState, setShareState] = useState("idle");
@@ -633,14 +632,13 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
                 {" · "}{(() => { const n = (theme.results || []).reduce((t, r) => t + (r.count || 0), 0); return `${n.toLocaleString()} ${n === 1 ? "vote" : "votes"}`; })()}
               </>
             ) : "No votes yet"}
-            {closed ? ` · ${year} season closed` : ""}
           </span>
         </button>
         {votedSpotId ? (
           <span className="rank-card-voted"><Icon name="check" size={13} width={2.5} color="currentColor" /> Voted</span>
-        ) : !closed ? (
+        ) : (
           <button type="button" className="rank-card-vote" onClick={onToggle} aria-expanded={open}>{open ? "Close" : "Vote"}</button>
-        ) : null}
+        )}
         <button
           type="button"
           onClick={share}
@@ -682,11 +680,6 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
             ) : null;
           })()}
 
-          {closed ? (
-            <div style={{ fontSize: 12.5, color: "var(--muted)", fontWeight: 500, marginBottom: 12, lineHeight: 1.4 }}>
-              The {year} season is closed. These are the final standings.
-            </div>
-          ) : (<>
           <label style={{ display: "block", fontSize: 11, fontWeight: 800, color: "var(--ink)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: 8 }}>
             {votedSpotId ? "Search to switch" : "Search to vote"}
           </label>
@@ -733,10 +726,9 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
               </div>
             )}
           </div>
-          </>)}
 
           {(theme.results || []).length === 0 ? (
-            <div style={{ fontSize: 12.5, color: "var(--muted)", padding: "6px 0", fontWeight: 500 }}>{closed ? "No votes this season." : "No votes yet. Be the first."}</div>
+            <div style={{ fontSize: 12.5, color: "var(--muted)", padding: "6px 0", fontWeight: 500 }}>No votes yet. Be the first.</div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               {theme.results.map((r, i) => {
@@ -748,7 +740,7 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
                     </span>
                     <span style={{ flex: 1, fontWeight: 600, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}{isUserSpot(r.spotId) && <span className="new-place-chip">New</span>}</span>
                     <span style={{ color: "var(--muted)", fontWeight: 500, fontSize: 12 }}>{r.count} vote{r.count === 1 ? "" : "s"}</span>
-                    {closed ? null : r.spotId === votedSpotId ? (
+                    {r.spotId === votedSpotId ? (
                       <span style={{ fontSize: 11, fontWeight: 700, color: "var(--violet-deep)" }}>Voted</span>
                     ) : (
                       <button

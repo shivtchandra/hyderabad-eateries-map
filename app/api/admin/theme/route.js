@@ -49,22 +49,41 @@ export async function POST(req) {
   if (!db) return Response.json({ error: "unavailable" }, { status: 503 });
 
   const { displayLimit } = body;
-  const id = themeId || String(Date.now());
   const today = new Date().toISOString().slice(0, 10);
   // Auto-determine active: live if startDate <= today <= endDate (or no dates set)
   const shouldBeActive = (!startDate || today >= startDate) && (!endDate || today <= endDate);
 
-  // Deactivate any currently active theme when creating a fresh one.
+  // Snap to the closest canonical SEO pick so every repeat campaign returns to
+  // the same long-running vote pool instead of creating a disconnected theme.
+  const snapped = snapToSeoTheme(title);
+  let id = themeId || null;
+  let reused = false;
+  if (!id) {
+    const matches = await db.collection("themes").where("slug", "==", snapped.slug).limit(10).get();
+    if (!matches.empty) {
+      const scored = await Promise.all(matches.docs.map(async (doc) => {
+        const votes = await doc.ref.collection("votes").get();
+        return {
+          id: doc.id,
+          active: Boolean(doc.data().active),
+          createdAt: doc.data().createdAt || 0,
+          total: votes.docs.reduce((sum, vote) => sum + (vote.data().count || 0), 0),
+        };
+      }));
+      scored.sort((a, b) => Number(b.active) - Number(a.active) || b.total - a.total || b.createdAt - a.createdAt);
+      id = scored[0]?.id || null;
+      reused = Boolean(id);
+    }
+  }
+  id ||= String(Date.now());
+
+  // Only one topic is promoted at a time. Other rankings remain votable.
   if (!themeId) {
     const active = await db.collection("themes").where("active", "==", true).get();
     const batch = db.batch();
     active.docs.forEach((d) => batch.update(d.ref, { active: false }));
     await batch.commit();
   }
-
-  // Snap to the closest canonical SEO pick so the vote lands on the exact
-  // slug we're trying to rank; unmatched titles pass through unchanged.
-  const snapped = snapToSeoTheme(title);
 
   await db.collection("themes").doc(id).set(
     {
@@ -73,8 +92,9 @@ export async function POST(req) {
       startDate: startDate || "", endDate: endDate || "",
       displayLimit: displayLimit ? Number(displayLimit) : 20,
       active: shouldBeActive,
-      // only on create: editing a theme must not move it to "newest" or reset its vote clock
-      ...(themeId ? {} : { createdAt: Date.now() }),
+      // Only a genuinely new topic gets a new vote clock. Reactivating a
+      // canonical topic preserves its all-time and monthly history.
+      ...(themeId || reused ? {} : { createdAt: Date.now() }),
     },
     { merge: true }
   );
@@ -95,7 +115,7 @@ export async function POST(req) {
 
   revalidateTag("themes");
   revalidateTag("votes");
-  return Response.json({ id, active: shouldBeActive });
+  return Response.json({ id, active: shouldBeActive, reused });
 }
 
 // PATCH, set winner for a theme.

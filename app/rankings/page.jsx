@@ -13,7 +13,7 @@ import { hubJsonLd, todayIso } from "../../lib/hubSeo.js";
 export const dynamic = "force-dynamic";
 
 const title = "Hyderabad Food Rankings";
-const description = "Community-voted weekly rankings for the best biryani, breweries, mandi, buffets, cafes, and fine dining in Hyderabad. Compare votes and cast yours.";
+const description = "Continuous community rankings for Hyderabad food, with all-time preferences, monthly standings, local vote totals, area views, and must-order dishes.";
 
 export const metadata = {
   ...pageMeta({ title, description, path: "/rankings" }),
@@ -58,7 +58,7 @@ export default async function RankingsHubPage() {
   const updated = todayIso();
   const faqs = [
     ...crowned.slice(0, 2).map((t) => ({ q: `What is the ${t.title.toLowerCase()}?`, a: `${t.winnerName}, voted #1 by Hyderabad locals on Hyderabad Eats. Votes stay open, so the crown can move.` })),
-    { q: "How are Hyderabad Eats rankings decided?", a: "By weekly community votes from Hyderabad locals. One vote per person per ranking; the spot with the most votes holds #1." },
+    { q: "How are Hyderabad Eats rankings decided?", a: "Each person keeps one all-time preference and can participate again each Hyderabad calendar month. Vote totals, leader share, and monthly movement remain visible." },
     { q: "Can I add a restaurant that isn't on the list?", a: "Yes. Open the ranking and use 'Can't see your pick? Add it'. New places show up once checked." },
   ];
   const ld = hubJsonLd({ name: title, description, path: "/rankings", updated, faqs, items: themes.map((t) => ({ name: t.title, url: `/rankings/${t.slug}` })) });
@@ -72,10 +72,10 @@ export default async function RankingsHubPage() {
       backFallback="/guides"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/rankings", label: "Rankings" }]}
       title={title}
-      description={`Hyderabad Eats ranks the city's food by weekly votes from locals: ${themes.length} rankings and ${allVotes.toLocaleString("en-IN")} votes so far.${crowned.length ? ` Current #1s: ${crowned.map((t) => `${t.title.replace(/\s+in\s+hyderabad$/i, "")}, ${t.winnerName}`).join("; ")}.` : ""}`}
+      description={`Hyderabad Eats ranks the city's food through continuous local preferences and monthly votes: ${themes.length} rankings and ${allVotes.toLocaleString("en-IN")} all-time votes so far.${crowned.length ? ` Current #1s: ${crowned.map((t) => `${t.title.replace(/\s+in\s+hyderabad$/i, "")}, ${t.winnerName}`).join("; ")}.` : ""}`}
       related={[
         { href: "/rankings/how-it-works", label: "How rankings work" },
-        { href: "/rankings/best-biryani-in-hyderabad", label: "Best biryani" },
+        { href: "/rankings/best-biryani-in-hyderabad", label: "Biryani vote" },
         { href: "/rankings/best-buffet-in-hyderabad", label: "Best buffet" },
         { href: "/rankings/best-fine-dining-in-hyderabad", label: "Fine dining" },
         { href: "/rankings/best-cafe-in-hyderabad", label: "Best cafes" },
@@ -110,7 +110,7 @@ export default async function RankingsHubPage() {
       })}
       {live.length === 0 && (
         <div className="site-card" style={{ marginBottom: 16 }}>
-          <p>No live vote this week. Every ranking below is still open.</p>
+          <p>No ranking is being promoted right now. Every published ranking below remains open.</p>
         </div>
       )}
 

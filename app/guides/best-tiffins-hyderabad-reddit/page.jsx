@@ -308,7 +308,9 @@ export default function BestTiffinsGuidePage() {
             <Link href="/guides/best-ice-cream-desserts-hyderabad" className="site-pill">Best Ice Cream &amp; Desserts</Link>
             <Link href="/guides/late-night-food-hyderabad-reddit" className="site-pill">Late Night Food Guide</Link>
             <Link href="/rankings/best-dosa-in-hyderabad" className="site-pill">Best Dosa Rankings</Link>
-            <Link href="/areas/jubilee-hills" className="site-pill">Jubilee Hills Food</Link>
+            <Link href="/areas/jubilee-hills/breakfast" className="site-pill">Breakfast in Jubilee Hills</Link>
+            <Link href="/areas/banjara-hills/breakfast" className="site-pill">Breakfast in Banjara Hills</Link>
+            <Link href="/areas/madhapur-hitec/breakfast" className="site-pill">Breakfast in Madhapur</Link>
           </div>
         </section>
       </main>
@@ -317,7 +319,7 @@ export default function BestTiffinsGuidePage() {
         links={[
           { href: "/rankings/best-dosa-in-hyderabad", label: "Best Dosa Rankings" },
           { href: "/explore/biryani-and-local", label: "Local Eats & Tiffins" },
-          { href: "/areas/jubilee-hills", label: "Jubilee Hills Breakfast" },
+          { href: "/areas/jubilee-hills/breakfast", label: "Jubilee Hills Breakfast" },
           { href: "/stories", label: "All Food Stories & Guides" },
         ]}
       />

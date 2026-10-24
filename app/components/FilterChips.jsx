@@ -92,7 +92,7 @@ export default function FilterChips({
             )}
             <button type="button" onClick={() => { setNewOnly((v) => !v); close(); }} className="pressable-sm" style={chip(newOnly)}>
               <Icon name="sparkle" size={16} width={2} color={newOnly ? "#fff" : "var(--ink-soft)"} />
-              New
+              New this week
             </button>
             {safetyCount > 0 && (
               <button type="button" onClick={() => { setSafetyOnly((v) => !v); close(); }} className="pressable-sm" style={chip(safetyOnly)}>

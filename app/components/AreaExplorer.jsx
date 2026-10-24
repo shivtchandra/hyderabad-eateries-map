@@ -19,25 +19,27 @@ const PAGE = 24;
 const fmtCount = (n) => (n >= 1000 ? `${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}k` : String(n));
 
 export default function AreaExplorer({ area, spots }) {
+  const hasVotes = spots.some((s) => s.rank);
+  const defaultSort = hasVotes ? "votes" : "reviews";
   const [kind, setKind] = useState("all");
-  const [sort, setSort] = useState("reviews");
+  const [sort, setSort] = useState(defaultSort);
   const [q, setQ] = useState("");
   const [shown, setShown] = useState(PAGE);
-  const hasVotes = spots.some((s) => s.rank);
 
   // Read a shared filter once, then keep the URL in step (no history spam).
   useEffect(() => {
     const sp = new URLSearchParams(window.location.search);
     const k = sp.get("kind"), s = sp.get("sort");
     if (k && KIND_ONE[k]) setKind(k);
-    if (s === "rating" || (s === "votes" && hasVotes)) setSort(s);
-  }, [hasVotes]);
+    if (s === "rating" || s === "reviews" || (s === "votes" && hasVotes)) setSort(s);
+    else setSort(defaultSort);
+  }, [defaultSort, hasVotes]);
   useEffect(() => {
     const url = new URL(window.location.href);
     if (kind === "all") url.searchParams.delete("kind"); else url.searchParams.set("kind", kind);
-    if (sort === "reviews") url.searchParams.delete("sort"); else url.searchParams.set("sort", sort);
+    if (sort === defaultSort) url.searchParams.delete("sort"); else url.searchParams.set("sort", sort);
     window.history.replaceState(window.history.state, "", url);
-  }, [kind, sort]);
+  }, [defaultSort, kind, sort]);
   useEffect(() => { setShown(PAGE); }, [kind, sort, q]);
 
   const counts = useMemo(() => {
@@ -87,9 +89,9 @@ export default function AreaExplorer({ area, spots }) {
           placeholder={`Search ${area}`} aria-label={`Search places in ${area}`}
         />
         <select className="ax-sort" value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort">
-          <option value="reviews">Most reviewed</option>
-          <option value="rating">Top rated</option>
-          {hasVotes && <option value="votes">Locals&apos; votes</option>}
+          {hasVotes && <option value="votes">Mapping HYD votes</option>}
+          <option value="reviews">Most reviewed on Google</option>
+          <option value="rating">Google rating</option>
         </select>
       </div>
 

@@ -67,6 +67,7 @@ export default function ExploreCategoryPage({ params }) {
       title={data.seoTitle}
       description={pillar?.heroDescription || `${data.description} Showing top ${top.length} of ${data.spots.length} spots.`}
       related={[
+        ...(params.category === "biryani-and-local" ? [{ href: "/rankings/best-biryani-in-hyderabad", label: "Live local-vote biryani standings" }] : []),
         { href: "/rankings", label: "Weekly rankings" },
         { href: "/areas", label: "Browse by area" },
         { href: "/stories", label: "Food stories" },
@@ -126,14 +127,14 @@ export default function ExploreCategoryPage({ params }) {
         </section>
       )}
 
-      <h2 className="site-section-title">Top {data.label.toLowerCase()} in Hyderabad ({year})</h2>
+      <h2 className="site-section-title">Most reviewed {data.label.toLowerCase()} on Google in Hyderabad ({year})</h2>
       <ul className="site-spot-list">
         {top.map((s, i) => (
           <li key={s.id}>
             <Link href={spotPath(s)}>
               <span>
-                <div className="site-spot-name">{i + 1}. {s.name}</div>
-                <div className="site-spot-meta">{s.discoveredIn || "Hyderabad"} · {s.rating ? `${s.rating}★` : ","}</div>
+                <div className="site-spot-name">{s.name}</div>
+                <div className="site-spot-meta">{s.discoveredIn || "Hyderabad"} · {s.rating ? `Google ${s.rating}★` : "Google listing"}</div>
               </span>
               <span className="site-spot-meta">View →</span>
             </Link>

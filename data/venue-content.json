@@ -1,5 +1,6 @@
 {
   "ChIJVy0-aGiXyzsRWMiIWZ1fC30": {
+    "contentScope": "branch-comparison",
     "founded": "1978",
     "originStory": [
       "Cafe Niloufer started in 1978 as a small tea shop beside Niloufer Hospital in Lakdikapul, and took the hospital's name, itself borrowed from Princess Niloufer of the old Hyderabad court. What began as one counter is now the city's most recognisable Irani chai address.",
@@ -568,6 +569,8 @@
     ]
   },
   "ChIJV47u-zeTyzsRg1GyNX8ogOQ": {
+    "recommendationStatus": "recommended",
+    "reviewedAt": "2026-09-11",
     "originStory": [
       "Windmills Craftworks in Madhapur is sold as a brewery, but the room does not feel like one. It feels closer to a library: low light, soft seating, books and quiet corners, the kind of place where conversation stays at half volume. It is also clearly priced for a special night out rather than a casual pint.",
       "I went through a full spread. The small plates were pleasant. The vegetarian mains were where the kitchen actually showed up. Coffee is not the reason to come. Overall it lands as a solid 7: cozy, refined, and worth knowing about if you want atmosphere first.",
@@ -1167,6 +1170,7 @@
     ]
   },
   "ChIJ9Y1903qRyzsRlyeVz4DEbD4": {
+    "contentScope": "brand",
     "signatureDish": {
       "name": "Death By Chocolate (DBC)",
       "why": "Decadent chocolate cake layered with rich ice cream, hot chocolate fudge, and roasted nuts."
@@ -1202,6 +1206,7 @@
     ]
   },
   "ChIJvxR1lGGZyzsRUQwtqHNDARY": {
+    "contentScope": "brand",
     "signatureDish": {
       "name": "Death By Chocolate (DBC)",
       "why": "Decadent chocolate cake layered with rich ice cream, hot chocolate fudge, and roasted nuts."
@@ -1356,6 +1361,7 @@
     ]
   },
   "ChIJawcJIaKVyzsRYLa7p3QMRAc": {
+    "contentScope": "brand",
     "founded": "2024",
     "originStory": [
       "Wool Cup's second outpost sits on the ground floor of Survey 88AA along ADP Boulevard in the Financial District, bringing the brand's calm aesthetic and specialty breakfast plates to the tech hub.",
@@ -1478,34 +1484,20 @@
     ]
   },
   "ChIJI9FVuseRyzsR5qrFwoKDbkw": {
-    "signatureDish": {
-      "name": "Biscoff Cheesecake & French Butter Croissant",
-      "why": "Known across Jubilee Hills for its velvety artisanal cheesecakes, freshly baked flaky viennoiseries, and specialty pour-over coffee."
-    },
-    "mustOrder": [
+    "contentMode": "visit-note",
+    "recommendationStatus": "not-recommended",
+    "visitItems": [
       {
-        "name": "Signature Biscoff Cheesecake",
-        "note": "9.5/10. Rich, creamy, and velvety with a caramelised Biscoff crunch base; one of their top dessert orders."
+        "name": "Hot Chocolate",
+        "note": "Average on this visit and not a standout among Hyderabad cafe hot chocolates."
       },
       {
-        "name": "French Butter Croissant",
-        "note": "9.0/10. Flaky, crisp golden exterior with honeycomb butter layers inside; baked fresh daily."
+        "name": "Brownie",
+        "note": "Poor on this visit; I would not reorder it."
       },
       {
-        "name": "Artisanal Pistachio Gelato",
-        "note": "8.8/10. Made in-house at their gelato counter, smooth nutty texture with pure Sicilian pistachio notes."
-      },
-      {
-        "name": "V60 Pour Over Coffee",
-        "note": "9.0/10. Clean, aromatic specialty brew made with medium-roast beans for coffee purists."
-      },
-      {
-        "name": "Shrimp Pancake Bao",
-        "note": "8.7/10. Flavourful savory brunch favorite with crisp shrimp and balanced umami sauce."
-      },
-      {
-        "name": "Eggs Benedict on Brioche",
-        "note": "8.5/10. Poached eggs with rich hollandaise on house-baked toasted brioche."
+        "name": "The Pistachio",
+        "note": "The sculpted dessert looked striking, but it was disappointing overall on this visit."
       }
     ],
     "regularNote": "Mirthy Cafe on Road 36 in Jubilee Hills has a polished pastry counter, but a recent dessert visit did not work for me. The hot chocolate was average, the brownie was poor, and The Pistachio, the sculpted pistachio-shaped dessert, looked better than it tasted. Overall, the three-item dessert run was disappointing.",
@@ -1521,8 +1513,8 @@
     },
     "faq": [
       {
-        "q": "What is Mirthy Cafe in Jubilee Hills famous for?",
-        "a": "Mirthy Cafe is known for its sculpted desserts, artisanal cheesecakes, French croissants, in-house gelato, and specialty coffee on Road No. 36 in Jubilee Hills."
+        "q": "What does Mirthy Cafe in Jubilee Hills serve?",
+        "a": "Its menu focuses on sculpted desserts, cheesecakes, croissants, gelato, coffee, and brunch dishes. These are menu categories, not Mapping HYD recommendations."
       },
       {
         "q": "Is the hot chocolate at Mirthy Cafe worth ordering?",
@@ -1533,15 +1525,21 @@
         "a": "The brownie was poor, and The Pistachio, a pistachio-shaped sculpted dessert, was disappointing overall despite its presentation."
       },
       {
+        "q": "Does Mapping HYD recommend Mirthy Cafe based on this visit?",
+        "a": "No. This three-item dessert visit scored 4.5/10: the hot chocolate was average, the brownie was poor, and The Pistachio disappointed. The separate Google rating shown on the page is third-party data, not Mapping HYD's verdict."
+      },
+      {
         "q": "Where is Mirthy Cafe located?",
         "a": "It is on Road No. 36, CBI Colony, Jubilee Hills, Hyderabad (near Vurve Salon)."
       }
     ]
   },
   "ChIJFQOGvnOXyzsRaISRRzvIzdE": {
+    "recommendationStatus": "recommended",
+    "reviewedAt": "2026-10-24",
     "signatureDish": {
       "name": "Rainbow Cake",
-      "why": "The standout dessert at Glen's Bakehouse Film Nagar, with colourful sponge layers and a balanced cream finish."
+      "why": "My go-to dessert at Glen's Bakehouse Film Nagar and the clear favourite from repeat visits."
     },
     "mustOrder": [
       {
@@ -1549,8 +1547,16 @@
         "note": "9/10. Excellent, colourful layered cake and the strongest dessert pick from this visit."
       },
       {
-        "name": "Cupcakes",
-        "note": "8/10. Soft, pleasant cupcakes that are worth adding to a Film Nagar bakery stop."
+        "name": "Fudge Brownie",
+        "note": "Very good and well balanced, with enough chocolate richness without the excessive chocolate hit some brownies have."
+      },
+      {
+        "name": "Mini Cupcakes",
+        "note": "Consistently good, with new flavours appearing in the counter selection."
+      },
+      {
+        "name": "Red Velvet Cupcake",
+        "note": "A very good pick from the current mini-cupcake flavours."
       }
     ],
     "regularNote": "For desserts at Glen's Bakehouse in Film Nagar, start with the rainbow cake. It was excellent and clearly the best part of the order. The cupcakes were nice too, making this a reliable stop for colourful cakes and small baked treats in west Hyderabad.",
@@ -1687,6 +1693,100 @@
     ],
     "sources": [
       "http://caphebistro.in/"
+    ]
+  },
+  "ChIJXVsG9IaRyzsRl7cElupPpKw": {
+    "recommendationStatus": "recommended",
+    "reviewedAt": "2026-10-20",
+    "signatureDish": {
+      "name": "Chicken Peanut Noodles",
+      "why": "Excellent noodles with a rich peanut flavour; one of the strongest East Asian dishes from this visit."
+    },
+    "mustOrder": [
+      {
+        "name": "Chicken Peanut Noodles",
+        "note": "Excellent, flavourful peanut noodles and an easy first order for chicken eaters."
+      },
+      {
+        "name": "Tofu Peanut Noodles",
+        "note": "The vegetarian version is also excellent, with the same satisfying peanut-forward flavour."
+      },
+      {
+        "name": "Cheese Dim Sum",
+        "note": "A very good dim sum order and one of the meal's clear highlights."
+      },
+      {
+        "name": "Chicken Bao",
+        "note": "Another strong order that completes a very good East Asian meal."
+      }
+    ],
+    "regularNote": "YouMee at Nexus Hyderabad Mall in Kukatpally is one of my strongest recent East Asian restaurant recommendations in Hyderabad. Both the chicken peanut noodles and tofu peanut noodles were excellent, with a rich, satisfying peanut flavour. The cheese dim sum was very good, and the chicken bao was another hit. Everything ordered worked, making YouMee an easy recommendation for noodles, dim sum and bao in Hyderabad.",
+    "highlight": {
+      "label": "A hit for East Asian food",
+      "text": "Start with either version of the peanut noodles, then add the cheese dim sum and chicken bao. All four dishes delivered on this visit."
+    },
+    "author": {
+      "name": "Shiva Chandra",
+      "role": "Mapping HYD"
+    },
+    "faq": [
+      {
+        "q": "What should you order at YouMee Hyderabad?",
+        "a": "Order the chicken peanut noodles or tofu peanut noodles first, then add the cheese dim sum and chicken bao. All four were strong recommendations from this visit."
+      },
+      {
+        "q": "Are the peanut noodles at YouMee good?",
+        "a": "Yes. Both the chicken and tofu peanut noodles were excellent, with a rich peanut flavour that made them the standout dishes."
+      },
+      {
+        "q": "Are the dim sum and bao at YouMee worth ordering?",
+        "a": "Yes. The cheese dim sum was very good, and the chicken bao was another strong order."
+      },
+      {
+        "q": "Is YouMee recommended for East Asian food in Hyderabad?",
+        "a": "Yes. Based on this visit, YouMee is an easy Mapping HYD recommendation for East Asian food, especially peanut noodles, dim sum and bao."
+      },
+      {
+        "q": "Where is YouMee in Hyderabad?",
+        "a": "YouMee is on the third floor of Nexus Hyderabad Mall in KPHB Phase 9, Kukatpally, Hyderabad."
+      }
+    ]
+  },
+  "ChIJQX3oRACTyzsRYITnjwROO9U": {
+    "recommendationStatus": "recommended",
+    "reviewedAt": "2025-09-27",
+    "signatureDish": {
+      "name": "Juicy Chicken Mandi",
+      "why": "My favourite here without any doubt: flavorful mandi rice with excellent, spicy, piping-hot chicken gravy."
+    },
+    "mustOrder": [
+      {
+        "name": "Apollo Fish Starter",
+        "note": "Excellent starter and the dish to order before the mandi."
+      },
+      {
+        "name": "Juicy Chicken Mandi",
+        "note": "My favourite without any doubt: flavorful rice with spicy, piping-hot, well-cooked chicken gravy."
+      }
+    ],
+    "regularNote": "The Apollo Fish starter is excellent, and their Juicy Chicken Mandi is my favourite without any doubt. The mandi rice was flavorful, and the chicken with gravy was spicy, piping hot and well-cooked. Food quality and service stood out on this visit; the ambience was okay. Do try both.",
+    "highlight": {
+      "label": "My favourite Juicy Chicken Mandi",
+      "text": "Order the excellent Apollo Fish starter, then the Juicy Chicken Mandi, my favourite here without any doubt."
+    },
+    "author": {
+      "name": "Shiva Chandra",
+      "role": "Mapping HYD"
+    },
+    "faq": [
+      {
+        "q": "What should you order at Big Plate Mandi Hitech City?",
+        "a": "Start with the excellent Apollo Fish starter, then order the Juicy Chicken Mandi. It is my favourite here without any doubt."
+      },
+      {
+        "q": "Is Big Plate Mandi Hitech City worth visiting?",
+        "a": "Food quality and service stood out on this visit, while the ambience was okay. It also placed first in Mapping HYD's local Best Mandi community vote."
+      }
     ]
   }
 }

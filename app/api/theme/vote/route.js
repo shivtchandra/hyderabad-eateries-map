@@ -1,7 +1,8 @@
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { revalidateTag } from "next/cache";
 import { clearThemesMemo } from "../../../../lib/themesServer.js";
-import { bumpScore, seasonClosed, themeCreatedAt, voteWeight } from "../../../../lib/voteDecay.js";
+import { bumpScore, themeCreatedAt, voteWeight } from "../../../../lib/voteDecay.js";
+import { rankingPeriod } from "../../../../lib/rankings.js";
 
 export const dynamic = "force-dynamic";
 
@@ -13,56 +14,83 @@ export async function POST(req) {
   const db = await getAdminDb();
   if (!db) return Response.json({ error: "unavailable" }, { status: 503 });
 
-  // Themes stay votable after endDate and after a newer trend goes live.
-  // `active` only marks the featured "This Week" card - it does not lock votes.
-  // A season closes a year after launch; the dish reruns as a new theme.
-  const themeDoc = await db.collection("themes").doc(themeId).get();
+  // Rankings never close. `active` only marks the currently promoted topic.
+  // Every vote updates the person's all-time preference and Hyderabad's current month.
+  const themeRef = db.collection("themes").doc(themeId);
+  const themeDoc = await themeRef.get();
   if (!themeDoc.exists) return Response.json({ error: "theme-missing" }, { status: 404 });
-  if (seasonClosed(themeDoc.data())) return Response.json({ error: "season-closed" }, { status: 409 });
   const createdAt = themeCreatedAt(themeDoc.data());
+  const period = rankingPeriod();
 
-  const votesCol = db.collection("themes").doc(themeId).collection("votes");
+  const votesCol = themeRef.collection("votes");
   const voteRef = votesCol.doc(spotId);
-  const voterRef = uid
-    ? db.collection("themes").doc(themeId).collection("voters").doc(uid)
-    : null;
+  const voterRef = uid ? themeRef.collection("voters").doc(uid) : null;
+  const monthRef = themeRef.collection("months").doc(period);
+  const monthVotesCol = monthRef.collection("votes");
+  const monthVoteRef = monthVotesCol.doc(spotId);
+  const monthVoterRef = uid ? monthRef.collection("voters").doc(uid) : null;
 
-  // One live vote per uid per theme; a later vote SWITCHES the count.
+  // One all-time preference and one current-month preference per uid.
+  // A repeat in a new month leaves all-time unchanged while starting that month's board.
   const result = await db.runTransaction(async (tx) => {
-    let voterDoc = null;
-    if (voterRef) voterDoc = await tx.get(voterRef);
-
+    const voterDoc = voterRef ? await tx.get(voterRef) : null;
+    const monthVoterDoc = monthVoterRef ? await tx.get(monthVoterRef) : null;
     const priorSpotId = voterDoc?.exists ? voterDoc.data().spotId : null;
-    if (priorSpotId === spotId) {
-      const doc = await tx.get(voteRef);
-      return { count: doc.exists ? doc.data().count || 0 : 0, unchanged: true };
-    }
+    const priorMonthSpotId = monthVoterDoc?.exists ? monthVoterDoc.data().spotId : null;
+    const oldVoteRef = priorSpotId && priorSpotId !== spotId ? votesCol.doc(priorSpotId) : null;
+    const oldMonthVoteRef = priorMonthSpotId && priorMonthSpotId !== spotId ? monthVotesCol.doc(priorMonthSpotId) : null;
 
-    let oldVoteDoc = null;
-    let oldVoteRef = null;
-    if (priorSpotId) {
-      oldVoteRef = votesCol.doc(priorSpotId);
-      oldVoteDoc = await tx.get(oldVoteRef);
-    }
-
+    const oldVoteDoc = oldVoteRef ? await tx.get(oldVoteRef) : null;
     const newVoteDoc = await tx.get(voteRef);
+    const oldMonthVoteDoc = oldMonthVoteRef ? await tx.get(oldMonthVoteRef) : null;
+    const newMonthVoteDoc = await tx.get(monthVoteRef);
     const now = Date.now();
+    const allTimeUnchanged = Boolean(voterRef && priorSpotId === spotId);
+    const monthlyUnchanged = Boolean(monthVoterRef && priorMonthSpotId === spotId);
 
     if (oldVoteRef && oldVoteDoc?.exists) {
       const old = oldVoteDoc.data();
       const oldCount = Math.max(0, (old.count || 0) - 1);
-      // Remove only what the switched vote still weighs today.
       const oldScore = bumpScore(old, createdAt, -voteWeight(voterDoc.data().votedAt, now), now);
-      tx.set(oldVoteRef, { ...old, count: oldCount, ...oldScore }, { merge: true });
+      tx.set(oldVoteRef, { ...old, count: oldCount, ...oldScore, updatedAt: now }, { merge: true });
     }
 
-    const prev = newVoteDoc.exists ? newVoteDoc.data() : {};
-    const count = (prev.count || 0) + 1;
-    const score = bumpScore(prev, createdAt, 1, now);
-    tx.set(voteRef, { count, ...score, name: (name || "").slice(0, 100) }, { merge: true });
-    if (voterRef) tx.set(voterRef, { spotId, votedAt: now });
+    const previousAllTime = newVoteDoc.exists ? newVoteDoc.data() : {};
+    const allTimeCount = allTimeUnchanged ? previousAllTime.count || 0 : (previousAllTime.count || 0) + 1;
+    if (!allTimeUnchanged) {
+      const score = bumpScore(previousAllTime, createdAt, 1, now);
+      tx.set(voteRef, { count: allTimeCount, ...score, name: (name || "").slice(0, 100), updatedAt: now }, { merge: true });
+      if (voterRef) tx.set(voterRef, { spotId, votedAt: now });
+    }
 
-    return { count, switched: !!priorSpotId };
+    if (oldMonthVoteRef && oldMonthVoteDoc?.exists) {
+      const old = oldMonthVoteDoc.data();
+      tx.set(oldMonthVoteRef, { ...old, count: Math.max(0, (old.count || 0) - 1), updatedAt: now }, { merge: true });
+    }
+
+    const previousMonth = newMonthVoteDoc.exists ? newMonthVoteDoc.data() : {};
+    const monthlyCount = monthlyUnchanged ? previousMonth.count || 0 : (previousMonth.count || 0) + 1;
+    if (!monthlyUnchanged) {
+      tx.set(monthVoteRef, { count: monthlyCount, name: (name || "").slice(0, 100), updatedAt: now }, { merge: true });
+      if (monthVoterRef) tx.set(monthVoterRef, { spotId, votedAt: now });
+    }
+
+    tx.set(monthRef, { period, updatedAt: now }, { merge: true });
+    tx.set(themeRef, {
+      monthlyStartedAt: themeDoc.data().monthlyStartedAt || period,
+      monthlyUpdatedAt: now,
+    }, { merge: true });
+
+    return {
+      period,
+      count: allTimeCount,
+      allTimeCount,
+      monthlyCount,
+      allTimeSwitched: Boolean(priorSpotId && priorSpotId !== spotId),
+      monthlySwitched: Boolean(priorMonthSpotId && priorMonthSpotId !== spotId),
+      switched: Boolean(priorSpotId && priorSpotId !== spotId),
+      unchanged: allTimeUnchanged && monthlyUnchanged,
+    };
   });
 
   if (!result.unchanged) { revalidateTag("themes"); clearThemesMemo(); }

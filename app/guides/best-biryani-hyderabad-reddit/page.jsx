@@ -10,9 +10,9 @@ import BottomNav from "../../components/BottomNav.jsx";
 import BackButton from "../../components/BackButton.jsx";
 
 const SLUG = "/guides/best-biryani-hyderabad-reddit";
-const TITLE = "Best Biryani in Hyderabad: Reddit Local Picks";
+const TITLE = "Hyderabad Biryani Picks from Reddit Discussions";
 const DESCRIPTION =
-  "The authentic, unfiltered guide to Hyderabad's best biryani: Shadab, The Nawaabs, Chicha's, Peshawar, Meridian, and Shah Ghouse, with spice levels, meat cuts, and peak fresh batch timings.";
+  "A discussion-led Hyderabad biryani guide built from recurring Reddit mentions, with restaurant context, dishes people discuss, and links to the evidence-ranked Mapping HYD list.";
 
 export const metadata = {
   ...pageMeta({ title: TITLE, description: DESCRIPTION, path: SLUG }),
@@ -67,10 +67,10 @@ const faqLd = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "Which restaurant serves the best authentic Mutton Dum Biryani in Hyderabad?",
+      name: "Which mutton biryani restaurants recur in Hyderabad discussions?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Hotel Shadab in Old City (near Madina Building/Charminar) is widely rated by locals as the benchmark for traditional Mutton Dum Biryani, known for its fragrant masala, long-grain basmati rice, and tender meat.",
+        text: "Hotel Shadab is one recurring Old City name in Mapping HYD's discussion dataset. This page also links to the evidence-ranked biryani list so readers can compare it with other frequently mentioned brands.",
       },
     },
     {
@@ -78,7 +78,7 @@ const faqLd = {
       name: "Where can I get the best biryani in Gachibowli or HITEC City?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "The Nawaabs in Gachibowli is the top-rated local pick in the tech corridor, acclaimed for its juicy meat, balanced spice profile, and consistent batch quality.",
+        text: "The Nawaabs is one recurring Gachibowli name in the analyzed discussions. Use the Mapping HYD biryani list for count-based comparisons rather than treating this editorial guide as a vote result.",
       },
     },
     {
@@ -86,7 +86,7 @@ const faqLd = {
       name: "What is the best time of day to eat biryani in Hyderabad?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "The peak fresh batches (first degh) come out between 12:30 PM and 1:30 PM for lunch, and between 7:30 PM and 8:30 PM for dinner. Eating right when the degh opens guarantees steaming hot, fluffy rice and succulent meat.",
+        text: "There is no citywide batch time that can be guaranteed. Batch schedules vary by restaurant and day, so call the outlet before travelling if a fresh degh is important to you.",
       },
     },
   ],
@@ -96,58 +96,54 @@ const SPOTS = [
   {
     id: "shadab",
     name: "Hotel Shadab",
-    tag: "Old City Gold Standard",
+    tag: "Old City discussion pick",
     tagBg: "#fef3c7",
     tagColor: "#92400e",
     area: "Old City / Madina",
     href: "/spot/hotel-shadab-ghansi-bazaar",
     verdict:
-      "The enduring benchmark of Hyderabadi Dum Biryani. Shadab cooks in massive copper cauldrons with rich aromatic whole spices, saffron-infused long grain basmati, and exceptionally tender meat.",
+      "Hotel Shadab is a recurring Old City name in Hyderabad biryani conversations. This guide treats it as a discussion pick, not a community-vote winner.",
     whatToOrder: "Mutton Dum Biryani, Tala Hua Ghost, Qubani Ka Meetha.",
-    timingTip: "First lunch degh opens around 12:45 PM. Peak weekend lunch has long queues on ground floor; head to upper AC section.",
-    quote: "“Shadab’s mutton biryani with a side of Tala Hua Ghost is still the gold standard in Hyderabad when you hit the fresh 1 PM batch.”",
+    timingTip: "Peak meal periods can be busy. Confirm current timings and availability with the restaurant before a special trip.",
   },
   {
     id: "nawaabs",
     name: "The Nawaabs",
-    tag: "Cyberabad Local Favorite",
+    tag: "Gachibowli discussion pick",
     tagBg: "#f0fdf4",
     tagColor: "#166534",
     area: "Gachibowli",
     href: "/spot/the-nawaabs-gachibowli",
     verdict:
-      "For those in the tech corridor unwilling to travel 20km to Old City, The Nawaabs has emerged as the premier Cyberabad biryani house. Less oily than commercial chains with consistent meat-to-rice ratios.",
+      "The Nawaabs is a recurring Gachibowli name in the analyzed biryani discussions and a practical tech-corridor option to compare in the evidence list.",
     whatToOrder: "Special Mutton Dum Biryani, Chicken Tikka, Double Ka Meetha.",
-    timingTip: "Arrive before 1:00 PM for lunch or order for early dinner around 7:45 PM.",
-    quote: "“Hands down the most consistent biryani in the Gachibowli/Kondapur belt. The meat falls off the bone.”",
+    timingTip: "Check the outlet's current service hours and expected wait before peak lunch or dinner.",
   },
   {
     id: "chichas",
     name: "Chicha's",
-    tag: "Authentic Dakhni Flavors",
+    tag: "Dakhni-style discussion pick",
     tagBg: "#fdf2f8",
     tagColor: "#86198f",
     area: "Lakdikapul & Masab Tank",
     href: "/spot/chichas-asif-nagar-west",
     verdict:
-      "Chicha's celebrates home-style Dakhni Muslim cooking. The biryani has a distinctive peppery, clove-forward profile rather than heavy artificial coloring. It feels like wedding feast (shadi ki biryani) cooked with love.",
+      "Chicha's recurs in discussions about Dakhni-style food and shadi-ki-biryani preferences. Treat the flavour description as editorial context, not a quoted Reddit verdict.",
     whatToOrder: "Kacchi Dum Biryani, Shikampur Kebab, Bheja Fry, Kaddu Ki Kheer.",
     timingTip: "Late evening seating is lively and popular with local night crowds.",
-    quote: "“Tastes exactly like authentic Hyderabadi Muslim wedding biryani. The Shikampurs are unbeatable.”",
   },
   {
     id: "peshawar",
     name: "Peshawar",
-    tag: "Rich & Masaledar",
+    tag: "Masaledar discussion pick",
     tagBg: "#fff7ed",
     tagColor: "#9a3412",
     area: "Lakdikapul",
     href: "/spot/peshawar-lakdikapul",
     verdict:
-      "Peshawar caters to those who prefer their biryani bold, richly spiced, and well-masalaed. The mutton pieces are succulent, and the rice is bursting with cinnamon and cardamom flavors.",
+      "Peshawar appears in conversations from diners looking for a richer, more masaledar biryani style. This is an editorial summary rather than a direct quote from a Reddit account.",
     whatToOrder: "Mutton Biryani, Mutton Marag, Zafrani Chicken.",
     timingTip: "Start with a hot bowl of Mutton Marag with Sheermal before the biryani arrives.",
-    quote: "“If you want punchy flavor and rich masala rather than mild rice, Peshawar is top tier.”",
   },
 ];
 
@@ -170,10 +166,10 @@ export default function BestBiryaniGuidePage() {
             ]}
           />
           <div className="site-hero">
-            <h1>Best Biryani in Hyderabad (2026)</h1>
+            <h1>Hyderabad biryani picks from Reddit discussions</h1>
             {recommendationsEnabled() && <p><Link href="/rankings/best-biryani-in-hyderabad">See the live biryani ranking and vote</Link></p>}
             <p>
-              Unfiltered local recommendations on Hyderabad's best biryani houses: spice profiles, meat cuts, and verified fresh degh timings.
+              A discussion-led view of Hyderabad biryani houses, recurring restaurant names, spice preferences and dishes people talk about.
             </p>
           </div>
         </div>
@@ -184,10 +180,10 @@ export default function BestBiryaniGuidePage() {
         <div className="guide-byline">
           <div>
             <div className="ink-chip">
-              Editorial Field Guide · 2026 Local Consensus
+              Editorial discussion guide · 2026
             </div>
             <div className="guide-updated">
-              Updated September 2026 · Based on authentic community reviews &amp; batch visits
+              Updated September 2026 · Based on Hyderabad Reddit discussions and Mapping HYD venue data
             </div>
           </div>
           <Link href="/" className="link-chip">
@@ -202,12 +198,12 @@ export default function BestBiryaniGuidePage() {
           </h2>
           <div className="guide-quick-grid">
             <div className="guide-quick-item">
-              <div className="guide-quick-k">Old City Benchmark</div>
+              <div className="guide-quick-k">Old City discussion pick</div>
               <div className="guide-quick-name">Hotel Shadab (Charminar)</div>
               <div className="guide-quick-note">Mutton Dum Biryani + Tala Hua Ghost</div>
             </div>
             <div className="guide-quick-item">
-              <div className="guide-quick-k">Best in Cyberabad</div>
+              <div className="guide-quick-k">Gachibowli discussion pick</div>
               <div className="guide-quick-name">The Nawaabs (Gachibowli)</div>
               <div className="guide-quick-note">Consistent, tender meat without heavy grease</div>
             </div>
@@ -227,7 +223,7 @@ export default function BestBiryaniGuidePage() {
         {/* Spot Deep Dives */}
         <SwipeDeck label="Spots in this guide">
           {SPOTS.map((s, idx) => (
-            <GuideSpotCard key={s.id} s={s} rank={idx + 1} rows={[["Must order", s.whatToOrder], ["Fresh batch tip", s.timingTip]]} />
+            <GuideSpotCard key={s.id} s={s} rank={idx + 1} showRank={false} rows={[["Dishes discussed", s.whatToOrder], ["Visit note", s.timingTip]]} />
           ))}
         </SwipeDeck>
 

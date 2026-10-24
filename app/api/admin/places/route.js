@@ -1,5 +1,6 @@
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { clearAddedPlacesMemo } from "../../../../lib/addedPlaces.js";
+import { DISCOVERY_SOURCE } from "../../../../lib/newPlaces.js";
 
 // Review places visitors added from search or the rankings.
 //   GET  ?status=pending|approved|removed -> { places: [...] }
@@ -38,9 +39,13 @@ export async function GET(req) {
   const db = await getAdminDb();
   if (!db) return Response.json({ places: [] });
   const status = new URL(req.url).searchParams.get("status") || "pending";
-  const snap = await db.collection("eateries").where("source", "==", "user-suggested").limit(300).get();
-  const places = snap.docs
-    .map((d) => ({ id: d.id, ...d.data() }))
+  const snapshots = await Promise.all(
+    ["user-suggested", DISCOVERY_SOURCE].map((source) =>
+      db.collection("eateries").where("source", "==", source).limit(300).get()
+    )
+  );
+  const places = snapshots
+    .flatMap((snap) => snap.docs.map((d) => ({ id: d.id, ...d.data() })))
     .filter((p) => p.status === status)
     .sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
   return Response.json({ places });
@@ -48,19 +53,21 @@ export async function GET(req) {
 
 export async function POST(req) {
   if (!authOk(req)) return Response.json({ error: "unauthorized" }, { status: 401 });
-  let { id, action, lat, lng, category, link, pick } = await req.json().catch(() => ({}));
+  let { id, action, lat, lng, category, area, link, pick } = await req.json().catch(() => ({}));
   // Google Maps share links (maps.app.goo.gl/…) carry no coordinates: follow the
   // redirect to the full /maps/place/… URL and read them from there.
   if (action === "approve" && (lat == null || lng == null) && typeof link === "string") {
     const ll = await resolveMapsLink(link);
     if (ll) ({ lat, lng } = ll);
   }
-  if (!id || typeof id !== "string" || !id.startsWith("user-")) {
-    return Response.json({ error: "bad-request" }, { status: 400 });
-  }
+  if (!id || typeof id !== "string") return Response.json({ error: "bad-request" }, { status: 400 });
   const db = await getAdminDb();
   if (!db) return Response.json({ error: "unavailable" }, { status: 503 });
   const ref = db.collection("eateries").doc(id);
+  const existing = await ref.get();
+  if (!existing.exists || !["user-suggested", DISCOVERY_SOURCE].includes(existing.data()?.source)) {
+    return Response.json({ error: "bad-request" }, { status: 400 });
+  }
 
   if (action === "approve") {
     const la = Number(lat), ln = Number(lng);
@@ -70,7 +77,8 @@ export async function POST(req) {
     }
     if (!CATEGORIES.includes(category)) return Response.json({ error: "Pick a category" }, { status: 400 });
     // pick: also list it under Recommended (from a "Suggest a place" nomination).
-    await ref.set({ status: "approved", lat: la, lng: ln, category, pick: pick === true, approvedAt: new Date().toISOString() }, { merge: true });
+    const cleanArea = String(area || existing.data()?.area || "Hyderabad").trim().slice(0, 80);
+    await ref.set({ status: "approved", lat: la, lng: ln, category, area: cleanArea, discoveredIn: cleanArea, pick: pick === true, approvedAt: new Date().toISOString() }, { merge: true });
   } else if (action === "remove") {
     await ref.set({ status: "removed", removedAt: new Date().toISOString() }, { merge: true });
   } else if (action === "restore") {

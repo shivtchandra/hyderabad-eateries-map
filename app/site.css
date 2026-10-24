@@ -1082,6 +1082,26 @@ a.of-card-name:hover{ text-decoration: underline; }
 .rk-vote{ flex-shrink: 0; display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border: 2px solid var(--violet); border-radius: 14px; color: var(--violet-deep); font-size: 15px; font-weight: 700; text-decoration: none; transition: background var(--dur-2) ease, color var(--dur-2) ease; }
 .rk-vote:hover{ background: var(--violet); color: #fff; }
 .rk-vote:focus-visible{ outline: 2px solid var(--violet); outline-offset: 2px; }
+.rk-periods{ display: flex; align-items: center; gap: 8px; margin: 0 0 var(--s4); overflow-x: auto; }
+.rk-periods button, .rk-periods select{ min-height: 40px; border: 1.5px solid var(--line); border-radius: var(--r-pill); background: var(--cream-hi); color: var(--ink); padding: 0 14px; font: inherit; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.rk-periods button{ cursor: pointer; }
+.rk-periods button.active{ border-color: var(--violet); background: var(--violet); color: #fff; }
+.rk-signals{ display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0 0 var(--s5); }
+.rk-signals span{ min-width: 0; padding: 10px 12px; border-radius: 14px; background: var(--cream-hi); }
+.rk-signals b, .rk-signals small{ display: block; }
+.rk-signals b{ font-size: 13px; line-height: 1.2; color: var(--ink); }
+.rk-signals small{ margin-top: 3px; color: var(--muted); font-size: 11px; }
+.rk-dish{ display: block; margin-top: 2px; color: var(--violet-deep); font-size: 12.5px; line-height: 1.35; }
+.rk-move{ display: inline-flex; width: fit-content; margin-top: 3px; color: var(--ink-soft); font-size: 11.5px; font-weight: 700; }
+.rk-period-empty{ display: flex; flex-direction: column; gap: 4px; margin: 0 0 var(--s5); padding: var(--s4); border-radius: var(--r-card); background: var(--yellow); }
+.rk-period-empty b{ font-size: 16px; }
+.rk-period-empty span{ color: var(--ink-soft); font-size: 13px; line-height: 1.4; }
+.ticket .rk-dish, .ticket .rk-move{ color: inherit; opacity: 0.78; }
+@media (max-width: 520px){
+  .rk-signals{ grid-template-columns: 1fr; }
+  .rk-signals span{ display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .rk-signals small{ margin-top: 0; }
+}
 
 .rk-share-row{ display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 0 0 var(--s8); }
 

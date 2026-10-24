@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { pageMeta, getSiteUrl } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
 import SiteChrome from "../components/SiteChrome.jsx";
@@ -81,8 +82,13 @@ function getOffersData() {
 }
 
 export default function OffersPage() {
+  // Offers commented out for now
+  notFound();
+
+  /*
   const siteUrl = getSiteUrl();
   const { spotsList, updatedAt } = getOffersData();
+
 
   const itemListLd = {
     "@context": "https://schema.org",
@@ -149,4 +155,5 @@ export default function OffersPage() {
       </div>
     </div>
   );
+  */
 }

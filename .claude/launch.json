@@ -28,6 +28,15 @@
         "NEXT_PUBLIC_CURATED_RECOMMENDATIONS=1 NEXT_DIST_DIR=.next-curated npx next dev -p 3001"
       ],
       "port": 3001
+    },
+    {
+      "name": "eats-rk",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "NEXT_DIST_DIR=.next-rk npx next dev -p ${PORT:-3002}"
+      ],
+      "port": 3002
     }
   ]
 }

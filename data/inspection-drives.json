@@ -1,5 +1,156 @@
 [
   {
+    "id": "2026-10-23-sweet-shops-adulteration",
+    "date": "2026-10-23",
+    "title": "Hyderabad sweet and confectionery units special enforcement drive",
+    "areas": [
+      "Kukatpally",
+      "Masab Tank",
+      "Chandanagar",
+      "Gundlapochampally",
+      "Sri Nagar Colony",
+      "Nallakunta",
+      "Yousufguda",
+      "Tarnaka"
+    ],
+    "authority": "TG SAFE (Commissioner of Food Safety, Telangana)",
+    "inspected": 10,
+    "samples": 21,
+    "summary": "TG SAFE enforcement teams inspected sweet, confectionery and food manufacturing and retail establishments across Hyderabad on suspicion of adulteration ahead of the festive season. Over 1,035 kg of suspected adulterated food articles worth ₹7,75,850 were seized and 21 samples collected for lab testing. Three establishments had their FSSAI licences suspended with operations ordered to stop, seven show-cause notices were issued, and one unlicensed establishment was issued a closure order.",
+    "sources": [
+      {
+        "label": "TG SAFE press note No. 06-19",
+        "url": "https://x.com/c_tgsafe"
+      }
+    ],
+    "entries": [
+      {
+        "name": "Vasireddy Swagruha Foods",
+        "area": "Prashanth Nagar, Kukatpally",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Suspected food adulteration",
+          "Hygiene violations"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended — operations to stop",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Madhur Sweets",
+        "area": "Humayun Nagar, Masab Tank",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Suspected food adulteration",
+          "Hygiene violations"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended — operations to stop",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "B. Bicha Reddy Sweets",
+        "area": "Chandanagar",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Suspected food adulteration",
+          "Hygiene violations"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended — operations to stop",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Honey Foods",
+        "area": "Gundlapochampally, Medchal",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Suspected adulteration / quality concerns"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Harsha Enterprises (Sweet Basket)",
+        "area": "Sri Nagar Colony",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Suspected adulteration / quality concerns"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Almond House Pvt Ltd",
+        "area": "Kukatpally",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Suspected adulteration / quality concerns"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Dadus Mithai Vatika",
+        "area": "Kukatpally",
+        "spotId": "ChIJXfmV-vmRyzsRky9T_UkbR_M",
+        "action": "notice",
+        "findings": [
+          "Suspected adulteration / quality concerns"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Rajeev Reddy Sweets",
+        "area": "Nallakunta",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Suspected adulteration / quality concerns"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Paruchuri Foods",
+        "area": "Yousufguda Main Road",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Suspected adulteration / quality concerns"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Sudershan Reddy Pure Ghee Sweets",
+        "area": "Tarnaka",
+        "spotId": null,
+        "action": "closed",
+        "findings": [
+          "Operating without an FSSAI licence",
+          "Hygiene violations reported"
+        ],
+        "status": "action-taken",
+        "statusNote": "Closure order: Operating without an FSSAI licence; hygiene violations reported",
+        "statusDate": "2026-10-23"
+      }
+    ]
+  },
+  {
     "id": "2026-10-13-restaurants-canteens",
     "date": "2026-10-13",
     "title": "Hyderabad restaurants and canteens special enforcement drive",

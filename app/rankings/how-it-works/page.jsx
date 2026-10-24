@@ -6,7 +6,7 @@ import { breadcrumbJsonLd } from "../../../lib/schema.js";
 
 const title = "How Hyderabad Eats Rankings Work";
 const description =
-  "Community-voted weekly food rankings for Hyderabad. One vote per person per week, refreshed results, and map-backed spot pages.";
+  "Continuous community food rankings for Hyderabad with all-time preferences, monthly standings, visible vote totals, and map-backed venue evidence.";
 
 export const metadata = {
   ...pageMeta({ title, description, path: "/rankings/how-it-works" }),
@@ -38,15 +38,16 @@ export default function HowItWorksPage() {
       ]}
     >
       <div className="site-prose">
-        <h2>Weekly community votes</h2>
+        <h2>Continuous community votes</h2>
         <p>
-          Each week we run one themed vote, for example, best biryani or best cafe in Hyderabad.
-          Anyone can vote on the map. Results update live and are published on public ranking pages.
+          Each topic, such as best biryani or best cafe in Hyderabad, keeps a continuing all-time leaderboard.
+          The currently promoted topic changes, but every published ranking remains open for voting.
         </p>
 
-        <h2>One vote per person</h2>
+        <h2>All time and this month</h2>
         <p>
-          You get one vote per weekly theme. Change your mind anytime before the week ends, your latest pick counts.
+          Your latest pick counts toward the all-time board. You can also participate once in each Hyderabad
+          calendar month, switch during that month, and compare the current month with earlier monthly results.
         </p>
 
         <h2>Passport visits (optional)</h2>
@@ -56,14 +57,14 @@ export default function HowItWorksPage() {
 
         <h2>Why trust these rankings?</h2>
         <p>
-          Unlike static listicles, our standings refresh every week with real community votes.
-          We show vote counts, winners, and link every result to a map-backed spot page with ratings and area context.
+          Unlike static listicles, the standings continue updating from community preferences.
+          We show vote totals, leader share, monthly movement, what locals order, and map-backed area context.
         </p>
 
         <h2>FAQ</h2>
         <p><strong>Where is the best biryani in Hyderabad?</strong> Check the current{" "}
-          <Link href="/rankings/best-biryani-in-hyderabad">Best Biryani ranking</Link>, updated weekly.</p>
-        <p><strong>How do I vote?</strong> Open the <Link href="/">map</Link>, find a spot, and cast your vote during an active theme.</p>
+          <Link href="/rankings/best-biryani-in-hyderabad">Best Biryani ranking</Link>, with all-time and monthly results.</p>
+        <p><strong>How do I vote?</strong> Open a ranking or the <Link href="/">map</Link>, find your exact branch, and cast or switch your vote.</p>
       </div>
 
       <Link href="/rankings" className="site-cta">See current rankings →</Link>

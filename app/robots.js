@@ -8,7 +8,7 @@ export default function robots() {
     rules: [
       { userAgent: "*", allow: "/", disallow },
       {
-        userAgent: ["GPTBot", "ChatGPT-User", "Google-Extended", "anthropic-ai", "ClaudeBot", "PerplexityBot"],
+        userAgent: ["OAI-SearchBot", "GPTBot", "ChatGPT-User", "Google-Extended", "anthropic-ai", "ClaudeBot", "PerplexityBot"],
         allow: "/",
         disallow,
       },
