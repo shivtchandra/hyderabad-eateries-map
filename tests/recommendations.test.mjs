@@ -8,6 +8,7 @@ import { signVoter, verifyVoter } from "../lib/recommendationCookie.js";
 import { safeEvent } from "../lib/engagement.js";
 import { cleanDishName, writeDishAdd, visibleDishes, PUBLIC_AT, DAY_LIMIT } from "../lib/recommendationDishes.js";
 import { mustTry, dishPageEligible, dishMentions } from "../lib/recommendationShared.js";
+import { dishSeedsFor } from "../lib/dishSeeds.js";
 
 test("one shared curated set, distinct brands and qualified dish pages", () => {
   const m = getRecommendations();
@@ -98,6 +99,15 @@ test("new first-hand picks appear in Recommended and their dish filters", () => 
   assert.deepEqual(mustTry(byId.ChIJrcVnHhCayzsRyl7sbG3gTgg).slice(0, 2).map((dish) => dish.name), ["Spicy Paneer Pizza", "Softy"]);
   assert.deepEqual(mustTry(byId.ChIJFQOGvnOXyzsRaISRRzvIzdE).map((dish) => dish.name), ["Rainbow Cake", "Fudge Brownie", "Mini Cupcakes", "Red Velvet Cupcake"]);
   assert(filterRecommendations(model.places, { mode: "recommended", dish: "", q: "softy" }).some((place) => place.id === "ChIJrcVnHhCayzsRyl7sbG3gTgg"));
+});
+test("Panchakattu Dosa publishes the first-hand Neyyi Kaaram Palyam Dosa recommendation", () => {
+  const id = "ChIJia4xz3KRyzsRoVKZLnQUo7c";
+  const place = getRecommendations().places.find((item) => item.id === id);
+  assert.equal(place?.recommended, true);
+  assert.equal(place?.signature?.name, "Neyyi Kaaram Palyam Dosa");
+  assert.equal(mustTry(place)[0]?.name, "Neyyi Kaaram Palyam Dosa");
+  assert(dishSeedsFor({ id, name: "Panchakattu Dosa" }).some((dish) => dish.name === "Neyyi Kaaram Palyam Dosa" && dish.source === "editor"));
+  assert(dishSeedsFor({ id: "ChIJeWjmMQCTyzsR1KLSg3XmaTI", name: "Panchakattu Dosa" }).some((dish) => dish.name === "Neyyi Kaaram Palyam Dosa" && dish.source === "editor"));
 });
 test("URL round trip preserves mode, dish, area, branch, view and bounds", () => {
   const s = parseMapState("mode=all&dish=dosa&area=Madhapur&spot=p&list=1&q=masala&view=17.4,78.4,14&bounds=17.3,17.5,78.3,78.5");
