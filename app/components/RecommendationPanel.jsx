@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { trackRecommendationEvent } from "../../lib/recommendationTracking.js";
-import { mustTry, normalize } from "../../lib/recommendationShared.js";
+import { isSpecificDishRecommendation, mustTry, normalize } from "../../lib/recommendationShared.js";
 import { dishDestination } from "../../lib/dishDestinations.js";
 
 // Why a place is recommended, Product Hunt style: one big upvote for the place
@@ -72,7 +72,8 @@ export default function RecommendationPanel({ place, brand, publishedDishes = []
   const kicker = locals >= 3 ? "Locals' top pick" : rank ? `Ranked #${rank.rank}` : place.reviewStatus === "community" ? "Suggested by locals" : "Editor's pick";
   const lovedFor = tries.filter((t) => !t.star).slice(0, 2).map((t) => t.name.toLowerCase());
   const categoryTitle = rank?.title ? rank.title.replace(/^Best\s+/i, "").replace(/\s+in\s+Hyderabad$/i, "").toLowerCase() : "";
-  const tagline = place.signature?.name ? `Famous for the ${place.signature.name.toLowerCase()}`
+  const signature = place.signature?.name && isSpecificDishRecommendation(place.signature.name) ? place.signature : null;
+  const tagline = signature ? `Famous for the ${signature.name.toLowerCase()}`
     : rank?.dishName ? `Loved for ${rank.dishName.toLowerCase()}`
     : rank && !rank.dishName ? (rank.rank === 1 ? `Voted Hyderabad's best ${categoryTitle}` : `Top-rated in ${rank.title}`)
     : lovedFor.length ? `Loved for ${lovedFor.join(" and ")}` : "A local favourite";
@@ -115,7 +116,7 @@ export default function RecommendationPanel({ place, brand, publishedDishes = []
             <span className="ph-dish">
               {href ? <a href={href}>{t.name}</a> : t.name}
               {t.star && <em>Signature</em>}
-              {t.star && place.signature?.why && <small>{place.signature.why.replace(/—/g, ",")}</small>}
+              {t.star && signature?.why && <small>{signature.why.replace(/—/g, ",")}</small>}
             </span>
             {dishState.available
               ? <button type="button" className="ph-dish-vote" aria-pressed={mine} disabled={pending === t.name}

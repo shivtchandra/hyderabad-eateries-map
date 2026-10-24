@@ -7,7 +7,7 @@ import { updateCounts, validateVote, writeRecommendationVote } from "../lib/reco
 import { signVoter, verifyVoter } from "../lib/recommendationCookie.js";
 import { safeEvent } from "../lib/engagement.js";
 import { cleanDishName, writeDishAdd, visibleDishes, PUBLIC_AT, DAY_LIMIT } from "../lib/recommendationDishes.js";
-import { mustTry, dishPageEligible, dishMentions } from "../lib/recommendationShared.js";
+import { mustTry, dishPageEligible, dishMentions, isSpecificDishRecommendation } from "../lib/recommendationShared.js";
 import { dishSeedsFor } from "../lib/dishSeeds.js";
 
 test("one shared curated set, distinct brands and qualified dish pages", () => {
@@ -164,6 +164,14 @@ test("dish names are validated", () => {
   assert.equal(cleanDishName("Ghee podi idli"), "Ghee podi idli");
   for (const bad of ["a", "http://spam.com", "www.x", "<b>", "123", "x".repeat(41), "fuck this"]) assert.equal(cleanDishName(bad), null, bad);
 });
+test("existing public dish summaries hide broad labels", () => {
+  const dishes = {
+    "cocktails bar": { name: "Cocktails / bar", count: 8 },
+    pizza: { name: "Pizza", count: 3 },
+    "chicken popcorn": { name: "Chicken Popcorn", count: 2 },
+  };
+  assert.deepEqual(visibleDishes(dishes).map((dish) => dish.name), ["Chicken Popcorn"]);
+});
 test("dish adds dedupe per visitor, go public at the threshold, and are rate limited", async () => {
   const db = fakeDb(); const base = { placeId: "p1", name: "Mutton biryani", now: Date.UTC(2026, 9, 5) };
   const first = await writeDishAdd(db, { ...base, voter: "a" });
@@ -182,10 +190,28 @@ test("dish adds dedupe per visitor, go public at the threshold, and are rate lim
 });
 test("must-try merges editorial, community and Reddit dishes by name", () => {
   const t = mustTry({ signature: { name: "Ghee podi idli" }, dishes: [{ id: "dosa", name: "Dosa" }], localDishes: [{ name: "Dosa", people: 12 }], communityDishes: [{ name: "Filter coffee", count: 3 }] });
-  assert.deepEqual(t.map((d) => [d.name, d.count, !!d.star]), [["Ghee podi idli", 0, true], ["Dosa", 12, false], ["Filter coffee", 3, false]]);
-  assert.equal(t[1].id, "dosa");
+  assert.deepEqual(t.map((d) => [d.name, d.count, !!d.star]), [["Ghee podi idli", 0, true], ["Filter coffee", 3, false]]);
   const folded = mustTry({ signature: { name: "Mutton Dum Biryani" }, dishes: [{ id: "biryani", name: "Biryani" }], localDishes: [{ name: "Biryani", people: 61 }, { name: "Mutton biryani", people: 38 }, { name: "Haleem", people: 4 }] });
-  assert.deepEqual(folded.map((d) => [d.name, d.count]), [["Mutton Dum Biryani", 99], ["Haleem", 4]]);
+  assert.deepEqual(folded.map((d) => [d.name, d.count]), [["Mutton Dum Biryani", 38], ["Haleem", 4]]);
+});
+test("what-to-order excludes broad cuisines and categories while retaining specific dishes", () => {
+  for (const vague of ["Cocktails / bar", "Pizza", "Biryani", "Coffee", "Desserts", "Bakery / cakes", "Breakfast", "Sushi / Japanese", "Signature House Cocktails"]) {
+    assert.equal(isSpecificDishRecommendation(vague), false, vague);
+    assert.equal(cleanDishName(vague), null, vague);
+  }
+  for (const dish of ["Apple Beer & Kodi Chips", "Mutton Dum Biryani", "Neyyi Kaaram Palyam Dosa", "Hot Chocolate"]) {
+    assert.equal(isSpecificDishRecommendation(dish), true, dish);
+  }
+  const tries = mustTry({
+    signature: { name: "Apple Beer & Kodi Chips" },
+    editorialDishes: [{ name: "Cheese Balls" }, { name: "Signature House Cocktails" }],
+    communityDishes: [{ name: "Cocktails / bar", count: 8 }, { name: "Chicken Popcorn", count: 3 }],
+    localDishes: [{ name: "Pizza", people: 12 }, { name: "Truffle Parmesan Fries", people: 4 }],
+    rankings: [{ dishName: "Pizza", votes: 10, dishId: "pizza" }],
+    dishes: [{ id: "pizza", name: "Pizza" }],
+  });
+  assert.deepEqual(tries.map((dish) => dish.name), ["Apple Beer & Kodi Chips", "Cheese Balls", "Truffle Parmesan Fries", "Chicken Popcorn"]);
+  assert.deepEqual(mustTry({ signature: { name: "Pan-Asian plates & live-music evenings" }, editorialDishes: [{ name: "Pizza" }] }), []);
 });
 test("ranked places: every published standing is recommended with its category and position", async () => {
   const { rankingsBySpot, resolveRankedPlaces } = await import("../lib/recommendationPicks.js");
