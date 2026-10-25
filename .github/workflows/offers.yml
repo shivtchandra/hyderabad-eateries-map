@@ -29,16 +29,14 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    timeout-minutes: 60
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - name: Scrape District offers
-        env:
-          JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
-        run: node scripts/refresh-curated-offers.mjs
+        run: node scripts/expand-comp-spots.mjs
       - name: Commit
         run: |
           git config user.name  "offers-bot"

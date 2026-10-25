@@ -19,7 +19,7 @@
     "static": "node scripts/build-static.mjs",
     "refresh-offers": "node scripts/resolve-zomato.mjs && node scripts/fetch-offers.mjs && node scripts/build-static.mjs",
     "indexnow": "node scripts/submit-indexnow.mjs",
-    "offers:district": "node scripts/refresh-curated-offers.mjs",
+    "offers:district": "node scripts/expand-comp-spots.mjs",
     "offers:swiggy": "node scripts/fetch-swiggy-dineout.mjs"
   },
   "dependencies": {
