@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-25T15:29:58.504Z",
-  "totalSpotsWithOffers": 207,
+  "updatedAt": "2026-10-25T17:32:55.946Z",
+  "totalSpotsWithOffers": 208,
   "spots": {
     "ChIJKyxGIoiXyzsRPY8PASGdTW0": {
       "name": "Hotel Shadab",
@@ -6630,9 +6630,9 @@
       "name": "Rayalaseema Ruchulu",
       "area": "HITEC City",
       "district": {
-        "url": null,
+        "url": "https://www.district.in/dining/hyderabad/rayalaseema-ruchulu-1-ameerpet",
         "hasOffers": false,
-        "fetchedAt": "2026-10-02T07:20:10.572Z",
+        "fetchedAt": null,
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -7349,9 +7349,9 @@
       "name": "Roast 24 Seven",
       "area": "Jubilee Hills",
       "district": {
-        "url": null,
+        "url": "https://www.district.in/dining/hyderabad/roast-24-seven-gachibowli",
         "hasOffers": false,
-        "fetchedAt": "2026-09-28T12:17:30.462Z",
+        "fetchedAt": null,
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -11359,9 +11359,9 @@
       "name": "Over the Moon Brew Co.",
       "area": "Gachibowli",
       "district": {
-        "url": null,
+        "url": "https://www.district.in/dining/hyderabad/over-the-moon-brew-company-gachibowli",
         "hasOffers": false,
-        "fetchedAt": "2026-09-28T12:22:02.792Z",
+        "fetchedAt": null,
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -12382,13 +12382,300 @@
       "name": "Red Rhino",
       "area": "Madhapur",
       "district": {
-        "url": null,
-        "hasOffers": false,
-        "fetchedAt": "2026-09-28T20:18:44.608Z",
+        "url": "https://www.district.in/dining/hyderabad/red-rhino-madhapur",
+        "hasOffers": true,
+        "fetchedAt": "2026-10-25T17:32:24.651Z",
         "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": []
+        "deals": [
+          {
+            "title": "FLAT 15% OFF",
+            "pct": 15,
+            "flat": null,
+            "when": null,
+            "slotsLeft": null
+          },
+          {
+            "title": "FLAT 20% OFF",
+            "pct": 20,
+            "flat": null,
+            "when": {
+              "label": "From 12:00 PM, tomorrow",
+              "day": "tomorrow",
+              "from": 720,
+              "to": null
+            },
+            "slotsLeft": 25
+          }
+        ],
+        "bankOffers": [
+          {
+            "title": "25% OFF for up to ₹5,000 using RBL Bank LUMIÈRE Credit Card",
+            "pct": 25,
+            "flat": null,
+            "cap": 5000,
+            "bank": "RBL Bank LUMIÈRE",
+            "minBill": null
+          },
+          {
+            "title": "12% OFF up to ₹1,000 on Taj Credit Card",
+            "pct": 12,
+            "flat": null,
+            "cap": 1000,
+            "bank": "Taj",
+            "minBill": 3000
+          },
+          {
+            "title": "20% OFF up to ₹1,000 using Jupiter Metal Aurora Card",
+            "pct": 20,
+            "flat": null,
+            "cap": 1000,
+            "bank": "Jupiter Metal Aurora",
+            "minBill": 2000
+          },
+          {
+            "title": "15% OFF up to ₹500 on Ananta Credit Card",
+            "pct": 15,
+            "flat": null,
+            "cap": 500,
+            "bank": "Ananta",
+            "minBill": 1000
+          },
+          {
+            "title": "20% OFF up to ₹1,500 on Kotak Bank Solitaire Debit Card",
+            "pct": 20,
+            "flat": null,
+            "cap": 1500,
+            "bank": "Kotak Bank Solitaire",
+            "minBill": 2500
+          },
+          {
+            "title": "15% OFF up to ₹500 using RBL Bank Credit Cards",
+            "pct": 15,
+            "flat": null,
+            "cap": 500,
+            "bank": "RBL Bank",
+            "minBill": 3000
+          },
+          {
+            "title": "20% OFF up to ₹750 on Kotak 811 Infinity Metal Debit Card",
+            "pct": 20,
+            "flat": null,
+            "cap": 750,
+            "bank": "Kotak 811 Infinity Metal",
+            "minBill": 2000
+          },
+          {
+            "title": "15% OFF up to ₹750 using Kotak Air+ & White Reserve Credit Cards",
+            "pct": 15,
+            "flat": null,
+            "cap": 750,
+            "bank": "Kotak Air+ & White Reserve",
+            "minBill": 3000
+          },
+          {
+            "title": "30% OFF up to ₹3,000 using RBL Bank Corporate Credit Card",
+            "pct": 30,
+            "flat": null,
+            "cap": 3000,
+            "bank": "RBL Bank Corporate",
+            "minBill": 8000
+          },
+          {
+            "title": "10% OFF up to ₹1,000 on Kotak Bank Privy Platinum Debit Card",
+            "pct": 10,
+            "flat": null,
+            "cap": 1000,
+            "bank": "Kotak Bank Privy Platinum",
+            "minBill": 2500
+          },
+          {
+            "title": "10% OFF for up to ₹3,000 using RBL Bank NOVA Credit Card",
+            "pct": 10,
+            "flat": null,
+            "cap": 3000,
+            "bank": "RBL Bank NOVA",
+            "minBill": null
+          },
+          {
+            "title": "20% OFF up to ₹1,000 on IDFC Private Debit Cards",
+            "pct": 20,
+            "flat": null,
+            "cap": 1000,
+            "bank": "IDFC Private",
+            "minBill": 5000
+          },
+          {
+            "title": "20% OFF up to ₹500 on CheQ AU Credit Cards",
+            "pct": 20,
+            "flat": null,
+            "cap": 500,
+            "bank": "CheQ AU",
+            "minBill": 1500
+          },
+          {
+            "title": "Flat ₹350 OFF on Credit Cards",
+            "pct": null,
+            "flat": 350,
+            "cap": null,
+            "bank": null,
+            "minBill": 3500
+          },
+          {
+            "title": "Get 10% OFF up to ₹500 using IDFC FIRST SWYP Credit Card",
+            "pct": 10,
+            "flat": null,
+            "cap": 500,
+            "bank": "IDFC FIRST SWYP",
+            "minBill": 3000
+          },
+          {
+            "title": "10% OFF up to ₹1,200 on Kotak Bank Privy Black Debit Card",
+            "pct": 10,
+            "flat": null,
+            "cap": 1200,
+            "bank": "Kotak Bank Privy Black",
+            "minBill": 2500
+          },
+          {
+            "title": "Flat ₹500 OFF on AU Credit Cards",
+            "pct": null,
+            "flat": 500,
+            "cap": null,
+            "bank": "AU",
+            "minBill": 6000
+          },
+          {
+            "title": "10% OFF up to ₹500 on Credit Cards",
+            "pct": 10,
+            "flat": null,
+            "cap": 500,
+            "bank": null,
+            "minBill": 5000
+          },
+          {
+            "title": "10% OFF up to ₹1,000 on HSBC TravelOne Credit Card",
+            "pct": 10,
+            "flat": null,
+            "cap": 1000,
+            "bank": "HSBC TravelOne",
+            "minBill": 5000
+          },
+          {
+            "title": "Get 10% OFF up to ₹500 using YES BANK Credit Cards",
+            "pct": 10,
+            "flat": null,
+            "cap": 500,
+            "bank": "YES BANK",
+            "minBill": 4000
+          },
+          {
+            "title": "10% OFF for up to ₹1,000 on Premier Credit Cards",
+            "pct": 10,
+            "flat": null,
+            "cap": 1000,
+            "bank": null,
+            "minBill": 5000
+          },
+          {
+            "title": "Get 20% OFF up to ₹2,000 using DBS Treasures Private Debit Cards",
+            "pct": 20,
+            "flat": null,
+            "cap": 2000,
+            "bank": "DBS Treasures Private",
+            "minBill": null
+          },
+          {
+            "title": "Flat ₹400 OFF using PNB Luxura Visa Credit Card",
+            "pct": null,
+            "flat": 400,
+            "cap": null,
+            "bank": "PNB Luxura Visa",
+            "minBill": 1999
+          },
+          {
+            "title": "12% OFF up to ₹500 on IDFC Select Debit Cards",
+            "pct": 12,
+            "flat": null,
+            "cap": 500,
+            "bank": "IDFC Select",
+            "minBill": 5000
+          },
+          {
+            "title": "10% OFF up to ₹600 on Kotak Bank Privy Neon Debit Card",
+            "pct": 10,
+            "flat": null,
+            "cap": 600,
+            "bank": "Kotak Bank Privy Neon",
+            "minBill": 2500
+          },
+          {
+            "title": "Flat ₹150 OFF on AU Credit Cards",
+            "pct": null,
+            "flat": 150,
+            "cap": null,
+            "bank": "AU",
+            "minBill": 1500
+          },
+          {
+            "title": "Get 15% OFF up to ₹750 using SBI AURUM Credit Cards",
+            "pct": 15,
+            "flat": null,
+            "cap": 750,
+            "bank": "SBI AURUM",
+            "minBill": 4000
+          },
+          {
+            "title": "Flat ₹250 OFF using Visa Infinite and Signature Cards",
+            "pct": null,
+            "flat": 250,
+            "cap": null,
+            "bank": null,
+            "minBill": 1000
+          },
+          {
+            "title": "15% OFF up to ₹750 on IDFC Wealth Debit Cards",
+            "pct": 15,
+            "flat": null,
+            "cap": 750,
+            "bank": "IDFC Wealth",
+            "minBill": 5000
+          },
+          {
+            "title": "Get 20% OFF up to ₹5,000 using Kotak Bank Solitaire Credit Cards",
+            "pct": 20,
+            "flat": null,
+            "cap": 5000,
+            "bank": "Kotak Bank Solitaire",
+            "minBill": null
+          }
+        ],
+        "offers": [
+          {
+            "type": "PRE_BOOK",
+            "title": "FLAT 15% OFF",
+            "desc": "Pre-book on District"
+          },
+          {
+            "type": "PRE_BOOK",
+            "title": "FLAT 20% OFF",
+            "desc": "From 12:00 PM, tomorrow"
+          },
+          {
+            "type": "BANK",
+            "title": "25% OFF for up to ₹5,000 using RBL Bank LUMIÈRE Credit Card",
+            "desc": "Bank card offer"
+          },
+          {
+            "type": "BANK",
+            "title": "12% OFF up to ₹1,000 on Taj Credit Card",
+            "desc": "On bills of ₹3,000 or more"
+          },
+          {
+            "type": "BANK",
+            "title": "20% OFF up to ₹1,000 using Jupiter Metal Aurora Card",
+            "desc": "On bills of ₹2,000 or more"
+          }
+        ]
       },
       "swiggy": null
     },
@@ -12396,9 +12683,9 @@
       "name": "Elsewhere Lounge & Kitchen",
       "area": "Manikonda",
       "district": {
-        "url": null,
+        "url": "https://www.district.in/dining/hyderabad/elsewhere-lounge-kitchen-gachibowli",
         "hasOffers": false,
-        "fetchedAt": "2026-09-28T12:23:33.180Z",
+        "fetchedAt": null,
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -15472,9 +15759,9 @@
       "name": "Belloso Cafe | Uppal",
       "area": "text:cafe uppal",
       "district": {
-        "url": null,
+        "url": "https://www.district.in/dining/hyderabad/belloso-cafe-uppal-secunderabad",
         "hasOffers": false,
-        "fetchedAt": "2026-09-28T12:26:28.605Z",
+        "fetchedAt": null,
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -17684,9 +17971,9 @@
       "name": "Over The Flow",
       "area": "Dilsukhnagar",
       "district": {
-        "url": null,
+        "url": "https://www.district.in/dining/hyderabad/over-the-flow-hafeezpet",
         "hasOffers": false,
-        "fetchedAt": "2026-09-28T12:28:40.431Z",
+        "fetchedAt": null,
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -21575,9 +21862,9 @@
       "name": "This Is It Cafe",
       "area": "Tarnaka",
       "district": {
-        "url": null,
+        "url": "https://www.district.in/dining/hyderabad/this-is-it-1-sainikpuri-secunderabad",
         "hasOffers": false,
-        "fetchedAt": "2026-09-28T12:33:36.883Z",
+        "fetchedAt": null,
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -23594,9 +23881,9 @@
       "name": "Ahwana Kitchen & Bar",
       "area": "Financial District",
       "district": {
-        "url": null,
+        "url": "https://www.district.in/dining/hyderabad/ahwana-bar-kitchen-kokapet",
         "hasOffers": false,
-        "fetchedAt": "2026-09-28T12:37:03.693Z",
+        "fetchedAt": null,
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -24471,9 +24758,9 @@
       "name": "Aqua - The Park",
       "area": "Somajiguda",
       "district": {
-        "url": null,
+        "url": "https://www.district.in/dining/hyderabad/aqua-the-park-somajiguda",
         "hasOffers": false,
-        "fetchedAt": "2026-10-17T16:46:20.168Z",
+        "fetchedAt": null,
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -26126,9 +26413,9 @@
       "name": "The Spice Kitchen By TSK",
       "area": "Kukatpally",
       "district": {
-        "url": null,
+        "url": "https://www.district.in/dining/hyderabad/tsk-the-spice-kitchen-kukatpally",
         "hasOffers": false,
-        "fetchedAt": "2026-09-28T12:40:47.775Z",
+        "fetchedAt": null,
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -31471,9 +31758,9 @@
       "name": "Mythus Brewpub & Kitchen",
       "area": "Financial District",
       "district": {
-        "url": null,
+        "url": "https://www.district.in/dining/hyderabad/mythus-brewpub-kitchen-gandipet",
         "hasOffers": false,
-        "fetchedAt": "2026-09-28T12:49:49.572Z",
+        "fetchedAt": null,
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -34404,9 +34691,9 @@
       "name": "Jamming Goat 3.0 Hyderabad",
       "area": "Financial District",
       "district": {
-        "url": null,
+        "url": "https://www.district.in/dining/hyderabad/jamming-goat-3-0-kokapet",
         "hasOffers": false,
-        "fetchedAt": "2026-09-28T12:55:47.959Z",
+        "fetchedAt": null,
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -34557,9 +34844,9 @@
       "name": "De’ Café Studio",
       "area": "Malakpet",
       "district": {
-        "url": null,
+        "url": "https://www.district.in/dining/hyderabad/de-cafe-studio-malakpet",
         "hasOffers": false,
-        "fetchedAt": "2026-09-28T12:56:03.183Z",
+        "fetchedAt": null,
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -35033,9 +35320,9 @@
       "name": "PaPaYa - Modern Asian Bistro",
       "area": "text:bistro hyderabad",
       "district": {
-        "url": null,
+        "url": "https://www.district.in/dining/hyderabad/papaya-modern-asian-bistro-film-nagar",
         "hasOffers": false,
-        "fetchedAt": "2026-09-28T12:56:35.459Z",
+        "fetchedAt": null,
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -37699,9 +37986,9 @@
       "name": "Accha Telugu Kitchen and Bar",
       "area": "Somajiguda",
       "district": {
-        "url": null,
+        "url": "https://www.district.in/dining/hyderabad/accha-telugu-kitchen-bar-somajiguda",
         "hasOffers": false,
-        "fetchedAt": "2026-10-14T06:45:49.702Z",
+        "fetchedAt": null,
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -38136,9 +38423,9 @@
       "name": "Bourbon & Breeze",
       "area": "Banjara Hills",
       "district": {
-        "url": null,
+        "url": "https://www.district.in/dining/hyderabad/bourbon-breeze-rooftop-bar-kitchen-banjara-hills",
         "hasOffers": false,
-        "fetchedAt": "2026-09-28T13:01:49.505Z",
+        "fetchedAt": null,
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -38690,7 +38977,15 @@
     "ChIJM1i_kQ6RyzsRUgtSV5h6Pww": {
       "name": "Krishnapatnam",
       "area": "Jubilee Hills",
-      "district": null,
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/krishnapatnam-kothapet",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      },
       "swiggy": {
         "id": "653333",
         "name": "Krishnapatnam",
@@ -39070,7 +39365,15 @@
     "ChIJc4ODCgCXyzsRVF08uD6YabQ": {
       "name": "Paneer Palace Pure Veg Multicuisine Fine Dine Restaurant",
       "area": "Banjara Hills",
-      "district": null,
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/paneer-palace-pure-veg-multicuisine-fine-dine-restaurant-banjara-hills",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      },
       "swiggy": {
         "id": "1323703",
         "name": "Paneer Palace Pure Veg Fine Dine Restaurant",
@@ -39319,7 +39622,15 @@
     "ChIJbUXsDwCTyzsRVVXgQqHhClI": {
       "name": "Murugan Kitchen",
       "area": "Gachibowli",
-      "district": null,
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/murugan-kitchen-1-gachibowli",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      },
       "swiggy": {
         "id": "1429866",
         "name": "Murugan Kitchen",
@@ -39437,7 +39748,15 @@
     "ChIJt_QY8JeTyzsRIFHsaBVbRNo": {
       "name": "45th Avenue by Karachi Bakery",
       "area": "text:artisan bakery hyderabad",
-      "district": null,
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/45th-avenue-by-karachi-bakery-gachibowli",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      },
       "swiggy": {
         "id": "824691",
         "name": "45th Avenue By Karachi Bakery",
@@ -39568,7 +39887,15 @@
     "ChIJiyafpwWRyzsRw2j1Vv4tzDQ": {
       "name": "Native Katha",
       "area": "Madhapur",
-      "district": null,
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/native-katha-madhapur",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      },
       "swiggy": {
         "id": "1056600",
         "name": "Native Katha",
@@ -40446,7 +40773,15 @@
     "ChIJ6QBK7beQyzsRbIWYv6PdbXg": {
       "name": "Saffron Soul - Marigold Hotel",
       "area": "Begumpet",
-      "district": null,
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/saffron-soul-marigold-hotel-begumpet",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      },
       "swiggy": {
         "id": "58018",
         "name": "Saffron Soul - Marigold Hotel",
@@ -42223,7 +42558,15 @@
     "ChIJc1t0QgCZyzsR5UkO06ceGz0": {
       "name": "The Camp",
       "area": "Abids",
-      "district": null,
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/the-camp-abids",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      },
       "swiggy": {
         "id": "1012043",
         "name": "The Camp Rooftop Bar And Kitchen",
@@ -43659,7 +44002,15 @@
     "ChIJzeZZpMSTyzsRX7PJ5DHZEr8": {
       "name": "Vam Coffee House",
       "area": "Nallagandla",
-      "district": null,
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/vam-coffee-house-nallagandla",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      },
       "swiggy": {
         "id": "1404795",
         "name": "Vam Coffee House",
@@ -44694,7 +45045,15 @@
     "ChIJleROBYCRyzsRGB5gYpI_QsY": {
       "name": "Habibo",
       "area": "Ameerpet",
-      "district": null,
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/habibo-ameerpet",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      },
       "swiggy": {
         "id": "797471",
         "name": "Habibo",
@@ -44825,7 +45184,15 @@
     "ChIJmTQBWM-QyzsRqkHUk7ue23k": {
       "name": "Blue Fox",
       "area": "Begumpet",
-      "district": null,
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/blue-fox-kondapur",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      },
       "swiggy": {
         "id": "2782",
         "name": "Blue Fox",
@@ -47129,6 +47496,435 @@
             "desc": "10% cashback On every bill payment"
           }
         ]
+      }
+    },
+    "ChIJw-MCKzSYyzsRNGvxUsetab0": {
+      "name": "HOTEL SOHAIL",
+      "area": "Malakpet",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/hotel-sohail-malakpet",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJ66NhVvGRyzsRJl-6JFh016I": {
+      "name": "Pista House",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-cafe-charminar",
+        "hasOffers": false,
+        "fetchedAt": "2026-10-25T17:32:41.575Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "reach-ms-mandi-and-shawarma-charminar-aef73171": {
+      "name": "MS Mandi & Shawarma",
+      "area": "Charminar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/ms-mandi-shawarma-charminar",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJ7Yg992iTyzsRsBtTZpHjBvM": {
+      "name": "Wah Mandi",
+      "area": "HITEC City",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/wah-mandi-kothaguda",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJs2Z8Jy2RyzsRUvMabDrmsNc": {
+      "name": "Cream Stone Ice Cream",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/cream-stone-ice-cream-kondapur",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJ84YKOP6FyzsRQv_La09DXWI": {
+      "name": "The Bagara Kitchen and Bar",
+      "area": "Kompally",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/bagara-7-restaurant-khairatabad",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJeUbaGACRyzsR7XVdKeJI1wc": {
+      "name": "Kissa coffee house",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/kissa-coffee-house-jubilee-hills",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJtzSzBgCVyzsRROrBh6uC4aE": {
+      "name": "Alley 91 Bowling Bar",
+      "area": "Financial District",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/alley-91-bowling-bar-financial-district",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJb0tNPQCTyzsROOeKr-zapM4": {
+      "name": "Brick & Branch",
+      "area": "Financial District",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/brick-branch-gachibowli",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJwR-eTZ-VyzsR7m47KBwQGMU": {
+      "name": "BREW TIMES",
+      "area": "text:microbrewery hyderabad",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/brew-times-gandipet",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJ503VZ5yVyzsR5jsERAZ01z0": {
+      "name": "Dashami Kitchen & Bar",
+      "area": "Financial District",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/dashami-kitchen-and-bar-gandipet",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJu_uOEuGXyzsRpTMXp1nViig": {
+      "name": "Bakelore",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/bakelore-kondapur",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJy7MrtsaZyzsRJGkEGy4JsTA": {
+      "name": "Mehfil",
+      "area": "Himayatnagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/mehfil-dilsukhnagar",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJv7WTZhWRyzsRCiGtDJAABX4": {
+      "name": "99 Pancakes",
+      "area": "Road No.36 JH",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/99-pancakes-l-b-nagar",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJgyvaADWZyzsRcY8343RzgXE": {
+      "name": "Pista House Uppal",
+      "area": "Secunderabad",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/pista-house-3-uppal-secunderabad",
+        "hasOffers": false,
+        "fetchedAt": "2026-10-25T17:32:52.732Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJ_S-dAsKFyzsRKJQ6Xnb0hfM": {
+      "name": "ZULA - Bar & Lounge",
+      "area": "Kompally",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/zula-bar-lounge-kompally",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJHaVgL22FyzsRmioqN8Zv-MY": {
+      "name": "The Funnel Hill Creamery",
+      "area": "Kompally",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/the-funnel-hill-creamery-kompally",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJxYj9zyWTyzsRJmRDlT9eiM4": {
+      "name": "Harleys Fine Baking",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/harleys-fine-baking-shamshabad",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJyRg5xgeTyzsRJh0XP2H64eQ": {
+      "name": "Skyline Brew Co",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/skyline-brew-co-gachibowli",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJY17Z60GZyzsR3H7Yns5FBlQ": {
+      "name": "Cafe Liora",
+      "area": "Nagole",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/cafe-liora-nagole",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJh701yxuTyzsRLtll1AqvQCI": {
+      "name": "Marquee - Where Night Begins",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/marquee-where-night-begins-gachibowli",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJf3zMcPeTyzsREfOmzu7BcPo": {
+      "name": "Tanah Kitchen & Bar",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/tanah-kitchen-bar-gachibowli",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJLc6fN-KXyzsRQJ9jPg2b-U4": {
+      "name": "Vasaara South Indian Kitchen",
+      "area": "Film Nagar",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/vasaara-south-indian-kitchen-film-nagar",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJCSELPs6RyzsRgDvN2CcEPNU": {
+      "name": "Dakshin, ITC Kakatiya",
+      "area": "Begumpet",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/dakshin-itc-kakatiya-begumpet",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJn_FnREuZyzsRiKahIi7rc48": {
+      "name": "Viyyalavari Kitchen",
+      "area": "Kothapet",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/viyyalavari-kitchen-l-b-nagar",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJ6fDdkfWXyzsRUIp3A9ANrPI": {
+      "name": "Aaha Food Village",
+      "area": "Narsingi",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/aaha-food-village-manikonda",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJqfi8bQCTyzsR5fbpcBgdk0M": {
+      "name": "Kritaa Nagar",
+      "area": "Financial District",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/kritaa-nagar-gachibowli",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJ6bVjcD2RyzsR_X_h94N_K-o": {
+      "name": "House of Bagaara",
+      "area": "Madhapur",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/house-of-bagaara-1-madhapur",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJ0xk2646VyzsRTj61rBJltTk": {
+      "name": "Native South",
+      "area": "Gandipet",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/native-south-1-gandipet",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJCcIRyOGFyzsR_spp4Xd-txk": {
+      "name": "Takita Takita kitchen",
+      "area": "Kompally",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/takita-takita-kitchen-kompally",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJm3OCSeiTyzsRhUXcRR1kE0w": {
+      "name": "Bezawada Junction",
+      "area": "Gachibowli",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/bezawada-junction-kondapur",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJ-X5Jng-TyzsRAHyx_cRhMaE": {
+      "name": "7 Oceans Restaurant",
+      "area": "Miyapur",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/7-oceans-miyapur",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
+      }
+    },
+    "ChIJ3yO91yKRyzsR86yt9aP_wbY": {
+      "name": "Palm Tree Arabian Restaurant",
+      "area": "Madhapur",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/palm-tree-arabian-restaurant-hafeezpet",
+        "hasOffers": false,
+        "fetchedAt": null,
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       }
     }
   },

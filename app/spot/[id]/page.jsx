@@ -293,7 +293,6 @@ export default async function SpotPage({ params }) {
   const dishSeeds = dishSeedsFor(spot);
 
   let spotOffers = null;
-  /* Offers commented out for now
   try {
     const curatedPath = path.join(process.cwd(), "data", "curated-offers.json");
     if (fs.existsSync(curatedPath)) {
@@ -301,7 +300,6 @@ export default async function SpotPage({ params }) {
       spotOffers = verifiedOffers(parsed.spots?.[spot.id]);
     }
   } catch {}
-  */
 
   const redditData = getRedditSpotData(spot.id, spot.name, spotSlug(spot));
   // Entity-reviewed r/hyderabad evidence from the shared resolver.
@@ -795,11 +793,12 @@ export default async function SpotPage({ params }) {
 
           <MustOrder spotId={spot.id} initial={dishSeeds} />
 
-          {/* Offers right now - commented out for now */}
-          {/*
           {spotOffers && (spotOffers.district?.hasOffers || spotOffers.swiggy?.hasOffers) && (
             <section className="spot-section sp-offers" aria-label="Offers">
-              <h2>Offers right now</h2>
+              <div className="sp-offers-title">
+                <h2>Offers checked today</h2>
+                <Link href="/offers">Compare every deal →</Link>
+              </div>
               {[["district", "District by Zomato", "Book a table"], ["swiggy", "Swiggy Dineout", "Pay the bill"]].map(([k, label, cta]) => spotOffers[k]?.hasOffers && (
                 <div key={k} className="sp-offer">
                   <div className="sp-offer-head">
@@ -815,7 +814,6 @@ export default async function SpotPage({ params }) {
               ))}
             </section>
           )}
-          */}
 
           {(spot.contentScope || contentSources.length > 0) && (
             <section className="spot-section" aria-label="Editorial sources and scope">

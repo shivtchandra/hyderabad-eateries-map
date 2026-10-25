@@ -8,6 +8,7 @@ import * as passportStore from "../lib/passport.js";
 import { Icon } from "./components/Icons.jsx";
 import dynamic from "next/dynamic";
 import Clouds from "./components/Clouds.jsx";
+import "./site.css";
 
 // Race claims need GPS proof (within 250 m) only when this is on. Off while testing.
 const RACE_REQUIRE_GPS = process.env.NEXT_PUBLIC_RACE_REQUIRE_GPS === "1";
@@ -49,6 +50,7 @@ import RecommendationPanel from "./components/RecommendationPanel.jsx";
 import PicksSheet from "./components/PicksSheet.jsx";
 import AddDishSheet from "./components/AddDishSheet.jsx";
 import AddPlace from "./components/AddPlace.jsx";
+import OffersClient from "./offers/OffersClient.jsx";
 
 export default function EateriesApp({ initialTab = "map", initialRaceView = "race", initialDishSlug = null }) {
   const mapApi = useRef(null);
@@ -77,6 +79,9 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   const [tabReady, setTabReady] = useState(false);
   const [raceView, setRaceView] = useState(initialRaceView); // which sub-tab the Race panel opens on
   const [activeCategory, setActiveCategory] = useState("all");
+  const [offersPayload, setOffersPayload] = useState(null);
+  const [offersStatus, setOffersStatus] = useState("idle");
+  const offersRequested = useRef(false);
 
   const pushAppPath = (path) => {
     if (typeof window !== "undefined" && window.location.pathname + window.location.search !== path) {
@@ -170,7 +175,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
     const t = p.get("tab");
-    if (t && ["map", "you", "passport", "saved", "race", "route"].includes(t)) setTab(t);
+    if (t && ["map", "deals", "you", "passport", "saved", "race", "route"].includes(t)) setTab(t);
     if (t === "race") setRaceView(p.get("view") === "race" ? "race" : "theme");
     const d = p.get("dish");
     if (d) {
@@ -210,6 +215,36 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     for (const p of recommendationData.places) if (!rows.has(p.id)) rows.set(p.id, { ...p, tags: [], core: false });
     return [...rows.values()];
   }, [indexedEateries, curatedEnabled, recommendationData]);
+
+  // Deals are a first-class app tab, but the daily payload is fetched only after
+  // someone opens it so the map keeps its fast initial load.
+  useEffect(() => {
+    if (tab !== "deals" || offersRequested.current) return;
+    offersRequested.current = true;
+    setOffersStatus("loading");
+    fetch("/api/offers", { cache: "no-store" })
+      .then((response) => {
+        if (!response.ok) throw new Error("offers request failed");
+        return response.json();
+      })
+      .then((payload) => { setOffersPayload(payload); setOffersStatus("ready"); })
+      .catch(() => setOffersStatus("error"));
+  }, [tab]);
+
+  const dealSpots = useMemo(() => {
+    const indexed = new Map(eateries.map((place) => [place.id, place]));
+    return Object.entries(offersPayload?.spots || {}).map(([spotId, entry]) => {
+      const match = indexed.get(spotId);
+      return {
+        ...entry,
+        spotId,
+        name: match?.name || entry.name || "Restaurant",
+        area: entry.area || match?.discoveredIn || "",
+        rating: match?.rating || null,
+        photo: spotPhotoUrl(spotId),
+      };
+    });
+  }, [offersPayload, eateries]);
   // Dish dropdown options, with how many recommended spots serve each.
   const recommendationDishOptions = useMemo(() => DISHES.map((d) => ({ ...d, count: (recommendationData?.places || []).filter((p) => p.recommended && servesDish(p, d.id)).length })).filter((d) => d.count > 0), [recommendationData]);
   const recommendationById = useMemo(() => Object.fromEntries((recommendationData?.places || []).map((p) => [p.id, p])), [recommendationData]);
@@ -253,7 +288,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
       } else if (path === "/") {
         const sp = new URLSearchParams(window.location.search);
         const q = sp.get("tab");
-        if (q && ["map", "you", "passport", "saved", "race", "route"].includes(q)) setTab(q);
+        if (q && ["map", "deals", "you", "passport", "saved", "race", "route"].includes(q)) setTab(q);
         else setTab("map");
         if (q === "race") setRaceView(sp.get("view") === "race" ? "race" : "theme");
       }
@@ -941,6 +976,41 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
             </div>
           )}
         </div>
+
+        {tab === "deals" && (
+          <section className="deals-panel" aria-labelledby="deals-panel-title">
+            <div className="deals-panel-inner">
+              <header className="deals-panel-head">
+                <span className="deals-panel-mark" aria-hidden="true"><Icon name="ticket" size={25} width={2.1} /></span>
+                <span className="deals-panel-copy">
+                  <span className="deals-panel-kicker">Updated daily</span>
+                  <h2 id="deals-panel-title">Deals</h2>
+                  <p>District and Swiggy, compared before you book.</p>
+                </span>
+              </header>
+
+              {offersStatus === "loading" && (
+                <div className="deals-panel-state" role="status"><span className="skeleton-line" />Checking today&apos;s offers…</div>
+              )}
+              {offersStatus === "error" && (
+                <div className="deals-panel-state" role="alert"><b>Deals could not load.</b><span>The map still works—try Deals again in a moment.</span></div>
+              )}
+              {offersStatus === "ready" && (
+                <OffersClient
+                  spotsList={dealSpots}
+                  updatedAt={offersPayload?.updatedAt}
+                  embedded
+                  onSelectSpot={(id) => {
+                    const place = byId[id];
+                    if (!place) return;
+                    goTab("map");
+                    openFromList(place);
+                  }}
+                />
+              )}
+            </div>
+          </section>
+        )}
 
         {tab === "race" && (
           <LeaderboardPanel

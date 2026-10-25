@@ -7,7 +7,8 @@ import BackButton from "./BackButton.jsx";
 const NAV = [
   { href: "/", label: "Map" },
   { href: "/?tab=race", label: "Vote", match: ["/rankings", "/race"] },
-  { href: "/guides", label: "Guides", match: ["/guides", "/stories", "/explore", "/areas", "/offers", "/food-safety", "/picks"] },
+  { href: "/offers", label: "Deals" },
+  { href: "/guides", label: "Guides", match: ["/guides", "/stories", "/explore", "/areas", "/food-safety", "/picks"] },
 ];
 
 

@@ -1,14 +1,12 @@
 import fs from "fs";
 import path from "path";
-import Link from "next/link";
-import { notFound } from "next/navigation";
 import { pageMeta, getSiteUrl } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
 import SiteChrome from "../components/SiteChrome.jsx";
 import BottomNav from "../components/BottomNav.jsx";
 import OffersClient from "./OffersClient.jsx";
 import { spotSlug } from "../../lib/siteData.js";
-import HubAnswer, { HubFaq } from "../components/HubAnswer.jsx";
+import { HubFaq } from "../components/HubAnswer.jsx";
 import { hubJsonLd, todayIso } from "../../lib/hubSeo.js";
 
 // Static: the data is data/curated-offers.json inside the deployment, which only
@@ -49,12 +47,17 @@ function getOffersData() {
     const eateriesList = fs.existsSync(eateriesPath) ? JSON.parse(fs.readFileSync(eateriesPath, "utf-8")) : [];
 
     const eateriesMap = new Map(eateriesList.map((e) => [e.id, e]));
+    const referenceTime = Date.parse(offersJson.updatedAt) || Date.now();
+    const isFresh = (source) => {
+      const fetchedAt = Date.parse(source?.fetchedAt || "");
+      return Boolean(source?.hasOffers && fetchedAt && referenceTime - fetchedAt <= 72 * 60 * 60 * 1000);
+    };
 
     const spotsList = [];
     for (const [spotId, entry] of Object.entries(offersJson.spots || {})) {
-      // Only deals we actually scraped: real records carry fetchedAt; old template data doesn't.
-      const d = entry.district?.fetchedAt && entry.district.hasOffers ? entry.district : null;
-      const sw = entry.swiggy?.fetchedAt && entry.swiggy.hasOffers ? entry.swiggy : null;
+      // A failed daily scrape must not leave an old offer looking current.
+      const d = isFresh(entry.district) ? entry.district : null;
+      const sw = isFresh(entry.swiggy) ? entry.swiggy : null;
       if (!d && !sw) continue;
       const match = eateriesMap.get(spotId);
       spotsList.push({
@@ -82,10 +85,6 @@ function getOffersData() {
 }
 
 export default function OffersPage() {
-  // Offers commented out for now
-  notFound();
-
-  /*
   const siteUrl = getSiteUrl();
   const { spotsList, updatedAt } = getOffersData();
 
@@ -135,18 +134,14 @@ export default function OffersPage() {
         active={SLUG}
         backFallback="/guides"
         breadcrumb={[{ href: "/", label: "Home" }, { href: SLUG, label: "Dining Deals & Offers" }]}
-        title="Hyderabad Dining Deals & Offers"
-        description={`${spotsList.length} Hyderabad restaurants have live dining deals right now${areaCount ? ` across ${areaCount} areas` : ""}, with Swiggy Dineout and District offers side by side so you can see which app saves more before you book.`}
+        title="Which app saves you more?"
+        description={`Compare today’s District and Swiggy Dineout offers across ${spotsList.length} Hyderabad restaurants${areaCount ? ` in ${areaCount} areas` : ""}. Set your expected bill and see the rupees saved before you book.`}
         related={[
           { href: "/stories", label: "Food stories" },
           { href: "/rankings", label: "Weekly rankings" },
           { href: "/areas", label: "Food by area" },
         ]}
       >
-        <HubAnswer
-          stats={[{ value: spotsList.length, label: "spots with deals" }, { value: areaCount || "All", label: "areas" }, { value: 2, label: "apps compared" }]}
-          updated={updated}
-        />
         <OffersClient spotsList={spotsList} updatedAt={updatedAt} />
         <HubFaq faqs={faqs} />
       </SiteChrome>
@@ -155,5 +150,4 @@ export default function OffersPage() {
       </div>
     </div>
   );
-  */
 }

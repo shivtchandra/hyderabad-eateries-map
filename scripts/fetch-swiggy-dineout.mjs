@@ -27,8 +27,8 @@ const ROOT = path.join(__dirname, "..");
 const OFFERS_FILE = process.env.OFFERS_FILE || path.join(ROOT, "data", "curated-offers.json");
 const EATERIES_FILE = path.join(ROOT, "data", "eateries.json");
 const LIMIT = Number(process.env.LIMIT || Infinity);
-const MAX_LOCALITIES = Number(process.env.MAX_LOCALITIES || 80);
-const DELAY_MS = Number(process.env.DELAY_MS || 1200);
+const MAX_LOCALITIES = Number(process.env.MAX_LOCALITIES || 285);
+const DELAY_MS = Number(process.env.DELAY_MS || 600);
 const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -218,9 +218,26 @@ async function main() {
   }
 
   const eateries = JSON.parse(fs.readFileSync(EATERIES_FILE, "utf8")).filter((e) => e.status === "approved");
+  const eateryTokenList = eateries.map((e) => ({ e, tok: tokens(e.name) }));
+
+  // Pre-filter unique restaurants that share name tokens with our approved eateries
+  // before spending HTTP calls on detail pages.
+  const candidates = [];
+  for (const r of byId.values()) {
+    const swTok = tokens(r.info.name);
+    if (!swTok.size) continue;
+    const hasNameCandidate = eateryTokenList.some(({ tok }) => {
+      let hit = 0;
+      for (const t of swTok) if (tok.has(t)) hit++;
+      return hit > 0 && hit / Math.min(swTok.size, tok.size) >= 0.45;
+    });
+    if (hasNameCandidate) candidates.push(r);
+  }
+  console.log(`\nFiltered ${byId.size} unique restaurants -> ${candidates.length} candidate matches for detail scraping.`);
+
   const results = [];
   let i = 0;
-  const candidateRestaurants = [...byId.values()].slice(0, LIMIT);
+  const candidateRestaurants = candidates.slice(0, LIMIT);
   for (const r of candidateRestaurants) {
     i++;
     const { data } = await getNextData(r.cta.link);

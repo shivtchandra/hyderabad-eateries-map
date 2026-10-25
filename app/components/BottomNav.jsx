@@ -6,13 +6,15 @@ import { Icon } from "./Icons.jsx";
 // app lives under exactly one of these:
 //   Map    find somewhere to eat
 //   Vote   this week's vote, results, past winners
-//   Guides dish guides, areas, deals, food safety, stories
+//   Deals  compare today's District and Swiggy dining offers
+//   Guides dish guides, areas, food safety, stories
 //   You    saved, passport, route planner (switched by tabs inside You)
 // `keys` are the in-app tab states (and routed activeKeys) that light each tab.
 const TABS = [
   { key: "map", icon: "map", label: "Map", href: "/", keys: ["map"] },
   { key: "race", icon: "vote", label: "Vote", href: "/?tab=race", keys: ["race", "rankings"] },
-  { key: "guides", icon: "book", label: "Guides", href: "/guides", route: true, keys: ["guides", "stories", "explore", "areas", "deals", "about"] },
+  { key: "deals", icon: "ticket", label: "Deals", href: "/?tab=deals", keys: ["deals"] },
+  { key: "guides", icon: "book", label: "Guides", href: "/guides", route: true, keys: ["guides", "stories", "explore", "areas", "about"] },
   { key: "you", icon: "user", label: "You", href: "/?tab=you", keys: ["you", "saved", "passport", "route"] },
 ];
 

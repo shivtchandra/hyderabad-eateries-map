@@ -1,0 +1,966 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>New on the HYD Map · 24 Oct 2026</title>
+  <style>
+    @font-face {
+      font-family: "Bricolage";
+      src: url("../../../fonts/bricolage-800.woff2") format("woff2");
+      font-weight: 800;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "Bricolage";
+      src: url("../../../fonts/bricolage-500.woff2") format("woff2");
+      font-weight: 500;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "Space Grotesk";
+      src: url("../../../fonts/space-grotesk-400.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "Space Grotesk";
+      src: url("../../../fonts/space-grotesk-700.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+    }
+    :root {
+      --paper: #f5f0e7;
+      --ink: #173b87;
+      --coral: #ef695d;
+      --mint: #66c3b4;
+      --night: #15244a;
+      --soft: #e9e0d2;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 1080px; height: 1350px; overflow: hidden; background: var(--paper); }
+    body { font-family: "Space Grotesk", Arial, sans-serif; color: var(--night); }
+    .slide {
+      display: none;
+      position: relative;
+      width: 1080px;
+      height: 1350px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 15% 12%, rgba(255,255,255,.8) 0 1px, transparent 2px),
+        radial-gradient(circle at 83% 70%, rgba(23,59,135,.055) 0 1px, transparent 2px),
+        var(--paper);
+      background-size: 18px 18px, 22px 22px, auto;
+    }
+    body[data-slide="cover"] #cover,
+    body[data-slide="anaganaga"] #anaganaga,
+    body[data-slide="foxie"] #foxie,
+    body[data-slide="pickle"] #pickle,
+    body[data-slide="map"] #map { display: block; }
+    .brand-row {
+      position: absolute;
+      left: 74px;
+      right: 74px;
+      top: 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 5;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      color: var(--ink);
+    }
+    .series {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      color: var(--paper);
+      background: var(--ink);
+      border-radius: 99px;
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--coral); }
+    .cover-kicker { position: absolute; top: 150px; left: 78px; color: var(--coral); font-size: 22px; font-weight: 900; letter-spacing: .15em; }
+    .cover-title {
+      position: absolute;
+      top: 194px;
+      left: 74px;
+      width: 900px;
+      margin: 0;
+      color: var(--ink);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 86px;
+      line-height: .92;
+      letter-spacing: -.055em;
+      font-weight: 700;
+    }
+    .cover-title em { color: var(--coral); font-style: italic; }
+    .cover-deck { position: absolute; top: 517px; left: 80px; width: 650px; font-size: 27px; line-height: 1.35; }
+    .art-row { position: absolute; left: 70px; right: 70px; top: 630px; height: 568px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .art-card { position: relative; overflow: hidden; border-radius: 155px 155px 22px 22px; background: #efe8dd; border: 2px solid rgba(23,59,135,.15); }
+    .art-card img { width: 100%; height: 455px; object-fit: cover; object-position: center; mix-blend-mode: multiply; }
+    .art-card .number { position: absolute; top: 18px; left: 18px; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: var(--coral); color: white; font-weight: 900; font-size: 19px; }
+    .art-card .card-label { position: absolute; left: 20px; right: 20px; bottom: 23px; color: var(--ink); font-size: 18px; line-height: 1.15; font-weight: 900; text-transform: uppercase; letter-spacing: .04em; }
+    .cover-footer { position: absolute; left: 76px; right: 76px; bottom: 54px; display: flex; justify-content: space-between; padding-top: 20px; border-top: 2px solid var(--ink); font-weight: 800; letter-spacing: .08em; color: var(--ink); }
+
+    .venue-visual { position: absolute; left: 0; top: 0; width: 1080px; height: 828px; display: grid; place-items: center; overflow: hidden; }
+    .venue-visual img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+    .venue-tag { position: absolute; top: 130px; left: 75px; padding: 11px 16px; border: 2px solid var(--ink); border-radius: 99px; color: var(--ink); font-size: 17px; font-weight: 900; letter-spacing: .09em; background: rgba(245,240,231,.86); }
+    .venue-panel { position: absolute; left: 0; right: 0; bottom: 0; height: 522px; padding: 54px 76px 48px; background: var(--ink); color: white; }
+    .venue-panel:before { content: ''; position: absolute; top: -14px; left: 75px; width: 118px; height: 28px; background: var(--coral); transform: rotate(-2deg); }
+    .venue-number { position: absolute; right: 74px; top: 50px; font-family: Georgia, serif; font-style: italic; font-size: 78px; color: var(--coral); }
+    .venue-name { width: 760px; margin: 0 0 10px; font-family: Georgia, 'Times New Roman', serif; font-size: 62px; line-height: .96; letter-spacing: -.035em; }
+    .venue-meta { margin-bottom: 37px; color: #c9d6ff; font-size: 20px; font-weight: 800; letter-spacing: .08em; }
+    .facts { display: grid; grid-template-columns: 1.25fr .75fr; gap: 52px; border-top: 1px solid rgba(255,255,255,.25); padding-top: 28px; }
+    .fact-title { display: block; margin-bottom: 12px; color: #90d6cb; font-size: 15px; font-weight: 900; letter-spacing: .13em; }
+    .fact-copy { font-size: 23px; line-height: 1.36; }
+    .save-row { position: absolute; left: 76px; right: 76px; bottom: 36px; display: flex; justify-content: space-between; align-items: center; font-size: 15px; font-weight: 800; letter-spacing: .08em; color: #c9d6ff; }
+    .save-pill { padding: 11px 17px; border: 1px solid #90d6cb; border-radius: 99px; color: #90d6cb; }
+
+    .map-title { position: absolute; top: 148px; left: 74px; width: 760px; margin: 0; color: var(--ink); font-family: Georgia, serif; font-size: 78px; line-height: .95; letter-spacing: -.04em; }
+    .map-deck { position: absolute; top: 325px; left: 78px; color: var(--coral); font-size: 21px; font-weight: 900; letter-spacing: .11em; }
+    .map-board { position: absolute; left: 70px; right: 70px; top: 390px; height: 600px; border-radius: 38px; background: #e9e1d4; border: 2px solid rgba(23,59,135,.13); overflow: hidden; }
+    .road { position: absolute; height: 12px; border: 3px solid rgba(23,59,135,.22); border-left: 0; border-right: 0; transform-origin: left center; }
+    .r1 { width: 740px; left: 80px; top: 150px; transform: rotate(12deg); }
+    .r2 { width: 690px; left: 130px; top: 380px; transform: rotate(-18deg); }
+    .r3 { width: 570px; left: 430px; top: 70px; transform: rotate(71deg); }
+    .r4 { width: 430px; left: 55px; top: 460px; transform: rotate(-58deg); }
+    .area { position: absolute; color: rgba(23,59,135,.43); font-size: 15px; font-weight: 900; letter-spacing: .12em; }
+    .a1 { left: 128px; top: 82px; } .a2 { right: 102px; bottom: 68px; }
+    .pin { position: absolute; display: flex; align-items: center; gap: 15px; }
+    .pin-mark { width: 66px; height: 66px; display: grid; place-items: center; border-radius: 50% 50% 50% 8px; transform: rotate(-45deg); background: var(--coral); color: white; box-shadow: 0 8px 0 rgba(21,36,74,.1); }
+    .pin-mark span { transform: rotate(45deg); font-size: 24px; font-weight: 900; }
+    .pin-label { width: 235px; padding: 14px 16px; border-radius: 14px; background: rgba(245,240,231,.94); color: var(--night); box-shadow: 0 8px 22px rgba(21,36,74,.12); font-size: 18px; line-height: 1.18; font-weight: 900; }
+    .pin-label small { display: block; margin-top: 4px; color: var(--ink); font-size: 13px; letter-spacing: .08em; }
+    .p1 { left: 118px; top: 128px; } .p2 { left: 510px; top: 235px; } .p3 { left: 282px; top: 430px; }
+    .chooser { position: absolute; left: 74px; right: 74px; top: 1035px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .choice { min-height: 106px; padding: 18px 20px; border: 2px solid var(--ink); border-radius: 18px; color: var(--ink); font-size: 18px; font-weight: 900; line-height: 1.25; }
+    .choice span { display: block; margin-bottom: 8px; color: var(--coral); font-size: 14px; letter-spacing: .12em; }
+    .map-footer { position: absolute; left: 74px; right: 74px; bottom: 47px; display: flex; justify-content: space-between; align-items: end; border-top: 2px solid var(--ink); padding-top: 20px; color: var(--ink); font-size: 16px; font-weight: 800; }
+    .map-footer strong { font-family: Georgia, serif; font-size: 27px; }
+    /* V2: artwork-first editorial layout */
+    #cover {
+      background:
+        radial-gradient(circle at 82% 82%, rgba(102,195,180,.22) 0 2px, transparent 3px),
+        var(--ink);
+      background-size: 24px 24px, auto;
+    }
+    #cover:before {
+      content: '';
+      position: absolute;
+      width: 530px;
+      height: 530px;
+      right: -155px;
+      top: 355px;
+      border-radius: 50%;
+      background: var(--coral);
+      opacity: .94;
+    }
+    #cover:after {
+      content: '';
+      position: absolute;
+      width: 270px;
+      height: 270px;
+      left: -115px;
+      bottom: 105px;
+      border: 4px solid var(--mint);
+      border-radius: 50%;
+      opacity: .55;
+    }
+    #cover .brand-row { color: var(--paper); }
+    #cover .series { color: var(--ink); background: var(--paper); }
+    #cover .cover-kicker { top: 142px; color: var(--mint); }
+    #cover .cover-title {
+      top: 180px;
+      width: 925px;
+      color: var(--paper);
+      font-size: 91px;
+      line-height: .89;
+    }
+    #cover .cover-title em { color: #ff8d80; }
+    #cover .cover-deck {
+      top: 508px;
+      width: 760px;
+      color: var(--paper);
+      font-size: 25px;
+    }
+    #cover .art-row {
+      display: block;
+      top: 600px;
+      left: 48px;
+      right: 48px;
+      height: 625px;
+      z-index: 2;
+    }
+    #cover .art-card {
+      position: absolute;
+      width: 380px;
+      height: 570px;
+      overflow: visible;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+    #cover .art-card:nth-child(1) { left: 0; top: 8px; z-index: 1; transform: rotate(-2deg); }
+    #cover .art-card:nth-child(2) { left: 310px; top: 66px; z-index: 3; transform: rotate(2deg); }
+    #cover .art-card:nth-child(3) { right: 0; top: 2px; z-index: 2; transform: rotate(-1deg); }
+    #cover .art-card img {
+      width: 100%;
+      height: 476px;
+      object-fit: cover;
+      object-position: center;
+      border: 5px solid var(--paper);
+      border-radius: 190px 190px 34px 34px;
+      background: var(--paper);
+      box-shadow: 0 20px 45px rgba(8,24,62,.32);
+      mix-blend-mode: normal;
+    }
+    #cover .art-card .number {
+      top: 22px;
+      left: 20px;
+      background: var(--coral);
+      border: 3px solid var(--paper);
+      z-index: 2;
+    }
+    #cover .art-card .card-label {
+      left: 22px;
+      right: auto;
+      bottom: 20px;
+      padding: 11px 14px 10px;
+      color: var(--ink);
+      background: var(--paper);
+      border-radius: 8px;
+      box-shadow: 6px 6px 0 var(--coral);
+      font-size: 17px;
+    }
+    #cover .cover-footer {
+      bottom: 38px;
+      z-index: 3;
+      color: var(--paper);
+      border-color: rgba(245,240,231,.55);
+    }
+
+    .venue-visual { height: 1000px; }
+    .venue-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 51%;
+      mix-blend-mode: multiply;
+    }
+    .venue-tag { top: 112px; }
+    .venue-panel {
+      height: 350px;
+      padding: 32px 70px 30px;
+    }
+    .venue-number { right: 70px; top: 24px; font-size: 66px; }
+    .venue-name { width: 780px; margin-bottom: 6px; font-size: 52px; }
+    .venue-meta { margin-bottom: 20px; font-size: 17px; }
+    .facts { gap: 40px; padding-top: 18px; }
+    .fact-title { margin-bottom: 7px; font-size: 13px; }
+    .fact-copy { font-size: 19px; line-height: 1.28; }
+    .save-row { left: 70px; right: 70px; bottom: 16px; font-size: 12px; }
+    .save-pill { padding: 8px 14px; }
+
+    #map {
+      background:
+        radial-gradient(circle at 8% 70%, rgba(102,195,180,.26) 0 2px, transparent 3px),
+        var(--ink);
+      background-size: 24px 24px, auto;
+    }
+    #map:before {
+      content: '';
+      position: absolute;
+      width: 440px;
+      height: 440px;
+      right: -205px;
+      top: 58px;
+      border-radius: 50%;
+      background: var(--coral);
+    }
+    #map:after {
+      content: 'HYD';
+      position: absolute;
+      right: 48px;
+      bottom: 152px;
+      color: rgba(245,240,231,.06);
+      font: 900 250px/1 Arial, sans-serif;
+      letter-spacing: -.08em;
+    }
+    #map .brand-row { color: var(--paper); }
+    #map .series { color: var(--ink); background: var(--mint); }
+    #map .map-title { color: var(--paper); }
+    #map .map-deck { color: var(--mint); }
+    #map .map-board {
+      background: #f2c1b4;
+      border: 5px solid var(--paper);
+      box-shadow: 14px 16px 0 #0d2d70;
+      z-index: 2;
+    }
+    #map .road { border-color: rgba(23,59,135,.31); }
+    #map .area { color: rgba(23,59,135,.58); }
+    #map .pin-mark { background: var(--ink); }
+    #map .pin-label { background: var(--paper); }
+    #map .chooser { top: 1018px; z-index: 2; }
+    #map .choice {
+      min-height: 120px;
+      border: 0;
+      background: var(--paper);
+      box-shadow: 7px 7px 0 var(--coral);
+    }
+    #map .choice:nth-child(2) { box-shadow: 7px 7px 0 var(--mint); }
+    #map .map-footer {
+      z-index: 2;
+      color: var(--paper);
+      border-color: rgba(245,240,231,.62);
+    }
+    #map .map-footer strong { color: var(--mint); }
+    /* V3: Time Out × Eater — one hero, restrained type */
+    #cover {
+      background: var(--paper);
+    }
+    #cover:before {
+      display: block;
+      content: '';
+      position: absolute;
+      inset: 0;
+      width: auto;
+      height: auto;
+      border-radius: 0;
+      opacity: 1;
+      z-index: 1;
+      background:
+        linear-gradient(180deg, rgba(245,240,231,.99) 0%, rgba(245,240,231,.96) 22%, rgba(245,240,231,.34) 39%, rgba(245,240,231,0) 59%, rgba(245,240,231,.77) 100%),
+        repeating-linear-gradient(31deg, transparent 0 116px, rgba(23,59,135,.045) 117px 119px);
+    }
+    #cover:after { display: none; }
+    #cover .art-row {
+      display: block;
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1350px;
+      z-index: 0;
+    }
+    #cover .art-card { display: none; }
+    #cover .art-card:nth-child(1) {
+      display: block;
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1350px;
+      transform: none;
+      z-index: 0;
+    }
+    #cover .art-card:nth-child(1) img {
+      width: 1080px;
+      height: 1350px;
+      object-fit: cover;
+      object-position: center 51%;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      background: var(--paper);
+      mix-blend-mode: multiply;
+    }
+    #cover .art-card .number,
+    #cover .art-card .card-label { display: none; }
+    #cover .brand-row {
+      top: 54px;
+      z-index: 5;
+      color: var(--ink);
+    }
+    #cover .series {
+      color: var(--paper);
+      background: var(--ink);
+    }
+    #cover .cover-kicker {
+      top: 148px;
+      z-index: 5;
+      color: var(--coral);
+      font-size: 19px;
+    }
+    #cover .cover-title {
+      top: 188px;
+      width: 840px;
+      z-index: 5;
+      color: var(--ink);
+      font-size: 102px;
+      line-height: .88;
+    }
+    #cover .cover-title em { color: var(--coral); }
+    #cover .cover-deck {
+      top: 384px;
+      z-index: 5;
+      width: 550px;
+      color: var(--night);
+      font-size: 26px;
+      font-weight: 700;
+    }
+    #cover .cover-footer {
+      z-index: 5;
+      color: var(--ink);
+      border-color: rgba(23,59,135,.5);
+    }
+
+    #map .map-board {
+      background:
+        linear-gradient(rgba(23,59,135,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23,59,135,.025) 1px, transparent 1px),
+        var(--paper);
+      background-size: 28px 28px, 28px 28px, auto;
+      border-color: var(--mint);
+      box-shadow: 14px 16px 0 var(--coral);
+    }
+    #map .map-board:after {
+      content: 'HYDERABAD';
+      position: absolute;
+      right: 34px;
+      top: 30px;
+      color: rgba(23,59,135,.075);
+      font: 900 70px/1 Arial, sans-serif;
+      letter-spacing: -.04em;
+    }
+    #map .road { border-color: rgba(23,59,135,.24); }
+    #map .pin-mark { background: var(--coral); }
+
+    /* Final restraint: accent color only where it carries meaning */
+    #cover .cover-title em { color: var(--ink); }
+    #map:before { display: none; }
+    #map .map-board {
+      border-color: var(--paper);
+      box-shadow: 0 20px 50px rgba(5,20,57,.28);
+    }
+    #map .choice,
+    #map .choice:nth-child(2) {
+      border: 1px solid rgba(245,240,231,.35);
+      box-shadow: none;
+    }
+    /* V4: spacing correction + real satellite map */
+    #cover .cover-title {
+      top: 180px;
+      width: 900px;
+      font-size: 84px;
+      line-height: .9;
+    }
+    #cover .cover-deck {
+      top: 438px;
+      font-size: 24px;
+    }
+    #cover .art-card:nth-child(1) img {
+      transform: translateY(78px);
+    }
+
+    #foxie .venue-visual img {
+      transform: translateY(-150px) scale(1.34);
+      transform-origin: center center;
+    }
+    #pickle .venue-visual img {
+      transform: translateY(-152px) scale(1.22);
+      transform-origin: center center;
+    }
+
+    #map .map-board {
+      background: #17211b;
+      overflow: hidden;
+      border: 4px solid var(--paper);
+    }
+    #map .satellite-map {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(.82) contrast(1.08) brightness(.76);
+    }
+    #map .map-board:before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(180deg, rgba(8,24,37,.38) 0%, transparent 24%, transparent 76%, rgba(8,24,37,.12) 100%);
+      pointer-events: none;
+    }
+    #map .map-board:after,
+    #map .road,
+    #map .area,
+    #map .pin-mark { display: none; }
+    #map .pin {
+      top: 18px;
+      bottom: auto;
+      z-index: 3;
+      display: block;
+    }
+    #map .p1 { left: 18px; }
+    #map .p2 { left: 330px; }
+    #map .p3 { left: auto; right: 18px; }
+    #map .pin-label {
+      width: 280px;
+      min-height: 68px;
+      padding: 13px 15px;
+      border-left: 7px solid var(--coral);
+      border-radius: 9px;
+      background: rgba(245,240,231,.93);
+      box-shadow: 0 8px 20px rgba(5,20,57,.28);
+      backdrop-filter: blur(6px);
+      font-size: 17px;
+    }
+    /* V5: fixed artwork safe area + native MapMyHyd UI */
+    .venue-visual {
+      height: 1000px;
+      display: block;
+    }
+    .venue-visual img,
+    #foxie .venue-visual img,
+    #pickle .venue-visual img {
+      position: absolute;
+      left: 90px;
+      top: 190px;
+      width: 900px;
+      height: 720px;
+      object-fit: contain;
+      object-position: center;
+      transform: none !important;
+      transform-origin: center;
+      mix-blend-mode: multiply;
+    }
+
+    #cover .cover-deck { top: 380px; }
+    #cover .art-card:nth-child(1) img {
+      transform: translateY(130px) scale(.9);
+      transform-origin: center top;
+    }
+
+    #map .map-board {
+      overflow: hidden;
+      background: #eee7dc;
+      border: 4px solid var(--paper);
+    }
+    #map .map-ui-shot {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      filter: saturate(.72) brightness(.98);
+    }
+    #map .map-board:before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: rgba(245,240,231,.18);
+      pointer-events: none;
+    }
+    #map .map-board:after {
+      display: block;
+      content: 'Leaflet · OpenFreeMap · © OpenStreetMap';
+      position: absolute;
+      right: 10px;
+      bottom: 7px;
+      z-index: 2;
+      color: rgba(21,36,74,.66);
+      font: 700 11px/1 Arial, sans-serif;
+      letter-spacing: 0;
+    }
+    #map .road,
+    #map .area { display: none; }
+    #map .pin {
+      top: auto;
+      bottom: auto;
+      z-index: 3;
+      width: 190px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+    }
+    #map .p1 { left: 78px; top: 282px; }
+    #map .p2 { left: 370px; top: 225px; }
+    #map .p3 { left: auto; right: 64px; top: 345px; }
+    #map .pin-mark {
+      display: block;
+      position: relative;
+      width: 88px;
+      height: 88px;
+      border: 5px solid white;
+      border-radius: 50%;
+      transform: none;
+      background-position: center;
+      background-size: cover;
+      box-shadow: 0 0 0 7px rgba(239,105,93,.34), 0 10px 22px rgba(21,36,74,.28);
+    }
+    #map .p1 .pin-mark { background-image: url('source/anaganaga/4.jpg'); }
+    #map .p2 .pin-mark { background-image: url('source/foxie/3.jpg'); }
+    #map .p3 .pin-mark { background-image: url('source/pickle-district/2.jpg'); }
+    #map .pin-mark span {
+      position: absolute;
+      left: -12px;
+      top: -12px;
+      width: 31px;
+      height: 31px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      transform: none;
+      background: var(--coral);
+      color: white;
+      font-size: 15px;
+      font-weight: 900;
+      box-shadow: 0 3px 8px rgba(21,36,74,.25);
+    }
+    #map .pin-label {
+      width: 190px;
+      min-height: 0;
+      padding: 8px 10px;
+      border: 0;
+      border-radius: 10px;
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 6px 16px rgba(21,36,74,.18);
+      backdrop-filter: none;
+      color: var(--night);
+      text-align: center;
+      font-size: 15px;
+      line-height: 1.1;
+    }
+    #map .pin-label small {
+      margin-top: 3px;
+      font-size: 10px;
+    }
+    /* V6: seamless paper blend + freshly generated map artwork */
+    #anaganaga { background: #fcf8ef; }
+    #foxie { background: #fbf9f7; }
+    #pickle { background: #fdfbf5; }
+
+    .venue-visual img,
+    #foxie .venue-visual img,
+    #pickle .venue-visual img {
+      mix-blend-mode: multiply;
+      -webkit-mask-image:
+        linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 8%, #000 90%, transparent 100%);
+      -webkit-mask-composite: source-in;
+      mask-image:
+        linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 8%, #000 90%, transparent 100%);
+      mask-composite: intersect;
+    }
+
+    #map .map-ui-shot {
+      object-fit: cover;
+      object-position: center center;
+      filter: none;
+    }
+    #map .map-board:before,
+    #map .map-board:after,
+    #map .pin { display: none; }
+    /* V7: dedicated Hyderabad cover hero */
+    #cover .art-card:nth-child(1) img {
+      width: 1080px;
+      height: 1440px;
+      object-fit: cover;
+      object-position: center top;
+      transform: translateY(70px);
+      transform-origin: center top;
+    }
+
+    /* V8: photographic Hyderabad cover + clean editorial typography */
+    #cover {
+      background: #102d65;
+    }
+    #cover:before {
+      background:
+        linear-gradient(180deg, rgba(8, 7, 9, .72) 0%, rgba(8, 7, 9, .55) 31%, rgba(8, 7, 9, .08) 59%, rgba(8, 7, 9, .42) 100%),
+        linear-gradient(90deg, rgba(8, 7, 9, .28) 0%, rgba(8, 7, 9, 0) 74%);
+    }
+    #cover .art-card:nth-child(1) img {
+      width: 1080px;
+      height: 1350px;
+      object-fit: cover;
+      object-position: center center;
+      transform: none;
+      mix-blend-mode: normal;
+      filter: saturate(.96) contrast(1.03) brightness(.96);
+    }
+    #cover .brand-row {
+      color: #fff9ee;
+    }
+    #cover .series {
+      color: #153b87;
+      background: #fff9ee;
+    }
+    #cover .cover-kicker {
+      top: 148px;
+      color: #8ee7d4;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: .18em;
+    }
+    #cover .cover-title {
+      top: 184px;
+      width: 865px;
+      color: #fff9ee;
+      font-family: "Bricolage", "Arial Black", sans-serif;
+      font-size: 88px;
+      font-weight: 800;
+      line-height: .88;
+      letter-spacing: -.045em;
+      text-transform: uppercase;
+      text-shadow: 0 3px 24px rgba(5, 20, 57, .28);
+    }
+    #cover .cover-title em {
+      display: block;
+      margin-top: 8px;
+      color: #fff9ee;
+      font-family: "Bricolage", "Arial Black", sans-serif;
+      font-size: .76em;
+      font-style: normal;
+      font-weight: 500;
+      letter-spacing: -.035em;
+    }
+    #cover .cover-deck {
+      top: 372px;
+      width: 660px;
+      color: #fff9ee;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 23px;
+      font-weight: 650;
+      letter-spacing: -.01em;
+      text-shadow: 0 2px 16px rgba(5, 20, 57, .34);
+    }
+    #cover .cover-footer {
+      color: #fff9ee;
+      border-color: rgba(255, 249, 238, .62);
+      text-shadow: 0 2px 12px rgba(5, 20, 57, .3);
+    }
+
+    /* V9: venue artwork is the slide — type sits directly on the paper */
+    #anaganaga,
+    #foxie,
+    #pickle {
+      background: #fcf8ef;
+    }
+    #anaganaga .venue-visual,
+    #foxie .venue-visual,
+    #pickle .venue-visual {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1350px;
+      display: block;
+    }
+    #anaganaga .venue-visual img,
+    #foxie .venue-visual img,
+    #pickle .venue-visual img {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1350px;
+      object-fit: cover;
+      object-position: center top;
+      transform: none !important;
+      mix-blend-mode: normal;
+      filter: none;
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+    #anaganaga .venue-panel,
+    #foxie .venue-panel,
+    #pickle .venue-panel {
+      position: absolute;
+      left: 74px;
+      right: 74px;
+      top: 178px;
+      bottom: auto;
+      height: 238px;
+      padding: 0;
+      z-index: 4;
+      background: transparent;
+      color: var(--ink);
+    }
+    #anaganaga .venue-panel:before,
+    #foxie .venue-panel:before,
+    #pickle .venue-panel:before {
+      display: none;
+    }
+    #anaganaga .venue-number,
+    #foxie .venue-number,
+    #pickle .venue-number {
+      right: 0;
+      top: 2px;
+      color: var(--coral);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 46px;
+      font-style: normal;
+      font-weight: 800;
+      letter-spacing: -.04em;
+    }
+    #anaganaga .venue-name,
+    #foxie .venue-name,
+    #pickle .venue-name {
+      width: 820px;
+      margin: 0 0 9px;
+      color: var(--ink);
+      font-family: "Bricolage", "Arial Black", sans-serif;
+      font-size: 64px;
+      font-weight: 800;
+      line-height: .92;
+      letter-spacing: -.04em;
+    }
+    #anaganaga .venue-meta,
+    #foxie .venue-meta,
+    #pickle .venue-meta {
+      margin-bottom: 18px;
+      color: var(--coral);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: .12em;
+    }
+    #anaganaga .facts,
+    #foxie .facts,
+    #pickle .facts {
+      width: 840px;
+      gap: 34px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(23, 59, 135, .28);
+    }
+    #anaganaga .fact-title,
+    #foxie .fact-title,
+    #pickle .fact-title {
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-size: 11px;
+    }
+    #anaganaga .fact-copy,
+    #foxie .fact-copy,
+    #pickle .fact-copy {
+      color: var(--night);
+      font-size: 16px;
+      line-height: 1.25;
+    }
+    #anaganaga .venue-tag,
+    #foxie .venue-tag,
+    #pickle .venue-tag {
+      top: 112px;
+      z-index: 5;
+      padding: 8px 13px;
+      background: rgba(252, 248, 239, .88);
+      font-size: 13px;
+      backdrop-filter: blur(5px);
+    }
+    #anaganaga .save-row,
+    #foxie .save-row,
+    #pickle .save-row {
+      left: 74px;
+      right: 74px;
+      bottom: -890px;
+      color: var(--ink);
+    }
+    #anaganaga .save-pill,
+    #foxie .save-pill,
+    #pickle .save-pill {
+      border-color: var(--ink);
+      color: var(--ink);
+      background: rgba(252, 248, 239, .76);
+    }
+
+    /* V10: project-local editorial type system */
+    .brand-row,
+    .series,
+    .venue-tag,
+    .venue-meta,
+    .fact-title,
+    .fact-copy,
+    .save-row,
+    .cover-kicker,
+    .cover-deck,
+    .map-deck,
+    .choice,
+    .map-footer {
+      font-family: "Space Grotesk", Arial, sans-serif;
+    }
+    .map-title {
+      font-family: "Bricolage", "Arial Black", sans-serif;
+      font-weight: 800;
+      letter-spacing: -.045em;
+    }
+  </style>
+</head>
+<body data-slide="cover">
+  <section class="slide" id="cover">
+    <div class="brand-row"><span>MAPPING HYD.</span><span class="series"><i class="dot"></i> HYD EAT MAP · 24 OCT 2026</span></div>
+    <div class="cover-kicker">NEW ON THE HYD MAP</div>
+    <h1 class="cover-title">3 NEW HYD SPOTS <em>FOR THIS WEEKEND</em></h1>
+    <p class="cover-deck">Eat Telugu. Sip cocktails. Play pickleball.</p>
+    <div class="art-row">
+      <article class="art-card"><span class="number">1</span><img src="source/anaganaga/6.jpg" alt="Close-up of a vivid red signature drink served in handcrafted ceramic at Anaganaga"><div class="card-label">Hyderabad<br>Weekend Map</div></article>
+      <article class="art-card"><span class="number">2</span><img src="art/foxie-revival.png" alt="Foxie"><div class="card-label">Foxie<br>Jubilee Hills</div></article>
+      <article class="art-card"><span class="number">3</span><img src="art/pickle-district-revival.png" alt="Pickle District"><div class="card-label">Pickle District<br>Khajaguda</div></article>
+    </div>
+    <div class="cover-footer"><span>@mapmyhyd</span><span>ONE LAYER AT A TIME. →</span></div>
+  </section>
+
+  <section class="slide" id="anaganaga">
+    <div class="brand-row"><span>MAPPING HYD.</span><span>NEW ON THE HYD MAP</span></div>
+    <div class="venue-visual"><img src="art/anaganaga-revival.png" alt="Anaganaga facade illustration based on a real place photo"></div>
+    <div class="venue-tag">JUBILEE HILLS · NEW IN OCTOBER</div>
+    <div class="venue-panel">
+      <div class="venue-number">01</div><h2 class="venue-name">Anaganaga</h2>
+      <div class="venue-meta">TELUGU CULINARY TALES · REPORTED 08 OCT</div>
+      <div class="facts"><div><span class="fact-title">WHY GO</span><div class="fact-copy">Regional Telugu cooking told through a polished, contemporary dining experience.</div></div><div><span class="fact-title">BEST FOR</span><div class="fact-copy">A proper family dinner or a slow meal with visitors.</div></div></div>
+      <div class="save-row"><span>Photo-led illustration based on the real venue</span><span class="save-pill">SAVE THIS PLACE</span></div>
+    </div>
+  </section>
+
+  <section class="slide" id="foxie">
+    <div class="brand-row"><span>MAPPING HYD.</span><span>NEW ON THE HYD MAP</span></div>
+    <div class="venue-visual"><img src="art/foxie-revival.png" alt="Foxie Cocktail Bar illustration based on a real place photo"></div>
+    <div class="venue-tag">JUBILEE HILLS · NEW THIS SEASON</div>
+    <div class="venue-panel">
+      <div class="venue-number">02</div><h2 class="venue-name">Foxie Cocktail Bar</h2>
+      <div class="venue-meta">COCKTAIL BAR · FEATURED 10 OCT</div>
+      <div class="facts"><div><span class="fact-title">WHY GO</span><div class="fact-copy">A nine-tailed-fox world with 100 fox artworks and a drinks-first evening mood.</div></div><div><span class="fact-title">BEST FOR</span><div class="fact-copy">Date night or cocktails with a small group.</div></div></div>
+      <div class="save-row"><span>Photo-led illustration based on the real venue</span><span class="save-pill">SAVE THIS PLACE</span></div>
+    </div>
+  </section>
+
+  <section class="slide" id="pickle">
+    <div class="brand-row"><span>MAPPING HYD.</span><span>NEW ON THE HYD MAP</span></div>
+    <div class="venue-visual"><img src="art/pickle-district-revival.png" alt="Pickle District illustration based on a real place photo"></div>
+    <div class="venue-tag">KHAJAGUDA · OPENED 02 OCT</div>
+    <div class="venue-panel">
+      <div class="venue-number">03</div><h2 class="venue-name">Pickle District</h2>
+      <div class="venue-meta">PICKLEBALL · CRAFT COFFEE · FOOD</div>
+      <div class="facts"><div><span class="fact-title">WHY GO</span><div class="fact-copy">A social plan that mixes a game on court with coffee and an easy post-match bite.</div></div><div><span class="fact-title">BEST FOR</span><div class="fact-copy">An active group hang—book the court first.</div></div></div>
+      <div class="save-row"><span>Photo-led illustration based on the real venue</span><span class="save-pill">SAVE THIS PLACE</span></div>
+    </div>
+  </section>
+
+  <section class="slide" id="map">
+    <div class="brand-row"><span>MAPPING HYD.</span><span class="series"><i class="dot"></i> WEEKEND MINI-MAP</span></div>
+    <h2 class="map-title">Pick your mood.<br>Then pick a pin.</h2>
+    <div class="map-deck">THE THREE NEW SPOTS, AT A GLANCE</div>
+    <div class="map-board">
+      <img class="map-ui-shot" src="art/map-ui-generated-v2.png" alt="Fresh MapMyHyd-style map of Jubilee Hills and Khajaguda with three highlighted pins">
+      <div class="road r1"></div><div class="road r2"></div><div class="road r3"></div><div class="road r4"></div>
+      <div class="area a1">JUBILEE HILLS</div><div class="area a2">KHAJAGUDA</div>
+      <div class="pin p1"><div class="pin-mark"><span>1</span></div><div class="pin-label">Anaganaga<small>TELUGU DINNER</small></div></div>
+      <div class="pin p2"><div class="pin-mark"><span>2</span></div><div class="pin-label">Foxie<small>COCKTAIL DATE</small></div></div>
+      <div class="pin p3"><div class="pin-mark"><span>3</span></div><div class="pin-label">Pickle District<small>PLAY + COFFEE</small></div></div>
+    </div>
+    <div class="chooser"><div class="choice"><span>01 · ANAGANAGA</span>A proper regional meal</div><div class="choice"><span>02 · FOXIE</span>Drinks and atmosphere</div><div class="choice"><span>03 · PICKLE DISTRICT</span>An active group plan</div></div>
+    <div class="map-footer"><div><strong>eats.mapmyhyd.com</strong><br>Find every pin on the live map.</div><div>Check live hours + reservations<br>before leaving · @mapmyhyd</div></div>
+  </section>
+  <script>
+    const key = new URLSearchParams(location.search).get('slide') || 'cover';
+    document.body.dataset.slide = ['cover','anaganaga','foxie','pickle','map'].includes(key) ? key : 'cover';
+  </script>
+</body>
+</html>
