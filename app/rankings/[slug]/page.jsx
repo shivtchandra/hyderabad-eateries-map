@@ -13,7 +13,6 @@ import BottomNav from "../../components/BottomNav.jsx";
 import SpotsMapClient from "../../components/SpotsMapClient.jsx";
 import LiveRankingStandings, { LiveDebate } from "../../components/LiveRankingStandings.jsx";
 import { stickerForTitle } from "../../../lib/stickerArt.js";
-import HubAnswer from "../../components/HubAnswer.jsx";
 import { todayIso } from "../../../lib/hubSeo.js";
 
 export const dynamic = "force-dynamic";
@@ -105,7 +104,6 @@ export default async function RankingPage({ params }) {
   const voteRows = data.results || [];
   const votedRows = voteRows.filter((r) => (r.count || 0) > 0);
   const editorial = editorialRanking(pick || { category: data.category }, params.slug, 15);
-  const totalVotes = votedRows.reduce((sum, row) => sum + (row.count || 0), 0);
   const updated = todayIso();
   const answerLead = rankingAnswer(data, editorial);
 
@@ -244,16 +242,8 @@ export default async function RankingPage({ params }) {
       hero={hero}
       related={related}
     >
-      <HubAnswer
-        answer={answerLead}
-        stats={[
-          { value: totalVotes.toLocaleString("en-IN"), label: "local votes" },
-          { value: votedRows.length || editorial.length, label: votedRows.length ? "ranked places" : "shortlisted places" },
-        ]}
-        updated={updated}
-      />
       {contestRange && (
-        <p className="rk-contest-range"><b>Featured voting window:</b> {contestRange}. Rankings remain open; use This week or This month for the freshest results.</p>
+        <p className="rk-contest-range"><b>Featured vote</b>{contestRange}</p>
       )}
       <LiveRankingStandings
         slug={params.slug}

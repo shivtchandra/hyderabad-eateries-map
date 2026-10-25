@@ -63,7 +63,6 @@ export default function LiveRankingStandings({
   initialWinnerId = null,
   initialContenders = [],
   initialInsights = null,
-  initialUpdatedAt = null,
   meta = {},
   voteHref,
   isPlaceholder = false,
@@ -129,18 +128,6 @@ export default function LiveRankingStandings({
     olderPeriods.push(cursor);
     cursor = previousRankingPeriod(cursor);
   }
-  const updatedAt = period === "week-current"
-    ? theme?.weeklyUpdatedAt || theme?.updatedAt || initialUpdatedAt
-    : theme?.monthlyUpdatedAt || theme?.updatedAt || initialUpdatedAt;
-  const updatedLabel = updatedAt ? new Intl.DateTimeFormat("en-IN", {
-    timeZone: "Asia/Kolkata",
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  }).format(new Date(updatedAt)) : "";
-
   return (
     <>
       {!isPlaceholder && currentPeriod && (
@@ -172,15 +159,6 @@ export default function LiveRankingStandings({
                   : rankingPeriodLabel(period)}
         </p>
       )}
-
-      {totalVotes > 0 && (
-        <div className="rk-signals" aria-label="Ranking confidence">
-          <span><b>{insights.confidence}</b><small>{totalVotes} votes</small></span>
-          <span><b>{insights.leaderShare}%</b><small>leader share</small></span>
-          <span><b>{insights.closeRace ? "Close race" : `${insights.winningMargin} vote${insights.winningMargin === 1 ? "" : "s"}`}</b><small>{insights.closeRace ? "within 10%" : "winning margin"}</small></span>
-        </div>
-      )}
-      {updatedLabel && <p className="rk-updated">Updated {updatedLabel} IST</p>}
 
       {!leader && !isPlaceholder && period !== "all-time" && (
         <div className="rk-period-empty">
