@@ -1086,6 +1086,9 @@ a.of-card-name:hover{ text-decoration: underline; }
 .rk-periods button, .rk-periods select{ min-height: 40px; border: 1.5px solid var(--line); border-radius: var(--r-pill); background: var(--cream-hi); color: var(--ink); padding: 0 14px; font: inherit; font-size: 13px; font-weight: 700; white-space: nowrap; }
 .rk-periods button{ cursor: pointer; }
 .rk-periods button.active{ border-color: var(--violet); background: var(--violet); color: #fff; }
+.rk-window{ margin: -8px 0 var(--s4); color: var(--muted); font-size: 12.5px; line-height: 1.45; }
+.rk-contest-range{ margin: 0 0 var(--s4); padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--r-card); background: var(--cream-hi); color: var(--ink-soft); font-size: 13px; line-height: 1.5; }
+.rk-contest-range b{ color: var(--ink); }
 .rk-signals{ display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0 0 var(--s5); }
 .rk-signals span{ min-width: 0; padding: 10px 12px; border-radius: 14px; background: var(--cream-hi); }
 .rk-signals b, .rk-signals small{ display: block; }

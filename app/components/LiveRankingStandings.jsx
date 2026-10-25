@@ -6,6 +6,7 @@ import {
   debateLineFromCounts,
   rankingInsights,
   rankingPeriodLabel,
+  rankingWeekLabel,
   previousRankingPeriod,
 } from "../../lib/rankings.js";
 
@@ -53,8 +54,12 @@ export default function LiveRankingStandings({
   initialResults = [],
   initialCurrentResults = [],
   initialPreviousResults = [],
+  initialCurrentWeekResults = [],
+  initialPreviousWeekResults = [],
   initialCurrentPeriod = "",
   initialPreviousPeriod = "",
+  initialCurrentWeek = "",
+  initialPreviousWeek = "",
   initialWinnerId = null,
   initialContenders = [],
   initialInsights = null,
@@ -67,10 +72,15 @@ export default function LiveRankingStandings({
   const theme = useLiveTheme(slug, !isPlaceholder, areaSlug, period);
   const currentPeriod = theme?.currentPeriod || initialCurrentPeriod;
   const previousPeriod = theme?.previousPeriod || initialPreviousPeriod;
+  const currentWeek = theme?.currentWeek || initialCurrentWeek;
+  const previousWeek = theme?.previousWeek || initialPreviousWeek;
   const initialForPeriod = period === "current" ? initialCurrentResults
     : period === "previous" ? initialPreviousResults
+      : period === "week-current" ? initialCurrentWeekResults
+        : period === "week-previous" ? initialPreviousWeekResults
       : period === "all-time" ? initialResults : [];
-  const comparison = period === "current" ? initialPreviousResults : [];
+  const comparison = period === "current" ? initialPreviousResults
+    : period === "week-current" ? initialPreviousWeekResults : [];
   const voteRows = theme?.selectedResults || initialForPeriod;
   const allRows = theme?.results || initialResults;
   const insights = theme?.selectedInsights || (
@@ -107,10 +117,11 @@ export default function LiveRankingStandings({
   const topDishOf = (id) => meta[id]?.topDish || null;
   const movementOf = (id) => {
     const move = insights.movement?.[id];
-    if (!move || period !== "current") return "";
-    if (move.status === "new") return "New this month";
+    if (!move || !["current", "week-current"].includes(period)) return "";
+    const unit = period === "week-current" ? "week" : "month";
+    if (move.status === "new") return `New this ${unit}`;
     if (move.status === "same") return "No change";
-    return `${move.status === "up" ? "↑" : "↓"}${Math.abs(move.delta || 0)} this month`;
+    return `${move.status === "up" ? "↑" : "↓"}${Math.abs(move.delta || 0)} this ${unit}`;
   };
   const olderPeriods = [];
   let cursor = previousPeriod;
@@ -118,7 +129,9 @@ export default function LiveRankingStandings({
     olderPeriods.push(cursor);
     cursor = previousRankingPeriod(cursor);
   }
-  const updatedAt = theme?.monthlyUpdatedAt || theme?.updatedAt || initialUpdatedAt;
+  const updatedAt = period === "week-current"
+    ? theme?.weeklyUpdatedAt || theme?.updatedAt || initialUpdatedAt
+    : theme?.monthlyUpdatedAt || theme?.updatedAt || initialUpdatedAt;
   const updatedLabel = updatedAt ? new Intl.DateTimeFormat("en-IN", {
     timeZone: "Asia/Kolkata",
     day: "numeric",
@@ -134,6 +147,7 @@ export default function LiveRankingStandings({
         <div className="rk-periods" aria-label="Ranking period">
           <button type="button" className={period === "all-time" ? "active" : ""} onClick={() => setPeriod("all-time")}>All time</button>
           <button type="button" className={period === "current" ? "active" : ""} onClick={() => setPeriod("current")}>This month</button>
+          <button type="button" className={period === "week-current" ? "active" : ""} onClick={() => setPeriod("week-current")}>This week</button>
           <select
             aria-label="Earlier month"
             value={period === "all-time" || period === "current" ? "" : period === "previous" ? previousPeriod : period}
@@ -143,6 +157,20 @@ export default function LiveRankingStandings({
             {olderPeriods.map((value) => <option key={value} value={value}>{rankingPeriodLabel(value)}</option>)}
           </select>
         </div>
+      )}
+
+      {!isPlaceholder && (
+        <p className="rk-window">
+          {period === "week-current" && currentWeek
+            ? `This week: ${rankingWeekLabel(currentWeek)} · Monday–Sunday, Hyderabad time.`
+            : period === "week-previous" && previousWeek
+              ? `Week: ${rankingWeekLabel(previousWeek)} · Monday–Sunday, Hyderabad time.`
+              : period === "current" && currentPeriod
+                ? `This month: ${rankingPeriodLabel(currentPeriod)} · Hyderabad calendar month.`
+                : period === "all-time"
+                  ? "All-time preference board · older votes gradually carry less weight."
+                  : rankingPeriodLabel(period)}
+        </p>
       )}
 
       {totalVotes > 0 && (
@@ -156,8 +184,8 @@ export default function LiveRankingStandings({
 
       {!leader && !isPlaceholder && period !== "all-time" && (
         <div className="rk-period-empty">
-          <b>No votes for {rankingPeriodLabel(period === "current" ? currentPeriod : period)} yet.</b>
-          <span>Your vote starts this month&rsquo;s board without erasing the all-time ranking.</span>
+          <b>No votes for {period === "week-current" ? rankingWeekLabel(currentWeek) : rankingPeriodLabel(period === "current" ? currentPeriod : period)} yet.</b>
+          <span>Your vote starts this {period === "week-current" ? "week’s" : "month’s"} board without erasing the all-time ranking.</span>
         </div>
       )}
 

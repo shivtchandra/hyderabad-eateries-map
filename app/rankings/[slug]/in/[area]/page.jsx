@@ -109,8 +109,12 @@ export default async function AreaRankingPage({ params }) {
           initialResults={theme.results}
           initialCurrentResults={theme.currentPeriodResults || []}
           initialPreviousResults={theme.previousPeriodResults || []}
+          initialCurrentWeekResults={theme.currentWeekResults || []}
+          initialPreviousWeekResults={theme.previousWeekResults || []}
           initialCurrentPeriod={theme.currentPeriod || ""}
           initialPreviousPeriod={theme.previousPeriod || ""}
+          initialCurrentWeek={theme.currentWeek || ""}
+          initialPreviousWeek={theme.previousWeek || ""}
           initialInsights={theme.insights || null}
           initialWinnerId={theme.winnerId || null}
           initialContenders={contenders}
@@ -125,7 +129,7 @@ export default async function AreaRankingPage({ params }) {
 
         <section className="rk-section">
           <h2 className="rk-title">How this area ranking works</h2>
-          <p className="rk-summary">This view filters the Hyderabad-wide ballot to exact branches mapped in {area.name}. It becomes indexable only after five eligible candidates, three voted venues, ten area votes, and three votes for the leader. Monthly views never erase the continuing all-time result.</p>
+          <p className="rk-summary">This view filters the Hyderabad-wide ballot to exact branches mapped in {area.name}. It becomes indexable only after five eligible candidates, three voted venues, ten area votes, and three votes for the leader. Weekly and monthly views show recent choices without erasing the freshness-weighted all-time result.</p>
         </section>
       </SiteChrome>
       <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>

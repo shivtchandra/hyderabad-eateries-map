@@ -144,7 +144,7 @@ export default async function RankingPage({ params }) {
         name: "How does Hyderabad Eats rank places?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Locals keep one all-time preference and can vote again each Hyderabad calendar month. The page shows the continuing all-time board, the current month, and month-over-month movement.",
+          text: "Locals keep one all-time preference and can vote again each Hyderabad calendar week and month. The page shows freshness-weighted all-time, current-week, and current-month boards with their exact date periods.",
         },
       },
       {
@@ -162,6 +162,12 @@ export default async function RankingPage({ params }) {
   ]);
 
   const voteHref = `/?tab=race&dish=${params.slug}`; // in-app Vote tab, This week
+  const contestDate = (value) => value ? new Date(`${value}T12:00:00`).toLocaleDateString("en-IN", {
+    day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Kolkata",
+  }) : "";
+  const contestRange = data.startDate && data.endDate
+    ? `${contestDate(data.startDate)}–${contestDate(data.endDate)}`
+    : data.startDate ? `From ${contestDate(data.startDate)}` : "";
   // Standings: only real votes count. #1 is the crowned spot, else the leader.
   const voted = votedRows;
   const leader = voted.find((r) => r.spotId === data.winnerId) || voted[0] || null;
@@ -232,13 +238,20 @@ export default async function RankingPage({ params }) {
       hero={hero}
       related={related}
     >
+      {contestRange && (
+        <p className="rk-contest-range"><b>Featured voting window:</b> {contestRange}. Rankings remain open; use This week or This month for the freshest results.</p>
+      )}
       <LiveRankingStandings
         slug={params.slug}
         initialResults={voteRows.map(({ spotId, name, count }) => ({ spotId, name, count }))}
         initialCurrentResults={data.currentPeriodResults || []}
         initialPreviousResults={data.previousPeriodResults || []}
+        initialCurrentWeekResults={data.currentWeekResults || []}
+        initialPreviousWeekResults={data.previousWeekResults || []}
         initialCurrentPeriod={data.currentPeriod || ""}
         initialPreviousPeriod={data.previousPeriod || ""}
+        initialCurrentWeek={data.currentWeek || ""}
+        initialPreviousWeek={data.previousWeek || ""}
         initialInsights={data.insights || null}
         initialWinnerId={data.winnerId || null}
         initialContenders={contenders.map(({ spotId, name }) => ({ spotId, name }))}
@@ -264,7 +277,7 @@ export default async function RankingPage({ params }) {
         <p className="rk-summary">{answerLead}</p>
         <details>
           <summary>How do you rank places?</summary>
-          <p>Your latest preference counts on the all-time board. A separate Hyderabad calendar-month board shows current participation and movement from the previous month.</p>
+          <p>Your latest preference counts on the all-time board, where older votes gradually carry less weight. Separate Hyderabad week and calendar-month boards show what locals are choosing recently.</p>
         </details>
         <details>
           <summary>Can I vote?</summary>

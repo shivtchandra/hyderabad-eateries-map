@@ -3,9 +3,10 @@ import {
   getAreaRanking,
   getRankingBySlug,
   getRankingPeriodResults,
+  getRankingWeekResults,
 } from "../../../lib/themesServer.js";
 import { rankingsBySpot } from "../../../lib/recommendationPicks.js";
-import { isRankingPeriod, rankingInsights } from "../../../lib/rankings.js";
+import { isRankingPeriod, isRankingWeek, rankingInsights } from "../../../lib/rankings.js";
 import { getAreaBySlug } from "../../../lib/siteData.js";
 
 export const dynamic = "force-dynamic";
@@ -16,7 +17,8 @@ export async function GET(req) {
 
   if (slug) {
     const requestedPeriod = searchParams.get("period") || "all-time";
-    if (!["all-time", "current", "previous"].includes(requestedPeriod) && !isRankingPeriod(requestedPeriod)) {
+    if (!["all-time", "current", "previous", "week-current", "week-previous"].includes(requestedPeriod)
+      && !isRankingPeriod(requestedPeriod) && !isRankingWeek(requestedPeriod)) {
       return Response.json({ error: "invalid-period" }, { status: 400 });
     }
 
@@ -36,6 +38,19 @@ export async function GET(req) {
     } else if (requestedPeriod === "previous") {
       selectedPeriod = theme.previousPeriod;
       selectedResults = theme.previousPeriodResults || [];
+    } else if (requestedPeriod === "week-current") {
+      selectedPeriod = theme.currentWeek;
+      selectedResults = theme.currentWeekResults || [];
+      comparisonResults = theme.previousWeekResults || [];
+    } else if (requestedPeriod === "week-previous") {
+      selectedPeriod = theme.previousWeek;
+      selectedResults = theme.previousWeekResults || [];
+    } else if (isRankingWeek(requestedPeriod)) {
+      selectedResults = await getRankingWeekResults(theme.id, requestedPeriod, theme.displayLimit);
+      if (areaSlug) {
+        const ids = new Set(getAreaBySlug(areaSlug)?.spots.map((spot) => spot.id) || []);
+        selectedResults = selectedResults.filter((row) => ids.has(row.spotId));
+      }
     } else if (requestedPeriod !== "all-time") {
       selectedResults = await getRankingPeriodResults(theme.id, requestedPeriod, theme.displayLimit);
       if (areaSlug) {

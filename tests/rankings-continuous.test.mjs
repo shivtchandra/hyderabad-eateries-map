@@ -7,6 +7,10 @@ import {
   rankingInsights,
   rankingPeriod,
   rankingPeriodLabel,
+  rankingWeek,
+  rankingWeekLabel,
+  previousRankingWeek,
+  isRankingWeek,
 } from "../lib/rankings.js";
 
 test("ranking month uses the Hyderabad calendar at the UTC month boundary", () => {
@@ -20,6 +24,15 @@ test("ranking periods reject malformed and future values", () => {
   assert.equal(isRankingPeriod("2026-10", "2026-10"), true);
   assert.equal(isRankingPeriod("2026-11", "2026-10"), false);
   assert.equal(isRankingPeriod("2026-1", "2026-10"), false);
+});
+
+test("ranking week uses Monday-Sunday in Hyderabad and exposes its exact range", () => {
+  assert.equal(rankingWeek(new Date("2026-10-25T18:29:59.000Z")), "2026-W43");
+  assert.equal(rankingWeek(new Date("2026-10-25T18:30:00.000Z")), "2026-W44");
+  assert.equal(previousRankingWeek("2026-W44"), "2026-W43");
+  assert.equal(rankingWeekLabel("2026-W43"), "19 Oct–25 Oct 2026");
+  assert.equal(isRankingWeek("2026-W44", "2026-W44"), true);
+  assert.equal(isRankingWeek("2026-W45", "2026-W44"), false);
 });
 
 test("ranking insights expose confidence, share, margin and month movement", () => {

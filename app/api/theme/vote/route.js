@@ -2,7 +2,7 @@ import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { revalidateTag } from "next/cache";
 import { clearThemesMemo } from "../../../../lib/themesServer.js";
 import { bumpScore, themeCreatedAt, voteWeight } from "../../../../lib/voteDecay.js";
-import { rankingPeriod } from "../../../../lib/rankings.js";
+import { rankingPeriod, rankingWeek } from "../../../../lib/rankings.js";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +21,7 @@ export async function POST(req) {
   if (!themeDoc.exists) return Response.json({ error: "theme-missing" }, { status: 404 });
   const createdAt = themeCreatedAt(themeDoc.data());
   const period = rankingPeriod();
+  const week = rankingWeek();
 
   const votesCol = themeRef.collection("votes");
   const voteRef = votesCol.doc(spotId);
@@ -29,24 +30,34 @@ export async function POST(req) {
   const monthVotesCol = monthRef.collection("votes");
   const monthVoteRef = monthVotesCol.doc(spotId);
   const monthVoterRef = uid ? monthRef.collection("voters").doc(uid) : null;
+  const weekRef = themeRef.collection("weeks").doc(week);
+  const weekVotesCol = weekRef.collection("votes");
+  const weekVoteRef = weekVotesCol.doc(spotId);
+  const weekVoterRef = uid ? weekRef.collection("voters").doc(uid) : null;
 
   // One all-time preference and one current-month preference per uid.
   // A repeat in a new month leaves all-time unchanged while starting that month's board.
   const result = await db.runTransaction(async (tx) => {
     const voterDoc = voterRef ? await tx.get(voterRef) : null;
     const monthVoterDoc = monthVoterRef ? await tx.get(monthVoterRef) : null;
+    const weekVoterDoc = weekVoterRef ? await tx.get(weekVoterRef) : null;
     const priorSpotId = voterDoc?.exists ? voterDoc.data().spotId : null;
     const priorMonthSpotId = monthVoterDoc?.exists ? monthVoterDoc.data().spotId : null;
+    const priorWeekSpotId = weekVoterDoc?.exists ? weekVoterDoc.data().spotId : null;
     const oldVoteRef = priorSpotId && priorSpotId !== spotId ? votesCol.doc(priorSpotId) : null;
     const oldMonthVoteRef = priorMonthSpotId && priorMonthSpotId !== spotId ? monthVotesCol.doc(priorMonthSpotId) : null;
+    const oldWeekVoteRef = priorWeekSpotId && priorWeekSpotId !== spotId ? weekVotesCol.doc(priorWeekSpotId) : null;
 
     const oldVoteDoc = oldVoteRef ? await tx.get(oldVoteRef) : null;
     const newVoteDoc = await tx.get(voteRef);
     const oldMonthVoteDoc = oldMonthVoteRef ? await tx.get(oldMonthVoteRef) : null;
     const newMonthVoteDoc = await tx.get(monthVoteRef);
+    const oldWeekVoteDoc = oldWeekVoteRef ? await tx.get(oldWeekVoteRef) : null;
+    const newWeekVoteDoc = await tx.get(weekVoteRef);
     const now = Date.now();
     const allTimeUnchanged = Boolean(voterRef && priorSpotId === spotId);
     const monthlyUnchanged = Boolean(monthVoterRef && priorMonthSpotId === spotId);
+    const weeklyUnchanged = Boolean(weekVoterRef && priorWeekSpotId === spotId);
 
     if (oldVoteRef && oldVoteDoc?.exists) {
       const old = oldVoteDoc.data();
@@ -75,10 +86,25 @@ export async function POST(req) {
       if (monthVoterRef) tx.set(monthVoterRef, { spotId, votedAt: now });
     }
 
+    if (oldWeekVoteRef && oldWeekVoteDoc?.exists) {
+      const old = oldWeekVoteDoc.data();
+      tx.set(oldWeekVoteRef, { ...old, count: Math.max(0, (old.count || 0) - 1), updatedAt: now }, { merge: true });
+    }
+
+    const previousWeekVote = newWeekVoteDoc.exists ? newWeekVoteDoc.data() : {};
+    const weeklyCount = weeklyUnchanged ? previousWeekVote.count || 0 : (previousWeekVote.count || 0) + 1;
+    if (!weeklyUnchanged) {
+      tx.set(weekVoteRef, { count: weeklyCount, name: (name || "").slice(0, 100), updatedAt: now }, { merge: true });
+      if (weekVoterRef) tx.set(weekVoterRef, { spotId, votedAt: now });
+    }
+
     tx.set(monthRef, { period, updatedAt: now }, { merge: true });
+    tx.set(weekRef, { period: week, updatedAt: now }, { merge: true });
     tx.set(themeRef, {
       monthlyStartedAt: themeDoc.data().monthlyStartedAt || period,
       monthlyUpdatedAt: now,
+      weeklyStartedAt: themeDoc.data().weeklyStartedAt || week,
+      weeklyUpdatedAt: now,
     }, { merge: true });
 
     return {
@@ -86,10 +112,13 @@ export async function POST(req) {
       count: allTimeCount,
       allTimeCount,
       monthlyCount,
+      week,
+      weeklyCount,
       allTimeSwitched: Boolean(priorSpotId && priorSpotId !== spotId),
       monthlySwitched: Boolean(priorMonthSpotId && priorMonthSpotId !== spotId),
+      weeklySwitched: Boolean(priorWeekSpotId && priorWeekSpotId !== spotId),
       switched: Boolean(priorSpotId && priorSpotId !== spotId),
-      unchanged: allTimeUnchanged && monthlyUnchanged,
+      unchanged: allTimeUnchanged && monthlyUnchanged && weeklyUnchanged,
     };
   });
 
