@@ -1,78 +1,85 @@
 [
   {
-    "id": "2026-10-23-sweet-shops-adulteration",
+    "id": "2026-10-23-sweets-cure-region",
     "date": "2026-10-23",
-    "title": "Hyderabad sweet and confectionery units special enforcement drive",
+    "title": "CURE Region sweets manufacturing and retail special enforcement drive",
     "areas": [
-      "Kukatpally",
-      "Masab Tank",
-      "Chandanagar",
       "Gundlapochampally",
+      "Banjara Hills",
+      "Tolichowki",
+      "Kukatpally",
+      "SR Nagar",
       "Sri Nagar Colony",
+      "Masab Tank",
       "Nallakunta",
+      "Jeedimetla",
       "Yousufguda",
-      "Tarnaka"
+      "Vengal Rao Nagar",
+      "Indira Park",
+      "Chandanagar",
+      "Tarnaka",
+      "Kachiguda",
+      "Moulali"
     ],
     "authority": "TG SAFE (Commissioner of Food Safety, Telangana)",
-    "inspected": 10,
+    "inspected": 21,
     "samples": 21,
-    "summary": "TG SAFE enforcement teams inspected sweet, confectionery and food manufacturing and retail establishments across Hyderabad on suspicion of adulteration ahead of the festive season. Over 1,035 kg of suspected adulterated food articles worth ₹7,75,850 were seized and 21 samples collected for lab testing. Three establishments had their FSSAI licences suspended with operations ordered to stop, seven show-cause notices were issued, and one unlicensed establishment was issued a closure order.",
+    "summary": "TG SAFE Food Safety Officers inspected 21 sweet manufacturing and retail units across the Core Urban Region and collected 21 samples on suspicion of adulteration. Officials seized 1,035 kg of food articles valued at ₹7,75,850. Three FSSAI licences were suspended, seven show-cause notices were issued, six improvement notices were proposed, and one unlicensed establishment was ordered closed. The drive reported pests, expired or mislabelled food, improper storage, dirty walls and damaged floors, clogged drains, greasy exhausts, uncovered sweets, missing protective clothing, and missing mandatory records across inspected units.",
     "sources": [
       {
-        "label": "TG SAFE press note No. 06-19",
-        "url": "https://x.com/c_tgsafe"
+        "label": "TG SAFE official post on X (23 Oct 2026)",
+        "url": "https://x.com/c_tgsafe/status/2113652879554941396"
       }
     ],
     "entries": [
-      {
-        "name": "Vasireddy Swagruha Foods",
-        "area": "Prashanth Nagar, Kukatpally",
-        "spotId": null,
-        "action": "licence-suspended",
-        "findings": [
-          "Suspected food adulteration",
-          "Hygiene violations"
-        ],
-        "status": "action-taken",
-        "statusNote": "FSSAI licence suspended — operations to stop",
-        "statusDate": "2026-10-23"
-      },
-      {
-        "name": "Madhur Sweets",
-        "area": "Humayun Nagar, Masab Tank",
-        "spotId": null,
-        "action": "licence-suspended",
-        "findings": [
-          "Suspected food adulteration",
-          "Hygiene violations"
-        ],
-        "status": "action-taken",
-        "statusNote": "FSSAI licence suspended — operations to stop",
-        "statusDate": "2026-10-23"
-      },
-      {
-        "name": "B. Bicha Reddy Sweets",
-        "area": "Chandanagar",
-        "spotId": null,
-        "action": "licence-suspended",
-        "findings": [
-          "Suspected food adulteration",
-          "Hygiene violations"
-        ],
-        "status": "action-taken",
-        "statusNote": "FSSAI licence suspended — operations to stop",
-        "statusDate": "2026-10-23"
-      },
       {
         "name": "Honey Foods",
         "area": "Gundlapochampally, Medchal",
         "spotId": null,
         "action": "notice",
-        "findings": [
-          "Suspected adulteration / quality concerns"
-        ],
+        "findings": [],
         "status": "action-taken",
         "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Meethe Miya",
+        "area": "Road No. 7, Banjara Hills",
+        "spotId": null,
+        "action": "notice-proposed",
+        "findings": [],
+        "status": "proposed",
+        "statusNote": "Improvement notice to be issued; reinspection will verify rectification and compliance",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Majestic Sweets",
+        "area": "Tolichowki, Golconda",
+        "spotId": null,
+        "action": "notice-proposed",
+        "findings": [],
+        "status": "proposed",
+        "statusNote": "Improvement notice to be issued; reinspection will verify rectification and compliance",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Vasireddy Swagruha Foods",
+        "area": "Prashanth Nagar, Kukatpally",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Abhiruchi Swagruha Foods",
+        "area": "SR Nagar",
+        "spotId": null,
+        "action": "no-action",
+        "findings": [],
+        "status": "recorded",
+        "statusNote": "Inspected; no suspension, closure, improvement notice or show-cause notice was listed for this establishment in the official release",
         "statusDate": "2026-10-23"
       },
       {
@@ -80,21 +87,17 @@
         "area": "Sri Nagar Colony",
         "spotId": null,
         "action": "notice",
-        "findings": [
-          "Suspected adulteration / quality concerns"
-        ],
+        "findings": [],
         "status": "action-taken",
         "statusNote": "Show-cause notice issued",
         "statusDate": "2026-10-23"
       },
       {
         "name": "Almond House Pvt Ltd",
-        "area": "Kukatpally",
+        "area": "KPHB Colony, Kukatpally",
         "spotId": null,
         "action": "notice",
-        "findings": [
-          "Suspected adulteration / quality concerns"
-        ],
+        "findings": [],
         "status": "action-taken",
         "statusNote": "Show-cause notice issued",
         "statusDate": "2026-10-23"
@@ -102,13 +105,21 @@
       {
         "name": "Dadus Mithai Vatika",
         "area": "Kukatpally",
-        "spotId": "ChIJXfmV-vmRyzsRky9T_UkbR_M",
+        "spotId": null,
         "action": "notice",
-        "findings": [
-          "Suspected adulteration / quality concerns"
-        ],
+        "findings": [],
         "status": "action-taken",
         "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Madhur Sweets",
+        "area": "Humayun Nagar, Masab Tank",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
         "statusDate": "2026-10-23"
       },
       {
@@ -116,11 +127,19 @@
         "area": "Nallakunta",
         "spotId": null,
         "action": "notice",
-        "findings": [
-          "Suspected adulteration / quality concerns"
-        ],
+        "findings": [],
         "status": "action-taken",
         "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Shiva Nagi Reddy Sweets",
+        "area": "Jeedimetla",
+        "spotId": null,
+        "action": "notice-proposed",
+        "findings": [],
+        "status": "proposed",
+        "statusNote": "Improvement notice to be issued; reinspection will verify rectification and compliance",
         "statusDate": "2026-10-23"
       },
       {
@@ -128,11 +147,59 @@
         "area": "Yousufguda Main Road",
         "spotId": null,
         "action": "notice",
-        "findings": [
-          "Suspected adulteration / quality concerns"
-        ],
+        "findings": [],
         "status": "action-taken",
         "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Godavari Vantillu",
+        "area": "Vengal Rao Nagar",
+        "spotId": null,
+        "action": "notice-proposed",
+        "findings": [],
+        "status": "proposed",
+        "statusNote": "Improvement notice to be issued; reinspection will verify rectification and compliance",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Shubham Home Foods",
+        "area": "Indira Park",
+        "spotId": null,
+        "action": "notice-proposed",
+        "findings": [],
+        "status": "proposed",
+        "statusNote": "Improvement notice to be issued; reinspection will verify rectification and compliance",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Pramada's Sweets, Hots & Pickles",
+        "area": "Indira Park",
+        "spotId": null,
+        "action": "notice-proposed",
+        "findings": [],
+        "status": "proposed",
+        "statusNote": "Improvement notice to be issued; reinspection will verify rectification and compliance",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Raviteja Home Foods Pvt Ltd",
+        "area": "Kukatpally",
+        "spotId": null,
+        "action": "no-action",
+        "findings": [],
+        "status": "recorded",
+        "statusNote": "Inspected; no suspension, closure, improvement notice or show-cause notice was listed for this establishment in the official release",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "B. Bicha Reddy Sweets",
+        "area": "Chandanagar",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
         "statusDate": "2026-10-23"
       },
       {
@@ -142,13 +209,45 @@
         "action": "closed",
         "findings": [
           "Operating without an FSSAI licence",
-          "Hygiene violations reported"
+          "Hygiene violations"
         ],
         "status": "action-taken",
-        "statusNote": "Closure order: Operating without an FSSAI licence; hygiene violations reported",
+        "statusNote": "Closure ordered; the establishment was also among the seven units issued a show-cause notice",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Balaji Ratanlal Sweet Shop",
+        "area": "Kachiguda",
+        "spotId": null,
+        "action": "no-action",
+        "findings": [],
+        "status": "recorded",
+        "statusNote": "Inspected; no suspension, closure, improvement notice or show-cause notice was listed for this establishment in the official release",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Sreeja Home Foods",
+        "area": "Chandanagar",
+        "spotId": null,
+        "action": "no-action",
+        "findings": [],
+        "status": "recorded",
+        "statusNote": "Inspected; no suspension, closure, improvement notice or show-cause notice was listed for this establishment in the official release",
+        "statusDate": "2026-10-23"
+      },
+      {
+        "name": "Kakarla Swagruha Foods",
+        "area": "Moulali",
+        "spotId": null,
+        "action": "no-action",
+        "findings": [],
+        "status": "recorded",
+        "statusNote": "Inspected; no suspension, closure, improvement notice or show-cause notice was listed for this establishment in the official release",
         "statusDate": "2026-10-23"
       }
-    ]
+    ],
+    "createdAt": 1792779890000,
+    "updatedAt": 1792779890000
   },
   {
     "id": "2026-10-13-restaurants-canteens",

@@ -4,7 +4,10 @@ import SiteChrome from "../components/SiteChrome.jsx";
 import { getRecommendations } from "../../lib/recommendations.js";
 import { recommendationsEnabled } from "../../lib/recommendationShared.js";
 import { pageMeta } from "../../lib/site.js";
-export const metadata = pageMeta({ title: "Best food in Hyderabad right now, dish by dish", description: "Biryani, haleem, dosa, shawarma and more: the places Hyderabad locals recommend most, counted from r/hyderabad and updated monthly.", path: "/picks" });
+export const metadata = {
+  ...pageMeta({ title: "Best food in Hyderabad right now, dish by dish", description: "Biryani, haleem, dosa, shawarma and more: the places Hyderabad locals recommend most, counted from r/hyderabad and updated monthly.", path: "/guides/dishes" }),
+  robots: { index: false, follow: true },
+};
 export default function PicksPage() {
   permanentRedirect("/guides/dishes");
   if (!recommendationsEnabled()) notFound();

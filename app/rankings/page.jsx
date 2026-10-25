@@ -9,11 +9,12 @@ import { breadcrumbJsonLd } from "../../lib/schema.js";
 import { stickerForTitle } from "../../lib/stickerArt.js";
 import HubAnswer, { HubFaq } from "../components/HubAnswer.jsx";
 import { hubJsonLd, todayIso } from "../../lib/hubSeo.js";
+import { GEO_GUIDES } from "../../lib/geoGuides.js";
 
 export const dynamic = "force-dynamic";
 
 const title = "Hyderabad Food Rankings";
-const description = "Continuous community rankings for Hyderabad food, with all-time preferences, monthly standings, local vote totals, area views, and must-order dishes.";
+const description = "Community-voted weekly rankings for the best biryani, breweries, mandi, buffets, cafes, and fine dining in Hyderabad. Compare votes and cast yours.";
 
 export const metadata = {
   ...pageMeta({ title, description, path: "/rankings" }),
@@ -55,13 +56,21 @@ export default async function RankingsHubPage() {
   // Answer-first: the current #1s are what people (and AI answers) ask for.
   const allVotes = themes.reduce((n, t) => n + (t.results || []).reduce((m, r) => m + (r.count || 0), 0), 0);
   const crowned = themes.filter((t) => t.winnerId && t.winnerName).slice(0, 4);
+  const leaders = themes.map((theme) => {
+    const voted = (theme.results || []).filter((row) => (row.count || 0) > 0).sort((a, b) => (b.count || 0) - (a.count || 0));
+    const leader = theme.winnerId ? voted.find((row) => row.spotId === theme.winnerId) || voted[0] : voted[0];
+    return leader ? { theme, leader, total: voted.reduce((sum, row) => sum + (row.count || 0), 0) } : null;
+  }).filter(Boolean);
+  const leaderAnswer = leaders.length
+    ? `Current Hyderabad #1s include ${leaders.slice(0, 5).map(({ theme, leader }) => `${leader.name} for ${short(theme.title).replace(/^best\s+/i, "")}`).join("; ")}. Rankings update as locals vote.`
+    : "Hyderabad Eats rankings are decided by local votes for biryani, cafes, mandi, breweries and other food categories across the city.";
   const updated = todayIso();
   const faqs = [
-    ...crowned.slice(0, 2).map((t) => ({ q: `What is the ${t.title.toLowerCase()}?`, a: `${t.winnerName}, voted #1 by Hyderabad locals on Hyderabad Eats. Votes stay open, so the crown can move.` })),
-    { q: "How are Hyderabad Eats rankings decided?", a: "Each person keeps one all-time preference and can participate again each Hyderabad calendar month. Vote totals, leader share, and monthly movement remain visible." },
+    ...leaders.slice(0, 3).map(({ theme, leader, total }) => ({ q: `Who is #1 for ${short(theme.title).replace(/^best\s+/i, "")} right now?`, a: `${leader.name}, with ${leader.count} of ${total} local votes on Hyderabad Eats. Votes stay open, so the lead can change.` })),
+    { q: "How are Hyderabad Eats rankings decided?", a: "By weekly community votes from Hyderabad locals. One vote per person per ranking; the spot with the most votes holds #1." },
     { q: "Can I add a restaurant that isn't on the list?", a: "Yes. Open the ranking and use 'Can't see your pick? Add it'. New places show up once checked." },
   ];
-  const ld = hubJsonLd({ name: title, description, path: "/rankings", updated, faqs, items: themes.map((t) => ({ name: t.title, url: `/rankings/${t.slug}` })) });
+  const ld = hubJsonLd({ name: title, description: `${leaderAnswer} ${description}`, path: "/rankings", updated, faqs, items: themes.map((t) => ({ name: t.title, url: `/rankings/${t.slug}` })) });
 
   return (
     <div style={{ paddingBottom: 84 }}>
@@ -72,10 +81,10 @@ export default async function RankingsHubPage() {
       backFallback="/guides"
       breadcrumb={[{ href: "/", label: "Home" }, { href: "/rankings", label: "Rankings" }]}
       title={title}
-      description={`Hyderabad Eats ranks the city's food through continuous local preferences and monthly votes: ${themes.length} rankings and ${allVotes.toLocaleString("en-IN")} all-time votes so far.${crowned.length ? ` Current #1s: ${crowned.map((t) => `${t.title.replace(/\s+in\s+hyderabad$/i, "")}, ${t.winnerName}`).join("; ")}.` : ""}`}
+      description={`Hyderabad Eats ranks the city's food by weekly votes from locals: ${themes.length} rankings and ${allVotes.toLocaleString("en-IN")} votes so far.${crowned.length ? ` Current #1s: ${crowned.map((t) => `${t.title.replace(/\s+in\s+hyderabad$/i, "")}, ${t.winnerName}`).join("; ")}.` : ""}`}
       related={[
         { href: "/rankings/how-it-works", label: "How rankings work" },
-        { href: "/rankings/best-biryani-in-hyderabad", label: "Biryani vote" },
+        { href: "/rankings/best-biryani-in-hyderabad", label: "Best biryani" },
         { href: "/rankings/best-buffet-in-hyderabad", label: "Best buffet" },
         { href: "/rankings/best-fine-dining-in-hyderabad", label: "Fine dining" },
         { href: "/rankings/best-cafe-in-hyderabad", label: "Best cafes" },
@@ -84,6 +93,7 @@ export default async function RankingsHubPage() {
       ]}
     >
       <HubAnswer
+        answer={leaderAnswer}
         stats={[{ value: themes.length, label: "rankings" }, { value: allVotes.toLocaleString("en-IN"), label: "local votes" }, { value: live.length, label: live.length === 1 ? "live vote" : "live votes" }]}
         updated={updated}
       />
@@ -110,7 +120,7 @@ export default async function RankingsHubPage() {
       })}
       {live.length === 0 && (
         <div className="site-card" style={{ marginBottom: 16 }}>
-          <p>No ranking is being promoted right now. Every published ranking below remains open.</p>
+          <p>No live vote this week. Every ranking below is still open.</p>
         </div>
       )}
 
@@ -160,6 +170,17 @@ export default async function RankingsHubPage() {
           </div>
         </>
       )}
+      <section className="guides-section" aria-labelledby="ranking-local-answers">
+        <h2 id="ranking-local-answers" className="site-section-title">More local food answers</h2>
+        <div className="site-grid">
+          {GEO_GUIDES.slice(0, 5).map((guide) => (
+            <Link key={guide.slug} href={`/guides/${guide.slug}`} className="site-card">
+              <h3>{guide.title}</h3>
+              <p>{guide.answer}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
       <HubFaq faqs={faqs} />
     </SiteChrome>
     <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>

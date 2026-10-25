@@ -1,6 +1,5 @@
 {
   "ChIJVy0-aGiXyzsRWMiIWZ1fC30": {
-    "contentScope": "branch-comparison",
     "founded": "1978",
     "originStory": [
       "Cafe Niloufer started in 1978 as a small tea shop beside Niloufer Hospital in Lakdikapul, and took the hospital's name, itself borrowed from Princess Niloufer of the old Hyderabad court. What began as one counter is now the city's most recognisable Irani chai address.",
@@ -569,8 +568,6 @@
     ]
   },
   "ChIJV47u-zeTyzsRg1GyNX8ogOQ": {
-    "recommendationStatus": "recommended",
-    "reviewedAt": "2026-09-11",
     "originStory": [
       "Windmills Craftworks in Madhapur is sold as a brewery, but the room does not feel like one. It feels closer to a library: low light, soft seating, books and quiet corners, the kind of place where conversation stays at half volume. It is also clearly priced for a special night out rather than a casual pint.",
       "I went through a full spread. The small plates were pleasant. The vegetarian mains were where the kitchen actually showed up. Coffee is not the reason to come. Overall it lands as a solid 7: cozy, refined, and worth knowing about if you want atmosphere first.",
@@ -1170,7 +1167,6 @@
     ]
   },
   "ChIJ9Y1903qRyzsRlyeVz4DEbD4": {
-    "contentScope": "brand",
     "signatureDish": {
       "name": "Death By Chocolate (DBC)",
       "why": "Decadent chocolate cake layered with rich ice cream, hot chocolate fudge, and roasted nuts."
@@ -1206,7 +1202,6 @@
     ]
   },
   "ChIJvxR1lGGZyzsRUQwtqHNDARY": {
-    "contentScope": "brand",
     "signatureDish": {
       "name": "Death By Chocolate (DBC)",
       "why": "Decadent chocolate cake layered with rich ice cream, hot chocolate fudge, and roasted nuts."
@@ -1361,7 +1356,6 @@
     ]
   },
   "ChIJawcJIaKVyzsRYLa7p3QMRAc": {
-    "contentScope": "brand",
     "founded": "2024",
     "originStory": [
       "Wool Cup's second outpost sits on the ground floor of Survey 88AA along ADP Boulevard in the Financial District, bringing the brand's calm aesthetic and specialty breakfast plates to the tech hub.",
@@ -1484,20 +1478,34 @@
     ]
   },
   "ChIJI9FVuseRyzsR5qrFwoKDbkw": {
-    "contentMode": "visit-note",
-    "recommendationStatus": "not-recommended",
-    "visitItems": [
+    "signatureDish": {
+      "name": "Biscoff Cheesecake & French Butter Croissant",
+      "why": "Known across Jubilee Hills for its velvety artisanal cheesecakes, freshly baked flaky viennoiseries, and specialty pour-over coffee."
+    },
+    "mustOrder": [
       {
-        "name": "Hot Chocolate",
-        "note": "Average on this visit and not a standout among Hyderabad cafe hot chocolates."
+        "name": "Signature Biscoff Cheesecake",
+        "note": "9.5/10. Rich, creamy, and velvety with a caramelised Biscoff crunch base; one of their top dessert orders."
       },
       {
-        "name": "Brownie",
-        "note": "Poor on this visit; I would not reorder it."
+        "name": "French Butter Croissant",
+        "note": "9.0/10. Flaky, crisp golden exterior with honeycomb butter layers inside; baked fresh daily."
       },
       {
-        "name": "The Pistachio",
-        "note": "The sculpted dessert looked striking, but it was disappointing overall on this visit."
+        "name": "Artisanal Pistachio Gelato",
+        "note": "8.8/10. Made in-house at their gelato counter, smooth nutty texture with pure Sicilian pistachio notes."
+      },
+      {
+        "name": "V60 Pour Over Coffee",
+        "note": "9.0/10. Clean, aromatic specialty brew made with medium-roast beans for coffee purists."
+      },
+      {
+        "name": "Shrimp Pancake Bao",
+        "note": "8.7/10. Flavourful savory brunch favorite with crisp shrimp and balanced umami sauce."
+      },
+      {
+        "name": "Eggs Benedict on Brioche",
+        "note": "8.5/10. Poached eggs with rich hollandaise on house-baked toasted brioche."
       }
     ],
     "regularNote": "Mirthy Cafe on Road 36 in Jubilee Hills has a polished pastry counter, but a recent dessert visit did not work for me. The hot chocolate was average, the brownie was poor, and The Pistachio, the sculpted pistachio-shaped dessert, looked better than it tasted. Overall, the three-item dessert run was disappointing.",
@@ -1513,8 +1521,8 @@
     },
     "faq": [
       {
-        "q": "What does Mirthy Cafe in Jubilee Hills serve?",
-        "a": "Its menu focuses on sculpted desserts, cheesecakes, croissants, gelato, coffee, and brunch dishes. These are menu categories, not Mapping HYD recommendations."
+        "q": "What is Mirthy Cafe in Jubilee Hills famous for?",
+        "a": "Mirthy Cafe is known for its sculpted desserts, artisanal cheesecakes, French croissants, in-house gelato, and specialty coffee on Road No. 36 in Jubilee Hills."
       },
       {
         "q": "Is the hot chocolate at Mirthy Cafe worth ordering?",
@@ -1523,10 +1531,6 @@
       {
         "q": "How are the brownie and The Pistachio dessert at Mirthy Cafe?",
         "a": "The brownie was poor, and The Pistachio, a pistachio-shaped sculpted dessert, was disappointing overall despite its presentation."
-      },
-      {
-        "q": "Does Mapping HYD recommend Mirthy Cafe based on this visit?",
-        "a": "No. This three-item dessert visit scored 4.5/10: the hot chocolate was average, the brownie was poor, and The Pistachio disappointed. The separate Google rating shown on the page is third-party data, not Mapping HYD's verdict."
       },
       {
         "q": "Where is Mirthy Cafe located?",
@@ -1544,7 +1548,7 @@
     "mustOrder": [
       {
         "name": "Rainbow Cake",
-        "note": "9/10. Excellent, colourful layered cake and the strongest dessert pick from this visit."
+        "note": "My favourite and go-to order: a colourful layered cake that remains the strongest dessert pick here."
       },
       {
         "name": "Fudge Brownie",
@@ -1559,21 +1563,21 @@
         "note": "A very good pick from the current mini-cupcake flavours."
       }
     ],
-    "regularNote": "For desserts at Glen's Bakehouse in Film Nagar, start with the rainbow cake. It was excellent and clearly the best part of the order. The cupcakes were nice too, making this a reliable stop for colourful cakes and small baked treats in west Hyderabad.",
+    "regularNote": "Glen's Bakehouse in Film Nagar is one of my reliable dessert recommendations in Hyderabad. The rainbow cake is my favourite and go-to order. The fudge brownie is very good and gets the chocolate balance right without becoming an overdose. The mini cupcakes are consistently good, the selection now includes newer flavours, and the red velvet is a particularly strong pick.",
     "highlight": {
-      "label": "Excellent rainbow cake",
-      "text": "The rainbow cake is the standout order, while the cupcakes are a solid second pick at this Film Nagar bakehouse."
+      "label": "Go-to rainbow cake",
+      "text": "Start with the rainbow cake, then choose the balanced fudge brownie or mini cupcakes; red velvet is one of the best cupcake flavours."
     },
     "verdict": {
       "score": 8.5,
       "outOf": 10,
       "label": "The take",
-      "blurb": "A strong Film Nagar dessert stop when you want rainbow cake or cupcakes."
+      "blurb": "A strong Film Nagar dessert stop for rainbow cake, fudge brownie and mini cupcakes."
     },
     "faq": [
       {
         "q": "What should you order at Glen's Bakehouse Film Nagar?",
-        "a": "Order the rainbow cake first; it was excellent. The cupcakes are also a good choice for a smaller dessert."
+        "a": "Order the rainbow cake first; it is my favourite and go-to dessert here. The fudge brownie and mini cupcakes are also strong choices, especially the red velvet cupcake."
       },
       {
         "q": "Where is Glen's Bakehouse in Hyderabad?",
@@ -1581,7 +1585,15 @@
       },
       {
         "q": "Is the rainbow cake at Glen's Bakehouse good?",
-        "a": "Yes. The rainbow cake was the standout dessert on this visit, with colourful layers and a satisfying cake-and-cream balance."
+        "a": "Yes. It is my favourite Glen's Bakehouse dessert and regular go-to order, with colourful layers and a satisfying cake-and-cream balance."
+      },
+      {
+        "q": "Is the fudge brownie at Glen's Bakehouse worth ordering?",
+        "a": "Yes. The fudge brownie is very good and has a balanced chocolate flavour without feeling excessively rich."
+      },
+      {
+        "q": "Which cupcakes are good at Glen's Bakehouse?",
+        "a": "The mini cupcakes are consistently good, and Glen's now has newer flavours in the selection. Red velvet is a particularly good choice."
       }
     ]
   },
@@ -1695,6 +1707,166 @@
       "http://caphebistro.in/"
     ]
   },
+  "ChIJrcVnHhCayzsRyl7sbG3gTgg": {
+    "recommendationStatus": "recommended",
+    "reviewedAt": "2026-10-24",
+    "signatureDish": {
+      "name": "Spicy Paneer Pizza",
+      "why": "A good vegetarian pizza order in Secunderabad, though the ₹230 price may feel high for the portion and setting."
+    },
+    "mustOrder": [
+      {
+        "name": "Spicy Paneer Pizza",
+        "note": "A good, spicy paneer pizza; the main caveat is that ₹230 may feel overpriced to some diners."
+      },
+      {
+        "name": "Softy",
+        "note": "A good soft-serve order at about ₹40 and the better-value add-on."
+      }
+    ],
+    "regularNote": "Pizza Den on PG Road in Secunderabad is a good casual pizza stop. The spicy paneer pizza tastes good and is the order to start with, although its ₹230 price can feel a little high. The softy is also good and, at around ₹40, is the easy value pick after the pizza.",
+    "highlight": {
+      "label": "Good spicy paneer pizza",
+      "text": "Order the spicy paneer pizza if you do not mind the ₹230 price, then add the ₹40 softy for dessert."
+    },
+    "author": {
+      "name": "Shiva Chandra",
+      "role": "Mapping HYD"
+    },
+    "faq": [
+      {
+        "q": "What should you order at Pizza Den Secunderabad?",
+        "a": "Start with the spicy paneer pizza and add the softy for dessert. Both were good on this visit."
+      },
+      {
+        "q": "Is the spicy paneer pizza at Pizza Den good?",
+        "a": "Yes. The spicy paneer pizza is good, but the ₹230 price may feel a little high depending on what you expect from the portion and setting."
+      },
+      {
+        "q": "How much is the softy at Pizza Den?",
+        "a": "The softy was about ₹40 on this visit and was a good-value dessert order. Prices can change, so check the current menu before visiting."
+      },
+      {
+        "q": "Where is Pizza Den in Hyderabad?",
+        "a": "Pizza Den is on PG Road in Ramgopalpet, Secunderabad, Hyderabad."
+      }
+    ]
+  },
+  "ChIJQX3oRACTyzsRYITnjwROO9U": {
+    "recommendationStatus": "recommended",
+    "reviewedAt": "2026-10-24",
+    "signatureDish": {
+      "name": "Chicken Juicy Mandi",
+      "why": "The recommended order at Big Plate Mandi in HITEC City for diners looking for chicken mandi in west Hyderabad."
+    },
+    "mustOrder": [
+      {
+        "name": "Chicken Juicy Mandi",
+        "note": "The chicken juicy mandi is the standout personal recommendation from this visit."
+      }
+    ],
+    "regularNote": "At Big Plate Mandi opposite Shilparamam in HITEC City, the chicken juicy mandi is the dish I recommend. It is the order to start with if you are looking for chicken mandi around Madhapur, HITEC City or the western Hyderabad tech corridor.",
+    "highlight": {
+      "label": "Chicken juicy mandi pick",
+      "text": "Go directly for the chicken juicy mandi; it is the personal recommendation from this HITEC City visit."
+    },
+    "author": {
+      "name": "Shiva Chandra",
+      "role": "Mapping HYD"
+    },
+    "faq": [
+      {
+        "q": "What should you order at Big Plate Mandi HITEC City?",
+        "a": "Order the chicken juicy mandi. It is the standout personal recommendation from this visit."
+      },
+      {
+        "q": "Is the chicken juicy mandi at Big Plate Mandi good?",
+        "a": "Yes. The chicken juicy mandi is the dish recommended from this visit and the best place to start on the menu."
+      },
+      {
+        "q": "Where is Big Plate Mandi in Hyderabad?",
+        "a": "Big Plate Mandi is on HITEC City Road opposite Shilparamam, near Madhapur and Kothaguda, Hyderabad."
+      }
+    ]
+  },
+  "ChIJT9Bwx1qRyzsRFJNCT5djjzU": {
+    "recommendationStatus": "recommended",
+    "reviewedAt": "2026-10-24",
+    "signatureDish": {
+      "name": "Nalli Gosht Biryani",
+      "why": "An excellent biryani and the clear standout at Krishna's Kitchen near Madhapur and Jubilee Hills."
+    },
+    "mustOrder": [
+      {
+        "name": "Nalli Gosht Biryani",
+        "note": "Excellent and the strongest dish from this visit."
+      }
+    ],
+    "regularNote": "Krishna's Kitchen in Kavuri Hills, close to Madhapur and Jubilee Hills, is worth considering for its excellent nalli gosht biryani. The fry-piece chicken biryani was only average: the spice level was right up there, but the dish lacked a distinct flavour and could be improved. Choose the nalli gosht biryani over the fry-piece chicken biryani.",
+    "highlight": {
+      "label": "Excellent nalli gosht biryani",
+      "text": "Make the nalli gosht biryani your first order; the fry-piece chicken biryani was spicy but lacked enough flavour."
+    },
+    "author": {
+      "name": "Shiva Chandra",
+      "role": "Mapping HYD"
+    },
+    "faq": [
+      {
+        "q": "What should you order at Krishna's Kitchen Hyderabad?",
+        "a": "Order the nalli gosht biryani. It was excellent and clearly stronger than the fry-piece chicken biryani on this visit."
+      },
+      {
+        "q": "Is the nalli gosht biryani at Krishna's Kitchen good?",
+        "a": "Yes. The nalli gosht biryani was excellent and is the personal recommendation from this visit."
+      },
+      {
+        "q": "How is the fry-piece chicken biryani at Krishna's Kitchen?",
+        "a": "It was average. The spice level was strong, but it did not have enough distinct flavour and could be better."
+      },
+      {
+        "q": "Where is Krishna's Kitchen in Hyderabad?",
+        "a": "Krishna's Kitchen is in Kavuri Hills on Police Station Lane, opposite Madhapur and close to Jubilee Hills, Hyderabad."
+      }
+    ]
+  },
+  "ChIJia4xz3KRyzsRoVKZLnQUo7c": {
+    "recommendationStatus": "recommended",
+    "reviewedAt": "2026-10-24",
+    "signatureDish": {
+      "name": "Neyyi Kaaram Palyam Dosa",
+      "why": "The personal must-order recommendation at Panchakattu Dosa in Begumpet."
+    },
+    "mustOrder": [
+      {
+        "name": "Neyyi Kaaram Palyam Dosa",
+        "note": "Make this your first order at Panchakattu Dosa; it is the Mapping HYD personal recommendation."
+      }
+    ],
+    "regularNote": "At Panchakattu Dosa in Begumpet, Hyderabad, the Neyyi Kaaram Palyam Dosa is the recommended dish to order. Start with this if you are visiting Panchakattu for dosa or a South Indian breakfast in Hyderabad.",
+    "highlight": {
+      "label": "The Panchakattu order",
+      "text": "Go first for the Neyyi Kaaram Palyam Dosa; it is the personal must-order recommendation here."
+    },
+    "author": {
+      "name": "Shiva Chandra",
+      "role": "Mapping HYD"
+    },
+    "faq": [
+      {
+        "q": "What should you order at Panchakattu Dosa Hyderabad?",
+        "a": "Order the Neyyi Kaaram Palyam Dosa. It is the personal must-order recommendation at Panchakattu Dosa."
+      },
+      {
+        "q": "Which dosa is recommended at Panchakattu Dosa Begumpet?",
+        "a": "The Neyyi Kaaram Palyam Dosa is the recommended first order at the Begumpet outlet."
+      },
+      {
+        "q": "Where is Panchakattu Dosa in Hyderabad?",
+        "a": "This Panchakattu Dosa outlet is in Old Patigadda, near Prakash Nagar and Begumpet, Hyderabad."
+      }
+    ]
+  },
   "ChIJXVsG9IaRyzsRl7cElupPpKw": {
     "recommendationStatus": "recommended",
     "reviewedAt": "2026-10-20",
@@ -1749,43 +1921,6 @@
       {
         "q": "Where is YouMee in Hyderabad?",
         "a": "YouMee is on the third floor of Nexus Hyderabad Mall in KPHB Phase 9, Kukatpally, Hyderabad."
-      }
-    ]
-  },
-  "ChIJQX3oRACTyzsRYITnjwROO9U": {
-    "recommendationStatus": "recommended",
-    "reviewedAt": "2025-09-27",
-    "signatureDish": {
-      "name": "Juicy Chicken Mandi",
-      "why": "My favourite here without any doubt: flavorful mandi rice with excellent, spicy, piping-hot chicken gravy."
-    },
-    "mustOrder": [
-      {
-        "name": "Apollo Fish Starter",
-        "note": "Excellent starter and the dish to order before the mandi."
-      },
-      {
-        "name": "Juicy Chicken Mandi",
-        "note": "My favourite without any doubt: flavorful rice with spicy, piping-hot, well-cooked chicken gravy."
-      }
-    ],
-    "regularNote": "The Apollo Fish starter is excellent, and their Juicy Chicken Mandi is my favourite without any doubt. The mandi rice was flavorful, and the chicken with gravy was spicy, piping hot and well-cooked. Food quality and service stood out on this visit; the ambience was okay. Do try both.",
-    "highlight": {
-      "label": "My favourite Juicy Chicken Mandi",
-      "text": "Order the excellent Apollo Fish starter, then the Juicy Chicken Mandi, my favourite here without any doubt."
-    },
-    "author": {
-      "name": "Shiva Chandra",
-      "role": "Mapping HYD"
-    },
-    "faq": [
-      {
-        "q": "What should you order at Big Plate Mandi Hitech City?",
-        "a": "Start with the excellent Apollo Fish starter, then order the Juicy Chicken Mandi. It is my favourite here without any doubt."
-      },
-      {
-        "q": "Is Big Plate Mandi Hitech City worth visiting?",
-        "a": "Food quality and service stood out on this visit, while the ambience was okay. It also placed first in Mapping HYD's local Best Mandi community vote."
       }
     ]
   }

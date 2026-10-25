@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
 import { getRankingBySlug, getTopDishSummaries, qualifiedAreaRankings } from "../../../lib/themesServer.js";
-import { itemListJsonLd, rankingMeta, SEO_THEME_PICKS, slugFromTitle, dishOfTitle } from "../../../lib/rankings.js";
+import { itemListJsonLd, rankingAnswer, rankingMeta, SEO_THEME_PICKS, slugFromTitle, dishOfTitle } from "../../../lib/rankings.js";
 import { breadcrumbJsonLd } from "../../../lib/schema.js";
 import { getSiteUrl } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
@@ -13,6 +13,8 @@ import BottomNav from "../../components/BottomNav.jsx";
 import SpotsMapClient from "../../components/SpotsMapClient.jsx";
 import LiveRankingStandings, { LiveDebate } from "../../components/LiveRankingStandings.jsx";
 import { stickerForTitle } from "../../../lib/stickerArt.js";
+import HubAnswer from "../../components/HubAnswer.jsx";
+import { todayIso } from "../../../lib/hubSeo.js";
 
 export const dynamic = "force-dynamic";
 
@@ -103,11 +105,16 @@ export default async function RankingPage({ params }) {
   const voteRows = data.results || [];
   const votedRows = voteRows.filter((r) => (r.count || 0) > 0);
   const editorial = editorialRanking(pick || { category: data.category }, params.slug, 15);
+  const totalVotes = votedRows.reduce((sum, row) => sum + (row.count || 0), 0);
+  const updated = todayIso();
+  const answerLead = rankingAnswer(data, editorial);
 
-  // An ordered ItemList means an actual standing, so emit it only for votes.
+  // Prefer real standings, while keeping pre-vote pages useful to search engines.
   const jsonLd = votedRows.length > 0
-    ? itemListJsonLd({ ...data, results: votedRows }, getSiteUrl(), pathForSpotId)
-    : null;
+    ? itemListJsonLd({ ...data, results: votedRows }, getSiteUrl(), pathForSpotId, updated)
+    : editorial.length
+      ? itemListJsonLd({ ...data, results: editorial }, getSiteUrl(), pathForSpotId, updated)
+      : null;
   const qualifyingAreas = theme ? qualifiedAreaRankings([theme]).slice(0, 8) : [];
 
   const related = [
@@ -124,20 +131,14 @@ export default async function RankingPage({ params }) {
     ...allCategoryPages().slice(0, 2).map((c) => ({ href: `/explore/${c.slug}`, label: c.label })),
   ];
 
-  const topNames = (votedRows.length ? votedRows : editorial).slice(0, 3).map((r) => r.name).filter(Boolean);
-  const answerLead = votedRows.length && topNames.length
-    ? `Current community leaders for ${data.title.toLowerCase()} include ${topNames.join(", ")}.`
-    : topNames.length
-      ? `Suggested ballot candidates for ${data.title.toLowerCase()} include ${topNames.join(", ")}. They are unranked until locals vote.`
-      : `${data.title} on Hyderabad Eats uses a continuing all-time preference and a new local vote each calendar month.`;
   const faqLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: [
       {
         "@type": "Question",
-        name: `What is the ${data.title.toLowerCase()} right now?`,
-        acceptedAnswer: { "@type": "Answer", text: `${answerLead} ${votedRows.length ? "See the live standings" : "Cast the first vote"} on Hyderabad Eats.` },
+        name: `Who is #1 for ${data.title.replace(/^Best\s+/i, "").replace(/\s+in\s+Hyderabad$/i, "").toLowerCase()} in Hyderabad right now?`,
+        acceptedAnswer: { "@type": "Answer", text: `${answerLead} See the full ranked list and vote on Hyderabad Eats.` },
       },
       {
         "@type": "Question",
@@ -151,6 +152,11 @@ export default async function RankingPage({ params }) {
         "@type": "Question",
         name: "Is this ranking free to use?",
         acceptedAnswer: { "@type": "Answer", text: "Yes. Rankings and the food map are free, with no signup required to browse." },
+      },
+      {
+        "@type": "Question",
+        name: "How current is this Hyderabad ranking?",
+        acceptedAnswer: { "@type": "Answer", text: `This page was refreshed on ${updated}. Votes remain open, and the weekly and monthly tabs show recent choices.` },
       },
     ],
   };
@@ -238,6 +244,14 @@ export default async function RankingPage({ params }) {
       hero={hero}
       related={related}
     >
+      <HubAnswer
+        answer={answerLead}
+        stats={[
+          { value: totalVotes.toLocaleString("en-IN"), label: "local votes" },
+          { value: votedRows.length || editorial.length, label: votedRows.length ? "ranked places" : "shortlisted places" },
+        ]}
+        updated={updated}
+      />
       {contestRange && (
         <p className="rk-contest-range"><b>Featured voting window:</b> {contestRange}. Rankings remain open; use This week or This month for the freshest results.</p>
       )}

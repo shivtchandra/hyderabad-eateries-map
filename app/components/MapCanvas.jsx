@@ -341,7 +341,10 @@ export default function MapCanvas({
     // there are more than 12 matching spots, keeping the map clean and preventing pin piles.
     // If there are 12 or fewer spots (e.g. precise search), skip straight to individual pins.
     const isSmallSet = filtered.length <= 12;
-    const showAreaBlobs = zoom <= AREA_ZOOM_MAX && !isSmallSet;
+    // Recommended is already a deliberately small, high-signal set. Keep every
+    // matching venue visible as a photo pin or dot at city zoom instead of
+    // replacing it with area blobs (whose collision pass can hide whole areas).
+    const showAreaBlobs = zoom <= AREA_ZOOM_MAX && !isSmallSet && !recommendationMode;
 
     // ---------- Neighbourhood view ----------
     if (showAreaBlobs) {
@@ -585,7 +588,7 @@ export default function MapCanvas({
         if (e.id === selectedIdRef.current) el.classList.add("active");
       }
     }
-  }, [ready, eateries, filtered, passport, selectedId, featuredIds, viewTick, onSelect, onAreaEnter, onHeroesChange, heroCap, poolSize, hideSpots]);
+  }, [ready, eateries, filtered, passport, selectedId, featuredIds, viewTick, onSelect, onAreaEnter, onHeroesChange, heroCap, poolSize, hideSpots, recommendationMode]);
 
   return (
     <>

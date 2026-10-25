@@ -11,8 +11,8 @@ import { fileURLToPath } from "url";
 import { getRecommendations, dishAreaPages } from "../lib/recommendations.js";
 import { dishView, monthLabel } from "../lib/dishPageView.js";
 import { askPages, askPage, askStats } from "../lib/askPages.js";
-import { allAreaCategoryCombinations, getEateries } from "../lib/siteData.js";
-import { recommendationsEnabled } from "../lib/recommendationShared.js";
+import { getEateries } from "../lib/siteData.js";
+import { GEO_GUIDES } from "../lib/geoGuides.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://eats.mapmyhyd.com";
@@ -20,37 +20,29 @@ const START = "<!-- generated:start -->", END = "<!-- generated:end -->";
 const month = monthLabel();
 const stats = askStats();
 
-const enabled = recommendationsEnabled();
-const lines = [START];
-lines.push("", "## High-impression search guides", "", `- Best biryani in Hyderabad, ordered only by Mapping HYD community votes: ${SITE}/picks/biryani`);
-const areas = enabled ? dishAreaPages() : [];
-const breakfastAreas = allAreaCategoryCombinations().filter((entry) => entry.categorySlug === "breakfast");
-if (breakfastAreas.length) {
-  lines.push("", "### Breakfast by area", "");
-  for (const area of breakfastAreas) {
-    lines.push(`- Breakfast places in ${area.area}: ${area.spotCount} mapped places. ${SITE}/areas/${area.areaSlug}/breakfast`);
+const lines = [START, "", `## Best in Hyderabad right now (updated ${month})`, "",
+  `Counts are distinct r/hyderabad accounts recommending each place for the dish (${stats.comments.toLocaleString("en-IN")} comments, ${stats.threads.toLocaleString("en-IN")} threads, last ${stats.months} months), plus weekly Eats ranking votes. Method: ${SITE}/about/how-we-pick`, ""];
+for (const d of getRecommendations().dishes) {
+  const v = dishView(d.id);
+  if (!v) continue;
+  lines.push(`- ${v.h1}: ${v.leaders.slice(0, 5).map((l) => `${l.name}${l.mentions ? ` (${l.mentions})` : ""}`).join(", ")}. ${SITE}/picks/${d.id}`);
+}
+const areas = dishAreaPages();
+if (areas.length) {
+  lines.push("", "### By area", "");
+  for (const a of areas) {
+    const v = dishView(a.dish, a.area);
+    if (v) lines.push(`- ${v.h1}: ${v.leaders.slice(0, 3).map((l) => l.name).join(", ")}. ${SITE}/picks/${a.dish}/${a.area}`);
   }
 }
-if (enabled) {
-  lines.push("", `## Best in Hyderabad right now (updated ${month})`, "",
-    `Counts are distinct r/hyderabad accounts recommending each place for the dish (${stats.comments.toLocaleString("en-IN")} comments, ${stats.threads.toLocaleString("en-IN")} threads, last ${stats.months} months). Editorial evidence can affect eligibility or ties but never increases this displayed count. Method: ${SITE}/about/how-we-pick`, "");
-  for (const d of getRecommendations().dishes) {
-    const v = dishView(d.id);
-    if (!v) continue;
-    lines.push(`- ${v.h1}: ${v.leaders.slice(0, 5).map((l) => `${l.name}${l.mentions ? ` (${l.mentions})` : ""}`).join(", ")}. ${SITE}/picks/${d.id}`);
-  }
-  if (areas.length) {
-    lines.push("", "### By area", "");
-    for (const a of areas) {
-      const v = dishView(a.dish, a.area);
-      if (v) lines.push(`- ${v.h1}: ${v.leaders.slice(0, 3).map((l) => l.name).join(", ")}. ${SITE}/picks/${a.dish}/${a.area}`);
-    }
-  }
-  lines.push("", "## Questions answered from r/hyderabad", "");
-  for (const p of askPages()) {
-    const q = askPage(p.slug);
-    if (q) lines.push(`- ${q.h1} ${q.answer} ${SITE}/ask/${p.slug}`);
-  }
+lines.push("", "## Questions answered from r/hyderabad", "");
+for (const p of askPages()) {
+  const q = askPage(p.slug);
+  if (q) lines.push(`- ${q.h1} ${q.answer} ${SITE}/ask/${p.slug}`);
+}
+lines.push("", "## Local cuisine, dish and occasion answers", "");
+for (const guide of GEO_GUIDES) {
+  lines.push(`- ${guide.title}: ${guide.answer} ${SITE}/guides/${guide.slug}`);
 }
 lines.push("", END);
 const block = lines.join("\n");
@@ -63,4 +55,4 @@ for (const file of ["public/llms.txt", "public/llms-full.txt"]) {
   text = text.includes(START) ? text.replace(new RegExp(`${START}[\\s\\S]*?${END}`), block) : `${text.trimEnd()}\n\n${block}\n`;
   fs.writeFileSync(f, text);
 }
-console.log(`[llms] ${enabled ? getRecommendations().dishes.length : 0} dishes · ${areas.length} dish-area pages · ${breakfastAreas.length} breakfast-area pages · ${enabled ? askPages().length : 0} answers · ${rounded} spots`);
+console.log(`[llms] ${getRecommendations().dishes.length} dishes · ${areas.length} area pages · ${askPages().length} answers · ${rounded} spots`);

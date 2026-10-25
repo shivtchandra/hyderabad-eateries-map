@@ -30,7 +30,11 @@ export async function generateMetadata({ params }) {
     });
   }
   const v = recommendationsEnabled() && dishView(params.dish);
-  return v ? pageMeta({ title: v.title, description: v.answer, path: `/picks/${v.dish.id}` }) : { title: "Dish guide not found", robots: { index: false } };
+  if (!v) return { title: "Dish guide not found", robots: { index: false } };
+  return {
+    ...pageMeta({ title: v.title, description: v.answer, path: dishDestination(params.dish) }),
+    robots: { index: false, follow: true },
+  };
 }
 
 async function BiryaniOpportunityPage() {

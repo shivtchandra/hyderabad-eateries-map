@@ -7,6 +7,7 @@ import { allAreaPages, allCategoryPages, allAreaCategoryCombinations, getEditori
 import { getSiteUrl } from "../lib/site.js";
 import { askPages } from "../lib/askPages.js";
 import { recommendationsEnabled } from "../lib/recommendationShared.js";
+import { GEO_GUIDE_SLUGS } from "../lib/geoGuides.js";
 
 export const dynamic = "force-dynamic";
 
@@ -22,12 +23,13 @@ const GUIDE_SLUGS = [
   "late-night-food-hyderabad-reddit",
   "restaurants-in-sattva-knowledge-city-hyderabad",
   "dishes", // dish guides hub
+  ...GEO_GUIDE_SLUGS,
 ];
 function getGuideSlugs() {
   let found = [];
   try {
     const guidesDir = path.join(process.cwd(), "app", "guides");
-    found = fs.readdirSync(guidesDir).filter((f) => fs.statSync(path.join(guidesDir, f)).isDirectory());
+    found = fs.readdirSync(guidesDir).filter((f) => !f.startsWith("[") && fs.statSync(path.join(guidesDir, f)).isDirectory());
   } catch {}
   return [...new Set([...GUIDE_SLUGS, ...found])];
 }

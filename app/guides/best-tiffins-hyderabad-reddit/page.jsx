@@ -98,7 +98,7 @@ const faqLd = {
       name: "Where can you find authentic Rayalaseema Ghee Karam Dosa in Hyderabad?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Panchakattu Dosa in Begumpet and Nallagandla specializes in fiery Rayalaseema-style ghee karam dosas with signature red garlic paste.",
+        text: "Panchakattu Dosa in Begumpet and Nallagandla specializes in Rayalaseema-style dosas. Mapping HYD's personal must-order recommendation is the Neyyi Kaaram Palyam Dosa.",
       },
     },
     {
@@ -173,7 +173,7 @@ const SPOTS = [
     href: "/spot/panchakattu-dosa-begumpet",
     verdict:
       "The benchmark destination for rich, spicy Andhra & Rayalaseema style breakfast. Generous pure ghee roasting, fiery red garlic karam chutney spread across the crepe, and golden crisp edges.",
-    whatToOrder: "Panchakattu Special Ghee Karam Dosa, Upma Dosa, and Kumbakonam Filter Coffee.",
+    whatToOrder: "Neyyi Kaaram Palyam Dosa first, followed by the Panchakattu Special Ghee Karam Dosa, Upma Dosa, and Kumbakonam Filter Coffee.",
     timingTip: "The spice level is bold and authentic; ask baristas for mild if you have a sensitive palate.",
     quote: "“When you want a real ghee-roasted karam dosa that wakes you up, Panchakattu is the most authentic pick in town.”",
   },

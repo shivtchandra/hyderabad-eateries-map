@@ -449,22 +449,6 @@ const REDDIT_EATERIES = [
     redditTip: "One of the most praised Mandi spots on r/hyderabad. The mutton falls right off the bone."
   },
   {
-    name: "Joint Mandi",
-    area: "Gachibowli",
-    address: "Near Biodiversity Park, Gachibowli, Hyderabad, Telangana 500032",
-    category: "local",
-    tier: "established",
-    lat: 17.4321,
-    lng: 78.3712,
-    priceLevel: 2,
-    costForTwo: 800,
-    tags: ["mandi", "arabian", "ambience", "group-dining"],
-    amenities: ["floor-seating", "family", "parking"],
-    mustTry: "Special Arabian Mix Mandi, Mutton Juicy Mandi, Broasted Mandi",
-    blurb: "Popular gathering spot for groups and families seeking rich Arabic platters and atmospheric seating.",
-    redditTip: "Great for big groups. The chicken juicy mandi platter feeds four generously."
-  },
-  {
     name: "Mandi @ 36",
     area: "Jubilee Hills",
     address: "Road No. 36, Jubilee Hills, Hyderabad, Telangana 500033",

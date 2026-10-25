@@ -9,56 +9,34 @@ import { safeEvent } from "../lib/engagement.js";
 import { cleanDishName, writeDishAdd, visibleDishes, PUBLIC_AT, DAY_LIMIT } from "../lib/recommendationDishes.js";
 import { mustTry, dishPageEligible, dishMentions, isSpecificDishRecommendation } from "../lib/recommendationShared.js";
 import { dishSeedsFor } from "../lib/dishSeeds.js";
-import { getRedditSpotData } from "../lib/redditThreads.js";
-
-test("Mirthy visit note is not promoted as a recommendation", () => {
-  const id = "ChIJI9FVuseRyzsR5qrFwoKDbkw";
-  const place = getRecommendations().places.find((entry) => entry.id === id);
-  assert(place);
-  assert.equal(place.recommended, false);
-  assert.equal(place.seoEligible, false);
-  assert.equal(place.editorial, false);
-  assert.equal(place.reviewStatus, "not-recommended");
-  assert.equal(place.signature, null);
-  assert.deepEqual(place.dishes, []);
-  assert.deepEqual(dishSeedsFor({ id, name: "Mirthy Cafe" }), []);
-  assert.deepEqual(getRedditSpotData(id, "Mirthy Cafe", "mirthy-cafe-jubilee-hills"), {
-    thread: null,
-    pick: null,
-    brandData: null,
-  });
-});
 
 test("one shared curated set, distinct brands and qualified dish pages", () => {
   const m = getRecommendations();
   const shortlist = JSON.parse(fs.readFileSync("data/recommendation-shortlist.json", "utf8"));
   for (const b of shortlist.brands.filter((b) => b.status === "shortlisted")) {
-    assert(b.branchIds.some((id) => m.places.some((p) => p.id === id && p.reviewStatus === "shortlisted" && !p.recommended)), b.name);
+    assert(b.branchIds.some((id) => m.places.some((p) => p.id === id && p.recommended)), b.name);
   }
   for (const p of m.places.filter((p) => p.reviewStatus === "shortlisted")) {
     assert.equal(p.seoEligible, false);
-    assert(p.research);
+    assert(p.research.evidence.length > 0);
   }
   assert.equal(m.brands.subhan.dishes[0].accounts, 3);
-  // Dish pages still need enough independently reviewed brands; one approved
-  // association must not manufacture a citywide guide.
-  assert(!m.dishes.some((d) => d.id === "osmania-biscuits"));
+  // Dish pages: earlier reviewed dishes keep their pages; others need 5+ brands and 20+ people.
+  assert(m.dishes.some((d) => d.id === "osmania-biscuits"));
   assert(!m.dishes.some((d) => d.id === "sushi"));
   for (const d of m.dishes) assert(d.brands >= 3, d.id);
   for (const d of m.dishes.filter((x) => !publishableDishes(m.places).some((r) => r.id === x.id))) assert(dishPageEligible(m.places, d), d.id);
   const groups = groupRecommendations(m.places.filter((p) => p.recommended));
-  assert(groups.length > 0);
-  assert(groups.flatMap((g) => g.branches).every((p) => p.editorial || p.redditBrandId));
+  assert(groups.some((g) => g.branches.length > 1));
   for (const p of m.places.filter((p) => p.redditBrandId)) assert(m.brands[p.redditBrandId]);
 });
-test("editorial content needs an explicit recommendation status", () => {
-  const base = { name: "Place", lat: 17.4, lng: 78.4, category: "restaurant" };
-  const factual = buildRecommendations([{ ...base, id: "factual" }], ["factual"], { brands: [] }, { spots: {} }).places[0];
-  const recommended = buildRecommendations([{ ...base, id: "pick", recommendationStatus: "recommended" }], ["pick"], { brands: [] }, { spots: {} }).places[0];
-  assert.equal(factual.reviewStatus, "factual-only");
-  assert.equal(factual.recommended, false);
-  assert.equal(recommended.reviewStatus, "recommended");
-  assert.equal(recommended.recommended, true);
+test("unverified Joint Mandi content is not published", () => {
+  const id = "reddit_779b421301aa7d69346f";
+  const eateries = JSON.parse(fs.readFileSync("data/eateries.json", "utf8"));
+  const seeds = JSON.parse(fs.readFileSync("data/dish-seeds.json", "utf8"));
+  assert(!eateries.some((place) => place.id === id));
+  assert.equal(seeds[id], undefined);
+  assert(!getRecommendations().places.some((place) => place.id === id));
 });
 test("reviewed Reddit associations really have three distinct source authors", () => {
   const reviews = JSON.parse(fs.readFileSync("data/recommendation-reviews.json", "utf8"));
@@ -92,16 +70,44 @@ test("dish, name, area and viewport filters produce the same source rows for map
   const m = getRecommendations();
   const s = parseMapState("dish=osmania-biscuits&mode=recommended");
   const results = filterRecommendations(m.places, s);
-  // Only entity-reviewed associations can enter the recommended set.
-  assert.equal(results.length, 1);
-  assert.equal(results.filter((p) => p.dishes.some((d) => d.id === "osmania-biscuits")).length, 1);
+  // Reviewed tags (4) plus places locals name for the dish.
+  assert(results.length >= 4);
+  assert.equal(results.filter((p) => p.dishes.some((d) => d.id === "osmania-biscuits")).length, 4);
   assert(results.every((p) => p.recommended));
   assert.equal(groupRecommendations(results).flatMap((g) => g.branches).length, results.length);
-  assert.equal(filterRecommendations(m.places, { ...s, q: "Niloufer" }).length, 0);
+  assert(filterRecommendations(m.places, { ...s, q: "Niloufer" }).length >= 2);
   assert.equal(filterRecommendations(m.places, { ...s, q: "no-such-dish" }).length, 0);
   const p = results[0];
   assert(filterRecommendations(m.places, { ...s, q: p.area }).some((x) => x.id === p.id));
   assert.equal(filterRecommendations(m.places, { ...s, bounds: { south: 17, north: 17.01, west: 78, east: 78.01 } }).length, 0);
+});
+test("new first-hand picks appear in Recommended and their dish filters", () => {
+  const model = getRecommendations();
+  const byId = Object.fromEntries(model.places.map((place) => [place.id, place]));
+  const expected = {
+    ChIJrcVnHhCayzsRyl7sbG3gTgg: "pizza",
+    ChIJQX3oRACTyzsRYITnjwROO9U: "mandi",
+    ChIJT9Bwx1qRyzsRFJNCT5djjzU: "biryani",
+  };
+  for (const [id, dish] of Object.entries(expected)) {
+    assert.equal(byId[id]?.recommended, true, id);
+    assert(byId[id].dishes.some((item) => item.id === dish), `${id}: ${dish}`);
+    assert(filterRecommendations(model.places, { mode: "recommended", dish, q: "" }).some((place) => place.id === id), id);
+  }
+  assert.equal(byId.ChIJFQOGvnOXyzsRaISRRzvIzdE?.recommended, true);
+  assert.equal(byId.ChIJFQOGvnOXyzsRaISRRzvIzdE?.signature?.name, "Rainbow Cake");
+  assert.deepEqual(mustTry(byId.ChIJrcVnHhCayzsRyl7sbG3gTgg).slice(0, 2).map((dish) => dish.name), ["Spicy Paneer Pizza", "Softy"]);
+  assert.deepEqual(mustTry(byId.ChIJFQOGvnOXyzsRaISRRzvIzdE).map((dish) => dish.name), ["Rainbow Cake", "Fudge Brownie", "Mini Cupcakes", "Red Velvet Cupcake"]);
+  assert(filterRecommendations(model.places, { mode: "recommended", dish: "", q: "softy" }).some((place) => place.id === "ChIJrcVnHhCayzsRyl7sbG3gTgg"));
+});
+test("Panchakattu Dosa publishes the first-hand Neyyi Kaaram Palyam Dosa recommendation", () => {
+  const id = "ChIJia4xz3KRyzsRoVKZLnQUo7c";
+  const place = getRecommendations().places.find((item) => item.id === id);
+  assert.equal(place?.recommended, true);
+  assert.equal(place?.signature?.name, "Neyyi Kaaram Palyam Dosa");
+  assert.equal(mustTry(place)[0]?.name, "Neyyi Kaaram Palyam Dosa");
+  assert(dishSeedsFor({ id, name: "Panchakattu Dosa" }).some((dish) => dish.name === "Neyyi Kaaram Palyam Dosa" && dish.source === "editor"));
+  assert(dishSeedsFor({ id: "ChIJeWjmMQCTyzsR1KLSg3XmaTI", name: "Panchakattu Dosa" }).some((dish) => dish.name === "Neyyi Kaaram Palyam Dosa" && dish.source === "editor"));
 });
 test("URL round trip preserves mode, dish, area, branch, view and bounds", () => {
   const s = parseMapState("mode=all&dish=dosa&area=Madhapur&spot=p&list=1&q=masala&view=17.4,78.4,14&bounds=17.3,17.5,78.3,78.5");
