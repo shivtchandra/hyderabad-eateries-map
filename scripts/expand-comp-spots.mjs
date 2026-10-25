@@ -197,12 +197,12 @@ async function main() {
     };
   });
 
-  // Target all spots with Swiggy offers
-  const swiggySpots = Object.entries(spots).filter(([id, s]) => s.swiggy?.hasOffers);
-  console.log(`Found ${swiggySpots.length} spots with Swiggy offers.`);
+  // Target all spots with Swiggy offers OR existing District URLs
+  const candidateSpots = Object.entries(spots).filter(([id, s]) => s.swiggy?.hasOffers || s.district?.url);
+  console.log(`Found ${candidateSpots.length} candidate spots (Swiggy offers or District URLs).`);
 
   const targets = [];
-  for (const [id, s] of swiggySpots) {
+  for (const [id, s] of candidateSpots) {
     let slug = null;
     if (s.district?.url) {
       slug = s.district.url.replace(/^.*\/hyderabad\//, "").replace(/\/+$/, "");
