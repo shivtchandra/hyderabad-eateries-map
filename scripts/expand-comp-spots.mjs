@@ -38,6 +38,33 @@ const HYD_LOCALITIES = new Set([
   "kollur", "tellapur", "nallagandla", "hafeezpet", "khajaguda", "film"
 ]);
 
+const CLUSTERS = [
+  new Set(["financial", "district", "gachibowli", "nanakramguda", "gowlidoddy", "waverock"]),
+  new Set(["hitec", "city", "madhapur", "kondapur", "whitefields", "inorbit"]),
+  new Set(["jubilee", "hills", "film", "nagar"]),
+  new Set(["banjara", "hills", "somajiguda", "panjagutta", "punjagutta", "irrum", "manzil"]),
+  new Set(["begumpet", "prakash", "nagar", "kundanbagh", "greenlands"]),
+  new Set(["sainikpuri", "as", "rao", "nagar", "ecil", "kapra", "dr as rao"]),
+  new Set(["secunderabad", "karkhana", "marredpally", "trimulgherry", "bowenpally", "sd", "road"]),
+  new Set(["himayatnagar", "himayath", "nagar", "narayanguda", "hyderguda", "basheer", "bagh"]),
+  new Set(["charminar", "old", "city", "ghansi", "bazaar", "madina", "nayapul"]),
+  new Set(["gandipet", "narsingi", "kokapet", "manikonda", "puppetlaguda"]),
+  new Set(["lb", "nagar", "saroornagar", "nagole", "dilsukhnagar", "kothapet"]),
+  new Set(["kukatpally", "kphb", "nizampet", "miyapur", "chanda", "nagar"]),
+];
+
+function sameCluster(a, b) {
+  for (const c of CLUSTERS) {
+    let hasA = false, hasB = false;
+    for (const t of c) {
+      if (a.has(t)) hasA = true;
+      if (b.has(t)) hasB = true;
+    }
+    if (hasA && hasB) return true;
+  }
+  return false;
+}
+
 function toMinutes(t) {
   const m = t.trim().match(/^(\d{1,2})(?::(\d{2}))?\s*(AM|PM)$/i);
   if (!m) return null;
@@ -205,17 +232,18 @@ async function main() {
             else foreignLocHit++;
           }
         }
+        const clusterHit = sameCluster(venueLocTok, item.tok);
 
-        // Heavy penalty if foreign locality without venue locality
-        if (venueLocTok.size > 0 && foreignLocHit > 0 && venueLocHit === 0) continue;
+        // Heavy penalty if foreign locality without venue locality or cluster
+        if (venueLocTok.size > 0 && foreignLocHit > 0 && venueLocHit === 0 && !clusterHit) continue;
 
-        const score = nameScore * 10 + venueLocHit * 8 - foreignLocHit * 12;
+        const score = nameScore * 10 + venueLocHit * 8 + (clusterHit ? 4 : 0) - (foreignLocHit && !clusterHit ? 12 : 0);
         if (!best || score > best.score) {
           best = { slug: item.slug, score };
         }
       }
 
-      if (best && best.score > 5) {
+      if (best && best.score > 6) {
         slug = best.slug;
       }
     }
