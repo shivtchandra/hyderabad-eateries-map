@@ -45,7 +45,7 @@ printf '\n%s\n' 'export function generateStaticParams() {
   return Object.keys(getDetails()).map((id) => ({ id }));
 }' >> "app/api/eateries/[id]/route.js"
 
-for f in "app/race/this-week/page.jsx" "app/rankings/page.jsx" "app/rankings/[slug]/page.jsx" "app/picks/[dish]/page.jsx" "app/sitemap.js"; do
+for f in "app/race/this-week/page.jsx" "app/rankings/page.jsx" "app/rankings/[slug]/page.jsx" "app/rankings/[slug]/in/[area]/page.jsx" "app/picks/[dish]/page.jsx" "app/sitemap.js"; do
   grep -q 'export const dynamic = "force-dynamic";' "$f" || { echo "expected force-dynamic in $f" >&2; exit 1; }
   perl -pi -e 's/export const dynamic = "force-dynamic";/export const dynamic = "force-static";/' "$f"
 done
