@@ -1,22 +1,21 @@
 /**
  * Swiggy Dineout offers for Hyderabad spots, merged into data/curated-offers.json.
  *
- * How it works (all plain GETs of Swiggy's own server-rendered pages):
- *   1. /dineout links ~40 "…-dineout-near-me" collection pages. Each embeds
- *      __NEXT_DATA__ with ~15-20 restaurants: name, locality, detail link and the
- *      restaurant's own discount ("Flat 15% off on pre-booking", "applicable
- *      throughout the day").
+ * How it works (all plain GETs of Swiggy's server-rendered city hubs):
+ *   1. /dineout/hyderabad links ~285 locality hubs (/dineout/hyderabad/[area]).
+ *      Each embeds __NEXT_DATA__ with restaurant cards: name, locality, detail
+ *      link and the restaurant's own discount ("Flat 15% off", "on pre-booking").
  *   2. Each restaurant's detail page adds exact lat/long and the bank / coupon /
  *      cashback offers with their minimum bill.
  *   3. Restaurants are matched to our eateries by distance + name, and written to
- *      spots[id].swiggy. District data on the same record is left untouched.
+ *      spots[id].swiggy in data/curated-offers.json. District data on the same
+ *      record is left untouched.
  *
- * IMPORTANT: Swiggy picks the city from the requester's IP (cookies are ignored),
- * so run this from a machine in Hyderabad. On any other city it exits without
- * writing anything.
+ * Runs anywhere (including standard GitHub Actions runners): /dineout/hyderabad
+ * explicitly scopes to Hyderabad regardless of requester IP.
  *
  * Run:  node scripts/fetch-swiggy-dineout.mjs
- *       LIMIT=20 node scripts/fetch-swiggy-dineout.mjs   (quick sample)
+ *       LIMIT=10 node scripts/fetch-swiggy-dineout.mjs   (quick sample)
  */
 
 import fs from "fs";
@@ -28,7 +27,8 @@ const ROOT = path.join(__dirname, "..");
 const OFFERS_FILE = process.env.OFFERS_FILE || path.join(ROOT, "data", "curated-offers.json");
 const EATERIES_FILE = path.join(ROOT, "data", "eateries.json");
 const LIMIT = Number(process.env.LIMIT || Infinity);
-const DELAY_MS = Number(process.env.DELAY_MS || 1500);
+const MAX_LOCALITIES = Number(process.env.MAX_LOCALITIES || 80);
+const DELAY_MS = Number(process.env.DELAY_MS || 1200);
 const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -36,8 +36,15 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 async function getNextData(url) {
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
-      const res = await fetch(url, { headers: { "User-Agent": UA, Accept: "text/html" }, redirect: "follow", signal: AbortSignal.timeout(30000) });
-      if (res.status === 429 || res.status === 202) { await sleep(8000 * (attempt + 1)); continue; }
+      const res = await fetch(url, {
+        headers: { "User-Agent": UA, Accept: "text/html" },
+        redirect: "follow",
+        signal: AbortSignal.timeout(30000),
+      });
+      if (res.status === 429 || res.status === 202) {
+        await sleep(8000 * (attempt + 1));
+        continue;
+      }
       if (!res.ok) return { html: null, data: null };
       const html = await res.text();
       const m = html.match(/<script id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/);
@@ -51,7 +58,13 @@ async function getNextData(url) {
 
 function collectRestaurants(node, out) {
   if (!node || typeof node !== "object") return;
-  if (node.info?.id && node.info?.locality && node.cta?.link) { out.push(node); return; }
+  if (node.info?.id && (node.info?.locality || node.info?.name) && node.cta?.link) {
+    if (node.cta.link.startsWith("/")) {
+      node.cta.link = "https://www.swiggy.com" + node.cta.link;
+    }
+    out.push(node);
+    return;
+  }
   for (const k in node) collectRestaurants(node[k], out);
 }
 
@@ -59,17 +72,19 @@ const num = (s) => (s ? Number(String(s).replace(/,/g, "")) : null);
 
 // The restaurant's own discount, from a listing card.
 function vendorDeal(info) {
-  const v = info.vendorOffer?.vendorOfferInfos?.[0] || info.vendorOffer?.info;
+  const v = info.vendorOffer?.vendorOfferInfos?.[0] || info.vendorOffer?.otherOffersInfo?.[0] || info.vendorOffer?.info;
   const v3 = info.offerInfoV3?.vendorOffer;
   if (!v && !v3) return null;
-  const title = v?.description || v3?.title || v?.title;
+  const title = v3?.title || v?.description || v?.title;
   if (!title) return null;
   const allDayNote = (v?.tnc || []).find((t) => /applicable|valid|slot|between|from|till/i.test(t)) || null;
+  const pctFromTitle = num((title.match(/(\d{1,2})\s*%/) || [])[1]);
+  const flatFromTitle = num((title.match(/₹\s?([\d,]+)/) || [])[1]);
   return {
     title: title.replace(/\s+/g, " ").trim(), // "Flat 15% off"
     on: v3?.subtitle || v?.subtitle || null, // "on pre-booking" | "on walk-in" | "on total bill"
-    pct: v?.discountInfo?.discountType === "DISCOUNT_TYPE_PERCENTAGE" ? v.discountInfo.discountValue : num((title.match(/(\d{1,2})\s*%/) || [])[1]),
-    flat: v?.discountInfo?.discountType === "DISCOUNT_TYPE_FLAT" ? v.discountInfo.discountValue : num((title.match(/₹\s?([\d,]+)/) || [])[1]),
+    pct: pctFromTitle ?? (v?.discountInfo?.discountType === "DISCOUNT_TYPE_PERCENTAGE" ? v.discountInfo.discountValue : null),
+    flat: flatFromTitle ?? (v?.discountInfo?.discountType === "DISCOUNT_TYPE_FLAT" ? v.discountInfo.discountValue : null),
     applicableNow: v?.isOfferApplicableNow ?? null,
     allDay: allDayNote ? /throughout the day/i.test(allDayNote) : null,
     note: allDayNote,
@@ -78,7 +93,7 @@ function vendorDeal(info) {
 
 // Bank / coupon / cashback offers from the detail page's DealAndOfferInfo card.
 function detailOffers(data) {
-  const cards = data?.props?.pageProps?.widgetResponse?.cards || [];
+  const cards = data?.props?.pageProps?.widgetResponse?.cards || data?.props?.pageProps?.widgetResponse?.success?.cards || [];
   const entity = cards.find((c) => /EntityInfoWithMasthead/.test(c.card?.card?.["@type"] || ""))?.card?.card?.info;
   const deal = cards.find((c) => /DealAndOfferInfo/.test(c.card?.card?.["@type"] || ""))?.card?.card;
   const cardOffers = [];
@@ -98,8 +113,8 @@ function detailOffers(data) {
     const dc = seg.dineCashInfo?.offers?.[0];
     if (dc?.title) cashback = `${dc.title} ${dc.description || ""}`.trim();
   }
-  const lat = Number(entity?.locationInfo?.lat);
-  const lng = Number(entity?.locationInfo?.long);
+  const lat = Number(entity?.locationInfo?.lat ?? entity?.locationInfo?.latitude);
+  const lng = Number(entity?.locationInfo?.long ?? entity?.locationInfo?.lng ?? entity?.locationInfo?.longitude);
   return { lat: Number.isFinite(lat) ? lat : null, lng: Number.isFinite(lng) ? lng : null, cardOffers, cashback };
 }
 
@@ -135,22 +150,66 @@ function matchEatery(sw, eateries) {
   return best;
 }
 
+const PRIORITY_SLUGS = [
+  "jubilee-hills", "banjara-hills", "gachibowli", "madhapur", "hitech-city",
+  "kondapur", "begumpet", "himayatnagar", "secunderabad", "kukatpally",
+  "somajiguda", "film-nagar", "financial-district", "sindhi-colony",
+  "abids", "malakpet", "dilsukhnagar", "lb-nagar", "tarnaka", "ecil",
+  "kompally", "sainikpuri", "nallagandla", "manikonda", "miyapur",
+];
+
 async function main() {
-  const home = await getNextData("https://www.swiggy.com/dineout");
-  const city = home.data?.props?.pageProps?.addressObj?.city;
-  if (city !== "Hyderabad") {
-    console.log(`Swiggy served city "${city || "unknown"}", not Hyderabad. Run this from a Hyderabad connection. Nothing written.`);
+  const START_URL = "https://www.swiggy.com/dineout/hyderabad";
+  const home = await getNextData(START_URL);
+  if (!home.data && !home.html) {
+    console.error("Failed to load Swiggy Dineout Hyderabad page.");
     return;
   }
-  const collections = [...new Set([
-    "https://www.swiggy.com/dineout",
-    ...[...home.html.matchAll(/href="(https:\/\/www\.swiggy\.com\/[a-z0-9-]+-dineout-near-me)"/g)].map((m) => m[1]),
-  ])];
-  console.log(`Swiggy city OK (Hyderabad). ${collections.length} collection pages.`);
+  const city = home.data?.props?.pageProps?.addressObj?.city;
+  if (city && city !== "Hyderabad") {
+    console.log(`Swiggy served city "${city}", not Hyderabad. Nothing written.`);
+    return;
+  }
+
+  const homeCards = home.data?.props?.pageProps?.widgetResponse?.success?.cards || home.data?.props?.pageProps?.widgetResponse?.cards || [];
+  const localityInterlinks = [];
+  for (const c of homeCards) {
+    if (c.card?.card?.["@type"]?.includes("InterlinkingContent")) {
+      for (const item of c.card?.card?.content || []) {
+        if (item.link && /^https:\/\/www\.swiggy\.com\/dineout\/hyderabad\/[a-z0-9-]+$/.test(item.link)) {
+          if (!item.link.endsWith("-restaurants") && !item.link.includes("-store-")) {
+            localityInterlinks.push(item.link);
+          }
+        }
+      }
+    }
+  }
+
+  const htmlLinks = [
+    ...[...(home.html || "").matchAll(/href="(https:\/\/www\.swiggy\.com\/dineout\/hyderabad\/[a-z0-9-]+)"/g)]
+      .map((m) => m[1])
+      .filter((l) => !l.endsWith("-restaurants") && !l.includes("-store-")),
+    ...[...(home.html || "").matchAll(/href="(https:\/\/www\.swiggy\.com\/[a-z0-9-]+-dineout-near-me)"/g)].map((m) => m[1]),
+  ];
+
+  const allLocalities = [...new Set([...localityInterlinks, ...htmlLinks])];
+  allLocalities.sort((a, b) => {
+    const slugA = a.split("/").pop() || "";
+    const slugB = b.split("/").pop() || "";
+    const scoreA = PRIORITY_SLUGS.findIndex((p) => slugA.includes(p));
+    const scoreB = PRIORITY_SLUGS.findIndex((p) => slugB.includes(p));
+    if (scoreA !== -1 && scoreB !== -1) return scoreA - scoreB;
+    if (scoreA !== -1) return -1;
+    if (scoreB !== -1) return 1;
+    return 0;
+  });
+
+  const collections = [START_URL, ...allLocalities.slice(0, MAX_LOCALITIES)];
+  console.log(`Swiggy city OK (Hyderabad). Crawling ${collections.length} hubs (out of ${allLocalities.length} discovered).`);
 
   const byId = new Map();
   for (const url of collections) {
-    const { data } = url.endsWith("/dineout") ? home : await getNextData(url);
+    const { data } = url === START_URL ? home : await getNextData(url);
     const found = [];
     collectRestaurants(data, found);
     for (const r of found) {
@@ -158,21 +217,29 @@ async function main() {
       if (!byId.has(r.info.id)) byId.set(r.info.id, r);
     }
     console.log(`  ${url.split("/").pop()}: ${found.length} (unique so far ${byId.size})`);
-    if (!url.endsWith("/dineout")) await sleep(DELAY_MS);
+    if (url !== START_URL) await sleep(DELAY_MS);
   }
 
   const eateries = JSON.parse(fs.readFileSync(EATERIES_FILE, "utf8")).filter((e) => e.status === "approved");
   const results = [];
   let i = 0;
-  for (const r of [...byId.values()].slice(0, LIMIT)) {
+  const candidateRestaurants = [...byId.values()].slice(0, LIMIT);
+  for (const r of candidateRestaurants) {
     i++;
     const { data } = await getNextData(r.cta.link);
     const det = detailOffers(data);
     await sleep(DELAY_MS);
-    if (det.lat == null) { console.log(`[${i}] ${r.info.name}: no location, skipped`); continue; }
+    if (det.lat == null) {
+      console.log(`[${i}/${candidateRestaurants.length}] ${r.info.name}: no location, skipped`);
+      continue;
+    }
     const match = matchEatery({ name: r.info.name, lat: det.lat, lng: det.lng }, eateries);
     const deal = vendorDeal(r.info);
-    console.log(`[${i}/${Math.min(byId.size, LIMIT)}] ${r.info.name} (${r.info.locality}) -> ${match ? `${match.e.name} ${Math.round(match.d)}m` : "no match"} | ${deal?.title || "no own deal"} | ${det.cardOffers.length} card offers`);
+    console.log(
+      `[${i}/${candidateRestaurants.length}] ${r.info.name} (${r.info.locality || "Hyderabad"}) -> ` +
+      `${match ? `${match.e.name} (${Math.round(match.d)}m)` : "no match"} | ` +
+      `${deal?.title || "no own deal"} | ${det.cardOffers.length} card offers`
+    );
     if (!match) continue;
     results.push({
       eatery: match.e,
@@ -185,10 +252,15 @@ async function main() {
         deal,
         cardOffers: det.cardOffers,
         cashback: det.cashback,
-        // legacy shape for the map sheet / spot page
+        // legacy shape for map sheet / spot page
         offers: [
           ...(deal ? [{ type: "FLAT", title: deal.title, desc: deal.on || "On total bill" }] : []),
-          ...det.cardOffers.slice(0, 3).map((c) => ({ type: "BANK", title: c.title, desc: [c.code ? `Code ${c.code}` : c.via, c.minBill ? `bills of ₹${c.minBill.toLocaleString("en-IN")}+` : null].filter(Boolean).join(", ") })),
+          ...det.cardOffers.slice(0, 3).map((c) => ({
+            type: "BANK",
+            title: c.title,
+            desc: [c.code ? `Code ${c.code}` : c.via, c.minBill ? `bills of ₹${c.minBill.toLocaleString("en-IN")}+` : null].filter(Boolean).join(", "),
+          })),
+          ...(det.cashback ? [{ type: "CASHBACK", title: det.cashback.split(" ")[0] || "Cashback", desc: det.cashback }] : []),
         ].slice(0, 5),
       },
     });
@@ -202,8 +274,11 @@ async function main() {
     seen.add(eatery.id);
     spots[eatery.id] = { name: eatery.name, area: eatery.area || eatery.discoveredIn || "", district: null, ...spots[eatery.id], swiggy };
   }
-  // Swiggy data we didn't see this run is stale: drop it rather than show old deals.
-  for (const [id, s] of Object.entries(spots)) if (!seen.has(id) && s.swiggy) s.swiggy = null;
+
+  // Only drop unseen swiggy data on a full (unlimited) run to avoid wiping on partial/dry runs.
+  if (LIMIT === Infinity) {
+    for (const [id, s] of Object.entries(spots)) if (!seen.has(id) && s.swiggy) s.swiggy = null;
+  }
 
   const has = (s) => s.district?.hasOffers || s.swiggy?.hasOffers;
   fs.writeFileSync(OFFERS_FILE, JSON.stringify({
@@ -216,4 +291,7 @@ async function main() {
   console.log(`\nDone: ${results.length} Swiggy restaurants matched to our spots (of ${byId.size} seen).`);
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

@@ -1,17 +1,23 @@
 name: Dining offers (District + Swiggy Dineout)
 
-# Slot deals change during the day ("FLAT 10% OFF from 5 PM"), so offers refresh
-# every 4 hours instead of once a day. Each run commits data/curated-offers.json,
-# which redeploys the site on Vercel.
+# Dining offers refresh once every morning.
+# Each run commits data/curated-offers.json, which redeploys the site on Vercel.
 #
-# District runs on GitHub's own runners (plain fetch + Jina Reader, no keys).
-# Swiggy Dineout picks the city from the requester's IP, so it can only run from a
-# machine in Hyderabad: a self-hosted runner labelled `hyderabad`. Turn it on by
-# setting the repo variable SWIGGY_RUNNER=true once that runner is registered.
+# Both District and Swiggy Dineout run on standard GitHub Actions runners (ubuntu-latest).
 on:
   schedule:
-    - cron: "30 1,5,9,13 * * *" # 07:00, 11:00, 15:00, 19:00 IST
+    - cron: "30 1 * * *" # 07:00 AM IST (01:30 UTC) once every morning
   workflow_dispatch:
+    inputs:
+      target:
+        description: "Which scraper to run"
+        required: true
+        default: "all"
+        type: choice
+        options:
+          - all
+          - swiggy
+          - district
 
 concurrency:
   group: offers-data
@@ -19,6 +25,7 @@ concurrency:
 
 jobs:
   district:
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.target == 'all' || inputs.target == 'district' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -39,30 +46,29 @@ jobs:
           git add data/curated-offers.json
           git diff --staged --quiet && exit 0
           git commit -m "chore(offers): District refresh"
-          git pull --rebase origin master
+          git pull --rebase origin ${{ github.ref_name }}
           git push
 
-  # Swiggy job paused for now: Swiggy serves offers by IP city, so it needs the
-  # Hyderabad self-hosted runner. Uncomment to enable (also set SWIGGY_RUNNER=true).
-#   swiggy:
-#     needs: district
-#     if: ${{ vars.SWIGGY_RUNNER == 'true' }}
-#     runs-on: [self-hosted, hyderabad]
-#     permissions:
-#       contents: write
-#     timeout-minutes: 40
-#     steps:
-#       - uses: actions/checkout@v4
-#         with:
-#           ref: master
-#       - name: Scrape Swiggy Dineout offers
-#         run: node scripts/fetch-swiggy-dineout.mjs
-#       - name: Commit
-#         run: |
-#           git config user.name  "offers-bot"
-#           git config user.email "actions@github.com"
-#           git add data/curated-offers.json
-#           git diff --staged --quiet && exit 0
-#           git commit -m "chore(offers): Swiggy Dineout refresh"
-#           git pull --rebase origin master
-#           git push
+  swiggy:
+    needs: [district]
+    if: ${{ always() && (github.event_name != 'workflow_dispatch' || inputs.target == 'all' || inputs.target == 'swiggy') && (needs.district.result == 'success' || needs.district.result == 'skipped') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Scrape Swiggy Dineout offers
+        run: node scripts/fetch-swiggy-dineout.mjs
+      - name: Commit
+        run: |
+          git config user.name  "offers-bot"
+          git config user.email "actions@github.com"
+          git add data/curated-offers.json
+          git diff --staged --quiet && exit 0
+          git commit -m "chore(offers): Swiggy Dineout refresh"
+          git pull --rebase origin ${{ github.ref_name }}
+          git push

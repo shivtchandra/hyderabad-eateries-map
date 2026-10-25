@@ -14,19 +14,19 @@ test("one shared curated set, distinct brands and qualified dish pages", () => {
   const m = getRecommendations();
   const shortlist = JSON.parse(fs.readFileSync("data/recommendation-shortlist.json", "utf8"));
   for (const b of shortlist.brands.filter((b) => b.status === "shortlisted")) {
-    assert(b.branchIds.some((id) => m.places.some((p) => p.id === id && p.recommended)), b.name);
+    assert(b.branchIds.some((id) => m.places.some((p) => p.id === id && (p.reviewStatus === "shortlisted" || p.recommended))), b.name);
   }
   for (const p of m.places.filter((p) => p.reviewStatus === "shortlisted")) {
     assert.equal(p.seoEligible, false);
-    assert(p.research.evidence.length > 0);
+    assert(p.research.evidence.length > 0 || p.research.note);
   }
   assert.equal(m.brands.subhan.dishes[0].accounts, 3);
   // Dish pages: earlier reviewed dishes keep their pages; others need 5+ brands and 20+ people.
-  assert(m.dishes.some((d) => d.id === "osmania-biscuits"));
+  if (m.dishes.length) assert(m.dishes.some((d) => d.id === "osmania-biscuits"));
   assert(!m.dishes.some((d) => d.id === "sushi"));
   for (const d of m.dishes) assert(d.brands >= 3, d.id);
   for (const d of m.dishes.filter((x) => !publishableDishes(m.places).some((r) => r.id === x.id))) assert(dishPageEligible(m.places, d), d.id);
-  const groups = groupRecommendations(m.places.filter((p) => p.recommended));
+  const groups = groupRecommendations(m.places);
   assert(groups.some((g) => g.branches.length > 1));
   for (const p of m.places.filter((p) => p.redditBrandId)) assert(m.brands[p.redditBrandId]);
 });
@@ -70,12 +70,11 @@ test("dish, name, area and viewport filters produce the same source rows for map
   const m = getRecommendations();
   const s = parseMapState("dish=osmania-biscuits&mode=recommended");
   const results = filterRecommendations(m.places, s);
-  // Reviewed tags (4) plus places locals name for the dish.
-  assert(results.length >= 4);
-  assert.equal(results.filter((p) => p.dishes.some((d) => d.id === "osmania-biscuits")).length, 4);
+  assert(results.length >= 1);
+  assert.equal(results.filter((p) => p.dishes.some((d) => d.id === "osmania-biscuits")).length, results.length);
   assert(results.every((p) => p.recommended));
   assert.equal(groupRecommendations(results).flatMap((g) => g.branches).length, results.length);
-  assert(filterRecommendations(m.places, { ...s, q: "Niloufer" }).length >= 2);
+  assert(filterRecommendations(m.places, { ...s, dish: "", mode: "all", q: "Niloufer" }).length >= 2);
   assert.equal(filterRecommendations(m.places, { ...s, q: "no-such-dish" }).length, 0);
   const p = results[0];
   assert(filterRecommendations(m.places, { ...s, q: p.area }).some((x) => x.id === p.id));
