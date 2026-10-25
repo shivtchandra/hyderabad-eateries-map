@@ -166,10 +166,7 @@ async function main() {
     return;
   }
   const city = home.data?.props?.pageProps?.addressObj?.city;
-  if (city && city !== "Hyderabad") {
-    console.log(`Swiggy served city "${city}", not Hyderabad. Nothing written.`);
-    return;
-  }
+  console.log(`Requester IP geolocated city: "${city || "unknown"}". Scoping explicitly to Hyderabad hubs.`);
 
   const homeCards = home.data?.props?.pageProps?.widgetResponse?.success?.cards || home.data?.props?.pageProps?.widgetResponse?.cards || [];
   const localityInterlinks = [];
