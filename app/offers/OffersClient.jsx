@@ -27,12 +27,13 @@ function districtStatus(deal, fetchedAt, now) {
   const w = deal?.when;
   if (!w || (w.from == null && w.to == null)) return { state: "anytime", label: "Any time" };
   const range = w.from != null && w.to != null ? `${clock(w.from)} to ${clock(w.to)}` : w.from != null ? `From ${clock(w.from)}` : `Till ${clock(w.to)}`;
-  if (!now || istDay(fetchedAt) !== now.day || (w.day && w.day !== "today")) return { state: "later", label: range };
+  const scheduled = w.day === "tomorrow" ? `Tomorrow · ${range}` : range;
+  if (!now || istDay(fetchedAt) !== now.day || (w.day && w.day !== "today")) return { state: "later", label: scheduled };
   const started = w.from == null || now.min >= w.from;
   const ended = w.to != null && now.min >= w.to;
   if (started && !ended) return { state: "live", label: w.to != null ? `Live till ${clock(w.to)}` : "Live now" };
   if (ended) return { state: "over", label: "Over for today" };
-  return { state: "later", label: range };
+  return { state: "later", label: w.from != null ? `Starts ${clock(w.from)}` : range };
 }
 function swiggyStatus(deal, fetchedAt, now) {
   if (!deal) return null;
@@ -58,21 +59,71 @@ const bestOf = (list, bill = 3000) =>
 
 const short = (d) => (d?.pct ? `${d.pct}% off` : d?.flat ? `${inr(d.flat)} off` : d?.title || "");
 
+function districtDealAtThisTime(item, now, bill) {
+  const deals = districtPublicDeals(item);
+  if (!deals.length) return null;
+  if (!now) return bestOf(deals.filter((deal) => !deal.when?.day), bill);
+  // A slot labelled "today" belongs to the scrape date. Never carry that timed
+  // promise into another day; keep only genuinely untimed offers until refresh.
+  if (istDay(item.district?.fetchedAt) !== now.day) {
+    return bestOf(deals.filter((deal) => !deal.when?.day), bill);
+  }
+  const available = deals.filter((deal) => {
+    const state = districtStatus(deal, item.district?.fetchedAt, now).state;
+    return state === "live" || state === "anytime";
+  });
+  return bestOf(available, bill);
+}
+
+function nextDistrictDeal(item, now, bill, current) {
+  if (!now || istDay(item.district?.fetchedAt) !== now.day) return null;
+  const future = districtPublicDeals(item)
+    .filter((deal) => {
+      if (deal === current || deal.when?.from == null) return false;
+      if (deal.when.day === "tomorrow") return true;
+      return deal.when.day === "today" && deal.when.from > now.min;
+    })
+    .sort((a, b) => {
+      const aDay = a.when.day === "tomorrow" ? 1 : 0;
+      const bDay = b.when.day === "tomorrow" ? 1 : 0;
+      return (aDay - bDay) || (a.when.from - b.when.from) || (savingFor(b, bill) - savingFor(a, bill));
+    });
+  if (!future.length) return null;
+  const nextDay = future[0].when.day;
+  const nextTime = future[0].when.from;
+  return bestOf(future.filter((deal) => deal.when.day === nextDay && deal.when.from === nextTime), bill);
+}
+
+function nextDealLabel(deal) {
+  if (!deal?.when) return null;
+  const day = deal.when.day === "tomorrow" ? "tomorrow at " : "at ";
+  return `Next: ${short(deal)} ${day}${clock(deal.when.from)}`;
+}
+
 function platformDeals(item, now, bill = 3000) {
   const out = [];
-  const dd = bestOf(districtPublicDeals(item), bill);
+  const currentDd = districtDealAtThisTime(item, now, bill);
+  const nextDd = nextDistrictDeal(item, now, bill, currentDd);
+  const dd = currentDd || nextDd;
+  const ddStatus = dd ? districtStatus(dd, item.district?.fetchedAt, now) : null;
+  const ddAvailable = ddStatus?.state === "live" || ddStatus?.state === "anytime";
+  const ddSaving = ddAvailable ? savingFor(dd, bill) : 0;
   if (item.district) {
     out.push({
       key: "district",
       name: "District",
       deal: dd,
       title: dd?.title || (item.district.bankOffers?.length ? "Card offers only" : "No deal today"),
-      sub: dd ? [dd.slotsLeft ? `${dd.slotsLeft} slots left` : null, "pre-book"].filter(Boolean).join(" · ") : null,
-      status: dd ? districtStatus(dd, item.district.fetchedAt, now) : null,
+      sub: dd ? [
+        dd.slotsLeft ? `${dd.slotsLeft} slots left` : null,
+        "pre-book",
+        currentDd && nextDd ? nextDealLabel(nextDd) : null,
+      ].filter(Boolean).join(" · ") : null,
+      status: ddStatus,
       url: item.district.url,
       cta: "Book",
-      saving: savingFor(dd, bill),
-      payable: bill - savingFor(dd, bill),
+      saving: ddSaving,
+      payable: bill - ddSaving,
       checkedAt: item.district.fetchedAt,
     });
   }
@@ -110,8 +161,12 @@ function OfferCard({ item, now, bill, onSelectSpot }) {
   const rows = platformDeals(item, now, bill);
   const cards = allCardOffers(item, bill);
   const both = rows.length === 2 && rows.every((row) => row.deal);
-  const winner = both ? [...rows].sort((a, b) => b.saving - a.saving)[0] : null;
-  const tie = both && rows[0].saving === rows[1].saving;
+  const compared = both ? [...rows].sort((a, b) => b.saving - a.saving) : [];
+  const winner = compared[0] || null;
+  const runnerUp = compared[1] || null;
+  const tie = both && winner.saving === runnerUp.saving;
+  const savingGap = both ? Math.max(0, winner.saving - runnerUp.saving) : 0;
+  const hasComparison = both && winner.saving > 0;
   const bestCard = cards.find((card) => card.saving > 0);
   const img = item.photo ? (item.photo.startsWith("http") ? item.photo : photoPathToCdn(item.photo)) : null;
 
@@ -136,19 +191,22 @@ function OfferCard({ item, now, bill, onSelectSpot }) {
         </div>
       </header>
 
-      {both && (
-        <p className="of-verdict">
-          {tie
-            ? <>Both apps save about <b>{inr(winner.saving)}</b> on this bill</>
-            : <><b>{winner.name}</b> saves about {inr(winner.saving)} on this bill</>}
-        </p>
+      {hasComparison && (
+        <div className={`of-verdict${tie ? " tie" : ""}`}>
+          <span className="of-verdict-label">{tie ? "Same saving" : "Best for this bill"}</span>
+          {tie ? (
+            <><strong>Both save {inr(winner.saving)}</strong><small>You pay {inr(winner.payable)} either way</small></>
+          ) : (
+            <><strong>{winner.name} saves {inr(savingGap)} more</strong><small>Pay {inr(winner.payable)} instead of {inr(runnerUp.payable)}</small></>
+          )}
+        </div>
       )}
 
       <ul className="of-platforms">
         {rows.map((r) => (
-          <li key={r.key} className={`of-plat ${winner && !tie && winner.key === r.key ? "win" : ""}`}>
+          <li key={r.key} className={`of-plat ${r.key}${winner && !tie && winner.key === r.key ? " win" : ""}`}>
             <div className="of-plat-main">
-              <span className="of-plat-name">{r.name}</span>
+              <span className="of-plat-top"><span className="of-plat-name">{r.name}</span>{winner && !tie && winner.key === r.key && <span className="of-plat-winner">Best price</span>}</span>
               <span className="of-plat-title">{r.title}</span>
               <span className="of-plat-sub">
                 {r.status && <span className={`of-when ${r.status.state}`}>{r.status.label}</span>}
@@ -158,7 +216,7 @@ function OfferCard({ item, now, bill, onSelectSpot }) {
             </div>
             <span className="of-plat-side">
               {r.saving > 0 && <span className="of-plat-price"><b>Save {inr(r.saving)}</b><small>Pay {inr(r.payable)}</small></span>}
-              {r.url && <a href={r.url} target="_blank" rel="noopener noreferrer" className="of-plat-cta">{r.cta} →</a>}
+              {r.url && <a href={r.url} target="_blank" rel="noopener noreferrer" className="of-plat-cta"><span>{r.cta}</span><span className="of-plat-arrow" aria-hidden="true">↗</span></a>}
             </span>
           </li>
         ))}

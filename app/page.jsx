@@ -983,7 +983,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
               <header className="deals-panel-head">
                 <span className="deals-panel-mark" aria-hidden="true"><Icon name="ticket" size={25} width={2.1} /></span>
                 <span className="deals-panel-copy">
-                  <span className="deals-panel-kicker">Updated daily</span>
+                  <span className="deals-panel-kicker">Refreshed 4× daily</span>
                   <h2 id="deals-panel-title">Deals</h2>
                   <p>District and Swiggy, compared before you book.</p>
                 </span>

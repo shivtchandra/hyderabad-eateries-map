@@ -2,11 +2,8 @@ import fs from "fs";
 import path from "path";
 import { pageMeta, getSiteUrl } from "../../lib/site.js";
 import { ogImages } from "../../lib/og.js";
-import SiteChrome from "../components/SiteChrome.jsx";
-import BottomNav from "../components/BottomNav.jsx";
-import OffersClient from "./OffersClient.jsx";
+import EateriesApp from "../page.jsx";
 import { spotSlug } from "../../lib/siteData.js";
-import { HubFaq } from "../components/HubAnswer.jsx";
 import { hubJsonLd, todayIso } from "../../lib/hubSeo.js";
 
 // Static: the data is data/curated-offers.json inside the deployment, which only
@@ -117,7 +114,6 @@ export default function OffersPage() {
   };
 
   const updated = (updatedAt && String(updatedAt).slice(0, 10)) || todayIso();
-  const areaCount = new Set(spotsList.map((x) => x.area).filter(Boolean)).size;
   const faqs = [
     { q: "Which app gives better restaurant offers in Hyderabad, Swiggy Dineout or District?", a: "It depends on the restaurant. This page puts both apps' current deals side by side for each spot, so you can pick the bigger saving before you book." },
     { q: "Do bank card offers stack with restaurant deals?", a: "Often, yes: many deals list an extra discount for specific bank cards. Check the card line under each offer and the bill minimum." },
@@ -126,28 +122,11 @@ export default function OffersPage() {
   const hubLd = hubJsonLd({ name: TITLE, description: DESCRIPTION, path: SLUG, updated, faqs });
 
   return (
-    <div style={{ paddingBottom: 84 }}>
+    <>
       {hubLd.map((x, i) => <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(x) }} />)}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
-      <SiteChrome
-        active={SLUG}
-        backFallback="/guides"
-        breadcrumb={[{ href: "/", label: "Home" }, { href: SLUG, label: "Dining Deals & Offers" }]}
-        title="Which app saves you more?"
-        description={`Compare today’s District and Swiggy Dineout offers across ${spotsList.length} Hyderabad restaurants${areaCount ? ` in ${areaCount} areas` : ""}. Set your expected bill and see the rupees saved before you book.`}
-        related={[
-          { href: "/stories", label: "Food stories" },
-          { href: "/rankings", label: "Weekly rankings" },
-          { href: "/areas", label: "Food by area" },
-        ]}
-      >
-        <OffersClient spotsList={spotsList} updatedAt={updatedAt} />
-        <HubFaq faqs={faqs} />
-      </SiteChrome>
-      <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 1300 }}>
-        <BottomNav routed activeKey="deals" />
-      </div>
-    </div>
+      <EateriesApp initialTab="deals" />
+    </>
   );
 }

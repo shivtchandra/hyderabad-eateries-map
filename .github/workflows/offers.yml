@@ -1,12 +1,12 @@
 name: Dining offers (District + Swiggy Dineout)
 
-# Dining offers refresh once every morning.
+# Dining offers refresh through the day so lunch, dinner and next-day slots stay current.
 # Each run commits data/curated-offers.json, which redeploys the site on Vercel.
 #
 # Both District and Swiggy Dineout run on standard GitHub Actions runners (ubuntu-latest).
 on:
   schedule:
-    - cron: "30 1 * * *" # 07:00 AM IST (01:30 UTC) once every morning
+    - cron: "30 1,7,13,17 * * *" # 07:00, 13:00, 19:00 and 23:00 IST
   workflow_dispatch:
     inputs:
       target:
@@ -51,7 +51,7 @@ jobs:
 
   swiggy:
     needs: [district]
-    if: ${{ always() && (github.event_name != 'workflow_dispatch' || inputs.target == 'all' || inputs.target == 'swiggy') && (needs.district.result == 'success' || needs.district.result == 'skipped') }}
+    if: ${{ always() && (github.event_name != 'workflow_dispatch' || inputs.target == 'all' || inputs.target == 'swiggy') }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
