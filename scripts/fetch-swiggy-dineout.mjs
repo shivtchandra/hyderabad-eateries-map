@@ -289,8 +289,9 @@ async function main() {
     spots[eatery.id] = { name: eatery.name, area: eatery.area || eatery.discoveredIn || "", district: null, ...spots[eatery.id], swiggy };
   }
 
-  // Only drop unseen swiggy data on a full (unlimited) run to avoid wiping on partial/dry runs.
-  if (LIMIT === Infinity) {
+  // Only drop unseen swiggy data on a successful full run (at least 50 results)
+  // to avoid wiping verified offers if Swiggy rate-limits, errors, or returns partial responses.
+  if (LIMIT === Infinity && results.length >= 50) {
     for (const [id, s] of Object.entries(spots)) if (!seen.has(id) && s.swiggy) s.swiggy = null;
   }
 

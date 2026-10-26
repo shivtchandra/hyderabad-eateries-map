@@ -264,7 +264,14 @@ async function main() {
     const data = await scrapeDistrictPage(slug);
     const has = data.deals.length > 0 || data.bankOffers.length > 0;
 
-    const hadBefore = spot.district?.hasOffers;
+    const hadBefore = Boolean(spot.district?.hasOffers && spot.district?.deals?.length > 0);
+    // Safety guard: never wipe existing verified deals if a remote run is geo-blocked or empty
+    if (!has && hadBefore) {
+      if (spot.swiggy?.hasOffers && spot.district?.hasOffers) totalCompSpots++;
+      process.stdout.write(`.`);
+      continue;
+    }
+
     spot.district = {
       url: data.url,
       hasOffers: has,
