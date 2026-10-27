@@ -1958,40 +1958,193 @@
     ]
   },
   "ChIJhyCrsTCRyzsRzZ8DTlNXVKA": {
-    "recommendationStatus": "recommended",
+    "author": {
+      "name": "Shiva Chandra",
+      "role": "Mapping HYD Creator",
+      "url": "https://mapmyhyd.com"
+    },
     "reviewedAt": "2026-10-27",
+    "founded": "2015",
+    "verdict": {
+      "score": 8,
+      "outOf": 10,
+      "label": "Late-Night Staple",
+      "blurb": "The car-side window tray format makes it a Jubilee Hills classic. Pair the fiery chicken biryani from Raju Gari Pulao with hot chocolate waffles from Love Laban.",
+      "takeaways": [
+        { "icon": "🚗", "label": "Format", "value": "Car-side window trays & open rooftop" },
+        { "icon": "★", "label": "Top Pair", "value": "Raju Gari Biryani + Love Laban Waffle" },
+        { "icon": "🌙", "label": "Best Time", "value": "10:30 PM - 1:00 AM (Post-dinner)" },
+        { "icon": "💡", "label": "Pro-Tip", "value": "Arrive before midnight on weekends" }
+      ]
+    },
     "signatureDish": {
-      "name": "Chicken Pulao from Raju Gari Pulaos",
-      "why": "The personal favourite at ONE Drive In, Jubilee Hills. It runs on the spicier side, which is the point."
+      "name": "Chicken Biryani / Special Pulao (Raju Gari Pulao)",
+      "why": "Fragrant, spicy Andhra-style chicken biryani / pulao loaded with green chilies, ghee, and roasted cashews."
     },
     "mustOrder": [
       {
-        "name": "Chicken Pulao (Raju Gari Pulaos)",
-        "note": "Order it from the Raju Gari Pulaos counter. It is on the spicier side; that heat is why it is the Mapping HYD favourite here."
+        "name": "Chicken Biryani / Special Pulao (Raju Gari Pulao)",
+        "note": "8.5/10 Fragrant, spicy Andhra-style chicken biryani / pulao loaded with green chilies, ghee, and roasted cashews."
+      },
+      {
+        "name": "Chocolate Waffle (Love Laban)",
+        "note": "9/10 Freshly baked, crisp-edged waffle drenched in warm molten Belgian chocolate."
       }
     ],
-    "regularNote": "At ONE Drive In on Road No. 10, Jubilee Hills, go to the Raju Gari Pulaos counter and order the Chicken Pulao. It is spicier than most pulaos in Hyderabad, and that is exactly why it is the personal favourite here.",
-    "highlight": {
-      "label": "The ONE Drive In order",
-      "text": "Raju Gari Pulaos Chicken Pulao. Spicy, and the personal favourite here."
-    },
-    "author": {
-      "name": "Shiva Chandra",
-      "role": "Mapping HYD"
-    },
+    "stallMenus": [
+      {
+        "stall": "Raju Gari Pulao",
+        "badge": "Andhra Specials",
+        "description": "Known for fiery Andhra-style pulaos, biryanis, and spicy comfort bowls.",
+        "items": [
+          {
+            "name": "Raju Gari Special Chicken Pulao / Biryani",
+            "price": "~₹360",
+            "tag": "Top Pick",
+            "desc": "Spicy chicken roast with fried cashews & ghee rice"
+          },
+          {
+            "name": "Natu Kodi Pulao (Country Chicken)",
+            "price": "~₹420",
+            "desc": "Traditional Andhra style country chicken with fragrant pulao"
+          },
+          {
+            "name": "Chicken Sambar Rice",
+            "price": "~₹280",
+            "tag": "Local Fav",
+            "desc": "Piping hot ghee sambar rice with spicy chicken fry piece"
+          },
+          {
+            "name": "Puri with Keema Curry",
+            "price": "~₹260",
+            "desc": "Fluffy hot puris served with spicy minced chicken/mutton curry"
+          },
+          {
+            "name": "Ghee Karam Dosa / Podi Idli",
+            "price": "~₹140 - ₹160",
+            "desc": "Crispy street-style tiffin with spicy podi & chutney"
+          }
+        ]
+      },
+      {
+        "stall": "Love Laban",
+        "badge": "Desserts & Waffles",
+        "description": "Artisanal Belgian waffles, Turkish kunafas, and Middle Eastern desserts.",
+        "items": [
+          {
+            "name": "Chocolate Waffle",
+            "price": "~₹189",
+            "tag": "Top Pick",
+            "desc": "Fresh hot waffle smothered in melted Belgian dark/milk chocolate"
+          },
+          {
+            "name": "Choco Kunafa Waffle",
+            "price": "~₹209",
+            "tag": "Popular",
+            "desc": "Crispy toasted kunafa crunch layered over warm chocolate waffle"
+          },
+          {
+            "name": "Naked Nutella Waffle",
+            "price": "~₹199",
+            "desc": "Loaded with rich Nutella hazelnut spread"
+          },
+          {
+            "name": "Triple Chocolate Waffle",
+            "price": "~₹199",
+            "desc": "Dark, milk, and white chocolate layered over crisp waffle"
+          },
+          {
+            "name": "Salankatia / Quashtuta",
+            "price": "~₹240 - ₹290",
+            "desc": "Middle Eastern milk cake soaked in flavored cream"
+          }
+        ]
+      },
+      {
+        "stall": "King of Kebabs",
+        "badge": "Grills & Rolls",
+        "description": "Charcoal-grilled kebabs, tandoori starters, and stuffed parathas.",
+        "items": [
+          {
+            "name": "Chicken Kheema Paratha",
+            "price": "~₹220",
+            "tag": "Local Fav",
+            "desc": "Flaky toasted paratha stuffed with spiced minced chicken"
+          },
+          {
+            "name": "Chicken Tikka Roll / Shawarma",
+            "price": "~₹180 - ₹210",
+            "desc": "Charred chicken rolled in rumali roti with garlic mint dip"
+          },
+          {
+            "name": "Tandoori Chicken (Half / Full)",
+            "price": "~₹300 / ₹560",
+            "desc": "Classic spiced bone-in chicken roasted in clay oven"
+          },
+          {
+            "name": "Tangdi Kebab (4 pcs)",
+            "price": "~₹360",
+            "desc": "Juicy chicken drumsticks marinated in spiced yogurt"
+          }
+        ]
+      },
+      {
+        "stall": "The ThickShake Factory & Beverages",
+        "badge": "Drinks & Shakes",
+        "description": "Thick milkshakes, mocktails, and late-night beverages.",
+        "items": [
+          {
+            "name": "Belgian Chocolate Shake",
+            "price": "~₹210",
+            "desc": "Dense chocolate shake topped with dark chocolate chips"
+          },
+          {
+            "name": "Ferrero Rocher Shake",
+            "price": "~₹240",
+            "desc": "Blended hazelnut chocolate with real Ferrero chunks"
+          },
+          {
+            "name": "Classic Mojito / Iced Tea",
+            "price": "~₹140",
+            "desc": "Refreshing mint lime cooler for late evenings"
+          },
+          {
+            "name": "Hyderabad Irani Chai",
+            "price": "~₹50",
+            "desc": "Small glass strong Irani chai"
+          }
+        ]
+      }
+    ],
+    "regularNote": "Car-side service directly to your vehicle is the big draw here, with servers clipping trays right to your windows. If you are coming with friends, the trick is ordering across stalls simultaneously: get your biryani going at Raju Gari Pulao, order kebabs from King of Kebabs, and time the hot chocolate waffle from Love Laban right when you finish dinner. Parking fills up rapidly on Friday and Saturday nights after 11 PM, so arrive slightly before midnight if you want an easy spot.",
+    "originStory": [
+      "ONE Drive In (originally founded as Syala Drive-In) on Road No. 10, Jubilee Hills is one of Hyderabad’s earliest and most iconic open-air food hubs. Operating beside Karur Vysya Bank, it helped define the city’s car-side dining culture, where visitors can park, get service trays attached to car windows, and order across dozens of cuisines from different stalls in one go.",
+      "Instead of running a single kitchen, ONE Drive In functions as a bustling food village hosting specialized stalls: fiery Andhra rice and spicy starters from Raju Gari Pulao, decadent waffles and Turkish sweets from Love Laban, Mughlai kebabs and parathas from King of Kebabs, plus thick shakes, burgers, and street-style snacks. With service stretching well past 1:00 AM, it remains a beloved post-midnight hangout for Hyderabad night owls."
+    ],
     "faq": [
       {
-        "q": "What should you order at ONE Drive In Jubilee Hills?",
-        "a": "Order the Chicken Pulao from the Raju Gari Pulaos counter. It is the personal favourite recommendation at ONE Drive In."
+        "q": "What are the top recommendations at ONE Drive In?",
+        "a": "The top recommendations are the Chicken Biryani / Special Pulao from Raju Gari Pulao and the Chocolate Waffle from Love Laban."
       },
       {
-        "q": "Is the Raju Gari Pulaos chicken pulao spicy?",
-        "a": "Yes, it is on the spicier side. If you like heat, it is the one to get."
+        "q": "What other options do locals order here?",
+        "a": "According to reviews and regulars, other popular local options include Chicken Sambar Rice and Puri with Keema from Raju Gari Pulao, Kheema Parathas from King of Kebabs, and thick shakes from The ThickShake Factory."
       },
       {
-        "q": "Where is ONE Drive In in Hyderabad?",
-        "a": "ONE Drive In is on Road No. 10, Jubilee Hills, beside Karur Vysya Bank, and stays open until 1 am."
+        "q": "What are the timings of ONE Drive In Jubilee Hills?",
+        "a": "ONE Drive In is open every day from 12:00 PM noon to 1:00 AM past midnight."
+      },
+      {
+        "q": "Can you eat inside your car at ONE Drive In?",
+        "a": "Yes! ONE Drive In offers car-side tray service where staff attach trays directly to your car windows so you can dine inside your vehicle, alongside open-air rooftop seating."
       }
-    ]
+    ],
+    "sources": [
+      "https://maps.google.com/?cid=11562215174577135565",
+      "https://www.zomato.com/hyderabad/one-drive-in-jubilee-hills"
+    ],
+    "image": "/spots/one-drive-in.jpg",
+    "seoTitle": "ONE Drive In Jubilee Hills: Menu, Stalls & Timings",
+    "seoDescription": "ONE Drive In on Road No. 10 Jubilee Hills: multi-stall menu, estimated prices, car-side window dining & timings (12 PM – 1 AM). Top picks: Raju Gari Chicken Biryani & Love Laban Waffles."
   }
 }

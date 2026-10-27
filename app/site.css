@@ -365,6 +365,262 @@
 }
 .review-map-link:hover{ background: color-mix(in srgb, var(--violet) 18%, #fff); }
 
+/* ============================================================
+   Author / Editorial Review Take Card (Magazine-Grade)
+   ============================================================ */
+.review-take-card {
+  position: relative;
+  background: var(--cream-hi);
+  border-radius: var(--r-card, 18px);
+  padding: 22px 24px;
+  margin: 0 0 28px;
+  box-shadow: 0 4px 20px -2px rgba(124, 58, 237, 0.08), 0 1px 3px rgba(20, 20, 20, 0.05);
+  border: 1px solid color-mix(in srgb, var(--violet) 22%, var(--line));
+  overflow: hidden;
+}
+
+.review-take-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--violet), var(--pop));
+}
+
+.take-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.take-card-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.take-author-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--violet), var(--violet-deep));
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 850;
+  font-size: 15px;
+  letter-spacing: -0.02em;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.28);
+  flex-shrink: 0;
+}
+
+.take-author-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.take-author-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.take-author-name {
+  font-weight: 750;
+  font-size: 16px;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.take-author-name a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.take-author-name a:hover {
+  color: var(--violet);
+}
+
+.take-verified-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: var(--r-pill);
+  background: #e7f6ee;
+  color: #176b45;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.02em;
+}
+
+.take-author-sub {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.take-score-pill {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 8px 14px;
+  border-radius: var(--r-pill);
+  flex-shrink: 0;
+}
+
+.take-score--high { background: #e7f6ee; color: #176b45; }
+.take-score--mid { background: var(--violet-wash); color: var(--violet-deep); }
+.take-score--low { background: var(--pop-wash); color: var(--pop-deep); }
+
+.take-score-num {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+}
+
+.take-score-denom {
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.75;
+  text-transform: uppercase;
+}
+
+.take-card-body {
+  margin-bottom: 16px;
+}
+
+.take-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--violet);
+}
+
+.take-tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--violet);
+}
+
+.take-quote {
+  margin: 0;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(17px, 2.6vw, 20px);
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.take-pills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+}
+
+.take-pill-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--paper) 35%, var(--cream-hi));
+}
+
+.take-pill-icon {
+  font-size: 18px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.take-pill-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.take-pill-label {
+  font-size: 10px;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.take-pill-val {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Pro-Tip & Ordering Strategy Card */
+.review-insider-tip {
+  margin-top: 20px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--yellow) 15%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--yellow) 40%, transparent);
+}
+
+.review-tip-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #8c5d00;
+}
+
+.review-insider-tip p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 580px) {
+  .take-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .take-score-pill {
+    align-self: flex-start;
+  }
+  .take-pills-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .review-verdict{
   display: grid;
   grid-template-columns: auto 1fr;
@@ -771,11 +1027,12 @@ a.of-card-name:hover{ color: var(--violet-deep); }
 .of-week-day small{ overflow: hidden; max-width: 100%; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
 .of-week-day.confirmed{ color: var(--forest); background: #dff3e8; }
 .of-week-day.observed{ color: var(--violet-deep); background: var(--violet-wash); }
-.of-platforms{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; margin: 0; padding: 0; list-style: none; }
+.of-platforms{ display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 9px; margin: 0; padding: 0; list-style: none; }
 .of-plat{ min-height: 142px; display: flex; align-items: stretch; justify-content: space-between; gap: 12px; padding: 14px; border: 0; border-radius: var(--r-btn); background: var(--cream); }
 .of-plat.win{ background: var(--butter); }
 .of-plat.swiggy .of-plat-name{ color: #e8590c; }
 .of-plat.district .of-plat-name{ color: var(--violet-deep); }
+.of-plat.eazydiner .of-plat-name{ color: #d32f2f; }
 .of-spotlight{ display: grid; gap: 4px; margin: 0 0 16px; padding: 18px 18px 16px; border-radius: 22px 22px 22px 6px; color: #fff; background: var(--violet); text-decoration: none; box-shadow: 0 10px 28px -14px var(--violet); transition: transform var(--dur-1) var(--ease-out); }
 .of-spotlight:active{ transform: scale(.985); }
 .of-spotlight-kicker{ color: var(--yellow); font-size: 10.5px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
@@ -1443,3 +1700,111 @@ a.of-card-name:hover{ color: var(--violet-deep); }
 .area-tiles .guides-jump-tile { min-height: 140px; justify-content: space-between; }
 .area-tile-count { align-self: flex-start; padding: 3px 10px; border-radius: var(--r-pill); background: rgba(255, 255, 255, 0.85); color: var(--ink); font-size: 12px; font-weight: 700; }
 .area-tiles .guides-jump-note { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* ---- Stall Menus & Prices ---- */
+.spot-stall-grid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+@media (min-width: 640px) {
+  .spot-stall-grid{ grid-template-columns: 1fr 1fr; }
+}
+.spot-stall-card{
+  background: var(--cream-hi);
+  border-radius: var(--r-md);
+  padding: 18px 18px 16px;
+  display: flex;
+  flex-direction: column;
+}
+.spot-stall-head{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 12px;
+}
+.spot-stall-title{
+  margin: 0;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.spot-stall-desc{
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+.spot-stall-badge{
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--violet-wash);
+  color: var(--violet-deep);
+  white-space: nowrap;
+}
+.spot-stall-items{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.spot-stall-item{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-top: 1px solid var(--line);
+}
+.spot-stall-item:first-child{
+  border-top: 0;
+}
+.spot-stall-item-info{
+  flex: 1;
+}
+.spot-stall-item-row{
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.spot-stall-item-name{
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.35;
+}
+.spot-stall-item-tag{
+  font-size: 10px;
+  font-weight: 750;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: #e7f6ee;
+  color: #176b45;
+}
+.spot-stall-item-desc{
+  margin: 3px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+.spot-stall-item-price{
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--ink);
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+

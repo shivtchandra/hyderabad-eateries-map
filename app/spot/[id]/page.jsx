@@ -45,6 +45,24 @@ function displayName(name = "") {
   return name.replace(/\s*\[.*?\]\s*$/, "");
 }
 
+function getAuthorInitials(name = "") {
+  if (!name) return "MH";
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+  return name.slice(0, 2).toUpperCase();
+}
+
+function formatVisitDate(dateStr) {
+  if (!dateStr) return null;
+  try {
+    const d = new Date(`${dateStr}T00:00:00+05:30`);
+    if (isNaN(d.getTime())) return dateStr;
+    return `Visited ${d.toLocaleDateString("en-IN", { month: "short", year: "numeric", timeZone: "Asia/Kolkata" })}`;
+  } catch {
+    return dateStr;
+  }
+}
+
 // Refresh prerendered pages daily so "Open today" hours and offers do not go
 // stale, and so on-demand pages get cached rather than rendered per request.
 export const revalidate = 86400;
@@ -208,7 +226,7 @@ export async function generateMetadata({ params }) {
         ? [...rankingCandidates, ...fallbackCandidates]
         : fallbackCandidates;
   // Target max 48-52 chars so with " | Mapping HYD Eats" it stays under 70 chars.
-  const title = candidates.find((t) => t.length <= 48) || candidates.find((t) => t.length <= 54) || candidates[0] || `${cleanName}: Reviews & Menu`;
+  const title = spot.seoTitle || (candidates.find((t) => t.length <= 48) || candidates.find((t) => t.length <= 54) || candidates[0] || `${cleanName}: Reviews & Menu`);
 
   const ratingDetails = !rankingSignal && !hasOwnedReview && !searchProfile && spot.rating
     ? `${spot.rating}★ Google rating (${spot.ratingCount ? spot.ratingCount.toLocaleString("en-IN") : ""} reviews). `
@@ -240,9 +258,9 @@ export async function generateMetadata({ params }) {
   const cleanDescription = rawDescription
     .replace(/—/g, ",")
     .trim();
-  const description = cleanDescription.length <= 175
+  const description = spot.seoDescription || (cleanDescription.length <= 175
     ? cleanDescription
-    : `${cleanDescription.slice(0, 172).replace(/\s+\S*$/, "")}...`;
+    : `${cleanDescription.slice(0, 172).replace(/\s+\S*$/, "")}...`);
 
   const photo = hasSpotPhoto(spot.id) ? spotPhotoUrl(spot.id) : null;
   // Static hosting has no /api/og renderer: share the venue photo, else the site card.
@@ -301,7 +319,7 @@ export default async function SpotPage({ params }) {
       spotOffers = verifiedOffers(parsed.spots?.[spot.id]);
     }
   } catch {}
-  const structuredOffers = ["district", "swiggy"].flatMap((platform) =>
+  const structuredOffers = ["district", "swiggy", "eazydiner"].flatMap((platform) =>
     normalizePlatformOffers(spot.id, platform, spotOffers?.[platform]).filter((offer) => offer.kind === "restaurant" && offer.date && offer.venue.match?.status === "verified")
   );
   const offersLd = structuredOffers.length ? {
@@ -351,11 +369,13 @@ export default async function SpotPage({ params }) {
   ];
   const breadcrumbsLd = breadcrumbJsonLd(breadcrumbItems);
 
-  const heroImg = spot.gallery?.length
-    ? galleryPhotoUrl(spot.gallery[0])
-    : hasSpotPhoto(spot.id)
-      ? spotPhotoUrl(spot.id)
-      : null;
+  const heroImg = spot.image
+    ? spot.image
+    : spot.gallery?.length
+      ? galleryPhotoUrl(spot.gallery[0])
+      : hasSpotPhoto(spot.id)
+        ? spotPhotoUrl(spot.id)
+        : null;
   const galleryRest = spot.gallery?.length > 1 ? spot.gallery.slice(1) : [];
   const directionsUrl = spot.lat != null && spot.lng != null
     ? `https://www.google.com/maps/dir/?api=1&destination=${spot.lat},${spot.lng}`
@@ -452,8 +472,8 @@ export default async function SpotPage({ params }) {
     topRank ? `${displayName(spot.name)} currently ranks #${topRank.rank} for ${topRank.label.toLowerCase()} with ${topRank.votes} of ${topRank.total} local votes.` : null,
     threadRank ? `${displayName(spot.name)} is #${threadRank.rank} for ${threadRank.label.toLowerCase()} in the recorded community result, with ${threadRank.votes} of ${threadRank.total} votes.` : null,
     !topRank && ballots[0] ? `${displayName(spot.name)} is on the Mapping HYD ballot for ${ballots[0].label.toLowerCase()}.` : null,
-    personalTake ? `${spot.author?.name ? `${spot.author.name}'s take` : "Mapping HYD take"}: ${personalTake}` : null,
-    spot.reviewedAt ? `Visited ${new Date(`${spot.reviewedAt}T00:00:00+05:30`).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Kolkata" })}.` : null,
+    personalTake && !isReview ? `${spot.author?.name ? `${spot.author.name}'s take` : "Mapping HYD take"}: ${personalTake}` : null,
+    spot.reviewedAt && !isReview ? `Visited ${new Date(`${spot.reviewedAt}T00:00:00+05:30`).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Kolkata" })}.` : null,
   ].filter(Boolean);
   const quickAnswer = quickAnswerParts.join(" ");
 
@@ -596,10 +616,10 @@ export default async function SpotPage({ params }) {
         </section>
       )}
 
-      {hasConsensus && (
+      {hasConsensus && (!isReview || Boolean(redditData?.thread || redditData?.brandData?.quotes?.praise?.length)) && (
         <section className="sp-says" aria-label="What locals say">
-          <h2>{redditData?.thread || redditData?.brandData?.quotes?.praise?.length ? "What locals say" : "Mapping HYD's take"}</h2>
-          {spot.signatureDish?.name && (
+          <h2>{redditData?.thread || redditData?.brandData?.quotes?.praise?.length ? (isReview ? "What locals say on r/hyderabad" : "What locals say") : "Mapping HYD's take"}</h2>
+          {!isReview && spot.signatureDish?.name && (
             <div className="sp-must">
               <span className="sp-label">Mapping HYD pick</span>
               <b>{spot.signatureDish.name}</b>
@@ -624,40 +644,76 @@ export default async function SpotPage({ params }) {
       {isReview ? (
         <div className="review">
 
-          <div className="review-byline">
-            <div>
-              <p className="review-byline-kicker">Food story</p>
-              <p className="review-byline-name">
-                {spot.author?.url ? (
-                  <>
-                    <a href={spot.author.url} target="_blank" rel="noopener noreferrer" className="review-author-link">
-                      {spot.author.name}
-                    </a>
-                    {spot.author.role ? <> · {spot.author.role}</> : null}
-                  </>
-                ) : (
-                  <>{reviewAuthorName} · {reviewAuthorRole}</>
-                )}
-              </p>
-            </div>
-            <Link href={`/#spot=${encodeURIComponent(spot.id)}`} className="review-map-link">
-              Open on map
-            </Link>
-          </div>
+          {(spot.verdict || spot.highlight?.text || spot.regularNote) && (
+            <section className="review-take-card" aria-label="Editorial verdict">
+              <div className="take-card-header">
+                <div className="take-card-author">
+                  <div className="take-author-avatar" aria-hidden="true">
+                    {getAuthorInitials(spot.author?.name || reviewAuthorName)}
+                  </div>
+                  <div className="take-author-meta">
+                    <div className="take-author-row">
+                      <span className="take-author-name">
+                        {spot.author?.url ? (
+                          <a href={spot.author.url} target="_blank" rel="noopener noreferrer" className="review-author-link">
+                            {spot.author.name}
+                          </a>
+                        ) : (
+                          reviewAuthorName
+                        )}
+                      </span>
+                      <span className="take-verified-pill" title="Verified review">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                        Curator take
+                      </span>
+                    </div>
+                    <div className="take-author-sub">
+                      <span>{reviewAuthorRole}</span>
+                      {spot.reviewedAt && (
+                        <span> · {formatVisitDate(spot.reviewedAt)}</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
 
-          {(spot.verdict || spot.highlight?.text) && (
-            <div className="review-verdict">
-              {spot.verdict?.score != null && (
-                <div className={`review-score review-score--${scoreTone(spot.verdict.score)}`} aria-label={`Score ${spot.verdict.score} out of ${spot.verdict.outOf || 10}`}>
-                  <strong>{spot.verdict.score}</strong>
-                  <span>of {spot.verdict.outOf || 10}</span>
+                {spot.verdict?.score != null ? (
+                  <div className={`take-score-pill take-score--${scoreTone(spot.verdict.score)}`} aria-label={`Score ${spot.verdict.score} out of ${spot.verdict.outOf || 10}`}>
+                    <span className="take-score-num">★ {Number.isInteger(spot.verdict.score) ? spot.verdict.score : spot.verdict.score.toFixed(1)}</span>
+                    <span className="take-score-denom">/ {spot.verdict.outOf || 10}</span>
+                  </div>
+                ) : (
+                  <Link href={`/#spot=${encodeURIComponent(spot.id)}`} className="review-map-link">
+                    Open on map
+                  </Link>
+                )}
+              </div>
+
+              <div className="take-card-body">
+                {(spot.verdict?.label || spot.highlight?.label) && (
+                  <div className="take-tag">
+                    <span className="take-tag-dot" aria-hidden="true"></span>
+                    <span>{spot.verdict?.label || spot.highlight?.label}</span>
+                  </div>
+                )}
+                <blockquote className="take-quote">
+                  &ldquo;{spot.verdict?.blurb || spot.highlight?.text || spot.regularNote}&rdquo;
+                </blockquote>
+              </div>
+
+              {spot.verdict?.takeaways?.length > 0 && (
+                <div className="take-pills-grid">
+                  {spot.verdict.takeaways.map((t, idx) => (
+                    <div key={idx} className="take-pill-item">
+                      <span className="take-pill-icon" aria-hidden="true">{t.icon}</span>
+                      <div className="take-pill-text">
+                        <span className="take-pill-label">{t.label}</span>
+                        <b className="take-pill-val">{t.value}</b>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
-              <div className="review-verdict-copy">
-                <p className="review-verdict-label">{spot.verdict?.label || spot.highlight?.label || "The take"}</p>
-                <p>{spot.verdict?.blurb || spot.highlight?.text}</p>
-              </div>
-            </div>
+            </section>
           )}
 
           {spot.visitItems?.length > 0 && (
@@ -715,19 +771,50 @@ export default async function SpotPage({ params }) {
                 <p key={i} className="review-prose">{para}</p>
               ))}
               {spot.regularNote && (
-                <blockquote className="review-pull">
-                  {spot.regularNote}
-                  <cite>
-                    {spot.author?.url ? (
-                      <a href={spot.author.url} target="_blank" rel="noopener noreferrer" className="review-author-link">
-                        {spot.author.name}
-                      </a>
-                    ) : (
-                      reviewAuthorName
-                    )}
-                  </cite>
-                </blockquote>
+                <div className="review-insider-tip">
+                  <div className="review-tip-header">
+                    <span className="review-tip-icon" aria-hidden="true">💡</span>
+                    <b>Pro-Tip &amp; Ordering Strategy</b>
+                  </div>
+                  <p>{spot.regularNote}</p>
+                </div>
               )}
+            </section>
+          )}
+
+          {spot.stallMenus?.length > 0 && (
+            <section className="spot-section spot-stall-section" aria-label="Stall menus and estimated prices">
+              <div className="review-section-head">
+                <h2>Stall Menus &amp; Estimated Prices</h2>
+                <p>Estimated prices across resident food stalls (counter &amp; delivery rates may vary slightly)</p>
+              </div>
+              <div className="spot-stall-grid">
+                {spot.stallMenus.map((stall, sIdx) => (
+                  <div key={sIdx} className="spot-stall-card">
+                    <div className="spot-stall-head">
+                      <div>
+                        <h3 className="spot-stall-title">{stall.stall}</h3>
+                        {stall.description && <p className="spot-stall-desc">{stall.description}</p>}
+                      </div>
+                      {stall.badge && <span className="spot-stall-badge">{stall.badge}</span>}
+                    </div>
+                    <ul className="spot-stall-items">
+                      {stall.items.map((item, iIdx) => (
+                        <li key={iIdx} className="spot-stall-item">
+                          <div className="spot-stall-item-info">
+                            <div className="spot-stall-item-row">
+                              <span className="spot-stall-item-name">{item.name}</span>
+                              {item.tag && <span className="spot-stall-item-tag">{item.tag}</span>}
+                            </div>
+                            {item.desc && <p className="spot-stall-item-desc">{item.desc}</p>}
+                          </div>
+                          {item.price && <span className="spot-stall-item-price">{item.price.startsWith("~") ? item.price : `~${item.price}`}</span>}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </section>
           )}
 
@@ -811,13 +898,13 @@ export default async function SpotPage({ params }) {
 
           <MustOrder spotId={spot.id} initial={dishSeeds} />
 
-          {spotOffers && (spotOffers.district?.hasOffers || spotOffers.swiggy?.hasOffers) && (
+          {spotOffers && (spotOffers.district?.hasOffers || spotOffers.swiggy?.hasOffers || spotOffers.eazydiner?.hasOffers) && (
             <section className="spot-section sp-offers" aria-label="Offers">
               <div className="sp-offers-title">
                 <h2>Offers checked today</h2>
                 <Link href={`/offers?deal=${encodeURIComponent(spot.id)}`}>Compare this exact branch →</Link>
               </div>
-              {[["district", "District by Zomato", "Book a table"], ["swiggy", "Swiggy Dineout", "Pay the bill"]].map(([k, label, cta]) => spotOffers[k]?.hasOffers && (
+              {[["district", "District by Zomato", "Book a table"], ["swiggy", "Swiggy Dineout", "Pay the bill"], ["eazydiner", "EazyDiner", "Book or Pay"]].map(([k, label, cta]) => spotOffers[k]?.hasOffers && (
                 <div key={k} className="sp-offer">
                   <div className="sp-offer-head">
                     <b>{label}</b>
@@ -884,7 +971,7 @@ export default async function SpotPage({ params }) {
             </section>
           )}
 
-          {spot.signatureDish?.name && (
+          {spot.signatureDish?.name && !hasConsensus && !hasValidRecommendation && (
             <section className="spot-section">
               <h2>What to order</h2>
               <div className="spot-dish">
@@ -913,6 +1000,42 @@ export default async function SpotPage({ params }) {
                   </cite>
                 </blockquote>
               )}
+            </section>
+          )}
+
+          {spot.stallMenus?.length > 0 && (
+            <section className="spot-section spot-stall-section" aria-label="Stall menus and estimated prices">
+              <div className="review-section-head">
+                <h2>Stall Menus &amp; Estimated Prices</h2>
+                <p>Estimated prices across resident food stalls (counter &amp; delivery rates may vary slightly)</p>
+              </div>
+              <div className="spot-stall-grid">
+                {spot.stallMenus.map((stall, sIdx) => (
+                  <div key={sIdx} className="spot-stall-card">
+                    <div className="spot-stall-head">
+                      <div>
+                        <h3 className="spot-stall-title">{stall.stall}</h3>
+                        {stall.description && <p className="spot-stall-desc">{stall.description}</p>}
+                      </div>
+                      {stall.badge && <span className="spot-stall-badge">{stall.badge}</span>}
+                    </div>
+                    <ul className="spot-stall-items">
+                      {stall.items.map((item, iIdx) => (
+                        <li key={iIdx} className="spot-stall-item">
+                          <div className="spot-stall-item-info">
+                            <div className="spot-stall-item-row">
+                              <span className="spot-stall-item-name">{item.name}</span>
+                              {item.tag && <span className="spot-stall-item-tag">{item.tag}</span>}
+                            </div>
+                            {item.desc && <p className="spot-stall-item-desc">{item.desc}</p>}
+                          </div>
+                          {item.price && <span className="spot-stall-item-price">{item.price.startsWith("~") ? item.price : `~${item.price}`}</span>}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </section>
           )}
 
