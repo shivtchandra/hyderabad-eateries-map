@@ -4,7 +4,10 @@ name: Dining offers (District + Swiggy Dineout)
 # Each run commits data/curated-offers.json, which triggers Cloudflare Pages deployment.
 on:
   schedule:
-    - cron: "30 1,7,13,17 * * *" # 07:00, 13:00, 19:00 and 23:00 IST
+    # GitHub delays scheduled runs by hours (the 07:00 IST slot kept starting near noon),
+    # so fire every 3 hours on an off-peak minute. The freshness guard below skips a run
+    # when the data is already under 2 hours old, so late runs never stack up.
+    - cron: "17 21,0,3,6,9,12,15,18 * * *" # every 3h from 02:47 IST
   workflow_dispatch:
     inputs:
       target:
@@ -26,6 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: write
     timeout-minutes: 50
     steps:
       - uses: actions/checkout@v4
@@ -33,15 +37,25 @@ jobs:
         with:
           node-version: 22
 
+      - name: Freshness guard
+        id: fresh
+        if: ${{ github.event_name == 'schedule' }}
+        run: |
+          age=$(node -e 'const j=require("./data/curated-offers.json");console.log(Math.round((Date.now()-Date.parse(j.updatedAt))/60000))')
+          echo "Offers data is ${age} minutes old"
+          if [ "$age" -lt 120 ]; then echo "skip=true" >> "$GITHUB_OUTPUT"; fi
+
       - name: Scrape District offers
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.target == 'all' || inputs.target == 'district' }}
+        if: ${{ steps.fresh.outputs.skip != 'true' && (github.event_name != 'workflow_dispatch' || inputs.target == 'all' || inputs.target == 'district') }}
         run: node scripts/expand-comp-spots.mjs
 
       - name: Scrape Swiggy Dineout offers
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.target == 'all' || inputs.target == 'swiggy' }}
+        if: ${{ steps.fresh.outputs.skip != 'true' && (github.event_name != 'workflow_dispatch' || inputs.target == 'all' || inputs.target == 'swiggy') }}
         run: node scripts/fetch-swiggy-dineout.mjs
 
       - name: Commit and push
+        id: push
+        if: ${{ steps.fresh.outputs.skip != 'true' }}
         run: |
           git config user.name  "offers-bot"
           git config user.email "actions@github.com"
@@ -50,3 +64,12 @@ jobs:
           git commit -m "chore(offers): refresh dining deals"
           git pull --rebase origin ${{ github.ref_name }}
           git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      # workflow_run in static-site.yml stopped firing after this job was consolidated,
+      # so fresh data sat in master without deploying. Dispatch the deploy directly.
+      - name: Deploy site
+        if: ${{ steps.push.outputs.pushed == 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run static-site.yml --ref ${{ github.ref_name }}
