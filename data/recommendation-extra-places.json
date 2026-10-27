@@ -378,5 +378,43 @@
     "detailsUpdatedAt": "2026-10-05T00:00:00.000Z",
     "businessStatus": "OPERATIONAL",
     "statusSource": "https://www.google.com/maps/search/?api=1&query=Chef%20Inam's%20Steak%20House%20n%20KOB&query_place_id=ChIJ5_-DpzCXyzsRfPWcs1NSK0M"
+  },
+  {
+    "id": "ChIJ9bKz2VuRyzsRfCHGn7mDxjg",
+    "placeId": "ChIJ9bKz2VuRyzsRfCHGn7mDxjg",
+    "name": "Hotel Abhiruchi",
+    "status": "approved",
+    "category": "restaurant",
+    "lat": 17.4378247,
+    "lng": 78.3902668,
+    "address": "107, Kavuri Hills Rd, Masthan Nagar, CBI Colony, HITEC City, Hyderabad, Telangana 500081",
+    "discoveredIn": "Madhapur",
+    "rating": 3.9,
+    "ratingCount": 11102,
+    "tags": [],
+    "tier": "local",
+    "createdAt": "2026-10-27T00:00:00.000Z",
+    "detailsUpdatedAt": "2026-10-27T00:00:00.000Z",
+    "businessStatus": "OPERATIONAL",
+    "statusSource": "https://www.google.com/maps/search/?api=1&query=Hotel%20Abhiruchi&query_place_id=ChIJ9bKz2VuRyzsRfCHGn7mDxjg"
+  },
+  {
+    "id": "ChIJhyCrsTCRyzsRzZ8DTlNXVKA",
+    "placeId": "ChIJhyCrsTCRyzsRzZ8DTlNXVKA",
+    "name": "ONE Drive In",
+    "status": "approved",
+    "category": "restaurant",
+    "lat": 17.4344275,
+    "lng": 78.4131158,
+    "address": "Road Number 10 B, Plot 265, Road Number 10, beside Karur Vysya Bank, Jubilee Hills, Hyderabad, Telangana 500033",
+    "discoveredIn": "Jubilee Hills",
+    "rating": 4.2,
+    "ratingCount": 16709,
+    "tags": [],
+    "tier": "local",
+    "createdAt": "2026-10-27T00:00:00.000Z",
+    "detailsUpdatedAt": "2026-10-27T00:00:00.000Z",
+    "businessStatus": "OPERATIONAL",
+    "statusSource": "https://www.google.com/maps/search/?api=1&query=ONE%20Drive%20In&query_place_id=ChIJhyCrsTCRyzsRzZ8DTlNXVKA"
   }
 ]

@@ -121,6 +121,12 @@ try {
 } catch {}
 fs.writeFileSync(path.join(PUBLIC, "featured.json"), JSON.stringify(featured));
 
+// Recos map pins from the CDN. /api/recommendations rebuilds this on every call on
+// the Worker and intermittently 503s, which left the Recos map empty; the app now
+// draws from this file first and only layers live community data from the API.
+const { getRecommendations } = await import("../lib/recommendations.js");
+fs.writeFileSync(path.join(PUBLIC, "recommendations.json"), JSON.stringify(getRecommendations()));
+
 const mb = (p) => (fs.statSync(path.join(PUBLIC, p)).size / 1048576).toFixed(2);
 
 // data/photo-ids.json is the committed manifest of which venues have a photo on

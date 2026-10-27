@@ -20,6 +20,8 @@ const ROOT = path.join(__dirname, "..");
 const OFFERS_FILE = path.join(ROOT, "data", "curated-offers.json");
 const EATERIES_FILE = path.join(ROOT, "data", "eateries.json");
 const CACHE_SITEMAP = path.join(ROOT, "data", "district-sitemap.json");
+const UNMATCHED_FILE = path.join(ROOT, "data", "offer-unmatched.json");
+const MODE = process.env.OFFER_MODE || "active"; // active | verified | discover
 
 const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -137,10 +139,12 @@ async function scrapeDistrictPage(slug) {
       const pctM = rawTitle.match(/(\d+)%/);
       const flatM = rawTitle.match(/₹\s?([\d,]+)/);
       const slotsLeftM = slotsStr.match(/(\d+)\s*slots\s*left/i);
+      const bookingMode = /no booking required|walk-?in|instant offer/i.test(`${whenStr} ${slotsStr}`) ? "walkin" : "prebook";
       deals.push({
         title: rawTitle,
         when: parseWhen(whenStr),
         slotsLeft: slotsLeftM ? Number(slotsLeftM[1]) : null,
+        bookingMode,
         pct: pctM ? Number(pctM[1]) : null,
         flat: flatM ? Number(flatM[1].replace(/,/g, "")) : null,
       });
@@ -174,7 +178,11 @@ async function scrapeDistrictPage(slug) {
 
 function legacyOffers(deals, bankOffers) {
   const out = [];
-  for (const d of deals) out.push({ type: "SLOT", title: d.title, desc: d.when?.label ? `${d.when.label}${d.slotsLeft ? ` (${d.slotsLeft} slots)` : ""}` : "Pre-book offer" });
+  for (const d of deals) out.push({
+    type: d.bookingMode === "walkin" ? "WALK_IN" : "SLOT",
+    title: d.title,
+    desc: d.bookingMode === "walkin" ? "No booking required" : d.when?.label ? `${d.when.label}${d.slotsLeft ? ` (${d.slotsLeft} slots)` : ""}` : "Pre-book offer",
+  });
   for (const b of bankOffers) out.push({ type: "BANK", title: b.title, desc: b.desc || (b.minBill ? `Bills of ₹${b.minBill.toLocaleString("en-IN")}+` : "") });
   return out;
 }
@@ -196,14 +204,29 @@ async function main() {
       tok: new Set(parts.filter(t => t.length > 1 && !STOP.has(t))),
     };
   });
+  const slugIndex = new Map();
+  for (const item of parsedSlugs) {
+    for (const token of item.tok) {
+      const bucket = slugIndex.get(token) || [];
+      bucket.push(item);
+      slugIndex.set(token, bucket);
+    }
+  }
 
-  // Target all spots with Swiggy offers OR existing District URLs
-  const candidateSpots = Object.entries(spots).filter(([id, s]) => s.swiggy?.hasOffers || s.district?.url);
-  console.log(`Found ${candidateSpots.length} candidate spots (Swiggy offers or District URLs).`);
+  const approved = eateries.filter((eatery) => eatery.status === "approved");
+  const candidateSpots = MODE === "discover"
+    ? approved.map((eatery) => [eatery.id, spots[eatery.id] || { name: eatery.name, area: eatery.area || eatery.discoveredIn || "" }])
+    : MODE === "verified"
+      ? Object.entries(spots).filter(([, spot]) => spot.district?.url)
+      : Object.entries(spots).filter(([, spot]) => spot.swiggy?.hasOffers || spot.district?.hasOffers);
+  console.log(`Found ${candidateSpots.length} candidate spots in ${MODE} mode.`);
 
   const targets = [];
+  const rejected = [];
   for (const [id, s] of candidateSpots) {
     let slug = null;
+    let matchMethod = "existing-url";
+    let matchScore = null;
     if (s.district?.url) {
       slug = s.district.url.replace(/^.*\/hyderabad\//, "").replace(/\/+$/, "");
     } else {
@@ -216,13 +239,15 @@ async function main() {
       const areaSource = [s.area, e?.area, e?.discoveredIn, e?.address, s.swiggy?.url].filter(Boolean).join(" ");
       const venueLocTok = new Set([...tokens(areaSource)].filter(t => HYD_LOCALITIES.has(t)));
 
-      let best = null;
-      for (const item of parsedSlugs) {
+      const possible = new Set();
+      for (const token of nameTok) for (const item of slugIndex.get(token) || []) possible.add(item);
+      const ranked = [];
+      for (const item of possible) {
         let nameHit = 0;
         for (const t of nameTok) if (item.tok.has(t)) nameHit++;
         if (!nameHit) continue;
         const nameScore = nameHit / nameTok.size;
-        if (nameScore < 0.75) continue;
+        if (nameScore < 0.85) continue;
 
         let venueLocHit = 0;
         let foreignLocHit = 0;
@@ -232,24 +257,28 @@ async function main() {
             else foreignLocHit++;
           }
         }
-        const clusterHit = sameCluster(venueLocTok, item.tok);
+        const clusterHit = MODE === "discover" ? false : sameCluster(venueLocTok, item.tok);
+        if (venueLocTok.size > 0 && venueLocHit === 0 && !clusterHit) continue;
+        if (foreignLocHit > 0 && venueLocHit === 0 && !clusterHit) continue;
 
-        // Heavy penalty if foreign locality without venue locality or cluster
-        if (venueLocTok.size > 0 && foreignLocHit > 0 && venueLocHit === 0 && !clusterHit) continue;
-
-        const score = nameScore * 10 + venueLocHit * 8 + (clusterHit ? 4 : 0) - (foreignLocHit && !clusterHit ? 12 : 0);
-        if (!best || score > best.score) {
-          best = { slug: item.slug, score };
-        }
+        const score = nameScore * 100 + venueLocHit * 20 + (clusterHit ? 5 : 0) - foreignLocHit * 8;
+        ranked.push({ slug: item.slug, score, nameScore, venueLocHit });
       }
-
-      if (best && best.score > 6) {
+      ranked.sort((a, b) => b.score - a.score);
+      const best = ranked[0];
+      const ambiguous = best && ranked[1] && best.score - ranked[1].score < 2;
+      if (best && best.nameScore >= 0.85 && (venueLocTok.size === 0 || best.venueLocHit > 0 || MODE !== "discover") && !ambiguous) {
         slug = best.slug;
+        matchMethod = "name-locality";
+        matchScore = Number(best.score.toFixed(2));
+      } else {
+        rejected.push({ id, name: s.name, area: s.area || eateriesMap.get(id)?.area || eateriesMap.get(id)?.discoveredIn || "", reason: ambiguous ? "ambiguous-branch" : "no-strict-name-locality-match" });
       }
     }
 
     if (slug) {
-      targets.push({ id, spot: s, slug });
+      spots[id] = s;
+      targets.push({ id, spot: s, slug, matchMethod, matchScore });
     }
   }
 
@@ -260,7 +289,7 @@ async function main() {
   const now = new Date().toISOString();
 
   for (let i = 0; i < targets.length; i++) {
-    const { id, spot, slug } = targets[i];
+    const { id, spot, slug, matchMethod, matchScore } = targets[i];
     const data = await scrapeDistrictPage(slug);
     const has = data.deals.length > 0 || data.bankOffers.length > 0;
 
@@ -274,6 +303,13 @@ async function main() {
 
     spot.district = {
       url: data.url,
+      venue: {
+        id: slug, name: spot.name,
+        locality: spot.area || eateriesMap.get(id)?.area || eateriesMap.get(id)?.discoveredIn || "",
+        lat: eateriesMap.get(id)?.lat ?? null, lng: eateriesMap.get(id)?.lng ?? null,
+        url: data.url,
+      },
+      match: { status: "verified", method: matchMethod, score: matchScore, matchedAt: now },
       hasOffers: has,
       fetchedAt: now,
       hours: data.hours,
@@ -296,8 +332,19 @@ async function main() {
 
   curated.updatedAt = now;
   curated.totalSpotsWithOffers = Object.values(spots).filter(s => s.district?.hasOffers || s.swiggy?.hasOffers).length;
+  curated.coverage = {
+    ...(curated.coverage || {}),
+    districtDiscovery: {
+      mode: MODE, discovered: sitemapSlugs.length, candidates: candidateSpots.length, matched: targets.length,
+      unmatched: rejected.filter((item) => item.reason !== "ambiguous-branch").length,
+      rejectedMatches: rejected.filter((item) => item.reason === "ambiguous-branch").length,
+      refreshedAt: now,
+    },
+  };
 
   fs.writeFileSync(OFFERS_FILE, JSON.stringify(curated, null, 2), "utf8");
+  const unmatched = fs.existsSync(UNMATCHED_FILE) ? JSON.parse(fs.readFileSync(UNMATCHED_FILE, "utf8")) : {};
+  fs.writeFileSync(UNMATCHED_FILE, JSON.stringify({ ...unmatched, updatedAt: now, district: rejected }, null, 2) + "\n", "utf8");
 
   console.log(`\n\n=== SCRAPE COMPLETE ===`);
   console.log(`- Targets checked: ${targets.length}`);

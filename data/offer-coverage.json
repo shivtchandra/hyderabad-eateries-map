@@ -1,0 +1,34 @@
+{
+  "updatedAt": "2026-10-26T14:30:30.000Z",
+  "candidates": 642,
+  "matched": {
+    "district": 188,
+    "swiggy": 229,
+    "both": 83
+  },
+  "active": {
+    "district": 252,
+    "swiggy": 229,
+    "both": 147
+  },
+  "singlePlatform": {
+    "district": 146,
+    "swiggy": 32
+  },
+  "discovered": {
+    "district": 343,
+    "swiggy": 229
+  },
+  "unmatched": {
+    "district": 155,
+    "swiggy": 0
+  },
+  "rejectedMatches": {
+    "district": 0,
+    "swiggy": 0
+  },
+  "listed": {
+    "district": 343,
+    "swiggy": 229
+  }
+}

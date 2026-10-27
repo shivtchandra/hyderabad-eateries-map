@@ -120,13 +120,16 @@ export function parseDistrict(md) {
     const title = head.replace(/\s+/g, " ");
     if (section === "deals") {
       const whenLine = body.find((b) => /\b(AM|PM|today|tomorrow)\b/i.test(b));
-      const slots = (body.join(" ").match(/(\d+)\s*slots?\s*left/i) || [])[1];
+      const bodyText = body.join(" ");
+      const slots = (bodyText.match(/(\d+)\s*slots?\s*left/i) || [])[1];
+      const bookingMode = /no booking required|walk-?in|instant offer/i.test(bodyText) ? "walkin" : "prebook";
       deals.push({
         title,
         pct: pctOf(title),
         flat: flatOf(title),
         when: whenLine ? parseWhen(whenLine) : null,
         slotsLeft: slots ? Number(slots) : null,
+        bookingMode,
       });
     } else {
       const min = (body.join(" ").match(/₹\s?([\d,]+)\s*or more/i) || [])[1];
@@ -145,7 +148,11 @@ export function parseDistrict(md) {
 
 // Old consumers (map sheet, spot page) read district.offers as {type,title,desc}.
 function legacyOffers(deals, bankOffers) {
-  const fromDeals = deals.map((d) => ({ type: "PRE_BOOK", title: d.title, desc: d.when?.label || "Pre-book on District" }));
+  const fromDeals = deals.map((d) => ({
+    type: d.bookingMode === "walkin" ? "WALK_IN" : "PRE_BOOK",
+    title: d.title,
+    desc: d.bookingMode === "walkin" ? "No booking required" : d.when?.label || "Pre-book on District",
+  }));
   const fromBank = bankOffers.slice(0, 3).map((b) => ({
     type: "BANK",
     title: b.title,

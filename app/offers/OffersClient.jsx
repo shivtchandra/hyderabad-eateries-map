@@ -4,49 +4,22 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Icon } from "../components/Icons.jsx";
 import { photoPathToCdn } from "../../lib/photos.js";
+import {
+  buildDealWeek,
+  clockLabel as clock,
+  comparisonResult,
+  districtStatus,
+  hyderabadDateKey as istDay,
+  hyderabadNow as istNow,
+  mealPeriod,
+  modeLabel,
+  normalizePlatformOffers,
+  offerMode,
+  savingFor,
+  swiggyStatus,
+} from "../../lib/offerIntelligence.js";
 
 const inr = (n) => `₹${Number(n).toLocaleString("en-IN")}`;
-
-function istNow() {
-  const parts = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", year: "numeric", month: "2-digit", day: "2-digit", hour12: false }).formatToParts(new Date());
-  const get = (t) => parts.find((p) => p.type === t)?.value;
-  return { day: `${get("year")}-${get("month")}-${get("day")}`, min: Number(get("hour")) * 60 + Number(get("minute")) };
-}
-function istDay(iso) {
-  if (!iso) return null;
-  return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(new Date(iso));
-}
-function clock(min) {
-  const h = Math.floor(min / 60), m = min % 60;
-  return `${h % 12 || 12}${m ? `:${String(m).padStart(2, "0")}` : ""} ${h < 12 ? "AM" : "PM"}`;
-}
-
-// District slot deal right now: live | later | over | anytime. "today" windows are only
-// trusted if the page was read today (IST); otherwise we just show the hours.
-function districtStatus(deal, fetchedAt, now) {
-  const w = deal?.when;
-  if (!w || (w.from == null && w.to == null)) return { state: "anytime", label: "Any time" };
-  const range = w.from != null && w.to != null ? `${clock(w.from)} to ${clock(w.to)}` : w.from != null ? `From ${clock(w.from)}` : `Till ${clock(w.to)}`;
-  const scheduled = w.day === "tomorrow" ? `Tomorrow · ${range}` : range;
-  if (!now || istDay(fetchedAt) !== now.day || (w.day && w.day !== "today")) return { state: "later", label: scheduled };
-  const started = w.from == null || now.min >= w.from;
-  const ended = w.to != null && now.min >= w.to;
-  if (started && !ended) return { state: "live", label: w.to != null ? `Live till ${clock(w.to)}` : "Live now" };
-  if (ended) return { state: "over", label: "Over for today" };
-  return { state: "later", label: w.from != null ? `Starts ${clock(w.from)}` : range };
-}
-function swiggyStatus(deal, fetchedAt, now) {
-  if (!deal) return null;
-  if (deal.allDay && now && istDay(fetchedAt) === now.day) return { state: "live", label: "All day today" };
-  if (deal.allDay) return { state: "anytime", label: "All day" };
-  return { state: "anytime", label: deal.on || "On the bill" };
-}
-
-function savingFor(deal, bill) {
-  if (!deal || (deal.minBill && bill < deal.minBill)) return 0;
-  const raw = deal.flat || (deal.pct ? bill * deal.pct / 100 : 0);
-  return Math.round(deal.cap ? Math.min(raw, deal.cap) : raw);
-}
 
 const looksLikeCardOffer = (deal) =>
   /\b(card|credit|debit|bank|visa|mastercard|upi|paytm|hdfc|kotak|rbl|hsbc|idfc|dbs|jupiter|au)\b/i.test(deal?.title || "");
@@ -97,7 +70,21 @@ function nextDistrictDeal(item, now, bill, current) {
 function nextDealLabel(deal) {
   if (!deal?.when) return null;
   const day = deal.when.day === "tomorrow" ? "tomorrow at " : "at ";
-  return `Next: ${short(deal)} ${day}${clock(deal.when.from)}`;
+  const period = mealPeriod(deal.when.from)?.toLowerCase();
+  return `Next: ${short(deal)}${period ? ` · ${period}` : ""} ${day}${clock(deal.when.from)}`;
+}
+
+// Swiggy offers change by weekday; re-pick from the scraped schedule for today
+// (IST) so a deal stays right after midnight, before the next scrape.
+function swiggyDealForDay(swiggy, now) {
+  const schedule = swiggy?.schedule;
+  if (!schedule?.length || !now?.day) return swiggy?.deal || null;
+  const weekday = new Date(`${now.day}T00:00:00Z`).getUTCDay();
+  const value = (o) => (o.pct || 0) * 100 + (o.flat || 0) / 10;
+  const pick = (mode) => schedule.filter((o) => o.mode === mode && o.days.includes(weekday)).sort((a, b) => value(b) - value(a))[0];
+  const o = pick("prebook") || pick("walkin");
+  if (!o) return null;
+  return { ...swiggy.deal, title: o.title, on: o.mode === "walkin" ? "on walk-in" : "on pre-booking", pct: o.pct, flat: o.flat, note: o.note, bookingMode: o.mode, allDay: true, applicableNow: null, fee: o.fee };
 }
 
 function platformDeals(item, now, bill = 3000) {
@@ -109,6 +96,7 @@ function platformDeals(item, now, bill = 3000) {
   const ddAvailable = ddStatus?.state === "live" || ddStatus?.state === "anytime";
   const ddSaving = ddAvailable ? savingFor(dd, bill) : 0;
   if (item.district) {
+    const mode = offerMode(dd, "district");
     out.push({
       key: "district",
       name: "District",
@@ -116,7 +104,7 @@ function platformDeals(item, now, bill = 3000) {
       title: dd?.title || (item.district.bankOffers?.length ? "Card offers only" : "No deal today"),
       sub: dd ? [
         dd.slotsLeft ? `${dd.slotsLeft} slots left` : null,
-        "pre-book",
+        modeLabel(mode),
         currentDd && nextDd ? nextDealLabel(nextDd) : null,
       ].filter(Boolean).join(" · ") : null,
       status: ddStatus,
@@ -125,22 +113,31 @@ function platformDeals(item, now, bill = 3000) {
       saving: ddSaving,
       payable: bill - ddSaving,
       checkedAt: item.district.fetchedAt,
+      mode,
+      period: mealPeriod(dd?.when?.from ?? dd?.when?.to),
+      available: ddAvailable,
+      branchVerified: !["uncertain", "rejected"].includes(item.district.match?.status),
     });
   }
-  const sd = item.swiggy?.deal;
+  const sd = swiggyDealForDay(item.swiggy, now);
   if (item.swiggy) {
+    const mode = offerMode(sd, "swiggy");
     out.push({
       key: "swiggy",
       name: "Swiggy Dineout",
       deal: sd,
       title: sd?.title || (item.swiggy.cardOffers?.length ? "Card offers only" : "No deal today"),
-      sub: sd?.allDay ? sd.on : null,
+      sub: sd ? modeLabel(mode) : null,
       status: swiggyStatus(sd, item.swiggy.fetchedAt, now),
       url: item.swiggy.url,
-      cta: "Pay bill",
+      cta: mode === "prebook" ? "Book" : "Pay bill",
       saving: savingFor(sd, bill),
       payable: bill - savingFor(sd, bill),
       checkedAt: item.swiggy.fetchedAt,
+      mode,
+      period: sd?.mealPeriod || null,
+      available: !["over", "later"].includes(swiggyStatus(sd, item.swiggy.fetchedAt, now)?.state),
+      branchVerified: !["uncertain", "rejected"].includes(item.swiggy.match?.status),
     });
   }
   return out;
@@ -153,25 +150,64 @@ function allCardOffers(item, bill = 3000) {
     .map((offer) => ({ ...offer, via: offer.bank, src: "District" }));
   const swiggy = (item.swiggy?.cardOffers || []).map((offer) => ({ ...offer, src: "Swiggy" }));
   return [...district, ...swiggy]
-    .map((offer) => ({ ...offer, saving: savingFor(offer, bill), eligible: !offer.minBill || bill >= offer.minBill }))
+    .map((offer) => {
+      const card = cardIdentity(offer);
+      return { ...offer, cardKey: card?.key || null, cardLabel: card?.label || null, saving: savingFor(offer, bill), eligible: !offer.minBill || bill >= offer.minBill };
+    })
     .sort((a, b) => b.saving - a.saving);
 }
 
-function OfferCard({ item, now, bill, onSelectSpot }) {
+const CARD_CODE_LABELS = {
+  HDFCINFINIA: "HDFC Infinia",
+  HDFCCCEMI: "HDFC credit-card EMI",
+  HDFCDINERS: "HDFC Diners",
+  HDFCCARDS: "HDFC cards",
+};
+
+function cardIdentity(offer) {
+  const via = String(offer?.via || "").replace(/&amp;/g, "&").trim();
+  const alias = CARD_CODE_LABELS[via.toUpperCase()];
+  const text = `${via} ${offer?.title || ""}`;
+  const looksLikeCard = /\b(card|credit|debit|bank|visa|mastercard|hdfc|icici|axis|sbi|rbl|hsbc|kotak|idfc|dbs|indusind|yes bank|pnb|cub|au)\b/i.test(text);
+  if (!looksLikeCard) return null;
+  let label = alias || via;
+  if (!label || /^(select |eligible |premier |credit |debit |visa )/i.test(label)) {
+    label = String(offer?.title || "")
+      .replace(/^.*?(?:using|on)\s+/i, "")
+      .replace(/\s+(?:credit|debit)?\s*cards?.*$/i, "")
+      .trim();
+  }
+  if (!label || label.length > 52) return null;
+  return { key: label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""), label };
+}
+
+const comparisonReason = {
+  "branch-unverified": "The exact branch could not be verified on both apps.",
+  "not-currently-eligible": "One offer starts later or the bill does not qualify yet.",
+  "booking-mode": "One offer requires pre-booking while the other is walk-in or instant.",
+  "meal-period": "The offers apply to different meal periods.",
+};
+
+function OfferCard({ item, now, bill, history, selectedCards, onSelectSpot }) {
   const rows = platformDeals(item, now, bill);
   const cards = allCardOffers(item, bill);
   const both = rows.length === 2 && rows.every((row) => row.deal);
-  const compared = both ? [...rows].sort((a, b) => b.saving - a.saving) : [];
-  const winner = compared[0] || null;
-  const runnerUp = compared[1] || null;
-  const tie = both && winner.saving === runnerUp.saving;
-  const savingGap = both ? Math.max(0, winner.saving - runnerUp.saving) : 0;
-  const hasComparison = both && winner.saving > 0;
+  const comparison = comparisonResult(rows, bill);
+  const winner = comparison.winner || null;
+  const runnerUp = comparison.runnerUp || null;
+  const tie = comparison.tie || false;
+  const savingGap = comparison.comparable ? Math.max(0, winner.saving - runnerUp.saving) : 0;
+  const hasComparison = comparison.comparable;
+  const week = buildDealWeek(item, history, now?.day);
+  const showFullWeek = week.slice(1).some((day) => day.state !== "none");
+  const visibleWeek = showFullWeek ? week : week.slice(0, 2);
   const bestCard = cards.find((card) => card.saving > 0);
+  const matchingCards = cards.filter((card) => card.cardKey && selectedCards.includes(card.cardKey));
+  const bestMatchingCard = matchingCards.find((card) => card.eligible && card.saving > 0);
   const img = item.photo ? (item.photo.startsWith("http") ? item.photo : photoPathToCdn(item.photo)) : null;
 
   return (
-    <article className="of-card">
+    <article className="of-card" id={`deal-${item.spotId}`}>
       <header className="of-card-head">
         {img ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -201,6 +237,18 @@ function OfferCard({ item, now, bill, onSelectSpot }) {
           )}
         </div>
       )}
+      {both && !comparison.comparable && (
+        <p className="of-single">{comparisonReason[comparison.reason] || "Booking terms differ, so compare before you book."}</p>
+      )}
+
+      {showFullWeek && <div className="of-week" aria-label="Seven day offer view">
+        {visibleWeek.map((day, index) => (
+          <span key={day.date} className={`of-week-day ${day.state}`} title={day.label}>
+            <b>{showFullWeek ? day.day : index === 0 ? "Today" : "Tomorrow"}</b>
+            <small>{day.state === "confirmed" ? (day.offer.pct ? `${day.offer.pct}%` : day.offer.flat ? `${inr(day.offer.flat)}` : "Yes") : day.state === "observed" ? "Observed" : "None"}</small>
+          </span>
+        ))}
+      </div>}
 
       <ul className="of-platforms">
         {rows.map((r) => (
@@ -222,16 +270,20 @@ function OfferCard({ item, now, bill, onSelectSpot }) {
         ))}
       </ul>
 
+      {bestMatchingCard && (
+        <p className="of-card-match"><b>Your {bestMatchingCard.cardLabel} matches</b><span>{bestMatchingCard.src} estimates {inr(bestMatchingCard.saving)} card saving. Stacking is not confirmed.</span></p>
+      )}
+
       {cards.length > 0 && (
         <details className="of-cards">
           <summary>
             <span><b>{cards.length}</b> card and coupon offer{cards.length === 1 ? "" : "s"}</span>
-            {bestCard && <span className="of-cards-best">up to {inr(bestCard.saving)} more with an eligible card</span>}
+            {bestCard && <span className="of-cards-best">card estimate up to {inr(bestCard.saving)} · stacking unconfirmed</span>}
           </summary>
           <ul>
             {cards.map((c, i) => (
-              <li key={i}>
-                <span><em>{c.src}</em>{c.title}{c.code ? ` · code ${c.code}` : c.via && c.src === "Swiggy" ? ` · ${c.via}` : ""}</span>
+              <li key={i} className={c.cardKey && selectedCards.includes(c.cardKey) ? "match" : undefined}>
+                <span><em>{c.cardKey && selectedCards.includes(c.cardKey) ? "Your card" : c.src}</em>{c.title}{c.code ? ` · code ${c.code}` : c.via && c.src === "Swiggy" ? ` · ${c.via}` : ""}</span>
                 <small>{c.saving > 0 ? `Save ${inr(c.saving)}` : `Bill ${inr(c.minBill)}+`}</small>
               </li>
             ))}
@@ -249,18 +301,53 @@ const FILTERS = [
   { id: "both", label: "Compare both apps" },
   { id: "nocard", label: "No card needed" },
   { id: "live", label: "Available now" },
-  { id: "tonight", label: "Tonight" },
+  { id: "lunch", label: "Lunch / afternoon" },
+  { id: "dinner", label: "Dinner / evening" },
   { id: "cards", label: "Card offers" },
 ];
 
-const BILL_PRESETS = [1500, 3000, 5000];
+const BILL_PRESETS = [1000, 1500, 2000, 3000, 5000, 8000];
+const CARD_WALLET_KEY = "hyd-eats-offer-cards-v1";
 
-export default function OffersClient({ spotsList, updatedAt, embedded = false, onSelectSpot = null }) {
+// Some spots carry the discovery query ("text:cafe kondapur") instead of an area.
+// Pull the locality out of it, or drop it when the query is city-wide.
+const AREA_FIXES = { "hitech city": "HITEC City" };
+function cleanArea(area) {
+  if (!area || !area.startsWith("text:")) return area;
+  const place = area.slice(5).replace(/\b(cafe|bistro|eatery|bar|bakery|breakfast|artisan|cocktail|dessert|microbrewery|specialty|coffee|hyderabad)\b/gi, "").replace(/\s+/g, " ").trim().toLowerCase();
+  if (!place) return null;
+  return AREA_FIXES[place] || place.replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+export default function OffersClient({
+  spotsList: rawSpotsList,
+  updatedAt,
+  history = { spots: {} },
+  embedded = false,
+  onSelectSpot = null,
+  initialFilter = "all",
+  initialArea = "all",
+  initialPlatform = "all",
+  initialBookingMode = "all",
+  initialDate = "all",
+  initialSpotId = null,
+  landingLinks = [],
+}) {
+  const spotsList = useMemo(() => rawSpotsList.map((item) => item.area?.startsWith("text:") ? { ...item, area: cleanArea(item.area) } : item), [rawSpotsList]);
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState(initialFilter);
   const [bill, setBill] = useState(3000);
-  const [area, setArea] = useState("all");
+  const [area, setArea] = useState(initialArea);
+  const [platform, setPlatform] = useState(initialPlatform);
+  const [bookingMode, setBookingMode] = useState(initialBookingMode);
+  const [dateFilter, setDateFilter] = useState(initialDate);
+  const [requestedSpot, setRequestedSpot] = useState(initialSpotId);
+  const [selectedCards, setSelectedCards] = useState([]);
+  const [cardOnly, setCardOnly] = useState(false);
+  const [walletLoaded, setWalletLoaded] = useState(false);
   const [visibleCount, setVisibleCount] = useState(30);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const extraActive = [dateFilter !== "all", platform !== "all", bookingMode !== "all", selectedCards.length > 0].filter(Boolean).length;
   const [now, setNow] = useState(null); // set after mount so server and client HTML match
 
   useEffect(() => {
@@ -270,8 +357,28 @@ export default function OffersClient({ spotsList, updatedAt, embedded = false, o
   }, []);
 
   useEffect(() => {
+    if (initialSpotId || typeof window === "undefined") return;
+    const spot = new URLSearchParams(window.location.search).get("deal");
+    if (spot) setRequestedSpot(spot);
+  }, [initialSpotId]);
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(window.localStorage.getItem(CARD_WALLET_KEY) || "{}");
+      if (Array.isArray(saved.cards)) setSelectedCards(saved.cards);
+      if (typeof saved.only === "boolean") setCardOnly(saved.only);
+    } catch {}
+    setWalletLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!walletLoaded) return;
+    window.localStorage.setItem(CARD_WALLET_KEY, JSON.stringify({ cards: selectedCards, only: cardOnly }));
+  }, [selectedCards, cardOnly, walletLoaded]);
+
+  useEffect(() => {
     setVisibleCount(30);
-  }, [search, filter, area, bill]);
+  }, [search, filter, area, bill, platform, bookingMode, dateFilter, requestedSpot, selectedCards, cardOnly]);
 
   const checked = useMemo(() => {
     if (!updatedAt) return "";
@@ -286,73 +393,112 @@ export default function OffersClient({ spotsList, updatedAt, embedded = false, o
     ...platformDeals(item, now, bill).map((row) => row.saving),
     ...allCardOffers(item, bill).map((offer) => offer.saving)
   );
+  const clearWin = (item) => {
+    const result = comparisonResult(platformDeals(item, now, bill), bill);
+    return Boolean(result.comparable && !result.tie);
+  };
+  const freshness = (item) => Math.max(
+    Date.parse(item.district?.fetchedAt || "") || 0,
+    Date.parse(item.swiggy?.fetchedAt || "") || 0
+  );
   const liveCount = now ? spotsList.filter(isLive).length : 0;
   const bothCount = spotsList.filter(onBoth).length;
   const areas = useMemo(() => [...new Set(spotsList.map((item) => item.area).filter(Boolean))].sort(), [spotsList]);
+  const cardOptions = useMemo(() => {
+    const options = new Map();
+    for (const item of spotsList) {
+      for (const offer of allCardOffers(item)) if (offer.cardKey && offer.cardLabel) options.set(offer.cardKey, offer.cardLabel);
+    }
+    return [...options].map(([key, label]) => ({ key, label })).sort((a, b) => a.label.localeCompare(b.label));
+  }, [spotsList]);
+  const addCard = (key) => key && setSelectedCards((cards) => cards.includes(key) ? cards : [...cards, key]);
+  const removeCard = (key) => setSelectedCards((cards) => {
+    const next = cards.filter((card) => card !== key);
+    if (!next.length) setCardOnly(false);
+    return next;
+  });
 
   const shown = useMemo(() => {
     const q = search.trim().toLowerCase();
     return spotsList
       .filter((item) => {
+        if (requestedSpot && item.spotId !== requestedSpot) return false;
         if (q && !`${item.name} ${item.area}`.toLowerCase().includes(q)) return false;
         if (area !== "all" && item.area !== area) return false;
+        if (platform !== "all" && !item[platform]?.url) return false;
+        if (cardOnly) {
+          if (!selectedCards.length) return false;
+          if (!allCardOffers(item, bill).some((offer) => offer.eligible && offer.cardKey && selectedCards.includes(offer.cardKey))) return false;
+        }
+        if (bookingMode !== "all") {
+          const modes = ["district", "swiggy"].flatMap((source) => normalizePlatformOffers(item.spotId, source, item[source]))
+            .filter((offer) => offer.kind === "restaurant").map((offer) => offer.bookingMode);
+          if (!modes.includes(bookingMode)) return false;
+        }
+        if (dateFilter !== "all") {
+          const week = buildDealWeek(item, history, now?.day);
+          if (dateFilter === "today" && week[0]?.state !== "confirmed") return false;
+          if (dateFilter === "tomorrow" && week[1]?.state !== "confirmed") return false;
+          if (dateFilter === "weekend" && !week.some((day) => ["Sat", "Sun"].includes(day.day) && day.state !== "none")) return false;
+        }
         if (filter === "both") return onBoth(item);
         if (filter === "nocard") return publicDeals(item);
         if (filter === "live") return isLive(item);
-        if (filter === "tonight") return districtPublicDeals(item).some((deal) => (deal.when?.from ?? 0) >= 17 * 60) || Boolean(item.swiggy?.deal);
-        if (filter === "cards") return allCardOffers(item, bill).some((offer) => offer.eligible);
+        if (filter === "lunch") return districtPublicDeals(item).some((deal) => mealPeriod(deal.when?.from) === "afternoon") || Boolean(item.swiggy?.deal?.allDay);
+        if (filter === "dinner") return districtPublicDeals(item).some((deal) => mealPeriod(deal.when?.from) === "evening") || Boolean(item.swiggy?.deal?.allDay);
+        if (filter === "cards") return allCardOffers(item, bill).some((offer) => offer.eligible && offer.cardKey);
         return true;
       })
-      .sort((a, b) => (onBoth(b) - onBoth(a)) || (bestValue(b) - bestValue(a)) || (isLive(b) - isLive(a)));
+      // Clear "this app is cheaper" answers lead; then biggest rupee saving.
+      .sort((a, b) => (Number(clearWin(b)) - Number(clearWin(a))) || (bestValue(b) - bestValue(a)) || (freshness(b) - freshness(a)) || a.name.localeCompare(b.name));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [spotsList, search, filter, area, bill, now]);
+  }, [spotsList, search, filter, area, bill, now, platform, bookingMode, dateFilter, requestedSpot, history, selectedCards, cardOnly]);
+
+  // The single clearest "this app is cheaper" answer, shown above the list.
+  const spotlight = useMemo(() => {
+    if (requestedSpot || search.trim()) return null;
+    for (const item of shown.slice(0, 20)) {
+      const result = comparisonResult(platformDeals(item, now, bill), bill);
+      if (result.comparable && !result.tie) {
+        const winner = { ...result.winner, saving: savingFor(result.winner.deal, bill) };
+        const runnerUp = { ...result.runnerUp, saving: savingFor(result.runnerUp.deal, bill) };
+        return { item, winner, runnerUp, gap: winner.saving - runnerUp.saving };
+      }
+    }
+    return null;
+  }, [shown, now, bill, requestedSpot, search]);
 
   return (
     <div className={embedded ? "of-app" : undefined}>
-      <section className="of-pitch">
-        {!embedded && (
+      {!embedded && (
+        <section className="of-pitch">
           <p className="of-pitch-lead">
-            Why open Swiggy and District separately for the same restaurant? Every card here puts both apps side by side: the restaurant&apos;s discount on each, when it goes live, and all the card and coupon offers. Pick the cheaper one and go.
+            Compare Swiggy Dineout and District for the exact restaurant branch. We keep pre-book, walk-in, lunch, afternoon and evening offers separate, then compare prices only when the booking conditions match.
           </p>
-        )}
-        <div className="of-stats">
-          <span><b>{spotsList.length}</b> spots with deals</span>
-          <span><b>{bothCount}</b> on both apps</span>
-          {now && <span><b>{liveCount}</b> live right now</span>}
-          {checked && <span>Checked {checked}</span>}
-        </div>
-      </section>
-
-      <section className="of-calculator" aria-labelledby="deal-bill-title">
-        <div className="of-calculator-copy">
-          <span>{embedded ? "Set your bill" : "Make the comparison real"}</span>
-          <h2 id="deal-bill-title">{embedded ? "See your real saving" : "What will your table spend?"}</h2>
-          <p>We rank offers by estimated rupees saved—not the loudest percentage.</p>
-        </div>
-        <div className="of-bill-control">
-          <label htmlFor="expected-bill">Expected bill</label>
-          <span className="of-bill-input"><b>₹</b><input id="expected-bill" type="number" min="100" step="100" inputMode="numeric" value={bill} onChange={(event) => setBill(Math.max(100, Number(event.target.value) || 100))} /></span>
-          <div className="of-bill-presets" aria-label="Expected bill presets">
-            {BILL_PRESETS.map((amount) => (
-              <button key={amount} type="button" className={bill === amount ? "active" : undefined} onClick={() => setBill(amount)}>{inr(amount)}</button>
-            ))}
-          </div>
-        </div>
-      </section>
+          <ul className="of-stats">
+            <li><b>{spotsList.length}</b> spots with deals</li>
+            <li><b>{bothCount}</b> on both apps</li>
+            {now && liveCount > 0 && <li><b>{liveCount}</b> live right now</li>}
+          </ul>
+          {checked && <p className="of-checked">Prices checked {checked}</p>}
+        </section>
+      )}
 
       <div className="of-controls">
+        {requestedSpot && (
+          <div className="of-exact">
+            <span>Showing this exact restaurant branch</span>
+            <button type="button" onClick={() => setRequestedSpot(null)}>Show all</button>
+          </div>
+        )}
         <div className="of-control-row">
           <label className="of-search">
             <Icon name="search" size={16} color="var(--muted)" />
             <input type="search" placeholder="Search restaurant or area" value={search} onChange={(event) => setSearch(event.target.value)} />
           </label>
-          <label className="of-area">
-            <span>Area</span>
-            <select value={area} onChange={(event) => setArea(event.target.value)}>
-              <option value="all">All Hyderabad</option>
-              {areas.map((name) => <option key={name} value={name}>{name}</option>)}
-            </select>
-          </label>
+          <button type="button" className={`of-filter-btn${moreOpen ? " open" : ""}`} aria-expanded={moreOpen} onClick={() => setMoreOpen((open) => !open)}>
+            Filters{extraActive > 0 && <b>{extraActive}</b>}
+          </button>
         </div>
         <div className="of-chips" role="group" aria-label="Filter deals">
           {FILTERS.map((f) => (
@@ -363,15 +509,92 @@ export default function OffersClient({ spotsList, updatedAt, embedded = false, o
         </div>
       </div>
 
+      {moreOpen && (
+      <div className="of-more">
+        <div className="of-filter-row">
+          <label>
+            <span>Area</span>
+            <select value={area} onChange={(event) => setArea(event.target.value)}>
+              <option value="all">All Hyderabad</option>
+              {areas.map((name) => <option key={name} value={name}>{name}</option>)}
+            </select>
+          </label>
+          <label>
+            <span>Date</span>
+            <select value={dateFilter} onChange={(event) => setDateFilter(event.target.value)}>
+              <option value="all">Any day</option>
+              <option value="today">Confirmed today</option>
+              <option value="tomorrow">Confirmed tomorrow</option>
+              <option value="weekend">Weekend: confirmed or observed</option>
+            </select>
+          </label>
+          <label>
+            <span>Platform</span>
+            <select value={platform} onChange={(event) => setPlatform(event.target.value)}>
+              <option value="all">Both platforms</option>
+              <option value="district">District</option>
+              <option value="swiggy">Swiggy Dineout</option>
+            </select>
+          </label>
+          <label>
+            <span>Booking</span>
+            <select value={bookingMode} onChange={(event) => setBookingMode(event.target.value)}>
+              <option value="all">Any booking type</option>
+              <option value="prebook">Pre-book</option>
+              <option value="walkin">Walk-in / instant</option>
+            </select>
+          </label>
+        </div>
+      <section className="of-wallet" aria-labelledby="card-wallet-title">
+        <div>
+          <h2 id="card-wallet-title">Cards I have</h2>
+          <p>Add your bank card to see which restaurants give it an extra discount. Saved only on this device.</p>
+        </div>
+        <div className="of-wallet-controls">
+          <select aria-label="Add a card" value="" onChange={(event) => addCard(event.target.value)}>
+            <option value="">Add a card…</option>
+            {cardOptions.filter((option) => !selectedCards.includes(option.key)).map((option) => <option key={option.key} value={option.key}>{option.label}</option>)}
+          </select>
+          <label className="of-wallet-only">
+            <input type="checkbox" checked={cardOnly} disabled={!selectedCards.length} onChange={(event) => setCardOnly(event.target.checked)} />
+            Only matching restaurants
+          </label>
+        </div>
+        {selectedCards.length > 0 && (
+          <div className="of-wallet-cards">
+            {selectedCards.map((key) => <button type="button" key={key} onClick={() => removeCard(key)}>{cardOptions.find((option) => option.key === key)?.label || key}<span aria-hidden="true">×</span></button>)}
+          </div>
+        )}
+      </section>
+      </div>
+      )}
+
+      {spotlight && (
+        <a className="of-spotlight" href={`#deal-${spotlight.item.spotId}`}>
+          <span className="of-spotlight-kicker">Biggest saving right now</span>
+          <span className="of-spotlight-name">{spotlight.item.name}</span>
+          <span className="of-spotlight-row">
+            <b>{inr(spotlight.winner.saving)}</b>
+            <span>off on {spotlight.winner.name}<small>{inr(spotlight.gap)} more than {spotlight.runnerUp.name}</small></span>
+          </span>
+        </a>
+      )}
+
       <div className="of-results-head">
         <b>{shown.length} restaurants</b>
-        <span>ranked for a {inr(bill)} bill</span>
+        <label className="of-bill-pick">
+          for a
+          <select value={bill} onChange={(event) => setBill(Number(event.target.value))} aria-label="Your bill">
+            {BILL_PRESETS.map((amount) => <option key={amount} value={amount}>{inr(amount)}</option>)}
+          </select>
+          bill
+        </label>
       </div>
 
       {shown.length > 0 ? (
         <>
           <div className="of-grid">
-            {shown.slice(0, visibleCount).map((item) => <OfferCard key={item.spotId} item={item} now={now} bill={bill} onSelectSpot={onSelectSpot} />)}
+            {shown.slice(0, visibleCount).map((item) => <OfferCard key={item.spotId} item={item} now={now} bill={bill} history={history} selectedCards={selectedCards} onSelectSpot={onSelectSpot} />)}
           </div>
           {visibleCount < shown.length && (
             <button className="of-load-more" type="button" onClick={() => setVisibleCount((count) => count + 30)}>
@@ -382,13 +605,18 @@ export default function OffersClient({ spotsList, updatedAt, embedded = false, o
       ) : (
         <div className="of-empty">
           <b>No deals match</b>
-          <span>{filter === "live" ? "Nothing is live this minute. Try Tonight or All deals." : "Try another name or clear the filter."}</span>
+          <span>{filter === "live" ? "Nothing is live this minute. Try Dinner / evening or All deals." : "Try another name or clear the filters."}</span>
         </div>
       )}
 
       <p className="of-note">
         Offers are read from each restaurant&apos;s Swiggy Dineout and District pages and can change during the day. Confirm in the app before you pay.
       </p>
+      {!embedded && landingLinks.length > 0 && (
+        <nav className="of-landing-links" aria-label="Browse verified restaurant deals">
+          {landingLinks.map((link) => <Link key={link.href} href={link.href}>{link.label}</Link>)}
+        </nav>
+      )}
     </div>
   );
 }

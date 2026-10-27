@@ -52,7 +52,20 @@ import AddDishSheet from "./components/AddDishSheet.jsx";
 import AddPlace from "./components/AddPlace.jsx";
 import OffersClient from "./offers/OffersClient.jsx";
 
-export default function EateriesApp({ initialTab = "map", initialRaceView = "race", initialDishSlug = null }) {
+export default function EateriesApp({
+  initialTab = "map",
+  initialRaceView = "race",
+  initialDishSlug = null,
+  initialDealsFilter = "all",
+  initialDealsArea = "all",
+  initialDealsPlatform = "all",
+  initialDealsBookingMode = "all",
+  initialDealsDate = "all",
+  initialDealsSpotId = null,
+  initialDealsLandingLinks = [],
+  initialPageHeading = "Hyderabad food map and community rankings",
+  initialDealsTitle = "Deals",
+}) {
   const mapApi = useRef(null);
   // The map mounts only once its tab is shown, so a jump to a spot from Vote,
   // search or a deep link waits here until MapCanvas hands over its API.
@@ -200,8 +213,16 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     const load = () => {
       if (recoRequested.current) return;
       recoRequested.current = true;
-      fetch("/api/recommendations", { cache: "no-store" }).then((r) => { if (!r.ok) throw new Error(); return r.json(); })
-        .then(setRecommendationData).catch(() => setRecommendationError(true));
+      // Static file from the CDN draws the pins; the API adds live community dishes and
+      // rankings on top. The API intermittently 503s, so retry it once and keep the
+      // static data if it still fails.
+      const json = (url, init) => fetch(url, init).then((r) => { if (!r.ok) throw new Error(); return r.json(); });
+      let haveStatic = false;
+      json("/recommendations.json").then((d) => { haveStatic = true; setRecommendationData((prev) => prev || d); }).catch(() => {});
+      json("/api/recommendations", { cache: "no-store" })
+        .catch(() => new Promise((res) => setTimeout(res, 1500)).then(() => json("/api/recommendations", { cache: "no-store" })))
+        .then(setRecommendationData)
+        .catch(() => { if (!haveStatic) json("/recommendations.json").then(setRecommendationData).catch(() => setRecommendationError(true)); });
     };
     if (tab === "map") { load(); return; }
     const idle = window.requestIdleCallback
@@ -877,7 +898,7 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
     <div className="app-shell" data-ready={tabReady ? "1" : "0"} style={{ position: "fixed", inset: 0, paddingTop: "env(safe-area-inset-top, 0px)", display: "flex", flexDirection: "column", background: "var(--cream)", overflow: "hidden" }}>
       {/* The map UI has no visible page heading; give crawlers and screen readers one H1. */}
       <h1 style={{ position: "absolute", width: 1, height: 1, margin: -1, padding: 0, overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap", border: 0 }}>
-        Hyderabad food map and community rankings
+        {initialPageHeading}
       </h1>
       {/* Map tab only (mockup): search and chips float over the map. Vote,
           Guides and You open on their own big titles instead. */}
@@ -981,11 +1002,10 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
           <section className="deals-panel" aria-labelledby="deals-panel-title">
             <div className="deals-panel-inner">
               <header className="deals-panel-head">
-                <span className="deals-panel-mark" aria-hidden="true"><Icon name="ticket" size={25} width={2.1} /></span>
                 <span className="deals-panel-copy">
-                  <span className="deals-panel-kicker">Refreshed 4× daily</span>
-                  <h2 id="deals-panel-title">Deals</h2>
-                  <p>District and Swiggy, compared before you book.</p>
+                  <span className="deals-panel-kicker">{offersPayload?.updatedAt ? `Prices checked ${new Date(offersPayload.updatedAt).toLocaleString("en-IN", { day: "numeric", month: "short", hour: "numeric", minute: "2-digit", timeZone: "Asia/Kolkata" })}` : "Refreshed every 3 hours"}</span>
+                  <h2 id="deals-panel-title">{initialDealsTitle}</h2>
+                  <p>District vs Swiggy Dineout, compared for the same restaurant. See which one makes your bill cheaper.</p>
                 </span>
               </header>
 
@@ -993,13 +1013,21 @@ export default function EateriesApp({ initialTab = "map", initialRaceView = "rac
                 <div className="deals-panel-state" role="status"><span className="skeleton-line" />Checking today&apos;s offers…</div>
               )}
               {offersStatus === "error" && (
-                <div className="deals-panel-state" role="alert"><b>Deals could not load.</b><span>The map still works—try Deals again in a moment.</span></div>
+                <div className="deals-panel-state" role="alert"><b>Deals could not load.</b><span>The map still works. Try Deals again in a moment.</span></div>
               )}
               {offersStatus === "ready" && (
                 <OffersClient
                   spotsList={dealSpots}
                   updatedAt={offersPayload?.updatedAt}
+                  history={offersPayload?.history || { spots: {} }}
                   embedded
+                  initialFilter={initialDealsFilter}
+                  initialArea={initialDealsArea}
+                  initialPlatform={initialDealsPlatform}
+                  initialBookingMode={initialDealsBookingMode}
+                  initialDate={initialDealsDate}
+                  initialSpotId={initialDealsSpotId}
+                  landingLinks={initialDealsLandingLinks}
                   onSelectSpot={(id) => {
                     const place = byId[id];
                     if (!place) return;

@@ -8,6 +8,7 @@ import { getSiteUrl } from "../lib/site.js";
 import { askPages } from "../lib/askPages.js";
 import { recommendationsEnabled } from "../lib/recommendationShared.js";
 import { GEO_GUIDE_SLUGS } from "../lib/geoGuides.js";
+import { qualifiedOfferAreas, qualifiedOfferViews } from "../lib/offerPageData.js";
 
 export const dynamic = "force-dynamic";
 
@@ -70,7 +71,9 @@ export default async function sitemap() {
     { url: `${siteUrl}/rankings/how-it-works`, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/stories`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteUrl}/food-safety`, changeFrequency: "daily", priority: 0.8 },
-    // { url: `${siteUrl}/offers`, changeFrequency: "daily", priority: 0.9 },
+    { url: `${siteUrl}/offers`, changeFrequency: "daily", priority: 0.9 },
+    ...qualifiedOfferViews().map((view) => ({ url: `${siteUrl}/offers/${view}`, changeFrequency: "daily", priority: 0.85 })),
+    ...qualifiedOfferAreas().map(({ slug }) => ({ url: `${siteUrl}/offers/in/${slug}`, changeFrequency: "daily", priority: 0.8 })),
     { url: `${siteUrl}/about`, changeFrequency: "yearly", priority: 0.4 },
     { url: `${siteUrl}/explore`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteUrl}/guides`, changeFrequency: "weekly", priority: 0.9 },

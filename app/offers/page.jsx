@@ -5,6 +5,7 @@ import { ogImages } from "../../lib/og.js";
 import EateriesApp from "../page.jsx";
 import { spotSlug } from "../../lib/siteData.js";
 import { hubJsonLd, todayIso } from "../../lib/hubSeo.js";
+import { OFFER_VIEWS, qualifiedOfferAreas, qualifiedOfferViews } from "../../lib/offerPageData.js";
 
 // Static: the data is data/curated-offers.json inside the deployment, which only
 // changes when a deploy ships a new offers refresh, so a per-request render gave
@@ -13,9 +14,9 @@ import { hubJsonLd, todayIso } from "../../lib/hubSeo.js";
 export const revalidate = false;
 
 const SLUG = "/offers";
-const TITLE = "Hyderabad Dining Deals & Offers 2026";
+const TITLE = "Swiggy Dineout vs District: Hyderabad Restaurant Deals";
 const DESCRIPTION =
-  "Swiggy Dineout and District offers for Hyderabad restaurants, side by side on one card: slot discounts, when they go live, and every bank card offer.";
+  "Compare today's Swiggy Dineout and District restaurant offers in Hyderabad by exact branch, pre-book or walk-in terms, meal time, available slots and estimated saving.";
 
 export const metadata = {
   ...pageMeta({ title: TITLE, description: DESCRIPTION, path: SLUG }),
@@ -27,9 +28,16 @@ export const metadata = {
     "hyderabad restaurant offers",
     "district zomato deals hyderabad",
     "swiggy dineout offers hyderabad",
+    "swiggy dineout vs district",
+    "best restaurant deals hyderabad today",
+    "cafes with discount on swiggy dineout district",
+    "pre book restaurant offers hyderabad",
+    "walk in restaurant discounts hyderabad",
+    "lunch dinner restaurant deals hyderabad",
+    "50 percent restaurant offers hyderabad",
     "restaurant bank card offers hyderabad",
     "restaurant dining discounts hyderabad 2026",
-    "best dining deals jubliee hills hitech city",
+    "best dining deals jubilee hills hitech city",
   ],
 };
 
@@ -84,6 +92,10 @@ function getOffersData() {
 export default function OffersPage() {
   const siteUrl = getSiteUrl();
   const { spotsList, updatedAt } = getOffersData();
+  const landingLinks = [
+    ...qualifiedOfferViews().map((view) => ({ href: `/offers/${view}`, label: OFFER_VIEWS[view].title })),
+    ...qualifiedOfferAreas().map(({ area, slug }) => ({ href: `/offers/in/${slug}`, label: `Restaurant deals in ${area}` })),
+  ];
 
 
   const itemListLd = {
@@ -115,7 +127,8 @@ export default function OffersPage() {
 
   const updated = (updatedAt && String(updatedAt).slice(0, 10)) || todayIso();
   const faqs = [
-    { q: "Which app gives better restaurant offers in Hyderabad, Swiggy Dineout or District?", a: "It depends on the restaurant. This page puts both apps' current deals side by side for each spot, so you can pick the bigger saving before you book." },
+    { q: "Which app gives better restaurant offers in Hyderabad, Swiggy Dineout or District?", a: "It depends on the exact restaurant branch, time and booking type. This page compares savings only when both offers have matching conditions; pre-book, walk-in and later time-slot deals stay clearly separated." },
+    { q: "Can I compare lunch and dinner restaurant offers separately?", a: "Yes. Use Lunch / afternoon or Dinner / evening to find timed offers. Each deal shows whether it is live now, starts later, requires pre-booking or works as a walk-in offer." },
     { q: "Do bank card offers stack with restaurant deals?", a: "Often, yes: many deals list an extra discount for specific bank cards. Check the card line under each offer and the bill minimum." },
     { q: "How often are the deals updated?", a: `They are fetched from Swiggy Dineout and District regularly; this list was last updated ${updated}. Offers change often, so confirm in the app before you pay.` },
   ];
@@ -126,7 +139,7 @@ export default function OffersPage() {
       {hubLd.map((x, i) => <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(x) }} />)}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
-      <EateriesApp initialTab="deals" />
+      <EateriesApp initialTab="deals" initialPageHeading={TITLE} initialDealsTitle="Hyderabad restaurant deals" initialDealsLandingLinks={landingLinks} />
     </>
   );
 }

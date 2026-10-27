@@ -23,6 +23,7 @@ import { slugFromTitle, SEO_THEME_PICKS } from "../../../lib/rankings.js";
 import { getIndexableSpotIds } from "../../../lib/spotContent.js";
 import { dishSeedsFor } from "../../../lib/dishSeeds.js";
 import { getSpotSearchProfile } from "../../../lib/searchOpportunities.js";
+import { modeLabel, normalizePlatformOffers } from "../../../lib/offerIntelligence.js";
 
 const CAT_LABEL = {
   cafe: "Cafe", local: "Local Eats", "restro-bar": "Restro Bar", bakery: "Bakery", "ice-cream": "Ice Cream",
@@ -300,6 +301,22 @@ export default async function SpotPage({ params }) {
       spotOffers = verifiedOffers(parsed.spots?.[spot.id]);
     }
   } catch {}
+  const structuredOffers = ["district", "swiggy"].flatMap((platform) =>
+    normalizePlatformOffers(spot.id, platform, spotOffers?.[platform]).filter((offer) => offer.kind === "restaurant" && offer.date && offer.venue.match?.status === "verified")
+  );
+  const offersLd = structuredOffers.length ? {
+    "@context": "https://schema.org",
+    "@graph": structuredOffers.map((offer) => ({
+      "@type": "Offer",
+      name: offer.title,
+      description: [modeLabel(offer.bookingMode), offer.mealPeriod, offer.slotsLeft ? `${offer.slotsLeft} slots left` : null].filter(Boolean).join(" · "),
+      url: offer.sourceUrl,
+      availability: "https://schema.org/LimitedAvailability",
+      validFrom: `${offer.date}T00:00:00+05:30`,
+      validThrough: `${offer.date}T23:59:59+05:30`,
+      seller: { "@type": "Restaurant", name: spot.name, url: `${siteUrl}${spotPath(spot)}` },
+    })),
+  } : null;
 
   const redditData = getRedditSpotData(spot.id, spot.name, spotSlug(spot));
   // Entity-reviewed r/hyderabad evidence from the shared resolver.
@@ -444,6 +461,7 @@ export default async function SpotPage({ params }) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }} />
+      {offersLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(offersLd) }} />}
       {faqs.length > 0 && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(faqs)) }} />
       )}
@@ -797,7 +815,7 @@ export default async function SpotPage({ params }) {
             <section className="spot-section sp-offers" aria-label="Offers">
               <div className="sp-offers-title">
                 <h2>Offers checked today</h2>
-                <Link href="/offers">Compare every deal →</Link>
+                <Link href={`/offers?deal=${encodeURIComponent(spot.id)}`}>Compare this exact branch →</Link>
               </div>
               {[["district", "District by Zomato", "Book a table"], ["swiggy", "Swiggy Dineout", "Pay the bill"]].map(([k, label, cta]) => spotOffers[k]?.hasOffers && (
                 <div key={k} className="sp-offer">

@@ -8,6 +8,8 @@ on:
     # so fire every 3 hours on an off-peak minute. The freshness guard below skips a run
     # when the data is already under 2 hours old, so late runs never stack up.
     - cron: "17 21,0,3,6,9,12,15,18 * * *" # every 3h from 02:47 IST
+    - cron: "15 2 * * *"          # daily verification of every known District branch
+    - cron: "45 2 * * 0"          # weekly full District discovery across approved eateries
   workflow_dispatch:
     inputs:
       target:
@@ -19,6 +21,15 @@ on:
           - all
           - swiggy
           - district
+      district_mode:
+        description: "District coverage mode"
+        required: true
+        default: "active"
+        type: choice
+        options:
+          - active
+          - verified
+          - discover
 
 concurrency:
   group: offers-data
@@ -39,7 +50,7 @@ jobs:
 
       - name: Freshness guard
         id: fresh
-        if: ${{ github.event_name == 'schedule' }}
+        if: ${{ github.event.schedule == '17 21,0,3,6,9,12,15,18 * * *' }}
         run: |
           age=$(node -e 'const j=require("./data/curated-offers.json");console.log(Math.round((Date.now()-Date.parse(j.updatedAt))/60000))')
           echo "Offers data is ${age} minutes old"
@@ -47,11 +58,17 @@ jobs:
 
       - name: Scrape District offers
         if: ${{ steps.fresh.outputs.skip != 'true' && (github.event_name != 'workflow_dispatch' || inputs.target == 'all' || inputs.target == 'district') }}
+        env:
+          OFFER_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.district_mode || github.event.schedule == '45 2 * * 0' && 'discover' || github.event.schedule == '15 2 * * *' && 'verified' || 'active' }}
         run: node scripts/expand-comp-spots.mjs
 
       - name: Scrape Swiggy Dineout offers
-        if: ${{ steps.fresh.outputs.skip != 'true' && (github.event_name != 'workflow_dispatch' || inputs.target == 'all' || inputs.target == 'swiggy') }}
+        if: ${{ steps.fresh.outputs.skip != 'true' && ((github.event_name == 'workflow_dispatch' && (inputs.target == 'all' || inputs.target == 'swiggy')) || github.event.schedule == '17 21,0,3,6,9,12,15,18 * * *') }}
         run: node scripts/fetch-swiggy-dineout.mjs
+
+      - name: Normalize offers, update 28-day history and coverage
+        if: ${{ steps.fresh.outputs.skip != 'true' }}
+        run: node scripts/update-offer-history.mjs
 
       - name: Commit and push
         id: push
@@ -59,16 +76,16 @@ jobs:
         run: |
           git config user.name  "offers-bot"
           git config user.email "actions@github.com"
-          git add data/curated-offers.json
+          git add data/curated-offers.json data/offer-history.json data/offer-coverage.json
+          test ! -f data/offer-unmatched.json || git add data/offer-unmatched.json
           git diff --staged --quiet && exit 0
           git commit -m "chore(offers): refresh dining deals"
           git pull --rebase origin ${{ github.ref_name }}
           git push
           echo "pushed=true" >> "$GITHUB_OUTPUT"
 
-      # Bot pushes do not trigger other workflows, so fresh data sat in master without
-      # deploying. Dispatch both deploys directly: the site, and the API worker that
-      # serves /api/offers from its bundled data.
+      # workflow_run in static-site.yml stopped firing after this job was consolidated,
+      # so fresh data sat in master without deploying. Dispatch the deploy directly.
       - name: Deploy site
         if: ${{ steps.push.outputs.pushed == 'true' }}
         env:
