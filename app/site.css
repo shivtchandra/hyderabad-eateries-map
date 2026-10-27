@@ -366,16 +366,16 @@
 .review-map-link:hover{ background: color-mix(in srgb, var(--violet) 18%, #fff); }
 
 /* ============================================================
-   Author / Editorial Review Take Card (Magazine-Grade)
+   Author / Editorial Review Take Card (Magazine-Grade, Compact)
    ============================================================ */
 .review-take-card {
   position: relative;
   background: var(--cream-hi);
-  border-radius: var(--r-card, 18px);
-  padding: 22px 24px;
-  margin: 0 0 28px;
-  box-shadow: 0 4px 20px -2px rgba(124, 58, 237, 0.08), 0 1px 3px rgba(20, 20, 20, 0.05);
-  border: 1px solid color-mix(in srgb, var(--violet) 22%, var(--line));
+  border-radius: var(--r-card, 16px);
+  padding: 18px 20px;
+  margin: 0 0 24px;
+  box-shadow: 0 4px 16px -2px rgba(124, 58, 237, 0.06), 0 1px 3px rgba(20, 20, 20, 0.04);
+  border: 1px solid color-mix(in srgb, var(--violet) 18%, var(--line));
   overflow: hidden;
 }
 
@@ -385,7 +385,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
+  height: 3px;
   background: linear-gradient(90deg, var(--violet), var(--pop));
 }
 
@@ -393,22 +393,22 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
-  padding-bottom: 16px;
-  margin-bottom: 16px;
+  gap: 12px;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
   border-bottom: 1px solid var(--line);
 }
 
 .take-card-author {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   min-width: 0;
 }
 
 .take-author-avatar {
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--violet), var(--violet-deep));
   color: #ffffff;
@@ -417,29 +417,29 @@
   justify-content: center;
   font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 850;
-  font-size: 15px;
+  font-size: 13.5px;
   letter-spacing: -0.02em;
-  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.28);
+  box-shadow: 0 2px 6px rgba(124, 58, 237, 0.22);
   flex-shrink: 0;
 }
 
 .take-author-meta {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
   min-width: 0;
 }
 
 .take-author-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
 .take-author-name {
   font-weight: 750;
-  font-size: 16px;
+  font-size: 15px;
   color: var(--ink);
   letter-spacing: -0.01em;
 }
@@ -456,18 +456,18 @@
 .take-verified-pill {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 3px 8px;
+  gap: 3px;
+  padding: 2px 7px;
   border-radius: var(--r-pill);
   background: #e7f6ee;
   color: #176b45;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 750;
   letter-spacing: 0.02em;
 }
 
 .take-author-sub {
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--muted);
   font-weight: 500;
 }
@@ -475,8 +475,8 @@
 .take-score-pill {
   display: flex;
   align-items: baseline;
-  gap: 4px;
-  padding: 8px 14px;
+  gap: 3px;
+  padding: 6px 11px;
   border-radius: var(--r-pill);
   flex-shrink: 0;
 }
@@ -487,28 +487,28 @@
 
 .take-score-num {
   font-family: var(--font-display), system-ui, sans-serif;
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 850;
   letter-spacing: -0.02em;
 }
 
 .take-score-denom {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   opacity: 0.75;
   text-transform: uppercase;
 }
 
 .take-card-body {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .take-tag {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 8px;
-  font-size: 11px;
+  gap: 5px;
+  margin-bottom: 6px;
+  font-size: 10.5px;
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -516,8 +516,8 @@
 }
 
 .take-tag-dot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: var(--violet);
 }
@@ -525,64 +525,168 @@
 .take-quote {
   margin: 0;
   font-family: var(--font-display), system-ui, sans-serif;
-  font-size: clamp(17px, 2.6vw, 20px);
+  font-size: clamp(15.5px, 2.4vw, 18px);
   font-weight: 600;
-  line-height: 1.45;
+  line-height: 1.4;
   letter-spacing: -0.015em;
   color: var(--ink);
 }
 
 .take-pills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 10px;
-  padding-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 10px;
   border-top: 1px dashed var(--line);
 }
 
 .take-pill-item {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: color-mix(in srgb, var(--paper) 35%, var(--cream-hi));
+  gap: 5px;
+  padding: 5px 9px;
+  border-radius: var(--r-pill, 999px);
+  background: color-mix(in srgb, var(--paper) 40%, var(--cream-hi));
 }
 
 .take-pill-icon {
-  font-size: 18px;
+  font-size: 12px;
   line-height: 1;
   flex-shrink: 0;
 }
 
 .take-pill-text {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  min-width: 0;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
 }
 
 .take-pill-label {
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 750;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   color: var(--muted);
 }
 
 .take-pill-val {
-  font-size: 12px;
+  font-size: 11.5px;
+  font-weight: 650;
+  color: var(--ink);
+}
+
+/* What to order kicker & badges */
+.review-plates-kicker {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--violet);
+  margin-bottom: 4px;
+}
+
+.review-dish-badge {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--violet);
+}
+
+/* More popular options locals order */
+.spot-suggested-options {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--line);
+}
+
+.spot-suggested-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.spot-suggested-title {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 750;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.spot-suggested-sub {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.spot-suggested-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+}
+
+.spot-suggested-chip {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--cream-hi);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.spot-suggested-chip-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.spot-suggested-chip-top b {
+  font-size: 13px;
   font-weight: 700;
   color: var(--ink);
+  line-height: 1.25;
+}
+
+.spot-suggested-chip-price {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--violet);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+.spot-suggested-chip-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.spot-suggested-chip-tag {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--yellow) 28%, transparent);
+  color: #8c5d00;
+  font-size: 9.5px;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 /* Pro-Tip & Ordering Strategy Card */
 .review-insider-tip {
   margin-top: 20px;
-  padding: 18px 20px;
+  padding: 16px 18px;
   border-radius: 14px;
   background: color-mix(in srgb, var(--yellow) 15%, #ffffff);
   border: 1px solid color-mix(in srgb, var(--yellow) 40%, transparent);
@@ -608,15 +712,11 @@
 }
 
 @media (max-width: 580px) {
-  .take-card-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+  .review-take-card {
+    padding: 16px;
+    margin: 0 0 20px;
   }
-  .take-score-pill {
-    align-self: flex-start;
-  }
-  .take-pills-grid {
+  .spot-suggested-grid {
     grid-template-columns: 1fr;
   }
 }

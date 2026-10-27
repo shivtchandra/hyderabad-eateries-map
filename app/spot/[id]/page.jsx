@@ -644,6 +644,76 @@ export default async function SpotPage({ params }) {
       {isReview ? (
         <div className="review">
 
+          {scoredDishes.length > 0 && (
+            <section className="spot-section review-plates" aria-label="What to order">
+              <div className="review-section-head">
+                <span className="review-plates-kicker">Recommended Order</span>
+                <h2>What to order</h2>
+                <p>The top recommendations at {displayName(spot.name)}</p>
+              </div>
+              <div className="review-dish-grid">
+                {scoredDishes.map((d, i) => (
+                  <article key={i} className={`review-dish review-dish--${scoreTone(d.score)}`}>
+                    <div className="review-dish-top">
+                      <h3>{d.name}</h3>
+                      {d.score != null && (
+                        <span className="review-dish-score">
+                          {Number.isInteger(d.score) ? d.score : d.score.toFixed(1)}
+                          <small>/10</small>
+                        </span>
+                      )}
+                    </div>
+                    {d.noteClean && <p>{d.noteClean}</p>}
+                    <span className="review-dish-badge">{i === 0 ? "★ Signature Pick" : "★ Must-Order"}</span>
+                  </article>
+                ))}
+              </div>
+
+              {spot.suggestedOptions?.length > 0 && (
+                <div className="spot-suggested-options">
+                  <div className="spot-suggested-head">
+                    <span className="spot-suggested-title">More popular options locals order</span>
+                    <span className="spot-suggested-sub">Alternative stall picks</span>
+                  </div>
+                  <div className="spot-suggested-grid">
+                    {spot.suggestedOptions.map((opt, oIdx) => (
+                      <div key={oIdx} className="spot-suggested-chip">
+                        <div className="spot-suggested-chip-top">
+                          <b>{opt.name}</b>
+                          {opt.price && <span className="spot-suggested-chip-price">{opt.price}</span>}
+                        </div>
+                        <div className="spot-suggested-chip-meta">
+                          <span>{opt.stall}</span>
+                          {opt.tag && <span className="spot-suggested-chip-tag">{opt.tag}</span>}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </section>
+          )}
+
+          {spot.visitItems?.length > 0 && (
+            <section className="spot-section review-plates">
+              <div className="review-section-head">
+                <h2>What we tried</h2>
+                <p>Items from this visit, not general menu recommendations</p>
+              </div>
+              <div className="review-dish-grid">
+                {spot.visitItems.map((item, i) => (
+                  <article key={i} className="review-dish review-dish--low">
+                    <div className="review-dish-top">
+                      <h3>{item.name}</h3>
+                    </div>
+                    {item.note && <p>{item.note}</p>}
+                    <em>Visit note</em>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )}
+
           {(spot.verdict || spot.highlight?.text || spot.regularNote) && (
             <section className="review-take-card" aria-label="Editorial verdict">
               <div className="take-card-header">
@@ -706,59 +776,13 @@ export default async function SpotPage({ params }) {
                     <div key={idx} className="take-pill-item">
                       <span className="take-pill-icon" aria-hidden="true">{t.icon}</span>
                       <div className="take-pill-text">
-                        <span className="take-pill-label">{t.label}</span>
+                        <span className="take-pill-label">{t.label}:</span>
                         <b className="take-pill-val">{t.value}</b>
                       </div>
                     </div>
                   ))}
                 </div>
               )}
-            </section>
-          )}
-
-          {spot.visitItems?.length > 0 && (
-            <section className="spot-section review-plates">
-              <div className="review-section-head">
-                <h2>What we tried</h2>
-                <p>Items from this visit, not general menu recommendations</p>
-              </div>
-              <div className="review-dish-grid">
-                {spot.visitItems.map((item, i) => (
-                  <article key={i} className="review-dish review-dish--low">
-                    <div className="review-dish-top">
-                      <h3>{item.name}</h3>
-                    </div>
-                    {item.note && <p>{item.note}</p>}
-                    <em>Visit note</em>
-                  </article>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {scoredDishes.length > 0 && (
-            <section className="spot-section review-plates">
-              <div className="review-section-head">
-                <h2>The plate</h2>
-                <p>What we tried, scored out of 10</p>
-              </div>
-              <div className="review-dish-grid">
-                {scoredDishes.map((d, i) => (
-                  <article key={i} className={`review-dish review-dish--${scoreTone(d.score)}`}>
-                    <div className="review-dish-top">
-                      <h3>{d.name}</h3>
-                      {d.score != null && (
-                        <span className="review-dish-score">
-                          {Number.isInteger(d.score) ? d.score : d.score.toFixed(1)}
-                          <small>/10</small>
-                        </span>
-                      )}
-                    </div>
-                    {d.noteClean && <p>{d.noteClean}</p>}
-                    {d.isSignature && <em>Signature</em>}
-                  </article>
-                ))}
-              </div>
             </section>
           )}
 
