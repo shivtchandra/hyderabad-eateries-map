@@ -846,6 +846,23 @@
   opacity: 0.62;
   margin-left: 1px;
 }
+.review-dish--skip {
+  background: var(--paper);
+  border: 1px dashed var(--line);
+  opacity: 0.88;
+}
+.review-dish-score--skip {
+  background: var(--pop-wash);
+  color: var(--pop-deep);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 8px;
+}
+.review-dish--skip .review-dish-badge {
+  color: var(--muted);
+}
 .review-dish--high .review-dish-score{
   background: #e7f6ee;
   color: #176b45;

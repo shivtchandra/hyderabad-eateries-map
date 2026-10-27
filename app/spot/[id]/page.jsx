@@ -653,18 +653,22 @@ export default async function SpotPage({ params }) {
               </div>
               <div className="review-dish-grid">
                 {scoredDishes.map((d, i) => (
-                  <article key={i} className={`review-dish review-dish--${scoreTone(d.score)}`}>
+                  <article key={i} className={`review-dish review-dish--${d.skip ? "skip" : scoreTone(d.score)}`}>
                     <div className="review-dish-top">
                       <h3>{d.name}</h3>
-                      {d.score != null && (
+                      {d.score != null ? (
                         <span className="review-dish-score">
                           {Number.isInteger(d.score) ? d.score : d.score.toFixed(1)}
                           <small>/10</small>
                         </span>
-                      )}
+                      ) : d.skip ? (
+                        <span className="review-dish-score review-dish-score--skip">Skip</span>
+                      ) : null}
                     </div>
                     {d.noteClean && <p>{d.noteClean}</p>}
-                    <span className="review-dish-badge">{i === 0 ? "★ Signature Pick" : "★ Must-Order"}</span>
+                    <span className="review-dish-badge">
+                      {d.skip ? "⚠️ Caveat / Skip" : i === 0 ? "★ Signature Pick" : "★ Recommended"}
+                    </span>
                   </article>
                 ))}
               </div>
