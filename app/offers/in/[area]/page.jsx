@@ -6,8 +6,11 @@ import { loadOfferPageData, qualifiedOfferAreas } from "../../../../lib/offerPag
 export const dynamicParams = false;
 export const revalidate = false;
 
+// Static export needs at least one param; with no qualifying area the
+// placeholder renders notFound() and the sitemap lists nothing.
 export function generateStaticParams() {
-  return qualifiedOfferAreas().map(({ slug }) => ({ area: slug }));
+  const areas = qualifiedOfferAreas().map(({ slug }) => ({ area: slug }));
+  return areas.length ? areas : [{ area: "none" }];
 }
 
 export async function generateMetadata({ params }) {

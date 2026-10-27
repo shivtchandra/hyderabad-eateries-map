@@ -6,8 +6,11 @@ import { OFFER_VIEWS, loadOfferPageData, qualifiedOfferViews, spotsForOfferView 
 export const dynamicParams = false;
 export const revalidate = false;
 
+// Static export needs at least one param; with no qualifying view the
+// placeholder renders notFound() and the sitemap lists nothing.
 export function generateStaticParams() {
-  return qualifiedOfferViews().map((view) => ({ view }));
+  const views = qualifiedOfferViews().map((view) => ({ view }));
+  return views.length ? views : [{ view: "none" }];
 }
 
 export async function generateMetadata({ params }) {
