@@ -714,76 +714,19 @@ export default async function SpotPage({ params }) {
             </section>
           )}
 
-          {(spot.verdict || spot.highlight?.text || spot.regularNote) && (
-            <section className="review-take-card" aria-label="Editorial verdict">
-              <div className="take-card-header">
-                <div className="take-card-author">
-                  <div className="take-author-avatar" aria-hidden="true">
-                    {getAuthorInitials(spot.author?.name || reviewAuthorName)}
-                  </div>
-                  <div className="take-author-meta">
-                    <div className="take-author-row">
-                      <span className="take-author-name">
-                        {spot.author?.url ? (
-                          <a href={spot.author.url} target="_blank" rel="noopener noreferrer" className="review-author-link">
-                            {spot.author.name}
-                          </a>
-                        ) : (
-                          reviewAuthorName
-                        )}
-                      </span>
-                      <span className="take-verified-pill" title="Verified review">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                        Curator take
-                      </span>
-                    </div>
-                    <div className="take-author-sub">
-                      <span>{reviewAuthorRole}</span>
-                      {spot.reviewedAt && (
-                        <span> · {formatVisitDate(spot.reviewedAt)}</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {spot.verdict?.score != null ? (
-                  <div className={`take-score-pill take-score--${scoreTone(spot.verdict.score)}`} aria-label={`Score ${spot.verdict.score} out of ${spot.verdict.outOf || 10}`}>
-                    <span className="take-score-num">★ {Number.isInteger(spot.verdict.score) ? spot.verdict.score : spot.verdict.score.toFixed(1)}</span>
-                    <span className="take-score-denom">/ {spot.verdict.outOf || 10}</span>
-                  </div>
-                ) : (
-                  <Link href={`/#spot=${encodeURIComponent(spot.id)}`} className="review-map-link">
-                    Open on map
-                  </Link>
-                )}
-              </div>
-
-              <div className="take-card-body">
-                {(spot.verdict?.label || spot.highlight?.label) && (
-                  <div className="take-tag">
-                    <span className="take-tag-dot" aria-hidden="true"></span>
-                    <span>{spot.verdict?.label || spot.highlight?.label}</span>
-                  </div>
-                )}
-                <blockquote className="take-quote">
-                  &ldquo;{spot.verdict?.blurb || spot.highlight?.text || spot.regularNote}&rdquo;
-                </blockquote>
-              </div>
-
-              {spot.verdict?.takeaways?.length > 0 && (
-                <div className="take-pills-grid">
-                  {spot.verdict.takeaways.map((t, idx) => (
-                    <div key={idx} className="take-pill-item">
-                      <span className="take-pill-icon" aria-hidden="true">{t.icon}</span>
-                      <div className="take-pill-text">
-                        <span className="take-pill-label">{t.label}:</span>
-                        <b className="take-pill-val">{t.value}</b>
-                      </div>
-                    </div>
-                  ))}
+          {(spot.verdict || spot.highlight?.text) && (
+            <div className="review-verdict">
+              {spot.verdict?.score != null && (
+                <div className={`review-score review-score--${scoreTone(spot.verdict.score)}`} aria-label={`Score ${spot.verdict.score} out of ${spot.verdict.outOf || 10}`}>
+                  <strong>{spot.verdict.score}</strong>
+                  <span>of {spot.verdict.outOf || 10}</span>
                 </div>
               )}
-            </section>
+              <div className="review-verdict-copy">
+                <p className="review-verdict-label">{spot.verdict?.label || spot.highlight?.label || "The take"}</p>
+                <p>{spot.verdict?.blurb || spot.highlight?.text}</p>
+              </div>
+            </div>
           )}
 
           {(spot.originStory?.length > 0 || spot.regularNote) && (

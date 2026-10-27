@@ -4,7 +4,7 @@
 //  - hashed build assets and fonts: cache first, never re-fetched (immutable)
 //  - icons, photos, map tiles: cache first, fetched only on a miss
 //  - API calls are never cached (votes, deals and dishes must be live)
-const VERSION = "eats-v3";
+const VERSION = "eats-v4";
 const PAGES = `${VERSION}-pages`;
 const ASSETS = `${VERSION}-assets`;
 const SHELL = ["/", "/offers", "/stories", "/race/this-week", "/icon-192.png"];
