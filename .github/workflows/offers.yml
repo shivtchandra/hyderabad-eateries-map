@@ -66,10 +66,13 @@ jobs:
           git push
           echo "pushed=true" >> "$GITHUB_OUTPUT"
 
-      # workflow_run in static-site.yml stopped firing after this job was consolidated,
-      # so fresh data sat in master without deploying. Dispatch the deploy directly.
+      # Bot pushes do not trigger other workflows, so fresh data sat in master without
+      # deploying. Dispatch both deploys directly: the site, and the API worker that
+      # serves /api/offers from its bundled data.
       - name: Deploy site
         if: ${{ steps.push.outputs.pushed == 'true' }}
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh workflow run static-site.yml --ref ${{ github.ref_name }}
+        run: |
+          gh workflow run static-site.yml --ref ${{ github.ref_name }}
+          gh workflow run api-worker.yml --ref ${{ github.ref_name }}

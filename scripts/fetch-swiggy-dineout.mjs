@@ -26,6 +26,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 const OFFERS_FILE = process.env.OFFERS_FILE || path.join(ROOT, "data", "curated-offers.json");
 const EATERIES_FILE = path.join(ROOT, "data", "eateries.json");
+const UNMATCHED_FILE = path.join(ROOT, "data", "offer-unmatched.json");
 const LIMIT = Number(process.env.LIMIT || Infinity);
 const MAX_LOCALITIES = Number(process.env.MAX_LOCALITIES || 285);
 const DELAY_MS = Number(process.env.DELAY_MS || 600);
@@ -113,9 +114,68 @@ function detailOffers(data) {
     const dc = seg.dineCashInfo?.offers?.[0];
     if (dc?.title) cashback = `${dc.title} ${dc.description || ""}`.trim();
   }
+  // The restaurant's own offers, per weekday. A listing card shows only one of them
+  // (often the best day's), which made e.g. Monday's 30% show up on a Tuesday.
+  const schedule = [];
+  for (const seg of deal?.dayWiseOfferInfo || []) {
+    for (const tab of seg.tabsOfferInfo?.offersTab || []) {
+      for (const o of tab.tabOffers?.offers || []) {
+        const title = (o.title || o.textInfo?.info || "").replace(/\s+/g, " ").trim();
+        if (!title) continue;
+        let type = "";
+        try { type = JSON.parse(o.analytics?.context || "{}").offer_type || ""; } catch {}
+        const desc = (o.description || "").trim();
+        schedule.push({
+          title,
+          mode: /walk/i.test(type) ? "walkin" : "prebook",
+          days: parseDays(desc),
+          fee: num((desc.match(/booking fee:\s*₹\s?([\d,]+)/i) || [])[1]),
+          pct: num((title.match(/(\d{1,2})\s*%/) || [])[1]),
+          flat: num((title.match(/₹\s?([\d,]+)/) || [])[1]),
+          note: desc || null,
+        });
+      }
+    }
+  }
   const lat = Number(entity?.locationInfo?.lat ?? entity?.locationInfo?.latitude);
   const lng = Number(entity?.locationInfo?.long ?? entity?.locationInfo?.lng ?? entity?.locationInfo?.longitude);
-  return { lat: Number.isFinite(lat) ? lat : null, lng: Number.isFinite(lng) ? lng : null, cardOffers, cashback };
+  return { lat: Number.isFinite(lat) ? lat : null, lng: Number.isFinite(lng) ? lng : null, cardOffers, cashback, schedule };
+}
+
+const WEEK = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+// "Available on Tue, Thu, Sat ..." | "Available on Mon-Sun" -> [2, 4, 6] | [0..6]. No day text = every day.
+function parseDays(text) {
+  const m = (text || "").match(/available on\s+([a-z ,\-]+?)(?:\s+with|$)/i);
+  if (!m) return [0, 1, 2, 3, 4, 5, 6];
+  const days = new Set();
+  for (const part of m[1].toLowerCase().split(",").map((s) => s.trim()).filter(Boolean)) {
+    const [a, b] = part.split("-").map((s) => WEEK.indexOf(s.trim().slice(0, 3)));
+    if (a < 0) continue;
+    if (b == null || b < 0) { days.add(a); continue; }
+    for (let d = a; ; d = (d + 1) % 7) { days.add(d); if (d === b) break; }
+  }
+  return days.size ? [...days].sort() : [0, 1, 2, 3, 4, 5, 6];
+}
+
+// Today's best own offer (IST), pre-book first since that is what Swiggy leads with.
+function todaysDeal(schedule, listingDeal) {
+  const today = new Date(Date.now() + 5.5 * 3600e3).getUTCDay();
+  const value = (o) => (o.pct || 0) * 100 + (o.flat || 0) / 10;
+  const pick = (mode) => schedule.filter((o) => o.mode === mode && o.days.includes(today)).sort((a, b) => value(b) - value(a))[0];
+  const o = pick("prebook") || pick("walkin");
+  if (!o) return schedule.length ? null : listingDeal;
+  return {
+    title: o.title,
+    on: o.mode === "walkin" ? "on walk-in" : "on pre-booking",
+    pct: o.pct,
+    flat: o.flat,
+    applicableNow: null,
+    allDay: true,
+    note: o.note,
+    bookingMode: o.mode,
+    days: o.days,
+    fee: o.fee,
+  };
 }
 
 // ---- matching to our eateries ----
@@ -135,7 +195,7 @@ function metres(a, b) {
   return 2 * R * Math.asin(Math.sqrt(x));
 }
 function matchEatery(sw, eateries) {
-  let best = null;
+  const matches = [];
   for (const e of eateries) {
     if (!e.lat || !e.lng) continue;
     const d = metres(sw, e);
@@ -145,9 +205,12 @@ function matchEatery(sw, eateries) {
     const ok = (s >= 0.99 && d <= 600) || (s >= 0.66 && d <= 300) || d <= 120;
     if (!ok) continue;
     const rank = s * 1000 - d;
-    if (!best || rank > best.rank) best = { e, rank, d, s };
+    matches.push({ e, rank, d, s });
   }
-  return best;
+  matches.sort((a, b) => b.rank - a.rank);
+  if (!matches[0]) return { match: null, reason: "no-strict-coordinate-name-match" };
+  if (matches[1] && matches[0].rank - matches[1].rank < 20) return { match: null, reason: "ambiguous-branch" };
+  return { match: matches[0], reason: null };
 }
 
 const PRIORITY_SLUGS = [
@@ -236,6 +299,7 @@ async function main() {
   console.log(`\nFiltered ${byId.size} unique restaurants -> ${candidates.length} candidate matches for detail scraping.`);
 
   const results = [];
+  const rejected = [];
   let i = 0;
   const candidateRestaurants = candidates.slice(0, LIMIT);
   for (const r of candidateRestaurants) {
@@ -244,26 +308,37 @@ async function main() {
     const det = detailOffers(data);
     await sleep(DELAY_MS);
     if (det.lat == null) {
+      rejected.push({ id: r.info.id, name: r.info.name, locality: r.info.locality || "", url: r.cta.link, reason: "missing-coordinates" });
       console.log(`[${i}/${candidateRestaurants.length}] ${r.info.name}: no location, skipped`);
       continue;
     }
-    const match = matchEatery({ name: r.info.name, lat: det.lat, lng: det.lng }, eateries);
-    const deal = vendorDeal(r.info);
+    const resolved = matchEatery({ name: r.info.name, lat: det.lat, lng: det.lng }, eateries);
+    const match = resolved.match;
+    const deal = todaysDeal(det.schedule, vendorDeal(r.info));
     console.log(
       `[${i}/${candidateRestaurants.length}] ${r.info.name} (${r.info.locality || "Hyderabad"}) -> ` +
       `${match ? `${match.e.name} (${Math.round(match.d)}m)` : "no match"} | ` +
       `${deal?.title || "no own deal"} | ${det.cardOffers.length} card offers`
     );
-    if (!match) continue;
+    if (!match) {
+      rejected.push({ id: r.info.id, name: r.info.name, locality: r.info.locality || "", lat: det.lat, lng: det.lng, url: r.cta.link, reason: resolved.reason });
+      continue;
+    }
     results.push({
       eatery: match.e,
       swiggy: {
         id: r.info.id,
         name: r.info.name,
+        locality: r.info.locality || "",
+        lat: det.lat,
+        lng: det.lng,
         url: r.cta.link,
+        venue: { id: r.info.id, name: r.info.name, locality: r.info.locality || "", lat: det.lat, lng: det.lng, url: r.cta.link },
+        match: { status: "verified", method: "coordinates-name", distanceM: Math.round(match.d), nameScore: Number(match.s.toFixed(3)), matchedAt: new Date().toISOString() },
         hasOffers: Boolean(deal || det.cardOffers.length),
         fetchedAt: new Date().toISOString(),
         deal,
+        schedule: det.schedule,
         cardOffers: det.cardOffers,
         cashback: det.cashback,
         // legacy shape for map sheet / spot page
@@ -289,20 +364,39 @@ async function main() {
     spots[eatery.id] = { name: eatery.name, area: eatery.area || eatery.discoveredIn || "", district: null, ...spots[eatery.id], swiggy };
   }
 
-  // Only drop unseen swiggy data on a successful full run (at least 50 results)
-  // to avoid wiping verified offers if Swiggy rate-limits, errors, or returns partial responses.
-  if (LIMIT === Infinity && results.length >= 50) {
-    for (const [id, s] of Object.entries(spots)) if (!seen.has(id) && s.swiggy) s.swiggy = null;
+  // Swiggy listing pages fail partway often (one run saw 382 restaurants instead of
+  // 919), and dropping everything unseen then wiped half the matches. Drop unseen
+  // entries only when this run found at least 80% of all known matches; otherwise
+  // keep them (their checked date shows their age) until they are 2 days old.
+  const known = Object.values(spots).filter((s) => s.swiggy).length; // this run plus older unseen matches
+  const fullRun = LIMIT === Infinity && results.length >= 50 && results.length >= 0.8 * known;
+  const staleBefore = Date.now() - 2 * 24 * 3600e3;
+  for (const [id, s] of Object.entries(spots)) {
+    if (seen.has(id) || !s.swiggy) continue;
+    if (fullRun || (Date.parse(s.swiggy.fetchedAt) || 0) < staleBefore) s.swiggy = null;
   }
+  if (!fullRun) console.log(`Partial Swiggy run (${results.length} of ~${known} known); kept unseen entries under 2 days old.`);
 
   const has = (s) => s.district?.hasOffers || s.swiggy?.hasOffers;
+  const refreshedAt = new Date().toISOString();
+  cur.coverage = {
+    ...(cur.coverage || {}),
+    swiggyDiscovery: {
+      discovered: byId.size, candidates: candidateRestaurants.length, matched: results.length,
+      unmatched: rejected.filter((item) => item.reason !== "ambiguous-branch").length,
+      rejectedMatches: rejected.filter((item) => item.reason === "ambiguous-branch").length,
+      refreshedAt,
+    },
+  };
   fs.writeFileSync(OFFERS_FILE, JSON.stringify({
     ...cur,
-    updatedAt: new Date().toISOString(),
-    swiggyUpdatedAt: new Date().toISOString(),
+    updatedAt: refreshedAt,
+    swiggyUpdatedAt: refreshedAt,
     totalSpotsWithOffers: Object.values(spots).filter(has).length,
     spots,
   }, null, 2), "utf8");
+  const unmatched = fs.existsSync(UNMATCHED_FILE) ? JSON.parse(fs.readFileSync(UNMATCHED_FILE, "utf8")) : {};
+  fs.writeFileSync(UNMATCHED_FILE, JSON.stringify({ ...unmatched, updatedAt: refreshedAt, swiggy: rejected }, null, 2) + "\n", "utf8");
   console.log(`\nDone: ${results.length} Swiggy restaurants matched to our spots (of ${byId.size} seen).`);
 }
 
