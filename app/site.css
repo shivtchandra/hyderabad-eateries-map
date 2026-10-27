@@ -721,15 +721,21 @@
   }
 }
 
+.review{
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
 .review-verdict{
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 14px;
+  gap: 18px;
   align-items: center;
-  margin: 0 0 28px;
-  padding: 16px;
-  border-radius: var(--r-lg);
-  border: 0;
+  margin: 0;
+  padding: 22px 24px;
+  border-radius: var(--r-card);
+  border: 1px solid var(--line);
   background: var(--paper);
 }
 .review-score{
@@ -795,19 +801,27 @@
   color: var(--ink-soft);
 }
 
+.review-plates{
+  margin: 0;
+}
+
 .review-dish-grid{
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
+  gap: 14px;
 }
 @media (min-width: 560px) {
   .review-dish-grid{ grid-template-columns: 1fr 1fr; }
 }
 .review-dish{
-  padding: 14px 14px 12px;
-  border-radius: var(--r-md);
-  border: 0;
+  padding: 18px 18px 16px;
+  border-radius: var(--r-card);
+  border: 1px solid var(--line);
   background: var(--cream-hi);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
 }
 .review-dish-top{
   display: flex;
@@ -1512,21 +1526,281 @@ a.of-card-name:hover{ color: var(--violet-deep); }
 .sp-thread{ display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-top: var(--s3); min-height: 48px; padding: 0 var(--s4); border-radius: var(--r-btn); border: 1px solid var(--line); color: var(--ink); font-size: 14px; text-decoration: none; }
 .sp-thread:hover{ border-color: var(--ink); }
 
-.sp-offers{ margin: 0 0 var(--s7); }
-.sp-offers-title{ display: flex; align-items: baseline; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s3); }
-.sp-offers-title h2{ margin: 0; }
-.sp-offers-title > a{ color: var(--violet-deep); font-size: 13px; font-weight: 750; text-decoration: none; white-space: nowrap; }
-.sp-offers-title > a:hover{ text-decoration: underline; }
-.sp-offer{ padding: var(--s4); border-radius: var(--r-card); background: var(--cream-hi); }
-.sp-offer + .sp-offer{ margin-top: var(--s2); }
-.sp-offer-head{ display: flex; align-items: center; justify-content: space-between; gap: var(--s3); }
-.sp-offer-head b{ font-size: 15px; }
-.sp-offer-head a{ font-size: 14px; font-weight: 700; color: var(--violet-deep); text-decoration: none; white-space: nowrap; }
-.sp-offer ul{ list-style: none; margin: var(--s2) 0 0; padding: 0; }
-.sp-offer li{ padding: 12px 0; border-top: 1px solid var(--line); }
-.sp-offer li:first-child{ border-top: 0; }
-.sp-offer li b{ display: block; font-size: 14px; font-weight: 600; }
-.sp-offer li span{ display: block; margin-top: 2px; font-size: 13px; color: var(--ink-soft); }
+/* ---- Spot Two-Column Layout (Desktop Top-Right Sidebar) ---- */
+.site-body:has(.sp-layout) {
+  max-width: 1060px;
+  padding: 24px 20px 56px;
+}
+
+.sp-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.sp-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.sp-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 860px) {
+  .sp-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 44px;
+    align-items: start;
+  }
+  .sp-sidebar {
+    position: sticky;
+    top: 24px;
+    padding-top: 4px;
+  }
+}
+
+.sp-sidebar .sp-where {
+  margin: 0;
+  background: var(--cream-hi);
+  border-radius: var(--r-card);
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.sp-sidebar .sp-where .sp-where-row {
+  padding: 14px 16px;
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.sp-sidebar .sp-where .sp-where-row p {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  margin: 0;
+}
+.sp-sidebar .sp-where-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.sp-sidebar .sp-where-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  background: var(--violet-wash);
+  color: var(--violet-deep);
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all var(--dur-2) ease;
+}
+.sp-sidebar .sp-where-link:hover {
+  background: var(--violet);
+  color: #fff;
+}
+.sp-sidebar .sp-where-directions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all var(--dur-2) ease;
+}
+.sp-sidebar .sp-where-directions:hover {
+  border-color: var(--ink);
+}
+
+.sp-sidebar .sp-facts {
+  margin: 0;
+  border: 1px solid var(--line);
+  background: var(--cream-hi);
+  border-radius: var(--r-card);
+  padding: 0 16px;
+}
+.sp-sidebar .sp-facts > div {
+  padding: 12px 0;
+  grid-template-columns: 96px 1fr;
+}
+
+.sp-sidebar .sp-stats {
+  margin: 0;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.sp-sidebar .sp-stat {
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+}
+.sp-sidebar .sp-stat b {
+  font-size: 24px;
+}
+.sp-sidebar .sp-stat span {
+  font-size: 12px;
+}
+
+/* ---- Elevated Spot Offers Section ---- */
+.sp-offers {
+  margin: 0;
+  padding: 24px 22px;
+  border-radius: var(--r-card);
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+.sp-offers-kicker {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--violet);
+  margin-bottom: 4px;
+}
+.sp-offers-title {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s3);
+  margin-bottom: 18px;
+}
+.sp-offers-title h2 {
+  margin: 0;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.sp-offers-compare {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--violet-deep);
+  text-decoration: none;
+}
+.sp-offers-compare:hover {
+  text-decoration: underline;
+}
+.sp-offers-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 580px) {
+  .sp-offers-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.sp-offer {
+  padding: 16px;
+  border-radius: var(--r-md);
+  background: var(--cream-hi);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.sp-offer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.sp-offer-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14.5px;
+  font-weight: 750;
+  color: var(--ink);
+}
+.sp-offer-icon {
+  font-size: 16px;
+}
+.sp-offer-cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 11px;
+  border-radius: var(--r-pill);
+  background: var(--violet-wash);
+  color: var(--violet-deep);
+  font-size: 12px;
+  font-weight: 750;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all var(--dur-2) ease;
+}
+.sp-offer-cta:hover {
+  background: var(--violet);
+  color: #fff;
+}
+.sp-offer-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sp-offer-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.sp-offer-deal {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.sp-offer-deal b {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.sp-offer-code {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--paper);
+  border: 1px dashed var(--line);
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--violet-deep);
+}
+.sp-offer-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--yellow) 30%, transparent);
+  color: #8c5d00;
+  font-size: 9.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.sp-offer-desc {
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
 
 .sp-bar{ position: fixed; left: 0; right: 0; bottom: 0; z-index: 1300; padding: 12px var(--s4) calc(12px + env(safe-area-inset-bottom)); background: #fff; box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.08); }
 .sp-bar-inner{ max-width: 860px; margin: 0 auto; display: flex; gap: 12px; }

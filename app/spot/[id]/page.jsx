@@ -477,6 +477,142 @@ export default async function SpotPage({ params }) {
   ].filter(Boolean);
   const quickAnswer = quickAnswerParts.join(" ");
 
+  const hasPlatformOffers = Boolean(spotOffers && (spotOffers.district?.hasOffers || spotOffers.swiggy?.hasOffers || spotOffers.eazydiner?.hasOffers));
+  const offersSection = hasPlatformOffers ? (
+    <section className="spot-section sp-offers" aria-label="Offers and discounts">
+      <div className="sp-offers-title">
+        <div>
+          <span className="sp-offers-kicker">Verified Deals &amp; Discounts</span>
+          <h2>Offers checked today</h2>
+        </div>
+        <Link href={`/offers?deal=${encodeURIComponent(spot.id)}`} className="sp-offers-compare">Compare all deals →</Link>
+      </div>
+      <div className="sp-offers-grid">
+        {[
+          ["district", "District by Zomato", "Book a table", "🍽️"],
+          ["swiggy", "Swiggy Dineout", "Pay the bill", "⚡"],
+          ["eazydiner", "EazyDiner", "Book or Pay", "💳"]
+        ].map(([k, label, cta, icon]) => {
+          const plat = spotOffers[k];
+          if (!plat?.hasOffers) return null;
+          const platOffers = [...(plat.offers || []), ...(plat.bankOffers || [])];
+          if (!platOffers.length) return null;
+          return (
+            <div key={k} className={`sp-offer sp-offer--${k}`}>
+              <div className="sp-offer-head">
+                <div className="sp-offer-brand">
+                  <span className="sp-offer-icon" aria-hidden="true">{icon}</span>
+                  <b>{label}</b>
+                </div>
+                {plat.url && (
+                  <a href={plat.url} target="_blank" rel="noopener noreferrer" className="sp-offer-cta">
+                    {cta} ↗
+                  </a>
+                )}
+              </div>
+              <ul className="sp-offer-list">
+                {platOffers.map((off, i) => (
+                  <li key={i} className="sp-offer-item">
+                    <div className="sp-offer-deal">
+                      <span className="sp-offer-badge">Deal</span>
+                      <b>{off.title}</b>
+                      {off.code && <span className="sp-offer-code">{off.code}</span>}
+                    </div>
+                    {(off.desc || off.description) && (
+                      <span className="sp-offer-desc">{off.desc || off.description}</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  ) : null;
+
+  const consensusSection = hasConsensus && (!isReview || Boolean(redditData?.thread || redditData?.brandData?.quotes?.praise?.length)) ? (
+    <section className="sp-says" aria-label="What locals say">
+      <h2>{redditData?.thread || redditData?.brandData?.quotes?.praise?.length ? (isReview ? "What locals say on r/hyderabad" : "What locals say") : "Mapping HYD's take"}</h2>
+      {!isReview && spot.signatureDish?.name && (
+        <div className="sp-must">
+          <span className="sp-label">Mapping HYD pick</span>
+          <b>{spot.signatureDish.name}</b>
+          {spot.signatureDish.why && <p>{spot.signatureDish.why.replace(/\s*—\s*/g, ", ")}</p>}
+        </div>
+      )}
+      {redditData?.brandData?.quotes?.praise?.length > 0 && (
+        <blockquote className="sp-quote">
+          <p>&ldquo;{redditData.brandData.quotes.praise[0].text.replace(/\s*—\s*/g, ", ")}&rdquo;</p>
+          <cite>A local on r/hyderabad</cite>
+        </blockquote>
+      )}
+      {redditData?.thread && (
+        <a className="sp-thread" href={redditData.thread.url} target="_blank" rel="noopener noreferrer">
+          <span>Talked about in <b>{redditData.thread.shortTitle}</b> on r/hyderabad</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      )}
+    </section>
+  ) : null;
+
+  const venueSidebar = (
+    <aside className="sp-sidebar" aria-label="Venue location and details">
+      {spot.lat != null && spot.lng != null && (
+        <section className="sp-where" aria-label="Where it is">
+          <SpotsMapClient points={[{ lat: spot.lat, lng: spot.lng, kind: "spot", title: displayName(spot.name), sub: areaName || "Hyderabad" }]} height={180} />
+          <div className="sp-where-row">
+            <p>{spot.address || areaName || "Hyderabad"}</p>
+            <div className="sp-where-actions">
+              <Link href={`/#spot=${encodeURIComponent(spot.id)}`} className="sp-where-link">Open on our map</Link>
+              <a href={directionsUrl} target="_blank" rel="noopener noreferrer" className="sp-where-directions">Directions ↗</a>
+            </div>
+          </div>
+        </section>
+      )}
+
+      <dl className="sp-facts">
+        {todaysHours && (<div><dt>Open today</dt><dd>{todaysHours}</dd></div>)}
+        {(spot.visitSpend?.text || spot.costForTwo) && (
+          <div><dt>{spot.visitSpend?.label || "Cost for two"}</dt><dd>{spot.visitSpend?.text || `₹${Number(spot.costForTwo).toLocaleString("en-IN")}`}</dd></div>
+        )}
+        {hasOwnedSignal && spot.rating && (
+          <div><dt>Google rating</dt><dd>{spot.rating}★{spot.ratingCount ? ` (${Number(spot.ratingCount).toLocaleString("en-IN")})` : ""}</dd></div>
+        )}
+        {spot.founded && (<div><dt>Since</dt><dd>{spot.founded}</dd></div>)}
+        {vibe.length > 0 && (<div><dt>Good for</dt><dd>{vibe.join(", ")}</dd></div>)}
+        {spot.phone && (<div><dt>Phone</dt><dd><a href={`tel:${String(spot.phone).replace(/\s+/g, "")}`}>{spot.phone}</a></dd></div>)}
+        {spot.website && (<div><dt>Website</dt><dd><a href={spot.website} target="_blank" rel="noopener noreferrer">{siteHost}</a></dd></div>)}
+        {spot.zomatoUrl && (<div><dt>Order</dt><dd><a href={spot.zomatoUrl} target="_blank" rel="noopener noreferrer">Zomato</a></dd></div>)}
+        {!latestSafety && (<div><dt>Food safety</dt><dd>No matched TG SAFE record in our current tracker; coverage is incomplete. <Link href="/food-safety">How we track</Link></dd></div>)}
+      </dl>
+
+      {context && (context.area || context.cityTopPct <= 25) && (
+        <div className="sp-stats">
+          {context.area && (
+            <div className="sp-stat">
+              <b>{context.areaRank <= 10 ? `#${context.areaRank}` : context.areaCount}</b>
+              <span>{context.areaRank <= 10 ? `most reviewed on Google of ${context.areaCount} ${context.plural} in ${context.area}` : `${context.plural} in ${context.area}`}</span>
+            </div>
+          )}
+          {context.cityTopPct <= 25 && (
+            <div className="sp-stat">
+              <b>Top {context.cityTopPct}%</b>
+              <span>of Hyderabad {context.plural} by Google review count</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {latestSafety && (
+        <a href="#food-safety" className={`spot-safety${/suspen|seiz|clos|cancel/i.test(latestSafety.entry.action || "") ? " is-serious" : ""}`}>
+          <b>Food safety: {ACTIONS[latestSafety.entry.action] || latestSafety.entry.action || "inspection on record"}</b>
+          <span>{formatDate(latestSafety.drive.date)}{latestSafety.drive.authority ? ` · ${latestSafety.drive.authority}` : ""}. See the record.</span>
+        </a>
+      )}
+    </aside>
+  );
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -506,140 +642,67 @@ export default async function SpotPage({ params }) {
         { href: `/explore/${spot.category === "local" ? "biryani-and-local" : spot.category === "restro-bar" ? "bars" : spot.category === "ice-cream" ? "ice-cream" : spot.category === "bakery" ? "bakeries" : "cafes"}`, label: `More ${CAT_LABEL[spot.category] || "spots"}` },
       ]}
     >
-      {topRank && (
-        <Link href={`/rankings/${topRank.slug}`} className={`sp-ticket${topRank.rank === 1 ? " is-first" : ""}`}>
-          <span className="sp-ticket-top">
-            <span className="sp-ticket-kicker">#{topRank.rank} {topRank.label} · Locals&apos; vote</span>
-            <span className="sp-ticket-arrow" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7M9 7h8v8" /></svg>
-            </span>
-          </span>
-          <span className="sp-ticket-count"><b>{topRank.votes}</b> of {topRank.total} {topRank.total === 1 ? "vote" : "votes"}</span>
-          <span className="sp-ticket-line">{ticketLine(topRank)}</span>
-        </Link>
-      )}
-
-      {(moreRanks.length > 0 || ballots.length > 0) && (
-        <section className="spot-ranks" aria-label="More rankings">
-          <h2>{topRank ? "Also in the running" : "On the ballot"}</h2>
-          <ul>
-            {moreRanks.map((r) => (
-              <li key={r.slug}>
-                <Link href={`/rankings/${r.slug}`} className="spot-rank-row">
-                  <span className="spot-rank-num">#{r.rank}</span>
-                  <span className="spot-rank-text">
-                    <b>{r.label}</b>
-                    <span>{r.crowned ? "Crowned. " : ""}{r.votes} {r.votes === 1 ? "vote" : "votes"} at last count</span>
-                  </span>
-                  <span className="spot-rank-cta">Vote</span>
-                </Link>
-              </li>
-            ))}
-            {ballots.map((b) => (
-              <li key={b.slug}>
-                <Link href={`/rankings/${b.slug}`} className="spot-rank-row">
-                  <span className="spot-rank-num spot-rank-num--open" aria-hidden="true">?</span>
-                  <span className="spot-rank-text">
-                    <b>{b.label}</b>
-                    <span>On the ballot, no votes yet</span>
-                  </span>
-                  <span className="spot-rank-cta">Be first</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {quickAnswer && (
-        <section className="spot-section" aria-label={`Quick answer about ${displayName(spot.name)}`}>
-          <h2>Quick answer</h2>
-          <p className="spot-prose">{quickAnswer}</p>
-          {searchProfile?.facts?.length > 0 && (
-            <ul className="spot-order-list">
-              {searchProfile.facts.map((fact) => <li key={fact}>{fact}</li>)}
-            </ul>
+      <div className="sp-layout">
+        <div className="sp-main">
+          {topRank && (
+            <Link href={`/rankings/${topRank.slug}`} className={`sp-ticket${topRank.rank === 1 ? " is-first" : ""}`}>
+              <span className="sp-ticket-top">
+                <span className="sp-ticket-kicker">#{topRank.rank} {topRank.label} · Locals&apos; vote</span>
+                <span className="sp-ticket-arrow" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7M9 7h8v8" /></svg>
+                </span>
+              </span>
+              <span className="sp-ticket-count"><b>{topRank.votes}</b> of {topRank.total} {topRank.total === 1 ? "vote" : "votes"}</span>
+              <span className="sp-ticket-line">{ticketLine(topRank)}</span>
+            </Link>
           )}
-          {searchProfile?.source && (
-            <p className="ask-muted">Source for the factual venue profile only, not Mapping HYD ranks or opinions: <a href={searchProfile.source.url} target="_blank" rel="noopener noreferrer">{searchProfile.source.label} ↗</a></p>
-          )}
-        </section>
-      )}
 
-      {latestSafety && (
-        <a href="#food-safety" className={`spot-safety${/suspen|seiz|clos|cancel/i.test(latestSafety.entry.action || "") ? " is-serious" : ""}`}>
-          <b>Food safety: {ACTIONS[latestSafety.entry.action] || latestSafety.entry.action || "inspection on record"}</b>
-          <span>{formatDate(latestSafety.drive.date)}{latestSafety.drive.authority ? ` · ${latestSafety.drive.authority}` : ""}. See the record.</span>
-        </a>
-      )}
+          {(moreRanks.length > 0 || ballots.length > 0) && (
+            <section className="spot-ranks" aria-label="More rankings">
+              <h2>{topRank ? "Also in the running" : "On the ballot"}</h2>
+              <ul>
+                {moreRanks.map((r) => (
+                  <li key={r.slug}>
+                    <Link href={`/rankings/${r.slug}`} className="spot-rank-row">
+                      <span className="spot-rank-num">#{r.rank}</span>
+                      <span className="spot-rank-text">
+                        <b>{r.label}</b>
+                        <span>{r.crowned ? "Crowned. " : ""}{r.votes} {r.votes === 1 ? "vote" : "votes"} at last count</span>
+                      </span>
+                      <span className="spot-rank-cta">Vote</span>
+                    </Link>
+                  </li>
+                ))}
+                {ballots.map((b) => (
+                  <li key={b.slug}>
+                    <Link href={`/rankings/${b.slug}`} className="spot-rank-row">
+                      <span className="spot-rank-num spot-rank-num--open" aria-hidden="true">?</span>
+                      <span className="spot-rank-text">
+                        <b>{b.label}</b>
+                        <span>On the ballot, no votes yet</span>
+                      </span>
+                      <span className="spot-rank-cta">Be first</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
 
-      {context && (context.area || context.cityTopPct <= 25) && (
-        <div className="sp-stats">
-          {context.area && (
-            <div className="sp-stat">
-              <b>{context.areaRank <= 10 ? `#${context.areaRank}` : context.areaCount}</b>
-              <span>{context.areaRank <= 10 ? `most reviewed on Google of ${context.areaCount} ${context.plural} in ${context.area}` : `${context.plural} in ${context.area}`}</span>
-            </div>
+          {quickAnswer && (
+            <section className="spot-section" aria-label={`Quick answer about ${displayName(spot.name)}`}>
+              <h2>Quick answer</h2>
+              <p className="spot-prose">{quickAnswer}</p>
+              {searchProfile?.facts?.length > 0 && (
+                <ul className="spot-order-list">
+                  {searchProfile.facts.map((fact) => <li key={fact}>{fact}</li>)}
+                </ul>
+              )}
+              {searchProfile?.source && (
+                <p className="ask-muted">Source for the factual venue profile only, not Mapping HYD ranks or opinions: <a href={searchProfile.source.url} target="_blank" rel="noopener noreferrer">{searchProfile.source.label} ↗</a></p>
+              )}
+            </section>
           )}
-          {context.cityTopPct <= 25 && (
-            <div className="sp-stat">
-              <b>Top {context.cityTopPct}%</b>
-              <span>of Hyderabad {context.plural} by Google review count</span>
-            </div>
-          )}
-        </div>
-      )}
-
-      <dl className="sp-facts">
-        {todaysHours && (<div><dt>Open today</dt><dd>{todaysHours}</dd></div>)}
-        {(spot.visitSpend?.text || spot.costForTwo) && (
-          <div><dt>{spot.visitSpend?.label || "Cost for two"}</dt><dd>{spot.visitSpend?.text || `₹${Number(spot.costForTwo).toLocaleString("en-IN")}`}</dd></div>
-        )}
-        {hasOwnedSignal && spot.rating && (
-          <div><dt>Google rating</dt><dd>{spot.rating}★{spot.ratingCount ? ` (${Number(spot.ratingCount).toLocaleString("en-IN")})` : ""}</dd></div>
-        )}
-        {spot.founded && (<div><dt>Since</dt><dd>{spot.founded}</dd></div>)}
-        {vibe.length > 0 && (<div><dt>Good for</dt><dd>{vibe.join(", ")}</dd></div>)}
-        {spot.phone && (<div><dt>Phone</dt><dd><a href={`tel:${String(spot.phone).replace(/\s+/g, "")}`}>{spot.phone}</a></dd></div>)}
-        {spot.website && (<div><dt>Website</dt><dd><a href={spot.website} target="_blank" rel="noopener noreferrer">{siteHost}</a></dd></div>)}
-        {spot.zomatoUrl && (<div><dt>Order</dt><dd><a href={spot.zomatoUrl} target="_blank" rel="noopener noreferrer">Zomato</a></dd></div>)}
-        {!latestSafety && (<div><dt>Food safety</dt><dd>No matched TG SAFE record in our current tracker; coverage is incomplete. <Link href="/food-safety">How we track</Link></dd></div>)}
-      </dl>
-
-      {spot.lat != null && spot.lng != null && (
-        <section className="sp-where" aria-label="Where it is">
-          <SpotsMapClient points={[{ lat: spot.lat, lng: spot.lng, kind: "spot", title: displayName(spot.name), sub: areaName || "Hyderabad" }]} height={180} />
-          <div className="sp-where-row">
-            <p>{spot.address || areaName || "Hyderabad"}</p>
-            <Link href={`/#spot=${encodeURIComponent(spot.id)}`}>Open on our map</Link>
-          </div>
-        </section>
-      )}
-
-      {hasConsensus && (!isReview || Boolean(redditData?.thread || redditData?.brandData?.quotes?.praise?.length)) && (
-        <section className="sp-says" aria-label="What locals say">
-          <h2>{redditData?.thread || redditData?.brandData?.quotes?.praise?.length ? (isReview ? "What locals say on r/hyderabad" : "What locals say") : "Mapping HYD's take"}</h2>
-          {!isReview && spot.signatureDish?.name && (
-            <div className="sp-must">
-              <span className="sp-label">Mapping HYD pick</span>
-              <b>{spot.signatureDish.name}</b>
-              {spot.signatureDish.why && <p>{spot.signatureDish.why.replace(/\s*—\s*/g, ", ")}</p>}
-            </div>
-          )}
-          {redditData?.brandData?.quotes?.praise?.length > 0 && (
-            <blockquote className="sp-quote">
-              <p>&ldquo;{redditData.brandData.quotes.praise[0].text.replace(/\s*—\s*/g, ", ")}&rdquo;</p>
-              <cite>A local on r/hyderabad</cite>
-            </blockquote>
-          )}
-          {redditData?.thread && (
-            <a className="sp-thread" href={redditData.thread.url} target="_blank" rel="noopener noreferrer">
-              <span>Talked about in <b>{redditData.thread.shortTitle}</b> on r/hyderabad</span>
-              <span aria-hidden="true">↗</span>
-            </a>
-          )}
-        </section>
-      )}
 
       {isReview ? (
         <div className="review">
@@ -733,6 +796,8 @@ export default async function SpotPage({ params }) {
             </div>
           )}
 
+          {offersSection}
+
           {(spot.originStory?.length > 0 || spot.regularNote) && (
             <section className="spot-section review-story">
               <div className="review-section-head">
@@ -788,6 +853,8 @@ export default async function SpotPage({ params }) {
               </div>
             </section>
           )}
+
+          {consensusSection}
 
           {galleryRest.length > 0 && (
             <section className="spot-section">
@@ -869,27 +936,9 @@ export default async function SpotPage({ params }) {
 
           <MustOrder spotId={spot.id} initial={dishSeeds} />
 
-          {spotOffers && (spotOffers.district?.hasOffers || spotOffers.swiggy?.hasOffers || spotOffers.eazydiner?.hasOffers) && (
-            <section className="spot-section sp-offers" aria-label="Offers">
-              <div className="sp-offers-title">
-                <h2>Offers checked today</h2>
-                <Link href={`/offers?deal=${encodeURIComponent(spot.id)}`}>Compare this exact branch →</Link>
-              </div>
-              {[["district", "District by Zomato", "Book a table"], ["swiggy", "Swiggy Dineout", "Pay the bill"], ["eazydiner", "EazyDiner", "Book or Pay"]].map(([k, label, cta]) => spotOffers[k]?.hasOffers && (
-                <div key={k} className="sp-offer">
-                  <div className="sp-offer-head">
-                    <b>{label}</b>
-                    {spotOffers[k].url && <a href={spotOffers[k].url} target="_blank" rel="noopener noreferrer">{cta} ↗</a>}
-                  </div>
-                  <ul>
-                    {spotOffers[k].offers.map((off, i) => (
-                      <li key={i}><b>{off.title}</b>{off.desc ? <span>{off.desc}</span> : null}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </section>
-          )}
+          {offersSection}
+
+          {consensusSection}
 
           {(spot.contentScope || contentSources.length > 0) && (
             <section className="spot-section" aria-label="Editorial sources and scope">
@@ -1037,6 +1086,9 @@ export default async function SpotPage({ params }) {
           )}
         </>
       )}
+        </div>
+        {venueSidebar}
+      </div>
 
       {nearby.length > 0 && (
         <section className="spot-nearby" aria-label="Nearby instead">
