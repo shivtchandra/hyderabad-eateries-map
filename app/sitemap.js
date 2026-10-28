@@ -21,6 +21,7 @@ const GUIDE_SLUGS = [
   "best-cafes-hyderabad-reddit",
   "best-ice-cream-desserts-hyderabad",
   "best-tiffins-hyderabad-reddit",
+  "new-restaurants-in-hyderabad",
   "late-night-food-hyderabad-reddit",
   "restaurants-in-sattva-knowledge-city-hyderabad",
   "dishes", // dish guides hub

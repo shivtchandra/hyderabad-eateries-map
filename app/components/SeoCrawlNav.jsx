@@ -44,6 +44,7 @@ export default function SeoCrawlNav() {
         <li><Link href="/guides/best-breweries-in-hyderabad">Best breweries &amp; craft beer in Hyderabad (2026)</Link></li>
         <li><Link href="/guides/best-biryani-hyderabad-reddit">Best biryani in Hyderabad (Reddit Guide)</Link></li>
         <li><Link href="/guides/best-tiffins-hyderabad-reddit">Best tiffins &amp; breakfast in Hyderabad (2026)</Link></li>
+        <li><Link href="/guides/new-restaurants-in-hyderabad">New restaurants &amp; cafes in Hyderabad (October 2026)</Link></li>
         <li><Link href="/guides/best-cafes-hyderabad-reddit">Best cafes &amp; specialty coffee in Hyderabad (2026)</Link></li>
         <li><Link href="/guides/best-ice-cream-desserts-hyderabad">Best ice cream &amp; desserts in Hyderabad</Link></li>
         <li><Link href="/guides/late-night-food-hyderabad-reddit">Late night food in Hyderabad (Midnight Guide)</Link></li>

@@ -224,6 +224,16 @@ export default function StoriesPage() {
       source="r/hyderabad & Local Reviews"
     />,
     <GuideCard
+      key="/guides/new-restaurants-in-hyderabad"
+      href="/guides/new-restaurants-in-hyderabad"
+      img={spotPhotoUrl("ChIJX6yOslSRyzsRS3COscNwma0")}
+      eyebrow="New Openings · October 2026"
+      title="New Restaurants, Cafes &amp; Bars in Hyderabad"
+      meta="Oktober · HOSA · The All American Diner · Foxie · Du Jour"
+      teaser="Every opening reported this month, what each one serves, and the report it comes from."
+      source="Telangana Today, Esquire India & Indian Retailer"
+    />,
+    <GuideCard
       key="/guides/best-cafes-hyderabad-reddit"
       href="/guides/best-cafes-hyderabad-reddit"
       img={spotPhotoUrl("ChIJWUl-wiqXyzsRud1hDiZM0aM")}
