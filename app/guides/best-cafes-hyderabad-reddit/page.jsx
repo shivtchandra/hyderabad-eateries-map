@@ -7,6 +7,7 @@ import { SiteNav, SiteBreadcrumb, SiteFooter, SiteRelated } from "../../componen
 import { Icon } from "../../components/Icons.jsx";
 import BottomNav from "../../components/BottomNav.jsx";
 import BackButton from "../../components/BackButton.jsx";
+import cafeCounts from "../../../data/reddit-cafe-counts.json";
 
 const SLUG = "/guides/best-cafes-hyderabad-reddit";
 const TITLE = "Best Cafes in Hyderabad 2026: Local Guide";
@@ -38,7 +39,7 @@ const articleLd = {
   description: DESCRIPTION,
   url: "https://eats.mapmyhyd.com" + SLUG,
   datePublished: "2026-09-17",
-  dateModified: "2026-10-28",
+  dateModified: cafeCounts.updatedAt.slice(0, 10),
   author: {
     "@type": "Organization",
     name: "Mapping HYD Eats Editorial Team",
@@ -61,22 +62,14 @@ const breadcrumbLd = {
 };
 
 // Distinct r/hyderabad users who named each cafe in a post or comment.
-// Source: data/reddit/raw.json (1,197 threads, 56,192 comments, 18 months to
-// 2 October 2026). Re-count when that dump is refreshed.
-const REDDIT_SCOPE = { threads: "1,197", comments: "56,192", window: "April 2025 to October 2026" };
-const LOCALS = [
-  { name: "Conçu", area: "Jubilee Hills, Begumpet, Film Nagar", people: 85, href: "/spot/con-u-jubilee-hills" },
-  { name: "Roastery Coffee House", area: "Jubilee Hills, Film Nagar, Kokapet", people: 39, href: "/spot/roastery-coffee-house-jubilee-hills" },
-  { name: "True Black", area: "Jubilee Hills, HITEC City, Kompally", people: 37, href: "/spot/true-black-speciality-coffee-jubilee-hills" },
-  { name: "Roast CCX / Roast 24x7", area: "Jubilee Hills, Banjara Hills", people: 35, href: "/spot/roast-24-seven-jubilee-hills" },
-  { name: "Feranoz", area: "Film Nagar, Banjara Hills", people: 32, href: "/spot/feranoz-filmnagar-jubilee-hills" },
-  { name: "Van Lavino", area: "Jubilee Hills, Nallagandla", people: 22, href: "/spot/van-lavino-cafe-and-patisserie-jubilee-hills" },
-  { name: "Karafa", area: "Jubilee Hills, Banjara Hills", people: 18, href: "/spot/karafa-jubilee-hills" },
-  { name: "Aaromale", area: "Jubilee Hills", people: 18, href: "/spot/aaromale-cafe-and-creative-community-jubilee-hills" },
-  { name: "Third Wave Coffee", area: "Jubilee Hills, Begumpet", people: 14, href: "/spot/third-wave-coffee-jubilee-hills" },
-  { name: "Sobremesa", area: "Jubilee Hills", people: 13, href: "/spot/sobremesa-cafe-bakehouse-kitchen-jubilee-hills" },
-  { name: "Blue Tokai", area: "Jubilee Hills, Gachibowli", people: 11, href: "/spot/blue-tokai-coffee-roasters-origins-jubilee-hills" },
-];
+// Regenerated weekly by scripts/reddit-cafe-counts.mjs (reddit-picks workflow).
+const REDDIT_SCOPE = {
+  threads: cafeCounts.threads.toLocaleString("en-IN"),
+  comments: cafeCounts.comments.toLocaleString("en-IN"),
+  window: cafeCounts.window,
+};
+const LOCALS = cafeCounts.cafes;
+const COUNTS_MONTH = new Date(cafeCounts.updatedAt).toLocaleDateString("en-GB", { month: "long", year: "numeric" });
 
 const SOURCES = [
   { label: "Which are the best cafés in Hyderabad? (April 2026)", url: "https://www.reddit.com/r/hyderabad/comments/1sudm73/which_are_the_best_cafés_in_hyderabad/" },
@@ -217,7 +210,7 @@ export default function BestCafesGuidePage() {
               Editorial Field Guide · 2026 Local Consensus
             </div>
             <div className="guide-updated">
-              Updated October 2026 · Counts from 56,192 r/hyderabad comments
+              Updated {COUNTS_MONTH} · Counts from {REDDIT_SCOPE.comments} r/hyderabad comments
             </div>
           </div>
           <Link href="/" className="link-chip">

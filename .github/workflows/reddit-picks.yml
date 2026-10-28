@@ -30,6 +30,8 @@ jobs:
         run: node scripts/reddit-collect.mjs
       - name: Score locals' picks
         run: node scripts/reddit-picks.mjs
+      - name: Cafe guide counts
+        run: node scripts/reddit-cafe-counts.mjs
       - name: Question pages data + missing places + llms.txt
         run: |
           node scripts/reddit-questions.mjs
@@ -39,7 +41,7 @@ jobs:
         run: |
           git config user.name  "picks-bot"
           git config user.email "actions@github.com"
-          git add data/reddit-picks.json public/locals-picks.json data/reddit-questions.json data/reddit-missing-places.json public/llms.txt public/llms-full.txt
+          git add data/reddit-picks.json data/reddit-cafe-counts.json public/locals-picks.json data/reddit-questions.json data/reddit-missing-places.json public/llms.txt public/llms-full.txt
           git diff --staged --quiet && exit 0
           git commit -m "chore(picks): weekly r/hyderabad locals' picks"
           git pull --rebase origin master
