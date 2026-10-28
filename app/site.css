@@ -2209,3 +2209,59 @@ a.of-card-name:hover{ color: var(--violet-deep); }
   letter-spacing: -0.01em;
 }
 
+
+/* Spot page colour system. --cat is set on .sp-hero from the spot's category
+   token (cafe, restaurant, bakery...), so each page is tinted by what it is. */
+.sp-kicker{ display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+.sp-kicker-cat, .sp-kicker-area{ display: inline-flex; align-items: center; min-height: 30px; padding: 0 14px; border-radius: var(--r-pill); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; }
+.sp-kicker-cat{ background: var(--cat); color: #fff; }
+.sp-kicker-area{ background: color-mix(in srgb, var(--cat) 14%, var(--cream-hi)); color: color-mix(in srgb, var(--cat) 70%, var(--ink)); }
+.sp-kicker a.sp-kicker-area:hover{ background: var(--cat); color: #fff; }
+.sp-name{ margin-top: var(--s3); }
+
+.review-verdict{ background: var(--cream-hi); padding: 26px 28px; gap: 22px; }
+.review-verdict-label{ color: var(--violet); }
+.review-verdict-copy p:last-child{ font-size: clamp(18px, 2.2vw, 21px); }
+.review-verdict .review-score{ min-width: 88px; min-height: 88px; border-radius: 22px; }
+.review-verdict .review-score strong{ font-size: 40px; }
+.review-verdict .review-score--high{ background: var(--yellow); color: var(--ink); }
+.review-verdict .review-score--mid{ background: var(--violet); color: #fff; }
+.review-verdict .review-score--low{ background: var(--pop); color: #fff; }
+
+.spot-section.review-story{ padding: 28px; border-radius: var(--r-card); border: 1px solid var(--line); background: var(--cream-hi); }
+.review-story .review-section-head h2{ display: inline-flex; align-items: center; gap: 10px; }
+.review-story .review-section-head h2::before{ content: ""; width: 12px; height: 12px; border-radius: 50%; background: var(--violet); }
+.review-insider-tip{ background: var(--blue-wash); border-color: var(--blue-wash); border-radius: var(--r-md); padding: 18px 20px; }
+.review-tip-header{ color: var(--blue-deep); }
+.review-insider-tip p{ color: var(--ink); font-size: 15px; }
+
+.sp-facts dt{ font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.sp-facts-tags dd{ display: flex; flex-wrap: wrap; gap: 6px; }
+.sp-tag{ padding: 5px 12px; border-radius: var(--r-pill); background: var(--violet-wash); color: var(--violet-deep); font-size: 13px; font-weight: 600; text-transform: capitalize; }
+@media (max-width: 580px){
+  .review-verdict{ padding: 20px; gap: 16px; }
+  .spot-section.review-story{ padding: 20px; }
+}
+
+/* Item-by-item cards on visit notes, tinted by the call:
+   green = order it, yellow = okay, grey with a black chip = skip. */
+.review-plates .review-dish-grid{ display: grid; grid-template-columns: 1fr; gap: 10px; }
+.review-plates .review-dish, .review-plates .review-dish--skip{ margin: 0; padding: 18px 20px; border: 1px solid transparent; border-radius: var(--r-md); box-shadow: none; }
+.review-plates .review-dish h3, .review-plates .review-dish--skip h3{ color: var(--ink); font-size: 18px; }
+.review-plates .review-dish p, .review-plates .review-dish--skip p{ color: var(--ink-soft); font-size: 15px; }
+.review-plates .review-dish-score{ padding: 6px 14px; border-radius: var(--r-pill); font-size: 13px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
+.review-plates .review-dish--high{ background: color-mix(in srgb, var(--local) 14%, var(--cream-hi)); }
+.review-plates .review-dish--high .review-dish-score{ background: var(--local); color: #fff; }
+.review-plates .review-dish--mid{ background: var(--butter); }
+.review-plates .review-dish--mid .review-dish-score{ background: var(--yellow); color: var(--ink); }
+.review-plates .review-dish--skip{ background: var(--paper); }
+.review-plates .review-dish--skip .review-dish-score{ background: var(--ink); color: #fff; }
+
+/* Verdict card tinted to match its score chip. */
+.review-verdict:has(.review-score--high){ background: color-mix(in srgb, var(--local) 12%, var(--cream-hi)); }
+.review-verdict:has(.review-score--mid){ background: var(--butter); }
+.review-verdict:has(.review-score--low){ background: var(--pop-wash); }
+.review-verdict:has(.review-score){ border-color: transparent; }
+.review-verdict .review-score--high{ background: var(--local); color: #fff; }
+.review-verdict .review-score--mid{ background: var(--yellow); color: var(--ink); }
+.review-verdict-label{ color: var(--ink); }

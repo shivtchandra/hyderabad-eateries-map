@@ -1530,7 +1530,27 @@
     "author": {
       "name": "Shiva Chandra",
       "role": "Mapping HYD"
-    }
+    },
+    "itemNotes": [
+      {
+        "name": "Hot chocolate",
+        "call": "okay",
+        "label": "Average",
+        "note": "It was average."
+      },
+      {
+        "name": "Brownie",
+        "call": "skip",
+        "label": "Skip",
+        "note": "The brownie was poor."
+      },
+      {
+        "name": "The Pistachio",
+        "call": "skip",
+        "label": "Skip",
+        "note": "The sculpted pistachio-shaped dessert looked better than it tasted."
+      }
+    ]
   },
   "ChIJFQOGvnOXyzsRaISRRzvIzdE": {
     "recommendationStatus": "recommended",

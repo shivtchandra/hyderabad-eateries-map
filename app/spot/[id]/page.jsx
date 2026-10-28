@@ -442,14 +442,14 @@ export default async function SpotPage({ params }) {
     spot.costForTwo ? `₹${Number(spot.costForTwo).toLocaleString("en-IN")} for two` : null,
   ].filter(Boolean);
   const spotHero = (
-    <div className="sp-hero">
+    <div className="sp-hero" style={{ "--cat": `var(--${spot.category || "violet"}, var(--violet))` }}>
       {heroImg && (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={heroImg} alt={displayName(spot.name)} className="sp-photo" />
       )}
       <p className="sp-kicker">
-        {areaName && (kickerLink ? <Link href={kickerLink}>{areaName}</Link> : areaName)}
-        {areaName && catName ? " · " : ""}{catName}
+        {catName && <span className="sp-kicker-cat">{catName}</span>}
+        {areaName && (kickerLink ? <Link href={kickerLink} className="sp-kicker-area">{areaName}</Link> : <span className="sp-kicker-area">{areaName}</span>)}
       </p>
       <h1 className="sp-name">{isReview ? displayName(spot.name) : spot.name}</h1>
       {subLine.length > 0 && <p className="sp-sub">{subLine.join(" · ")}</p>}
@@ -580,7 +580,7 @@ export default async function SpotPage({ params }) {
           <div><dt>Google rating</dt><dd>{spot.rating}★{spot.ratingCount ? ` (${Number(spot.ratingCount).toLocaleString("en-IN")})` : ""}</dd></div>
         )}
         {spot.founded && (<div><dt>Since</dt><dd>{spot.founded}</dd></div>)}
-        {vibe.length > 0 && (<div><dt>Good for</dt><dd>{vibe.join(", ")}</dd></div>)}
+        {vibe.length > 0 && (<div className="sp-facts-tags"><dt>Good for</dt><dd>{vibe.map((v) => <span key={v} className="sp-tag">{v}</span>)}</dd></div>)}
         {spot.phone && (<div><dt>Phone</dt><dd><a href={`tel:${String(spot.phone).replace(/\s+/g, "")}`}>{spot.phone}</a></dd></div>)}
         {spot.website && (<div><dt>Website</dt><dd><a href={spot.website} target="_blank" rel="noopener noreferrer">{siteHost}</a></dd></div>)}
         {spot.zomatoUrl && (<div><dt>Order</dt><dd><a href={spot.zomatoUrl} target="_blank" rel="noopener noreferrer">Zomato</a></dd></div>)}
@@ -775,6 +775,27 @@ export default async function SpotPage({ params }) {
                     </div>
                     {item.note && <p>{item.note}</p>}
                     <em>Visit note</em>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {spot.itemNotes?.length > 0 && (
+            <section className="spot-section review-plates" aria-label="What we ordered">
+              <div className="review-section-head">
+                <span className="review-plates-kicker">Item by item</span>
+                <h2>What we ordered</h2>
+                <p>Our call on each item from the visit</p>
+              </div>
+              <div className="review-dish-grid">
+                {spot.itemNotes.map((d) => (
+                  <article key={d.name} className={`review-dish review-dish--${d.call === "skip" ? "skip" : d.call === "order" ? "high" : "mid"}`}>
+                    <div className="review-dish-top">
+                      <h3>{d.name}</h3>
+                      <span className={`review-dish-score${d.call === "skip" ? " review-dish-score--skip" : ""}`}>{d.label}</span>
+                    </div>
+                    {d.note && <p>{d.note}</p>}
                   </article>
                 ))}
               </div>
