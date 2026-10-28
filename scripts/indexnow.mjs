@@ -17,7 +17,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 
 const SITE = "https://eats.mapmyhyd.com";
-const KEY = "6e3540610f1a60359591b02884cc79d7";
+const KEY = "5d5c844b3ff5a1c3989804a09cd4f9cd"; // same key as submit-indexnow.mjs
 const OUT = path.resolve("out");
 const MANIFEST = "indexnow-manifest.json";
 const CHANGED = path.join(process.env.RUNNER_TEMP || tmpdir(), "indexnow-changed.json");
