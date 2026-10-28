@@ -127,6 +127,8 @@ async function scrapeDistrictPage(slug) {
     if (res.status === 404) return { status: 404, url, deals: [], bankOffers: [], hours: null };
     if (!res.ok) return { status: res.status, url, deals: [], bankOffers: [], hours: null };
     const html = await res.text();
+    // What the page looked like, so a blocked run says why in the log.
+    const probe = { bytes: html.length, title: (html.match(/<title>([^<]*)/) || [])[1] || "", highlights: (html.match(/Offer Highlights/g) || []).length };
 
     const hours = (html.match(/Open\s*•\s*([^\n<]+)/) || [])[1]?.trim() || null;
 
@@ -170,9 +172,9 @@ async function scrapeDistrictPage(slug) {
       }
     }
 
-    return { status: 200, url, deals, bankOffers, hours };
+    return { status: 200, url, deals, bankOffers, hours, probe };
   } catch (err) {
-    return { status: 0, url, deals: [], bankOffers: [], hours: null };
+    return { status: 0, url, deals: [], bankOffers: [], hours: null, error: err.name };
   }
 }
 
@@ -286,12 +288,19 @@ async function main() {
 
   let newlyActiveDistrict = 0;
   let totalCompSpots = 0;
+  let pagesWithDeals = 0;
+  const statusCounts = {};
+  const samples = [];
   const now = new Date().toISOString();
 
   for (let i = 0; i < targets.length; i++) {
     const { id, spot, slug, matchMethod, matchScore } = targets[i];
     const data = await scrapeDistrictPage(slug);
     const has = data.deals.length > 0 || data.bankOffers.length > 0;
+    const key = data.status === 0 ? `error:${data.error}` : String(data.status);
+    statusCounts[key] = (statusCounts[key] || 0) + 1;
+    if (has) pagesWithDeals++;
+    if (!has && samples.length < 3 && (data.status !== 404)) samples.push({ slug, status: data.status, error: data.error, ...data.probe });
 
     const hadBefore = Boolean(spot.district?.hasOffers && spot.district?.deals?.length > 0);
     // Safety guard: never wipe existing verified deals if a remote run is geo-blocked or empty
@@ -328,6 +337,16 @@ async function main() {
     }
 
     await sleep(250); // fast polite delay
+  }
+
+  console.log(`\nDistrict responses: ${JSON.stringify(statusCounts)}, pages with deals: ${pagesWithDeals}/${targets.length}`);
+  if (samples.length) console.log(`Sample empty pages: ${JSON.stringify(samples)}`);
+  // Every page empty means District served this machine a blocked or
+  // stripped page (seen on GitHub's US runners). Keep the last good data
+  // and its timestamps, and fail so the run shows red instead of green.
+  if (targets.length >= 20 && pagesWithDeals === 0) {
+    console.log(`::error::District returned no deals on any of ${targets.length} pages; kept previous data. Responses: ${JSON.stringify(statusCounts)}`);
+    process.exit(2);
   }
 
   curated.updatedAt = now;

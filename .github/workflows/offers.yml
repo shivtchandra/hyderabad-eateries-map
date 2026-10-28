@@ -57,6 +57,8 @@ jobs:
           if [ "$age" -lt 120 ]; then echo "skip=true" >> "$GITHUB_OUTPUT"; fi
 
       - name: Scrape District offers
+        id: district
+        continue-on-error: true
         if: ${{ steps.fresh.outputs.skip != 'true' && (github.event_name != 'workflow_dispatch' || inputs.target == 'all' || inputs.target == 'district') }}
         env:
           OFFER_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.district_mode || github.event.schedule == '45 2 * * 0' && 'discover' || github.event.schedule == '15 2 * * *' && 'verified' || 'active' }}
@@ -93,3 +95,10 @@ jobs:
         run: |
           gh workflow run static-site.yml --ref ${{ github.ref_name }}
           gh workflow run api-worker.yml --ref ${{ github.ref_name }}
+
+      # District step is allowed to fail so Swiggy still refreshes; surface it here.
+      - name: Fail if District was blocked
+        if: ${{ steps.district.outcome == 'failure' }}
+        run: |
+          echo "::error::District scrape failed or was blocked; its offers were not refreshed."
+          exit 1
