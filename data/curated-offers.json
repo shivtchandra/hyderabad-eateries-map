@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-28T00:51:22.990Z",
+  "updatedAt": "2026-10-28T08:37:07.930Z",
   "totalSpotsWithOffers": 275,
   "spots": {
     "ChIJKyxGIoiXyzsRPY8PASGdTW0": {
@@ -7,12 +7,6 @@
       "area": "Himayatnagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/hotel-shadab-charminar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "hotel-shadab-charminar",
           "name": "Hotel Shadab",
@@ -22,10 +16,17 @@
           "url": "https://www.district.in/dining/hyderabad/hotel-shadab-charminar"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -88,12 +89,6 @@
       "area": "Abids",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/grand-hotel-abids",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "grand-hotel-abids",
           "name": "Grand Hotel",
@@ -104,9 +99,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -457,12 +459,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/cafe-niloufer-lakdikapul",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "cafe-niloufer-lakdikapul",
           "name": "Cafe Niloufer",
@@ -472,10 +468,17 @@
           "url": "https://www.district.in/dining/hyderabad/cafe-niloufer-lakdikapul"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -484,12 +487,6 @@
       "area": "Ameerpet",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/kakatiya-deluxe-mess-ameerpet",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "kakatiya-deluxe-mess-ameerpet",
           "name": "Kakatiya Deluxe Mess",
@@ -500,9 +497,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -598,12 +602,6 @@
       "area": "Kukatpally",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/chutneys-hitech-city",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "chutneys-hitech-city",
           "name": "Chutneys",
@@ -613,10 +611,17 @@
           "url": "https://www.district.in/dining/hyderabad/chutneys-hitech-city"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -685,12 +690,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/the-spicy-venue-jubilee-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "the-spicy-venue-jubilee-hills",
           "name": "The Spicy Venue",
@@ -701,9 +700,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -712,12 +718,6 @@
       "area": "Banjara Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/parampara-flavours-of-india-banjara-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "parampara-flavours-of-india-banjara-hills",
           "name": "Parampara - Flavours Of India",
@@ -728,9 +728,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -793,12 +800,6 @@
       "area": "ECIL",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/the-coffee-cup-1-sainikpuri-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "the-coffee-cup-1-sainikpuri-secunderabad",
           "name": "The Coffee Cup",
@@ -808,10 +809,17 @@
           "url": "https://www.district.in/dining/hyderabad/the-coffee-cup-1-sainikpuri-secunderabad"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -936,12 +944,6 @@
       "area": "Begumpet",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/blue-sea-tea-snacks-begumpet",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "blue-sea-tea-snacks-begumpet",
           "name": "Blue Sea Tea & Snacks",
@@ -952,9 +954,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -975,10 +984,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -1777,12 +1786,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/zero40-brewing-jubilee-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "zero40-brewing-jubilee-hills",
           "name": "Zero40 Brewing",
@@ -1793,9 +1796,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -2322,10 +2332,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -2847,12 +2857,6 @@
       "area": "Gachibowli",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/kodi-kura-chitti-gaare-kondapur",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "kodi-kura-chitti-gaare-kondapur",
           "name": "Kodi Kura Chitti Gaare",
@@ -2862,10 +2866,17 @@
           "url": "https://www.district.in/dining/hyderabad/kodi-kura-chitti-gaare-kondapur"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -3677,12 +3688,6 @@
       "area": "Kompally",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/delite-kitchen-kompally",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "delite-kitchen-kompally",
           "name": "Delite kitchen",
@@ -3693,9 +3698,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -3866,12 +3878,6 @@
       "area": "Begumpet",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/cream-stone-ice-cream-cakes-as-rao-nagar-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "cream-stone-ice-cream-cakes-as-rao-nagar-secunderabad",
           "name": "Cream Stone",
@@ -3881,10 +3887,17 @@
           "url": "https://www.district.in/dining/hyderabad/cream-stone-ice-cream-cakes-as-rao-nagar-secunderabad"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -4188,10 +4201,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -5172,12 +5185,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/amnesia-lounge-bar-jubilee-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "amnesia-lounge-bar-jubilee-hills",
           "name": "Amnesia Lounge Bar",
@@ -5188,9 +5195,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -5253,12 +5267,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/roast-24-seven-gachibowli",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "roast-24-seven-gachibowli",
           "name": "Roast 24 Seven",
@@ -5268,10 +5276,17 @@
           "url": "https://www.district.in/dining/hyderabad/roast-24-seven-gachibowli"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -5826,10 +5841,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -6274,12 +6289,6 @@
       "area": "Sainikpuri",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/f3-caf-bistro-sainikpuri-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "f3-caf-bistro-sainikpuri-secunderabad",
           "name": "F3 Café & Bistro",
@@ -6290,9 +6299,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -6909,10 +6925,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -7190,12 +7206,6 @@
       "area": "Tarnaka",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/taaza-kitchen-madhapur",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "taaza-kitchen-madhapur",
           "name": "Taaza Kitchen",
@@ -7205,10 +7215,17 @@
           "url": "https://www.district.in/dining/hyderabad/taaza-kitchen-madhapur"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -7557,12 +7574,6 @@
       "area": "Begumpet",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/club8-begumpet",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "club8-begumpet",
           "name": "Club8",
@@ -7573,9 +7584,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -7849,12 +7867,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/itlu-3-jubilee-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "itlu-3-jubilee-hills",
           "name": "ITLU - Veg Diner Restaurant",
@@ -7864,10 +7876,17 @@
           "url": "https://www.district.in/dining/hyderabad/itlu-3-jubilee-hills"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -7903,12 +7922,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/club-rogue-jubilee-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "club-rogue-jubilee-hills",
           "name": "Club Rogue",
@@ -7919,9 +7932,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -7957,12 +7977,6 @@
       "area": "Banjara Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/cream-stone-banjara-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "cream-stone-banjara-hills",
           "name": "Cream Stone",
@@ -7973,9 +7987,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -8437,12 +8458,6 @@
       "area": "LB Nagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/urban-mayabazar-l-b-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "urban-mayabazar-l-b-nagar",
           "name": "Urban Mayabazar - Family Bar & Kitchen",
@@ -8452,10 +8467,17 @@
           "url": "https://www.district.in/dining/hyderabad/urban-mayabazar-l-b-nagar"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -8464,12 +8486,6 @@
       "area": "LB Nagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/urban-beats-family-bar-kitchen-l-b-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "urban-beats-family-bar-kitchen-l-b-nagar",
           "name": "Urban Beats Family Bar & Kitchen",
@@ -8480,9 +8496,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -8518,12 +8541,6 @@
       "area": "Sainikpuri",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/cream-stone-ice-cream-cakes-as-rao-nagar-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "cream-stone-ice-cream-cakes-as-rao-nagar-secunderabad",
           "name": "Cream Stone",
@@ -8533,10 +8550,17 @@
           "url": "https://www.district.in/dining/hyderabad/cream-stone-ice-cream-cakes-as-rao-nagar-secunderabad"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -8545,12 +8569,6 @@
       "area": "Alwal",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/koi-co-bar-and-kitchen-sainikpuri-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "koi-co-bar-and-kitchen-sainikpuri-secunderabad",
           "name": "Koi & Co. Bar and Kitchen",
@@ -8560,10 +8578,17 @@
           "url": "https://www.district.in/dining/hyderabad/koi-co-bar-and-kitchen-sainikpuri-secunderabad"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -8839,12 +8864,6 @@
       "area": "L B Nagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/kritunga-restaurant-jagavis-l-b-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "kritunga-restaurant-jagavis-l-b-nagar",
           "name": "Kritunga Restaurant - Jagavis",
@@ -8855,9 +8874,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -9314,12 +9340,6 @@
       "area": "Kukatpally",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/barkaas-indo-arabic-restaurant-kukatpally",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "barkaas-indo-arabic-restaurant-kukatpally",
           "name": "Barkaas Indo Arabic Restaurant",
@@ -9330,9 +9350,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -9440,12 +9467,6 @@
       "area": "Himayatnagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/cream-stone-ice-cream-cakes-as-rao-nagar-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "cream-stone-ice-cream-cakes-as-rao-nagar-secunderabad",
           "name": "Cream Stone",
@@ -9455,10 +9476,17 @@
           "url": "https://www.district.in/dining/hyderabad/cream-stone-ice-cream-cakes-as-rao-nagar-secunderabad"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -9593,10 +9621,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -9823,12 +9851,6 @@
       "area": "LB Nagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/cafe-coffee-day-s-r-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "cafe-coffee-day-s-r-nagar",
           "name": "Cafe Coffee day",
@@ -9839,9 +9861,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -10986,12 +11015,6 @@
       "area": "Nallagandla",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/k-grill-bar-kitchen-nallagandla",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "k-grill-bar-kitchen-nallagandla",
           "name": "K-Grill Bar & Kitchen",
@@ -11002,9 +11025,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -11312,12 +11342,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/flying-spaghetti-monster-jubilee-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "flying-spaghetti-monster-jubilee-hills",
           "name": "Flying Spaghetti Monster",
@@ -11328,9 +11352,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -11339,12 +11370,6 @@
       "area": "Dilsukhnagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/over-the-flow-hafeezpet",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "over-the-flow-hafeezpet",
           "name": "Over The Flow",
@@ -11354,10 +11379,17 @@
           "url": "https://www.district.in/dining/hyderabad/over-the-flow-hafeezpet"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -11366,12 +11398,6 @@
       "area": "Banjara Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/cafe-graffiti-banjara-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "cafe-graffiti-banjara-hills",
           "name": "Cafe Graffiti",
@@ -11382,9 +11408,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -11482,10 +11515,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -11629,12 +11662,6 @@
       "area": "Gachibowli",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/haiku-the-asian-kitchen-gachibowli",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "haiku-the-asian-kitchen-gachibowli",
           "name": "HAIKU, The Asian Kitchen",
@@ -11645,9 +11672,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -12603,10 +12637,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -13536,12 +13570,6 @@
       "area": "Malakpet",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/moon-bean-cafe-bar-malakpet",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "moon-bean-cafe-bar-malakpet",
           "name": "Moon Bean Cafe & Bar",
@@ -13552,9 +13580,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -14337,12 +14372,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/lasthouse-by-the-lake-jubilee-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "lasthouse-by-the-lake-jubilee-hills",
           "name": "LastHouse: By The Lake",
@@ -14353,9 +14382,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -14479,12 +14515,6 @@
       "area": "text:cafe dilsukhnagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/cafe-coffee-day-dilsukhnagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "cafe-coffee-day-dilsukhnagar",
           "name": "Cafe Coffee day",
@@ -14495,9 +14525,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -14610,12 +14647,6 @@
       "area": "Nanakramguda",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/babylon-nanakramguda",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "babylon-nanakramguda",
           "name": "Babylon",
@@ -14626,9 +14657,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -15077,12 +15115,6 @@
       "area": "Tarnaka",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/this-is-it-1-sainikpuri-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "this-is-it-1-sainikpuri-secunderabad",
           "name": "This Is It Cafe",
@@ -15092,10 +15124,17 @@
           "url": "https://www.district.in/dining/hyderabad/this-is-it-1-sainikpuri-secunderabad"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -15461,12 +15500,6 @@
       "area": "Banjara Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/tos-tales-over-spirits-banjara-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "tos-tales-over-spirits-banjara-hills",
           "name": "TOS - Tales Over Spirits",
@@ -15477,9 +15510,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -15515,12 +15555,6 @@
       "area": "Kompally",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/cream-stone-kompally",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "cream-stone-kompally",
           "name": "Cream stone",
@@ -15531,9 +15565,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -15684,12 +15725,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/theory-patisserie-cafe-jubilee-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "theory-patisserie-cafe-jubilee-hills",
           "name": "Theory Patisserie & Cafe",
@@ -15700,9 +15735,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -16764,12 +16806,6 @@
       "area": "Malakpet",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/spice-9-restaurant-malakpet",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "spice-9-restaurant-malakpet",
           "name": "Spice 9 Restaurant",
@@ -16780,9 +16816,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -17335,12 +17378,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/hashi-jubilee-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "hashi-jubilee-hills",
           "name": "Hashi",
@@ -17351,9 +17388,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -17687,10 +17731,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -17861,12 +17905,6 @@
       "area": "Charminar/Old City",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/ali-cafe-hotel-charminar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "ali-cafe-hotel-charminar",
           "name": "Ali Cafe",
@@ -17877,9 +17915,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -17888,12 +17933,6 @@
       "area": "Dilsukhnagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/cafe-mico-dilsukhnagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "cafe-mico-dilsukhnagar",
           "name": "CAFÉ MICO",
@@ -17904,9 +17943,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -18354,12 +18400,6 @@
       "area": "text:cafe dilsukhnagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/roobaroo-cafe-dilsukhnagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "roobaroo-cafe-dilsukhnagar",
           "name": "Roobaroo Cafe",
@@ -18370,9 +18410,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -18603,12 +18650,6 @@
       "area": "Kokapet",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/theth-masala-1-gandipet",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "theth-masala-1-gandipet",
           "name": "Theth Masala Restaurant & Cafe | Gandipet",
@@ -18618,10 +18659,17 @@
           "url": "https://www.district.in/dining/hyderabad/theth-masala-1-gandipet"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -18696,10 +18744,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -19311,10 +19359,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -19485,12 +19533,6 @@
       "area": "Falaknuma",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/adaa-taj-falaknuma-palace-falaknuma",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "adaa-taj-falaknuma-palace-falaknuma",
           "name": "Adaa - Taj Falaknuma Palace",
@@ -19501,9 +19543,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -19620,12 +19669,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/club-n-jubilee-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "club-n-jubilee-hills",
           "name": "Club N",
@@ -19636,9 +19679,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -19761,12 +19811,6 @@
       "area": "Financial District",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/cravery-cafe-financial-district",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "cravery-cafe-financial-district",
           "name": "Cravery Cafe",
@@ -19777,9 +19821,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -20013,12 +20064,6 @@
       "area": "Banjara Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/haiku-banjara-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "haiku-banjara-hills",
           "name": "Haiku",
@@ -20029,9 +20074,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -20609,12 +20661,6 @@
       "area": "text:cafe lb nagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/encanto-nagole",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "encanto-nagole",
           "name": "CAFE ENCANTO",
@@ -20624,10 +20670,17 @@
           "url": "https://www.district.in/dining/hyderabad/encanto-nagole"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -20771,12 +20824,6 @@
       "area": "LB Nagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/coffee-crisps-cafe-saroor-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "coffee-crisps-cafe-saroor-nagar",
           "name": "Coffee and Crisps Cafe",
@@ -20787,9 +20834,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -20825,12 +20879,6 @@
       "area": "Banjara Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/daruwaala-banjara-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "daruwaala-banjara-hills",
           "name": "Daruwaala",
@@ -20841,9 +20889,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -20852,12 +20907,6 @@
       "area": "Film Nagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/cafe-coffee-day-film-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "cafe-coffee-day-film-nagar",
           "name": "Cafe Coffee day",
@@ -20868,9 +20917,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": {
         "id": "18785",
@@ -21231,12 +21287,6 @@
       "area": "text:cafe himayatnagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/the-nosh-bistro-himayath-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "the-nosh-bistro-himayath-nagar",
           "name": "The Nosh Bistro Himayathnagar",
@@ -21246,10 +21296,17 @@
           "url": "https://www.district.in/dining/hyderabad/the-nosh-bistro-himayath-nagar"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -21372,12 +21429,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/zuci-artisanal-chocolates-cafe-jubilee-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "zuci-artisanal-chocolates-cafe-jubilee-hills",
           "name": "ZUCI - Artisanal Chocolates & Cafe",
@@ -21388,9 +21439,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -21643,12 +21701,6 @@
       "area": "ECIL",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/barracks-grill-chandrayanagutta",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "barracks-grill-chandrayanagutta",
           "name": "Barracks Anteroom Resto Bar",
@@ -21658,10 +21710,17 @@
           "url": "https://www.district.in/dining/hyderabad/barracks-grill-chandrayanagutta"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -21751,12 +21810,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/third-wave-coffee-jubilee-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "third-wave-coffee-jubilee-hills",
           "name": "Third Wave Coffee",
@@ -21767,9 +21820,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -22465,12 +22525,6 @@
       "area": "text:cafe lb nagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/cosmos-cafe-and-gaming-saroor-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "cosmos-cafe-and-gaming-saroor-nagar",
           "name": "Cosmos Cafe & Gaming",
@@ -22481,9 +22535,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -22677,12 +22738,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/urban-nemo-cafe-in-garden-jubilee-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "urban-nemo-cafe-in-garden-jubilee-hills",
           "name": "Urban Nemo Cafe & Garden",
@@ -22693,9 +22748,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": {
         "id": "967459",
@@ -23143,12 +23205,6 @@
       "area": "text:cafe lb nagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/chai-kahani-banjara-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "chai-kahani-banjara-hills",
           "name": "Kahani Cafe",
@@ -23158,10 +23214,17 @@
           "url": "https://www.district.in/dining/hyderabad/chai-kahani-banjara-hills"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -23170,12 +23233,6 @@
       "area": "Banjara Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/skypark-cafe-banjara-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "skypark-cafe-banjara-hills",
           "name": "SkyPark Cafe",
@@ -23186,9 +23243,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -23619,12 +23683,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/third-wave-coffee-jubilee-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "third-wave-coffee-jubilee-hills",
           "name": "Third Wave Coffee",
@@ -23635,9 +23693,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -24481,12 +24546,6 @@
       "area": "ECIL",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/forefathers-brewery-sainikpuri-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "forefathers-brewery-sainikpuri-secunderabad",
           "name": "Forefathers Sainikpuri",
@@ -24496,10 +24555,17 @@
           "url": "https://www.district.in/dining/hyderabad/forefathers-brewery-sainikpuri-secunderabad"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -24761,12 +24827,6 @@
       "area": "Banjara Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/lemerian-workin-cafe-banjara-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "lemerian-workin-cafe-banjara-hills",
           "name": "Lemerian Workin Cafe",
@@ -24777,9 +24837,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -24827,10 +24894,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -25028,12 +25095,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/roastery-coffee-house-jubilee-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "roastery-coffee-house-jubilee-hills",
           "name": "Roastery Coffee House | Kokapet",
@@ -25043,10 +25104,17 @@
           "url": "https://www.district.in/dining/hyderabad/roastery-coffee-house-jubilee-hills"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -26793,12 +26861,6 @@
       "area": "Begumpet",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/lassi-shop-masab-tank",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "lassi-shop-masab-tank",
           "name": "LASSI SHOP (MAA VAISHNAVI CHINESE)",
@@ -26808,10 +26870,17 @@
           "url": "https://www.district.in/dining/hyderabad/lassi-shop-masab-tank"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -27364,10 +27433,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -28239,12 +28308,6 @@
       "area": "Secunderabad",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/subway-sd-road-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "subway-sd-road-secunderabad",
           "name": "Subway SD Road",
@@ -28255,9 +28318,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -28332,10 +28402,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -28796,10 +28866,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -29843,10 +29913,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -30375,10 +30445,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -30919,10 +30989,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -31848,10 +31918,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -32144,12 +32214,6 @@
       "area": "Sainikpuri",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/true-black-speciality-coffee-sainikpuri-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "true-black-speciality-coffee-sainikpuri-secunderabad",
           "name": "TRUE BLACK speciality coffee | Sainikpuri",
@@ -32160,9 +32224,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -32183,10 +32254,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -32729,10 +32800,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -32888,10 +32959,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -33122,12 +33193,6 @@
       "area": "Secunderabad",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/monginis-1-sangareddy",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "monginis-1-sangareddy",
           "name": "Monginis Cake Shop",
@@ -33137,10 +33202,17 @@
           "url": "https://www.district.in/dining/hyderabad/monginis-1-sangareddy"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -33149,12 +33221,6 @@
       "area": "Nampally",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/ram-ki-bandi-nampally",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "ram-ki-bandi-nampally",
           "name": "Ram ki Bandi",
@@ -33165,9 +33231,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -33265,12 +33338,6 @@
       "area": "Himayatnagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/tara-juice-world-malakpet",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "tara-juice-world-malakpet",
           "name": "Tara Juice World",
@@ -33280,10 +33347,17 @@
           "url": "https://www.district.in/dining/hyderabad/tara-juice-world-malakpet"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -33292,12 +33366,6 @@
       "area": "Himayatnagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/pista-house-rtc-x-roads",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "pista-house-rtc-x-roads",
           "name": "Pista House Malakpet",
@@ -33307,10 +33375,17 @@
           "url": "https://www.district.in/dining/hyderabad/pista-house-rtc-x-roads"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -33325,12 +33400,6 @@
       "area": "Tarnaka",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/sip-bite-1-malakpet",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "sip-bite-1-malakpet",
           "name": "SIP N BITE",
@@ -33340,10 +33409,17 @@
           "url": "https://www.district.in/dining/hyderabad/sip-bite-1-malakpet"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -33352,12 +33428,6 @@
       "area": "Tarnaka",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/glassmates-restaurant-tarnaka",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "glassmates-restaurant-tarnaka",
           "name": "Glassmates Bar & Restaurant",
@@ -33368,9 +33438,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -33831,12 +33908,6 @@
       "area": "Nallagandla",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/zoro-foods-cafe-meerpet",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "zoro-foods-cafe-meerpet",
           "name": "ZORO KITCHEN & BAR",
@@ -33846,10 +33917,17 @@
           "url": "https://www.district.in/dining/hyderabad/zoro-foods-cafe-meerpet"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -33858,12 +33936,6 @@
       "area": "Nallagandla",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/thrivesome-cafe-co-nallagandla",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "thrivesome-cafe-co-nallagandla",
           "name": "Thrivesome Cafe Co",
@@ -33874,9 +33946,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -35232,12 +35311,6 @@
       "area": "Uppal",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/mumbai-kulfi-ice-cream-chanda-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "mumbai-kulfi-ice-cream-chanda-nagar",
           "name": "Old Mumbai ice cream shop",
@@ -35247,10 +35320,17 @@
           "url": "https://www.district.in/dining/hyderabad/mumbai-kulfi-ice-cream-chanda-nagar"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -35337,12 +35417,6 @@
       "area": "ECIL",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/chai-trance-gajularamaram",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "chai-trance-gajularamaram",
           "name": "TRANCE BAR & KITCHEN",
@@ -35352,10 +35426,17 @@
           "url": "https://www.district.in/dining/hyderabad/chai-trance-gajularamaram"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -35436,12 +35517,6 @@
       "area": "text:cafe uppal",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/chronicles-cafe-kitchen-uppal-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "chronicles-cafe-kitchen-uppal-secunderabad",
           "name": "Chronicles Cafe & Kitchen",
@@ -35452,9 +35527,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -35469,12 +35551,6 @@
       "area": "Vanasthalipuram",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/roosterx-rtc-x-roads",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "roosterx-rtc-x-roads",
           "name": "RoosterX (The Arabian Fusion)",
@@ -35484,10 +35560,17 @@
           "url": "https://www.district.in/dining/hyderabad/roosterx-rtc-x-roads"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -35514,10 +35597,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -35703,12 +35786,6 @@
       "area": "Madhapur/HITEC",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/theobroma-miyapur",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "theobroma-miyapur",
           "name": "Theobroma Bakery and Cake Shop - Miyapur Village, Hyderabad",
@@ -35718,10 +35795,17 @@
           "url": "https://www.district.in/dining/hyderabad/theobroma-miyapur"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -35880,10 +35964,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -36069,12 +36153,6 @@
       "area": "Malakpet",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/hotel-sohail-malakpet",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "hotel-sohail-malakpet",
           "name": "HOTEL SOHAIL",
@@ -36085,9 +36163,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       }
     },
     "ChIJ66NhVvGRyzsRJl-6JFh016I": {
@@ -36095,12 +36180,6 @@
       "area": "Gachibowli",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/pista-house-cafe-charminar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "pista-house-cafe-charminar",
           "name": "Pista House",
@@ -36110,10 +36189,17 @@
           "url": "https://www.district.in/dining/hyderabad/pista-house-cafe-charminar"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       }
     },
     "reach-ms-mandi-and-shawarma-charminar-aef73171": {
@@ -36121,12 +36207,6 @@
       "area": "Charminar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/ms-mandi-shawarma-charminar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "ms-mandi-shawarma-charminar",
           "name": "MS Mandi & Shawarma",
@@ -36137,9 +36217,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       }
     },
     "ChIJ7Yg992iTyzsRsBtTZpHjBvM": {
@@ -37208,12 +37295,6 @@
       "area": "Himayatnagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/mehfil-dilsukhnagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "mehfil-dilsukhnagar",
           "name": "Mehfil",
@@ -37223,10 +37304,17 @@
           "url": "https://www.district.in/dining/hyderabad/mehfil-dilsukhnagar"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       }
     },
     "ChIJv7WTZhWRyzsRCiGtDJAABX4": {
@@ -37288,12 +37376,6 @@
       "area": "Secunderabad",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/pista-house-3-uppal-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "pista-house-3-uppal-secunderabad",
           "name": "Pista House Uppal",
@@ -37304,9 +37386,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       }
     },
     "ChIJ_S-dAsKFyzsRKJQ6Xnb0hfM": {
@@ -38035,12 +38124,6 @@
       "area": "Narsingi",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/aaha-food-village-manikonda",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "aaha-food-village-manikonda",
           "name": "Aaha Food Village",
@@ -38050,10 +38133,17 @@
           "url": "https://www.district.in/dining/hyderabad/aaha-food-village-manikonda"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       }
     },
     "ChIJqfi8bQCTyzsR5fbpcBgdk0M": {
@@ -38331,12 +38421,6 @@
       "area": "Kompally",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/takita-takita-kitchen-kompally",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "takita-takita-kitchen-kompally",
           "name": "Takita Takita kitchen",
@@ -38347,9 +38431,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       }
     },
     "ChIJm3OCSeiTyzsRhUXcRR1kE0w": {
@@ -38411,12 +38502,6 @@
       "area": "Miyapur",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/7-oceans-miyapur",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "7-oceans-miyapur",
           "name": "7 Oceans Restaurant",
@@ -38427,9 +38512,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       }
     },
     "ChIJ3yO91yKRyzsR86yt9aP_wbY": {
@@ -38437,12 +38529,6 @@
       "area": "Madhapur",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/palm-tree-arabian-restaurant-hafeezpet",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "palm-tree-arabian-restaurant-hafeezpet",
           "name": "Palm Tree Arabian Restaurant",
@@ -38452,10 +38538,17 @@
           "url": "https://www.district.in/dining/hyderabad/palm-tree-arabian-restaurant-hafeezpet"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       }
     },
     "ChIJ9Slx4lyXyzsRTFG0AmjiknE": {
@@ -38679,12 +38772,6 @@
       "area": "Kondapur",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/makers-of-milkshakes-chanda-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "makers-of-milkshakes-chanda-nagar",
           "name": "House Of Milkshakes",
@@ -38694,10 +38781,17 @@
           "url": "https://www.district.in/dining/hyderabad/makers-of-milkshakes-chanda-nagar"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -38766,12 +38860,6 @@
       "area": "Dilsukhnagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/universal-al-mataam-mandi-kebab-biryani-yousufguda",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "universal-al-mataam-mandi-kebab-biryani-yousufguda",
           "name": "Mandi Kebab Biryani, LB Nagar",
@@ -38781,10 +38869,17 @@
           "url": "https://www.district.in/dining/hyderabad/universal-al-mataam-mandi-kebab-biryani-yousufguda"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -38805,10 +38900,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -38964,10 +39059,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -39165,10 +39260,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -39400,10 +39495,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -39635,10 +39730,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -40397,10 +40492,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -40807,10 +40902,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -41097,12 +41192,6 @@
       "area": "text:cafe himayatnagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/daak-coffee-house-himayath-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "daak-coffee-house-himayath-nagar",
           "name": "Daak Coffee House | Himayatnagar",
@@ -41112,10 +41201,17 @@
           "url": "https://www.district.in/dining/hyderabad/daak-coffee-house-himayath-nagar"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -41261,12 +41357,6 @@
       "area": "Himayatnagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/al-baik-1-malakpet",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "al-baik-1-malakpet",
           "name": "CAFE AL HABEEB",
@@ -41276,10 +41366,17 @@
           "url": "https://www.district.in/dining/hyderabad/al-baik-1-malakpet"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -41503,12 +41600,6 @@
       "area": "Begumpet",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/theobroma-saroor-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "theobroma-saroor-nagar",
           "name": "Theobroma Bakery and Cake Shop - Begumpet, Hyderabad",
@@ -41518,10 +41609,17 @@
           "url": "https://www.district.in/dining/hyderabad/theobroma-saroor-nagar"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -41530,12 +41628,6 @@
       "area": "Secunderabad",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/cafe-coffee-day-s-r-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "cafe-coffee-day-s-r-nagar",
           "name": "Cafe Coffee day",
@@ -41545,10 +41637,17 @@
           "url": "https://www.district.in/dining/hyderabad/cafe-coffee-day-s-r-nagar"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -41689,12 +41788,6 @@
       "area": "text:cafe secunderabad",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/the-coffee-cup-marredpally-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "the-coffee-cup-marredpally-secunderabad",
           "name": "The Coffee Cup - Secunderabad",
@@ -41705,9 +41798,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -41722,12 +41822,6 @@
       "area": "text:dessert bar hyderabad",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/cream-stone-karkhana-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "cream-stone-karkhana-secunderabad",
           "name": "Cream Stone Vikrampuri",
@@ -41737,10 +41831,17 @@
           "url": "https://www.district.in/dining/hyderabad/cream-stone-karkhana-secunderabad"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -42072,12 +42173,6 @@
       "area": "Banjara Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/hemanth-tiffin-center-2-kacheguda",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "hemanth-tiffin-center-2-kacheguda",
           "name": "Hemanth Tiffin Center",
@@ -42087,10 +42182,17 @@
           "url": "https://www.district.in/dining/hyderabad/hemanth-tiffin-center-2-kacheguda"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -42099,12 +42201,6 @@
       "area": "Banjara Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/lassi-hub-kacheguda",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "lassi-hub-kacheguda",
           "name": "lassi hub",
@@ -42114,10 +42210,17 @@
           "url": "https://www.district.in/dining/hyderabad/lassi-hub-kacheguda"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -42126,12 +42229,6 @@
       "area": "Shamshabad",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/cafe-coffee-day-3-shamshabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "cafe-coffee-day-3-shamshabad",
           "name": "Cafe Coffee day",
@@ -42142,9 +42239,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -43277,10 +43381,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -44871,12 +44975,6 @@
       "area": "Nallagandla",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/hotel-sitara-grand-chanda-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "hotel-sitara-grand-chanda-nagar",
           "name": "Hotel Sitara Grand",
@@ -44886,10 +44984,17 @@
           "url": "https://www.district.in/dining/hyderabad/hotel-sitara-grand-chanda-nagar"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -44971,10 +45076,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -45880,12 +45985,6 @@
       "area": "LB Nagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/hotel-sitara-grand-chanda-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "hotel-sitara-grand-chanda-nagar",
           "name": "Hotel Sitara Grand - LB Nagar",
@@ -45895,10 +45994,17 @@
           "url": "https://www.district.in/dining/hyderabad/hotel-sitara-grand-chanda-nagar"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -45974,10 +46080,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -46501,10 +46607,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -46684,12 +46790,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/tambo-jubilee-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "tambo-jubilee-hills",
           "name": "Tambo",
@@ -46700,9 +46800,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -46711,12 +46818,6 @@
       "area": "Begumpet",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/panchatantra-cafe-begumpet",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "panchatantra-cafe-begumpet",
           "name": "Panchatantra",
@@ -46727,9 +46828,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": {
         "id": "980867",
@@ -46970,12 +47078,6 @@
       "area": "Financial District",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/wool-cup-urban-cafe-bistro-financial-district",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "wool-cup-urban-cafe-bistro-financial-district",
           "name": "Wool Cup ~ Financial District",
@@ -46986,9 +47088,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": {
         "id": "1322230",
@@ -47204,12 +47313,6 @@
       "area": "Malakpet",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/capital-multi-cuisine-restaurant-malakpet",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "capital-multi-cuisine-restaurant-malakpet",
           "name": "Capital Hotel",
@@ -47220,9 +47323,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -47231,12 +47341,6 @@
       "area": "Alwal",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/barrel-house-suchitra",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "barrel-house-suchitra",
           "name": "Barrel House - Vibe & Wine",
@@ -47246,10 +47350,17 @@
           "url": "https://www.district.in/dining/hyderabad/barrel-house-suchitra"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -47258,12 +47369,6 @@
       "area": "Kompally",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/hotel-kass-kompally",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "hotel-kass-kompally",
           "name": "Hotel KASS",
@@ -47274,9 +47379,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -47285,12 +47397,6 @@
       "area": "text:cafe secunderabad",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/yummy-bee-sainikpuri-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "yummy-bee-sainikpuri-secunderabad",
           "name": "Yummy Bee - Sainikpuri",
@@ -47301,9 +47407,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -47312,12 +47425,6 @@
       "area": "Nallagandla",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/levain-bake-house-nallagandla",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "levain-bake-house-nallagandla",
           "name": "Levain Bake House - Nallagandla",
@@ -47328,9 +47435,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -47339,12 +47453,6 @@
       "area": "Jubilee Hills",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/blue-tokai-coffee-roasters-origins-jubilee-hills",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "blue-tokai-coffee-roasters-origins-jubilee-hills",
           "name": "Blue Tokai Coffee Roasters | Lanco Hills",
@@ -47355,9 +47463,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": {
         "id": "1291866",
@@ -47509,10 +47624,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -47668,10 +47783,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -47874,12 +47989,6 @@
       "area": "text:cafe dilsukhnagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/cafe-maxibrew-1-kothapet",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "cafe-maxibrew-1-kothapet",
           "name": "Cafe Maxibrew",
@@ -47889,10 +47998,17 @@
           "url": "https://www.district.in/dining/hyderabad/cafe-maxibrew-1-kothapet"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -47913,10 +48029,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -48187,12 +48303,6 @@
       "area": "Himayatnagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/karachi-bakery-2-saroor-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "karachi-bakery-2-saroor-nagar",
           "name": "Karachi Bakery & Cafe - Himayat Nagar",
@@ -48202,10 +48312,17 @@
           "url": "https://www.district.in/dining/hyderabad/karachi-bakery-2-saroor-nagar"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -48214,12 +48331,6 @@
       "area": "Himayatnagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/wheatte-waffle-co-himayath-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "wheatte-waffle-co-himayath-nagar",
           "name": "The Belgian Waffle Co.",
@@ -48229,10 +48340,17 @@
           "url": "https://www.district.in/dining/hyderabad/wheatte-waffle-co-himayath-nagar"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -48247,12 +48365,6 @@
       "area": "Financial District",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/tiger-lily-coffee-bistro-financial-district",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "tiger-lily-coffee-bistro-financial-district",
           "name": "Tiger Lily Coffee & Bistro",
@@ -48263,9 +48375,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -48274,12 +48393,6 @@
       "area": "Kompally",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/nasha-fine-dine-bar-kompally",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "nasha-fine-dine-bar-kompally",
           "name": "Nasha Fine dine Bar",
@@ -48290,9 +48403,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -48307,12 +48427,6 @@
       "area": "ECIL",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/baciami-speciality-coffee-sainikpuri-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "baciami-speciality-coffee-sainikpuri-secunderabad",
           "name": "Baciami Speciality Coffee",
@@ -48322,10 +48436,17 @@
           "url": "https://www.district.in/dining/hyderabad/baciami-speciality-coffee-sainikpuri-secunderabad"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -48346,10 +48467,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -48493,12 +48614,6 @@
       "area": "Nallagandla",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/alley-pally-cafe-1-nallagandla",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "alley-pally-cafe-1-nallagandla",
           "name": "Alley Pally Cafe",
@@ -48509,9 +48624,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -48520,12 +48642,6 @@
       "area": "Begumpet",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/chickpet-donne-biryani-house-himayath-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "chickpet-donne-biryani-house-himayath-nagar",
           "name": "CHICKPET DONNE BIRYANI HOUSE - SINCE 1975 , AMEERPET",
@@ -48535,10 +48651,17 @@
           "url": "https://www.district.in/dining/hyderabad/chickpet-donne-biryani-house-himayath-nagar"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -48547,12 +48670,6 @@
       "area": "Malakpet",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/chickpet-donne-biryani-house-himayath-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "chickpet-donne-biryani-house-himayath-nagar",
           "name": "Chickpet Donne Biryani House",
@@ -48562,10 +48679,17 @@
           "url": "https://www.district.in/dining/hyderabad/chickpet-donne-biryani-house-himayath-nagar"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -48574,12 +48698,6 @@
       "area": "Begumpet",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/have-more-restaurant-bakers-sd-road-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "have-more-restaurant-bakers-sd-road-secunderabad",
           "name": "Pariwar's Have More Restaurant & Bakers",
@@ -48589,10 +48707,17 @@
           "url": "https://www.district.in/dining/hyderabad/have-more-restaurant-bakers-sd-road-secunderabad"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -48601,12 +48726,6 @@
       "area": "Bowenpally",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/nava-bar-restaurant-karkhana-secunderabad",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "nava-bar-restaurant-karkhana-secunderabad",
           "name": "Nava - Bar & Restaurant",
@@ -48616,10 +48735,17 @@
           "url": "https://www.district.in/dining/hyderabad/nava-bar-restaurant-karkhana-secunderabad"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -48628,12 +48754,6 @@
       "area": "Himayatnagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/bhagyalaxmi-tiffin-centre-kothapet",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "bhagyalaxmi-tiffin-centre-kothapet",
           "name": "Sri Amul Tiffin Centre",
@@ -48643,10 +48763,17 @@
           "url": "https://www.district.in/dining/hyderabad/bhagyalaxmi-tiffin-centre-kothapet"
         },
         "match": {
-          "status": "uncertain",
-          "method": "legacy-url-unverified",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "status": "verified",
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -48655,12 +48782,6 @@
       "area": "text:cafe lb nagar",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/niva-bistro-1-l-b-nagar",
-        "hasOffers": false,
-        "fetchedAt": "2026-10-27T13:58:25.055Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": [],
         "venue": {
           "id": "niva-bistro-1-l-b-nagar",
           "name": "Niva Bistro",
@@ -48671,9 +48792,16 @@
         },
         "match": {
           "status": "verified",
-          "method": "legacy-name-locality",
-          "matchedAt": "2026-10-27T13:58:25.055Z"
-        }
+          "method": "existing-url",
+          "score": null,
+          "matchedAt": "2026-10-28T08:37:07.930Z"
+        },
+        "hasOffers": false,
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
+        "hours": null,
+        "deals": [],
+        "bankOffers": [],
+        "offers": []
       },
       "swiggy": null
     },
@@ -49097,10 +49225,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -49125,10 +49253,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -49343,10 +49471,10 @@
           "status": "verified",
           "method": "existing-url",
           "score": null,
-          "matchedAt": "2026-10-28T00:33:04.667Z"
+          "matchedAt": "2026-10-28T08:37:07.930Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-10-28T00:33:04.667Z",
+        "fetchedAt": "2026-10-28T08:37:07.930Z",
         "hours": null,
         "deals": [],
         "bankOffers": [],
@@ -49957,13 +50085,13 @@
       "refreshedAt": "2026-10-28T00:51:22.990Z"
     },
     "districtDiscovery": {
-      "mode": "active",
+      "mode": "verified",
       "discovered": 17883,
-      "candidates": 271,
-      "matched": 254,
-      "unmatched": 17,
+      "candidates": 382,
+      "matched": 382,
+      "unmatched": 0,
       "rejectedMatches": 0,
-      "refreshedAt": "2026-10-28T00:33:04.667Z"
+      "refreshedAt": "2026-10-28T08:37:07.930Z"
     },
     "candidates": 680,
     "listed": {
@@ -49975,7 +50103,7 @@
       "swiggy": 381
     },
     "matched": {
-      "district": 232,
+      "district": 289,
       "swiggy": 119,
       "both": 70
     },
@@ -49989,7 +50117,7 @@
       "swiggy": 20
     },
     "unmatched": {
-      "district": 17,
+      "district": 0,
       "swiggy": 196
     },
     "rejectedMatches": {
