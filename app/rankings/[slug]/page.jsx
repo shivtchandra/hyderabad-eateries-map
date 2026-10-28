@@ -14,6 +14,37 @@ import SpotsMapClient from "../../components/SpotsMapClient.jsx";
 import LiveRankingStandings, { LiveDebate } from "../../components/LiveRankingStandings.jsx";
 import { stickerForTitle } from "../../../lib/stickerArt.js";
 import { todayIso } from "../../../lib/hubSeo.js";
+import { getInspectionDrives, getInspectionsForSpot, ACTIONS } from "../../../lib/inspectionsServer.js";
+
+const dayLabel = (iso) => new Date(`${iso}T12:00:00`).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Kolkata" });
+
+// The checkable numbers behind a ranking: vote totals and the TG SAFE
+// inspection records linked to the top voted places.
+async function rankingStats(votedRows, topN = 10) {
+  const sorted = [...votedRows].sort((a, b) => (b.count || 0) - (a.count || 0));
+  const total = sorted.reduce((sum, r) => sum + (r.count || 0), 0);
+  const top = sorted.slice(0, topN);
+  const drives = await getInspectionDrives().catch(() => []);
+  const dates = drives.map((d) => d.date).filter(Boolean).sort();
+  const records = [];
+  for (const r of top) {
+    const hits = await getInspectionsForSpot(r.spotId).catch(() => []);
+    if (hits.length) {
+      const { drive, entry } = hits[0];
+      records.push({ name: r.name, action: ACTIONS[entry.action] || entry.action || "Inspected", date: drive.date });
+    }
+  }
+  return {
+    total,
+    places: sorted.length,
+    leader: sorted[0] || null,
+    leaderShare: total && sorted[0] ? Math.round((sorted[0].count / total) * 100) : 0,
+    checked: top.length,
+    drives: drives.length,
+    driveRange: dates.length ? `${dayLabel(dates[0])} to ${dayLabel(dates[dates.length - 1])}` : "",
+    records,
+  };
+}
 
 export const dynamic = "force-dynamic";
 
@@ -106,6 +137,12 @@ export default async function RankingPage({ params }) {
   const editorial = editorialRanking(pick || { category: data.category }, params.slug, 15);
   const updated = todayIso();
   const answerLead = rankingAnswer(data, editorial);
+  const stats = votedRows.length ? await rankingStats(votedRows) : null;
+  const safetyAnswer = stats && stats.drives
+    ? stats.records.length
+      ? `${stats.records.length} of the top ${stats.checked} voted places ${stats.records.length === 1 ? "has" : "have"} a linked TG SAFE inspection record: ${stats.records.map((r) => `${r.name} (${r.action.toLowerCase()}, ${dayLabel(r.date)})`).join("; ")}. Checked against ${stats.drives} TG SAFE drives from ${stats.driveRange}.`
+      : `None of the top ${stats.checked} voted places has a linked record in the ${stats.drives} TG SAFE inspection drives we track (${stats.driveRange}).`
+    : "";
 
   // Prefer real standings, while keeping pre-vote pages useful to search engines.
   const jsonLd = votedRows.length > 0
@@ -138,6 +175,16 @@ export default async function RankingPage({ params }) {
         name: `Who is #1 for ${data.title.replace(/^Best\s+/i, "").replace(/\s+in\s+Hyderabad$/i, "").toLowerCase()} in Hyderabad right now?`,
         acceptedAnswer: { "@type": "Answer", text: `${answerLead} See the full ranked list and vote on Hyderabad Eats.` },
       },
+      ...(stats ? [{
+        "@type": "Question",
+        name: "How many locals have voted in this ranking?",
+        acceptedAnswer: { "@type": "Answer", text: `${stats.total} local votes across ${stats.places} places as of ${updated}. ${stats.leader.name} leads with ${stats.leader.count} votes (${stats.leaderShare}% of all votes).` },
+      }] : []),
+      ...(safetyAnswer ? [{
+        "@type": "Question",
+        name: "Have any of the top places had a food safety inspection?",
+        acceptedAnswer: { "@type": "Answer", text: safetyAnswer },
+      }] : []),
       {
         "@type": "Question",
         name: "How does Hyderabad Eats rank places?",
@@ -268,6 +315,22 @@ export default async function RankingPage({ params }) {
         {!isPlaceholder && <Link href={voteHref} className="site-cta" style={{ margin: 0 }}>{leader ? "Cast your vote" : "Vote for this dish"}</Link>}
         <ShareRankingButton title={data.title} slug={params.slug} leaderName={leader?.name || null} />
       </div>
+
+      {stats && (
+        <section className="rk-section" aria-label="By the numbers">
+          <h2 className="rk-title">By the numbers</h2>
+          <dl className="rk-stats">
+            <div><dt>Local votes</dt><dd>{stats.total}</dd></div>
+            <div><dt>Places with votes</dt><dd>{stats.places}</dd></div>
+            <div><dt>#1 share</dt><dd>{stats.leaderShare}%</dd></div>
+          </dl>
+          {safetyAnswer && <p className="rk-method"><b>Food safety.</b> {safetyAnswer}</p>}
+          <p className="rk-method">
+            Counts are votes cast by Hyderabad locals on this page, as of {dayLabel(updated)}. Inspection records come from
+            TG SAFE (Commissioner of Food Safety, Telangana) drive reports and are linked to a spot only when name and branch both match.
+          </p>
+        </section>
+      )}
 
       {mapPoints.length > 1 && (
         <section id="map" className="rk-section" aria-label="On the map">
