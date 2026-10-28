@@ -6,7 +6,7 @@ import { itemListJsonLd, rankingAnswer, rankingMeta, SEO_THEME_PICKS, slugFromTi
 import { breadcrumbJsonLd } from "../../../lib/schema.js";
 import { getSiteUrl } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
-import { allCategoryPages, editorialRanking, pathForSpotId, hasSpotPhoto, getEateryById } from "../../../lib/siteData.js";
+import { allCategoryPages, editorialRanking, pathForSpotId, hasSpotPhoto, getEateryById, redditMentions } from "../../../lib/siteData.js";
 import { spotPhotoUrl } from "../../../lib/photos.js";
 import ShareRankingButton from "../../components/ShareRankingButton.jsx";
 import BottomNav from "../../components/BottomNav.jsx";
@@ -268,10 +268,12 @@ export default async function RankingPage({ params }) {
   const topDishes = await getTopDishSummaries(voted.slice(0, 12).map((row) => row.spotId));
   // Client-side redraws cannot read venue data, so pass stable links, photos and
   // the bounded must-order summary with the initial HTML.
+  const mentions = redditMentions(pick || { title: data.title }, params.slug);
   const spotMeta = Object.fromEntries([...voteRows, ...contenders].map((r) => [r.spotId, {
     href: pathForSpotId(r.spotId),
     photo: photoOf(r.spotId),
     topDish: topDishes[r.spotId] || null,
+    reddit: mentions.get(r.spotId)?.people || 0,
   }]));
 
   return (

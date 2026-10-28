@@ -161,6 +161,7 @@ export default async function ThisWeekRacePage() {
                 <li key={r.spotId}>
                   <Link href={pathForSpotId(r.spotId)}>{r.name}</Link>
                   {r.area ? ` · ${r.area}` : ""}
+                  {r.reddit >= 3 ? ` · Reddit pick, recommended by ${r.reddit} people on r/hyderabad` : ""}
                   {r.blurb ? ` · ${r.blurb}` : ""}
                 </li>
               ))}

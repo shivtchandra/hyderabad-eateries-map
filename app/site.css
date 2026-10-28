@@ -1875,6 +1875,8 @@ a.of-card-name:hover{ color: var(--violet-deep); }
 .rk-period-empty b{ font-size: 16px; }
 .rk-period-empty span{ color: var(--ink-soft); font-size: 13px; line-height: 1.4; }
 .ticket .rk-dish, .ticket .rk-move{ color: inherit; opacity: 0.78; }
+.rk-reddit{ display: block; margin-top: 2px; color: var(--muted); font-size: 12px; font-weight: 600; line-height: 1.35; }
+.ticket .rk-reddit{ color: inherit; opacity: 0.78; }
 @media (max-width: 520px){
   .rk-signals{ grid-template-columns: 1fr; }
   .rk-signals span{ display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }

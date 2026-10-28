@@ -114,6 +114,9 @@ export default function LiveRankingStandings({
     ? <span className="rk-nm">{r.name} <span className="new-place-chip">New</span></span>
     : <Link href={hrefOf(r.spotId)} className="rk-nm">{r.name}</Link>);
   const topDishOf = (id) => meta[id]?.topDish || null;
+  // Separate from votes: how many r/hyderabad users recommend the spot.
+  const redditOf = (id) => ((meta[id]?.reddit || 0) >= 3 ? meta[id].reddit : 0);
+  const redditLine = (id) => redditOf(id) ? <span className="rk-reddit">Reddit pick · {redditOf(id)} locals</span> : null;
   const movementOf = (id) => {
     const move = insights.movement?.[id];
     if (!move || !["current", "week-current"].includes(period)) return "";
@@ -180,6 +183,7 @@ export default function LiveRankingStandings({
             {topDishOf(leader.spotId) && (
               <span className="rk-dish">Order: {topDishOf(leader.spotId).name} · {topDishOf(leader.spotId).label}</span>
             )}
+            {redditLine(leader.spotId)}
             {movementOf(leader.spotId) && <span className="rk-move">{movementOf(leader.spotId)}</span>}
           </span>
           <span className="ticket-arrow" aria-hidden="true">
@@ -205,6 +209,7 @@ export default function LiveRankingStandings({
                     {nameOf(r)}
                     <span className="rk-v">{`${r.count} ${r.count === 1 ? "vote" : "votes"} · ${need} to pass #${i + 1}`}</span>
                     {topDishOf(r.spotId) && <span className="rk-dish">Order: {topDishOf(r.spotId).name} · {topDishOf(r.spotId).label}</span>}
+                    {redditLine(r.spotId)}
                     {movementOf(r.spotId) && <span className="rk-move">{movementOf(r.spotId)}</span>}
                   </span>
                   {!isPlaceholder && <Link href={voteHref} className="rk-vote">Vote</Link>}
@@ -236,7 +241,10 @@ export default function LiveRankingStandings({
                     // eslint-disable-next-line @next/next/no-img-element
                     ? <img src={photoOf(r.spotId)} alt="" loading="lazy" width={44} height={44} />
                     : <span className="rk-ballot-empty" aria-hidden="true">{(r.name || "?").charAt(0)}</span>}
-                  <span>{r.name}</span>
+                  <span>
+                    {r.name}
+                    {redditOf(r.spotId) > 0 && <small className="rk-reddit">Reddit pick · {redditOf(r.spotId)} locals</small>}
+                  </span>
                 </Link>
               </li>
             ))}
