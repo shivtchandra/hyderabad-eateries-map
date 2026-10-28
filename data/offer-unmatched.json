@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-28T18:40:28.880Z",
+  "updatedAt": "2026-10-28T21:29:28.857Z",
   "district": [
     {
       "id": "ChIJQ6aIt_KRyzsRNRQX3kW-fEE",
@@ -47,12 +47,6 @@
       "id": "ChIJN3OZCzOTyzsRMnzgaAdgXKM",
       "name": "Onegolf Brewery",
       "area": "Financial District",
-      "reason": "no-strict-name-locality-match"
-    },
-    {
-      "id": "ChIJExhfyuaWyzsR49-5CSBT2nI",
-      "name": "Kabul Darbar Restaurant",
-      "area": "Jubilee Hills",
       "reason": "no-strict-name-locality-match"
     },
     {
@@ -206,16 +200,16 @@
       "reason": "no-strict-name-locality-match"
     },
     {
-      "id": "ChIJd0R906KTyzsReFvqtd_2DpA",
-      "name": "Cream Stone Lounge",
-      "area": "Jubilee Hills",
-      "reason": "no-strict-name-locality-match"
+      "id": "ChIJ3cQl67eQyzsRjAc6UgB9WFY",
+      "name": "Hotel Green Park",
+      "area": "Ameerpet",
+      "reason": "ambiguous-branch"
     },
     {
       "id": "ChIJ1zY_LDCRyzsRyI6X036eZQo",
       "name": "The Bar Project",
       "area": "Begumpet",
-      "reason": "no-strict-name-locality-match"
+      "reason": "ambiguous-branch"
     },
     {
       "id": "ChIJz6DUaQCZyzsRupy8QWsou8E",
@@ -323,7 +317,7 @@
       "id": "ChIJh82kSXKXyzsRohuQTQkip6c",
       "name": "Wool Cup ~ Filmnagar",
       "area": "Film Nagar",
-      "reason": "no-strict-name-locality-match"
+      "reason": "ambiguous-branch"
     },
     {
       "id": "ChIJKcAqaWSbyzsRwlYz7uVeFKs",
@@ -410,6 +404,12 @@
       "reason": "no-strict-name-locality-match"
     },
     {
+      "id": "ChIJJaP7IIGbyzsRkz0vlP2E8dc",
+      "name": "Wok 'N' Biryani",
+      "area": "Kompally",
+      "reason": "ambiguous-branch"
+    },
+    {
       "id": "ChIJu_pJp6OSyzsRbio4Fu08QbA",
       "name": "Paradise Biryani | BHEL",
       "area": "Nallagandla",
@@ -494,10 +494,26 @@
       "reason": "no-strict-name-locality-match"
     },
     {
-      "id": "ChIJM2-iUiCXyzsRBDeyOoAa4uU",
-      "name": "Theobroma Bakery and Cake Shop - Somajiguda, Hyderabad",
+      "id": "ChIJM1_veACVyzsRb2Iuo5SocpQ",
+      "name": "Buffalo Wild Wings",
+      "area": "Financial District",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJPVgrc1uTyzsRJFlTkjkCXzQ",
+      "name": "Komma - The Club",
+      "area": "Kondapur",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJExhfyuaWyzsR49-5CSBT2nI",
+      "name": "Kabul Darbar Restaurant",
       "area": "Jubilee Hills",
-      "reason": "ambiguous-branch"
+      "slug": "kabul-darbar-tolichowki",
+      "pageTitle": "Kabul Darbar | Tolichowki, Hyderabad | Book Table",
+      "reason": "response-locality-mismatch",
+      "nameScore": 1,
+      "localityHits": []
     },
     {
       "id": "ChIJAXLLciCRyzsROQZN8vHIprw",
@@ -653,14 +669,16 @@
       ]
     },
     {
-      "id": "ChIJ3cQl67eQyzsRjAc6UgB9WFY",
-      "name": "Hotel Green Park",
-      "area": "Ameerpet",
-      "slug": "once-upon-a-time-hotel-greenpark-1-begumpet",
-      "pageTitle": "Once Upon A Time - Hotel GreenPark | Hyderabad | Book Table",
+      "id": "ChIJd0R906KTyzsReFvqtd_2DpA",
+      "name": "Cream Stone Lounge",
+      "area": "Jubilee Hills",
+      "slug": "cream-stone-ice-cream-kondapur",
+      "pageTitle": "Cream Stone Ice Cream | Kondapur, Hyderabad | Book Table",
       "reason": "response-name-mismatch",
-      "nameScore": 0,
-      "localityHits": []
+      "nameScore": 0.667,
+      "localityHits": [
+        "kondapur"
+      ]
     },
     {
       "id": "reach-baith-al-mandi-the-arabian-restaurant-medchal-road-0f837a48",
@@ -798,26 +816,6 @@
         "financial",
         "district"
       ]
-    },
-    {
-      "id": "ChIJM1_veACVyzsRb2Iuo5SocpQ",
-      "name": "Buffalo Wild Wings",
-      "area": "Financial District",
-      "slug": "buffalo-wild-wings-gandipet",
-      "pageTitle": "Buffalo Wild Wings | Gandipet, Hyderabad | Book Table",
-      "reason": "response-locality-mismatch",
-      "nameScore": 1,
-      "localityHits": []
-    },
-    {
-      "id": "ChIJPVgrc1uTyzsRJFlTkjkCXzQ",
-      "name": "Komma - The Club",
-      "area": "Kondapur",
-      "slug": "komma-the-club-1-kothaguda",
-      "pageTitle": "Komma - The Club | Kothaguda, Hyderabad",
-      "reason": "response-locality-mismatch",
-      "nameScore": 1,
-      "localityHits": []
     }
   ],
   "swiggy": [
