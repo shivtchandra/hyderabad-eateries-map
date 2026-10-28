@@ -1975,6 +1975,14 @@ a.of-card-name:hover{ color: var(--violet-deep); }
 .guide-faq details{ padding: 16px 0; border-top: 1px solid var(--line); }
 .guide-faq details:last-child{ border-bottom: 1px solid var(--line); }
 .guide-faq summary{ cursor: pointer; font-weight: 700; font-size: 16px; color: var(--ink); }
+.guide-method{ margin: 0 0 var(--s3); font-size: 14px; line-height: 1.55; color: var(--muted); }
+.guide-table{ width: 100%; border-collapse: collapse; font-size: 14px; }
+.guide-table th{ text-align: left; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); padding: 0 8px 8px 0; }
+.guide-table td{ padding: 10px 8px 10px 0; border-top: 1px solid var(--line); vertical-align: top; }
+.guide-table td:last-child, .guide-table th:last-child{ text-align: right; padding-right: 0; font-weight: 800; }
+.guide-table a{ color: var(--ink); font-weight: 700; }
+.guide-sources{ margin: 0; padding-left: 18px; font-size: 14px; line-height: 1.7; }
+.guide-sources a{ color: var(--ink); }
 
 /* ---- Colour v3 pass on the remaining pages (yellow celebrates, ink is its
    partner; food safety uses ink only, never yellow) ---- */

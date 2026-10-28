@@ -38,7 +38,7 @@ const articleLd = {
   description: DESCRIPTION,
   url: "https://eats.mapmyhyd.com" + SLUG,
   datePublished: "2026-09-17",
-  dateModified: "2026-09-17",
+  dateModified: "2026-10-28",
   author: {
     "@type": "Organization",
     name: "Mapping HYD Eats Editorial Team",
@@ -60,10 +60,42 @@ const breadcrumbLd = {
   ],
 };
 
+// Distinct r/hyderabad users who named each cafe in a post or comment.
+// Source: data/reddit/raw.json (1,197 threads, 56,192 comments, 18 months to
+// 2 October 2026). Re-count when that dump is refreshed.
+const REDDIT_SCOPE = { threads: "1,197", comments: "56,192", window: "April 2025 to October 2026" };
+const LOCALS = [
+  { name: "Conçu", area: "Jubilee Hills, Begumpet, Film Nagar", people: 85, href: "/spot/con-u-jubilee-hills" },
+  { name: "Roastery Coffee House", area: "Jubilee Hills, Film Nagar, Kokapet", people: 39, href: "/spot/roastery-coffee-house-jubilee-hills" },
+  { name: "True Black", area: "Jubilee Hills, HITEC City, Kompally", people: 37, href: "/spot/true-black-speciality-coffee-jubilee-hills" },
+  { name: "Roast CCX / Roast 24x7", area: "Jubilee Hills, Banjara Hills", people: 35, href: "/spot/roast-24-seven-jubilee-hills" },
+  { name: "Feranoz", area: "Film Nagar, Banjara Hills", people: 32, href: "/spot/feranoz-filmnagar-jubilee-hills" },
+  { name: "Van Lavino", area: "Jubilee Hills, Nallagandla", people: 22, href: "/spot/van-lavino-cafe-and-patisserie-jubilee-hills" },
+  { name: "Karafa", area: "Jubilee Hills, Banjara Hills", people: 18, href: "/spot/karafa-jubilee-hills" },
+  { name: "Aaromale", area: "Jubilee Hills", people: 18, href: "/spot/aaromale-cafe-and-creative-community-jubilee-hills" },
+  { name: "Third Wave Coffee", area: "Jubilee Hills, Begumpet", people: 14, href: "/spot/third-wave-coffee-jubilee-hills" },
+  { name: "Sobremesa", area: "Jubilee Hills", people: 13, href: "/spot/sobremesa-cafe-bakehouse-kitchen-jubilee-hills" },
+  { name: "Blue Tokai", area: "Jubilee Hills, Gachibowli", people: 11, href: "/spot/blue-tokai-coffee-roasters-origins-jubilee-hills" },
+];
+
+const SOURCES = [
+  { label: "Which are the best cafés in Hyderabad? (April 2026)", url: "https://www.reddit.com/r/hyderabad/comments/1sudm73/which_are_the_best_cafés_in_hyderabad/" },
+  { label: "Why are so many cafes opening in Hyderabad? (June 2026)", url: "https://www.reddit.com/r/hyderabad/comments/1u6k0cx/why_are_so_many_cafes_opening_in_hyderabad_and/" },
+  { label: "Best pastries and donuts in Hyderabad (September 2025)", url: "https://www.reddit.com/r/hyderabad/comments/1nlxykv/best_pastries_donuts_in_hyderabad/" },
+];
+
 const faqLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   mainEntity: [
+    {
+      "@type": "Question",
+      name: "Which cafe do Hyderabad locals recommend most on Reddit?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: `Conçu. ${LOCALS[0].people} different r/hyderabad users named it across ${REDDIT_SCOPE.comments} comments from ${REDDIT_SCOPE.window}, more than double the next cafes: Roastery Coffee House (${LOCALS[1].people}), True Black (${LOCALS[2].people}) and Roast CCX / Roast 24x7 (${LOCALS[3].people}).`,
+      },
+    },
     {
       "@type": "Question",
       name: "Which is the best specialty coffee cafe in Hyderabad?",
@@ -99,12 +131,12 @@ const SPOTS = [
     tagBg: "#f0fdf4",
     tagColor: "#166534",
     area: "Banjara Hills",
-    href: "/spot/roastery-coffee-house-banjara-hills",
+    href: "/spot/roastery-coffee-house-jubilee-hills",
     verdict:
       "Housed in an airy, heritage-style bungalow surrounded by lush green foliage, Roastery Coffee House pioneered specialty coffee culture in Hyderabad. Their menu spans manual pourovers (V60, Chemex, Aeropress) and signature cold concoctions like Cranberry Cold Brew and brewed coffee cherry tea (Cascara).",
     whatToOrder: "Cranberry Cold Brew, Cascara, Chicken BBQ Platter, Onion Rings.",
     timingTip: "Weekend evenings have heavy wait times (30–45 mins). Weekday mornings (8:30 AM – 11:30 AM) are peaceful.",
-    quote: "“The garden ambience is unmatched. Sip a cold brew or cascara under the trees on a quiet morning.”",
+    quote: "“Roastery is good in budget.” r/hyderabad, April 2026",
   },
   {
     id: "concu",
@@ -113,12 +145,12 @@ const SPOTS = [
     tagBg: "#fdf2f8",
     tagColor: "#86198f",
     area: "Jubilee Hills & Financial District",
-    href: "/spot/concu-jubilee-hills",
+    href: "/spot/con-u-jubilee-hills",
     verdict:
       "Conçu is widely celebrated across Hyderabad as the benchmark for European baking. Founded by classically trained pastry chefs, every cake, tart, and choux bun is a masterclass in balance and texture. The ambiance is clean, minimalist, and upscale.",
     whatToOrder: "Banoffee Tart, Chocolate Opera, Tiramisu, Choux Buns, Flat White.",
     timingTip: "Great for quiet afternoon meetings or dessert runs. Popular items sell out by late evening.",
-    quote: "“Unmatched precision in pastry. The Opera and Banoffee are easily the finest in the city.”",
+    quote: "“1st of month Conçu, 31st of month Theobroma.” r/hyderabad, September 2025",
   },
   {
     id: "roast",
@@ -132,7 +164,7 @@ const SPOTS = [
       "If you need a reliable work cafe in the tech corridor with dedicated power sockets, robust WiFi, and in-house micro-roasting, Roast CCX is the premier choice. The Gachibowli outlet (Roast 24 Seven) is open round-the-clock for night owls and founders.",
     whatToOrder: "Single-Origin Pourover, Vietnamese Iced Coffee, Avocado Toast, Bagels.",
     timingTip: "Ample indoor and outdoor seating with laptop-friendly power plugs throughout.",
-    quote: "“Fast WiFi, great coffee, and sockets everywhere. The go-to spot for long deep-work sessions.”",
+    quote: "“Good list, but where's Roast 24x7 at Banjara Hills? It's my goto place.” r/hyderabad, April 2026",
   },
   {
     id: "trueblack",
@@ -141,12 +173,12 @@ const SPOTS = [
     tagBg: "#f8fafc",
     tagColor: "#334155",
     area: "Jubilee Hills",
-    href: "/spot/true-black-coffee-jubilee-hills",
+    href: "/spot/true-black-speciality-coffee-jubilee-hills",
     verdict:
       "True Black strips away commercial sugary syrups, focusing entirely on the craft of bean extraction. The baristas are passionate about origin profiles, grind size, and water temperature. It is a quiet, contemplative space frequented by designers and coffee purists.",
     whatToOrder: "Cortado, Tonic Espresso, Cold Drip, Manual Pourovers.",
     timingTip: "Intimate and quiet; best for focused reading and serious coffee appreciation.",
-    quote: "“For pure espresso extraction and manual brews without commercial fluff, True Black is the gold standard.”",
+    quote: "“True black has very good coffee.” r/hyderabad, June 2026",
   },
 ];
 
@@ -185,7 +217,7 @@ export default function BestCafesGuidePage() {
               Editorial Field Guide · 2026 Local Consensus
             </div>
             <div className="guide-updated">
-              Updated September 2026 · Specialty coffee roasters &amp; cafe trails
+              Updated October 2026 · Counts from 56,192 r/hyderabad comments
             </div>
           </div>
           <Link href="/" className="link-chip">
@@ -222,6 +254,30 @@ export default function BestCafesGuidePage() {
           </div>
         </section>
 
+        {/* Locals' count: the citable number on this page */}
+        <section className="guide-faq">
+          <h2 className="guide-faq-title">Most recommended cafes on r/hyderabad</h2>
+          <p className="guide-method">
+            Number of different r/hyderabad users who named each cafe in a post or comment, counted across {REDDIT_SCOPE.threads} threads
+            and {REDDIT_SCOPE.comments} comments from {REDDIT_SCOPE.window}. Chains are counted once across all branches.
+          </p>
+          <table className="guide-table">
+            <thead>
+              <tr><th>#</th><th>Cafe</th><th>Branches</th><th>Locals</th></tr>
+            </thead>
+            <tbody>
+              {LOCALS.map((c, i) => (
+                <tr key={c.name}>
+                  <td>{i + 1}</td>
+                  <td><Link href={c.href}>{c.name}</Link></td>
+                  <td>{c.area}</td>
+                  <td>{c.people}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+
         {/* Spot Deep Dives */}
         <SwipeDeck label="Spots in this guide">
           {SPOTS.map((s, idx) => (
@@ -246,6 +302,15 @@ export default function BestCafesGuidePage() {
               </details>
             ))}
           </div>
+        </section>
+
+        <section className="guide-faq">
+          <h2 className="guide-faq-title">Sources</h2>
+          <ul className="guide-sources">
+            {SOURCES.map((s) => (
+              <li key={s.url}><a href={s.url} target="_blank" rel="noopener noreferrer nofollow">{s.label}</a></li>
+            ))}
+          </ul>
         </section>
 
         {/* Explore Hub Pills */}
