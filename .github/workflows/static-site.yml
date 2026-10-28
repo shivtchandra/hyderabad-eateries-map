@@ -59,8 +59,18 @@ jobs:
       - name: Build static site
         run: bash scripts/build-static.sh
 
+      # Diff page text against the live manifest before it is replaced.
+      - name: Prepare IndexNow list
+        continue-on-error: true
+        run: node scripts/indexnow.mjs prepare
+
       - name: Deploy to Cloudflare Pages
         if: env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ACCOUNT_ID != ''
         run: |
           npx --yes wrangler@4 pages project create mapmyhyd-eats --production-branch master || true
           npx --yes wrangler@4 pages deploy out --project-name mapmyhyd-eats --branch master --commit-dirty=true
+
+      - name: Ping IndexNow (Bing)
+        if: env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ACCOUNT_ID != ''
+        continue-on-error: true
+        run: node scripts/indexnow.mjs submit
