@@ -102,6 +102,13 @@ const nextConfig = {
       { source: "/picks/ice-cream/jubilee-hills", destination: "/?dish=ice-cream&area=Jubilee+Hills", permanent: true },
       { source: "/picks/coffee/madhapur-hitec", destination: "/?dish=coffee&area=Madhapur%2FHITEC", permanent: true },
       { source: "/picks/coffee/jubilee-hills", destination: "/?dish=coffee&area=Jubilee+Hills", permanent: true },
+      // Indexed spot URLs that no longer resolve on the static export: raw
+      // place-ID paths and venues renamed or dropped from the dataset.
+      { source: "/spot/ChIJD2xTlR-XyzsRBrWHH2jDPGg", destination: "/spot/parampara-flavours-of-india-banjara-hills", permanent: true },
+      { source: "/spot/ChIJzXF3rdaZyzsRkOuBrTP9vso", destination: "/spot/bombay-juice-banjara-hills", permanent: true },
+      { source: "/spot/ChIJy8jLqSWTyzsRumelM7bXM5c", destination: "/spot/maredumilli-the-forest-grill-and-bar-gachibowli", permanent: true },
+      { source: "/spot/kodi-kura-chitti-gaare-kondapur-gachibowli", destination: "/spot/kodi-kura-chitti-gaare-gachibowli", permanent: true },
+      { source: "/spot/yum-yum-tree-arabian-food-court-madhapur", destination: "/areas/madhapur-hitec", permanent: true },
       // Common search URL patterns → ranking pages
       { source: "/best-biryani-in-hyderabad", destination: "/picks/biryani", permanent: true },
       { source: "/best-biryani-hyderabad", destination: "/picks/biryani", permanent: true },
