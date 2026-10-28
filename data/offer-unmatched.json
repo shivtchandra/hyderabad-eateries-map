@@ -1,6 +1,825 @@
 {
-  "updatedAt": "2026-10-28T08:37:07.930Z",
-  "district": [],
+  "updatedAt": "2026-10-28T12:22:30.091Z",
+  "district": [
+    {
+      "id": "ChIJQ6aIt_KRyzsRNRQX3kW-fEE",
+      "name": "Chutneys",
+      "area": "Kukatpally",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJdxWXYrmTyzsR4yXppJpm0Co",
+      "name": "63 Degrees Modern Regional Buffet",
+      "area": "Gachibowli",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJQ2qUrd6TyzsRskEgdqbhMW0",
+      "name": "Sahib's Barbeque By Ohris",
+      "area": "Gachibowli",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJezJXceeTyzsRqoltY9NfVsM",
+      "name": "Barbeque Holic",
+      "area": "Gachibowli",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJ68V1WOeZyzsRGbwjHr7a30k",
+      "name": "Cream Stone Concepts",
+      "area": "Banjara Hills",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJ4UHRkeSTyzsRiFzajl4M9z0",
+      "name": "Cafe Niloufer Hitech City",
+      "area": "Madhapur/HITEC",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJI2gHHGCRyzsRKuii0hLcgvc",
+      "name": "Rayalaseema Ruchulu",
+      "area": "HITEC City",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJN3OZCzOTyzsRMnzgaAdgXKM",
+      "name": "Onegolf Brewery",
+      "area": "Financial District",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJExhfyuaWyzsR49-5CSBT2nI",
+      "name": "Kabul Darbar Restaurant",
+      "area": "Jubilee Hills",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJ6T0lNqaZyzsRVMJCrX5pY-k",
+      "name": "Taaza Kitchen",
+      "area": "Tarnaka",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJ-1FJL1iRyzsR6UU59XXpqsw",
+      "name": "Chilis Grill and Bar",
+      "area": "Madhapur",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJn1QrZqKVyzsRzBwVlf5MxXQ",
+      "name": "ANTHM",
+      "area": "Financial District",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJz6zwXUaRyzsRqjbV8BHyBWg",
+      "name": "ITLU - Veg Diner Restaurant",
+      "area": "Jubilee Hills",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJhTOQ2vCZyzsRQnoUxIHpnPY",
+      "name": "Urban Mayabazar - Family Bar & Kitchen",
+      "area": "LB Nagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJm1o5bzOZyzsRTkd7daXPhI8",
+      "name": "Urban Beats Family Bar & Kitchen",
+      "area": "LB Nagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJn2vHpkaZyzsR6W2waEY6Lrg",
+      "name": "Kritunga Restaurant - Jagavis",
+      "area": "L B Nagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJL2yrU6-YyzsRPnhQ3AWJRFI",
+      "name": "Cafe Coffee day",
+      "area": "LB Nagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJpbkoMMCYyzsRBZ8kh8S88EA",
+      "name": "Over The Flow",
+      "area": "Dilsukhnagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJl6qqqmmayzsReWOD-H4zuPs",
+      "name": "Cafe Desire Coffee & Tea Vending Machine",
+      "area": "Secunderabad",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJubwHOPmTyzsR3OTQbjRIUCk",
+      "name": "Roast N Toast - Lounge | Bar | Kitchen",
+      "area": "Nallagandla",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJL2TXpHOZyzsRUMtjqxad_zI",
+      "name": "One Lounge Bar and Kitchen",
+      "area": "LB Nagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJ17bNmiSXyzsR6d9WjpnvsOc",
+      "name": "Ohri's Eatmor",
+      "area": "Banjara Hills",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJQXy9RiWRyzsRLSs0KeUpDmI",
+      "name": "Amnesia Sky Bar",
+      "area": "Madhapur",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJpcawCQaZyzsRRUcGYR8BLZ8",
+      "name": "Coffee and Crisps Cafe",
+      "area": "LB Nagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJXdHbt96byzsRh3gQSyDLRSw",
+      "name": "Barracks Anteroom Resto Bar",
+      "area": "ECIL",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJCyru0PSZyzsRRXhGjVl_Fc4",
+      "name": "Cosmos Cafe & Gaming",
+      "area": "text:cafe lb nagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJAft5I7yZyzsR4itpq01baj8",
+      "name": "Kefi",
+      "area": "text:cafe lb nagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJZf5hJIeZyzsRUkI3jDT3fuI",
+      "name": "Kahani Cafe",
+      "area": "text:cafe lb nagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJva4MXACTyzsRm5fkmOYdz8c",
+      "name": "The Chocolate Room Cafe& Lounge",
+      "area": "Nallagandla",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJdwnjYQOZyzsR1cox44wObYY",
+      "name": "LASSI SHOP (MAA VAISHNAVI CHINESE)",
+      "area": "Begumpet",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJvblMjd2ZyzsR7lwelFAQcL0",
+      "name": "Cafe Coffee day",
+      "area": "Himayatnagar",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJjfaBfACTyzsR6lIPt2hwByI",
+      "name": "Abu Zayed Bait Al Mandi",
+      "area": "Madhapur",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJqfK5Fo2RyzsRxRuGH6KdUFc",
+      "name": "Brewtique Speciality Coffee",
+      "area": "Jubilee Hills",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJV47u-zeTyzsRg1GyNX8ogOQ",
+      "name": "Windmills Craftworks [Madhapur]",
+      "area": "Madhapur",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJd0R906KTyzsReFvqtd_2DpA",
+      "name": "Cream Stone Lounge",
+      "area": "Jubilee Hills",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJ1zY_LDCRyzsRyI6X036eZQo",
+      "name": "The Bar Project",
+      "area": "Begumpet",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJz6DUaQCZyzsRupy8QWsou8E",
+      "name": "SIP N BITE",
+      "area": "Tarnaka",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJaarcFmuFyzsRo_Vrf0ET5KM",
+      "name": "Organic Creamery By Iceberg - Kompally",
+      "area": "Kompally",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJu4sFZgCTyzsRl1BRcX6eNmA",
+      "name": "ZORO KITCHEN & BAR",
+      "area": "Nallagandla",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJg9vNCKKdyzsR6PXFBpAfD1s",
+      "name": "Paradise Biryani | Rampally",
+      "area": "ECIL",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "reach-tollywood-mandi-sr-nagar-2a4ef753",
+      "name": "Tollywood Mandi",
+      "area": "SR Nagar",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJG3gx7dWfyzsRBDqs3GY8pJc",
+      "name": "Old Mumbai ice cream shop",
+      "area": "Uppal",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJBRftKcmTyzsR8KU7VqfLfeU",
+      "name": "Theobroma Bakery and Cake Shop - Miyapur Village, Hyderabad",
+      "area": "Madhapur/HITEC",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJS4c5D06RyzsRHh0dhFI_hTw",
+      "name": "Paradise Biryani | Lingampally",
+      "area": "Nallagandla",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJ66NhVvGRyzsRJl-6JFh016I",
+      "name": "Pista House",
+      "area": "Gachibowli",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJs2Z8Jy2RyzsRUvMabDrmsNc",
+      "name": "Cream Stone Ice Cream",
+      "area": "Jubilee Hills",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJb0tNPQCTyzsROOeKr-zapM4",
+      "name": "Brick & Branch",
+      "area": "Financial District",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJu_uOEuGXyzsRpTMXp1nViig",
+      "name": "Bakelore",
+      "area": "Jubilee Hills",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJy7MrtsaZyzsRJGkEGy4JsTA",
+      "name": "Mehfil",
+      "area": "Himayatnagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJxYj9zyWTyzsRJmRDlT9eiM4",
+      "name": "Harleys Fine Baking",
+      "area": "Gachibowli",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJn_FnREuZyzsRiKahIi7rc48",
+      "name": "Viyyalavari Kitchen",
+      "area": "Kothapet",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJqfi8bQCTyzsR5fbpcBgdk0M",
+      "name": "Kritaa Nagar",
+      "area": "Financial District",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJ3yO91yKRyzsR86yt9aP_wbY",
+      "name": "Palm Tree Arabian Restaurant",
+      "area": "Madhapur",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJh82kSXKXyzsRohuQTQkip6c",
+      "name": "Wool Cup ~ Filmnagar",
+      "area": "Film Nagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJKcAqaWSbyzsRwlYz7uVeFKs",
+      "name": "HOTEL SVM GRAND DAIRY FARM ROAD",
+      "area": "Alwal",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJYYKNdv-NyzsRpyfRBlbdGVA",
+      "name": "House Of Milkshakes",
+      "area": "Kondapur",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJo0psq1eTyzsRX1L2RZxT0Ms",
+      "name": "Theobroma Bakery and Cake Shop - Gachibowli",
+      "area": "Jubilee Hills",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJW2iDgRqRyzsRFZT0C8_o0R0",
+      "name": "Auberry The Bake Shop",
+      "area": "Jubilee Hills",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJz-y_8UaRyzsRoomp8v1Qs14",
+      "name": "Auberry The Bake Shop",
+      "area": "Jubilee Hills",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJFc2O7UaZyzsRtA52QTgQiLk",
+      "name": "GHRELIN CAFE AND PATISSERIE",
+      "area": "Himayatnagar",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJL2UiUTOZyzsRgMRIoqlxqvQ",
+      "name": "Mirame Cafe & Kitchen",
+      "area": "text:cafe himayatnagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJoZYR9GSXyzsRJv9vqlz67aI",
+      "name": "CAFE AL HABEEB",
+      "area": "Himayatnagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJT0eE-x-byzsRle6GzNkJPTI",
+      "name": "Theobroma Bakery and Cake Shop - Begumpet, Hyderabad",
+      "area": "Begumpet",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJ36XDyjWbyzsRgQC6lQkSrIA",
+      "name": "Cafe Coffee day",
+      "area": "Secunderabad",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJ-ciqwrmbyzsRn4MBg5q2e7Q",
+      "name": "Paradise Biryani | Malkajgiri",
+      "area": "Tarnaka",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJ2SAyN2yRyzsRVcfTBGZzjcQ",
+      "name": "Naidu Gari Kunda Biryani",
+      "area": "Begumpet",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJnVS7ociZyzsRma0VVHZ_uGk",
+      "name": "Hemanth Tiffin Center",
+      "area": "Banjara Hills",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJedfffhCZyzsRdo7NG-m0wvY",
+      "name": "lassi hub",
+      "area": "Banjara Hills",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJu_pJp6OSyzsRbio4Fu08QbA",
+      "name": "Paradise Biryani | BHEL",
+      "area": "Nallagandla",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJ7yY8HqOSyzsRihlYam-VH4Q",
+      "name": "Hotel Sitara Grand",
+      "area": "Nallagandla",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJvf_Av6uTyzsRNTDrlykZ_oI",
+      "name": "The Bake Factory",
+      "area": "text:cafe nallagandla",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJkelWh5uYyzsRyT5bkdj8VlE",
+      "name": "Hotel Shubham Palace - Karmanghat",
+      "area": "LB Nagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJsR04cFSZyzsRfqpG2_gKHlw",
+      "name": "The Belgian Waffle Co.",
+      "area": "Habsiguda",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJ4SSnSgCZyzsRKwdbt4x1vvA",
+      "name": "Apik Cafe",
+      "area": "text:cafe lb nagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJ12XFnriZyzsRb7F9GWER0Vk",
+      "name": "Swiss Delights Bakers And Snacks",
+      "area": "Dilsukhnagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJIfcFuKWYyzsRChA7u0_N9_0",
+      "name": "Hotel Sitara Grand - LB Nagar",
+      "area": "LB Nagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJDdL0GBmXyzsRHkzMcFT26SQ",
+      "name": "Paradise Biryani | Suncity",
+      "area": "Kokapet",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJ14dFtq6ZyzsRi0oQ5lvSb9o",
+      "name": "Karachi Bakery & Cafe - Himayat Nagar",
+      "area": "Himayatnagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJYd6O-w6ZyzsRyMLzr4mQUMU",
+      "name": "The Belgian Waffle Co.",
+      "area": "Himayatnagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJJQJ5ED6RyzsREZG0X2KkbJE",
+      "name": "CHICKPET DONNE BIRYANI HOUSE - SINCE 1975 , AMEERPET",
+      "area": "Begumpet",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJ2aZ7VsyZyzsR-iRBnlRdFI4",
+      "name": "Sri Amul Tiffin Centre",
+      "area": "Himayatnagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJKSx1TDWZyzsRhk5R0irdnKo",
+      "name": "Niva Bistro",
+      "area": "text:cafe lb nagar",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJM2-iUiCXyzsRBDeyOoAa4uU",
+      "name": "Theobroma Bakery and Cake Shop - Somajiguda, Hyderabad",
+      "area": "Jubilee Hills",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJAXLLciCRyzsROQZN8vHIprw",
+      "name": "Akan",
+      "area": "Madhapur",
+      "slug": "akan-hitech-city",
+      "pageTitle": "Akan | Hitech City, Hyderabad | Book Table",
+      "reason": "response-locality-mismatch",
+      "nameScore": 1,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJDTPaVAWRyzsRoj8f1IDp8kU",
+      "name": "Et-Si",
+      "area": "Jubilee Hills",
+      "slug": "etsi-cafe-bakehouse-chocolatier-jubilee-hills",
+      "pageTitle": "Etsi Cafe BakeHouse Chocolatier | Jubilee Hills, Hyderabad",
+      "reason": "response-name-mismatch",
+      "nameScore": 0,
+      "localityHits": [
+        "jubilee"
+      ]
+    },
+    {
+      "id": "ChIJw3KFakCXyzsR731MjBYkua8",
+      "name": "Jewel Of Nizam- The Golkonda Hotel Banjara Hills",
+      "area": "Masab Tank",
+      "slug": "zanzibar-the-golkonda-hotel-masab-tank",
+      "pageTitle": "Zanzibar - The Golkonda Hotel | Hyderabad | Book Table",
+      "reason": "response-name-mismatch",
+      "nameScore": 0.5,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJD_xFZfeZyzsRwJv3ZLksfgg",
+      "name": "Okra - Hyderabad Marriott Hotel and Convention Centre",
+      "area": "Rani Gunj",
+      "slug": "okra-hyderabad-marriott-hotel-convention-centre-rani-gunj-secunderabad",
+      "pageTitle": "Okra - Hyderabad Marriott Hotel &amp; Convention Centre | Secunderabad",
+      "reason": "response-locality-mismatch",
+      "nameScore": 1,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJwTrrXX-RyzsRhA-XJrDaqxU",
+      "name": "Rénao - Café | Bistro",
+      "area": "Jubilee Hills",
+      "slug": "renao-cafe-bistro-madhapur",
+      "pageTitle": "Renao Cafe &amp; Bistro | Madhapur, Hyderabad | Book Table",
+      "reason": "response-name-mismatch",
+      "nameScore": 0.5,
+      "localityHits": [
+        "madhapur"
+      ]
+    },
+    {
+      "id": "ChIJmTYbYrWQyzsRfAUQADKdTLA",
+      "name": "Seventh Heaven Authentic Restaurant & Rooftop Bar",
+      "area": "Banjara Hills",
+      "slug": "seventh-heaven-authentic-restaurant-rooftop-bar-panjagutta",
+      "pageTitle": "Seventh Heaven Authentic Restaurant &amp; Rooftop Bar | Hyderabad",
+      "reason": "response-locality-mismatch",
+      "nameScore": 1,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJ6WeqDVqVyzsRcM0__OWlwl4",
+      "name": "Tabula Rasa (Financial District)",
+      "area": "Financial District",
+      "slug": "tabula-rasa-nanakramguda",
+      "pageTitle": "Tabula Rasa | Nanakramguda, Hyderabad | Book Table",
+      "reason": "response-locality-mismatch",
+      "nameScore": 1,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJaZLMtnyTyzsRZ76tumRlW_s",
+      "name": "Chirp",
+      "area": "Gachibowli",
+      "slug": "chirp-gachibowli",
+      "pageTitle": "The Chap House | Gachibowli, Hyderabad | Book Table",
+      "reason": "response-name-mismatch",
+      "nameScore": 0,
+      "localityHits": [
+        "gachibowli"
+      ]
+    },
+    {
+      "id": "ChIJGbH6lpCVyzsRuqW8JWels4Q",
+      "name": "Prezmo",
+      "area": "Narsingi",
+      "slug": "prezmo-gandipet",
+      "pageTitle": "Prezmo | Gandipet, Hyderabad | Book Table",
+      "reason": "response-locality-mismatch",
+      "nameScore": 1,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJuT4y6myRyzsR4y0zj-vf3KE",
+      "name": "ZUCI - Artisanal Chocolates & Cafe",
+      "area": "Jubilee Hills",
+      "slug": "zuci-artisanal-chocolates-cafe-jubilee-hills",
+      "pageTitle": "The Bougainvillea &amp; Zuci | Jubilee Hills, Hyderabad",
+      "reason": "response-name-mismatch",
+      "nameScore": 0.5,
+      "localityHits": [
+        "jubilee"
+      ]
+    },
+    {
+      "id": "ChIJ1YUkcnCVyzsRYspPX_wYv7c",
+      "name": "Roastery Coffee House | Kokapet",
+      "area": "Jubilee Hills",
+      "slug": "roastery-coffee-house-jubilee-hills",
+      "pageTitle": "Roastery Coffee House  | Hyderabad | Book Table",
+      "reason": "response-locality-mismatch",
+      "nameScore": 1,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJR_rBht-XyzsRGZSYwN-U8GU",
+      "name": "The Nawaabs Restaurant",
+      "area": "Banjara Hills",
+      "slug": "the-nawaabs-restaurant-banjara-hills",
+      "pageTitle": "The Nawaab&#x27;s Restaurant | Hyderabad | Book Table",
+      "reason": "response-name-mismatch",
+      "nameScore": 0,
+      "localityHits": [
+        "banjara"
+      ]
+    },
+    {
+      "id": "ChIJsQ4N0dqVyzsRKETizvTv5Jc",
+      "name": "Red Rhino Taproom | Financial District",
+      "area": "Financial District",
+      "slug": "red-rhino-madhapur",
+      "pageTitle": "Red Rhino | Madhapur, Hyderabad | Book Table",
+      "reason": "response-locality-mismatch",
+      "nameScore": 1,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJ35ULj26RyzsRJksaQUa3_8Q",
+      "name": "Dum Pukht Begums ITC Kohenur",
+      "area": "Madhapur",
+      "slug": "dum-pukht-begums-itc-kohenur-hitech-city",
+      "pageTitle": "Dum Pukht Begum&#x27;s- ITC Kohenur | Hyderabad | Book Table",
+      "reason": "response-name-mismatch",
+      "nameScore": 0.667,
+      "localityHits": [
+        "itc",
+        "kohenur"
+      ]
+    },
+    {
+      "id": "ChIJ3cQl67eQyzsRjAc6UgB9WFY",
+      "name": "Hotel Green Park",
+      "area": "Ameerpet",
+      "slug": "once-upon-a-time-hotel-greenpark-1-begumpet",
+      "pageTitle": "Once Upon A Time - Hotel GreenPark | Hyderabad | Book Table",
+      "reason": "response-name-mismatch",
+      "nameScore": 0,
+      "localityHits": []
+    },
+    {
+      "id": "reach-baith-al-mandi-the-arabian-restaurant-medchal-road-0f837a48",
+      "name": "Baith Al Mandi-The Arabian Restaurant",
+      "area": "Medchal Road",
+      "slug": "mandi-king-arabian-restaurant-kukatpally",
+      "pageTitle": "Mandi King Arabian Restaurant | Kukatpally, Hyderabad",
+      "reason": "response-name-mismatch",
+      "nameScore": 0.667,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJbYFGhbabyzsRglih5Tje0ik",
+      "name": "LCD - La Chai De!",
+      "area": "Secunderabad",
+      "slug": "chai-shai-bar-sd-road-secunderabad",
+      "pageTitle": "Chai Shai Bar | S D Road, Secunderabad",
+      "reason": "response-name-mismatch",
+      "nameScore": 0.5,
+      "localityHits": [
+        "secunderabad"
+      ]
+    },
+    {
+      "id": "ChIJDdGZNwCbyzsRxhsuaLXNx8M",
+      "name": "RADAAR BAR AND KITCHEN",
+      "area": "ECIL",
+      "slug": "radaar-bar-and-kitchen-sainikpuri-secunderabad",
+      "pageTitle": "Radaar Bar and Kitchen | Secunderabad | Book Table",
+      "reason": "response-locality-mismatch",
+      "nameScore": 1,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJK09rv4mbyzsRGXaVROIydsk",
+      "name": "Paradise Biryani | Padmarao Nagar",
+      "area": "Secunderabad",
+      "slug": "paradise-biryani-a-legend-since-1953-padmarao-nagar-secunderabad",
+      "pageTitle": "Paradise Biryani - A Legend Since 1953 | Secunderabad",
+      "reason": "response-name-mismatch",
+      "nameScore": 0.667,
+      "localityHits": [
+        "secunderabad"
+      ]
+    },
+    {
+      "id": "ChIJwR-eTZ-VyzsR7m47KBwQGMU",
+      "name": "BREW TIMES",
+      "area": "text:microbrewery hyderabad",
+      "slug": "brew-times-gandipet",
+      "pageTitle": "Brew Times | Gandipet, Hyderabad | Book Table",
+      "reason": "response-locality-mismatch",
+      "nameScore": 1,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJRW1VCgCZyzsRbgB7nZ1FRA8",
+      "name": "Mandi Kebab Biryani, LB Nagar",
+      "area": "Dilsukhnagar",
+      "slug": "biryani-4-u-kothapet",
+      "pageTitle": "Biryani 4 U | Kothapet, Hyderabad | North Indian Restaurant",
+      "reason": "response-locality-mismatch",
+      "nameScore": 1,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJUZIfrMqQyzsRZcl9U3I2I-Y",
+      "name": "Hotel Alshafa Kalyani Biryani",
+      "area": "Banjara Hills",
+      "slug": "hotel-al-shafa-kalyani-biryani-erragadda",
+      "pageTitle": "Hotel Al Shafa Kalyani Biryani | Erragadda, Hyderabad",
+      "reason": "response-name-mismatch",
+      "nameScore": 0.667,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJnbJOTsGRyzsRyqZFnEU76F8",
+      "name": "THE MAJESTIC MANDI & BIRYANI",
+      "area": "Begumpet",
+      "slug": "the-arabian-mandi-and-biryani-house-1-s-r-nagar",
+      "pageTitle": "The Arabian Mandi And Biryani House | S R Nagar, Hyderabad",
+      "reason": "response-name-mismatch",
+      "nameScore": 0.667,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJK96XIS6byzsR-9OnZqB03fE",
+      "name": "Paradise Biryani | Bowenpally",
+      "area": "Secunderabad",
+      "slug": "paradise-biryani-a-legend-since-1953-bowenpally-secunderabad",
+      "pageTitle": "Paradise Biryani - A Legend Since 1953 | Secunderabad",
+      "reason": "response-locality-mismatch",
+      "nameScore": 1,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJNyi27wKXyzsRyb2vVeEafZc",
+      "name": "Paradise Biryani | Gudimalkapur",
+      "area": "Film Nagar",
+      "slug": "paradise-biryani-a-legend-since-1953-mehdipatnam",
+      "pageTitle": "Paradise Biryani - A Legend Since 1953 | Hyderabad",
+      "reason": "response-locality-mismatch",
+      "nameScore": 1,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJ_9dRpA2TyzsRE6ABNxGlhyE",
+      "name": "Wander - Shawarma and Momo (Hafeezpet)",
+      "area": "Miyapur",
+      "slug": "wander-shawarma-and-momo-miyapur",
+      "pageTitle": "Wander - Shawarma And Momo | Miyapur, Hyderabad | Book Table",
+      "reason": "response-locality-mismatch",
+      "nameScore": 1,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJf85OAQiRyzsRvlxl4EzKYn8",
+      "name": "White Hart Kitchen & Lounge Bar",
+      "area": "Banjara Hills",
+      "slug": "white-hart-kitchen-bar-panjagutta",
+      "pageTitle": "White Hart Kitchen &amp; Bar | Hyderabad | Book Table",
+      "reason": "response-locality-mismatch",
+      "nameScore": 1,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJzSD847CTyzsRDmChevTiRY8",
+      "name": "Odeum By Prism",
+      "area": "Financial District",
+      "slug": "prism-club-kitchen-financial-district",
+      "pageTitle": "Prism Club &amp; Kitchen | Hyderabad | Book Table",
+      "reason": "response-name-mismatch",
+      "nameScore": 0.5,
+      "localityHits": [
+        "financial",
+        "district"
+      ]
+    },
+    {
+      "id": "ChIJM1_veACVyzsRb2Iuo5SocpQ",
+      "name": "Buffalo Wild Wings",
+      "area": "Financial District",
+      "slug": "buffalo-wild-wings-gandipet",
+      "pageTitle": "Buffalo Wild Wings | Gandipet, Hyderabad | Book Table",
+      "reason": "response-locality-mismatch",
+      "nameScore": 1,
+      "localityHits": []
+    },
+    {
+      "id": "ChIJPVgrc1uTyzsRJFlTkjkCXzQ",
+      "name": "Komma - The Club",
+      "area": "Kondapur",
+      "slug": "komma-the-club-1-kothaguda",
+      "pageTitle": "Komma - The Club | Kothaguda, Hyderabad",
+      "reason": "response-locality-mismatch",
+      "nameScore": 1,
+      "localityHits": []
+    }
+  ],
   "swiggy": [
     {
       "id": "786054",

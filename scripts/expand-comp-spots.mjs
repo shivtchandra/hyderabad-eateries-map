@@ -26,9 +26,54 @@ const MODE = process.env.OFFER_MODE || "active"; // active | verified | discover
 const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const STOP = new Set(["the", "restaurant", "restaurants", "cafe", "hyderabad", "and", "bar", "kitchen", "by", "&", "pvt", "ltd", "family", "dhaba", "hotel", "house", "diner"]);
-const clean = (s) => (s || "").toLowerCase().normalize("NFKD").replace(/[^a-z0-9 ]+/g, " ");
+const STOP = new Set(["the", "restaurant", "restaurants", "cafe", "hyderabad", "and", "bar", "kitchen", "by", "&", "pvt", "ltd", "family", "dhaba", "hotel", "house", "diner", "co"]);
+const LOCATION_STOP = new Set([...STOP, "road", "street", "nagar", "hills", "city", "colony", "near", "opposite", "shop", "floor", "main", "telangana", "india"]);
+const decodeEntities = (value) => String(value || "")
+  .replace(/&amp;/gi, "&").replace(/&#x27;|&#39;|&apos;/gi, "'").replace(/&quot;/gi, '"').replace(/&nbsp;/gi, " ");
+const clean = (s) => decodeEntities(s).toLowerCase().normalize("NFKD").replace(/[^a-z0-9 ]+/g, " ");
 const tokens = (s) => new Set(clean(s).split(/\s+/).filter((t) => t.length > 1 && !STOP.has(t)));
+const brandTokens = (s) => {
+  const strong = new Set([...tokens(s)].filter((token) => token.length > 2));
+  return strong.size ? strong : tokens(s);
+};
+const LOCALITY_ALIAS = new Map([
+  ["himayath", "himayatnagar"], ["himayathnagar", "himayatnagar"],
+  ["hitech", "hitec"], ["secundrabad", "secunderabad"], ["chandanagar", "chanda"],
+  ["lanco", "manikonda"],
+]);
+const locationTokens = (s) => new Set(clean(s).split(/\s+/)
+  .filter((token) => token.length > 1 && !LOCATION_STOP.has(token))
+  .map((token) => LOCALITY_ALIAS.get(token) || token));
+
+const explicitBranchLocality = (name) => {
+  const branch = String(name || "").split(/\s(?:\||~|-|–)\s/).pop();
+  const found = locationTokens(branch);
+  return new Set([...found].filter((token) => HYD_LOCALITIES.has(token)));
+};
+
+export function validateDistrictBranch({ spot, eatery, slug, pageTitle = "" }) {
+  const namedLocality = explicitBranchLocality(spot?.name || eatery?.name);
+  const expectedLocality = namedLocality.size
+    ? namedLocality
+    : locationTokens([spot?.area, eatery?.area, eatery?.discoveredIn, eatery?.address].filter(Boolean).join(" "));
+  const rawExpectedName = brandTokens(spot?.name || eatery?.name || "");
+  const expectedName = new Set([...rawExpectedName].filter((token) => !expectedLocality.has(LOCALITY_ALIAS.get(token) || token)));
+  if (!expectedName.size) for (const token of rawExpectedName) expectedName.add(token);
+  const titleParts = decodeEntities(pageTitle).replace(/\s*\|\s*District\s*$/i, "").split("|");
+  const pageName = titleParts.length > 1 ? titleParts[0] : slug.replace(/-/g, " ");
+  const pageNameTokens = brandTokens(pageName);
+  const nameHits = [...expectedName].filter((token) => pageNameTokens.has(token)).length;
+  const nameScore = expectedName.size && pageNameTokens.size ? nameHits / Math.min(expectedName.size, pageNameTokens.size) : 0;
+
+  const pageLocalityText = titleParts.length > 1 ? titleParts.slice(1).join(" ").replace(/,?\s*Hyderabad.*$/i, "") : slug.replace(/-/g, " ");
+  const titleLocality = locationTokens(pageLocalityText);
+  const pageLocality = titleLocality.size ? titleLocality : locationTokens(slug.replace(/-/g, " "));
+  const localityHits = [...expectedLocality].filter((token) => pageLocality.has(token));
+
+  if (nameScore < 0.75) return { valid: false, reason: "response-name-mismatch", nameScore, localityHits };
+  if (!expectedLocality.size || !localityHits.length) return { valid: false, reason: "response-locality-mismatch", nameScore, localityHits };
+  return { valid: true, reason: null, nameScore, localityHits };
+}
 
 const HYD_LOCALITIES = new Set([
   "jubilee", "hills", "banjara", "madhapur", "hitec", "city", "gachibowli", "kondapur", "kukatpally",
@@ -37,7 +82,7 @@ const HYD_LOCALITIES = new Set([
   "sr", "nagar", "dilsukhnagar", "lb", "nagole", "uppal", "tarnaka", "habsiguda", "ecil", "malkajgiri",
   "bowenpally", "marredpally", "karkhana", "shamshabad", "gandipet", "kokapet", "narsingi", "manikonda",
   "financial", "district", "nanakramguda", "raidurgam", "lingampally", "chandanagar", "miyapur", "nizampet",
-  "kollur", "tellapur", "nallagandla", "hafeezpet", "khajaguda", "film"
+  "kollur", "tellapur", "nallagandla", "hafeezpet", "khajaguda", "film", "lanco", "bhel", "karmanghat"
 ]);
 
 const CLUSTERS = [
@@ -125,7 +170,10 @@ async function scrapeDistrictPage(slug) {
       signal: AbortSignal.timeout(10000),
     });
     if (res.status === 404) return { status: 404, url, deals: [], bankOffers: [], hours: null };
-    if (!res.ok) return { status: res.status, url, deals: [], bankOffers: [], hours: null };
+    if (!res.ok) {
+      const probe = { server: res.headers.get("server") || "", ray: res.headers.get("cf-ray") || "", body: (await res.text()).slice(0, 160).replace(/\s+/g, " ") };
+      return { status: res.status, url, deals: [], bankOffers: [], hours: null, probe };
+    }
     const html = await res.text();
     // What the page looked like, so a blocked run says why in the log.
     const probe = { bytes: html.length, title: (html.match(/<title>([^<]*)/) || [])[1] || "", highlights: (html.match(/Offer Highlights/g) || []).length };
@@ -229,52 +277,60 @@ async function main() {
     let slug = null;
     let matchMethod = "existing-url";
     let matchScore = null;
+    const e = eateriesMap.get(id);
+    let savedSlugRejected = false;
     if (s.district?.url) {
-      slug = s.district.url.replace(/^.*\/hyderabad\//, "").replace(/\/+$/, "");
-    } else {
-      const e = eateriesMap.get(id);
+      const savedSlug = s.district.url.replace(/^.*\/hyderabad\//, "").replace(/\/+$/, "");
+      const savedValidation = validateDistrictBranch({ spot: s, eatery: e, slug: savedSlug });
+      if (savedValidation.valid) {
+        slug = savedSlug;
+        matchScore = Number((savedValidation.nameScore * 100).toFixed(2));
+      } else {
+        savedSlugRejected = true;
+      }
+    }
+    if (!slug) {
       const rawName = s.swiggy?.name || s.name || "";
-      const coreName = rawName.replace(/\s*[-|·]\s*[^-|·]+$/, "").trim();
-      const nameTok = tokens(coreName);
-      if (!nameTok.size) continue;
-
       const areaSource = [s.area, e?.area, e?.discoveredIn, e?.address, s.swiggy?.url].filter(Boolean).join(" ");
-      const venueLocTok = new Set([...tokens(areaSource)].filter(t => HYD_LOCALITIES.has(t)));
+      const venueLocTok = locationTokens(areaSource);
+      const rawNameTok = brandTokens(rawName);
+      const nameTok = new Set([...rawNameTok].filter((token) => !venueLocTok.has(token)));
+      if (!nameTok.size) for (const token of rawNameTok) nameTok.add(token);
+      if (!nameTok.size) continue;
 
       const possible = new Set();
       for (const token of nameTok) for (const item of slugIndex.get(token) || []) possible.add(item);
       const ranked = [];
       for (const item of possible) {
+        const venueLocHit = [...venueLocTok].filter((token) => item.tok.has(token)).length;
+        if (!venueLocHit) continue;
         let nameHit = 0;
         for (const t of nameTok) if (item.tok.has(t)) nameHit++;
         if (!nameHit) continue;
-        const nameScore = nameHit / nameTok.size;
+        const likelyNameTokenCount = Math.max(1, item.tok.size - venueLocHit);
+        const nameScore = nameHit / Math.min(nameTok.size, likelyNameTokenCount);
         if (nameScore < 0.85) continue;
 
-        let venueLocHit = 0;
-        let foreignLocHit = 0;
-        for (const t of item.tok) {
-          if (HYD_LOCALITIES.has(t)) {
-            if (venueLocTok.has(t)) venueLocHit++;
-            else foreignLocHit++;
-          }
-        }
-        const clusterHit = MODE === "discover" ? false : sameCluster(venueLocTok, item.tok);
-        if (venueLocTok.size > 0 && venueLocHit === 0 && !clusterHit) continue;
-        if (foreignLocHit > 0 && venueLocHit === 0 && !clusterHit) continue;
-
-        const score = nameScore * 100 + venueLocHit * 20 + (clusterHit ? 5 : 0) - foreignLocHit * 8;
+        const score = nameScore * 100 + venueLocHit * 20;
         ranked.push({ slug: item.slug, score, nameScore, venueLocHit });
       }
       ranked.sort((a, b) => b.score - a.score);
       const best = ranked[0];
       const ambiguous = best && ranked[1] && best.score - ranked[1].score < 2;
-      if (best && best.nameScore >= 0.85 && (venueLocTok.size === 0 || best.venueLocHit > 0 || MODE !== "discover") && !ambiguous) {
+      if (best && best.nameScore >= 0.85 && best.venueLocHit > 0 && !ambiguous) {
         slug = best.slug;
         matchMethod = "name-locality";
         matchScore = Number(best.score.toFixed(2));
       } else {
         rejected.push({ id, name: s.name, area: s.area || eateriesMap.get(id)?.area || eateriesMap.get(id)?.discoveredIn || "", reason: ambiguous ? "ambiguous-branch" : "no-strict-name-locality-match" });
+        if (savedSlugRejected && s.district) {
+          s.district = {
+            ...s.district,
+            hasOffers: false,
+            deals: [], bankOffers: [], offers: [],
+            match: { status: "rejected", method: "saved-url-name-locality", reason: "no-strict-name-locality-match", matchedAt: new Date().toISOString() },
+          };
+        }
       }
     }
 
@@ -289,6 +345,7 @@ async function main() {
   let newlyActiveDistrict = 0;
   let totalCompSpots = 0;
   let pagesWithDeals = 0;
+  let acceptedTargets = 0;
   const statusCounts = {};
   const samples = [];
   const now = new Date().toISOString();
@@ -303,12 +360,35 @@ async function main() {
     if (!has && samples.length < 3 && (data.status !== 404)) samples.push({ slug, status: data.status, error: data.error, ...data.probe });
 
     const hadBefore = Boolean(spot.district?.hasOffers && spot.district?.deals?.length > 0);
-    // Safety guard: never wipe existing verified deals if a remote run is geo-blocked or empty
-    if (!has && hadBefore) {
+    // Network failures must never replace the last verified response.
+    if (data.status !== 200) {
       if (spot.swiggy?.hasOffers && spot.district?.hasOffers) totalCompSpots++;
       process.stdout.write(`.`);
+      await sleep(250);
       continue;
     }
+
+    const eatery = eateriesMap.get(id);
+    const validation = validateDistrictBranch({ spot, eatery, slug, pageTitle: data.probe?.title || "" });
+    if (!validation.valid) {
+      rejected.push({
+        id, name: spot.name, area: spot.area || eatery?.area || eatery?.discoveredIn || "",
+        slug, pageTitle: data.probe?.title || "", reason: validation.reason,
+        nameScore: Number(validation.nameScore.toFixed(3)), localityHits: validation.localityHits,
+      });
+      spot.district = {
+        ...spot.district,
+        url: data.url,
+        hasOffers: false,
+        fetchedAt: now,
+        deals: [], bankOffers: [], offers: [],
+        match: { status: "rejected", method: "response-name-locality", reason: validation.reason, matchedAt: now },
+      };
+      console.log(`[${i + 1}/${targets.length}] ✗ ${spot.name}: rejected ${data.probe?.title || slug} (${validation.reason})`);
+      await sleep(250);
+      continue;
+    }
+    acceptedTargets++;
 
     spot.district = {
       url: data.url,
@@ -318,7 +398,11 @@ async function main() {
         lat: eateriesMap.get(id)?.lat ?? null, lng: eateriesMap.get(id)?.lng ?? null,
         url: data.url,
       },
-      match: { status: "verified", method: matchMethod, score: matchScore, matchedAt: now },
+      match: {
+        status: "verified", method: matchMethod,
+        score: matchScore ?? Number((validation.nameScore * 100).toFixed(2)),
+        localityHits: validation.localityHits, matchedAt: now,
+      },
       hasOffers: has,
       fetchedAt: now,
       hours: data.hours,
@@ -354,9 +438,9 @@ async function main() {
   curated.coverage = {
     ...(curated.coverage || {}),
     districtDiscovery: {
-      mode: MODE, discovered: sitemapSlugs.length, candidates: candidateSpots.length, matched: targets.length,
-      unmatched: rejected.filter((item) => item.reason !== "ambiguous-branch").length,
-      rejectedMatches: rejected.filter((item) => item.reason === "ambiguous-branch").length,
+      mode: MODE, discovered: sitemapSlugs.length, candidates: candidateSpots.length, matched: acceptedTargets,
+      unmatched: rejected.filter((item) => item.reason !== "ambiguous-branch" && !item.reason.startsWith("response-")).length,
+      rejectedMatches: rejected.filter((item) => item.reason === "ambiguous-branch" || item.reason.startsWith("response-")).length,
       refreshedAt: now,
     },
   };
@@ -367,12 +451,16 @@ async function main() {
 
   console.log(`\n\n=== SCRAPE COMPLETE ===`);
   console.log(`- Targets checked: ${targets.length}`);
+  console.log(`- Exact branches accepted: ${acceptedTargets}`);
+  console.log(`- Branch matches rejected: ${rejected.filter((item) => item.reason === "ambiguous-branch" || item.reason.startsWith("response-")).length}`);
   console.log(`- Newly activated District offers: ${newlyActiveDistrict}`);
   console.log(`- TOTAL COMPARISON SPOTS (both apps): ${totalCompSpots}`);
   console.log(`- Total spots with any deal: ${curated.totalSpotsWithOffers}`);
 }
 
-main().catch(err => {
-  console.error(err);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
+}

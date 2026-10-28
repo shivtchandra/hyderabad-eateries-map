@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { parseDistrict } from "../scripts/refresh-curated-offers.mjs";
+import { validateDistrictBranch } from "../scripts/expand-comp-spots.mjs";
 import {
   buildDealWeek,
   comparisonResult,
@@ -34,6 +35,34 @@ Valid all day
   assert.equal(parsed.deals[0].bookingMode, "prebook");
   assert.equal(parsed.deals[1].when, null);
   assert.equal(parsed.deals[1].bookingMode, "walkin");
+});
+
+test("District branch validation rejects same-brand and lookalike mismatches", () => {
+  const bhel = {
+    spot: { name: "Paradise Biryani | BHEL", area: "Nallagandla" },
+    eatery: { discoveredIn: "Nallagandla", address: "Chanda Nagar, Ramachandrapuram, BHEL Township" },
+  };
+  assert.equal(validateDistrictBranch({ ...bhel, slug: "paradise-biryani-langer-houz", pageTitle: "Paradise Biryani | Langer Houz, Hyderabad" }).valid, false);
+  assert.equal(validateDistrictBranch({ ...bhel, slug: "paradise-biryani-bhel", pageTitle: "Paradise Biryani | BHEL, Hyderabad" }).valid, true);
+
+  const waffle = {
+    spot: { name: "The Belgian Waffle Co.", area: "Habsiguda" },
+    eatery: { discoveredIn: "Habsiguda", address: "Street No 8, Habsiguda, Uppal" },
+  };
+  assert.equal(validateDistrictBranch({ ...waffle, slug: "london-waffle-co-l-b-nagar", pageTitle: "London Waffle Co | L B Nagar, Hyderabad" }).valid, false);
+
+  const abs = {
+    spot: { name: "AB's - Absolute Barbecues Gachibowli", area: "Gachibowli" },
+    eatery: { discoveredIn: "Gachibowli", address: "Gachibowli, Hyderabad" },
+  };
+  assert.equal(validateDistrictBranch({ ...abs, slug: "abs-absolute-barbecues-gachibowli", pageTitle: "AB&#x27;s - Absolute Barbecues | Hyderabad | Book Table" }).valid, true);
+
+  const blueTokai = {
+    spot: { name: "Blue Tokai Coffee Roasters | Lanco Hills", area: "Jubilee Hills" },
+    eatery: { discoveredIn: "Jubilee Hills", address: "Lanco Hills, Manikonda" },
+  };
+  assert.equal(validateDistrictBranch({ ...blueTokai, slug: "blue-tokai-coffee-roasters-origins-jubilee-hills", pageTitle: "Blue Tokai Coffee Roasters | Hyderabad | Book Table" }).valid, false);
+  assert.equal(validateDistrictBranch({ ...blueTokai, slug: "blue-tokai-coffee-roasters-manikonda", pageTitle: "Blue Tokai Coffee Roasters | Manikonda, Hyderabad" }).valid, true);
 });
 
 test("District parser keeps tomorrow, time range and minimum bill terms", () => {
@@ -71,7 +100,7 @@ test("comparator refuses unlike booking and meal terms", () => {
 });
 
 test("history deduplicates same-day observations and prunes after 28 days", () => {
-  const current = { spots: { one: { district: { url: "https://district.example/one", hasOffers: true, fetchedAt: "2026-10-26T01:00:00Z", deals: [{ title: "20% off", pct: 20, bookingMode: "walkin" }] } } } };
+  const current = { spots: { one: { district: { url: "https://district.example/one", hasOffers: true, match: { status: "verified" }, fetchedAt: "2026-10-26T01:00:00Z", deals: [{ title: "20% off", pct: 20, bookingMode: "walkin" }] } } } };
   const once = updateOfferHistory(null, current, "2026-10-26T01:00:00Z");
   const twice = updateOfferHistory(once, current, "2026-10-26T10:00:00Z");
   const record = Object.values(twice.spots.one.district)[0];
