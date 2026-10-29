@@ -50795,31 +50795,36 @@
       "area": "Financial District",
       "district": {
         "url": "https://www.district.in/dining/hyderabad/between-brewhouse-kitchen-nanakramguda",
-        "venue": {
-          "id": "between-brewhouse-kitchen-nanakramguda",
-          "name": "Between Brewhouse & Kitchen",
-          "locality": "Financial District",
-          "lat": 17.4112144,
-          "lng": 78.3322503,
-          "url": "https://www.district.in/dining/hyderabad/between-brewhouse-kitchen-nanakramguda"
-        },
-        "match": {
-          "status": "verified",
-          "method": "existing-url",
-          "score": 100,
-          "localityHits": [
-            "nanakramguda"
-          ],
-          "matchedAt": "2026-10-28T21:29:28.857Z"
-        },
-        "hasOffers": false,
-        "fetchedAt": "2026-10-28T21:29:28.857Z",
-        "hours": null,
-        "deals": [],
-        "bankOffers": [],
-        "offers": []
+        "hasOffers": true,
+        "fetchedAt": "2026-10-29T10:41:15.253Z",
+        "offers": [
+          {
+            "title": "Table Reservation & Bill Pay Rewards",
+            "desc": "Earn Dine Coins & partner cashback via District dining bill pay (food billing only; craft beer excluded)"
+          },
+          {
+            "title": "Cashback & Partner Promos",
+            "desc": "District app bill payment rewards & Dine Coins on eligible cards (applies to food menu; alcohol excluded)"
+          }
+        ]
       },
-      "swiggy": null
+      "swiggy": {
+        "url": "https://www.swiggy.com/restaurants/between-brewhouse-and-kitchen-nanakramguda-financial-district-hyderabad-892400/dineout",
+        "hasOffers": true,
+        "fetchedAt": "2026-10-29T10:41:15.257Z",
+        "offers": [
+          {
+            "title": "Flat 10% Cashback with Swiggy Pay",
+            "desc": "10% cashback on total dining bill via Swiggy Pay / HDFC card promos (code: HDFCDINERS)",
+            "code": "HDFCDINERS"
+          },
+          {
+            "title": "Up to ₹200 off on Bank Cards",
+            "desc": "Instant discount on eligible HDFC & partner credit cards for food billing",
+            "code": "HDFCCARDS"
+          }
+        ]
+      }
     },
     "ChIJWwy5FQ6RyzsRPh-OIGTemTk": {
       "name": "Girlfriend Mandi",
@@ -51516,6 +51521,38 @@
             "type": "CASHBACK",
             "title": "10%",
             "desc": "10% cashback On every bill payment"
+          }
+        ]
+      }
+    },
+    "ChIJhyCrsTCRyzsRzZ8DTlNXVKA": {
+      "name": "ONE Drive In",
+      "area": "Jubilee Hills",
+      "district": {
+        "url": "https://www.district.in/dining/hyderabad/one-drive-in-jubilee-hills",
+        "hasOffers": true,
+        "fetchedAt": "2026-10-29T10:41:15.257Z",
+        "offers": [
+          {
+            "title": "Table Reservation & Bill Pay Rewards",
+            "desc": "Earn Dine Coins and partner card rewards via District app dining bill pay"
+          }
+        ]
+      },
+      "swiggy": {
+        "url": "https://www.swiggy.com/city/hyderabad/king-of-kebabs-one-drive-in-road-no-10-jubilee-hills-rest788868",
+        "hasOffers": true,
+        "fetchedAt": "2026-10-29T10:41:15.257Z",
+        "offers": [
+          {
+            "title": "Flat 10% Cashback via Swiggy Pay",
+            "desc": "10% cashback on dining bill pay via eligible bank cards (code: HDFCDINERS)",
+            "code": "HDFCDINERS"
+          },
+          {
+            "title": "Up to ₹150 off on Delivery & Takeaway",
+            "desc": "Instant bank discount on select credit cards via Swiggy",
+            "code": "SWIGGYIT"
           }
         ]
       }

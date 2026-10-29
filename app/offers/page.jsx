@@ -15,29 +15,28 @@ export const revalidate = false;
 
 const SLUG = "/offers";
 const TITLE = "Swiggy Dineout vs District: Hyderabad Restaurant Deals";
+const SEO_TITLE = "Swiggy Dineout vs District Offers in Hyderabad Today";
 const DESCRIPTION =
-  "Compare today's Swiggy Dineout and District restaurant offers in Hyderabad by exact branch, pre-book or walk-in terms, meal time, available slots and estimated saving.";
+  "Compare today's Swiggy Dineout and District restaurant offers in Hyderabad by exact branch, booking terms, meal time and estimated savings.";
 
 export const metadata = {
-  ...pageMeta({ title: TITLE, description: DESCRIPTION, path: SLUG }),
+  ...pageMeta({ title: SEO_TITLE, description: DESCRIPTION, path: SLUG }),
   openGraph: {
-    ...pageMeta({ title: TITLE, description: DESCRIPTION, path: SLUG }).openGraph,
-    images: ogImages(TITLE, DESCRIPTION, SLUG),
+    ...pageMeta({ title: SEO_TITLE, description: DESCRIPTION, path: SLUG }).openGraph,
+    images: ogImages(SEO_TITLE, DESCRIPTION, SLUG),
   },
   keywords: [
-    "hyderabad restaurant offers",
-    "district zomato deals hyderabad",
-    "swiggy dineout offers hyderabad",
-    "swiggy dineout vs district",
-    "best restaurant deals hyderabad today",
-    "cafes with discount on swiggy dineout district",
-    "pre book restaurant offers hyderabad",
-    "walk in restaurant discounts hyderabad",
-    "lunch dinner restaurant deals hyderabad",
-    "50 percent restaurant offers hyderabad",
-    "restaurant bank card offers hyderabad",
-    "restaurant dining discounts hyderabad 2026",
-    "best dining deals jubilee hills hitech city",
+    "Swiggy Dineout vs District",
+    "Hyderabad restaurant offers",
+    "restaurant deals Hyderabad today",
+    "Swiggy Dineout offers Hyderabad",
+    "District offers Hyderabad",
+    "50 percent off restaurants Hyderabad",
+    "pre book restaurant deals Hyderabad",
+    "walk in restaurant discounts Hyderabad",
+    "lunch offers Hyderabad",
+    "dinner offers Hyderabad",
+    "restaurant card offers Hyderabad",
   ],
 };
 

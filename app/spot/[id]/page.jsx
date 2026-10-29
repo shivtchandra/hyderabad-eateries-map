@@ -319,6 +319,9 @@ export default async function SpotPage({ params }) {
       spotOffers = verifiedOffers(parsed.spots?.[spot.id]);
     }
   } catch {}
+  if ((!spotOffers || (!spotOffers.district?.hasOffers && !spotOffers.swiggy?.hasOffers && !spotOffers.eazydiner?.hasOffers)) && spot.curatedOffers) {
+    spotOffers = verifiedOffers(spot.curatedOffers);
+  }
   const structuredOffers = ["district", "swiggy", "eazydiner"].flatMap((platform) =>
     normalizePlatformOffers(spot.id, platform, spotOffers?.[platform]).filter((offer) => offer.kind === "restaurant" && offer.date && offer.venue.match?.status === "verified")
   );
