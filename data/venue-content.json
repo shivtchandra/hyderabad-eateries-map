@@ -1985,286 +1985,26 @@
       "role": "Mapping HYD Creator",
       "url": "https://mapmyhyd.com"
     },
-    "reviewedAt": "2026-10-28",
+    "reviewedAt": "2026-10-27",
     "founded": "2015",
     "signatureDish": {
-      "name": "Challa Punugulu & Raju Gari Special Pulao",
-      "why": "The iconic twin order: piping-hot crispy buttermilk fritters followed by spicy ghee-roast cashew chicken pulao in your car."
-    },
-    "verdict": {
-      "score": 8.3,
-      "outOf": 10,
-      "label": "The take",
-      "blurb": "Hyderabad’s quintessential post-midnight car dining ritual on Road No. 10 Jubilee Hills. The winning strategy is ordering across counters: grab hot Challa Punugulu and Ghee Karam Dosa from the tiffin counter, feast on Raju Gari Special Chicken Pulao or Tangdi Kebabs, and time a molten Belgian chocolate waffle from Love Laban right when you finish."
+      "name": "Chicken Biryani / Special Pulao (Raju Gari Pulao)",
+      "why": "Fragrant, spicy Andhra-style chicken biryani / pulao loaded with green chilies, ghee, and roasted cashews."
     },
     "mustOrder": [
       {
-        "name": "Challa Punugulu (Street Tiffins Counter)",
-        "note": "8.6/10 Golden, piping-hot buttermilk fritters with crunchy crusts, served with fiery peanut and tomato-ginger chutneys. The undisputed late-night car-side finger snack."
-      },
-      {
-        "name": "Raju Gari Special Chicken Pulao / Mixed Pulao (Raju Gari Pulao)",
-        "note": "8.7/10 Fragrant, fiery Andhra-style pulao tossed with green chilies, ghee, and golden roasted cashews with tender spiced chicken."
+        "name": "Chicken Biryani / Special Pulao (Raju Gari Pulao)",
+        "note": "Fragrant, spicy Andhra-style chicken biryani / pulao loaded with green chilies, ghee, and roasted cashews."
       },
       {
         "name": "Chocolate Waffle (Love Laban)",
-        "note": "9.0/10 Freshly baked Belgian waffle with deep crispy pockets drenched in warm molten Belgian dark and milk chocolate."
-      },
-      {
-        "name": "Ghee Karam Dosa / Ghee Karam Idly (Street Tiffins Counter)",
-        "note": "8.4/10 Paper-crisp dosa or soft steamed idlis roasted in ghee, heavily dusted with spicy Nellore karam podi."
-      },
-      {
-        "name": "Tuscan Chicken Rice (La Bottega Italian Deli)",
-        "note": "8.2/10 Tender Italian-herbed grilled chicken over fragrant seasoned butter rice; an unexpected continental comfort hit."
-      },
-      {
-        "name": "Tangdi Kebab & Chicken Tikka Rolls (King of Kebabs)",
-        "note": "8.0/10 Juicy, charcoal-roasted yogurt-marinated drumsticks and flaky roomali rolls with mint chutney."
-      },
-      {
-        "name": "Fried Manchurian Rice & Gobi 65 (Desi Chinese)",
-        "note": "7.8/10 Fiery street-style wok-tossed fried rice loaded with crispy Manchurian balls and spring onions."
-      },
-      {
-        "name": "Heavy Curries & Continental Pastas",
-        "note": "Skip heavy multi-course gravies that are awkward on car window trays. Stick to pulaos, tiffins, kebabs, and waffles tailored for drive-in eating.",
-        "skip": true
+        "note": "Freshly baked, crisp-edged waffle drenched in warm molten Belgian chocolate."
       }
     ],
-    "suggestedOptions": [
-      {
-        "name": "Challa Punugulu",
-        "stall": "Street Counter",
-        "price": "~₹110",
-        "tag": "Crowd Fav"
-      },
-      {
-        "name": "Ghee Karam Dosa",
-        "stall": "Street Counter",
-        "price": "~₹140",
-        "tag": "Late Night"
-      },
-      {
-        "name": "Chicken Sambar Rice",
-        "stall": "Raju Gari Pulao",
-        "price": "~₹280",
-        "tag": "Comfort Bowl"
-      },
-      {
-        "name": "Tuscan Chicken Rice",
-        "stall": "La Bottega Italian Deli",
-        "price": "~₹290",
-        "tag": "Italian Pick"
-      },
-      {
-        "name": "Tangdi Kebab (4 pcs)",
-        "stall": "King of Kebabs",
-        "price": "~₹349",
-        "tag": "Charcoal Grill"
-      },
-      {
-        "name": "Belgian Chocolate Shake",
-        "stall": "The ThickShake Factory",
-        "price": "~₹210",
-        "tag": "Thickshake"
-      },
-      {
-        "name": "Brownie with Ice Cream",
-        "stall": "Love Laban",
-        "price": "~₹180",
-        "tag": "Dessert Classic"
-      }
-    ],
-    "stallMenus": [
-      {
-        "stall": "Street Tiffins & Punugulu Counter",
-        "badge": "Midnight Tiffins",
-        "description": "Crispy South Indian street tiffins, fried starters, and late-night snacks.",
-        "items": [
-          {
-            "name": "Challa Punugulu",
-            "price": "~₹110",
-            "tag": "Must Try",
-            "desc": "Crispy deep-fried buttermilk fritters with peanut & ginger-tomato chutney"
-          },
-          {
-            "name": "Ghee Karam Dosa",
-            "price": "~₹140",
-            "tag": "Top Pick",
-            "desc": "Crisp paper dosa smeared with spicy red chilli garlic podi & pure ghee"
-          },
-          {
-            "name": "Ghee Karam Idly",
-            "price": "~₹130",
-            "desc": "Soft steamed idlis tossed in hot ghee and spicy gun powder"
-          },
-          {
-            "name": "Fried Manchurian Rice",
-            "price": "~₹220",
-            "tag": "Popular",
-            "desc": "Street-style wok-tossed fried rice with crispy chicken manchurian"
-          },
-          {
-            "name": "Gobi 65 / Chilli Chicken",
-            "price": "~₹180 - ₹220",
-            "desc": "Crunchy spicy Indo-Chinese appetisers"
-          }
-        ]
-      },
-      {
-        "stall": "Raju Gari Pulao",
-        "badge": "Andhra Specials",
-        "description": "Known for fiery Andhra-style pulaos, biryanis, and spicy comfort bowls.",
-        "items": [
-          {
-            "name": "Raju Gari Special Chicken Pulao / Biryani",
-            "price": "~₹360",
-            "tag": "Top Pick",
-            "desc": "Spicy chicken roast with fried cashews & ghee rice"
-          },
-          {
-            "name": "Mixed Pulao (Chicken & Mutton)",
-            "price": "~₹420",
-            "tag": "Signature",
-            "desc": "Combination of tender mutton pieces and spiced chicken roast"
-          },
-          {
-            "name": "Natu Kodi Pulao (Country Chicken)",
-            "price": "~₹420",
-            "desc": "Traditional Andhra style country chicken with fragrant pulao"
-          },
-          {
-            "name": "Chicken Sambar Rice",
-            "price": "~₹280",
-            "tag": "Local Fav",
-            "desc": "Piping hot ghee sambar rice with spicy chicken fry piece"
-          },
-          {
-            "name": "Puri with Keema Curry",
-            "price": "~₹260",
-            "desc": "Fluffy hot puris served with spicy minced chicken/mutton curry"
-          }
-        ]
-      },
-      {
-        "stall": "Love Laban",
-        "badge": "Desserts & Waffles",
-        "description": "Artisanal Belgian waffles, Turkish kunafas, and Middle Eastern desserts.",
-        "items": [
-          {
-            "name": "Chocolate Waffle",
-            "price": "~₹189",
-            "tag": "Top Pick",
-            "desc": "Fresh hot waffle smothered in melted Belgian dark and milk chocolate"
-          },
-          {
-            "name": "Choco Kunafa Waffle",
-            "price": "~₹209",
-            "tag": "Popular",
-            "desc": "Crispy toasted kunafa crunch layered over warm chocolate waffle"
-          },
-          {
-            "name": "Naked Nutella Waffle",
-            "price": "~₹199",
-            "desc": "Loaded with rich Nutella hazelnut spread"
-          },
-          {
-            "name": "Brownie with Ice Cream",
-            "price": "~₹180",
-            "desc": "Warm fudgy chocolate brownie with vanilla scoop & fudge sauce"
-          },
-          {
-            "name": "Salankatia / Quashtuta",
-            "price": "~₹240 - ₹290",
-            "desc": "Middle Eastern milk cake soaked in flavored cream"
-          }
-        ]
-      },
-      {
-        "stall": "La Bottega Italian Deli",
-        "badge": "Italian Comfort",
-        "description": "Continental bowls, loaded appetizers, and signature deli plates.",
-        "items": [
-          {
-            "name": "Tuscan Chicken Rice",
-            "price": "~₹290",
-            "tag": "Signature",
-            "desc": "Tender Italian-herbed chicken breast over fragrant butter-seasoned rice"
-          },
-          {
-            "name": "Creamy Alfredo Chicken Pasta",
-            "price": "~₹270",
-            "desc": "Penne in rich parmesan cream sauce with garlic herbs"
-          },
-          {
-            "name": "Cheesy Loaded Fries / Nachos",
-            "price": "~₹180 - ₹210",
-            "desc": "Crispy fries loaded with melted cheese sauce and jalapenos"
-          }
-        ]
-      },
-      {
-        "stall": "King of Kebabs",
-        "badge": "Grills & Rolls",
-        "description": "Charcoal-grilled kebabs, tandoori starters, and stuffed parathas.",
-        "items": [
-          {
-            "name": "Tangdi Kebab (4 pcs)",
-            "price": "~₹349",
-            "tag": "Top Pick",
-            "desc": "Juicy chicken drumsticks marinated in spiced yogurt and roasted in tandoor"
-          },
-          {
-            "name": "Chicken Kheema Paratha",
-            "price": "~₹220",
-            "tag": "Local Fav",
-            "desc": "Flaky toasted paratha stuffed with spiced minced chicken"
-          },
-          {
-            "name": "Chicken Tikka Roll / Shawarma",
-            "price": "~₹190 - ₹220",
-            "desc": "Charred chicken rolled in rumali roti with garlic mint dip"
-          },
-          {
-            "name": "Tandoori Chicken (Half / Full)",
-            "price": "~₹300 / ₹560",
-            "desc": "Classic spiced bone-in chicken roasted in clay oven"
-          }
-        ]
-      },
-      {
-        "stall": "The ThickShake Factory & Burgers",
-        "badge": "Drinks & Shakes",
-        "description": "Thick milkshakes, burgers, and late-night beverages.",
-        "items": [
-          {
-            "name": "Belgian Chocolate Shake",
-            "price": "~₹210",
-            "desc": "Dense chocolate shake topped with dark chocolate chips"
-          },
-          {
-            "name": "Ferrero Rocher Shake",
-            "price": "~₹240",
-            "desc": "Blended hazelnut chocolate with real Ferrero chunks"
-          },
-          {
-            "name": "Crispy Chicken Burger",
-            "price": "~₹180",
-            "desc": "Juicy fried chicken patty with crunchy lettuce & mayo"
-          },
-          {
-            "name": "Hyderabad Irani Chai",
-            "price": "~₹50",
-            "desc": "Small glass strong Irani chai"
-          }
-        ]
-      }
-    ],
-    "regularNote": "Car-side service directly to your vehicle is the defining ritual here: servers clip sturdy plastic trays right to your driver and passenger windows. The insider move is to place orders across stalls simultaneously as soon as you park: kick off with piping hot Challa Punugulu and Ghee Karam Dosa from the tiffin counter, order your Raju Gari Special Pulao and Tangdi Kebab for the main, and order the Love Laban chocolate waffle about 10 minutes before you want dessert so it arrives warm and molten. The parking lot on Road No. 10 fills up rapidly on Friday and Saturday nights between 11:30 PM and 1:00 AM, so get there slightly before midnight to snag a good window slot.",
+    "regularNote": "Car-side service directly to your vehicle is the defining ritual here: servers clip sturdy plastic trays right to your driver and passenger windows. The move is to place orders across stalls as soon as you park: kick off with the Raju Gari chicken biryani / pulao, and order the Love Laban chocolate waffle about 10 minutes before you finish so it arrives warm and molten. The parking lot on Road No. 10 fills up rapidly on Friday and Saturday nights between 11:30 PM and 1:00 AM, so get there slightly before midnight to snag a good window slot.",
     "originStory": [
-      "ONE Drive In (originally founded as Syala Drive-In) on Road No. 10, Jubilee Hills is Hyderabad’s pioneer late-night open-air food hub. Operating beside Karur Vysya Bank, it helped ignite the city’s car-side dining revolution, where groups can pull up, get service trays fitted directly to vehicle windows, and order from over 10 distinct food stalls without stepping out.",
-      "Rather than relying on a single menu, ONE Drive In brings together specialized food operators in a high-energy courtyard: fiery Andhra pulaos and sambar rice bowls from Raju Gari Pulao, crispy street-style Challa Punugulu and Ghee Karam Dosas, decadent Belgian waffles and Turkish desserts from Love Laban, charcoal tandoori meats from King of Kebabs, and Italian comfort rice bowls from La Bottega. Open daily from 12:00 PM until 1:00 AM, it remains an indispensable rite of passage for Hyderabad midnight drives."
+      "ONE Drive In (originally founded as Syala Drive-In) on Road No. 10, Jubilee Hills is Hyderabad’s pioneer late-night open-air food hub. Operating beside Karur Vysya Bank, it helped ignite the city’s car-side dining revolution, where groups can pull up, get service trays fitted directly to vehicle windows, and order from stalls without stepping out.",
+      "Rather than relying on a single menu, ONE Drive In brings together specialized food operators in an open courtyard: Raju Gari Pulao (known for chicken biryani and pulaos) and Love Laban (for Belgian waffles and desserts), alongside late-night tiffins, kebabs, and shakes. Open daily from 12:00 PM until 1:00 AM, it remains an indispensable rite of passage for Hyderabad midnight drives."
     ],
     "curatedOffers": {
       "district": {
@@ -2297,11 +2037,7 @@
     "faq": [
       {
         "q": "What are the top recommendations at ONE Drive In Jubilee Hills?",
-        "a": "The top must-orders are the freshly fried Challa Punugulu (buttermilk fritters), the Raju Gari Special Chicken Pulao / Mixed Pulao, and the warm Belgian Chocolate Waffle from Love Laban."
-      },
-      {
-        "q": "What other options do locals order here?",
-        "a": "According to reviews and regulars, other popular local options include Ghee Karam Dosa, Chicken Sambar Rice from Raju Gari Pulao, Tuscan Chicken Rice from La Bottega, Tangdi Kebab from King of Kebabs, and thick shakes from The ThickShake Factory."
+        "a": "The recommendations are the Chicken Biryani / Special Pulao from Raju Gari Pulao and the Chocolate Waffle from Love Laban."
       },
       {
         "q": "What are the timings of ONE Drive In Jubilee Hills?",
@@ -2309,7 +2045,7 @@
       },
       {
         "q": "Can you eat inside your car at ONE Drive In?",
-        "a": "Yes! ONE Drive In offers car-side tray service where staff attach trays directly to your car windows so you can dine inside your vehicle, alongside open-air rooftop seating."
+        "a": "Yes! ONE Drive In offers car-side tray service where staff attach trays directly to your car windows so you can dine inside your vehicle, alongside open-air seating."
       }
     ],
     "sources": [
@@ -2318,8 +2054,8 @@
       "https://www.instagram.com/onedrivein/"
     ],
     "image": "/spots/one-drive-in.jpg",
-    "seoTitle": "ONE Drive In Jubilee Hills: Menu, Food Recommendations & Stalls",
-    "seoDescription": "ONE Drive In on Road No. 10 Jubilee Hills: full food recommendations (Challa Punugulu, Raju Gari Pulao, Love Laban Waffles), stall menus, prices, and car-side dining timings."
+    "seoTitle": "ONE Drive In Jubilee Hills: Menu, Recommendations & Offers",
+    "seoDescription": "ONE Drive In on Road No. 10 Jubilee Hills: top recommendations (Raju Gari Chicken Biryani & Love Laban Waffle), car-side dining, timings & offers."
   },
   "ChIJxWF_5vaVyzsRRKxH2LcMUDM": {
     "originStory": [
