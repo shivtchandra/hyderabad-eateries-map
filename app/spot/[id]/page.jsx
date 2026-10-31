@@ -204,27 +204,30 @@ export async function generateMetadata({ params }) {
     ...(liveBallot ? [`${rankName}: ${rankLabel}`, `${cleanName}: ${rankLabel}`] : []),
   ];
   const reviewCandidates = [
-    ...(hasEditorialReview ? [`${cleanName}: ${reviewerLabel}`, `${place}: ${reviewerLabel}`] : []),
-    ...(hasVisitNote ? [`${cleanName}: Mapping HYD Visit Notes`, `${place}: Visit Notes`] : []),
+    ...(hasEditorialReview ? [`${cleanName}: Menu & ${reviewerLabel}`, `${cleanName}: ${reviewerLabel}`] : []),
+    ...(hasVisitNote ? [`${cleanName}: Reviews, Menu & Visit Notes`, `${place}: Reviews & Menu`] : []),
   ];
+  // Searchers type "<venue> menu" / "<venue> reviews". The Oct 24 switch to
+  // "Venue Guide" titles dropped those words and cost most spot impressions,
+  // so every title keeps "Reviews"/"Menu" (the pre-Oct-24 templates).
   const fallbackCandidates = [
-    ...(hasSafety ? [`${place}: Food Safety & Venue Guide`, `${cleanName}: Food Safety & Details`] : []),
-    ...(hasDishes ? [`${cleanName}: What to Order & Venue Guide`] : []),
-    `${place}: Timings, Map & Venue Guide`,
-    `${cleanName}: Timings, Map & Details`,
-    `${place}: Venue Guide`,
-    cleanName,
+    ...(hasSafety ? [`${place}: Food Safety, Reviews & Menu`, `${cleanName}: Food Safety & Reviews`] : []),
+    `${place}: Reviews, Menu & Prices`,
+    `${place}: Reviews, Menu & Timings`,
+    ...(hasDishes ? [`${cleanName}: Reviews, Menu & Must-Orders`] : []),
+    `${cleanName}: Reviews, Menu & Prices`,
+    `${cleanName}: Reviews & Menu`,
+    `${place}: Reviews & Ratings`,
   ];
-  // Venue pages own branded intent. Rankings remain prominent in the answer
-  // and description, but a #N phrase should not displace the restaurant name,
-  // area, menu or first-hand review query in the document title.
-  const candidates = searchProfile?.title
-    ? [searchProfile.title, ...reviewCandidates, ...rankingCandidates, ...fallbackCandidates]
-    : hasOwnedReview
-      ? [...reviewCandidates, ...rankingCandidates, ...fallbackCandidates]
-      : rankingSignal
-        ? [...rankingCandidates, ...fallbackCandidates]
-        : fallbackCandidates;
+  const profileTitle = /menu|review/i.test(searchProfile?.title || "") ? searchProfile.title : null;
+  // Rankings remain prominent in the answer and description, but a #N phrase
+  // should not displace the restaurant name, menu or review query in the title.
+  const candidates = [
+    ...(profileTitle ? [profileTitle] : []),
+    ...(hasOwnedReview ? reviewCandidates : []),
+    ...fallbackCandidates,
+    ...rankingCandidates,
+  ];
   // Target max 48-52 chars so with " | Mapping HYD Eats" it stays under 70 chars.
   const title = spot.seoTitle || (candidates.find((t) => t.length <= 48) || candidates.find((t) => t.length <= 54) || candidates[0] || `${cleanName}: Reviews & Menu`);
 
