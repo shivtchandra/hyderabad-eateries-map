@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T19:35:15.083Z",
+  "updatedAt": "2026-10-31T21:26:58.170Z",
   "district": [
     {
       "id": "ChIJRyiuPoSUyzsR0B5Nj-I8Qlw",
@@ -140,12 +140,6 @@
       "reason": "ambiguous-branch"
     },
     {
-      "id": "ChIJY2cuTgCVyzsRkrOVRDZO140",
-      "name": "Kapoor’s Cafe - Kokapet",
-      "area": "text:cafe kokapet",
-      "reason": "no-strict-name-locality-match"
-    },
-    {
       "id": "ChIJu_9n9YuZyzsRaseR9X3OGPk",
       "name": "Pista house ( Dilsuknagar )",
       "area": "Malakpet",
@@ -236,31 +230,11 @@
       "localityHits": []
     },
     {
-      "id": "ChIJL2TXpHOZyzsRUMtjqxad_zI",
-      "name": "One Lounge Bar and Kitchen",
-      "area": "LB Nagar",
-      "slug": "one-lounge-bar-kitchen-saroor-nagar",
-      "pageTitle": "One Lounge Bar &amp; Kitchen | Hyderabad | Book Table",
-      "reason": "response-locality-mismatch",
-      "nameScore": 1,
-      "localityHits": []
-    },
-    {
       "id": "ChIJGbH6lpCVyzsRuqW8JWels4Q",
       "name": "Prezmo",
       "area": "Narsingi",
       "slug": "prezmo-gandipet",
       "pageTitle": "Prezmo | Gandipet, Hyderabad | Book Table",
-      "reason": "response-locality-mismatch",
-      "nameScore": 1,
-      "localityHits": []
-    },
-    {
-      "id": "ChIJpcawCQaZyzsRRUcGYR8BLZ8",
-      "name": "Coffee and Crisps Cafe",
-      "area": "LB Nagar",
-      "slug": "coffee-crisps-cafe-saroor-nagar",
-      "pageTitle": "Coffee &amp; Crisps Cafe | Saroor Nagar, Hyderabad",
       "reason": "response-locality-mismatch",
       "nameScore": 1,
       "localityHits": []
@@ -369,16 +343,6 @@
       "pageTitle": "Paradise Biryani - A Legend Since 1953 | Hyderabad",
       "reason": "response-locality-mismatch",
       "nameScore": 1,
-      "localityHits": []
-    },
-    {
-      "id": "ChIJkelWh5uYyzsRyT5bkdj8VlE",
-      "name": "Hotel Shubham Palace - Karmanghat",
-      "area": "LB Nagar",
-      "slug": "hotel-shubham-prestige-saroor-nagar",
-      "pageTitle": "Hotel Shubham Prestige | Hyderabad | Book Table",
-      "reason": "response-name-mismatch",
-      "nameScore": 0.5,
       "localityHits": []
     },
     {
