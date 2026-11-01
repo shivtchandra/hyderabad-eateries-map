@@ -2,6 +2,42 @@
   "_about": "Food safety records linked to a spot on our map, checked by hand: the name AND the location must match. TG SAFE lists often name a brand without the branch, and Hyderabad brands run many branches, so a name match alone is not a link. Regenerate candidates with: node scripts/suggest-inspection-links.mjs",
   "links": [
     {
+      "date": "2026-10-29",
+      "name": "Hameedi Confectionaries",
+      "spotId": "ChIJbW6zMX6XyzsR7Z4re69VMos",
+      "why": "Official TG SAFE record names Hameedi Confectionaries in MJ Market; our spot is Hameedi Confectioners at 5-5-513, Mozamjahi Market."
+    },
+    {
+      "date": "2026-10-31",
+      "name": "Taj Falaknuma Palace",
+      "spotId": "ChIJ8R2WrVe9yzsRKaWWzqU2RVM",
+      "why": "Official TG SAFE record names Taj Falaknuma Palace; our spot is Adaa - Taj Falaknuma Palace at Engine Bowli, Falaknuma."
+    },
+    {
+      "date": "2026-10-31",
+      "name": "Pista House",
+      "spotId": "ChIJOQniFvWXyzsRQ1K83DNOYIE",
+      "why": "Official TG SAFE record names Pista House in Shahalibanda; our spot is Pista House Shahalibanda on Charminar Road."
+    },
+    {
+      "date": "2026-10-31",
+      "name": "Sohail Restaurant",
+      "spotId": "ChIJw-MCKzSYyzsRNGvxUsetab0",
+      "why": "Official TG SAFE record names Sohail Restaurant in Malakpet; our spot is HOTEL SOHAIL on Government Printing Press Road at Chanchalguda / Malakpet."
+    },
+    {
+      "date": "2026-10-31",
+      "name": "Dine Hill Restaurant",
+      "spotId": "ChIJz7gUnD-XyzsR7SZKFa8nnEs",
+      "why": "Official TG SAFE record names Dine Hill Restaurant in Masab Tank; our spot is Dine Hill on Mehdipatnam - Banjara Hills Road in Masab Tank."
+    },
+    {
+      "date": "2026-10-31",
+      "name": "Hotel Nayaab",
+      "spotId": "ChIJNUS44SeYyzsRQl6GqHS92tg",
+      "why": "Official TG SAFE record names Hotel Nayaab in Nayapul; our spot is the landmark Hotel Nayaab at 22-8-111, Nayapul Road."
+    },
+    {
       "date": "2026-10-23",
       "name": "Majestic Sweets",
       "spotId": "ChIJ72oquumWyzsRm8kNtgmYRzQ",

@@ -1,5 +1,607 @@
 [
   {
+    "id": "2026-10-31-golconda-charminar-restaurants",
+    "date": "2026-10-31",
+    "title": "Golconda and Charminar zones restaurant special enforcement drive",
+    "areas": [
+      "Shahalibanda",
+      "Nayapul",
+      "Dilsukhnagar",
+      "Masab Tank",
+      "Malakpet",
+      "Santosh Nagar",
+      "Tolichowki",
+      "Gudimalkapur",
+      "Rethibowli",
+      "Charminar",
+      "Falaknuma"
+    ],
+    "authority": "TG SAFE (Commissioner of Food Safety, Telangana)",
+    "inspected": 22,
+    "samples": 21,
+    "summary": "Twenty-two TG SAFE enforcement teams comprising Food Safety Officers and Police inspected 22 major food establishments across the Golconda and Charminar zones. Fourteen FSSAI licences were suspended with operations ordered to stop immediately due to severe hygiene violations, cockroach and fly infestations, rat droppings, and rotten or fungus-infested vegetables. Show-cause notices were issued to eight establishments, including Taj Falaknuma Palace, Golconda Hotel and Resorts, and Pista House Shahalibanda. Enforcement teams discarded approximately 544 kg of spoiled and contaminated food alongside 13 kg of repeatedly reused cooking oil.",
+    "sources": [
+      {
+        "label": "Telangana Today (31 Oct 2026)",
+        "url": "https://telanganatoday.com/hyderabad-food-safety-officials-conduct-special-drive-in-charminar-golconda-zones"
+      },
+      {
+        "label": "The Hindu (31 Oct 2026)",
+        "url": "https://www.thehindu.com/news/cities/Hyderabad/food-safety-raids-conducted-at-charminar-golconda/article68817758.ece"
+      }
+    ],
+    "entries": [
+      {
+        "name": "Hotel Nayaab",
+        "area": "Nayapul",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Unhygienic kitchen conditions",
+          "Cockroach and housefly infestation",
+          "Stagnant drain water near cooking areas"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Shah Ghouse Cafe",
+        "area": "Shahalibanda",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Heavy cockroach infestation in storage and kitchen",
+          "Rotten and unlabelled ingredients",
+          "Improper refrigeration"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Mehfil Restaurant",
+        "area": "Dilsukhnagar",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Unhygienic cooking premises",
+          "Expired food colours and unlabelled spices",
+          "Improper waste disposal"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Dine Hill Restaurant",
+        "area": "Masab Tank",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Cockroach infestation in prep area",
+          "Repeatedly used cooking oil",
+          "Missing mandatory FSSAI display and medical records"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Sohail Restaurant",
+        "area": "Malakpet",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Unhygienic food preparation area",
+          "Fungus-infested vegetables",
+          "Houseflies observed in cooking sections"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Lucky Restaurant",
+        "area": "Santosh Nagar",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Rat droppings in storage room",
+          "Expired food ingredients",
+          "Dirty kitchen floor and walls"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Hotel Sri Raghavendra Udupi Veg",
+        "area": "Tolichowki",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Housefly infestation",
+          "Uncovered cooked items",
+          "Improper raw material storage"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Hotel Sri Raghavendra Udupi Veg",
+        "area": "Santosh Nagar",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Unhygienic washing area",
+          "Cockroaches in dry food store",
+          "Missing pest control documentation"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Sri Balaji Family Dhaba",
+        "area": "Gudimalkapur",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Greasy cooking chimneys and exhaust",
+          "Stagnant wastewater in kitchen",
+          "Unlabelled cooked sauces"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Siddique Kabab Central Kitchen",
+        "area": "Gudimalkapur",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Operating under unhygienic conditions",
+          "Improper raw meat temperature control",
+          "Absence of food handler health fitness certificates"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Alsaba Hotel",
+        "area": "Tolichowki",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Live cockroach infestation",
+          "Discarded stale food articles",
+          "Uncleaned refrigeration equipment"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Hotel Akshaya Tiffins",
+        "area": "Malakpet",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Unhygienic batter storage",
+          "Houseflies in serving area",
+          "Missing water testing reports"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Hotel Venkateshwara",
+        "area": "MJR Road",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Expired masala packets",
+          "Dirty utensils and prep tables",
+          "Failure to follow hygiene protocols"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Aeezebo The Royal Arabian Restaurant",
+        "area": "Rethibowli",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Improper cooked meat storage",
+          "Greasy kitchen walls and floor",
+          "Pest infestation"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Taj Falaknuma Palace",
+        "area": "Falaknuma",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Expired and mislabelled food items found in storage",
+          "Pest entry points observed",
+          "Cooking oil Total Polar Compounds (TPC) exceeded permissible limits"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued for penal proceedings",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Golconda Hotel and Resorts",
+        "area": "Masab Tank",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Storage lapses",
+          "High Total Polar Compounds (TPC) in frying oil",
+          "Missing periodic pest control records"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Pista House",
+        "area": "Shahalibanda",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Mislabelled packaged items",
+          "Hygiene lapses in ancillary storage",
+          "Cooking oil compliance check"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Mandi at 36 Arabian Kitchen",
+        "area": "Charminar",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Improper food labelling",
+          "Minor hygiene and storage non-compliances"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Hotel Sabzi",
+        "area": "Charminar",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Lack of proper storage containers",
+          "Kitchen cleanliness lapses"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Sweekar Hotel",
+        "area": "Santosh Nagar",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Unlabelled food articles",
+          "Inadequate ventilation in kitchen"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Imperial Multicuisine Restaurant",
+        "area": "Tolichowki",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Reused oil compliance check",
+          "Storage organisation lapses"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-31"
+      },
+      {
+        "name": "Taiba Bakery",
+        "area": "Masab Tank",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Missing expiry dates on baked items",
+          "Dry storage hygiene lapses"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-31"
+      }
+    ],
+    "createdAt": 1793472000000,
+    "updatedAt": 1793472000000
+  },
+  {
+    "id": "2026-10-29-sweets-pre-diwali-cure",
+    "date": "2026-10-29",
+    "title": "Pre-Diwali sweets manufacturing units special enforcement drive across CURE region",
+    "areas": [
+      "Sanath Nagar",
+      "Kattedan",
+      "Charminar",
+      "Vanasthalipuram",
+      "Falaknuma",
+      "Champapet",
+      "Secunderabad",
+      "MJ Market",
+      "Chudi Bazaar",
+      "Timmapur"
+    ],
+    "authority": "TG SAFE (Commissioner of Food Safety, Telangana)",
+    "inspected": 16,
+    "samples": 16,
+    "summary": "TG SAFE Food Safety Officers and Hyderabad Police inspected 16 sweet manufacturing and retail units across the Core Urban Region ahead of Diwali. Officials seized and discarded 3,546.5 kg of unhygienic, expired, or mislabelled food articles valued at approximately ₹16.86 lakh. Five units were ordered to close down for operating without valid FSSAI licences or under severe unhygienic conditions, five FSSAI licences were suspended, and show-cause notices were issued to several others. Over 3,133 kg of sub-standard food articles worth ₹15.03 lakh were seized from G. Pulla Reddy Sweets in Sanath Nagar alone.",
+    "sources": [
+      {
+        "label": "Telangana Today (29 Oct 2026)",
+        "url": "https://telanganatoday.com/hyderabad-tg-safe-raids-16-sweet-units-ahead-of-diwali"
+      },
+      {
+        "label": "The Hindu (29 Oct 2026)",
+        "url": "https://www.thehindu.com/news/cities/Hyderabad/food-safety-officials-inspect-sweet-manufacturing-units-in-hyderabad/article68808520.ece"
+      },
+      {
+        "label": "Deccan Chronicle (29 Oct 2026)",
+        "url": "https://www.deccanchronicle.com/southern-states/telangana/food-safety-officials-inspect-sweet-manufacturing-units-in-hyderabad"
+      }
+    ],
+    "entries": [
+      {
+        "name": "Balaji Sweets",
+        "area": "Champapet",
+        "spotId": null,
+        "action": "closed",
+        "findings": [
+          "Operating without a valid FSSAI licence",
+          "Severe cockroach infestation",
+          "Sweets covered with printed newspapers",
+          "Unclean utensils and food handlers lacking basic personal hygiene"
+        ],
+        "status": "action-taken",
+        "statusNote": "Unlicensed unit ordered closed; operations stopped",
+        "statusDate": "2026-10-29"
+      },
+      {
+        "name": "Mamatha Sweet House",
+        "area": "Secunderabad",
+        "spotId": null,
+        "action": "closed",
+        "findings": [
+          "Operating with an expired FSSAI licence",
+          "Houseflies throughout prep area",
+          "Dirty and greasy equipment with open dustbins",
+          "Expired and spoiled food items found on premises"
+        ],
+        "status": "action-taken",
+        "statusNote": "Ordered closed; operations stopped",
+        "statusDate": "2026-10-29"
+      },
+      {
+        "name": "SK Foods",
+        "area": "Kattedan",
+        "spotId": null,
+        "action": "closed",
+        "findings": [
+          "Operating without a valid FSSAI licence",
+          "Housefly infestation and greasy, rusty machinery",
+          "Packaged sweets stamped with a future manufacturing date (31 Oct 2026)"
+        ],
+        "status": "action-taken",
+        "statusNote": "Unlicensed unit ordered closed; operations stopped",
+        "statusDate": "2026-10-29"
+      },
+      {
+        "name": "Hameedi Confectionaries",
+        "area": "MJ Market",
+        "spotId": null,
+        "action": "closed",
+        "findings": [
+          "Operating without a valid FSSAI licence",
+          "Cockroaches and pest infestation detected in stored almonds",
+          "Expired food ingredients found in kitchen",
+          "Snacks and sweets covered with newspapers"
+        ],
+        "status": "action-taken",
+        "statusNote": "Ordered closed; operations stopped",
+        "statusDate": "2026-10-29"
+      },
+      {
+        "name": "Annapurna Caterers",
+        "area": "Chudi Bazaar",
+        "spotId": null,
+        "action": "closed",
+        "findings": [
+          "Operating without a valid FSSAI licence",
+          "Rat droppings and houseflies in food storage",
+          "Pest-infested peanuts and mustard seeds",
+          "Rotten tomatoes and expired food articles"
+        ],
+        "status": "action-taken",
+        "statusNote": "Unlicensed unit ordered closed; operations stopped",
+        "statusDate": "2026-10-29"
+      },
+      {
+        "name": "G. Pulla Reddy Sweets",
+        "area": "Sanath Nagar",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "3,133 kg of sub-standard food articles valued at ₹15.03 lakh seized",
+          "Rat droppings discovered in storage area",
+          "Rotten vegetables and expired raw materials",
+          "Incorrect FSSAI licence category and unhygienic conditions"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-29"
+      },
+      {
+        "name": "Minerva Sweets / Hirani Foods Pvt. Ltd.",
+        "area": "Kattedan",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Rat droppings found across storage section",
+          "Greasy walls, wet flooring, and unclean cooking burners",
+          "Food handlers working without protective caps, aprons, or footwear"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-29"
+      },
+      {
+        "name": "Agra Mithai Ghar Restaurant",
+        "area": "Charkaman, Charminar",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Housefly and rodent infestation",
+          "Operating under improper licence category",
+          "Sweets covered with printed newspapers",
+          "Unclean utensils and poor worker hygiene"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-29"
+      },
+      {
+        "name": "Sweetone Ruchulu India Pvt. Ltd.",
+        "area": "Vanasthalipuram",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Rat droppings in storage room",
+          "Stagnant dirty water and damaged broken floor tiles",
+          "Mislabelled and unlabelled sweet articles"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-29"
+      },
+      {
+        "name": "Balaji Sri Kishan Mithai Bhandar",
+        "area": "Shamsheer Gunj, Falaknuma",
+        "spotId": null,
+        "action": "licence-suspended",
+        "findings": [
+          "Incorrect licence category",
+          "Grease-coated kitchen walls and inadequate lighting",
+          "Missing pest control and staff medical fitness records"
+        ],
+        "status": "action-taken",
+        "statusNote": "FSSAI licence suspended; operations ordered to stop",
+        "statusDate": "2026-10-29"
+      },
+      {
+        "name": "Karachi Bakery International Pvt. Ltd.",
+        "area": "Timmapur",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Hygiene and storage lapses in manufacturing facility",
+          "FSSAI compliance documentation pending"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-29"
+      },
+      {
+        "name": "Bharat Baklava",
+        "area": "Sanath Nagar",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Improper storage and labelling of ingredients",
+          "Kitchen hygiene non-compliances"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-29"
+      },
+      {
+        "name": "Sri Krishna Sweets & Bakery",
+        "area": "Kattedan",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Inadequate labelling on packaged sweets",
+          "Storage hygiene lapses"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-29"
+      },
+      {
+        "name": "Bikaner Sweets & Namkeen",
+        "area": "Sanath Nagar",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Dustbin lids missing and minor sanitation lapses",
+          "Mandatory records not displayed"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-29"
+      },
+      {
+        "name": "Royal Sweet House",
+        "area": "Charminar",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Storage organisation and ventilation issues",
+          "Packaging date labelling missing"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-29"
+      },
+      {
+        "name": "Swagruha Foods",
+        "area": "Vanasthalipuram",
+        "spotId": null,
+        "action": "notice",
+        "findings": [
+          "Food handler protective wear missing",
+          "Medical fitness records incomplete"
+        ],
+        "status": "action-taken",
+        "statusNote": "Show-cause notice issued",
+        "statusDate": "2026-10-29"
+      }
+    ],
+    "createdAt": 1793299200000,
+    "updatedAt": 1793299200000
+  },
+  {
     "id": "2026-10-23-sweets-cure-region",
     "date": "2026-10-23",
     "title": "CURE Region sweets manufacturing and retail special enforcement drive",
