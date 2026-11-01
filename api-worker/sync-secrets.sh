@@ -13,7 +13,7 @@ read_var() { # file name
   grep "^$2=" "$1" 2>/dev/null | head -1 | cut -d= -f2- | sed "s/^['\"]//; s/['\"]\$//"
 }
 
-for name in ADMIN_SECRET RECOMMENDATION_COOKIE_SECRET OLA_MAPS_API_KEY GOOGLE_MAPS_API_KEY RACE_TEST_UIDS RACE_REQUIRE_GPS; do
+for name in ADMIN_SECRET RECOMMENDATION_COOKIE_SECRET OLA_MAPS_API_KEY GOOGLE_MAPS_API_KEY RACE_TEST_UIDS RACE_REQUIRE_GPS OPENAI_API_KEY; do
   value=$(read_var .env.local "$name")
   if [ -z "$value" ]; then value=$(read_var "$tmp" "$name"); fi
   if [ "$value" = "[SENSITIVE]" ]; then value=""; fi

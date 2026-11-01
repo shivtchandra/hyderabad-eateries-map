@@ -20,7 +20,7 @@ const GO_TO_QUESTIONS = [
 function renderBubbleText(text, streaming) {
   if (!text) return streaming ? <span className="ask-cursor" /> : null;
   // Strip [spot:ID] markers from rendered prose because rich cards appear below
-  const clean = text.replace(/\[spot:[^\]]+\]/g, "").trim();
+  const clean = text.replace(/\[spot:[^\]]*\]?/g, "").replace(/\s+,/g, ",").replace(/ {2,}/g, " ").trim();
   const paras = clean.split(/\n{2,}/);
   return (
     <>
@@ -121,7 +121,7 @@ export default function AskSheet({ open, onClose, seed, eateries, userLoc, onReq
   }, [areas, ctx, eateries, rankBySpot, userLoc]);
 
   // Fast streaming AI query with OpenAI gpt-4o-mini
-  const askAi = useCallback(async (queryText, overrideArea = null) => {
+  const askAi = useCallback(async (queryText, overrideArea = null, exclude = null) => {
     const t = queryText.trim();
     if (!t) return;
 
@@ -152,7 +152,7 @@ export default function AskSheet({ open, onClose, seed, eateries, userLoc, onReq
     const userMsg = { from: "me", text: t };
     const placeholder = { from: "bot", text: "", streaming: true, results: [] };
 
-    setMsgs((list) => [...list, userMsg, placeholder]);
+    setMsgs((list) => [...list.map((m) => (m.streaming ? { ...m, streaming: false, text: m.text || "Stopped." } : m)), userMsg, placeholder]);
 
     try {
       const response = await fetch("/api/ask", {
@@ -160,13 +160,12 @@ export default function AskSheet({ open, onClose, seed, eateries, userLoc, onReq
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: t,
-          history: msgs.slice(-4),
+          history: msgs.filter((m) => m.text && !m.streaming).slice(-6).map(({ from, text }) => ({ from, text })),
           userLoc,
           areaName: activeArea,
-          rankBySpot: rankBySpot || {},
-          picksMap: ctx?.picksMap || {},
-          savedSpots: Object.keys(ctx?.passport?.saved || {}),
-          visitedSpots: Object.keys(ctx?.passport?.visited || {})
+          savedSpots: Object.keys(ctx?.passport?.saved || {}).slice(0, 300),
+          visitedSpots: Object.keys(ctx?.passport?.visited || {}).slice(0, 300),
+          exclude: exclude || []
         }),
         signal: controller.signal
       });
@@ -187,115 +186,67 @@ export default function AskSheet({ open, onClose, seed, eateries, userLoc, onReq
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
-      let accumulatedText = "";
+      let buf = "";
+      let text = "";
       let metaSpots = [];
+      let finished = false;
 
-      while (true) {
+      // Cards only for candidates the server sent; tag first, bare name as backup.
+      const toResults = (full) => {
+        const known = new Map(metaSpots.map((s) => [s.id, s]));
+        let ids = Array.from(new Set(Array.from(full.matchAll(/\[spot:([^\]\s]+)\]/g), (m) => m[1]))).filter((id) => known.has(id));
+        if (!ids.length) {
+          const lower = full.toLowerCase();
+          ids = metaSpots.filter((s) => s.name && lower.includes(s.name.toLowerCase())).map((s) => s.id);
+        }
+        return ids.map((id) => {
+          const e = eateryById.get(id);
+          const meta = known.get(id);
+          return e ? { e, distLabel: meta.distLabel, why: meta.why, safety: meta.safety, band: meta.band ?? 3 } : null;
+        }).filter(Boolean);
+      };
+      const update = (patch) => setMsgs((list) => {
+        const copy = [...list];
+        const i = copy.length - 1;
+        if (copy[i]?.streaming) copy[i] = { ...copy[i], ...patch };
+        return copy;
+      });
+      const finish = () => {
+        const results = toResults(text);
+        setLast({ areaName: activeArea, shown: [...new Set([...(exclude || []), ...results.map((r) => r.e.id)])] });
+        update({ text, streaming: false, results, followups: results.length > 0 });
+      };
+
+      while (!finished) {
         const { done, value } = await reader.read();
         if (done) break;
-
-        const chunk = decoder.decode(value, { stream: true });
-        const events = chunk.split("\n\n").filter(Boolean);
-
+        // An event can straddle two network chunks: keep the tail for the next read.
+        buf += decoder.decode(value, { stream: true });
+        const events = buf.split("\n\n");
+        buf = events.pop();
         for (const evt of events) {
           if (!evt.startsWith("data: ")) continue;
-          try {
-            const payload = JSON.parse(evt.slice(6));
-
-            if (payload.type === "meta") {
-              metaSpots = payload.spots || [];
-            } else if (payload.type === "delta") {
-              accumulatedText += payload.text;
-
-              const matches = Array.from(accumulatedText.matchAll(/\[spot:([^\]]+)\]/g));
-              const mentionedIds = Array.from(new Set(matches.map((m) => m[1])));
-
-              const liveResults = mentionedIds.map((id) => {
-                const e = eateryById.get(id);
-                const meta = metaSpots.find((s) => s.id === id);
-                if (!e) return null;
-                return {
-                  e,
-                  distLabel: meta?.distLabel || null,
-                  why: meta?.why || [e.category, e.discoveredIn].filter(Boolean),
-                  safety: meta?.safety || null,
-                  band: meta?.band ?? 1
-                };
-              }).filter(Boolean);
-
-              setMsgs((list) => {
-                const copy = [...list];
-                const lastIdx = copy.length - 1;
-                if (copy[lastIdx]?.streaming) {
-                  copy[lastIdx] = {
-                    ...copy[lastIdx],
-                    text: accumulatedText,
-                    results: liveResults.length > 0 ? liveResults : (copy[lastIdx].results || [])
-                  };
-                }
-                return copy;
-              });
-            } else if (payload.type === "done") {
-              const matches = Array.from(accumulatedText.matchAll(/\[spot:([^\]]+)\]/g));
-              const mentionedIds = Array.from(new Set(matches.map((m) => m[1])));
-
-              let finalResults = mentionedIds.map((id) => {
-                const e = eateryById.get(id);
-                const meta = metaSpots.find((s) => s.id === id);
-                if (!e) return null;
-                return {
-                  e,
-                  distLabel: meta?.distLabel || null,
-                  why: meta?.why || [e.category, e.discoveredIn].filter(Boolean),
-                  safety: meta?.safety || null,
-                  band: meta?.band ?? 1
-                };
-              }).filter(Boolean);
-
-              // If no explicit tags were matched, show top 3 candidates from metaSpots
-              if (!finalResults.length && metaSpots.length > 0) {
-                finalResults = metaSpots.slice(0, 3).map((meta) => {
-                  const e = eateryById.get(meta.id);
-                  if (!e) return null;
-                  return {
-                    e,
-                    distLabel: meta.distLabel,
-                    why: meta.why,
-                    safety: meta.safety,
-                    band: meta.band ?? 1
-                  };
-                }).filter(Boolean);
-              }
-
-              setLast({ areaName: activeArea, shown: finalResults.map((r) => r.e.id) });
-
-              setMsgs((list) => {
-                const copy = [...list];
-                const lastIdx = copy.length - 1;
-                if (copy[lastIdx]?.streaming) {
-                  copy[lastIdx] = {
-                    ...copy[lastIdx],
-                    text: accumulatedText,
-                    streaming: false,
-                    results: finalResults,
-                    followups: true
-                  };
-                }
-                return copy;
-              });
-            }
-          } catch (e) {
-            // Partial JSON chunk, ignore
+          let payload;
+          try { payload = JSON.parse(evt.slice(6)); } catch { continue; }
+          if (payload.type === "meta") {
+            metaSpots = payload.spots || [];
+          } else if (payload.type === "delta") {
+            text += payload.text;
+            update({ text, results: toResults(text) });
+          } else if (payload.type === "done" || payload.type === "error") {
+            finished = true;
           }
         }
       }
+      if (!text) throw new Error("empty answer");
+      finish();
     } catch (err) {
       if (err.name === "AbortError") return;
       console.warn("[AskSheet] AI chat failed, falling back to local engine:", err);
       setMsgs((list) => list.filter((m) => !m.streaming));
       runLocal({ cravingId: parsed.craving || "near", areaName: activeArea, cheap: parsed.cheap, openNow: parsed.openNow });
     }
-  }, [areas, eateryById, last?.areaName, msgs, runLocal, userLoc]);
+  }, [areas, ctx, eateryById, last?.areaName, msgs, runLocal, userLoc]);
 
   // Location arrived for a question that was waiting on it.
   useEffect(() => {
@@ -336,13 +287,18 @@ export default function AskSheet({ open, onClose, seed, eateries, userLoc, onReq
 
   const followUp = (kind) => {
     if (kind === "closer") {
-      askAi("Which of these or other top spots are closest to where I am right now?");
+      if (!userLoc) {
+        setPending({ rawQuery: "Which of these are closest to me?" });
+        onRequestLocation();
+        return;
+      }
+      askAi("Which of these are closest to me?");
     } else if (kind === "cheap") {
-      askAi("What are the most budget-friendly or cheaper options for this?");
+      askAi("Cheaper options?");
     } else if (kind === "open") {
-      askAi("Which spots are open right now or late at night?");
+      askAi("Which of these are open right now?");
     } else if (kind === "other") {
-      askAi("What is another completely different authentic Hyderabad specialty or iconic spot you recommend (like Mandi, Telugu Bhojanam, or Marag)?");
+      askAi("Show me other spots", null, last?.shown || []);
     }
   };
 
@@ -353,6 +309,13 @@ export default function AskSheet({ open, onClose, seed, eateries, userLoc, onReq
       askAi(seed.text);
     }
   }, [open, seed, askAi]);
+
+  // Closing the sheet stops a reply mid-stream.
+  useEffect(() => {
+    if (open) return;
+    abortRef.current?.abort();
+    setMsgs((list) => (list.some((m) => m.streaming) ? list.map((m) => (m.streaming ? { ...m, streaming: false, text: m.text || "Stopped." } : m)) : list));
+  }, [open]);
 
   return (
     <div className={`ask-sheet${open ? " is-open" : ""}`} role="dialog" aria-label="Ask Eats" aria-hidden={!open}>
