@@ -45,8 +45,8 @@ function cannedStream(text) {
 
 export async function POST(req) {
   try {
-    const openai = getOpenAI();
-    if (!openai) return Response.json({ fallback: true, error: "not_configured" });
+    const apiKey = getOpenAI();
+    if (!apiKey) return Response.json({ fallback: true, error: "not_configured" });
 
     const ip = req.headers.get("cf-connecting-ip") || (req.headers.get("x-forwarded-for") || "").split(",")[0].trim() || req.headers.get("x-real-ip") || "anon";
     if (limited(ip)) return Response.json({ fallback: true, error: "rate_limited" }, { status: 429 });
@@ -83,18 +83,52 @@ export async function POST(req) {
       { role: "user", content: message },
     ];
 
-    const stream = await openai.chat.completions.create(
-      { model: "gpt-4o-mini", messages, temperature: 0.3, max_tokens: 450, stream: true },
-      { timeout: 20_000, maxRetries: 1, signal: req.signal },
-    );
+    const openAiRes = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        messages,
+        temperature: 0.3,
+        max_tokens: 450,
+        stream: true,
+      }),
+      signal: req.signal,
+    });
+
+    if (!openAiRes.ok) {
+      const errText = await openAiRes.text().catch(() => "");
+      console.error("[api/ask] OpenAI error:", openAiRes.status, errText);
+      return Response.json({ fallback: true, error: "failed" }, { status: 500 });
+    }
 
     return new Response(new ReadableStream({
       async start(controller) {
         try {
           controller.enqueue(sse({ type: "meta", spots, intent: slots.intent }));
-          for await (const chunk of stream) {
-            const delta = chunk.choices[0]?.delta?.content || "";
-            if (delta) controller.enqueue(sse({ type: "delta", text: delta.replace(/—/g, ",") }));
+          const reader = openAiRes.body.getReader();
+          const decoder = new TextDecoder();
+          let buf = "";
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            buf += decoder.decode(value, { stream: true });
+            const lines = buf.split("\n");
+            buf = lines.pop() || "";
+            for (const line of lines) {
+              const trimmed = line.trim();
+              if (!trimmed.startsWith("data:")) continue;
+              const payload = trimmed.slice(5).trim();
+              if (payload === "[DONE]") continue;
+              try {
+                const parsed = JSON.parse(payload);
+                const delta = parsed.choices?.[0]?.delta?.content || "";
+                if (delta) controller.enqueue(sse({ type: "delta", text: delta.replace(/—/g, ",") }));
+              } catch {}
+            }
           }
           controller.enqueue(sse({ type: "done" }));
         } catch (err) {
@@ -104,7 +138,9 @@ export async function POST(req) {
           try { controller.close(); } catch {}
         }
       },
-      cancel() { stream.controller?.abort(); },
+      cancel() {
+        try { openAiRes.body?.cancel(); } catch {}
+      },
     }), { headers: SSE_HEADERS });
   } catch (err) {
     console.error("[api/ask]", err?.message || err);
