@@ -15,10 +15,12 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createElement as h } from "react";
 import { ImageResponse } from "next/og.js";
+import { createHash } from "node:crypto";
+import { shareCard, SHARE_CARD_COLORS } from "../lib/shareCard.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const W = 1200, H = 630;
-const C = { cream: "#F4F2EE", creamHi: "#FFFFFF", ink: "#141414", inkSoft: "#4A4A4A", violet: "#7C3AED", violetWash: "#EDE9FE", pop: "#7C3AED", line: "#E3DFD6" };
+const C = SHARE_CARD_COLORS;
 const font = (f) => fs.readFileSync(path.join(ROOT, "public/fonts", f));
 // Satori reads TTF/OTF/WOFF, not WOFF2, so the cards use .woff copies of the
 // app's two faces (public/fonts/*.woff, from @fontsource).
@@ -31,44 +33,20 @@ const dataUrl = (file, mime) => `data:${mime};base64,${fs.readFileSync(path.join
 const ICON = dataUrl("public/icon.svg", "image/svg+xml");
 const CHARMINAR = dataUrl("public/og/assets/charminar.png", "image/png");
 
-// "*word*" marks the accent (violet) words in a headline.
-function headline(text, size) {
-  const parts = text.split("*");
-  return h("div", { style: { display: "flex", flexWrap: "wrap", fontFamily: "Display", fontSize: size, lineHeight: 1.02, letterSpacing: -1.5, color: C.ink } },
-    ...parts.flatMap((p, i) => p.split(/(\s+)/).filter(Boolean).map((w, j) => w.trim()
-      ? h("span", { key: `${i}-${j}`, style: { color: i % 2 ? C.violet : C.ink, marginRight: 14 } }, w)
-      : null)).filter(Boolean));
-}
-
-/** The shared frame: brand top-left, section label top-right, headline + sub left, visual right. */
-function card({ label, title, sub, visual, size = 74, cityBackdrop = false }) {
-  return h("div", { style: { width: W, height: H, display: "flex", background: C.cream, fontFamily: "UI", position: "relative" } },
-    h("div", { style: { display: "flex", flexDirection: "column", width: 740, padding: "48px 0 44px 64px", justifyContent: "space-between", position: "relative", overflow: "hidden" } },
-      cityBackdrop ? h("div", { style: { display: "flex", position: "absolute", width: 260, height: 260, borderRadius: 999, background: "#F6A97A", opacity: 0.16, right: -48, top: 126 } }) : null,
-      cityBackdrop ? h("img", { src: CHARMINAR, width: 246, height: 372, style: { position: "absolute", right: 18, bottom: -118, opacity: 0.1, objectFit: "contain" } }) : null,
-      h("div", { style: { display: "flex", alignItems: "center", position: "relative" } },
-        h("img", { src: ICON, width: 46, height: 46, style: { borderRadius: 12 } }),
-        h("div", { style: { fontFamily: "Display", fontSize: 32, color: C.violet, marginLeft: 14 } }, "Hyderabad Eats")),
-      h("div", { style: { display: "flex", flexDirection: "column", position: "relative" } },
-        headline(title, size),
-        sub ? h("div", { style: { fontSize: 30, color: C.inkSoft, marginTop: 22, lineHeight: 1.25, maxWidth: 640 } }, sub) : null),
-      h("div", { style: { display: "flex", fontSize: 24, fontWeight: 700, color: C.inkSoft, letterSpacing: 0.5, position: "relative" } }, "eats.mapmyhyd.com")),
-    h("div", { style: { display: "flex", flex: 1, background: cityBackdrop ? "#F8FCFB" : C.creamHi, borderLeft: `2px solid ${C.line}`, position: "relative", overflow: "hidden", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: 40 } },
-      cityBackdrop ? h("div", { style: { display: "flex", position: "absolute", width: 390, height: 390, borderRadius: 999, border: "12px solid #60C9C0", opacity: 0.14, right: -155, bottom: -215 } }) : null,
-      cityBackdrop ? h("div", { style: { display: "flex", position: "absolute", width: 170, height: 170, borderRadius: 999, background: "#F4C66A", opacity: 0.13, left: -60, top: 95 } }) : null,
-      h("div", { style: { position: "absolute", top: 50, right: 48, display: "flex", fontSize: 20, fontWeight: 700, letterSpacing: 3, color: C.inkSoft } }, label.toUpperCase()),
-      h("div", { style: { display: "flex", position: "relative" } }, visual)));
+// All page types share the same frame; only their content and visual change.
+function card(options) {
+  return shareCard({ ...options, brandIcon: ICON, landmark: CHARMINAR });
 }
 
 const pill = (text, bg, fg) => h("div", { style: { display: "flex", background: bg, color: fg, borderRadius: 999, padding: "10px 22px", fontSize: 24, fontWeight: 700 } }, text);
 
 // Right-panel visuals
-const vLandmark = () => h("img", { src: CHARMINAR, width: 300, height: 454, style: { objectFit: "contain", marginTop: 40 } });
+const vLandmark = () => h("img", { src: CHARMINAR, width: 210, height: 318, style: { objectFit: "contain" } });
 const vStat = (big, small, stamp) => h("div", { style: { display: "flex", flexDirection: "column", alignItems: "center" } },
   h("div", { style: { fontFamily: "Display", fontSize: 170, color: C.violet, lineHeight: 1 } }, big),
   h("div", { style: { fontSize: 30, color: C.ink, fontWeight: 700, marginTop: 6, textAlign: "center" } }, small),
   stamp ? h("div", { style: { display: "flex", marginTop: 30, border: `4px solid ${C.pop}`, color: C.pop, borderRadius: 14, padding: "8px 20px", fontSize: 26, fontWeight: 700, letterSpacing: 2, transform: "rotate(-6deg)" } }, stamp) : null);
-const vList = (rows, unit) => h("div", { style: { display: "flex", flexDirection: "column", width: 360 } },
+const vList = (rows, unit) => h("div", { style: { display: "flex", flexDirection: "column", width: 310 } },
   ...rows.slice(0, 3).map((r, i) => h("div", { key: i, style: { display: "flex", alignItems: "center", background: "#fff", border: `2px solid ${C.line}`, borderRadius: 18, padding: "16px 18px", marginBottom: 14 } },
     h("div", { style: { display: "flex", width: 46, height: 46, borderRadius: 999, background: i === 0 ? C.violet : C.violetWash, color: i === 0 ? "#fff" : C.violet, alignItems: "center", justifyContent: "center", fontSize: 24, fontWeight: 700 } }, String(i + 1)),
     h("div", { style: { display: "flex", flexDirection: "column", marginLeft: 14, flex: 1 } },
@@ -77,8 +55,25 @@ const vList = (rows, unit) => h("div", { style: { display: "flex", flexDirection
 
 async function render(el, out) {
   const res = new ImageResponse(el, { width: W, height: H, fonts: FONTS });
-  fs.mkdirSync(path.dirname(out), { recursive: true });
-  fs.writeFileSync(out, Buffer.from(await res.arrayBuffer()));
+  const bytes = Buffer.from(await res.arrayBuffer());
+  const hash = createHash("sha256").update(bytes).digest("hex").slice(0, 10);
+  const versioned = out.replace(/\.png$/, `.${hash}.png`);
+  fs.mkdirSync(path.dirname(versioned), { recursive: true });
+  fs.writeFileSync(versioned, bytes);
+  return versioned;
+}
+
+if (process.argv.includes("--samples")) {
+  const examples = [
+    ["guide", { label: "Guide", title: "New restaurants in *Hyderabad*", sub: "Recent cafes, kitchens and bars. Find your next stop.", visual: vLandmark() }],
+    ["ranking", { label: "Community ranking", title: "Best *biryani* in Hyderabad", sub: "Compare local votes, branches and budgets.", visual: vLandmark() }],
+    ["venue", { label: "Venue", title: "*Between Brewhouse* & Kitchen", sub: "Financial District, Hyderabad", image: fs.existsSync(path.join(ROOT, "public/spots/between-brewhouse.jpg")) ? dataUrl("public/spots/between-brewhouse.jpg", "image/jpeg") : null, visual: vLandmark() }],
+  ];
+  const previews = {};
+  for (const [name, options] of examples) previews[name] = await render(card(options), path.join(ROOT, ".mini/og-samples", `${name}.png`));
+  fs.writeFileSync(path.join(ROOT, ".mini/og-samples/previews.json"), JSON.stringify(previews, null, 2));
+  console.log(JSON.stringify(previews));
+  process.exit(0);
 }
 
 // ── cards ─────────────────────────────────────────────────────────────────
@@ -91,8 +86,8 @@ const sizeFor = (t) => { const n = t.replace(/\*/g, "").length; return n < 26 ? 
 const clean = (s) => String(s || "").replace(/\s*[—|]\s*/g, ": ").trim();
 const short = (s, n) => (s.length > n ? s.slice(0, s.lastIndexOf(" ", n)) + "…" : s);
 
-const cards = []; // [path, file, element]
-const add = (p, file, opts) => cards.push([p, file, card({ ...opts, size: opts.size || sizeFor(opts.title) })]);
+const cards = new Map(); // one canonical card per page, with live data overriding presets
+const add = (p, file, opts) => cards.set(p, [p, file, opts]);
 
 add("/", "home", { label: "Food map", title: "What's *good where* in Hyderabad.", sub: "The places locals recommend, and what to order at each.", visual: vLandmark() });
 add("/food-safety", "food-safety", { label: "Food safety", title: "Hyderabad food safety raids, *on the record.*", sub: latest ? `Every inspection drive, with dates and what was seized. Latest ${fmt(latest)}.` : "Every inspection drive, with dates and what was seized.", visual: drives.length ? vStat(String(drives.length), "inspection drives logged", "ON THE RECORD") : vLandmark() });
@@ -113,7 +108,9 @@ for (const dir of fs.readdirSync(path.join(ROOT, "app/guides"))) {
   const t = (fs.readFileSync(f, "utf8").match(/const TITLE = "([^"]+)"/) || [])[1];
   if (!t) continue;
   const [head] = clean(t).split(/:|\(/);
-  add(`/guides/${dir}`, `guides/${dir}`, { label: "Guide", title: head.trim().replace(/^(.*?)(in Hyderabad|Hyderabad)(.*)$/i, "$1*$2*$3"), sub: short(clean(t).slice(head.length).replace(/^[:\s(]+|\)$/g, ""), 70) || null, visual: vLandmark() });
+  const source = fs.readFileSync(f, "utf8");
+  const image = source.match(/const COVER = \{\s*src: "([^"]+)"/)?.[1];
+  add(`/guides/${dir}`, `guides/${dir}`, { label: "Guide", title: head.trim().replace(/^(.*?)(in Hyderabad|Hyderabad)(.*)$/i, "$1*$2*$3"), sub: short(clean(t).slice(head.length).replace(/^[:\s(]+|\)$/g, ""), 70) || null, image, visual: vLandmark() });
 }
 
 try {
@@ -145,27 +142,64 @@ try {
 } catch (e) { console.warn("[og] area cards skipped:", e.message); }
 
 try {
-  const { getAllRankingsThemes } = await import("../lib/themesServer.js");
+  const { getAllRankingsThemes, qualifiedAreaRankings } = await import("../lib/themesServer.js");
+  const { rankingAnswer, rankingStandings } = await import("../lib/rankings.js");
   const themes = await getAllRankingsThemes(100);
   const seen = new Set();
   for (const t of themes) {
     if (!t.slug || seen.has(t.slug)) continue; seen.add(t.slug);
-    const live = t.active && !t.winnerId;
+    const live = Boolean(t.active);
     const title = clean(t.title).replace(/^Best (.+?)( in Hyderabad)?$/i, (m, x, y) => `Best *${x.toLowerCase()}*${y || ""}`);
-    const rows = (t.results || []).filter((r) => r.name).map((r) => ({ name: r.name, count: r.count || 0 }));
-    const el = { label: live ? "Vote this week" : "Weekly ranking", title: title + (live ? "" : ": locals voted."), sub: live ? "Voting is open. Pick your spot." : t.winnerName ? `Winner: ${t.winnerName}` : "Hyderabad votes, weekly.", visual: rows.length ? vList(rows, "votes") : vLandmark(), cityBackdrop: true };
+    const rows = rankingStandings(t.results).filter((r) => r.name).map((r) => ({ name: r.name, count: r.count || 0 }));
+    const el = { label: live ? "Vote this week" : "Weekly ranking", title: title + (live ? "" : ": locals voted."), sub: live ? "Voting is open. Pick your spot." : rankingAnswer(t), visual: rows.length ? vList(rows, "votes") : vLandmark(), cityBackdrop: true };
     add(`/rankings/${t.slug}`, `rankings/${t.slug}`, el);
     if (live) add("/race/this-week", "race-this-week", el);
   }
+  for (const area of qualifiedAreaRankings(themes)) {
+    add(`/rankings/${area.slug}/in/${area.areaSlug}`, `rankings/${area.slug}-${area.areaSlug}`, {
+      label: "Local ranking", title: `${area.title.replace(/ in Hyderabad$/i, "")} in *${area.area}*`,
+      sub: "Local votes for this neighbourhood.", visual: vLandmark(),
+    });
+  }
 } catch (e) { console.warn("[og] ranking cards skipped:", e.message); }
+
+// Cover every canonical venue and the data-driven guide/category routes too.
+const { getEateries, spotPath, spotSlug, allCategoryPages, allAreaCategoryCombinations } = await import("../lib/siteData.js");
+const { GEO_GUIDES } = await import("../lib/geoGuides.js");
+const { SEO_THEME_PICKS, slugFromTitle } = await import("../lib/rankings.js");
+for (const guide of GEO_GUIDES) add(`/guides/${guide.slug}`, `guides/${guide.slug}`, { label: "Guide", title: guide.title, sub: guide.description, visual: vLandmark() });
+for (const pick of SEO_THEME_PICKS) {
+  const slug = slugFromTitle(pick.title);
+  if (!cards.has(`/rankings/${slug}`)) add(`/rankings/${slug}`, `rankings/${slug}`, { label: "Community ballot", title: pick.title, sub: "Explore the candidates and add your preference.", visual: vLandmark() });
+}
+for (const category of allCategoryPages()) add(`/explore/${category.slug}`, `categories/${category.slug}`, { label: "Explore", title: `${category.label} in *Hyderabad*`, sub: "Browse branches and plan your next stop on the map.", visual: vLandmark() });
+for (const area of allAreaCategoryCombinations()) add(`/areas/${area.areaSlug}/${area.categorySlug}`, `areas/${area.areaSlug}-${area.categorySlug}`, { label: "Area guide", title: `${area.categoryLabel} in *${area.area}*`, sub: `${area.spotCount} places on the map.`, visual: vLandmark() });
+for (const spot of getEateries()) {
+  const photoFile = typeof spot.image === "string" && spot.image.startsWith("/") ? path.resolve(ROOT, "public", spot.image.slice(1)) : null;
+  const localImage = photoFile?.startsWith(path.join(ROOT, "public") + path.sep) && /\.(jpe?g|png)$/i.test(photoFile) && fs.existsSync(photoFile);
+  add(spotPath(spot), `spots/${spotSlug(spot)}`, { label: "Venue", title: spot.name,
+    sub: spot.address || "Explore this Hyderabad branch on the map.",
+    image: localImage ? dataUrl(`public${spot.image}`, /\.png$/i.test(spot.image) ? "image/png" : "image/jpeg") : null,
+    visual: vLandmark() });
+}
 
 const OUT = path.join(ROOT, "public/og");
 const manifest = {};
 let n = 0;
-for (const [p, file, el] of cards) {
-  try { await render(el, path.join(OUT, `${file}.png`)); manifest[p] = `/og/${file}.png`; n++; }
-  catch (e) { console.warn("[og] failed", p, e.message); }
+for (const [p, file, options] of cards.values()) {
+  try {
+    let written;
+    try { written = await render(card(options), path.join(OUT, `${file}.png`)); }
+    catch (error) {
+      if (!options.image) throw error;
+      console.warn("[og] photo unavailable, using branded fallback", p);
+      written = await render(card({ ...options, image: null }), path.join(OUT, `${file}.png`));
+    }
+    manifest[p] = `/og/${path.relative(OUT, written).split(path.sep).join("/")}`;
+    n++;
+  } catch (e) { console.warn("[og] failed", p, e.message); }
 }
+if (n !== cards.size) throw new Error(`[og] ${cards.size - n} share cards failed to render`);
 fs.writeFileSync(path.join(OUT, "manifest.json"), JSON.stringify(manifest, null, 1) + "\n");
 console.log(`[og] ${n} cards → public/og (manifest.json)`);
 process.exit(0);

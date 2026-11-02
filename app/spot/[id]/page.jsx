@@ -9,7 +9,7 @@ import { TOP_AREAS, editorialRanking, getEateryBySlugOrId, getEateries, getEdito
 import { absoluteUrl, getSiteUrl, pageMeta } from "../../../lib/site.js";
 import { galleryPhotoUrl, spotPhotoUrl } from "../../../lib/photos.js";
 import { restaurantJsonLd, faqJsonLd, breadcrumbJsonLd, getSpotFaqs } from "../../../lib/schema.js";
-import { ogImages } from "../../../lib/og.js";
+import { ogImages, ogImageUrl } from "../../../lib/og.js";
 import { getInspectionsForSpot, ACTIONS, STATUSES, formatDate } from "../../../lib/inspectionsServer.js";
 import { verifiedOffers } from "../../../lib/offers.js";
 import MustOrder from "../../components/MustOrder.jsx";
@@ -265,9 +265,8 @@ export async function generateMetadata({ params }) {
     ? cleanDescription
     : `${cleanDescription.slice(0, 172).replace(/\s+\S*$/, "")}...`);
 
-  const photo = hasSpotPhoto(spot.id) ? spotPhotoUrl(spot.id) : null;
-  // Static hosting has no /api/og renderer: share the venue photo, else the site card.
-  const ogCardUrl = absoluteUrl(photo || "/og/home.png");
+  // Venue links use the same branded frame as guides, rankings and area pages.
+  const ogCardUrl = ogImageUrl(spotPath(spot));
   const base = pageMeta({ title, description, path: spotPath(spot), image: ogCardUrl });
   // Indexed only when the page has real content (lib/spotContent.js); basics-only
   // pages stay reachable for app links and shares but are kept out of Google.
@@ -276,9 +275,7 @@ export async function generateMetadata({ params }) {
     ...(indexable.has(spot.id) ? {} : { robots: { index: false, follow: true } }),
     openGraph: {
       ...base.openGraph,
-      images: photo
-        ? [{ url: ogCardUrl, width: 800, height: 600, alt: spot.name, type: "image/jpeg" }]
-        : [{ url: ogCardUrl, width: 1200, height: 630, alt: `${name} on Hyderabad Eats`, type: "image/png" }],
+      images: [{ url: ogCardUrl, width: 1200, height: 630, alt: `${name} on Hyderabad Eats`, type: "image/png" }],
     },
     twitter: {
       card: "summary_large_image",

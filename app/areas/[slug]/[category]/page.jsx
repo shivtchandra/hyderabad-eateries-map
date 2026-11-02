@@ -36,7 +36,7 @@ export function generateMetadata({ params }) {
     ...(!data.indexable ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       ...meta.openGraph,
-      images: ogImages(title, description, `/areas/${params.slug}`),
+      images: ogImages(title, description, `/areas/${params.slug}/${params.category}`),
     },
   };
 }

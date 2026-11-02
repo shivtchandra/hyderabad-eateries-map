@@ -2,8 +2,7 @@ import Link from "next/link";
 import EateriesApp from "../../page.jsx";
 import { getAllRankingsThemes } from "../../../lib/themesServer.js";
 import { dedupeThemesBySlug, itemListJsonLd, SEO_THEME_PICKS, slugFromTitle } from "../../../lib/rankings.js";
-import { editorialRanking, pathForSpotId, hasSpotPhoto } from "../../../lib/siteData.js";
-import { spotPhotoUrl } from "../../../lib/photos.js";
+import { editorialRanking, pathForSpotId } from "../../../lib/siteData.js";
 import { getSiteUrl } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
 
@@ -34,36 +33,7 @@ export async function generateMetadata() {
     ? `Vote for ${live.title.toLowerCase()} on Hyderabad Eats. Previous weeks stay open too.`
     : "Vote in this week's Hyderabad food challenge.";
 
-  let photoUrl = null;
-  let photoSpotName = null;
-  if (live) {
-    const liveSlug = live.slug || slugFromTitle(live.title);
-    const pick = pickFor(liveSlug, live.title);
-    const voteRows = (live.results || []).filter((r) => (r.count || 0) > 0);
-    const leader = live.winnerId
-      ? (live.results || []).find((r) => r.spotId === live.winnerId)
-      : voteRows[0] || null;
-    const editorial = editorialRanking(pick || { category: live.category }, liveSlug, 5);
-
-    const candidateIds = [
-      leader?.spotId,
-      ...voteRows.map((r) => r.spotId),
-      ...editorial.map((r) => r.spotId),
-      ...(live.results || []).map((r) => r.spotId),
-    ].filter(Boolean);
-
-    for (const cid of candidateIds) {
-      if (hasSpotPhoto(cid)) {
-        photoUrl = spotPhotoUrl(cid);
-        photoSpotName = leader?.name || null;
-        break;
-      }
-    }
-  }
-
-  const ogImagesList = photoUrl
-    ? [{ url: photoUrl, width: 800, height: 600, alt: `${photoSpotName || title} | Hyderabad Eats`, type: "image/jpeg" }]
-    : ogImages(title, description, "/race/this-week");
+  const ogImagesList = ogImages(title, description, "/race/this-week");
 
   return {
     title,
@@ -79,7 +49,7 @@ export async function generateMetadata() {
       card: "summary_large_image",
       title,
       description,
-      images: photoUrl ? [photoUrl] : ogImages(title, description, "/race/this-week").map((image) => image.url),
+      images: ogImagesList.map((image) => image.url),
     },
   };
 }
