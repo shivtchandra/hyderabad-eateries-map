@@ -2,11 +2,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
 import { getRankingBySlug, getTopDishSummaries, qualifiedAreaRankings } from "../../../lib/themesServer.js";
-import { itemListJsonLd, rankingAnswer, rankingMeta, SEO_THEME_PICKS, slugFromTitle, dishOfTitle } from "../../../lib/rankings.js";
+import { itemListJsonLd, rankingAnswer, rankingMeta, rankingStandings, SEO_THEME_PICKS, slugFromTitle, dishOfTitle } from "../../../lib/rankings.js";
 import { breadcrumbJsonLd } from "../../../lib/schema.js";
 import { getSiteUrl } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
 import { allCategoryPages, editorialRanking, pathForSpotId, hasSpotPhoto, getEateryById, redditMentions } from "../../../lib/siteData.js";
+import { rankingDiscovery, rankingVisitOptions, RANKING_GUIDE_TITLES } from "../../../lib/rankingDiscovery.js";
+import RankingDiscovery from "../../components/RankingDiscovery.jsx";
 import { spotPhotoUrl } from "../../../lib/photos.js";
 import ShareRankingButton from "../../components/ShareRankingButton.jsx";
 import BottomNav from "../../components/BottomNav.jsx";
@@ -21,7 +23,7 @@ const dayLabel = (iso) => new Date(`${iso}T12:00:00`).toLocaleDateString("en-IN"
 // The checkable numbers behind a ranking: vote totals and the TG SAFE
 // inspection records linked to the top voted places.
 async function rankingStats(votedRows, topN = 10) {
-  const sorted = [...votedRows].sort((a, b) => (b.count || 0) - (a.count || 0));
+  const sorted = rankingStandings(votedRows);
   const total = sorted.reduce((sum, r) => sum + (r.count || 0), 0);
   const top = sorted.slice(0, topN);
   const drives = await getInspectionDrives().catch(() => []);
@@ -151,6 +153,14 @@ export default async function RankingPage({ params }) {
       ? itemListJsonLd({ ...data, results: editorial }, getSiteUrl(), pathForSpotId, updated)
       : null;
   const qualifyingAreas = theme ? qualifiedAreaRankings([theme]).slice(0, 8) : [];
+  const discovery = rankingDiscovery(params.slug);
+  const visitOptions = rankingVisitOptions(voteRows, getEateryById, pathForSpotId);
+  const discoveryLinks = [
+    ...discovery.related.map((slug) => SEO_THEME_PICKS.find((p) => slugFromTitle(p.title) === slug))
+      .filter(Boolean).map((p) => ({ href: `/rankings/${slugFromTitle(p.title)}`, label: p.title })),
+    ...discovery.guides.map((slug) => ({ href: `/guides/${slug}`,
+      label: RANKING_GUIDE_TITLES[slug] })),
+  ];
 
   const related = [
     { href: "/rankings", label: "All rankings" },
@@ -159,10 +169,7 @@ export default async function RankingPage({ params }) {
       href: `/rankings/${params.slug}/in/${area.areaSlug}`,
       label: `${dishOfTitle(data.title) || data.title} in ${area.area}`,
     })),
-    ...SEO_THEME_PICKS.filter((p) => slugFromTitle(p.title) !== params.slug).slice(0, 4).map((p) => ({
-      href: `/rankings/${slugFromTitle(p.title)}`,
-      label: p.title,
-    })),
+    ...discoveryLinks,
     ...allCategoryPages().slice(0, 2).map((c) => ({ href: `/explore/${c.slug}`, label: c.label })),
   ];
 
@@ -170,6 +177,9 @@ export default async function RankingPage({ params }) {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: [
+      ...discovery.faqs.map(({ q, a }) => ({
+        "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a },
+      })),
       {
         "@type": "Question",
         name: `Who is #1 for ${data.title.replace(/^Best\s+/i, "").replace(/\s+in\s+Hyderabad$/i, "").toLowerCase()} in Hyderabad right now?`,
@@ -219,9 +229,9 @@ export default async function RankingPage({ params }) {
   const contestRange = data.startDate && data.endDate
     ? `${contestDate(data.startDate)}–${contestDate(data.endDate)}`
     : data.startDate ? `From ${contestDate(data.startDate)}` : "";
-  // Standings: only real votes count. #1 is the crowned spot, else the leader.
-  const voted = votedRows;
-  const leader = voted.find((r) => r.spotId === data.winnerId) || voted[0] || null;
+  // Use the same recency-weighted order as the live API, not a stale crown.
+  const voted = rankingStandings(votedRows);
+  const leader = voted[0] || null;
   const onBoard = new Set(voted.map((r) => r.spotId));
   const contenders = [
     ...voteRows.filter((r) => !onBoard.has(r.spotId)),
@@ -291,12 +301,13 @@ export default async function RankingPage({ params }) {
       hero={hero}
       related={related}
     >
+      <p className="rk-summary rk-answer">{answerLead}</p>
       {contestRange && (
         <p className="rk-contest-range"><b>Featured vote</b>{contestRange}</p>
       )}
       <LiveRankingStandings
         slug={params.slug}
-        initialResults={voteRows.map(({ spotId, name, count }) => ({ spotId, name, count }))}
+        initialResults={voteRows.map(({ spotId, name, count, fresh }) => ({ spotId, name, count, ...(Number.isFinite(fresh) ? { fresh } : {}) }))}
         initialCurrentResults={data.currentPeriodResults || []}
         initialPreviousResults={data.previousPeriodResults || []}
         initialCurrentWeekResults={data.currentWeekResults || []}
@@ -341,9 +352,10 @@ export default async function RankingPage({ params }) {
         </section>
       )}
 
+      <RankingDiscovery discovery={discovery} venues={visitOptions} links={discoveryLinks} />
+
       <section className="rk-section rk-faq" aria-label="About this ranking">
         <h2 className="rk-title" style={{ marginBottom: 10 }}>About this ranking</h2>
-        <p className="rk-summary">{answerLead}</p>
         <details>
           <summary>How do you rank places?</summary>
           <p>Your latest preference counts on the all-time board, where older votes gradually carry less weight. Separate Hyderabad week and calendar-month boards show what locals are choosing recently.</p>

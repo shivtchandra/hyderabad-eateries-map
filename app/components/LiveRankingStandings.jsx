@@ -5,6 +5,8 @@ import Link from "next/link";
 import {
   debateLineFromCounts,
   rankingInsights,
+  rankingStandings,
+  rankingTie,
   rankingPeriodLabel,
   rankingWeekLabel,
   previousRankingPeriod,
@@ -90,9 +92,9 @@ export default function LiveRankingStandings({
   const winnerId = period === "all-time" ? (theme ? theme.winnerId || null : initialWinnerId) : null;
   const isCrowned = Boolean(winnerId);
 
-  const board = voted(voteRows);
+  const board = rankingStandings(voteRows);
   const totalVotes = insights.totalVotes;
-  const leader = board.find((r) => r.spotId === winnerId) || board[0] || null;
+  const leader = board[0] || null;
   const rest = board.filter((r) => r !== leader);
   const onBoard = new Set(board.map((r) => r.spotId));
   const contenders = [];
@@ -104,9 +106,11 @@ export default function LiveRankingStandings({
   }
   contenders.splice(12);
   const runnerUp = rest[0] || null;
+  const tiedLead = rankingTie(leader, runnerUp);
   const leadLine = !leader ? "" : !runnerUp
     ? "The only spot with votes so far"
-    : leader.count > runnerUp.count ? `${leader.count - runnerUp.count} ahead of ${runnerUp.name}` : `Tied with ${runnerUp.name}`;
+    : tiedLead ? `Tied with ${runnerUp.name}`
+    : leader.count > runnerUp.count ? `${leader.count - runnerUp.count} ahead of ${runnerUp.name}` : "Leads on recent voting";
 
   const hrefOf = (id) => meta[id]?.href || `/spot/${encodeURIComponent(id)}`;
   const photoOf = (id) => meta[id]?.photo || null;
@@ -177,7 +181,7 @@ export default function LiveRankingStandings({
             <img className="ticket-photo" src={photoOf(leader.spotId)} alt="" width={72} height={72} />
           )}
           <span className="ticket-body">
-            <span className="ticket-kicker"><span className="ring">#1</span> · {isCrowned ? "Winner" : "Leading"}</span>
+            <span className="ticket-kicker"><span className="ring">#1</span> · {tiedLead ? "Tied lead" : isCrowned ? "Winner" : "Leading"}</span>
             <span className="ticket-name">{leader.name}</span>
             <span className="ticket-line">{leader.count} of {totalVotes} votes · {leadLine}</span>
             {topDishOf(leader.spotId) && (

@@ -1047,6 +1047,13 @@ export default function EateriesApp({
             initialDishSlug={dishSlug ?? initialDishSlug}
             refreshTick={diaryTick}
             stampCount={visitedCount}
+            onOpenSpot={(id) => {
+              const place = byId[id];
+              if (!place) return false;
+              goTab("map");
+              openFromList(place);
+              return true;
+            }}
             onOpenClaim={() => setQuickClaimOpen(true)}
           />
         )}

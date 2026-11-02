@@ -9,7 +9,7 @@ import { breadcrumbJsonLd } from "../../lib/schema.js";
 import { stickerForTitle } from "../../lib/stickerArt.js";
 import HubAnswer, { HubFaq } from "../components/HubAnswer.jsx";
 import { hubJsonLd, todayIso } from "../../lib/hubSeo.js";
-import { GEO_GUIDES } from "../../lib/geoGuides.js";
+import { GUIDES } from "../../lib/guidesData.js";
 
 export const dynamic = "force-dynamic";
 
@@ -67,7 +67,7 @@ export default async function RankingsHubPage() {
   const updated = todayIso();
   const faqs = [
     ...leaders.slice(0, 3).map(({ theme, leader, total }) => ({ q: `Who is #1 for ${short(theme.title).replace(/^best\s+/i, "")} right now?`, a: `${leader.name}, with ${leader.count} of ${total} local votes on Hyderabad Eats. Votes stay open, so the lead can change.` })),
-    { q: "How are Hyderabad Eats rankings decided?", a: "By weekly community votes from Hyderabad locals. One vote per person per ranking; the spot with the most votes holds #1." },
+    { q: "How are Hyderabad Eats rankings decided?", a: "By community preferences from Hyderabad locals. Compare freshness-weighted all-time, weekly and calendar-month boards. Equal leading counts mean a tied lead; third-party ratings do not add votes." },
     { q: "Can I add a restaurant that isn't on the list?", a: "Yes. Open the ranking and use 'Can't see your pick? Add it'. New places show up once checked." },
   ];
   const ld = hubJsonLd({ name: title, description: `${leaderAnswer} ${description}`, path: "/rankings", updated, faqs, items: themes.map((t) => ({ name: t.title, url: `/rankings/${t.slug}` })) });
@@ -173,10 +173,10 @@ export default async function RankingsHubPage() {
       <section className="guides-section" aria-labelledby="ranking-local-answers">
         <h2 id="ranking-local-answers" className="site-section-title">More local food answers</h2>
         <div className="site-grid">
-          {GEO_GUIDES.slice(0, 5).map((guide) => (
-            <Link key={guide.slug} href={`/guides/${guide.slug}`} className="site-card">
-              <h3>{guide.title}</h3>
-              <p>{guide.answer}</p>
+          {GUIDES.filter((guide) => ["biryani", "coffee", "beer", "breakfast", "ice-cream"].includes(guide.key)).map((guide) => (
+            <Link key={guide.href} href={guide.href} className="site-card">
+              <h3>{guide.label}</h3>
+              <p>{guide.note}</p>
             </Link>
           ))}
         </div>

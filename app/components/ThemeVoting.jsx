@@ -7,6 +7,16 @@ import { Icon } from "./Icons.jsx";
 import { slugFromTitle, themeDescription, debateLineFromCounts } from "../../lib/rankings.js";
 import { isPastEndDate } from "../../lib/themeCrown.js";
 import { stickerForTitle } from "../../lib/stickerArt.js";
+import { googleMapsPlaceUrl } from "../../lib/placeMapLinks.js";
+
+function PlaceMapLink({ spotId, name, onOpenSpot, children, className = "", style }) {
+  return <a href={googleMapsPlaceUrl(spotId, name)} target="_blank" rel="noopener noreferrer"
+    className={`vote-place-link ${className}`} style={style} aria-label={`View ${name} on map`}
+    onClick={(event) => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (onOpenSpot?.(spotId)) event.preventDefault();
+    }}>{children || name}</a>;
+}
 
 import ThemeSuggest from "./ThemeSuggest.jsx";
 import AddPlace, { isUserSpot } from "./AddPlace.jsx";
@@ -157,7 +167,7 @@ function mergeStandings(results = [], suggestions = [], limit = 10) {
 }
 
 
-export default function ThemeVoting({ initialDishSlug = null }) {
+export default function ThemeVoting({ initialDishSlug = null, onOpenSpot }) {
   const [current, setCurrent] = useState({ theme: null, results: [] });
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -301,6 +311,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
           results={displayResults}
           votedSpotId={votedSpotId}
           onVote={handleVote}
+          onOpenSpot={onOpenSpot}
           localCounts={localCounts}
           rankingsCount={history.length + 1}
           onSeeAll={() => prevWeeksRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
@@ -339,6 +350,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
               onToggle={() => setOpenPast(openPast === th.id ? null : th.id)}
               votedSpotId={getThemeVoteSpot(th.id)}
               onVote={(spotId, name) => handleVote(spotId, name, th)}
+              onOpenSpot={onOpenSpot}
             />
           ))}
         </div>
@@ -356,7 +368,7 @@ export default function ThemeVoting({ initialDishSlug = null }) {
   );
 }
 
-function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, rankingsCount = 0, onSeeAll, justVoted = false }) {
+function CurrentTheme({ theme, results, votedSpotId, onVote, onOpenSpot, localCounts, rankingsCount = 0, onSeeAll, justVoted = false }) {
   const [showAllRows, setShowAllRows] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const [searchQ, setSearchQ] = useState("");
@@ -452,7 +464,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, rankin
           <Icon name="trophy" size={22} width={1.8} color="var(--ink)" />
           <div>
             <div style={{ fontSize: 10, fontWeight: 700, color: "var(--ink-soft)", letterSpacing: "0.07em", textTransform: "uppercase" }}>Crowned</div>
-            <div style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 15, color: "var(--ink)" }}>{results[0]?.name || theme.winnerName || "-"}</div>
+            <PlaceMapLink spotId={results[0]?.spotId || theme.winnerId} name={results[0]?.name || theme.winnerName || "Winner"} onOpenSpot={onOpenSpot} style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 15, color: "var(--ink)" }} />
             <div style={{ fontSize: 12, color: "var(--ink-soft)", marginTop: 2 }}>Votes stay open. The crown follows the live #1.</div>
           </div>
         </div>
@@ -546,7 +558,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, rankin
                   {isCrown ? <Icon name="crown" size={16} width={2} color="var(--ink)" /> : hasVotes ? `#${i + 1}` : "?"}
                 </span>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div className="vote-name">{r.name}{isUserSpot(r.spotId) && <span className="new-place-chip">New</span>}</div>
+                  <PlaceMapLink spotId={r.spotId} name={r.name} onOpenSpot={onOpenSpot} className="vote-name">{r.name}{isUserSpot(r.spotId) && <span className="new-place-chip">New</span>}</PlaceMapLink>
                   <div className="vote-count">
                     {(() => {
                       const loc = dupNames.has(r.name) ? r.area : "";
@@ -587,7 +599,7 @@ function CurrentTheme({ theme, results, votedSpotId, onVote, localCounts, rankin
 }
 
 
-function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
+function PastTheme({ theme, open, onToggle, votedSpotId, onVote, onOpenSpot }) {
   const [searchQ, setSearchQ] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const debounceRef = useRef(null);
@@ -738,7 +750,7 @@ function PastTheme({ theme, open, onToggle, votedSpotId, onVote }) {
                     <span style={{ width: 22, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, color: isCrown ? "var(--ink)" : "var(--muted)", fontSize: 12 }}>
                       {isCrown ? <Icon name="crown" size={13} width={2} color="var(--ink)" /> : `#${i + 1}`}
                     </span>
-                    <span style={{ flex: 1, fontWeight: 600, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}{isUserSpot(r.spotId) && <span className="new-place-chip">New</span>}</span>
+                    <PlaceMapLink spotId={r.spotId} name={r.name} onOpenSpot={onOpenSpot} style={{ flex: 1, fontWeight: 600, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}{isUserSpot(r.spotId) && <span className="new-place-chip">New</span>}</PlaceMapLink>
                     <span style={{ color: "var(--muted)", fontWeight: 500, fontSize: 12 }}>{r.count} vote{r.count === 1 ? "" : "s"}</span>
                     {r.spotId === votedSpotId ? (
                       <span style={{ fontSize: 11, fontWeight: 700, color: "var(--violet-deep)" }}>Voted</span>
