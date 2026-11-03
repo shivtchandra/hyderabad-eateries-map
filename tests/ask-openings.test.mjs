@@ -22,6 +22,7 @@ test('new cafe suggestions use sourced cafe reports, not popular old venues or b
   assert.deepEqual(result.openingReports.map(r=>r.name),['Du Jour']);
   assert(result.list.every(c=>c.opening && c.e.id===c.opening.spotId));
   assert(selectRecentOpenings({area:'Kukatpally',now}).length===0);
+  assert.deepEqual(ask(turn('new places in Hitech City')).openingReports.map(r=>r.name),['The All American Diner','HOSA']);
 });
 
 test('no November opening dates produces no fabricated fresh recommendations', () => {
