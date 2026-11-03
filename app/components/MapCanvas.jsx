@@ -344,7 +344,7 @@ export default function MapCanvas({
     // Recommended is already a deliberately small, high-signal set. Keep every
     // matching venue visible as a photo pin or dot at city zoom instead of
     // replacing it with area blobs (whose collision pass can hide whole areas).
-    const showAreaBlobs = zoom <= AREA_ZOOM_MAX && !isSmallSet && !recommendationMode;
+    const showAreaBlobs = zoom <= AREA_ZOOM_MAX && !isSmallSet && !recommendationMode && !hideSpots;
 
     // ---------- Neighbourhood view ----------
     if (showAreaBlobs) {
