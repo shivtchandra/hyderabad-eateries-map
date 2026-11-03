@@ -1,4 +1,4 @@
-import { getOpenAI, prepareAsk } from "../../../lib/askAiServer.js";
+import { getOpenAI, prepareAsk, openingReply } from "../../../lib/askAiServer.js";
 import { IN_HYD } from "../../../lib/eateryUtils.js";
 
 export const dynamic = "force-dynamic";
@@ -32,10 +32,10 @@ const enc = new TextEncoder();
 const sse = (obj) => enc.encode(`data: ${JSON.stringify(obj)}\n\n`);
 const SSE_HEADERS = { "Content-Type": "text/event-stream; charset=utf-8", "Cache-Control": "no-cache, no-transform", Connection: "keep-alive" };
 
-function cannedStream(text) {
+function cannedStream(text, { spots = [], intent = null } = {}) {
   return new Response(new ReadableStream({
     start(c) {
-      c.enqueue(sse({ type: "meta", spots: [] }));
+      c.enqueue(sse({ type: "meta", spots, intent }));
       c.enqueue(sse({ type: "delta", text }));
       c.enqueue(sse({ type: "done" }));
       c.close();
@@ -67,7 +67,7 @@ export async function POST(req) {
     const lat = Number(body.userLoc?.lat), lng = Number(body.userLoc?.lng);
     const userLoc = Number.isFinite(lat) && Number.isFinite(lng) && IN_HYD(lat, lng) ? { lat, lng } : null;
 
-    const { slots, system, spots } = await prepareAsk({
+    const { slots, system, spots, result } = await prepareAsk({
       message,
       history,
       userLoc,
@@ -76,6 +76,8 @@ export async function POST(req) {
       visitedSpots: ids(body.visitedSpots),
       exclude: ids(body.exclude).slice(0, 40),
     });
+
+    if (slots.intent === "new") return cannedStream(openingReply(slots, result), { spots, intent: slots.intent });
 
     const messages = [
       { role: "system", content: system },

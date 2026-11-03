@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseQuery, mergeSlots, findCandidates, buildSystemPrompt, EMPTY_LIVE } from '../lib/askAiServer.js';
+import { parseQuery, mergeSlots, findCandidates, buildSystemPrompt, openingReply, EMPTY_LIVE } from '../lib/askAiServer.js';
 import { selectRecentOpenings } from '../lib/recentOpenings.js';
 
 const now = new Date('2026-11-03T12:00:00+05:30');
@@ -22,7 +22,13 @@ test('new cafe suggestions use sourced cafe reports, not popular old venues or b
   assert.deepEqual(result.openingReports.map(r=>r.name),['Du Jour']);
   assert(result.list.every(c=>c.opening && c.e.id===c.opening.spotId));
   assert(selectRecentOpenings({area:'Kukatpally',now}).length===0);
-  assert.deepEqual(ask(turn('new places in Hitech City')).openingReports.map(r=>r.name),['The All American Diner','HOSA']);
+  const hitec=turn('new places in Hitech City');
+  assert.deepEqual(ask(hitec).openingReports.map(r=>r.name),['The All American Diner','HOSA']);
+  const reply=openingReply(hitec,ask(hitec));
+  assert.match(reply,/Opened August 2026/);
+  assert.match(reply,/Opened 23 September 2026/);
+  assert.match(reply,/Indian Retailer/);
+  assert.doesNotMatch(reply,/just opened|fresh additions|—/i);
 });
 
 test('no November opening dates produces no fabricated fresh recommendations', () => {
