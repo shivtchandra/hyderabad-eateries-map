@@ -34,6 +34,8 @@ test('no November opening dates produces no fabricated fresh recommendations', (
 
 test('reports retain actual earlier opening dates and disappear when stale', () => {
   const reports=selectRecentOpenings({now});
+  assert.equal(reports[0].name,'Oktober');
+  assert(!reports.slice(0,3).some(r=>r.name==='HOSA'));
   assert.equal(reports.find(r=>r.name==='HOSA').opened,'August 2026');
   assert.equal(reports.find(r=>r.name==='The All American Diner').openedOn,'2026-09-23');
   assert.equal(selectRecentOpenings({now:new Date('2027-04-01')}).length,0);
