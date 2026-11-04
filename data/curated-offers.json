@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-04T08:43:32.483Z",
-  "totalSpotsWithOffers": 312,
+  "updatedAt": "2026-11-04T17:36:40.926Z",
+  "totalSpotsWithOffers": 313,
   "spots": {
     "ChIJKyxGIoiXyzsRPY8PASGdTW0": {
       "name": "Hotel Shadab",
@@ -1034,10 +1034,10 @@
           "method": "coordinates-name",
           "distanceM": 9,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:41:54.960Z"
+          "matchedAt": "2026-11-04T17:27:49.454Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:41:54.960Z",
+        "fetchedAt": "2026-11-04T17:27:49.454Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -1371,10 +1371,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:41:40.892Z"
+          "matchedAt": "2026-11-04T17:27:23.258Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:41:40.892Z",
+        "fetchedAt": "2026-11-04T17:27:23.258Z",
         "deal": {
           "title": "Flat 30% off on Total Bill",
           "on": "on pre-booking",
@@ -1599,7 +1599,138 @@
         "bankOffers": [],
         "offers": []
       },
-      "swiggy": null
+      "swiggy": {
+        "id": "1478237",
+        "name": "Zero40 Brewing",
+        "locality": "Jubilee Hills,",
+        "lat": 17.4316519,
+        "lng": 78.40023320000002,
+        "url": "https://www.swiggy.com/restaurants/zero40-brewing-jubilee-hills-hyderabad-1478237/dineout",
+        "venue": {
+          "id": "1478237",
+          "name": "Zero40 Brewing",
+          "locality": "Jubilee Hills,",
+          "lat": 17.4316519,
+          "lng": 78.40023320000002,
+          "url": "https://www.swiggy.com/restaurants/zero40-brewing-jubilee-hills-hyderabad-1478237/dineout"
+        },
+        "match": {
+          "status": "verified",
+          "method": "coordinates-name",
+          "distanceM": 7,
+          "nameScore": 1,
+          "matchedAt": "2026-11-04T17:27:17.332Z"
+        },
+        "hasOffers": true,
+        "fetchedAt": "2026-11-04T17:27:17.332Z",
+        "deal": null,
+        "schedule": [],
+        "cardOffers": [
+          {
+            "title": "Cashback ₹125",
+            "via": "PAYTMNEW",
+            "code": "PAYTMNEW",
+            "minBill": 99,
+            "pct": null,
+            "flat": 125
+          },
+          {
+            "title": "Cashback ₹50",
+            "via": "PAYTMUPI",
+            "code": "PAYTMUPI",
+            "minBill": 100,
+            "pct": null,
+            "flat": 50
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCINFINIA",
+            "code": "HDFCINFINIA",
+            "minBill": 3500,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCCCEMI",
+            "code": "HDFCCCEMI",
+            "minBill": 3500,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCDINERS",
+            "code": "HDFCDINERS",
+            "minBill": 3000,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat ₹200 off",
+            "via": "HDFCCARDS",
+            "code": "HDFCCARDS",
+            "minBill": 2000,
+            "pct": null,
+            "flat": 200
+          },
+          {
+            "title": "Cashback ₹100",
+            "via": "MBKDINE",
+            "code": "MBKDINE",
+            "minBill": 499,
+            "pct": null,
+            "flat": 100
+          },
+          {
+            "title": "Cashback ₹50",
+            "via": "MBKWALLET",
+            "code": "MBKWALLET",
+            "minBill": 1500,
+            "pct": null,
+            "flat": 50
+          },
+          {
+            "title": "Cashback 5%",
+            "via": "Swiggy Ornge HDFC Bank Credit Card",
+            "code": null,
+            "minBill": 249,
+            "pct": 5,
+            "flat": null
+          },
+          {
+            "title": "Cashback 10%",
+            "via": "Swiggy HDFC Bank Credit Card",
+            "code": null,
+            "minBill": 249,
+            "pct": 10,
+            "flat": null
+          }
+        ],
+        "cashback": "10% cashback On every bill payment",
+        "offers": [
+          {
+            "type": "BANK",
+            "title": "Cashback ₹125",
+            "desc": "Code PAYTMNEW, bills of ₹99+"
+          },
+          {
+            "type": "BANK",
+            "title": "Cashback ₹50",
+            "desc": "Code PAYTMUPI, bills of ₹100+"
+          },
+          {
+            "type": "BANK",
+            "title": "Flat 10% off",
+            "desc": "Code HDFCINFINIA, bills of ₹3,500+"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10%",
+            "desc": "10% cashback On every bill payment"
+          }
+        ]
+      }
     },
     "ChIJjUUC8RCayzsRifrUICy4rNc": {
       "name": "Vivaha Bhojanambu",
@@ -1820,10 +1951,10 @@
           "method": "coordinates-name",
           "distanceM": 41,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:42:48.482Z"
+          "matchedAt": "2026-11-04T17:28:39.549Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:42:48.482Z",
+        "fetchedAt": "2026-11-04T17:28:39.549Z",
         "deal": {
           "title": "Flat 20% off Total Bill",
           "on": "on pre-booking",
@@ -2029,10 +2160,10 @@
           "method": "coordinates-name",
           "distanceM": 12,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T07:03:59.330Z"
+          "matchedAt": "2026-11-04T17:29:00.621Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T07:03:59.330Z",
+        "fetchedAt": "2026-11-04T17:29:00.621Z",
         "deal": {
           "title": "Flat 35% off on Total Bill",
           "on": "on pre-booking",
@@ -2315,10 +2446,10 @@
           "method": "coordinates-name",
           "distanceM": 1,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:42:47.946Z"
+          "matchedAt": "2026-11-04T17:34:19.726Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:42:47.946Z",
+        "fetchedAt": "2026-11-04T17:34:19.726Z",
         "deal": {
           "title": "Flat 10% off on Total Bill",
           "on": "on pre-booking",
@@ -2593,10 +2724,10 @@
           "method": "coordinates-name",
           "distanceM": 4,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:45:11.686Z"
+          "matchedAt": "2026-11-04T17:30:37.458Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:45:11.686Z",
+        "fetchedAt": "2026-11-04T17:30:37.458Z",
         "deal": {
           "title": "Flat 30% off on Total Bill",
           "on": "on pre-booking",
@@ -3318,10 +3449,10 @@
           "method": "coordinates-name",
           "distanceM": 3,
           "nameScore": 0.667,
-          "matchedAt": "2026-11-04T06:43:19.645Z"
+          "matchedAt": "2026-11-04T17:29:13.824Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:43:19.645Z",
+        "fetchedAt": "2026-11-04T17:29:13.824Z",
         "deal": {
           "title": "Flat 30% off on Buffet",
           "on": "on pre-booking",
@@ -3787,10 +3918,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:41:38.649Z"
+          "matchedAt": "2026-11-04T17:27:29.255Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:41:38.649Z",
+        "fetchedAt": "2026-11-04T17:27:29.255Z",
         "deal": {
           "title": "Flat 25% off on Total Bill",
           "on": "on pre-booking",
@@ -4418,10 +4549,10 @@
           "method": "coordinates-name",
           "distanceM": 67,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:43:14.723Z"
+          "matchedAt": "2026-11-04T17:29:21.071Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:43:14.723Z",
+        "fetchedAt": "2026-11-04T17:29:21.071Z",
         "deal": {
           "title": "Flat 10% off on Total Bill",
           "on": "on pre-booking",
@@ -4673,10 +4804,10 @@
           "method": "coordinates-name",
           "distanceM": 6,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:41:26.203Z"
+          "matchedAt": "2026-11-04T17:32:58.228Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:41:26.203Z",
+        "fetchedAt": "2026-11-04T17:32:58.228Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -4909,33 +5040,71 @@
           "method": "coordinates-name",
           "distanceM": 11,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:44:28.760Z"
+          "matchedAt": "2026-11-04T17:35:56.544Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:44:28.760Z",
+        "fetchedAt": "2026-11-04T17:35:56.544Z",
         "deal": {
-          "title": "Flat 30% off on Total Bill",
+          "title": "Flat 25% off on Weekdays",
           "on": "on pre-booking",
-          "pct": 30,
+          "pct": 25,
           "flat": null,
           "applicableNow": null,
           "allDay": true,
-          "note": "Available on Mon-Sun with booking fee: ₹25",
+          "note": "Available on Mon-Thu with booking fee: ₹25",
           "bookingMode": "prebook",
           "days": [
-            0,
             1,
             2,
             3,
-            4,
-            5,
-            6
+            4
           ],
           "fee": 25
         },
         "schedule": [
           {
-            "title": "Flat 30% off on Total Bill",
+            "title": "Flat 25% off on Weekdays",
+            "mode": "prebook",
+            "days": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "fee": 25,
+            "pct": 25,
+            "flat": null,
+            "note": "Available on Mon-Thu with booking fee: ₹25"
+          },
+          {
+            "title": "Flat 20% off on Weekends",
+            "mode": "prebook",
+            "days": [
+              0,
+              5,
+              6
+            ],
+            "fee": 25,
+            "pct": 20,
+            "flat": null,
+            "note": "Available on Fri-Sun with booking fee: ₹25"
+          },
+          {
+            "title": "Flat 15% off on Total Bill",
+            "mode": "prebook",
+            "days": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "fee": 25,
+            "pct": 15,
+            "flat": null,
+            "note": "Available on Mon-Thu with booking fee: ₹25"
+          },
+          {
+            "title": "Flat 10% off on Total Bill",
             "mode": "prebook",
             "days": [
               0,
@@ -4947,7 +5116,7 @@
               6
             ],
             "fee": 25,
-            "pct": 30,
+            "pct": 10,
             "flat": null,
             "note": "Available on Mon-Sun with booking fee: ₹25"
           }
@@ -5038,7 +5207,7 @@
         "offers": [
           {
             "type": "FLAT",
-            "title": "Flat 30% off on Total Bill",
+            "title": "Flat 25% off on Weekdays",
             "desc": "on pre-booking"
           },
           {
@@ -5329,10 +5498,10 @@
           "method": "coordinates-name",
           "distanceM": 11,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:44:01.438Z"
+          "matchedAt": "2026-11-04T17:35:33.125Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:44:01.438Z",
+        "fetchedAt": "2026-11-04T17:35:33.125Z",
         "deal": {
           "title": "Flat 10% Off on Total Bill",
           "on": "on pre-booking",
@@ -6599,10 +6768,10 @@
           "method": "coordinates-name",
           "distanceM": 7,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:44:37.405Z"
+          "matchedAt": "2026-11-04T17:30:19.346Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:44:37.405Z",
+        "fetchedAt": "2026-11-04T17:30:19.346Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -8041,10 +8210,10 @@
           "method": "coordinates-name",
           "distanceM": 12,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:44:18.353Z"
+          "matchedAt": "2026-11-04T17:29:54.314Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:44:18.353Z",
+        "fetchedAt": "2026-11-04T17:29:54.314Z",
         "deal": {
           "title": "Flat 20% off on Total Bill",
           "on": "on pre-booking",
@@ -8424,10 +8593,10 @@
           "method": "coordinates-name",
           "distanceM": 19,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:42:27.952Z"
+          "matchedAt": "2026-11-04T17:28:15.447Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:42:27.952Z",
+        "fetchedAt": "2026-11-04T17:28:15.447Z",
         "deal": {
           "title": "Flat 30% Off on Total Bill",
           "on": "on pre-booking",
@@ -11631,10 +11800,10 @@
           "method": "coordinates-name",
           "distanceM": 17,
           "nameScore": 0.667,
-          "matchedAt": "2026-11-03T23:42:21.972Z"
+          "matchedAt": "2026-11-04T17:33:51.203Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:42:21.972Z",
+        "fetchedAt": "2026-11-04T17:33:51.203Z",
         "deal": {
           "title": "Flat 30% off on Total Bill",
           "on": "on pre-booking",
@@ -11913,7 +12082,225 @@
           }
         ]
       },
-      "swiggy": null
+      "swiggy": {
+        "id": "877660",
+        "name": "Mindspace SOCIAL",
+        "locality": "Hitech City",
+        "lat": 17.44005006965887,
+        "lng": 78.37917323953411,
+        "url": "https://www.swiggy.com/restaurants/mindspace-social-hitech-city-hyderabad-877660/dineout",
+        "venue": {
+          "id": "877660",
+          "name": "Mindspace SOCIAL",
+          "locality": "Hitech City",
+          "lat": 17.44005006965887,
+          "lng": 78.37917323953411,
+          "url": "https://www.swiggy.com/restaurants/mindspace-social-hitech-city-hyderabad-877660/dineout"
+        },
+        "match": {
+          "status": "verified",
+          "method": "coordinates-name",
+          "distanceM": 3,
+          "nameScore": 1,
+          "matchedAt": "2026-11-04T17:28:33.197Z"
+        },
+        "hasOffers": true,
+        "fetchedAt": "2026-11-04T17:28:33.197Z",
+        "deal": {
+          "title": "Flat 20% off on Total Bill",
+          "on": "on pre-booking",
+          "pct": 20,
+          "flat": null,
+          "applicableNow": null,
+          "allDay": true,
+          "note": "Available on Mon-Sun with booking fee: ₹25",
+          "bookingMode": "prebook",
+          "days": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fee": 25
+        },
+        "schedule": [
+          {
+            "title": "Flat 20% off on Total Bill",
+            "mode": "prebook",
+            "days": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "fee": 25,
+            "pct": 20,
+            "flat": null,
+            "note": "Available on Mon-Sun with booking fee: ₹25"
+          },
+          {
+            "title": "Flat 15% off on Weekdays",
+            "mode": "prebook",
+            "days": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "fee": 25,
+            "pct": 15,
+            "flat": null,
+            "note": "Available on Mon-Thu with booking fee: ₹25"
+          },
+          {
+            "title": "Flat 15% Off on Total Bill",
+            "mode": "prebook",
+            "days": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "fee": 25,
+            "pct": 15,
+            "flat": null,
+            "note": "Available on Mon-Thu with booking fee: ₹25"
+          },
+          {
+            "title": "Flat 10% off on Total Bill",
+            "mode": "prebook",
+            "days": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "fee": 25,
+            "pct": 10,
+            "flat": null,
+            "note": "Available on Mon-Sun with booking fee: ₹25"
+          }
+        ],
+        "cardOffers": [
+          {
+            "title": "Cashback ₹125",
+            "via": "PAYTMNEW",
+            "code": "PAYTMNEW",
+            "minBill": 99,
+            "pct": null,
+            "flat": 125
+          },
+          {
+            "title": "Cashback ₹50",
+            "via": "PAYTMUPI",
+            "code": "PAYTMUPI",
+            "minBill": 100,
+            "pct": null,
+            "flat": 50
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCINFINIA",
+            "code": "HDFCINFINIA",
+            "minBill": 3500,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCCCEMI",
+            "code": "HDFCCCEMI",
+            "minBill": 3500,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCDINERS",
+            "code": "HDFCDINERS",
+            "minBill": 3000,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat ₹200 off",
+            "via": "HDFCCARDS",
+            "code": "HDFCCARDS",
+            "minBill": 2000,
+            "pct": null,
+            "flat": 200
+          },
+          {
+            "title": "Cashback ₹100",
+            "via": "MBKDINE",
+            "code": "MBKDINE",
+            "minBill": 499,
+            "pct": null,
+            "flat": 100
+          },
+          {
+            "title": "Cashback ₹50",
+            "via": "MBKWALLET",
+            "code": "MBKWALLET",
+            "minBill": 1500,
+            "pct": null,
+            "flat": 50
+          },
+          {
+            "title": "Cashback 5%",
+            "via": "Swiggy Ornge HDFC Bank Credit Card",
+            "code": null,
+            "minBill": 249,
+            "pct": 5,
+            "flat": null
+          },
+          {
+            "title": "Cashback 10%",
+            "via": "Swiggy HDFC Bank Credit Card",
+            "code": null,
+            "minBill": 249,
+            "pct": 10,
+            "flat": null
+          }
+        ],
+        "cashback": "10% cashback On every bill payment",
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 20% off on Total Bill",
+            "desc": "on pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "Cashback ₹125",
+            "desc": "Code PAYTMNEW, bills of ₹99+"
+          },
+          {
+            "type": "BANK",
+            "title": "Cashback ₹50",
+            "desc": "Code PAYTMUPI, bills of ₹100+"
+          },
+          {
+            "type": "BANK",
+            "title": "Flat 10% off",
+            "desc": "Code HDFCINFINIA, bills of ₹3,500+"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10%",
+            "desc": "10% cashback On every bill payment"
+          }
+        ]
+      }
     },
     "ChIJSWMYgDaRyzsRYFK7KzN9T-w": {
       "name": "Van Lavino Cafe & Patisserie - Jubilee Hills",
@@ -12456,10 +12843,10 @@
           "method": "coordinates-name",
           "distanceM": 10,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:42:21.274Z"
+          "matchedAt": "2026-11-04T17:28:09.871Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:42:21.274Z",
+        "fetchedAt": "2026-11-04T17:28:09.871Z",
         "deal": {
           "title": "Flat 15% off on total bill",
           "on": "on pre-booking",
@@ -13159,10 +13546,10 @@
           "method": "coordinates-name",
           "distanceM": 4,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:45:39.363Z"
+          "matchedAt": "2026-11-04T17:31:01.831Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:45:39.363Z",
+        "fetchedAt": "2026-11-04T17:31:01.831Z",
         "deal": {
           "title": "Flat 25% off on Total Bill",
           "on": "on pre-booking",
@@ -13460,10 +13847,10 @@
           "method": "coordinates-name",
           "distanceM": 28,
           "nameScore": 0.5,
-          "matchedAt": "2026-11-04T06:41:33.331Z"
+          "matchedAt": "2026-11-04T17:28:18.282Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:41:33.331Z",
+        "fetchedAt": "2026-11-04T17:28:18.282Z",
         "deal": {
           "title": "Flat 50% off on Total Bill",
           "on": "on pre-booking",
@@ -13729,10 +14116,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:41:42.744Z"
+          "matchedAt": "2026-11-04T17:33:09.014Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:41:42.744Z",
+        "fetchedAt": "2026-11-04T17:33:09.014Z",
         "deal": {
           "title": "Flat 10% Off on Total Bill",
           "on": "on pre-booking",
@@ -13987,10 +14374,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:45:24.776Z"
+          "matchedAt": "2026-11-04T17:30:41.632Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:45:24.776Z",
+        "fetchedAt": "2026-11-04T17:30:41.632Z",
         "deal": {
           "title": "Flat 55% Off on Total Bill",
           "on": "on pre-booking",
@@ -14303,10 +14690,10 @@
           "method": "coordinates-name",
           "distanceM": 6,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:44:38.861Z"
+          "matchedAt": "2026-11-04T17:30:10.925Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:44:38.861Z",
+        "fetchedAt": "2026-11-04T17:30:10.925Z",
         "deal": {
           "title": "Flat 25% off on Total Bill",
           "on": "on pre-booking",
@@ -15313,10 +15700,10 @@
           "method": "coordinates-name",
           "distanceM": 17,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:42:41.463Z"
+          "matchedAt": "2026-11-04T17:28:44.236Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:42:41.463Z",
+        "fetchedAt": "2026-11-04T17:28:44.236Z",
         "deal": {
           "title": "Flat 30% off on Weekdays",
           "on": "on pre-booking",
@@ -16062,10 +16449,10 @@
           "method": "coordinates-name",
           "distanceM": 2,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:42:31.052Z"
+          "matchedAt": "2026-11-04T17:28:29.092Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:42:31.052Z",
+        "fetchedAt": "2026-11-04T17:28:29.092Z",
         "deal": {
           "title": "Flat 10% off on Total Bill",
           "on": "on pre-booking",
@@ -17750,10 +18137,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 0.75,
-          "matchedAt": "2026-11-03T07:03:55.695Z"
+          "matchedAt": "2026-11-04T17:28:57.854Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T07:03:55.695Z",
+        "fetchedAt": "2026-11-04T17:28:57.854Z",
         "deal": {
           "title": "Flat 25% off on Total Bill",
           "on": "on pre-booking",
@@ -18113,10 +18500,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:44:05.456Z"
+          "matchedAt": "2026-11-04T17:35:27.413Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:44:05.456Z",
+        "fetchedAt": "2026-11-04T17:35:27.413Z",
         "deal": {
           "title": "Flat 25% off on Total Bill",
           "on": "on pre-booking",
@@ -19225,10 +19612,10 @@
           "method": "coordinates-name",
           "distanceM": 27,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:44:22.922Z"
+          "matchedAt": "2026-11-04T17:29:56.881Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:44:22.922Z",
+        "fetchedAt": "2026-11-04T17:29:56.881Z",
         "deal": {
           "title": "Flat 50% off + Free Mocktail",
           "on": "on pre-booking",
@@ -19495,10 +19882,10 @@
           "method": "coordinates-name",
           "distanceM": 1,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:41:38.770Z"
+          "matchedAt": "2026-11-04T17:33:11.107Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:41:38.770Z",
+        "fetchedAt": "2026-11-04T17:33:11.107Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -19940,10 +20327,10 @@
           "method": "coordinates-name",
           "distanceM": 23,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:44:16.945Z"
+          "matchedAt": "2026-11-04T17:30:01.168Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:44:16.945Z",
+        "fetchedAt": "2026-11-04T17:30:01.168Z",
         "deal": {
           "title": "Flat 50% off on Buffet + Free Mocktail",
           "on": "on pre-booking",
@@ -21233,10 +21620,10 @@
           "method": "coordinates-name",
           "distanceM": 53,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:43:21.972Z"
+          "matchedAt": "2026-11-04T17:29:15.781Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:43:21.972Z",
+        "fetchedAt": "2026-11-04T17:29:15.781Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -21476,10 +21863,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:42:47.078Z"
+          "matchedAt": "2026-11-04T17:28:50.264Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:42:47.078Z",
+        "fetchedAt": "2026-11-04T17:28:50.264Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -22561,10 +22948,10 @@
           "method": "coordinates-name",
           "distanceM": 2,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:43:59.457Z"
+          "matchedAt": "2026-11-04T17:35:34.478Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:43:59.457Z",
+        "fetchedAt": "2026-11-04T17:35:34.478Z",
         "deal": {
           "title": "Flat 15% Off on Total Bill",
           "on": "on pre-booking",
@@ -23661,10 +24048,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:41:53.558Z"
+          "matchedAt": "2026-11-04T17:27:39.202Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:41:53.558Z",
+        "fetchedAt": "2026-11-04T17:27:39.202Z",
         "deal": {
           "title": "Flat 15% off on Total Bill",
           "on": "on pre-booking",
@@ -24084,10 +24471,10 @@
           "method": "coordinates-name",
           "distanceM": 3,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:43:57.015Z"
+          "matchedAt": "2026-11-04T17:35:29.796Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:43:57.015Z",
+        "fetchedAt": "2026-11-04T17:35:29.796Z",
         "deal": {
           "title": "Flat 35% off on Total Bill",
           "on": "on pre-booking",
@@ -24751,10 +25138,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T17:15:28.947Z"
+          "matchedAt": "2026-11-04T17:27:34.385Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T17:15:28.947Z",
+        "fetchedAt": "2026-11-04T17:27:34.385Z",
         "deal": {
           "title": "Flat 30% off on Total Bill",
           "on": "on pre-booking",
@@ -25076,197 +25463,7 @@
           }
         ]
       },
-      "swiggy": {
-        "id": "1003719",
-        "name": "Mythus Brewpub & Kitchen",
-        "locality": "Kokapet",
-        "lat": 17.3864742,
-        "lng": 78.3371609,
-        "url": "https://www.swiggy.com/restaurants/mythus-brewpub-and-kitchen-kokapet-hyderabad-1003719/dineout",
-        "venue": {
-          "id": "1003719",
-          "name": "Mythus Brewpub & Kitchen",
-          "locality": "Kokapet",
-          "lat": 17.3864742,
-          "lng": 78.3371609,
-          "url": "https://www.swiggy.com/restaurants/mythus-brewpub-and-kitchen-kokapet-hyderabad-1003719/dineout"
-        },
-        "match": {
-          "status": "verified",
-          "method": "coordinates-name",
-          "distanceM": 14,
-          "nameScore": 1,
-          "matchedAt": "2026-11-02T11:35:40.978Z"
-        },
-        "hasOffers": true,
-        "fetchedAt": "2026-11-02T11:35:40.978Z",
-        "deal": {
-          "title": "Flat 20% off on Total Bill",
-          "on": "on pre-booking",
-          "pct": 20,
-          "flat": null,
-          "applicableNow": null,
-          "allDay": true,
-          "note": "Available on Mon-Sun with booking fee: ₹10",
-          "bookingMode": "prebook",
-          "days": [
-            0,
-            1,
-            2,
-            3,
-            4,
-            5,
-            6
-          ],
-          "fee": 10
-        },
-        "schedule": [
-          {
-            "title": "Flat 20% off on Total Bill",
-            "mode": "prebook",
-            "days": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6
-            ],
-            "fee": 10,
-            "pct": 20,
-            "flat": null,
-            "note": "Available on Mon-Sun with booking fee: ₹10"
-          },
-          {
-            "title": "Flat 10% off on Total Bill",
-            "mode": "prebook",
-            "days": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6
-            ],
-            "fee": 10,
-            "pct": 10,
-            "flat": null,
-            "note": "Available on Mon-Sun with booking fee: ₹10"
-          }
-        ],
-        "cardOffers": [
-          {
-            "title": "Cashback ₹125",
-            "via": "PAYTMNEW",
-            "code": "PAYTMNEW",
-            "minBill": 99,
-            "pct": null,
-            "flat": 125
-          },
-          {
-            "title": "Cashback ₹50",
-            "via": "PAYTMUPI",
-            "code": "PAYTMUPI",
-            "minBill": 100,
-            "pct": null,
-            "flat": 50
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCINFINIA",
-            "code": "HDFCINFINIA",
-            "minBill": 3500,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCCCEMI",
-            "code": "HDFCCCEMI",
-            "minBill": 3500,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCDINERS",
-            "code": "HDFCDINERS",
-            "minBill": 3000,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat ₹200 off",
-            "via": "HDFCCARDS",
-            "code": "HDFCCARDS",
-            "minBill": 2000,
-            "pct": null,
-            "flat": 200
-          },
-          {
-            "title": "Cashback ₹100",
-            "via": "MBKDINE",
-            "code": "MBKDINE",
-            "minBill": 499,
-            "pct": null,
-            "flat": 100
-          },
-          {
-            "title": "Cashback ₹50",
-            "via": "MBKWALLET",
-            "code": "MBKWALLET",
-            "minBill": 1500,
-            "pct": null,
-            "flat": 50
-          },
-          {
-            "title": "Cashback 5%",
-            "via": "Swiggy Ornge HDFC Bank Credit Card",
-            "code": null,
-            "minBill": 249,
-            "pct": 5,
-            "flat": null
-          },
-          {
-            "title": "Cashback 10%",
-            "via": "Swiggy HDFC Bank Credit Card",
-            "code": null,
-            "minBill": 249,
-            "pct": 10,
-            "flat": null
-          }
-        ],
-        "cashback": "10% cashback On every bill payment",
-        "offers": [
-          {
-            "type": "FLAT",
-            "title": "Flat 20% off on Total Bill",
-            "desc": "on pre-booking"
-          },
-          {
-            "type": "BANK",
-            "title": "Cashback ₹125",
-            "desc": "Code PAYTMNEW, bills of ₹99+"
-          },
-          {
-            "type": "BANK",
-            "title": "Cashback ₹50",
-            "desc": "Code PAYTMUPI, bills of ₹100+"
-          },
-          {
-            "type": "BANK",
-            "title": "Flat 10% off",
-            "desc": "Code HDFCINFINIA, bills of ₹3,500+"
-          },
-          {
-            "type": "CASHBACK",
-            "title": "10%",
-            "desc": "10% cashback On every bill payment"
-          }
-        ]
-      }
+      "swiggy": null
     },
     "ChIJ-8dybT67yzsRaKbLvuXxjHA": {
       "name": "Barley & Grapes",
@@ -26076,10 +26273,10 @@
           "method": "coordinates-name",
           "distanceM": 11,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:44:42.912Z"
+          "matchedAt": "2026-11-04T17:36:09.276Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:44:42.912Z",
+        "fetchedAt": "2026-11-04T17:36:09.276Z",
         "deal": {
           "title": "Flat 10% off on Total Bill",
           "on": "on pre-booking",
@@ -26866,10 +27063,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:43:07.686Z"
+          "matchedAt": "2026-11-04T17:34:37.958Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:43:07.686Z",
+        "fetchedAt": "2026-11-04T17:34:37.958Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -27084,10 +27281,10 @@
           "method": "coordinates-name",
           "distanceM": 2,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:43:09.467Z"
+          "matchedAt": "2026-11-04T17:28:53.830Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:43:09.467Z",
+        "fetchedAt": "2026-11-04T17:28:53.830Z",
         "deal": null,
         "schedule": [
           {
@@ -27553,10 +27750,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T07:02:37.707Z"
+          "matchedAt": "2026-11-04T17:27:35.795Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T07:02:37.707Z",
+        "fetchedAt": "2026-11-04T17:27:35.795Z",
         "deal": {
           "title": "Flat 20% off on Total Bill",
           "on": "on pre-booking",
@@ -27860,10 +28057,10 @@
           "method": "coordinates-name",
           "distanceM": 1,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:43:51.925Z"
+          "matchedAt": "2026-11-04T17:35:13.726Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:43:51.925Z",
+        "fetchedAt": "2026-11-04T17:35:13.726Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -28250,10 +28447,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:41:57.910Z"
+          "matchedAt": "2026-11-04T17:27:52.848Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:41:57.910Z",
+        "fetchedAt": "2026-11-04T17:27:52.848Z",
         "deal": {
           "title": "Flat 10% off on Total Bill",
           "on": "on pre-booking",
@@ -29524,10 +29721,10 @@
           "method": "coordinates-name",
           "distanceM": 4,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:44:44.879Z"
+          "matchedAt": "2026-11-04T17:36:14.610Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:44:44.879Z",
+        "fetchedAt": "2026-11-04T17:36:14.610Z",
         "deal": {
           "title": "Flat 50% Off on Total Bill",
           "on": "on pre-booking",
@@ -30435,10 +30632,10 @@
           "method": "coordinates-name",
           "distanceM": 21,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:42:42.439Z"
+          "matchedAt": "2026-11-04T17:34:10.615Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:42:42.439Z",
+        "fetchedAt": "2026-11-04T17:34:10.615Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -30908,10 +31105,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:45:46.359Z"
+          "matchedAt": "2026-11-04T17:31:10.469Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:45:46.359Z",
+        "fetchedAt": "2026-11-04T17:31:10.469Z",
         "deal": {
           "title": "Flat 20% Off on Total Bill",
           "on": "on pre-booking",
@@ -31312,10 +31509,10 @@
           "method": "coordinates-name",
           "distanceM": 3,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T17:24:30.135Z"
+          "matchedAt": "2026-11-04T17:35:38.024Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T17:24:30.135Z",
+        "fetchedAt": "2026-11-04T17:35:38.024Z",
         "deal": {
           "title": "Flat 15% Off on Total Bill",
           "on": "on pre-booking",
@@ -31551,10 +31748,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-02T11:28:15.359Z"
+          "matchedAt": "2026-11-04T17:28:42.738Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-02T11:28:15.359Z",
+        "fetchedAt": "2026-11-04T17:28:42.738Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -31793,10 +31990,10 @@
           "method": "coordinates-name",
           "distanceM": 6,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:41:37.298Z"
+          "matchedAt": "2026-11-04T17:27:21.474Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:41:37.298Z",
+        "fetchedAt": "2026-11-04T17:27:21.474Z",
         "deal": {
           "title": "Flat 20% off on Total Bill",
           "on": "on pre-booking",
@@ -32029,10 +32226,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:42:02.445Z"
+          "matchedAt": "2026-11-04T17:27:51.217Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:42:02.445Z",
+        "fetchedAt": "2026-11-04T17:27:51.217Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -32223,197 +32420,7 @@
           }
         ]
       },
-      "swiggy": {
-        "id": "414589",
-        "name": "Zouq",
-        "locality": "Banjara Hills",
-        "lat": 17.4241401,
-        "lng": 78.4285628,
-        "url": "https://www.swiggy.com/restaurants/zouq-banjara-hills-hyderabad-414589/dineout",
-        "venue": {
-          "id": "414589",
-          "name": "Zouq",
-          "locality": "Banjara Hills",
-          "lat": 17.4241401,
-          "lng": 78.4285628,
-          "url": "https://www.swiggy.com/restaurants/zouq-banjara-hills-hyderabad-414589/dineout"
-        },
-        "match": {
-          "status": "verified",
-          "method": "coordinates-name",
-          "distanceM": 0,
-          "nameScore": 1,
-          "matchedAt": "2026-11-02T11:27:26.804Z"
-        },
-        "hasOffers": true,
-        "fetchedAt": "2026-11-02T11:27:26.804Z",
-        "deal": {
-          "title": "Flat 15% off on Total Bill",
-          "on": "on pre-booking",
-          "pct": 15,
-          "flat": null,
-          "applicableNow": null,
-          "allDay": true,
-          "note": "Available on Mon-Sun with booking fee: ₹25",
-          "bookingMode": "prebook",
-          "days": [
-            0,
-            1,
-            2,
-            3,
-            4,
-            5,
-            6
-          ],
-          "fee": 25
-        },
-        "schedule": [
-          {
-            "title": "Flat 15% off on Total Bill",
-            "mode": "prebook",
-            "days": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6
-            ],
-            "fee": 25,
-            "pct": 15,
-            "flat": null,
-            "note": "Available on Mon-Sun with booking fee: ₹25"
-          },
-          {
-            "title": "Flat 10% Off on Total Bill",
-            "mode": "prebook",
-            "days": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6
-            ],
-            "fee": 25,
-            "pct": 10,
-            "flat": null,
-            "note": "Available on Mon-Sun with booking fee: ₹25"
-          }
-        ],
-        "cardOffers": [
-          {
-            "title": "Cashback ₹125",
-            "via": "PAYTMNEW",
-            "code": "PAYTMNEW",
-            "minBill": 99,
-            "pct": null,
-            "flat": 125
-          },
-          {
-            "title": "Cashback ₹50",
-            "via": "PAYTMUPI",
-            "code": "PAYTMUPI",
-            "minBill": 100,
-            "pct": null,
-            "flat": 50
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCINFINIA",
-            "code": "HDFCINFINIA",
-            "minBill": 3500,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCCCEMI",
-            "code": "HDFCCCEMI",
-            "minBill": 3500,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCDINERS",
-            "code": "HDFCDINERS",
-            "minBill": 3000,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat ₹200 off",
-            "via": "HDFCCARDS",
-            "code": "HDFCCARDS",
-            "minBill": 2000,
-            "pct": null,
-            "flat": 200
-          },
-          {
-            "title": "Cashback ₹100",
-            "via": "MBKDINE",
-            "code": "MBKDINE",
-            "minBill": 499,
-            "pct": null,
-            "flat": 100
-          },
-          {
-            "title": "Cashback ₹50",
-            "via": "MBKWALLET",
-            "code": "MBKWALLET",
-            "minBill": 1500,
-            "pct": null,
-            "flat": 50
-          },
-          {
-            "title": "Cashback 5%",
-            "via": "Swiggy Ornge HDFC Bank Credit Card",
-            "code": null,
-            "minBill": 249,
-            "pct": 5,
-            "flat": null
-          },
-          {
-            "title": "Cashback 10%",
-            "via": "Swiggy HDFC Bank Credit Card",
-            "code": null,
-            "minBill": 249,
-            "pct": 10,
-            "flat": null
-          }
-        ],
-        "cashback": "10% cashback On every bill payment",
-        "offers": [
-          {
-            "type": "FLAT",
-            "title": "Flat 15% off on Total Bill",
-            "desc": "on pre-booking"
-          },
-          {
-            "type": "BANK",
-            "title": "Cashback ₹125",
-            "desc": "Code PAYTMNEW, bills of ₹99+"
-          },
-          {
-            "type": "BANK",
-            "title": "Cashback ₹50",
-            "desc": "Code PAYTMUPI, bills of ₹100+"
-          },
-          {
-            "type": "BANK",
-            "title": "Flat 10% off",
-            "desc": "Code HDFCINFINIA, bills of ₹3,500+"
-          },
-          {
-            "type": "CASHBACK",
-            "title": "10%",
-            "desc": "10% cashback On every bill payment"
-          }
-        ]
-      }
+      "swiggy": null
     },
     "ChIJc4ODCgCXyzsRVF08uD6YabQ": {
       "name": "Paneer Palace Pure Veg Multicuisine Fine Dine Restaurant",
@@ -33353,10 +33360,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:42:11.764Z"
+          "matchedAt": "2026-11-04T17:27:25.261Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:42:11.764Z",
+        "fetchedAt": "2026-11-04T17:27:25.261Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -33550,10 +33557,10 @@
           "method": "coordinates-name",
           "distanceM": 24,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:42:17.488Z"
+          "matchedAt": "2026-11-04T17:28:11.617Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:42:17.488Z",
+        "fetchedAt": "2026-11-04T17:28:11.617Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -34046,10 +34053,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T07:03:47.950Z"
+          "matchedAt": "2026-11-04T17:28:41.162Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T07:03:47.950Z",
+        "fetchedAt": "2026-11-04T17:28:41.162Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -34712,10 +34719,10 @@
           "method": "coordinates-name",
           "distanceM": 24,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T17:17:20.343Z"
+          "matchedAt": "2026-11-04T17:29:10.476Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T17:17:20.343Z",
+        "fetchedAt": "2026-11-04T17:29:10.476Z",
         "deal": {
           "title": "Flat 10% off on Total Bill",
           "on": "on pre-booking",
@@ -35127,10 +35134,10 @@
           "method": "coordinates-name",
           "distanceM": 27,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:43:16.036Z"
+          "matchedAt": "2026-11-04T17:29:12.471Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:43:16.036Z",
+        "fetchedAt": "2026-11-04T17:29:12.471Z",
         "deal": {
           "title": "Flat 10% Off on Total Bill",
           "on": "on pre-booking",
@@ -35379,10 +35386,10 @@
           "method": "coordinates-name",
           "distanceM": 18,
           "nameScore": 0.667,
-          "matchedAt": "2026-11-04T06:43:34.557Z"
+          "matchedAt": "2026-11-04T17:29:30.965Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:43:34.557Z",
+        "fetchedAt": "2026-11-04T17:29:30.965Z",
         "deal": {
           "title": "Flat 15% off on Weekdays",
           "on": "on pre-booking",
@@ -35621,10 +35628,10 @@
           "method": "coordinates-name",
           "distanceM": 30,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:43:28.973Z"
+          "matchedAt": "2026-11-04T17:29:27.517Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:43:28.973Z",
+        "fetchedAt": "2026-11-04T17:29:27.517Z",
         "deal": {
           "title": "Flat 30% Off on Total Bill",
           "on": "on pre-booking",
@@ -36511,10 +36518,10 @@
           "method": "coordinates-name",
           "distanceM": 180,
           "nameScore": 0.667,
-          "matchedAt": "2026-11-04T06:44:07.214Z"
+          "matchedAt": "2026-11-04T17:29:41.653Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:44:07.214Z",
+        "fetchedAt": "2026-11-04T17:29:41.653Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -36707,10 +36714,10 @@
           "method": "coordinates-name",
           "distanceM": 30,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:44:02.715Z"
+          "matchedAt": "2026-11-04T17:29:36.349Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:44:02.716Z",
+        "fetchedAt": "2026-11-04T17:29:36.349Z",
         "deal": {
           "title": "Flat 30% off on Total Bill",
           "on": "on pre-booking",
@@ -37574,10 +37581,10 @@
           "method": "coordinates-name",
           "distanceM": 97,
           "nameScore": 0.5,
-          "matchedAt": "2026-11-04T06:45:08.810Z"
+          "matchedAt": "2026-11-04T17:30:27.608Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:45:08.810Z",
+        "fetchedAt": "2026-11-04T17:30:27.608Z",
         "deal": {
           "title": "Flat 25% off on Total Bill",
           "on": "on pre-booking",
@@ -38709,10 +38716,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T17:19:30.625Z"
+          "matchedAt": "2026-11-04T17:30:44.940Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T17:19:30.625Z",
+        "fetchedAt": "2026-11-04T17:30:44.940Z",
         "deal": {
           "title": "Flat 50% Off on Total Bill",
           "on": "on pre-booking",
@@ -39026,10 +39033,10 @@
           "method": "coordinates-name",
           "distanceM": 26,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:46:16.922Z"
+          "matchedAt": "2026-11-04T17:31:37.745Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:46:16.922Z",
+        "fetchedAt": "2026-11-04T17:31:37.745Z",
         "deal": {
           "title": "Flat 10% off on total bill",
           "on": "on pre-booking",
@@ -39250,10 +39257,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:46:36.421Z"
+          "matchedAt": "2026-11-04T17:31:57.844Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:46:36.421Z",
+        "fetchedAt": "2026-11-04T17:31:57.844Z",
         "deal": {
           "title": "Flat 10% Off on Total Bill",
           "on": "on pre-booking",
@@ -39519,10 +39526,10 @@
           "method": "coordinates-name",
           "distanceM": 81,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:46:32.704Z"
+          "matchedAt": "2026-11-04T17:32:00.561Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:46:32.704Z",
+        "fetchedAt": "2026-11-04T17:32:00.561Z",
         "deal": {
           "title": "Flat 20% Off on Total Bill",
           "on": "on pre-booking",
@@ -39769,10 +39776,10 @@
           "method": "coordinates-name",
           "distanceM": 27,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:46:38.242Z"
+          "matchedAt": "2026-11-04T17:32:10.071Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:46:38.242Z",
+        "fetchedAt": "2026-11-04T17:32:10.071Z",
         "deal": {
           "title": "Flat 15% off on Weekdays",
           "on": "on pre-booking",
@@ -40004,10 +40011,10 @@
           "method": "coordinates-name",
           "distanceM": 235,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:46:34.614Z"
+          "matchedAt": "2026-11-04T17:32:02.359Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:46:34.614Z",
+        "fetchedAt": "2026-11-04T17:32:02.359Z",
         "deal": {
           "title": "Flat 10% off on Total Bill",
           "on": "on pre-booking",
@@ -40506,10 +40513,10 @@
           "method": "coordinates-name",
           "distanceM": 22,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:46:49.747Z"
+          "matchedAt": "2026-11-04T17:32:18.727Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:46:49.747Z",
+        "fetchedAt": "2026-11-04T17:32:18.727Z",
         "deal": {
           "title": "Flat 10% Off on Total Bill",
           "on": "on pre-booking",
@@ -40785,10 +40792,10 @@
           "method": "coordinates-name",
           "distanceM": 21,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:41:03.850Z"
+          "matchedAt": "2026-11-04T17:32:36.999Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:41:03.850Z",
+        "fetchedAt": "2026-11-04T17:32:36.999Z",
         "deal": {
           "title": "Flat 35% off on Total Bill",
           "on": "on pre-booking",
@@ -41082,10 +41089,10 @@
           "method": "coordinates-name",
           "distanceM": 10,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:41:28.177Z"
+          "matchedAt": "2026-11-04T17:32:59.841Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:41:28.177Z",
+        "fetchedAt": "2026-11-04T17:32:59.841Z",
         "deal": {
           "title": "Flat 20% off on Total Bill",
           "on": "on pre-booking",
@@ -41420,10 +41427,10 @@
           "method": "coordinates-name",
           "distanceM": 72,
           "nameScore": 0.5,
-          "matchedAt": "2026-11-03T07:04:00.729Z"
+          "matchedAt": "2026-11-04T17:29:04.446Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T07:04:00.729Z",
+        "fetchedAt": "2026-11-04T17:29:04.446Z",
         "deal": {
           "title": "Flat 20% off on Total Bill",
           "on": "on pre-booking",
@@ -41672,10 +41679,10 @@
           "method": "coordinates-name",
           "distanceM": 6,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T17:16:12.193Z"
+          "matchedAt": "2026-11-04T17:27:54.228Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T17:16:12.193Z",
+        "fetchedAt": "2026-11-04T17:27:54.228Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -42022,10 +42029,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:43:48.465Z"
+          "matchedAt": "2026-11-04T17:35:12.345Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:43:48.465Z",
+        "fetchedAt": "2026-11-04T17:35:12.345Z",
         "deal": {
           "title": "Flat 20% off on Total Bill",
           "on": "on pre-booking",
@@ -44857,10 +44864,10 @@
           "method": "coordinates-name",
           "distanceM": 27,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:41:32.536Z"
+          "matchedAt": "2026-11-04T17:33:03.163Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:41:32.536Z",
+        "fetchedAt": "2026-11-04T17:33:03.163Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -45016,10 +45023,10 @@
           "method": "coordinates-name",
           "distanceM": 9,
           "nameScore": 0.75,
-          "matchedAt": "2026-11-03T17:22:00.429Z"
+          "matchedAt": "2026-11-04T17:33:14.743Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T17:22:00.429Z",
+        "fetchedAt": "2026-11-04T17:33:14.743Z",
         "deal": {
           "title": "Flat 10% Off on Total Bill",
           "on": "on pre-booking",
@@ -45217,10 +45224,10 @@
           "method": "coordinates-name",
           "distanceM": 137,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:41:49.745Z"
+          "matchedAt": "2026-11-04T17:33:20.696Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:41:49.745Z",
+        "fetchedAt": "2026-11-04T17:33:20.696Z",
         "deal": {
           "title": "Flat 25% off on Total Bill",
           "on": "on pre-booking",
@@ -45463,10 +45470,10 @@
           "method": "coordinates-name",
           "distanceM": 56,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:41:45.688Z"
+          "matchedAt": "2026-11-04T17:33:23.540Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:41:45.688Z",
+        "fetchedAt": "2026-11-04T17:33:23.540Z",
         "deal": {
           "title": "Flat 25% off on Total Bill",
           "on": "on pre-booking",
@@ -45709,10 +45716,10 @@
           "method": "coordinates-name",
           "distanceM": 150,
           "nameScore": 0.667,
-          "matchedAt": "2026-11-03T23:42:05.671Z"
+          "matchedAt": "2026-11-04T17:33:39.258Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:42:05.671Z",
+        "fetchedAt": "2026-11-04T17:33:39.258Z",
         "deal": {
           "title": "Flat 10% off on total bill",
           "on": "on pre-booking",
@@ -45979,10 +45986,10 @@
           "method": "coordinates-name",
           "distanceM": 26,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:42:15.511Z"
+          "matchedAt": "2026-11-04T17:33:46.039Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:42:15.511Z",
+        "fetchedAt": "2026-11-04T17:33:46.039Z",
         "deal": {
           "title": "Flat 10% off on total bill",
           "on": "on pre-booking",
@@ -46267,10 +46274,10 @@
           "method": "coordinates-name",
           "distanceM": 49,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:42:17.268Z"
+          "matchedAt": "2026-11-04T17:33:49.629Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:42:17.268Z",
+        "fetchedAt": "2026-11-04T17:33:49.629Z",
         "deal": {
           "title": "Flat 30% off on Buffet",
           "on": "on pre-booking",
@@ -46521,10 +46528,10 @@
           "method": "coordinates-name",
           "distanceM": 8,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:42:30.043Z"
+          "matchedAt": "2026-11-04T17:33:58.607Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:42:30.043Z",
+        "fetchedAt": "2026-11-04T17:33:58.607Z",
         "deal": {
           "title": "Flat 10% Off on Total Bill",
           "on": "on pre-booking",
@@ -46700,10 +46707,10 @@
           "method": "coordinates-name",
           "distanceM": 21,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:42:34.134Z"
+          "matchedAt": "2026-11-04T17:34:08.577Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:42:34.134Z",
+        "fetchedAt": "2026-11-04T17:34:08.577Z",
         "deal": {
           "title": "Flat 20% off on Total Bill",
           "on": "on pre-booking",
@@ -46944,10 +46951,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:42:55.839Z"
+          "matchedAt": "2026-11-04T17:34:14.300Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:42:55.839Z",
+        "fetchedAt": "2026-11-04T17:34:14.300Z",
         "deal": {
           "title": "Flat 15% off on total bill",
           "on": "on pre-booking",
@@ -47226,10 +47233,10 @@
           "method": "coordinates-name",
           "distanceM": 30,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:42:44.205Z"
+          "matchedAt": "2026-11-04T17:34:12.350Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:42:44.205Z",
+        "fetchedAt": "2026-11-04T17:34:12.350Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -47907,10 +47914,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:43:01.064Z"
+          "matchedAt": "2026-11-04T17:34:27.351Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:43:01.064Z",
+        "fetchedAt": "2026-11-04T17:34:27.351Z",
         "deal": {
           "title": "Flat 10% off on total bill",
           "on": "on pre-booking",
@@ -48474,10 +48481,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 0.667,
-          "matchedAt": "2026-11-03T23:43:28.175Z"
+          "matchedAt": "2026-11-04T17:34:56.796Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:43:28.175Z",
+        "fetchedAt": "2026-11-04T17:34:56.796Z",
         "deal": {
           "title": "Flat 20% off on Total Bill",
           "on": "on pre-booking",
@@ -48776,10 +48783,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:43:45.027Z"
+          "matchedAt": "2026-11-04T17:35:16.530Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:43:45.027Z",
+        "fetchedAt": "2026-11-04T17:35:16.530Z",
         "deal": {
           "title": "Flat 25% off on Total Bill",
           "on": "on pre-booking",
@@ -49063,10 +49070,10 @@
           "method": "coordinates-name",
           "distanceM": 2,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:44:06.825Z"
+          "matchedAt": "2026-11-04T17:35:36.573Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:44:06.825Z",
+        "fetchedAt": "2026-11-04T17:35:36.573Z",
         "deal": {
           "title": "Flat 20% off on Weekdays",
           "on": "on pre-booking",
@@ -49290,10 +49297,10 @@
           "method": "coordinates-name",
           "distanceM": 20,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:44:08.390Z"
+          "matchedAt": "2026-11-04T17:35:41.882Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:44:08.390Z",
+        "fetchedAt": "2026-11-04T17:35:41.882Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -50053,10 +50060,10 @@
           "method": "coordinates-name",
           "distanceM": 6,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:44:03.405Z"
+          "matchedAt": "2026-11-04T17:35:31.756Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:44:03.405Z",
+        "fetchedAt": "2026-11-04T17:35:31.756Z",
         "deal": {
           "title": "Flat 10% off on total bill",
           "on": "on pre-booking",
@@ -50661,10 +50668,10 @@
           "method": "coordinates-name",
           "distanceM": 5,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:44:19.005Z"
+          "matchedAt": "2026-11-04T17:35:47.292Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:44:19.005Z",
+        "fetchedAt": "2026-11-04T17:35:47.292Z",
         "deal": {
           "title": "Flat 10% off on Total Bill",
           "on": "on pre-booking",
@@ -50899,10 +50906,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-02T11:35:49.678Z"
+          "matchedAt": "2026-11-04T17:35:53.221Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-02T11:35:49.678Z",
+        "fetchedAt": "2026-11-04T17:35:53.221Z",
         "deal": {
           "title": "Flat 10% off on Total Bill",
           "on": "on pre-booking",
@@ -51193,10 +51200,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:44:32.709Z"
+          "matchedAt": "2026-11-04T17:36:01.979Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:44:32.709Z",
+        "fetchedAt": "2026-11-04T17:36:01.979Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -51826,10 +51833,10 @@
           "method": "coordinates-name",
           "distanceM": 7,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:44:46.848Z"
+          "matchedAt": "2026-11-04T17:36:18.789Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:44:46.848Z",
+        "fetchedAt": "2026-11-04T17:36:18.789Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -51985,10 +51992,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 0.667,
-          "matchedAt": "2026-11-03T23:44:54.285Z"
+          "matchedAt": "2026-11-04T17:36:23.273Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:44:54.285Z",
+        "fetchedAt": "2026-11-04T17:36:23.273Z",
         "deal": {
           "title": "Flat 20% off on Total Bill",
           "on": "on pre-booking",
@@ -52680,239 +52687,7 @@
           }
         ]
       },
-      "swiggy": {
-        "id": "980867",
-        "name": "Panchatantra cafe",
-        "locality": "Begumpet",
-        "lat": 17.4387291,
-        "lng": 78.4615223,
-        "url": "https://www.swiggy.com/restaurants/panchatantra-cafe-begumpet-hyderabad-980867/dineout",
-        "venue": {
-          "id": "980867",
-          "name": "Panchatantra cafe",
-          "locality": "Begumpet",
-          "lat": 17.4387291,
-          "lng": 78.4615223,
-          "url": "https://www.swiggy.com/restaurants/panchatantra-cafe-begumpet-hyderabad-980867/dineout"
-        },
-        "match": {
-          "status": "verified",
-          "method": "coordinates-name",
-          "distanceM": 68,
-          "nameScore": 1,
-          "matchedAt": "2026-11-02T11:29:02.610Z"
-        },
-        "hasOffers": true,
-        "fetchedAt": "2026-11-02T11:29:02.610Z",
-        "deal": {
-          "title": "Flat 30% off on Total Bill",
-          "on": "on pre-booking",
-          "pct": 30,
-          "flat": null,
-          "applicableNow": null,
-          "allDay": true,
-          "note": "Available on Mon-Thu with booking fee: ₹25",
-          "bookingMode": "prebook",
-          "days": [
-            1,
-            2,
-            3,
-            4
-          ],
-          "fee": 25
-        },
-        "schedule": [
-          {
-            "title": "Flat 30% off on Total Bill",
-            "mode": "prebook",
-            "days": [
-              1,
-              2,
-              3,
-              4
-            ],
-            "fee": 25,
-            "pct": 30,
-            "flat": null,
-            "note": "Available on Mon-Thu with booking fee: ₹25"
-          },
-          {
-            "title": "Flat 25% Off on Total Bill",
-            "mode": "prebook",
-            "days": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6
-            ],
-            "fee": 25,
-            "pct": 25,
-            "flat": null,
-            "note": "Available on Mon-Sun with booking fee: ₹25"
-          },
-          {
-            "title": "Flat 15% Off on Total Bill",
-            "mode": "prebook",
-            "days": [
-              1,
-              2,
-              3,
-              4
-            ],
-            "fee": 25,
-            "pct": 15,
-            "flat": null,
-            "note": "Available on Mon-Thu with booking fee: ₹25"
-          },
-          {
-            "title": "Flat 10% off on total bill",
-            "mode": "prebook",
-            "days": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6
-            ],
-            "fee": null,
-            "pct": 10,
-            "flat": null,
-            "note": "Available on Mon-Sun"
-          },
-          {
-            "title": "Flat 10% off on total bill",
-            "mode": "walkin",
-            "days": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6
-            ],
-            "fee": null,
-            "pct": 10,
-            "flat": null,
-            "note": "Pay bill via Swiggy to get offer"
-          }
-        ],
-        "cardOffers": [
-          {
-            "title": "Cashback ₹125",
-            "via": "PAYTMNEW",
-            "code": "PAYTMNEW",
-            "minBill": 99,
-            "pct": null,
-            "flat": 125
-          },
-          {
-            "title": "Cashback ₹50",
-            "via": "PAYTMUPI",
-            "code": "PAYTMUPI",
-            "minBill": 100,
-            "pct": null,
-            "flat": 50
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCINFINIA",
-            "code": "HDFCINFINIA",
-            "minBill": 3500,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCCCEMI",
-            "code": "HDFCCCEMI",
-            "minBill": 3500,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCDINERS",
-            "code": "HDFCDINERS",
-            "minBill": 3000,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat ₹200 off",
-            "via": "HDFCCARDS",
-            "code": "HDFCCARDS",
-            "minBill": 2000,
-            "pct": null,
-            "flat": 200
-          },
-          {
-            "title": "Cashback ₹100",
-            "via": "MBKDINE",
-            "code": "MBKDINE",
-            "minBill": 499,
-            "pct": null,
-            "flat": 100
-          },
-          {
-            "title": "Cashback ₹50",
-            "via": "MBKWALLET",
-            "code": "MBKWALLET",
-            "minBill": 1500,
-            "pct": null,
-            "flat": 50
-          },
-          {
-            "title": "Cashback 5%",
-            "via": "Swiggy Ornge HDFC Bank Credit Card",
-            "code": null,
-            "minBill": 249,
-            "pct": 5,
-            "flat": null
-          },
-          {
-            "title": "Cashback 10%",
-            "via": "Swiggy HDFC Bank Credit Card",
-            "code": null,
-            "minBill": 249,
-            "pct": 10,
-            "flat": null
-          }
-        ],
-        "cashback": "10% cashback On every bill payment",
-        "offers": [
-          {
-            "type": "FLAT",
-            "title": "Flat 30% off on Total Bill",
-            "desc": "on pre-booking"
-          },
-          {
-            "type": "BANK",
-            "title": "Cashback ₹125",
-            "desc": "Code PAYTMNEW, bills of ₹99+"
-          },
-          {
-            "type": "BANK",
-            "title": "Cashback ₹50",
-            "desc": "Code PAYTMUPI, bills of ₹100+"
-          },
-          {
-            "type": "BANK",
-            "title": "Flat 10% off",
-            "desc": "Code HDFCINFINIA, bills of ₹3,500+"
-          },
-          {
-            "type": "CASHBACK",
-            "title": "10%",
-            "desc": "10% cashback On every bill payment"
-          }
-        ]
-      }
+      "swiggy": null
     },
     "ChIJawcJIaKVyzsRYLa7p3QMRAc": {
       "name": "Wool Cup ~ Financial District",
@@ -54225,10 +54000,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:45:33.347Z"
+          "matchedAt": "2026-11-04T17:30:58.328Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:45:33.347Z",
+        "fetchedAt": "2026-11-04T17:30:58.328Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -54384,10 +54159,10 @@
           "method": "coordinates-name",
           "distanceM": 7,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:41:00.115Z"
+          "matchedAt": "2026-11-04T17:32:35.042Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:41:00.115Z",
+        "fetchedAt": "2026-11-04T17:32:35.042Z",
         "deal": {
           "title": "Flat 10% off on total bill",
           "on": "on pre-booking",
@@ -54662,10 +54437,10 @@
           "method": "coordinates-name",
           "distanceM": 20,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:41:40.749Z"
+          "matchedAt": "2026-11-04T17:33:16.696Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:41:40.749Z",
+        "fetchedAt": "2026-11-04T17:33:16.696Z",
         "deal": {
           "title": "Flat 40% off on Total Bill",
           "on": "on pre-booking",
@@ -55132,10 +54907,10 @@
           "method": "coordinates-name",
           "distanceM": 227,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T17:15:19.158Z"
+          "matchedAt": "2026-11-04T17:27:30.979Z"
         },
         "hasOffers": false,
-        "fetchedAt": "2026-11-03T17:15:19.158Z",
+        "fetchedAt": "2026-11-04T17:27:30.979Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [],
@@ -56060,10 +55835,10 @@
           "method": "coordinates-name",
           "distanceM": 2,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T23:45:00.001Z"
+          "matchedAt": "2026-11-04T17:36:16.390Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:45:00.001Z",
+        "fetchedAt": "2026-11-04T17:36:16.390Z",
         "deal": {
           "title": "Flat 20% Off on Total Bill",
           "on": "on pre-booking",
@@ -56332,10 +56107,10 @@
           "method": "coordinates-name",
           "distanceM": 14,
           "nameScore": 1,
-          "matchedAt": "2026-11-02T11:30:39.319Z"
+          "matchedAt": "2026-11-04T17:30:54.332Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-02T11:30:39.319Z",
+        "fetchedAt": "2026-11-04T17:30:54.332Z",
         "deal": {
           "title": "Flat 10% off on Total Bill",
           "on": "on pre-booking",
@@ -56544,10 +56319,10 @@
           "method": "coordinates-name",
           "distanceM": 111,
           "nameScore": 0.5,
-          "matchedAt": "2026-11-03T23:42:54.477Z"
+          "matchedAt": "2026-11-04T17:34:23.132Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T23:42:54.477Z",
+        "fetchedAt": "2026-11-04T17:34:23.132Z",
         "deal": {
           "title": "Flat 10% off on total bill",
           "on": "on pre-booking",
@@ -56972,10 +56747,10 @@
           "method": "coordinates-name",
           "distanceM": 25,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:44:24.712Z"
+          "matchedAt": "2026-11-04T17:29:58.794Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:44:24.712Z",
+        "fetchedAt": "2026-11-04T17:29:58.794Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -57595,10 +57370,10 @@
           "method": "coordinates-name",
           "distanceM": 4,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:42:52.113Z"
+          "matchedAt": "2026-11-04T17:28:48.035Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:42:52.113Z",
+        "fetchedAt": "2026-11-04T17:28:48.035Z",
         "deal": {
           "title": "Flat 50% off on Total Bill",
           "on": "on pre-booking",
@@ -58045,10 +57820,10 @@
           "method": "coordinates-name",
           "distanceM": 7,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:42:29.483Z"
+          "matchedAt": "2026-11-04T17:28:21.690Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:42:29.483Z",
+        "fetchedAt": "2026-11-04T17:28:21.690Z",
         "deal": {
           "title": "Flat 50% off + Free Drink",
           "on": "on pre-booking",
@@ -58349,10 +58124,10 @@
           "method": "coordinates-name",
           "distanceM": 65,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:43:30.807Z"
+          "matchedAt": "2026-11-04T17:29:23.470Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:43:30.807Z",
+        "fetchedAt": "2026-11-04T17:29:23.470Z",
         "deal": null,
         "schedule": [
           {
@@ -58479,176 +58254,7 @@
       "name": "Kapoor’s Cafe - Kokapet",
       "area": "text:cafe kokapet",
       "district": null,
-      "swiggy": {
-        "id": "1219301",
-        "name": "Kapoor's Cafe",
-        "locality": "Kokapet",
-        "lat": 17.3852341,
-        "lng": 78.32931839999999,
-        "url": "https://www.swiggy.com/restaurants/kapoors-cafe-kokapet-hyderabad-1219301/dineout",
-        "venue": {
-          "id": "1219301",
-          "name": "Kapoor's Cafe",
-          "locality": "Kokapet",
-          "lat": 17.3852341,
-          "lng": 78.32931839999999,
-          "url": "https://www.swiggy.com/restaurants/kapoors-cafe-kokapet-hyderabad-1219301/dineout"
-        },
-        "match": {
-          "status": "verified",
-          "method": "coordinates-name",
-          "distanceM": 117,
-          "nameScore": 1,
-          "matchedAt": "2026-11-02T11:35:33.660Z"
-        },
-        "hasOffers": true,
-        "fetchedAt": "2026-11-02T11:35:33.660Z",
-        "deal": {
-          "title": "Flat 15% off on Total Bill",
-          "on": "on pre-booking",
-          "pct": 15,
-          "flat": null,
-          "applicableNow": null,
-          "allDay": true,
-          "note": "Available on Mon-Fri with booking fee: ₹25",
-          "bookingMode": "prebook",
-          "days": [
-            1,
-            2,
-            3,
-            4,
-            5
-          ],
-          "fee": 25
-        },
-        "schedule": [
-          {
-            "title": "Flat 15% off on Total Bill",
-            "mode": "prebook",
-            "days": [
-              1,
-              2,
-              3,
-              4,
-              5
-            ],
-            "fee": 25,
-            "pct": 15,
-            "flat": null,
-            "note": "Available on Mon-Fri with booking fee: ₹25"
-          }
-        ],
-        "cardOffers": [
-          {
-            "title": "Cashback ₹125",
-            "via": "PAYTMNEW",
-            "code": "PAYTMNEW",
-            "minBill": 99,
-            "pct": null,
-            "flat": 125
-          },
-          {
-            "title": "Cashback ₹50",
-            "via": "PAYTMUPI",
-            "code": "PAYTMUPI",
-            "minBill": 100,
-            "pct": null,
-            "flat": 50
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCINFINIA",
-            "code": "HDFCINFINIA",
-            "minBill": 3500,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCCCEMI",
-            "code": "HDFCCCEMI",
-            "minBill": 3500,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCDINERS",
-            "code": "HDFCDINERS",
-            "minBill": 3000,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat ₹200 off",
-            "via": "HDFCCARDS",
-            "code": "HDFCCARDS",
-            "minBill": 2000,
-            "pct": null,
-            "flat": 200
-          },
-          {
-            "title": "Cashback ₹100",
-            "via": "MBKDINE",
-            "code": "MBKDINE",
-            "minBill": 499,
-            "pct": null,
-            "flat": 100
-          },
-          {
-            "title": "Cashback ₹50",
-            "via": "MBKWALLET",
-            "code": "MBKWALLET",
-            "minBill": 1500,
-            "pct": null,
-            "flat": 50
-          },
-          {
-            "title": "Cashback 5%",
-            "via": "Swiggy Ornge HDFC Bank Credit Card",
-            "code": null,
-            "minBill": 249,
-            "pct": 5,
-            "flat": null
-          },
-          {
-            "title": "Cashback 10%",
-            "via": "Swiggy HDFC Bank Credit Card",
-            "code": null,
-            "minBill": 249,
-            "pct": 10,
-            "flat": null
-          }
-        ],
-        "cashback": "10% cashback On every bill payment",
-        "offers": [
-          {
-            "type": "FLAT",
-            "title": "Flat 15% off on Total Bill",
-            "desc": "on pre-booking"
-          },
-          {
-            "type": "BANK",
-            "title": "Cashback ₹125",
-            "desc": "Code PAYTMNEW, bills of ₹99+"
-          },
-          {
-            "type": "BANK",
-            "title": "Cashback ₹50",
-            "desc": "Code PAYTMUPI, bills of ₹100+"
-          },
-          {
-            "type": "BANK",
-            "title": "Flat 10% off",
-            "desc": "Code HDFCINFINIA, bills of ₹3,500+"
-          },
-          {
-            "type": "CASHBACK",
-            "title": "10%",
-            "desc": "10% cashback On every bill payment"
-          }
-        ]
-      }
+      "swiggy": null
     },
     "ChIJa7GLAB2VyzsRKp5a3yBLTAI": {
       "name": "The Chocolate Room - At GAR Infobahn",
@@ -58741,203 +58347,7 @@
           }
         ]
       },
-      "swiggy": {
-        "id": "1196161",
-        "name": "The Chocolate Room 24/7 at GAR infobahn",
-        "locality": "Kokapet",
-        "lat": 17.4043187,
-        "lng": 78.3326163,
-        "url": "https://www.swiggy.com/restaurants/the-chocolate-room-24-7-at-gar-infobahn-kokapet-hyderabad-1196161/dineout",
-        "venue": {
-          "id": "1196161",
-          "name": "The Chocolate Room 24/7 at GAR infobahn",
-          "locality": "Kokapet",
-          "lat": 17.4043187,
-          "lng": 78.3326163,
-          "url": "https://www.swiggy.com/restaurants/the-chocolate-room-24-7-at-gar-infobahn-kokapet-hyderabad-1196161/dineout"
-        },
-        "match": {
-          "status": "verified",
-          "method": "coordinates-name",
-          "distanceM": 165,
-          "nameScore": 1,
-          "matchedAt": "2026-11-02T11:35:36.191Z"
-        },
-        "hasOffers": true,
-        "fetchedAt": "2026-11-02T11:35:36.191Z",
-        "deal": {
-          "title": "Flat 20% off on Total Bill",
-          "on": "on pre-booking",
-          "pct": 20,
-          "flat": null,
-          "applicableNow": null,
-          "allDay": true,
-          "note": "Available on Mon-Fri with booking fee: ₹25",
-          "bookingMode": "prebook",
-          "days": [
-            1,
-            2,
-            3,
-            4,
-            5
-          ],
-          "fee": 25
-        },
-        "schedule": [
-          {
-            "title": "Flat 25% off on Total Bill",
-            "mode": "prebook",
-            "days": [
-              0,
-              5,
-              6
-            ],
-            "fee": 25,
-            "pct": 25,
-            "flat": null,
-            "note": "Available on Fri-Sun with booking fee: ₹25"
-          },
-          {
-            "title": "Flat 20% off on Total Bill",
-            "mode": "prebook",
-            "days": [
-              1,
-              2,
-              3,
-              4,
-              5
-            ],
-            "fee": 25,
-            "pct": 20,
-            "flat": null,
-            "note": "Available on Mon-Fri with booking fee: ₹25"
-          },
-          {
-            "title": "Flat 10% off on Total Bill",
-            "mode": "prebook",
-            "days": [
-              1,
-              2,
-              3,
-              4
-            ],
-            "fee": 25,
-            "pct": 10,
-            "flat": null,
-            "note": "Available on Mon-Thu with booking fee: ₹25"
-          }
-        ],
-        "cardOffers": [
-          {
-            "title": "Cashback ₹125",
-            "via": "PAYTMNEW",
-            "code": "PAYTMNEW",
-            "minBill": 99,
-            "pct": null,
-            "flat": 125
-          },
-          {
-            "title": "Cashback ₹50",
-            "via": "PAYTMUPI",
-            "code": "PAYTMUPI",
-            "minBill": 100,
-            "pct": null,
-            "flat": 50
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCINFINIA",
-            "code": "HDFCINFINIA",
-            "minBill": 3500,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCCCEMI",
-            "code": "HDFCCCEMI",
-            "minBill": 3500,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCDINERS",
-            "code": "HDFCDINERS",
-            "minBill": 3000,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat ₹200 off",
-            "via": "HDFCCARDS",
-            "code": "HDFCCARDS",
-            "minBill": 2000,
-            "pct": null,
-            "flat": 200
-          },
-          {
-            "title": "Cashback ₹100",
-            "via": "MBKDINE",
-            "code": "MBKDINE",
-            "minBill": 499,
-            "pct": null,
-            "flat": 100
-          },
-          {
-            "title": "Cashback ₹50",
-            "via": "MBKWALLET",
-            "code": "MBKWALLET",
-            "minBill": 1500,
-            "pct": null,
-            "flat": 50
-          },
-          {
-            "title": "Cashback 5%",
-            "via": "Swiggy Ornge HDFC Bank Credit Card",
-            "code": null,
-            "minBill": 249,
-            "pct": 5,
-            "flat": null
-          },
-          {
-            "title": "Cashback 10%",
-            "via": "Swiggy HDFC Bank Credit Card",
-            "code": null,
-            "minBill": 249,
-            "pct": 10,
-            "flat": null
-          }
-        ],
-        "cashback": "10% cashback On every bill payment",
-        "offers": [
-          {
-            "type": "FLAT",
-            "title": "Flat 20% off on Total Bill",
-            "desc": "on pre-booking"
-          },
-          {
-            "type": "BANK",
-            "title": "Cashback ₹125",
-            "desc": "Code PAYTMNEW, bills of ₹99+"
-          },
-          {
-            "type": "BANK",
-            "title": "Cashback ₹50",
-            "desc": "Code PAYTMUPI, bills of ₹100+"
-          },
-          {
-            "type": "BANK",
-            "title": "Flat 10% off",
-            "desc": "Code HDFCINFINIA, bills of ₹3,500+"
-          },
-          {
-            "type": "CASHBACK",
-            "title": "10%",
-            "desc": "10% cashback On every bill payment"
-          }
-        ]
-      }
+      "swiggy": null
     },
     "ChIJi-MtSayTyzsRCGbhwAv33P4": {
       "name": "Belloso Cafe | Kondapur",
@@ -59053,10 +58463,10 @@
           "method": "coordinates-name",
           "distanceM": 0,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T07:03:57.394Z"
+          "matchedAt": "2026-11-04T17:28:59.246Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T07:03:57.394Z",
+        "fetchedAt": "2026-11-04T17:28:59.246Z",
         "deal": {
           "title": "Flat 30% off on Total Bill",
           "on": "on pre-booking",
@@ -59545,7 +58955,138 @@
           }
         ]
       },
-      "swiggy": null
+      "swiggy": {
+        "id": "1243794",
+        "name": "Twofold Coffee",
+        "locality": "Film Nagar",
+        "lat": 17.416564,
+        "lng": 78.410725,
+        "url": "https://www.swiggy.com/restaurants/twofold-coffee-film-nagar-hyderabad-1243794/dineout",
+        "venue": {
+          "id": "1243794",
+          "name": "Twofold Coffee",
+          "locality": "Film Nagar",
+          "lat": 17.416564,
+          "lng": 78.410725,
+          "url": "https://www.swiggy.com/restaurants/twofold-coffee-film-nagar-hyderabad-1243794/dineout"
+        },
+        "match": {
+          "status": "verified",
+          "method": "coordinates-name",
+          "distanceM": 3,
+          "nameScore": 1,
+          "matchedAt": "2026-11-04T17:30:13.609Z"
+        },
+        "hasOffers": true,
+        "fetchedAt": "2026-11-04T17:30:13.609Z",
+        "deal": null,
+        "schedule": [],
+        "cardOffers": [
+          {
+            "title": "Cashback ₹125",
+            "via": "PAYTMNEW",
+            "code": "PAYTMNEW",
+            "minBill": 99,
+            "pct": null,
+            "flat": 125
+          },
+          {
+            "title": "Cashback ₹50",
+            "via": "PAYTMUPI",
+            "code": "PAYTMUPI",
+            "minBill": 100,
+            "pct": null,
+            "flat": 50
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCINFINIA",
+            "code": "HDFCINFINIA",
+            "minBill": 3500,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCCCEMI",
+            "code": "HDFCCCEMI",
+            "minBill": 3500,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCDINERS",
+            "code": "HDFCDINERS",
+            "minBill": 3000,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat ₹200 off",
+            "via": "HDFCCARDS",
+            "code": "HDFCCARDS",
+            "minBill": 2000,
+            "pct": null,
+            "flat": 200
+          },
+          {
+            "title": "Cashback ₹100",
+            "via": "MBKDINE",
+            "code": "MBKDINE",
+            "minBill": 499,
+            "pct": null,
+            "flat": 100
+          },
+          {
+            "title": "Cashback ₹50",
+            "via": "MBKWALLET",
+            "code": "MBKWALLET",
+            "minBill": 1500,
+            "pct": null,
+            "flat": 50
+          },
+          {
+            "title": "Cashback 5%",
+            "via": "Swiggy Ornge HDFC Bank Credit Card",
+            "code": null,
+            "minBill": 249,
+            "pct": 5,
+            "flat": null
+          },
+          {
+            "title": "Cashback 10%",
+            "via": "Swiggy HDFC Bank Credit Card",
+            "code": null,
+            "minBill": 249,
+            "pct": 10,
+            "flat": null
+          }
+        ],
+        "cashback": "10% cashback On every bill payment",
+        "offers": [
+          {
+            "type": "BANK",
+            "title": "Cashback ₹125",
+            "desc": "Code PAYTMNEW, bills of ₹99+"
+          },
+          {
+            "type": "BANK",
+            "title": "Cashback ₹50",
+            "desc": "Code PAYTMUPI, bills of ₹100+"
+          },
+          {
+            "type": "BANK",
+            "title": "Flat 10% off",
+            "desc": "Code HDFCINFINIA, bills of ₹3,500+"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10%",
+            "desc": "10% cashback On every bill payment"
+          }
+        ]
+      }
     },
     "ChIJb1RSg_WXyzsRg0vwLcOPMug": {
       "name": "Deccan Kitchen",
@@ -59605,7 +59146,233 @@
           }
         ]
       },
-      "swiggy": null
+      "swiggy": {
+        "id": "736462",
+        "name": "Deccan Kitchen",
+        "locality": "Film Nagar",
+        "lat": 17.413324,
+        "lng": 78.3944,
+        "url": "https://www.swiggy.com/restaurants/deccan-kitchen-film-nagar-hyderabad-736462/dineout",
+        "venue": {
+          "id": "736462",
+          "name": "Deccan Kitchen",
+          "locality": "Film Nagar",
+          "lat": 17.413324,
+          "lng": 78.3944,
+          "url": "https://www.swiggy.com/restaurants/deccan-kitchen-film-nagar-hyderabad-736462/dineout"
+        },
+        "match": {
+          "status": "verified",
+          "method": "coordinates-name",
+          "distanceM": 6,
+          "nameScore": 1,
+          "matchedAt": "2026-11-04T17:30:22.723Z"
+        },
+        "hasOffers": true,
+        "fetchedAt": "2026-11-04T17:30:22.723Z",
+        "deal": {
+          "title": "Flat 25% off on Total Bill",
+          "on": "on pre-booking",
+          "pct": 25,
+          "flat": null,
+          "applicableNow": null,
+          "allDay": true,
+          "note": "Available on Mon-Thu with booking fee: ₹25",
+          "bookingMode": "prebook",
+          "days": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "fee": 25
+        },
+        "schedule": [
+          {
+            "title": "Flat 25% off on Total Bill",
+            "mode": "prebook",
+            "days": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "fee": 25,
+            "pct": 25,
+            "flat": null,
+            "note": "Available on Mon-Thu with booking fee: ₹25"
+          },
+          {
+            "title": "Flat 20% Off on Total Bill",
+            "mode": "prebook",
+            "days": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "fee": 25,
+            "pct": 20,
+            "flat": null,
+            "note": "Available on Mon-Sun with booking fee: ₹25"
+          },
+          {
+            "title": "Flat 10% off on total bill",
+            "mode": "prebook",
+            "days": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "fee": null,
+            "pct": 10,
+            "flat": null,
+            "note": "Available on Mon-Sun"
+          },
+          {
+            "title": "Flat 10% off on total bill",
+            "mode": "walkin",
+            "days": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "fee": null,
+            "pct": 10,
+            "flat": null,
+            "note": "Pay bill via Swiggy to get offer"
+          }
+        ],
+        "cardOffers": [
+          {
+            "title": "Flat 10% off",
+            "via": "TRYNEW",
+            "code": "TRYNEW",
+            "minBill": 2500,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Cashback ₹125",
+            "via": "PAYTMNEW",
+            "code": "PAYTMNEW",
+            "minBill": 99,
+            "pct": null,
+            "flat": 125
+          },
+          {
+            "title": "Cashback ₹50",
+            "via": "PAYTMUPI",
+            "code": "PAYTMUPI",
+            "minBill": 100,
+            "pct": null,
+            "flat": 50
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCINFINIA",
+            "code": "HDFCINFINIA",
+            "minBill": 3500,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCCCEMI",
+            "code": "HDFCCCEMI",
+            "minBill": 3500,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCDINERS",
+            "code": "HDFCDINERS",
+            "minBill": 3000,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat ₹200 off",
+            "via": "HDFCCARDS",
+            "code": "HDFCCARDS",
+            "minBill": 2000,
+            "pct": null,
+            "flat": 200
+          },
+          {
+            "title": "Cashback ₹100",
+            "via": "MBKDINE",
+            "code": "MBKDINE",
+            "minBill": 499,
+            "pct": null,
+            "flat": 100
+          },
+          {
+            "title": "Cashback ₹50",
+            "via": "MBKWALLET",
+            "code": "MBKWALLET",
+            "minBill": 1500,
+            "pct": null,
+            "flat": 50
+          },
+          {
+            "title": "Cashback 5%",
+            "via": "Swiggy Ornge HDFC Bank Credit Card",
+            "code": null,
+            "minBill": 249,
+            "pct": 5,
+            "flat": null
+          },
+          {
+            "title": "Cashback 10%",
+            "via": "Swiggy HDFC Bank Credit Card",
+            "code": null,
+            "minBill": 249,
+            "pct": 10,
+            "flat": null
+          }
+        ],
+        "cashback": "10% cashback On every bill payment",
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 25% off on Total Bill",
+            "desc": "on pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "Flat 10% off",
+            "desc": "Code TRYNEW, bills of ₹2,500+"
+          },
+          {
+            "type": "BANK",
+            "title": "Cashback ₹125",
+            "desc": "Code PAYTMNEW, bills of ₹99+"
+          },
+          {
+            "type": "BANK",
+            "title": "Cashback ₹50",
+            "desc": "Code PAYTMUPI, bills of ₹100+"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10%",
+            "desc": "10% cashback On every bill payment"
+          }
+        ]
+      }
     },
     "ChIJnySLD_aVyzsRUKwrPba8cfQ": {
       "name": "Bistro Melaange",
@@ -59697,10 +59464,10 @@
           "method": "coordinates-name",
           "distanceM": 9,
           "nameScore": 1,
-          "matchedAt": "2026-11-04T06:42:32.610Z"
+          "matchedAt": "2026-11-04T17:28:16.826Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-04T06:42:32.610Z",
+        "fetchedAt": "2026-11-04T17:28:16.826Z",
         "deal": {
           "title": "Flat 10% Off on Total Bill",
           "on": "on pre-booking",
@@ -60086,7 +59853,138 @@
       "name": "Daak Coffee House",
       "area": "Jubilee Hills",
       "district": null,
-      "swiggy": null
+      "swiggy": {
+        "id": "1380532",
+        "name": "Daak Coffee House",
+        "locality": "Jubilee Hills",
+        "lat": 17.4277769,
+        "lng": 78.4129883,
+        "url": "https://www.swiggy.com/restaurants/daak-coffee-house-jubilee-hills-hyderabad-1380532/dineout",
+        "venue": {
+          "id": "1380532",
+          "name": "Daak Coffee House",
+          "locality": "Jubilee Hills",
+          "lat": 17.4277769,
+          "lng": 78.4129883,
+          "url": "https://www.swiggy.com/restaurants/daak-coffee-house-jubilee-hills-hyderabad-1380532/dineout"
+        },
+        "match": {
+          "status": "verified",
+          "method": "coordinates-name",
+          "distanceM": 0,
+          "nameScore": 1,
+          "matchedAt": "2026-11-04T17:27:37.219Z"
+        },
+        "hasOffers": true,
+        "fetchedAt": "2026-11-04T17:27:37.219Z",
+        "deal": null,
+        "schedule": [],
+        "cardOffers": [
+          {
+            "title": "Cashback ₹125",
+            "via": "PAYTMNEW",
+            "code": "PAYTMNEW",
+            "minBill": 99,
+            "pct": null,
+            "flat": 125
+          },
+          {
+            "title": "Cashback ₹50",
+            "via": "PAYTMUPI",
+            "code": "PAYTMUPI",
+            "minBill": 100,
+            "pct": null,
+            "flat": 50
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCINFINIA",
+            "code": "HDFCINFINIA",
+            "minBill": 3500,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCCCEMI",
+            "code": "HDFCCCEMI",
+            "minBill": 3500,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCDINERS",
+            "code": "HDFCDINERS",
+            "minBill": 3000,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat ₹200 off",
+            "via": "HDFCCARDS",
+            "code": "HDFCCARDS",
+            "minBill": 2000,
+            "pct": null,
+            "flat": 200
+          },
+          {
+            "title": "Cashback ₹100",
+            "via": "MBKDINE",
+            "code": "MBKDINE",
+            "minBill": 499,
+            "pct": null,
+            "flat": 100
+          },
+          {
+            "title": "Cashback ₹50",
+            "via": "MBKWALLET",
+            "code": "MBKWALLET",
+            "minBill": 1500,
+            "pct": null,
+            "flat": 50
+          },
+          {
+            "title": "Cashback 5%",
+            "via": "Swiggy Ornge HDFC Bank Credit Card",
+            "code": null,
+            "minBill": 249,
+            "pct": 5,
+            "flat": null
+          },
+          {
+            "title": "Cashback 10%",
+            "via": "Swiggy HDFC Bank Credit Card",
+            "code": null,
+            "minBill": 249,
+            "pct": 10,
+            "flat": null
+          }
+        ],
+        "cashback": "10% cashback On every bill payment",
+        "offers": [
+          {
+            "type": "BANK",
+            "title": "Cashback ₹125",
+            "desc": "Code PAYTMNEW, bills of ₹99+"
+          },
+          {
+            "type": "BANK",
+            "title": "Cashback ₹50",
+            "desc": "Code PAYTMUPI, bills of ₹100+"
+          },
+          {
+            "type": "BANK",
+            "title": "Flat 10% off",
+            "desc": "Code HDFCINFINIA, bills of ₹3,500+"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10%",
+            "desc": "10% cashback On every bill payment"
+          }
+        ]
+      }
     },
     "ChIJ9w3odQCTyzsRFQuTt9Bq1ks": {
       "name": "Churrolto Financial District",
@@ -60112,10 +60010,10 @@
           "method": "coordinates-name",
           "distanceM": 2,
           "nameScore": 1,
-          "matchedAt": "2026-11-03T17:24:40.832Z"
+          "matchedAt": "2026-11-04T17:35:54.620Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-03T17:24:40.832Z",
+        "fetchedAt": "2026-11-04T17:35:54.620Z",
         "deal": null,
         "schedule": [],
         "cardOffers": [
@@ -60229,180 +60127,7 @@
       "name": "Scream Ice Cream Gachibowli",
       "area": "Jubilee Hills",
       "district": null,
-      "swiggy": {
-        "id": "932938",
-        "name": "Scream Icecream",
-        "locality": "Gachibowli",
-        "lat": 17.443359,
-        "lng": 78.367867,
-        "url": "https://www.swiggy.com/restaurants/scream-icecream-gachibowli-hyderabad-932938/dineout",
-        "venue": {
-          "id": "932938",
-          "name": "Scream Icecream",
-          "locality": "Gachibowli",
-          "lat": 17.443359,
-          "lng": 78.367867,
-          "url": "https://www.swiggy.com/restaurants/scream-icecream-gachibowli-hyderabad-932938/dineout"
-        },
-        "match": {
-          "status": "verified",
-          "method": "coordinates-name",
-          "distanceM": 0,
-          "nameScore": 0.5,
-          "matchedAt": "2026-11-02T11:27:45.755Z"
-        },
-        "hasOffers": true,
-        "fetchedAt": "2026-11-02T11:27:45.755Z",
-        "deal": {
-          "title": "Flat 20% off on Total Bill",
-          "on": "on pre-booking",
-          "pct": 20,
-          "flat": null,
-          "applicableNow": null,
-          "allDay": true,
-          "note": "Available on Mon-Sun with booking fee: ₹25",
-          "bookingMode": "prebook",
-          "days": [
-            0,
-            1,
-            2,
-            3,
-            4,
-            5,
-            6
-          ],
-          "fee": 25
-        },
-        "schedule": [
-          {
-            "title": "Flat 20% off on Total Bill",
-            "mode": "prebook",
-            "days": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6
-            ],
-            "fee": 25,
-            "pct": 20,
-            "flat": null,
-            "note": "Available on Mon-Sun with booking fee: ₹25"
-          }
-        ],
-        "cardOffers": [
-          {
-            "title": "Cashback ₹125",
-            "via": "PAYTMNEW",
-            "code": "PAYTMNEW",
-            "minBill": 99,
-            "pct": null,
-            "flat": 125
-          },
-          {
-            "title": "Cashback ₹50",
-            "via": "PAYTMUPI",
-            "code": "PAYTMUPI",
-            "minBill": 100,
-            "pct": null,
-            "flat": 50
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCINFINIA",
-            "code": "HDFCINFINIA",
-            "minBill": 3500,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCCCEMI",
-            "code": "HDFCCCEMI",
-            "minBill": 3500,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat 10% off",
-            "via": "HDFCDINERS",
-            "code": "HDFCDINERS",
-            "minBill": 3000,
-            "pct": 10,
-            "flat": null
-          },
-          {
-            "title": "Flat ₹200 off",
-            "via": "HDFCCARDS",
-            "code": "HDFCCARDS",
-            "minBill": 2000,
-            "pct": null,
-            "flat": 200
-          },
-          {
-            "title": "Cashback ₹100",
-            "via": "MBKDINE",
-            "code": "MBKDINE",
-            "minBill": 499,
-            "pct": null,
-            "flat": 100
-          },
-          {
-            "title": "Cashback ₹50",
-            "via": "MBKWALLET",
-            "code": "MBKWALLET",
-            "minBill": 1500,
-            "pct": null,
-            "flat": 50
-          },
-          {
-            "title": "Cashback 5%",
-            "via": "Swiggy Ornge HDFC Bank Credit Card",
-            "code": null,
-            "minBill": 249,
-            "pct": 5,
-            "flat": null
-          },
-          {
-            "title": "Cashback 10%",
-            "via": "Swiggy HDFC Bank Credit Card",
-            "code": null,
-            "minBill": 249,
-            "pct": 10,
-            "flat": null
-          }
-        ],
-        "cashback": "10% cashback On every bill payment",
-        "offers": [
-          {
-            "type": "FLAT",
-            "title": "Flat 20% off on Total Bill",
-            "desc": "on pre-booking"
-          },
-          {
-            "type": "BANK",
-            "title": "Cashback ₹125",
-            "desc": "Code PAYTMNEW, bills of ₹99+"
-          },
-          {
-            "type": "BANK",
-            "title": "Cashback ₹50",
-            "desc": "Code PAYTMUPI, bills of ₹100+"
-          },
-          {
-            "type": "BANK",
-            "title": "Flat 10% off",
-            "desc": "Code HDFCINFINIA, bills of ₹3,500+"
-          },
-          {
-            "type": "CASHBACK",
-            "title": "10%",
-            "desc": "10% cashback On every bill payment"
-          }
-        ]
-      }
+      "swiggy": null
     },
     "ChIJ-YAJWwKRyzsRxwwu2EA2PBU": {
       "name": "Makers of Milkshakes Madhapur",
@@ -60428,10 +60153,10 @@
           "method": "coordinates-name",
           "distanceM": 11,
           "nameScore": 1,
-          "matchedAt": "2026-11-02T11:27:56.552Z"
+          "matchedAt": "2026-11-04T17:28:31.451Z"
         },
         "hasOffers": true,
-        "fetchedAt": "2026-11-02T11:27:56.552Z",
+        "fetchedAt": "2026-11-04T17:28:31.451Z",
         "deal": {
           "title": "Flat 15% off on total bill",
           "on": "on pre-booking",
@@ -62107,18 +61832,208 @@
           }
         ]
       }
+    },
+    "ChIJAVFjN5CXyzsRpUSGpoAty9U": {
+      "name": "Froozo Cafe",
+      "area": "Manikonda",
+      "district": null,
+      "swiggy": {
+        "id": "1034054",
+        "name": "Froozo Cafe",
+        "locality": "Manikonda",
+        "lat": 17.4003992,
+        "lng": 78.3782753,
+        "url": "https://www.swiggy.com/restaurants/froozo-cafe-manikonda-hyderabad-1034054/dineout",
+        "venue": {
+          "id": "1034054",
+          "name": "Froozo Cafe",
+          "locality": "Manikonda",
+          "lat": 17.4003992,
+          "lng": 78.3782753,
+          "url": "https://www.swiggy.com/restaurants/froozo-cafe-manikonda-hyderabad-1034054/dineout"
+        },
+        "match": {
+          "status": "verified",
+          "method": "coordinates-name",
+          "distanceM": 0,
+          "nameScore": 1,
+          "matchedAt": "2026-11-04T17:30:49.450Z"
+        },
+        "hasOffers": true,
+        "fetchedAt": "2026-11-04T17:30:49.450Z",
+        "deal": {
+          "title": "Flat 20% off on Total Bill",
+          "on": "on pre-booking",
+          "pct": 20,
+          "flat": null,
+          "applicableNow": null,
+          "allDay": true,
+          "note": "Available on Mon-Thu with booking fee: ₹25",
+          "bookingMode": "prebook",
+          "days": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "fee": 25
+        },
+        "schedule": [
+          {
+            "title": "Flat 20% off on Total Bill",
+            "mode": "prebook",
+            "days": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "fee": 25,
+            "pct": 20,
+            "flat": null,
+            "note": "Available on Mon-Thu with booking fee: ₹25"
+          },
+          {
+            "title": "Flat 15% Off on Total Bill",
+            "mode": "prebook",
+            "days": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "fee": 25,
+            "pct": 15,
+            "flat": null,
+            "note": "Available on Mon-Sun with booking fee: ₹25"
+          }
+        ],
+        "cardOffers": [
+          {
+            "title": "Cashback ₹125",
+            "via": "PAYTMNEW",
+            "code": "PAYTMNEW",
+            "minBill": 99,
+            "pct": null,
+            "flat": 125
+          },
+          {
+            "title": "Cashback ₹50",
+            "via": "PAYTMUPI",
+            "code": "PAYTMUPI",
+            "minBill": 100,
+            "pct": null,
+            "flat": 50
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCINFINIA",
+            "code": "HDFCINFINIA",
+            "minBill": 3500,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCCCEMI",
+            "code": "HDFCCCEMI",
+            "minBill": 3500,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat 10% off",
+            "via": "HDFCDINERS",
+            "code": "HDFCDINERS",
+            "minBill": 3000,
+            "pct": 10,
+            "flat": null
+          },
+          {
+            "title": "Flat ₹200 off",
+            "via": "HDFCCARDS",
+            "code": "HDFCCARDS",
+            "minBill": 2000,
+            "pct": null,
+            "flat": 200
+          },
+          {
+            "title": "Cashback ₹100",
+            "via": "MBKDINE",
+            "code": "MBKDINE",
+            "minBill": 499,
+            "pct": null,
+            "flat": 100
+          },
+          {
+            "title": "Cashback ₹50",
+            "via": "MBKWALLET",
+            "code": "MBKWALLET",
+            "minBill": 1500,
+            "pct": null,
+            "flat": 50
+          },
+          {
+            "title": "Cashback 5%",
+            "via": "Swiggy Ornge HDFC Bank Credit Card",
+            "code": null,
+            "minBill": 249,
+            "pct": 5,
+            "flat": null
+          },
+          {
+            "title": "Cashback 10%",
+            "via": "Swiggy HDFC Bank Credit Card",
+            "code": null,
+            "minBill": 249,
+            "pct": 10,
+            "flat": null
+          }
+        ],
+        "cashback": "10% cashback On every bill payment",
+        "offers": [
+          {
+            "type": "FLAT",
+            "title": "Flat 20% off on Total Bill",
+            "desc": "on pre-booking"
+          },
+          {
+            "type": "BANK",
+            "title": "Cashback ₹125",
+            "desc": "Code PAYTMNEW, bills of ₹99+"
+          },
+          {
+            "type": "BANK",
+            "title": "Cashback ₹50",
+            "desc": "Code PAYTMUPI, bills of ₹100+"
+          },
+          {
+            "type": "BANK",
+            "title": "Flat 10% off",
+            "desc": "Code HDFCINFINIA, bills of ₹3,500+"
+          },
+          {
+            "type": "CASHBACK",
+            "title": "10%",
+            "desc": "10% cashback On every bill payment"
+          }
+        ]
+      }
     }
   },
-  "swiggyUpdatedAt": "2026-11-04T06:48:29.088Z",
+  "swiggyUpdatedAt": "2026-11-04T17:36:40.926Z",
   "coverage": {
     "updatedAt": "2026-10-28T00:51:22.990Z",
     "swiggyDiscovery": {
-      "discovered": 409,
-      "candidates": 338,
-      "matched": 78,
-      "unmatched": 259,
-      "rejectedMatches": 1,
-      "refreshedAt": "2026-11-04T06:48:29.088Z"
+      "discovered": 372,
+      "candidates": 309,
+      "matched": 115,
+      "unmatched": 189,
+      "rejectedMatches": 5,
+      "refreshedAt": "2026-11-04T17:36:40.926Z"
     },
     "districtDiscovery": {
       "mode": "verified",
@@ -62129,14 +62044,14 @@
       "rejectedMatches": 60,
       "refreshedAt": "2026-11-04T08:43:32.483Z"
     },
-    "candidates": 712,
+    "candidates": 713,
     "listed": {
       "district": 412,
       "swiggy": 168
     },
     "discovered": {
       "district": 17883,
-      "swiggy": 409
+      "swiggy": 372
     },
     "matched": {
       "district": 301,
@@ -62146,7 +62061,7 @@
     "active": {
       "district": 236,
       "swiggy": 167,
-      "both": 91
+      "both": 90
     },
     "singlePlatform": {
       "district": 271,
@@ -62154,11 +62069,11 @@
     },
     "unmatched": {
       "district": 51,
-      "swiggy": 259
+      "swiggy": 189
     },
     "rejectedMatches": {
       "district": 60,
-      "swiggy": 1
+      "swiggy": 5
     }
   }
 }
