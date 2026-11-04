@@ -139,6 +139,7 @@ export default function EateriesApp({
   const [heroes, setHeroes] = useState([]);
   // Every spot on the map for the card rail (the map itself shows only a few pins).
   const [railList, setRailList] = useState({ spots: [], total: 0 });
+  const [mapRailOpen, setMapRailOpen] = useState(true);
   const onVisibleChange = useCallback((spots, total) => setRailList({ spots, total }), []);
   const [areaLabel, setAreaLabel] = useState(null);
   const [userLoc, setUserLoc] = useState(null);
@@ -1224,7 +1225,7 @@ export default function EateriesApp({
               </div>
             )}
 
-            <div style={{ position: "absolute", right: 12, bottom: curatedEnabled && recommendedOnly ? 64 : railSpots.length ? 186 : 20, display: "flex", flexDirection: "column", gap: 9, zIndex: 1000 }}>
+            <div style={{ position: "absolute", right: 12, bottom: curatedEnabled && recommendedOnly ? 64 : railSpots.length && mapRailOpen && !sheetOpen && !locAsk && !askOpen ? 186 : 20, display: "flex", flexDirection: "column", gap: 9, zIndex: 1000 }}>
               <button onClick={() => { setAreaLabel(null); setSelectedId(null); mapApi.current?.reset(); }} style={fab} aria-label="Back to city view">
                 <Icon name="city" size={20} width={1.9} color="var(--ink-soft)" />
               </button>
@@ -1302,6 +1303,8 @@ export default function EateriesApp({
               <CardRail
                 spots={railSpots}
                 total={railList.total}
+                open={mapRailOpen}
+                onOpenChange={setMapRailOpen}
                 activeId={selectedId}
                 onActivate={handleSelect}
                 onOpen={() => setSheetOpen(true)}
