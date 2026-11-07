@@ -9,6 +9,8 @@ import { askPages } from "../lib/askPages.js";
 import { recommendationsEnabled } from "../lib/recommendationShared.js";
 import { GEO_GUIDE_SLUGS } from "../lib/geoGuides.js";
 import { qualifiedOfferAreas, qualifiedOfferViews } from "../lib/offerPageData.js";
+// Real per-route change dates from git (scripts/gen-lastmod.mjs), bot data commits skipped.
+import { withLastModified } from "../lib/lastmod.js";
 
 export const dynamic = "force-dynamic";
 
@@ -151,7 +153,7 @@ export default async function sitemap() {
   }));
 
   const seen = new Set();
-  return [
+  return withLastModified([
     ...staticUrls.filter((u) => !themeSlugs.has(u.url.split("/rankings/")[1])),
     ...themeUrls,
     ...areaRankingUrls,
@@ -168,5 +170,5 @@ export default async function sitemap() {
     if (seen.has(e.url)) return false;
     seen.add(e.url);
     return true;
-  });
+  }));
 }

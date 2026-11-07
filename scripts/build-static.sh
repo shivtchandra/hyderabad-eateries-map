@@ -51,6 +51,7 @@ for f in "app/race/this-week/page.jsx" "app/rankings/page.jsx" "app/rankings/[sl
 done
 
 node scripts/build-static.mjs
+node scripts/gen-lastmod.mjs
 HYD_STATIC_EXPORT=1 npx next build
 node scripts/static-redirects.mjs > out/_redirects
 node -e '
