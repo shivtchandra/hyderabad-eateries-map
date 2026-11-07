@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import EateriesApp from "../../../page.jsx";
 import { pageMeta } from "../../../../lib/site.js";
 import { hubJsonLd, todayIso } from "../../../../lib/hubSeo.js";
-import { loadOfferPageData, qualifiedOfferAreas } from "../../../../lib/offerPageData.js";
+import { OFFERS_ROBOTS, loadOfferPageData, qualifiedOfferAreas } from "../../../../lib/offerPageData.js";
 
 export const dynamicParams = false;
 export const revalidate = false;
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }) {
       `District offers ${match.area}`,
       `restaurant discounts ${match.area} Hyderabad`,
     ],
-    robots: { index: true, follow: true },
+    robots: OFFERS_ROBOTS,
   };
 }
 

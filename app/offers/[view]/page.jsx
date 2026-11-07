@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import EateriesApp from "../../page.jsx";
 import { pageMeta } from "../../../lib/site.js";
 import { hubJsonLd, todayIso } from "../../../lib/hubSeo.js";
-import { OFFER_VIEWS, loadOfferPageData, qualifiedOfferViews, spotsForOfferView } from "../../../lib/offerPageData.js";
+import { OFFERS_ROBOTS, OFFER_VIEWS, loadOfferPageData, qualifiedOfferViews, spotsForOfferView } from "../../../lib/offerPageData.js";
 
 export const dynamicParams = false;
 export const revalidate = false;
@@ -18,11 +18,10 @@ export async function generateMetadata({ params }) {
   const { view } = await params;
   const config = OFFER_VIEWS[view];
   if (!config) return {};
-  const count = spotsForOfferView(view).length;
   return {
     ...pageMeta({ title: config.seoTitle || config.title, description: config.description, path: `/offers/${view}` }),
     keywords: config.keywords,
-    robots: { index: count >= 15, follow: true },
+    robots: OFFERS_ROBOTS,
   };
 }
 

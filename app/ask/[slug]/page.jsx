@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteChrome from "../../components/SiteChrome.jsx";
 import PollCard from "../../components/PollCard.jsx";
-import { askPage, askPages, askStats, askUpdated, complaintLabel, praiseLabel } from "../../../lib/askPages.js";
+import { askPage, askPageIndexable, askPages, askStats, askUpdated, complaintLabel, praiseLabel } from "../../../lib/askPages.js";
 import { recommendationsEnabled } from "../../../lib/recommendationShared.js";
 import { getSiteUrl, pageMeta } from "../../../lib/site.js";
 import { breadcrumbJsonLd } from "../../../lib/schema.js";
@@ -14,7 +14,9 @@ import { readPoll } from "../../../lib/polls.js";
 export function generateStaticParams() { return recommendationsEnabled() ? askPages().map((p) => ({ slug: p.slug })) : []; }
 export function generateMetadata({ params }) {
   const p = recommendationsEnabled() && askPage(params.slug);
-  return p ? pageMeta({ title: p.title, description: p.answer, path: `/ask/${p.slug}` }) : { title: "Question not found", robots: { index: false } };
+  if (!p) return { title: "Question not found", robots: { index: false } };
+  const meta = pageMeta({ title: p.title, description: p.answer, path: `/ask/${p.slug}` });
+  return askPageIndexable(askPages().find((x) => x.slug === params.slug)) ? meta : { ...meta, robots: { index: false, follow: true } };
 }
 
 async function buildTimeTotals(slug) {

@@ -5,7 +5,7 @@ import { ogImages } from "../../lib/og.js";
 import EateriesApp from "../page.jsx";
 import { spotSlug } from "../../lib/siteData.js";
 import { hubJsonLd, todayIso } from "../../lib/hubSeo.js";
-import { OFFER_VIEWS, qualifiedOfferAreas, qualifiedOfferViews } from "../../lib/offerPageData.js";
+import { OFFERS_ROBOTS, OFFER_VIEWS, qualifiedOfferAreas, qualifiedOfferViews } from "../../lib/offerPageData.js";
 
 // Static: the data is data/curated-offers.json inside the deployment, which only
 // changes when a deploy ships a new offers refresh, so a per-request render gave
@@ -25,6 +25,7 @@ export const metadata = {
     ...pageMeta({ title: SEO_TITLE, description: DESCRIPTION, path: SLUG }).openGraph,
     images: ogImages(SEO_TITLE, DESCRIPTION, SLUG),
   },
+  robots: OFFERS_ROBOTS,
   keywords: [
     "Swiggy Dineout vs District",
     "Hyderabad restaurant offers",

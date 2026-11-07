@@ -5,10 +5,9 @@ import { SEO_THEME_PICKS, slugFromTitle } from "../lib/rankings.js";
 import { getIndexableSpotIds } from "../lib/spotContent.js";
 import { allAreaPages, allCategoryPages, allAreaCategoryCombinations, getEditorialSpotIds, spotSlug, getEateryById, getEateries } from "../lib/siteData.js";
 import { getSiteUrl } from "../lib/site.js";
-import { askPages } from "../lib/askPages.js";
+import { askPageIndexable, askPages } from "../lib/askPages.js";
 import { recommendationsEnabled } from "../lib/recommendationShared.js";
-import { GEO_GUIDE_SLUGS } from "../lib/geoGuides.js";
-import { qualifiedOfferAreas, qualifiedOfferViews } from "../lib/offerPageData.js";
+import { INDEXABLE_GEO_GUIDE_SLUGS } from "../lib/geoGuides.js";
 // Real per-route change dates from git (scripts/gen-lastmod.mjs), bot data commits skipped.
 import { withLastModified } from "../lib/lastmod.js";
 
@@ -27,7 +26,7 @@ const GUIDE_SLUGS = [
   "late-night-food-hyderabad-reddit",
   "restaurants-in-sattva-knowledge-city-hyderabad",
   "dishes", // dish guides hub
-  ...GEO_GUIDE_SLUGS,
+  ...INDEXABLE_GEO_GUIDE_SLUGS,
 ];
 function getGuideSlugs() {
   let found = [];
@@ -74,9 +73,7 @@ export default async function sitemap() {
     { url: `${siteUrl}/rankings/how-it-works`, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/stories`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteUrl}/food-safety`, changeFrequency: "daily", priority: 0.8 },
-    { url: `${siteUrl}/offers`, changeFrequency: "daily", priority: 0.9 },
-    ...qualifiedOfferViews().map((view) => ({ url: `${siteUrl}/offers/${view}`, changeFrequency: "daily", priority: 0.85 })),
-    ...qualifiedOfferAreas().map(({ slug }) => ({ url: `${siteUrl}/offers/in/${slug}`, changeFrequency: "daily", priority: 0.8 })),
+    // Offer pages are left out: see OFFERS_ROBOTS in lib/offerPageData.js.
     { url: `${siteUrl}/about`, changeFrequency: "yearly", priority: 0.4 },
     { url: `${siteUrl}/explore`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteUrl}/guides`, changeFrequency: "weekly", priority: 0.9 },
@@ -163,7 +160,7 @@ export default async function sitemap() {
     ...spotUrls,
     ...(recommendationsEnabled() ? [
       { url: `${siteUrl}/ask`, changeFrequency: "weekly", priority: 0.85 },
-      ...askPages().map((p) => ({ url: `${siteUrl}/ask/${p.slug}`, changeFrequency: "weekly", priority: 0.85 })),
+      ...askPages().filter(askPageIndexable).map((p) => ({ url: `${siteUrl}/ask/${p.slug}`, changeFrequency: "weekly", priority: 0.85 })),
       { url: `${siteUrl}/about/how-we-pick`, changeFrequency: "monthly", priority: 0.6 },
     ] : []),
   ].filter((e) => {

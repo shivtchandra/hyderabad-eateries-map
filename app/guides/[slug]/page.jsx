@@ -5,7 +5,7 @@ import BottomNav from "../../components/BottomNav.jsx";
 import HubAnswer, { HubFaq } from "../../components/HubAnswer.jsx";
 import GuideSpotCard from "../../components/GuideSpotCard.jsx";
 import SwipeDeck from "../../components/SwipeDeck.jsx";
-import { GEO_GUIDES, getGeoGuide } from "../../../lib/geoGuides.js";
+import { GEO_GUIDES, geoGuideIndexable, getGeoGuide } from "../../../lib/geoGuides.js";
 import { getEateryById, spotPath } from "../../../lib/siteData.js";
 import { pageMeta } from "../../../lib/site.js";
 import { ogImages } from "../../../lib/og.js";
@@ -28,6 +28,7 @@ export function generateMetadata({ params }) {
     ...base,
     keywords: guide.keywords,
     openGraph: { ...base.openGraph, images: ogImages(guide.title, guide.description, path) },
+    ...(geoGuideIndexable(guide) ? {} : { robots: { index: false, follow: true } }),
   };
 }
 
