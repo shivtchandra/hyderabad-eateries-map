@@ -855,6 +855,21 @@ export default function EateriesApp({
     if (tab === "map") mapApi.current?.invalidate();
   }, [tab]);
 
+  // When a specific filter (e.g. Japanese, Sushi) is active with a targeted set of spots,
+  // fit the map to show all of them at optimal zoom instead of leaving them clustered from afar.
+  const lastFittedFilterRef = useRef("");
+  useEffect(() => {
+    const currentKey = activeTags.join(",") || (safetyOnly ? "safety" : "");
+    if (!currentKey || currentKey === lastFittedFilterRef.current) {
+      if (!currentKey) lastFittedFilterRef.current = "";
+      return;
+    }
+    if (tab === "map" && mapApi.current && filtered.length > 0 && filtered.length <= 35) {
+      lastFittedFilterRef.current = currentKey;
+      mapApi.current.fitPlaces(filtered, { animate: true });
+    }
+  }, [activeTags, safetyOnly, tab, filtered]);
+
   const openFromList = useCallback((e) => {
     setTab("map");
     setSelectedId(e.id);
