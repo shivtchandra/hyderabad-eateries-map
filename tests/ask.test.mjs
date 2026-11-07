@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { parseQuery, mergeSlots, findCandidates, formatFacts, buildSystemPrompt, cardFor, EMPTY_LIVE } from "../lib/askAiServer.js";
+import { parseQuery, mergeSlots, findCandidates, formatFacts, buildSystemPrompt, cardFor, EMPTY_LIVE, closesLate } from "../lib/askAiServer.js";
 import { haversineKm, buildAreaCentroids } from "../lib/eateryUtils.js";
 import { getEateries } from "../lib/siteData.js";
 
@@ -84,8 +84,11 @@ test("area-only and off-topic questions are classified sanely", () => {
 });
 
 test("open now and late night filters are hard filters", () => {
-  const r = ask(turn("late night shawarma near Madhapur"));
-  for (const c of r.list) assert.notEqual(c.open, false, `${c.e.name} closed`);
+  const late = ask(turn("late night shawarma near Madhapur"));
+  for (const c of late.list) assert.equal(closesLate(c.e.hours), true, `${c.e.name} does not close late`);
+
+  const open = ask(turn("open now shawarma near Madhapur"));
+  for (const c of open.list) assert.notEqual(c.open, false, `${c.e.name} closed`);
 });
 
 test("a ranking for another dish gives no boost or badge", () => {

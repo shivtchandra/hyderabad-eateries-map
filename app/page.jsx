@@ -195,7 +195,10 @@ export default function EateriesApp({
     if (d) {
       setUrlDish(d);
       if (curatedEnabled) setRecommendationDish(d);
+      if (d === "sushi") setActiveTags(["sushi"]);
     }
+    const tag = p.get("tag");
+    if (tag) setActiveTags([tag]);
     if (curatedEnabled && p.get("mode") === "all") setRecommendedOnly(false);
     if (p.get("filter") === "safety") setSafetyOnly(true);
     setTabReady(true);

@@ -33,6 +33,8 @@ const KEYWORD_RULES = [
   { tag: "juice", kw: ["juice"] },
   { tag: "mithai", kw: ["mithai", "sweets", " sweet "] },
   { tag: "thai", kw: ["thai"] },
+  { tag: "japanese", kw: ["japanese"] },
+  { tag: "sushi", kw: ["sushi"] },
   { tag: "waffle", kw: ["waffle"] },
   { tag: "lassi", kw: ["lassi"] },
   { tag: "kebab", kw: ["kebab", "kabab"] },
