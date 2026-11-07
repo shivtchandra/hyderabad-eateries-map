@@ -514,9 +514,26 @@ export default function EateriesApp({
   }, [safetyOnly, eateries, safetyMap, safetyPlaces]);
   // Share the map as it is now (the filter travels in the link).
   const shareFiltered = async () => {
-    const url = `${window.location.origin}/?filter=safety`;
+    const sp = new URLSearchParams();
+    if (safetyOnly) sp.set("filter", "safety");
+    else if (activeTags.length) sp.set("tag", activeTags[0]);
+    else if (activeCategory !== "all") sp.set("category", activeCategory);
+    else if (recommendationDish) sp.set("dish", recommendationDish);
+
+    const qs = sp.toString();
+    const url = qs ? `${window.location.origin}/?${qs}` : window.location.origin;
+    const title = activeTags.includes("japanese")
+      ? "Authentic Japanese restaurants in Hyderabad"
+      : activeTags.includes("sushi")
+      ? "Best Sushi in Hyderabad"
+      : safetyOnly
+      ? "Hyderabad food safety records on the map"
+      : activeFilterLabels.length
+      ? `${activeFilterLabels.join(", ")} on Hyderabad Eats`
+      : "Hyderabad Eats Map";
+
     try {
-      if (navigator.share) await navigator.share({ title: "Hyderabad food safety records on the map", url });
+      if (navigator.share) await navigator.share({ title, url });
       else { await navigator.clipboard.writeText(url); setToast("Link copied"); }
     } catch {}
   };
@@ -952,6 +969,7 @@ export default function EateriesApp({
             localsOnly={localsOnly} setLocalsOnly={setLocalsOnly} localsCount={Object.keys(localsMap).length}
             showAll={showAll} setShowAll={setShowAll} hiddenCount={hiddenCount}
             filtersOpen={filtersOpen} setFiltersOpen={setFiltersOpen} hideFiltersButton
+            onShare={shareFiltered}
           />
         </div>
       )}
@@ -1219,7 +1237,7 @@ export default function EateriesApp({
                     <span>{filtered.length + (safetyOnly ? safetyPlaces.length : 0)} {filtered.length === 1 ? "spot" : "spots"}</span>
                   </button>
                 )}
-                {safetyOnly && (
+                {(safetyOnly || activeFilterLabels.length > 0 || areaLabel) && (
                   <button type="button" className="map-scope-chip map-scope-chip--share" onClick={shareFiltered} aria-label="Share this map">
                     <Icon name="share" size={14} width={2.2} color="var(--ink)" />
                     Share

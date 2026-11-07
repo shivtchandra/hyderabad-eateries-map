@@ -43,6 +43,7 @@ export default function FilterChips({
   // The Filters button lives in the top bar (TopBar.jsx); the page owns the
   // open state and passes it here so this row can render the panel.
   filtersOpen: filtersOpenProp, setFiltersOpen: setFiltersOpenProp, hideFiltersButton = false,
+  onShare = null,
 }) {
   const [filtersOpenLocal, setFiltersOpenLocal] = useState(false);
   const filtersOpen = filtersOpenProp ?? filtersOpenLocal;
@@ -188,9 +189,16 @@ export default function FilterChips({
             </div>
           )}
 
-          <button type="button" onClick={close} className="pressable-sm" style={{ ...chip(false), alignSelf: "flex-end", background: "transparent", color: "var(--muted)" }}>
-            <Icon name="close" size={14} width={2.2} color="var(--muted)" /> Done
-          </button>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginTop: "var(--s2)" }}>
+            {activeFilterCount > 0 && onShare ? (
+              <button type="button" onClick={() => { onShare(); close(); }} className="pressable-sm" style={{ ...chip(false), background: "var(--violet-wash)", color: "var(--violet-deep)", fontWeight: 700 }}>
+                <Icon name="share" size={14} width={2.2} color="var(--violet-deep)" /> Share this view
+              </button>
+            ) : <span />}
+            <button type="button" onClick={close} className="pressable-sm" style={{ ...chip(false), background: "transparent", color: "var(--muted)" }}>
+              <Icon name="close" size={14} width={2.2} color="var(--muted)" /> Done
+            </button>
+          </div>
         </div>
       )}
     </div>
