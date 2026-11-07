@@ -352,7 +352,7 @@ export default function MapCanvas({
     // When zoomed out (zoom <= AREA_ZOOM_MAX), show neighbourhood number blobs whenever
     // there are more than 12 matching spots, keeping the map clean and preventing pin piles.
     // If there are 12 or fewer spots (e.g. precise search), skip straight to individual pins.
-    const isSmallSet = filtered.length <= 12;
+    const isSmallSet = filtered.length <= 25;
     // Recommended is already a deliberately small, high-signal set. Keep every
     // matching venue visible as a photo pin or dot at city zoom instead of
     // replacing it with area blobs (whose collision pass can hide whole areas).
@@ -444,7 +444,6 @@ export default function MapCanvas({
     const PIN = 56;
     const W = map.getSize().x, H = map.getSize().y;
     const TOP_PX = chromeBottom; // floating search row + chips (+ area chip)
-    const isSmallSet = filtered.length <= 25;
     const maxHeroes = isSmallSet
       ? filtered.length
       : Math.min(heroCap, Math.max(4, Math.min(W < 600 ? 12 : 30, Math.floor((W * Math.max(0, H - TOP_PX - RAIL_PX)) / (130 * 110)))));
