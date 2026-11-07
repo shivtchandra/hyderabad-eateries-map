@@ -122,8 +122,13 @@ function mergeStandings(results = [], suggestions = [], limit = 10) {
     .filter((r) => (r.count || 0) > 0)
     .sort(byFresh)
     .map(withLoc);
-  const seen = new Set(voted.map((r) => r.spotId));
-  const out = [...voted];
+
+  // If there are voted spots, only keep the voted spots; do not pad with unvoted suggestions
+  if (voted.length > 0) {
+    return voted;
+  }
+
+  const seen = new Set();
 
   const zeros = results
     .filter((r) => !seen.has(r.spotId))
@@ -157,6 +162,7 @@ function mergeStandings(results = [], suggestions = [], limit = 10) {
   // Before anybody votes these are ballot candidates, not a Google-derived ranking.
   pad.sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
 
+  const out = [];
   for (const row of pad) {
     if (out.length >= limit) break;
     if (seen.has(row.spotId)) continue;
