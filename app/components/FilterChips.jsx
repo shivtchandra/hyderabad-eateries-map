@@ -4,7 +4,19 @@ import { useState } from "react";
 import { TAGS } from "../../lib/eateryUtils.js";
 import { Icon, TagIcon } from "./Icons.jsx";
 
-// Five chips at most (DESIGN.md 4a). Tap an active chip again to clear it.
+const VIBE_KEYS = new Set([
+  "work-friendly", "quiet", "view", "outdoor", "date", "specialty",
+  "live-music", "breakfast", "pet-friendly", "desserts", "veg-friendly",
+  "pure-veg", "reservable",
+]);
+
+// Cuisines shown first for quick discovery
+const CUISINE_ORDER = [
+  "japanese", "sushi", "thai", "chinese", "arabian", "andhra",
+  "biryani", "mandi", "shawarma", "irani", "chai", "juice",
+  "tiffin", "dosa", "kebab", "haleem", "tandoor", "momo",
+  "chaat", "mithai", "dhaba", "grill", "waffle", "lassi", "kulfi",
+];
 // Bakery and Ice Cream share one Desserts chip (page.jsx filters both).
 // Everything else (open now, nearby, dish, vibe tags, the every-spot toggle)
 // sits behind the one Filters button, so the map keeps a single calm row.
@@ -138,11 +150,31 @@ export default function FilterChips({
             </div>
           )}
 
-          {Object.keys(TAGS).some((k) => tagCounts[k]) && (
+          {/* Cuisines & Specialities (Japanese, Sushi, Thai, etc.) */}
+          {CUISINE_ORDER.some((k) => TAGS[k] && tagCounts[k]) && (
+            <div style={{ display: "flex", flexDirection: "column", gap: "var(--s2)" }}>
+              <span className="t-over" style={{ color: "var(--muted)" }}>Cuisine</span>
+              <div className="chip-wrap">
+                {CUISINE_ORDER.filter((k) => TAGS[k] && tagCounts[k]).map((key) => {
+                  const meta = TAGS[key];
+                  const active = activeTags.includes(key);
+                  return (
+                    <button key={key} type="button" onClick={() => { toggleTag(key); close(); }} className="pressable-sm" style={chip(active)}>
+                      <TagIcon tag={key} size={16} width={2} color={active ? "#fff" : "var(--ink-soft)"} />
+                      {meta.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Vibes & Features (Work-friendly, Date spot, etc.) */}
+          {Object.keys(TAGS).some((k) => VIBE_KEYS.has(k) && tagCounts[k]) && (
             <div style={{ display: "flex", flexDirection: "column", gap: "var(--s2)" }}>
               <span className="t-over" style={{ color: "var(--muted)" }}>Vibe</span>
               <div className="chip-wrap">
-                {Object.entries(TAGS).map(([key, meta]) => {
+                {Object.entries(TAGS).filter(([k]) => VIBE_KEYS.has(k)).map(([key, meta]) => {
                   if (!tagCounts[key]) return null;
                   const active = activeTags.includes(key);
                   return (
