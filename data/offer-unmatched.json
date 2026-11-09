@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-09T06:57:50.539Z",
+  "updatedAt": "2026-11-09T14:33:06.795Z",
   "district": [
     {
       "id": "ChIJRyiuPoSUyzsR0B5Nj-I8Qlw",
@@ -20,21 +20,9 @@
       "reason": "ambiguous-branch"
     },
     {
-      "id": "ChIJ-1FJL1iRyzsR6UU59XXpqsw",
-      "name": "Chilis Grill and Bar",
-      "area": "Madhapur",
-      "reason": "no-strict-name-locality-match"
-    },
-    {
       "id": "ChIJOYPmSRWVyzsRd0SN6RLIYVo",
       "name": "Amy's Cafe",
       "area": "text:cafe manikonda",
-      "reason": "no-strict-name-locality-match"
-    },
-    {
-      "id": "ChIJN2NxGOKTyzsRwyXFCXx6iyI",
-      "name": "Kapoor's Cafe - Hitex",
-      "area": "text:cafe hitech city",
       "reason": "no-strict-name-locality-match"
     },
     {
@@ -62,9 +50,9 @@
       "reason": "ambiguous-branch"
     },
     {
-      "id": "ChIJ1zY_LDCRyzsRyI6X036eZQo",
-      "name": "The Bar Project",
-      "area": "Begumpet",
+      "id": "ChIJ3cQl67eQyzsRjAc6UgB9WFY",
+      "name": "Hotel Green Park",
+      "area": "Ameerpet",
       "reason": "ambiguous-branch"
     },
     {
@@ -83,12 +71,6 @@
       "id": "ChIJs2Z8Jy2RyzsRUvMabDrmsNc",
       "name": "Cream Stone Ice Cream",
       "area": "Jubilee Hills",
-      "reason": "ambiguous-branch"
-    },
-    {
-      "id": "ChIJqfi8bQCTyzsR5fbpcBgdk0M",
-      "name": "Kritaa Nagar",
-      "area": "Financial District",
       "reason": "ambiguous-branch"
     },
     {
@@ -158,10 +140,10 @@
       "reason": "ambiguous-branch"
     },
     {
-      "id": "ChIJY2cuTgCVyzsRkrOVRDZO140",
-      "name": "Kapoor’s Cafe - Kokapet",
-      "area": "text:cafe kokapet",
-      "reason": "no-strict-name-locality-match"
+      "id": "ChIJT7PoQhWRyzsRdvYjCUehUDA",
+      "name": "Naad Coffee",
+      "area": "Jubilee Hills",
+      "reason": "ambiguous-branch"
     },
     {
       "id": "ChIJ-YAJWwKRyzsRxwwu2EA2PBU",
@@ -182,15 +164,21 @@
       "reason": "ambiguous-branch"
     },
     {
-      "id": "ChIJ71GlZ-iXyzsRmC26JUnUEug",
-      "name": "Harley’s Fine Baking - Manikonda",
-      "area": "Jubilee Hills",
-      "reason": "no-strict-name-locality-match"
-    },
-    {
       "id": "ChIJe4ItWDCXyzsRZc6XlMQjnlg",
       "name": "Theobroma Bakery and Cake Shop - Film Nagar, Hyderabad",
       "area": "Jubilee Hills",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJiW_I8MybyzsR2MQ9dAcRQ_I",
+      "name": "Tatva Restaurant - Begumpet",
+      "area": "Begumpet",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJARECFhmTyzsRfwTd1UJ2Ae0",
+      "name": "Starbucks - Nanakramguda",
+      "area": "Financial District",
       "reason": "ambiguous-branch"
     },
     {
@@ -202,6 +190,18 @@
       "reason": "response-locality-mismatch",
       "nameScore": 1,
       "localityHits": []
+    },
+    {
+      "id": "ChIJ5yPU9O-XyzsRJYqhh-JcQHk",
+      "name": "Cafe Niloufer Premium Lounge",
+      "area": "Jubilee Hills",
+      "slug": "niloufer-chath-banjara-hills",
+      "pageTitle": "Niloufer Chath | Banjara Hills, Hyderabad",
+      "reason": "response-name-mismatch",
+      "nameScore": 0.5,
+      "localityHits": [
+        "banjara"
+      ]
     },
     {
       "id": "ChIJExhfyuaWyzsR49-5CSBT2nI",
@@ -352,16 +352,6 @@
       ]
     },
     {
-      "id": "ChIJ3cQl67eQyzsRjAc6UgB9WFY",
-      "name": "Hotel Green Park",
-      "area": "Ameerpet",
-      "slug": "once-upon-a-time-hotel-greenpark-1-begumpet",
-      "pageTitle": "Once Upon A Time - Hotel GreenPark | Hyderabad | Book Table",
-      "reason": "response-name-mismatch",
-      "nameScore": 0,
-      "localityHits": []
-    },
-    {
       "id": "reach-baith-al-mandi-the-arabian-restaurant-medchal-road-0f837a48",
       "name": "Baith Al Mandi-The Arabian Restaurant",
       "area": "Medchal Road",
@@ -457,11 +447,11 @@
       ]
     },
     {
-      "id": "ChIJPVgrc1uTyzsRJFlTkjkCXzQ",
-      "name": "Komma - The Club",
-      "area": "Kondapur",
-      "slug": "komma-the-club-1-kothaguda",
-      "pageTitle": "Komma - The Club | Kothaguda, Hyderabad",
+      "id": "ChIJM1_veACVyzsRb2Iuo5SocpQ",
+      "name": "Buffalo Wild Wings",
+      "area": "Financial District",
+      "slug": "buffalo-wild-wings-gandipet",
+      "pageTitle": "Buffalo Wild Wings | Gandipet, Hyderabad | Book Table",
       "reason": "response-locality-mismatch",
       "nameScore": 1,
       "localityHits": []
