@@ -162,6 +162,30 @@ const ACTION_TONE = { closed: "#141414", "licence-suspended": "#c2410c", notice:
 const ACTION_LABEL = { closed: "Closed", "licence-suspended": "Licence suspended", notice: "Notice", "notice-proposed": "Notice proposed", "no-action": "No action listed" };
 const normArea = (s = "") => s.toLowerCase().replace(/[^a-z]/g, "");
 
+// Locality centres are only used for aggregate area bubbles, never as exact
+// establishment pins. These cover inspection areas outside our eatery index.
+const INSPECTION_AREA_CENTRES = {
+  khairatabad: { lat: 17.4129744, lng: 78.4610582, name: "Khairatabad" },
+  shaikpet: { lat: 17.4057955, lng: 78.4006536, name: "Shaikpet" },
+  gopanpally: { lat: 17.4447568, lng: 78.3084572, name: "Gopanpally" },
+  pragathinagar: { lat: 17.5200154, lng: 78.3968876, name: "Pragathi Nagar" },
+  serlingampally: { lat: 17.4822, lng: 78.3230, name: "Serlingampally" },
+  muthangivillage: { lat: 17.5417850, lng: 78.2280080, name: "Muthangi" },
+  patancherubusstand: { lat: 17.5286092, lng: 78.2674254, name: "Patancheru" },
+  madanapet: { lat: 17.3585578, lng: 78.4971064, name: "Madanapet" },
+};
+
+function inspectionAreaCentre(area, indexed) {
+  const parts = String(area || "").split(",").map((s) => normArea(s)).filter(Boolean);
+  for (const key of [normArea(area), ...parts.reverse()]) {
+    const found = indexed.get(key);
+    if (found) return { ...found, lat: found.lat / found.n, lng: found.lng / found.n };
+    const fallback = INSPECTION_AREA_CENTRES[key];
+    if (fallback) return fallback;
+  }
+  return null;
+}
+
 // Exact pins for records linked to a spot on our map or located by hand
 // (data/inspection-places.json); the rest are counted
 // per area and shown as one bubble at that area's centre, so no restaurant is
@@ -193,9 +217,9 @@ function safetyMapPoints(drives) {
         });
         continue;
       }
-      const c = centres.get(normArea(en.area));
-      if (!c || c.n < 3) continue;
-      const a = areas.get(c.name) || { lat: c.lat / c.n, lng: c.lng / c.n, count: 0, name: c.name };
+      const c = inspectionAreaCentre(en.area, centres);
+      if (!c) continue;
+      const a = areas.get(c.name) || { lat: c.lat, lng: c.lng, count: 0, name: c.name };
       a.count += 1; areas.set(c.name, a);
     }
   }
