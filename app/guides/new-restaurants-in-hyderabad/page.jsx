@@ -13,6 +13,9 @@ import "./new-openings.css";
 // Direct publisher image links; no image files are downloaded into this project.
 const COVER = { src: "https://media.assettype.com/esquireindia%2F2026-10-14%2Fpxje5ge9%2F35b4f7add761d00e27fc9ab178905669.avif?w=1200&auto=format%2Ccompress&fit=max", alt: "Du Jour pastries in Jubilee Hills", credit: "Du Jour · photo: Esquire India" };
 const OPENING_PHOTOS = {
+  "Nasi and Mee": { src: "https://media.telanganatoday.com/wp-content/uploads/2026/11/Nasi-and-Mee-opens-its-first-restaurant-in-Hyderabad.jpg", alt: "Nasi and Mee's new Hyderabad restaurant", credit: "Nasi and Mee · photo: Telangana Today" },
+  "Three O’Clock Coffee": { src: "https://www.businessoffood.in/wp-content/uploads/2026/11/3-o-clock.png", alt: "Three O’Clock Coffee opening coverage", credit: "Three O’Clock Coffee · photo: Business of Food" },
+  "Hotel Shadab – Gachibowli": { src: "https://cf-images.assettype.com/indulgexpress%2F2026-11-06%2Flzvwta2b%2F1-1.jpg?auto=format%2Ccompress&fit=max&w=1200", alt: "Hotel Shadab's Cyberabad dining space", credit: "Hotel Shadab · photo: Indulge" },
   "Anaganaga – Telugu Culinary Tales": { src: "https://restaurantindia.s3.ap-south-1.amazonaws.com/s3fs-public/2026-10/Anaganaga%20Opens%20200-Cover%20Telugu%20Restaurant%20in%20Hyderabad.jpg", alt: "Anaganaga Telugu restaurant in Jubilee Hills", credit: "Anaganaga · photo: Restaurant India" },
   "Oktober": { src: "https://media.telanganatoday.com/wp-content/uploads/2026/10/Oktober-opens-in-Jubilee-Hills-bringing-cocktails-and-dining-together.jpg", alt: "Oktober brewery and restaurant in Jubilee Hills", credit: "Oktober · photo: Telangana Today" },
   "HOSA": { src: "https://media.assettype.com/esquireindia%2F2026-10-15%2Ff9apy15v%2F1000136548.jpg?w=1200&auto=format%2Ccompress&fit=max", alt: "Paper fish curry at HOSA Hyderabad", credit: "HOSA · photo: Esquire India" },
@@ -25,11 +28,11 @@ const OPENING_PHOTOS = {
 // MONTH each month instead of starting a new page, so the URL keeps its rank.
 // Every entry must carry a published source and the date it was reported.
 const SLUG = "/guides/new-restaurants-in-hyderabad";
-const MONTH = "October 2026";
-const UPDATED = "2026-11-02";
+const MONTH = "October–November 2026";
+const UPDATED = "2026-11-16";
 const TITLE = "New Restaurants in Hyderabad: Cafes & Bars";
 const DESCRIPTION =
-  "Find new restaurants and cafes in Hyderabad: sourced recent openings, neighbourhoods, menu highlights and map links. Updated 2 November 2026.";
+  "New restaurants and cafes in Hyderabad, including Nasi and Mee, Three O’Clock Coffee and Shadab's Gachibowli outpost. Sources, photos and map links. Updated 16 November 2026.";
 
 function openingMapLinks(opening) {
   const venue = opening.href ? getEateryBySlugOrId(opening.href.split("/").pop()) : null;
@@ -46,7 +49,7 @@ export const metadata = {
   keywords: [
     "new restaurants in hyderabad",
     "new cafes in hyderabad",
-    "new restaurants hyderabad october 2026",
+    "new restaurants hyderabad november 2026",
     "new openings hyderabad",
     "new brewery hyderabad",
     "new bars jubilee hills",
@@ -59,6 +62,14 @@ const faqLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   mainEntity: [
+    {
+      "@type": "Question",
+      name: "Which Hyderabad openings were newly reported in November 2026?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Nasi and Mee in Jubilee Hills (reported 11 November), Three O’Clock Coffee in Kothaguda (10 November) and Hotel Shadab's Gachibowli outpost (9 November). These are publication dates; their exact first days of service are not confirmed.",
+      },
+    },
     {
       "@type": "Question",
       name: "Which new and recently opened Hyderabad restaurants does this guide cover?",
@@ -136,7 +147,7 @@ export default function NewRestaurantsPage() {
               <p className="openings-eyebrow">The Hyderabad opening list</p>
               <h1>New restaurants<br />in <span>Hyderabad</span></h1>
               <p className="openings-deck">For the friend who always asks, “Where should we eat?” {OPENINGS.length} recently reported restaurants, cafes and bars for your next plan.</p>
-              <p className="openings-coverage">Reports from {MONTH} · Updated 2 November 2026</p>
+              <p className="openings-coverage">Reports from {MONTH} · Updated 16 November 2026</p>
               <a className="openings-primary" href="#openings">Find your next stop <span aria-hidden="true">↓</span></a>
             </div>
             <figure className="openings-cover">
@@ -155,7 +166,7 @@ export default function NewRestaurantsPage() {
         <div className="guide-byline">
           <div>
             <div className="ink-chip">New openings · {MONTH}</div>
-            <div className="guide-updated">Updated 2 November 2026 · By Shiva Chandra</div>
+            <div className="guide-updated">Updated 16 November 2026 · By Shiva Chandra</div>
           </div>
           <Link href="/" className="link-chip">Open Map</Link>
         </div>
@@ -166,6 +177,9 @@ export default function NewRestaurantsPage() {
           <p>Choose a small cafe for coffee, a regional restaurant for dinner or a brewery for a group evening.
             Pick your plan below, then jump straight to the place.</p>
           <ul>
+            <li><b>Southeast Asian plates:</b> <a href="#nasi-and-mee">Nasi and Mee</a>, newly reported in Jubilee Hills.</li>
+            <li><b>A Kothaguda coffee stop:</b> <a href="#three-o-clock-coffee">Three O’Clock Coffee</a>, reported on 10 November.</li>
+            <li><b>Biryani in Cyberabad:</b> <a href="#hotel-shadab-gachibowli">Hotel Shadab's Gachibowli outpost</a>, separate from its Charminar branch.</li>
             <li><b>Coffee and pastries:</b> <a href="#du-jour">Du Jour</a>, the bakery cafe in Jubilee Hills.</li>
             <li><b>South Indian dining:</b> <a href="#hosa">HOSA</a> at RMZ The Loft in HITEC City.</li>
             <li><b>Breakfast plates and diner food:</b> <a href="#the-all-american-diner">The All American Diner</a>, also at The Loft.</li>
@@ -212,7 +226,8 @@ export default function NewRestaurantsPage() {
 
         <section className="guide-faq">
           <h2 className="guide-faq-title">New cafes in Hyderabad, or an established favourite?</h2>
-          <p>For a new cafe from this shortlist, start with Du Jour. Esquire describes a small, 15-seat space for bakes, coffee and matcha.
+          <p>For a newly reported cafe, Three O’Clock Coffee's Kothaguda branch was covered on 10 November; its exact opening date remains unconfirmed.
+            For bakes in Jubilee Hills, Esquire describes Du Jour's small, 15-seat space for pastries, coffee and matcha.
             If you need a work session, a date spot or more room for a group, compare the broader
             {" "}<Link href="/guides/best-cafes-hyderabad-reddit">Hyderabad cafe guide</Link> and
             {" "}<Link href="/rankings/best-cafe-in-hyderabad">live cafe ranking</Link> before choosing.</p>

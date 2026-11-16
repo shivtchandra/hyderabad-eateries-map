@@ -35,6 +35,20 @@ Sources:
 - [District October roundup and research leads](https://www.district.in/blog/new-restaurants-hyderabad-october-2026)
 - [Earlier Fireback opening report, body and June date verified](https://hospitality.economictimes.indiatimes.com/news/restaurants/fireback-and-barback-open-at-the-loft-hyderabad/131879092)
 
+## Verified November report update — 16 November
+
+Added to the existing evergreen guide, retaining the same URL:
+
+| Place / branch | Report date | Source and date limits |
+| --- | --- | --- |
+| Nasi and Mee, Jubilee Hills | 11 Nov 2026 | [Restaurant India](https://www.restaurantindia.in/news/nasi-and-mee-enters-hyderabad-with-first-restaurant-in-jubilee-hills-expands-network-to-11-outlets.n17629), corroborated by [Telangana Today on 12 November](https://telanganatoday.com/nasi-and-mee-opens-its-first-restaurant-in-hyderabad). First Hyderabad branch; exact opening date unconfirmed. |
+| Three O’Clock Coffee, Kothaguda | 10 Nov 2026 | [Business of Food](https://www.businessoffood.in/three-oclock-coffee-opens-new-cafe-in-hyderabad/). New branch reported; exact street address and launch date unconfirmed. Google Maps search stays scoped to Kothaguda. |
+| Hotel Shadab, Gachibowli / Cyberabad | 9 Nov 2026 | [Indulge](https://www.indulgexpress.com/food/food-hyderabad/2026/Nov/09/hyderabads-culinary-gem-opens-a-stunning-outpost-in-cyberabad). Separate from Charminar; do not inherit its place ID or votes. Exact opening date unconfirmed. |
+
+Anaganaga timeline correction: [Telangana Today reported the Road No. 45 branch already open on 8 September](https://telanganatoday.com/anaganaga-opens-in-jubilee-hills-with-focus-on-telugu-cuisine). The October report is later coverage, not its launch date. The guide now says open by 8 September.
+
+Additional research: the [10 November Siasat regional-food feature](https://www.siasat.com/biryani-to-natu-kodi-ramen-hyderabad-is-reinventing-telugu-food-3553737/) offers ROCH/Kosta leads but leaves branch/date questions; hold those opening claims. A Wild Wings hotel launch is outside this dining-guide scope. A 4Note Gardens feature alone does not establish an opening date. No search-volume estimates were measured; genuine community votes remain independent of this source list.
+
 ## Keyword ownership map
 
 | Search intent | Destination | Useful differentiator |

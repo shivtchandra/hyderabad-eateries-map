@@ -7,6 +7,16 @@ const now = new Date('2026-11-03T12:00:00+05:30');
 const turn = (...messages) => messages.reduce((prev, message) => mergeSlots(prev, parseQuery(message)), null);
 const ask = slots => findCandidates(slots, {live:EMPTY_LIVE,now});
 
+test('November reports become available on their report dates without inventing opening dates', () => {
+  const before = selectRecentOpenings({now:new Date('2026-11-08T12:00:00+05:30')});
+  assert(!before.some(r=>r.reportedMonth==='2026-11'));
+  const after = selectRecentOpenings({now:new Date('2026-11-16T12:00:00+05:30')});
+  assert.deepEqual(after.filter(r=>r.reportedMonth==='2026-11').map(r=>r.name),['Nasi and Mee','Three O’Clock Coffee','Hotel Shadab – Gachibowli']);
+  const confirmed = selectRecentOpenings({period:'month',now:new Date('2026-11-16T12:00:00+05:30')});
+  assert(!confirmed.some(r=>['Nasi and Mee','Three O’Clock Coffee','Hotel Shadab – Gachibowli'].includes(r.name)));
+  assert.equal(after.find(r=>r.name.startsWith('Anaganaga')).opened,'by 8 September 2026');
+});
+
 test('new openings are a distinct intent and follow-ups retain area and date constraints', () => {
   const slots = turn('new cafes in Jubilee Hills', 'what about this month?');
   assert.equal(slots.intent,'new');
