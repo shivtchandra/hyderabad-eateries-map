@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-16T06:57:55.920Z",
+  "updatedAt": "2026-11-16T14:40:13.845Z",
   "district": [
     {
       "id": "ChIJRyiuPoSUyzsR0B5Nj-I8Qlw",
@@ -20,6 +20,12 @@
       "reason": "ambiguous-branch"
     },
     {
+      "id": "ChIJI2gHHGCRyzsRKuii0hLcgvc",
+      "name": "Rayalaseema Ruchulu",
+      "area": "HITEC City",
+      "reason": "ambiguous-branch"
+    },
+    {
       "id": "ChIJAXLLciCRyzsROQZN8vHIprw",
       "name": "Akan",
       "area": "Madhapur",
@@ -29,12 +35,6 @@
       "id": "ChIJOYPmSRWVyzsRd0SN6RLIYVo",
       "name": "Amy's Cafe",
       "area": "text:cafe manikonda",
-      "reason": "no-strict-name-locality-match"
-    },
-    {
-      "id": "ChIJQ5o9fWCXyzsRn-7OdXAYOzA",
-      "name": "Golden Pavilion Fine Dine Restaurant",
-      "area": "Banjara Hills",
       "reason": "no-strict-name-locality-match"
     },
     {
@@ -68,6 +68,18 @@
       "reason": "ambiguous-branch"
     },
     {
+      "id": "ChIJ1zY_LDCRyzsRyI6X036eZQo",
+      "name": "The Bar Project",
+      "area": "Begumpet",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJz6DUaQCZyzsRupy8QWsou8E",
+      "name": "SIP N BITE",
+      "area": "Tarnaka",
+      "reason": "ambiguous-branch"
+    },
+    {
       "id": "ChIJdb-1xI6byzsRl-FR_6ydVg8",
       "name": "Maraheb Arabian Restaurant",
       "area": "Ameerpet",
@@ -83,6 +95,12 @@
       "id": "ChIJs2Z8Jy2RyzsRUvMabDrmsNc",
       "name": "Cream Stone Ice Cream",
       "area": "Jubilee Hills",
+      "reason": "ambiguous-branch"
+    },
+    {
+      "id": "ChIJqfi8bQCTyzsR5fbpcBgdk0M",
+      "name": "Kritaa Nagar",
+      "area": "Financial District",
       "reason": "ambiguous-branch"
     },
     {
@@ -142,12 +160,6 @@
     {
       "id": "ChIJM2-iUiCXyzsRBDeyOoAa4uU",
       "name": "Theobroma Bakery and Cake Shop - Somajiguda, Hyderabad",
-      "area": "Jubilee Hills",
-      "reason": "ambiguous-branch"
-    },
-    {
-      "id": "ChIJT7PoQhWRyzsRdvYjCUehUDA",
-      "name": "Naad Coffee",
       "area": "Jubilee Hills",
       "reason": "ambiguous-branch"
     },
@@ -270,6 +282,18 @@
       "localityHits": []
     },
     {
+      "id": "ChIJR_rBht-XyzsRGZSYwN-U8GU",
+      "name": "The Nawaabs Restaurant",
+      "area": "Banjara Hills",
+      "slug": "the-nawaabs-restaurant-banjara-hills",
+      "pageTitle": "The Nawaab&#x27;s Restaurant | Hyderabad | Book Table",
+      "reason": "response-name-mismatch",
+      "nameScore": 0,
+      "localityHits": [
+        "banjara"
+      ]
+    },
+    {
       "id": "ChIJsQ4N0dqVyzsRKETizvTv5Jc",
       "name": "Red Rhino Taproom | Financial District",
       "area": "Financial District",
@@ -278,19 +302,6 @@
       "reason": "response-locality-mismatch",
       "nameScore": 1,
       "localityHits": []
-    },
-    {
-      "id": "ChIJ35ULj26RyzsRJksaQUa3_8Q",
-      "name": "Dum Pukht Begums ITC Kohenur",
-      "area": "Madhapur",
-      "slug": "dum-pukht-begums-itc-kohenur-hitech-city",
-      "pageTitle": "Dum Pukht Begum&#x27;s- ITC Kohenur | Hyderabad | Book Table",
-      "reason": "response-name-mismatch",
-      "nameScore": 0.667,
-      "localityHits": [
-        "itc",
-        "kohenur"
-      ]
     },
     {
       "id": "ChIJd0R906KTyzsReFvqtd_2DpA",
@@ -410,16 +421,6 @@
       ]
     },
     {
-      "id": "ChIJM1_veACVyzsRb2Iuo5SocpQ",
-      "name": "Buffalo Wild Wings",
-      "area": "Financial District",
-      "slug": "buffalo-wild-wings-gandipet",
-      "pageTitle": "Buffalo Wild Wings | Gandipet, Hyderabad | Book Table",
-      "reason": "response-locality-mismatch",
-      "nameScore": 1,
-      "localityHits": []
-    },
-    {
       "id": "ChIJPVgrc1uTyzsRJFlTkjkCXzQ",
       "name": "Komma - The Club",
       "area": "Kondapur",
@@ -447,16 +448,6 @@
       "pageTitle": "The English Cafe | Kothapet, Hyderabad",
       "reason": "response-name-mismatch",
       "nameScore": 0,
-      "localityHits": []
-    },
-    {
-      "id": "ChIJK9ODr8mXyzsRpHCToL5XIh8",
-      "name": "Theobroma Bakery and Cake Shop - Banjara Hills, Hyderabad",
-      "area": "Jubilee Hills",
-      "slug": "theobroma-jubilee-hills",
-      "pageTitle": "Theobroma | Jubilee Hills, Hyderabad | Bakery Restaurant",
-      "reason": "response-locality-mismatch",
-      "nameScore": 1,
       "localityHits": []
     }
   ],
