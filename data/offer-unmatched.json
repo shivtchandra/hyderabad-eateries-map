@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-18T20:52:11.499Z",
+  "updatedAt": "2026-11-19T02:53:24.826Z",
   "district": [
     {
       "id": "ChIJRyiuPoSUyzsR0B5Nj-I8Qlw",
@@ -20,15 +20,21 @@
       "reason": "ambiguous-branch"
     },
     {
-      "id": "ChIJI2gHHGCRyzsRKuii0hLcgvc",
-      "name": "Rayalaseema Ruchulu",
-      "area": "HITEC City",
-      "reason": "ambiguous-branch"
+      "id": "ChIJAXLLciCRyzsROQZN8vHIprw",
+      "name": "Akan",
+      "area": "Madhapur",
+      "reason": "no-strict-name-locality-match"
     },
     {
       "id": "ChIJOYPmSRWVyzsRd0SN6RLIYVo",
       "name": "Amy's Cafe",
       "area": "text:cafe manikonda",
+      "reason": "no-strict-name-locality-match"
+    },
+    {
+      "id": "ChIJN2NxGOKTyzsRwyXFCXx6iyI",
+      "name": "Kapoor's Cafe - Hitex",
+      "area": "text:cafe hitech city",
       "reason": "no-strict-name-locality-match"
     },
     {
@@ -56,9 +62,9 @@
       "reason": "ambiguous-branch"
     },
     {
-      "id": "ChIJz6DUaQCZyzsRupy8QWsou8E",
-      "name": "SIP N BITE",
-      "area": "Tarnaka",
+      "id": "ChIJ3cQl67eQyzsRjAc6UgB9WFY",
+      "name": "Hotel Green Park",
+      "area": "Ameerpet",
       "reason": "ambiguous-branch"
     },
     {
@@ -80,10 +86,10 @@
       "reason": "ambiguous-branch"
     },
     {
-      "id": "ChIJqfi8bQCTyzsR5fbpcBgdk0M",
-      "name": "Kritaa Nagar",
-      "area": "Financial District",
-      "reason": "ambiguous-branch"
+      "id": "ChIJ9Slx4lyXyzsRTFG0AmjiknE",
+      "name": "SmokeShack",
+      "area": "Banjara Hills",
+      "reason": "no-strict-name-locality-match"
     },
     {
       "id": "ChIJh82kSXKXyzsRohuQTQkip6c",
@@ -94,18 +100,6 @@
     {
       "id": "ChIJo0psq1eTyzsRX1L2RZxT0Ms",
       "name": "Theobroma Bakery and Cake Shop - Gachibowli",
-      "area": "Jubilee Hills",
-      "reason": "ambiguous-branch"
-    },
-    {
-      "id": "ChIJW2iDgRqRyzsRFZT0C8_o0R0",
-      "name": "Auberry The Bake Shop",
-      "area": "Jubilee Hills",
-      "reason": "ambiguous-branch"
-    },
-    {
-      "id": "ChIJz-y_8UaRyzsRoomp8v1Qs14",
-      "name": "Auberry The Bake Shop",
       "area": "Jubilee Hills",
       "reason": "ambiguous-branch"
     },
@@ -140,6 +134,12 @@
       "reason": "ambiguous-branch"
     },
     {
+      "id": "ChIJWwy5FQ6RyzsRPh-OIGTemTk",
+      "name": "Girlfriend Mandi",
+      "area": "Madhapur",
+      "reason": "ambiguous-branch"
+    },
+    {
       "id": "ChIJM2-iUiCXyzsRBDeyOoAa4uU",
       "name": "Theobroma Bakery and Cake Shop - Somajiguda, Hyderabad",
       "area": "Jubilee Hills",
@@ -148,12 +148,6 @@
     {
       "id": "ChIJT7PoQhWRyzsRdvYjCUehUDA",
       "name": "Naad Coffee",
-      "area": "Jubilee Hills",
-      "reason": "ambiguous-branch"
-    },
-    {
-      "id": "ChIJf-zoPBWVyzsRjogWoXRORz4",
-      "name": "Theobroma Bakery and Cake Shop - Manikonda, Hyderabad",
       "area": "Jubilee Hills",
       "reason": "ambiguous-branch"
     },
@@ -196,16 +190,6 @@
       "localityHits": []
     },
     {
-      "id": "ChIJdwO4n3eVyzsR_1xSeM-w5nk",
-      "name": "IGURU Banquets & Restaurant",
-      "area": "Khajaguda",
-      "slug": "iguru-buffet-manikonda",
-      "pageTitle": "IGURU Buffet | Manikonda, Hyderabad | Book Table",
-      "reason": "response-name-mismatch",
-      "nameScore": 0.5,
-      "localityHits": []
-    },
-    {
       "id": "ChIJDTPaVAWRyzsRoj8f1IDp8kU",
       "name": "Et-Si",
       "area": "Jubilee Hills",
@@ -240,16 +224,6 @@
       ]
     },
     {
-      "id": "ChIJmTYbYrWQyzsRfAUQADKdTLA",
-      "name": "Seventh Heaven Authentic Restaurant & Rooftop Bar",
-      "area": "Banjara Hills",
-      "slug": "seventh-heaven-authentic-restaurant-rooftop-bar-panjagutta",
-      "pageTitle": "Seventh Heaven Authentic Restaurant &amp; Rooftop Bar | Hyderabad",
-      "reason": "response-locality-mismatch",
-      "nameScore": 1,
-      "localityHits": []
-    },
-    {
       "id": "ChIJ6WeqDVqVyzsRcM0__OWlwl4",
       "name": "Tabula Rasa (Financial District)",
       "area": "Financial District",
@@ -265,16 +239,6 @@
       "area": "Narsingi",
       "slug": "prezmo-gandipet",
       "pageTitle": "Prezmo | Gandipet, Hyderabad | Book Table",
-      "reason": "response-locality-mismatch",
-      "nameScore": 1,
-      "localityHits": []
-    },
-    {
-      "id": "ChIJ1YUkcnCVyzsRYspPX_wYv7c",
-      "name": "Roastery Coffee House | Kokapet",
-      "area": "Jubilee Hills",
-      "slug": "roastery-coffee-house-jubilee-hills",
-      "pageTitle": "Roastery Coffee House  | Jubilee Hills, Hyderabad",
       "reason": "response-locality-mismatch",
       "nameScore": 1,
       "localityHits": []
@@ -312,16 +276,6 @@
       "localityHits": [
         "kondapur"
       ]
-    },
-    {
-      "id": "ChIJ3cQl67eQyzsRjAc6UgB9WFY",
-      "name": "Hotel Green Park",
-      "area": "Ameerpet",
-      "slug": "once-upon-a-time-hotel-greenpark-1-begumpet",
-      "pageTitle": "Once Upon A Time - Hotel GreenPark | Hyderabad | Book Table",
-      "reason": "response-name-mismatch",
-      "nameScore": 0,
-      "localityHits": []
     },
     {
       "id": "reach-baith-al-mandi-the-arabian-restaurant-medchal-road-0f837a48",
@@ -417,36 +371,6 @@
         "financial",
         "district"
       ]
-    },
-    {
-      "id": "ChIJPVgrc1uTyzsRJFlTkjkCXzQ",
-      "name": "Komma - The Club",
-      "area": "Kondapur",
-      "slug": "komma-the-club-1-kothaguda",
-      "pageTitle": "Komma - The Club | Kothaguda, Hyderabad",
-      "reason": "response-locality-mismatch",
-      "nameScore": 1,
-      "localityHits": []
-    },
-    {
-      "id": "ChIJ9w3odQCTyzsRFQuTt9Bq1ks",
-      "name": "Churrolto Financial District",
-      "area": "Financial District",
-      "slug": "churrolto-nanakramguda",
-      "pageTitle": "Churrolto | Nanakramguda, Hyderabad | Book Table",
-      "reason": "response-locality-mismatch",
-      "nameScore": 1,
-      "localityHits": []
-    },
-    {
-      "id": "ChIJi1hZhA-XyzsRlWRrVaTmix0",
-      "name": "Hooch- club & kitchen",
-      "area": "Banjara Hills",
-      "slug": "the-english-cafe-kothapet",
-      "pageTitle": "The English Cafe | Kothapet, Hyderabad",
-      "reason": "response-name-mismatch",
-      "nameScore": 0,
-      "localityHits": []
     }
   ],
   "swiggy": [
@@ -487,15 +411,6 @@
       "reason": "no-strict-coordinate-name-match"
     },
     {
-      "id": "16394",
-      "name": "Exotica",
-      "locality": "Banjara Hills",
-      "lat": 17.4102863,
-      "lng": 78.4371885,
-      "url": "https://www.swiggy.com/restaurants/exotica-banjara-hills-hyderabad-16394/dineout",
-      "reason": "no-strict-coordinate-name-match"
-    },
-    {
       "id": "984740",
       "name": "Bourbon & Breeze",
       "locality": "Banjara Hills",
@@ -503,6 +418,33 @@
       "lng": 78.4283368,
       "url": "https://www.swiggy.com/restaurants/bourbon-and-breeze-banjara-hills-hyderabad-984740/dineout",
       "reason": "ambiguous-branch"
+    },
+    {
+      "id": "1413674",
+      "name": "TOS Club & Lounge",
+      "locality": "Banjara Hills",
+      "lat": 17.4296587,
+      "lng": 78.4296226,
+      "url": "https://www.swiggy.com/restaurants/tos-club-and-lounge-banjara-hills-hyderabad-1413674/dineout",
+      "reason": "no-strict-coordinate-name-match"
+    },
+    {
+      "id": "844508",
+      "name": "Captain Kunafa",
+      "locality": "Banjara Hills",
+      "lat": 17.423944,
+      "lng": 78.424563,
+      "url": "https://www.swiggy.com/restaurants/captain-kunafa-banjara-hills-hyderabad-844508/dineout",
+      "reason": "no-strict-coordinate-name-match"
+    },
+    {
+      "id": "1370811",
+      "name": "Hotel Indu Deluxe",
+      "locality": "Banjara Hills",
+      "lat": 17.42211166,
+      "lng": 78.42829358,
+      "url": "https://www.swiggy.com/restaurants/hotel-indu-deluxe-banjara-hills-hyderabad-1370811/dineout",
+      "reason": "no-strict-coordinate-name-match"
     },
     {
       "id": "1189354",
@@ -730,15 +672,6 @@
       "reason": "ambiguous-branch"
     },
     {
-      "id": "727310",
-      "name": "Exotica-Coffee shop - The Manohar",
-      "locality": "Begumpet",
-      "lat": 17.4427132,
-      "lng": 78.4262751,
-      "url": "https://www.swiggy.com/restaurants/exotica-coffee-shop-the-manohar-begumpet-hyderabad-727310/dineout",
-      "reason": "no-strict-coordinate-name-match"
-    },
-    {
       "id": "574732",
       "name": "Krishnapatnam",
       "locality": "Kukatpally",
@@ -962,21 +895,21 @@
       "reason": "no-strict-coordinate-name-match"
     },
     {
-      "id": "787978",
-      "name": "Abids Bistro",
-      "locality": "Abids",
-      "lat": 17.393232,
-      "lng": 78.473551,
-      "url": "https://www.swiggy.com/restaurants/abids-bistro-abids-hyderabad-787978/dineout",
-      "reason": "no-strict-coordinate-name-match"
-    },
-    {
       "id": "960290",
       "name": "Abids Bistro Buffet",
       "locality": "Abids",
       "lat": 17.39304,
       "lng": 78.4735611,
       "url": "https://www.swiggy.com/restaurants/abids-bistro-buffet-abids-hyderabad-960290/dineout",
+      "reason": "no-strict-coordinate-name-match"
+    },
+    {
+      "id": "787978",
+      "name": "Abids Bistro",
+      "locality": "Abids",
+      "lat": 17.393232,
+      "lng": 78.473551,
+      "url": "https://www.swiggy.com/restaurants/abids-bistro-abids-hyderabad-787978/dineout",
       "reason": "no-strict-coordinate-name-match"
     },
     {
@@ -998,12 +931,12 @@
       "reason": "no-strict-coordinate-name-match"
     },
     {
-      "id": "697404",
-      "name": "Mandi Vibes",
+      "id": "1384114",
+      "name": "Domino's Pizza",
       "locality": "Manikonda",
-      "lat": 17.4088634,
-      "lng": 78.394453,
-      "url": "https://www.swiggy.com/restaurants/mandi-vibes-manikonda-hyderabad-697404/dineout",
+      "lat": 17.400217,
+      "lng": 78.391157,
+      "url": "https://www.swiggy.com/restaurants/dominos-pizza-manikonda-hyderabad-1384114/dineout",
       "reason": "no-strict-coordinate-name-match"
     },
     {
@@ -1016,39 +949,12 @@
       "reason": "no-strict-coordinate-name-match"
     },
     {
-      "id": "256244",
-      "name": "Swiss Cafe",
+      "id": "1063538",
+      "name": "Tadipatri Biryani And Pulao ",
       "locality": "Manikonda",
-      "lat": 17.39989599,
-      "lng": 78.38421375,
-      "url": "https://www.swiggy.com/restaurants/swiss-cafe-manikonda-hyderabad-256244/dineout",
-      "reason": "no-strict-coordinate-name-match"
-    },
-    {
-      "id": "1307150",
-      "name": "T&T Fine Dining",
-      "locality": "Manikonda",
-      "lat": 17.4067275,
-      "lng": 78.3742256,
-      "url": "https://www.swiggy.com/restaurants/t-and-t-fine-dining-manikonda-hyderabad-1307150/dineout",
-      "reason": "no-strict-coordinate-name-match"
-    },
-    {
-      "id": "592354",
-      "name": "The Waffle Garden",
-      "locality": "Manikonda",
-      "lat": 17.406475,
-      "lng": 78.391324,
-      "url": "https://www.swiggy.com/restaurants/the-waffle-garden-manikonda-hyderabad-592354/dineout",
-      "reason": "no-strict-coordinate-name-match"
-    },
-    {
-      "id": "954930",
-      "name": "Shohrat Multicuisine Restaurant",
-      "locality": "Manikonda",
-      "lat": 17.4159592,
-      "lng": 78.39259919999999,
-      "url": "https://www.swiggy.com/restaurants/shohrat-multicuisine-restaurant-manikonda-hyderabad-954930/dineout",
+      "lat": 17.40068969,
+      "lng": 78.38922442,
+      "url": "https://www.swiggy.com/restaurants/tadipatri-biryani-and-pulao-manikonda-hyderabad-1063538/dineout",
       "reason": "no-strict-coordinate-name-match"
     },
     {
@@ -1154,280 +1060,253 @@
       "id": "714844",
       "name": "Cafe Coffee Day",
       "locality": "Khairatabad",
-      "lat": 17.41289188,
-      "lng": 78.46582377,
       "url": "https://www.swiggy.com/restaurants/cafe-coffee-day-khairatabad-hyderabad-714844/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
       "id": "1301729",
       "name": "Blue Fox Restaurant And Bar",
       "locality": "Khairatabad",
-      "lat": 17.4240166,
-      "lng": 78.4628876,
       "url": "https://www.swiggy.com/restaurants/blue-fox-restaurant-and-bar-khairatabad-hyderabad-1301729/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
       "id": "647244",
       "name": "Anmol Pride Restaurant",
       "locality": "Khairatabad",
-      "lat": 17.407499,
-      "lng": 78.470092,
       "url": "https://www.swiggy.com/restaurants/anmol-pride-restaurant-khairatabad-hyderabad-647244/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
       "id": "1370226",
       "name": "Roost Bistro",
       "locality": "Khairatabad",
-      "lat": 17.407364,
-      "lng": 78.4729821,
       "url": "https://www.swiggy.com/restaurants/roost-bistro-khairatabad-hyderabad-1370226/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
       "id": "1396038",
       "name": "Cup Today Cafe",
       "locality": "Tolichowki",
-      "lat": 17.4012611,
-      "lng": 78.4125615,
       "url": "https://www.swiggy.com/restaurants/cup-today-cafe-tolichowki-hyderabad-1396038/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
       "id": "340856",
       "name": "Pizza Hut",
       "locality": "Tolichowki",
-      "lat": 17.407025,
-      "lng": 78.402008,
       "url": "https://www.swiggy.com/restaurants/pizza-hut-tolichowki-hyderabad-340856/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
       "id": "1395966",
       "name": "Tehzeeb By the Rooftop",
       "locality": "Tolichowki",
-      "lat": 17.4012593,
-      "lng": 78.41253139999999,
       "url": "https://www.swiggy.com/restaurants/tehzeeb-by-the-rooftop-tolichowki-hyderabad-1395966/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
       "id": "643631",
       "name": "Froozo",
       "locality": "Tolichowki",
-      "lat": 17.404868,
-      "lng": 78.401923,
       "url": "https://www.swiggy.com/restaurants/froozo-tolichowki-hyderabad-643631/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
       "id": "671002",
       "name": "Dr Cafe Coffee and Snacks",
       "locality": "Tolichowki",
-      "lat": 17.402635,
-      "lng": 78.411239,
       "url": "https://www.swiggy.com/restaurants/dr-cafe-coffee-and-snacks-tolichowki-hyderabad-671002/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
       "id": "1181026",
       "name": "Coffee Camp",
       "locality": "Tolichowki",
-      "lat": 17.4014218,
-      "lng": 78.4130678,
       "url": "https://www.swiggy.com/restaurants/coffee-camp-tolichowki-hyderabad-1181026/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
       "id": "1205772",
       "name": "Casa Laban",
       "locality": "Tolichowki",
-      "lat": 17.4043199,
-      "lng": 78.4067614,
       "url": "https://www.swiggy.com/restaurants/casa-laban-tolichowki-hyderabad-1205772/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
       "id": "140111",
       "name": "Imperial Multicuisine Restaurant",
       "locality": "Tolichowki",
-      "lat": 17.3976217233667,
-      "lng": 78.4201091064846,
       "url": "https://www.swiggy.com/restaurants/imperial-multicuisine-restaurant-tolichowki-hyderabad-140111/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
       "id": "760133",
       "name": "Continental By Mandi King",
       "locality": "Tolichowki",
-      "lat": 17.4019321,
-      "lng": 78.4124423,
       "url": "https://www.swiggy.com/restaurants/continental-by-mandi-king-tolichowki-hyderabad-760133/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "77398",
+      "name": "Cream Stone Ice Cream",
+      "locality": "Tolichowki",
+      "url": "https://www.swiggy.com/restaurants/cream-stone-ice-cream-tolichowki-hyderabad-77398/dineout",
+      "reason": "missing-coordinates"
     },
     {
       "id": "449620",
       "name": "Ice And Spice Restaurants",
       "locality": "Tolichowki",
-      "lat": 17.3971106822624,
-      "lng": 78.4246896520368,
       "url": "https://www.swiggy.com/restaurants/ice-and-spice-restaurants-tolichowki-hyderabad-449620/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
-      "id": "684735",
-      "name": "Fortune Shawarma Hub",
-      "locality": "Jeedimetla",
-      "lat": 17.483735,
-      "lng": 78.423208,
-      "url": "https://www.swiggy.com/restaurants/fortune-shawarma-hub-jeedimetla-hyderabad-684735/dineout",
-      "reason": "no-strict-coordinate-name-match"
-    },
-    {
-      "id": "365949",
-      "name": "Blue Jay Hotels & Restaurants",
-      "locality": "Jeedimetla",
-      "lat": 17.4953,
-      "lng": 78.40261,
-      "url": "https://www.swiggy.com/restaurants/blue-jay-hotels-and-restaurants-jeedimetla-hyderabad-365949/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "id": "592360",
+      "name": "Kabul Darbar",
+      "locality": "Tolichowki",
+      "url": "https://www.swiggy.com/restaurants/kabul-darbar-tolichowki-hyderabad-592360/dineout",
+      "reason": "missing-coordinates"
     },
     {
       "id": "419933",
       "name": "The Mandi Nation",
       "locality": "Jeedimetla",
-      "lat": 17.4635815,
-      "lng": 78.4569849,
       "url": "https://www.swiggy.com/restaurants/the-mandi-nation-jeedimetla-hyderabad-419933/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
-      "id": "1097295",
-      "name": "Boba Bhai - Bubble Tea & Korean Street Food",
+      "id": "365949",
+      "name": "Blue Jay Hotels & Restaurants",
+      "locality": "Jeedimetla",
+      "url": "https://www.swiggy.com/restaurants/blue-jay-hotels-and-restaurants-jeedimetla-hyderabad-365949/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "684735",
+      "name": "Fortune Shawarma Hub",
+      "locality": "Jeedimetla",
+      "url": "https://www.swiggy.com/restaurants/fortune-shawarma-hub-jeedimetla-hyderabad-684735/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "560773",
+      "name": "Rayalaseema Ruchulu",
       "locality": "Ameerpet",
-      "lat": 17.43714044,
-      "lng": 78.4486387000015,
-      "url": "https://www.swiggy.com/restaurants/boba-bhai-bubble-tea-and-korean-street-food-ameerpet-hyderabad-1097295/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "url": "https://www.swiggy.com/restaurants/rayalaseema-ruchulu-ameerpet-hyderabad-560773/dineout",
+      "reason": "missing-coordinates"
     },
     {
-      "id": "1050561",
-      "name": "Prime Rose Restaurant",
+      "id": "797471",
+      "name": "Habibo",
       "locality": "Ameerpet",
-      "lat": 17.437143,
-      "lng": 78.44863869999999,
-      "url": "https://www.swiggy.com/restaurants/prime-rose-restaurant-ameerpet-hyderabad-1050561/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "url": "https://www.swiggy.com/restaurants/habibo-ameerpet-hyderabad-797471/dineout",
+      "reason": "missing-coordinates"
     },
     {
-      "id": "681973",
-      "name": "Cake 24X7",
+      "id": "1355760",
+      "name": "Tollywood Mandi",
       "locality": "Ameerpet",
-      "lat": 17.4440607,
-      "lng": 78.4403863,
-      "url": "https://www.swiggy.com/restaurants/cake-24x7-ameerpet-hyderabad-681973/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "url": "https://www.swiggy.com/restaurants/tollywood-mandi-ameerpet-hyderabad-1355760/dineout",
+      "reason": "missing-coordinates"
     },
     {
-      "id": "357068",
-      "name": "Shake Studio",
+      "id": "1300296",
+      "name": "Maraheb Arabian Mandi And More",
       "locality": "Ameerpet",
-      "lat": 17.435647,
-      "lng": 78.448473,
-      "url": "https://www.swiggy.com/restaurants/shake-studio-ameerpet-hyderabad-357068/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "url": "https://www.swiggy.com/restaurants/maraheb-arabian-mandi-and-more-ameerpet-hyderabad-1300296/dineout",
+      "reason": "missing-coordinates"
     },
     {
-      "id": "5977",
-      "name": "Rayala Vari Ruchulu",
+      "id": "1158081",
+      "name": "Ce La Vie the rooftop cafe ",
       "locality": "Ameerpet",
-      "lat": 17.43641635,
-      "lng": 78.43901731,
-      "url": "https://www.swiggy.com/restaurants/rayala-vari-ruchulu-ameerpet-hyderabad-5977/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "url": "https://www.swiggy.com/restaurants/ce-la-vie-the-rooftop-cafe-ameerpet-hyderabad-1158081/dineout",
+      "reason": "missing-coordinates"
     },
     {
-      "id": "3287",
-      "name": "Hotel Sitara Family Dining Multicuisine Restaurant",
+      "id": "721364",
+      "name": "Chickpet Donne Biryani House",
       "locality": "Ameerpet",
-      "lat": 17.4310208814658,
-      "lng": 78.4477776026035,
-      "url": "https://www.swiggy.com/restaurants/hotel-sitara-family-dining-multicuisine-restaurant-ameerpet-hyderabad-3287/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "url": "https://www.swiggy.com/restaurants/chickpet-donne-biryani-house-ameerpet-hyderabad-721364/dineout",
+      "reason": "missing-coordinates"
     },
     {
-      "id": "1101586",
-      "name": "Wow! Momo",
+      "id": "588063",
+      "name": "Harry's- The Pub",
       "locality": "Ameerpet",
-      "lat": 17.437267,
-      "lng": 78.448863,
-      "url": "https://www.swiggy.com/restaurants/wow-momo-ameerpet-hyderabad-1101586/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "url": "https://www.swiggy.com/restaurants/harrys-the-pub-ameerpet-hyderabad-588063/dineout",
+      "reason": "missing-coordinates"
     },
     {
-      "id": "9008",
-      "name": "Country Oven",
-      "locality": "Sri Nagar Colony",
-      "lat": 17.430379,
-      "lng": 78.43818599999997,
-      "url": "https://www.swiggy.com/restaurants/country-oven-sri-nagar-colony-hyderabad-9008/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "id": "452843",
+      "name": "Raagam Foods",
+      "locality": "Ameerpet",
+      "url": "https://www.swiggy.com/restaurants/raagam-foods-ameerpet-hyderabad-452843/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "1321046",
+      "name": "Balaji dhaba exclusive",
+      "locality": "Ameerpet",
+      "url": "https://www.swiggy.com/restaurants/balaji-dhaba-exclusive-ameerpet-hyderabad-1321046/dineout",
+      "reason": "missing-coordinates"
     },
     {
       "id": "673922",
       "name": "The Garage Cafe",
       "locality": "Sri Nagar Colony",
-      "lat": 17.429959,
-      "lng": 78.437319,
       "url": "https://www.swiggy.com/restaurants/the-garage-cafe-sri-nagar-colony-hyderabad-673922/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "9008",
+      "name": "Country Oven",
+      "locality": "Sri Nagar Colony",
+      "url": "https://www.swiggy.com/restaurants/country-oven-sri-nagar-colony-hyderabad-9008/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "251282",
+      "name": "Chicken Shawarma Hut",
+      "locality": "Sri Nagar Colony",
+      "url": "https://www.swiggy.com/restaurants/chicken-shawarma-hut-sri-nagar-colony-hyderabad-251282/dineout",
+      "reason": "missing-coordinates"
     },
     {
       "id": "1101368",
       "name": "Karachi Bakery",
       "locality": "Sri Nagar Colony",
-      "lat": 17.430369389506623,
-      "lng": 78.43623439999999,
       "url": "https://www.swiggy.com/restaurants/karachi-bakery-sri-nagar-colony-hyderabad-1101368/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
       "id": "882768",
       "name": "Jain Kitchen Exclusive",
       "locality": "Hafeezpet",
-      "lat": 17.4856235638486,
-      "lng": 78.3570199933508,
       "url": "https://www.swiggy.com/restaurants/jain-kitchen-exclusive-hafeezpet-hyderabad-882768/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
       "id": "675139",
       "name": "Nice Food Factory",
       "locality": "Hafeezpet",
-      "lat": 17.487085,
-      "lng": 78.353373,
       "url": "https://www.swiggy.com/restaurants/nice-food-factory-hafeezpet-hyderabad-675139/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
       "id": "1105955",
       "name": "Abu Zayed Bait Al Mandi",
       "locality": "Hafeezpet",
-      "lat": 17.48846416,
-      "lng": 78.35555603,
       "url": "https://www.swiggy.com/restaurants/abu-zayed-bait-al-mandi-hafeezpet-hyderabad-1105955/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
       "id": "1320198",
       "name": "TOT Talk Of The Town Multi Cuisine Restaurant",
       "locality": "Hafeezpet",
-      "lat": 17.48512308,
-      "lng": 78.35723827,
       "url": "https://www.swiggy.com/restaurants/tot-talk-of-the-town-multi-cuisine-restaurant-hafeezpet-hyderabad-1320198/dineout",
-      "reason": "no-strict-coordinate-name-match"
+      "reason": "missing-coordinates"
     },
     {
       "id": "675641",
@@ -1458,17 +1337,10 @@
       "reason": "missing-coordinates"
     },
     {
-      "id": "655809",
-      "name": "Eagles Bar and Restaurant - Level 3",
+      "id": "420272",
+      "name": "Crispy Crust",
       "locality": "Lakdi-Ka-Pul",
-      "url": "https://www.swiggy.com/restaurants/eagles-bar-and-restaurant-level-3-lakdi-ka-pul-hyderabad-655809/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "655808",
-      "name": "Eagles Bar and Restaurant - Level 1",
-      "locality": "Lakdi-Ka-Pul",
-      "url": "https://www.swiggy.com/restaurants/eagles-bar-and-restaurant-level-1-lakdi-ka-pul-hyderabad-655808/dineout",
+      "url": "https://www.swiggy.com/restaurants/crispy-crust-lakdi-ka-pul-hyderabad-420272/dineout",
       "reason": "missing-coordinates"
     },
     {
@@ -1479,10 +1351,17 @@
       "reason": "missing-coordinates"
     },
     {
-      "id": "350943",
-      "name": "Shree Venkateshwara Coffee Shop",
+      "id": "720781",
+      "name": "Rasna Buzz",
       "locality": "Lakdi-Ka-Pul",
-      "url": "https://www.swiggy.com/restaurants/shree-venkateshwara-coffee-shop-lakdi-ka-pul-hyderabad-350943/dineout",
+      "url": "https://www.swiggy.com/restaurants/rasna-buzz-lakdi-ka-pul-hyderabad-720781/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "591857",
+      "name": "Rasa by Ashoka ",
+      "locality": "Lakdi-Ka-Pul",
+      "url": "https://www.swiggy.com/restaurants/rasa-by-ashoka-lakdi-ka-pul-hyderabad-591857/dineout",
       "reason": "missing-coordinates"
     },
     {
@@ -1493,24 +1372,24 @@
       "reason": "missing-coordinates"
     },
     {
+      "id": "655809",
+      "name": "Eagles Bar and Restaurant - Level 3",
+      "locality": "Lakdi-Ka-Pul",
+      "url": "https://www.swiggy.com/restaurants/eagles-bar-and-restaurant-level-3-lakdi-ka-pul-hyderabad-655809/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "350943",
+      "name": "Shree Venkateshwara Coffee Shop",
+      "locality": "Lakdi-Ka-Pul",
+      "url": "https://www.swiggy.com/restaurants/shree-venkateshwara-coffee-shop-lakdi-ka-pul-hyderabad-350943/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
       "id": "166730",
       "name": "Hotel Abode",
       "locality": "Lakdi-Ka-Pul",
       "url": "https://www.swiggy.com/restaurants/hotel-abode-lakdi-ka-pul-hyderabad-166730/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "720781",
-      "name": "Rasna Buzz",
-      "locality": "Lakdi-Ka-Pul",
-      "url": "https://www.swiggy.com/restaurants/rasna-buzz-lakdi-ka-pul-hyderabad-720781/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "420272",
-      "name": "Crispy Crust",
-      "locality": "Lakdi-Ka-Pul",
-      "url": "https://www.swiggy.com/restaurants/crispy-crust-lakdi-ka-pul-hyderabad-420272/dineout",
       "reason": "missing-coordinates"
     },
     {
@@ -1542,17 +1421,17 @@
       "reason": "missing-coordinates"
     },
     {
-      "id": "824193",
-      "name": "Spice & Sizzle By Karachi Bakery",
-      "locality": "Raidurgam",
-      "url": "https://www.swiggy.com/restaurants/spice-and-sizzle-by-karachi-bakery-raidurgam-hyderabad-824193/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
       "id": "1088731",
       "name": "Cafe Niloufer",
       "locality": "Raidurgam",
       "url": "https://www.swiggy.com/restaurants/cafe-niloufer-raidurgam-hyderabad-1088731/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "824193",
+      "name": "Spice & Sizzle By Karachi Bakery",
+      "locality": "Raidurgam",
+      "url": "https://www.swiggy.com/restaurants/spice-and-sizzle-by-karachi-bakery-raidurgam-hyderabad-824193/dineout",
       "reason": "missing-coordinates"
     },
     {
@@ -1731,6 +1610,13 @@
       "reason": "missing-coordinates"
     },
     {
+      "id": "110791",
+      "name": "By The Bay - Bar Exchange",
+      "locality": "Masab tank",
+      "url": "https://www.swiggy.com/restaurants/by-the-bay-bar-exchange-masab-tank-hyderabad-110791/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
       "id": "477668",
       "name": "Jewel of Nizam - The Golkonda Hotel",
       "locality": "Masab Tank",
@@ -1742,6 +1628,13 @@
       "name": "Dine Hill",
       "locality": "Masab Tank",
       "url": "https://www.swiggy.com/restaurants/dine-hill-masab-tank-hyderabad-1547/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "812830",
+      "name": "Shanghai Chef",
+      "locality": "Masab Tank",
+      "url": "https://www.swiggy.com/restaurants/shanghai-chef-masab-tank-hyderabad-812830/dineout",
       "reason": "missing-coordinates"
     },
     {
@@ -1759,38 +1652,10 @@
       "reason": "missing-coordinates"
     },
     {
-      "id": "110791",
-      "name": "By The Bay - Bar Exchange",
-      "locality": "Masab tank",
-      "url": "https://www.swiggy.com/restaurants/by-the-bay-bar-exchange-masab-tank-hyderabad-110791/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
       "id": "475714",
       "name": "Zanzibar - The Golkonda Hotel",
       "locality": "Masab Tank",
       "url": "https://www.swiggy.com/restaurants/zanzibar-the-golkonda-hotel-masab-tank-hyderabad-475714/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "812830",
-      "name": "Shanghai Chef",
-      "locality": "Masab Tank",
-      "url": "https://www.swiggy.com/restaurants/shanghai-chef-masab-tank-hyderabad-812830/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "2775",
-      "name": "Ohri's Gufaa",
-      "locality": "Basheerbagh",
-      "url": "https://www.swiggy.com/restaurants/ohris-gufaa-basheerbagh-hyderabad-2775/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "798378",
-      "name": " Ishtaa - Pure Veg",
-      "locality": "Basheerbagh",
-      "url": "https://www.swiggy.com/restaurants/-ishtaa-pure-veg-basheerbagh-hyderabad-798378/dineout",
       "reason": "missing-coordinates"
     },
     {
@@ -1808,6 +1673,13 @@
       "reason": "missing-coordinates"
     },
     {
+      "id": "798378",
+      "name": " Ishtaa - Pure Veg",
+      "locality": "Basheerbagh",
+      "url": "https://www.swiggy.com/restaurants/-ishtaa-pure-veg-basheerbagh-hyderabad-798378/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
       "id": "1041295",
       "name": "Chung Hua Restaurant",
       "locality": "Basheerbagh",
@@ -1815,24 +1687,10 @@
       "reason": "missing-coordinates"
     },
     {
-      "id": "656909",
-      "name": "Bikanervala",
+      "id": "2775",
+      "name": "Ohri's Gufaa",
       "locality": "Basheerbagh",
-      "url": "https://www.swiggy.com/restaurants/bikanervala-basheerbagh-hyderabad-656909/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "1159038",
-      "name": "Amin Coffee Shop (Maggi Point)",
-      "locality": "Basheerbagh",
-      "url": "https://www.swiggy.com/restaurants/amin-coffee-shop-maggi-point-basheerbagh-hyderabad-1159038/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "74979",
-      "name": "Ohri's Cake Nation",
-      "locality": "Basheerbagh",
-      "url": "https://www.swiggy.com/restaurants/ohris-cake-nation-basheerbagh-hyderabad-74979/dineout",
+      "url": "https://www.swiggy.com/restaurants/ohris-gufaa-basheerbagh-hyderabad-2775/dineout",
       "reason": "missing-coordinates"
     },
     {
@@ -1843,6 +1701,20 @@
       "reason": "missing-coordinates"
     },
     {
+      "id": "656909",
+      "name": "Bikanervala",
+      "locality": "Basheerbagh",
+      "url": "https://www.swiggy.com/restaurants/bikanervala-basheerbagh-hyderabad-656909/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "74979",
+      "name": "Ohri's Cake Nation",
+      "locality": "Basheerbagh",
+      "url": "https://www.swiggy.com/restaurants/ohris-cake-nation-basheerbagh-hyderabad-74979/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
       "id": "18012",
       "name": "Cafe Coffee Day",
       "locality": "Basheerbagh",
@@ -1850,45 +1722,10 @@
       "reason": "missing-coordinates"
     },
     {
-      "id": "205180",
-      "name": "Masala Republic by Dadu's",
-      "locality": "Himayath Nagar",
-      "url": "https://www.swiggy.com/restaurants/masala-republic-by-dadus-himayath-nagar-hyderabad-205180/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "619300",
-      "name": "La Milano Pizzeria",
-      "locality": "Himayath Nagar",
-      "url": "https://www.swiggy.com/restaurants/la-milano-pizzeria-himayath-nagar-hyderabad-619300/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "1224103",
-      "name": "Level Up Cafe",
-      "locality": "Himayath Nagar",
-      "url": "https://www.swiggy.com/restaurants/level-up-cafe-himayath-nagar-hyderabad-1224103/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "1106159",
-      "name": "Cream stone",
-      "locality": "Himayath Nagar",
-      "url": "https://www.swiggy.com/restaurants/cream-stone-himayath-nagar-hyderabad-1106159/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "731224",
-      "name": "Ghrelin Cafe and Patisserie",
-      "locality": "Himayath Nagar",
-      "url": "https://www.swiggy.com/restaurants/ghrelin-cafe-and-patisserie-himayath-nagar-hyderabad-731224/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "647927",
-      "name": "Sweet Land Loops",
-      "locality": "Himayath Nagar",
-      "url": "https://www.swiggy.com/restaurants/sweet-land-loops-himayath-nagar-hyderabad-647927/dineout",
+      "id": "1159038",
+      "name": "Amin Coffee Shop (Maggi Point)",
+      "locality": "Basheerbagh",
+      "url": "https://www.swiggy.com/restaurants/amin-coffee-shop-maggi-point-basheerbagh-hyderabad-1159038/dineout",
       "reason": "missing-coordinates"
     },
     {
@@ -1899,10 +1736,52 @@
       "reason": "missing-coordinates"
     },
     {
+      "id": "647927",
+      "name": "Sweet Land Loops",
+      "locality": "Himayath Nagar",
+      "url": "https://www.swiggy.com/restaurants/sweet-land-loops-himayath-nagar-hyderabad-647927/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "205180",
+      "name": "Masala Republic by Dadu's",
+      "locality": "Himayath Nagar",
+      "url": "https://www.swiggy.com/restaurants/masala-republic-by-dadus-himayath-nagar-hyderabad-205180/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "1106159",
+      "name": "Cream stone",
+      "locality": "Himayath Nagar",
+      "url": "https://www.swiggy.com/restaurants/cream-stone-himayath-nagar-hyderabad-1106159/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
       "id": "685992",
       "name": "Waffles Den",
       "locality": "Himayath Nagar",
       "url": "https://www.swiggy.com/restaurants/waffles-den-himayath-nagar-hyderabad-685992/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "619300",
+      "name": "La Milano Pizzeria",
+      "locality": "Himayath Nagar",
+      "url": "https://www.swiggy.com/restaurants/la-milano-pizzeria-himayath-nagar-hyderabad-619300/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "731224",
+      "name": "Ghrelin Cafe and Patisserie",
+      "locality": "Himayath Nagar",
+      "url": "https://www.swiggy.com/restaurants/ghrelin-cafe-and-patisserie-himayath-nagar-hyderabad-731224/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "1224103",
+      "name": "Level Up Cafe",
+      "locality": "Himayath Nagar",
+      "url": "https://www.swiggy.com/restaurants/level-up-cafe-himayath-nagar-hyderabad-1224103/dineout",
       "reason": "missing-coordinates"
     },
     {
@@ -2053,17 +1932,31 @@
       "reason": "missing-coordinates"
     },
     {
-      "id": "1353441",
-      "name": "Native South",
-      "locality": "Narsingi",
-      "url": "https://www.swiggy.com/restaurants/native-south-narsingi-hyderabad-1353441/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
       "id": "937688",
       "name": "Amritsari Aangan",
       "locality": "Narsingi",
       "url": "https://www.swiggy.com/restaurants/amritsari-aangan-narsingi-hyderabad-937688/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "1275813",
+      "name": "The Tabla Lounge",
+      "locality": "Narsingi",
+      "url": "https://www.swiggy.com/restaurants/the-tabla-lounge-narsingi-hyderabad-1275813/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "715784",
+      "name": "Pizza Hut",
+      "locality": "Narsingi",
+      "url": "https://www.swiggy.com/restaurants/pizza-hut-narsingi-hyderabad-715784/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "1353441",
+      "name": "Native South",
+      "locality": "Narsingi",
+      "url": "https://www.swiggy.com/restaurants/native-south-narsingi-hyderabad-1353441/dineout",
       "reason": "missing-coordinates"
     },
     {
@@ -2074,24 +1967,10 @@
       "reason": "missing-coordinates"
     },
     {
-      "id": "320830",
-      "name": "Cafe Coffee Day",
-      "locality": "Narsingi",
-      "url": "https://www.swiggy.com/restaurants/cafe-coffee-day-narsingi-hyderabad-320830/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
       "id": "211703",
       "name": "Balaji Santosh Family Dhaba",
       "locality": "Narsingi",
       "url": "https://www.swiggy.com/restaurants/balaji-santosh-family-dhaba-narsingi-hyderabad-211703/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "1275813",
-      "name": "The Tabla Lounge",
-      "locality": "Narsingi",
-      "url": "https://www.swiggy.com/restaurants/the-tabla-lounge-narsingi-hyderabad-1275813/dineout",
       "reason": "missing-coordinates"
     },
     {
@@ -2109,6 +1988,13 @@
       "reason": "missing-coordinates"
     },
     {
+      "id": "320830",
+      "name": "Cafe Coffee Day",
+      "locality": "Narsingi",
+      "url": "https://www.swiggy.com/restaurants/cafe-coffee-day-narsingi-hyderabad-320830/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
       "id": "1368127",
       "name": "Bagelstein",
       "locality": "Narsingi",
@@ -2120,13 +2006,6 @@
       "name": "Captain Munch",
       "locality": "Narsingi",
       "url": "https://www.swiggy.com/restaurants/captain-munch-narsingi-hyderabad-685937/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "715784",
-      "name": "Pizza Hut",
-      "locality": "Narsingi",
-      "url": "https://www.swiggy.com/restaurants/pizza-hut-narsingi-hyderabad-715784/dineout",
       "reason": "missing-coordinates"
     },
     {
@@ -2312,13 +2191,6 @@
       "reason": "missing-coordinates"
     },
     {
-      "id": "893618",
-      "name": "Echoes",
-      "locality": "Gandipet",
-      "url": "https://www.swiggy.com/restaurants/echoes-gandipet-hyderabad-893618/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
       "id": "990129",
       "name": "The Rabbit Hole Lounge Bar & Kitchen",
       "locality": "Gandipet",
@@ -2326,31 +2198,10 @@
       "reason": "missing-coordinates"
     },
     {
-      "id": "366261",
-      "name": "Dumont Creamery",
+      "id": "893618",
+      "name": "Echoes",
       "locality": "Gandipet",
-      "url": "https://www.swiggy.com/restaurants/dumont-creamery-gandipet-hyderabad-366261/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "825324",
-      "name": "Dwaraka Restaurant",
-      "locality": "Gandipet",
-      "url": "https://www.swiggy.com/restaurants/dwaraka-restaurant-gandipet-hyderabad-825324/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "1139706",
-      "name": "Blue Tokai Coffee Roasters",
-      "locality": "Gandipet",
-      "url": "https://www.swiggy.com/restaurants/blue-tokai-coffee-roasters-gandipet-hyderabad-1139706/dineout",
-      "reason": "missing-coordinates"
-    },
-    {
-      "id": "675740",
-      "name": "Odeum By Prism",
-      "locality": "Gandipet",
-      "url": "https://www.swiggy.com/restaurants/odeum-by-prism-gandipet-hyderabad-675740/dineout",
+      "url": "https://www.swiggy.com/restaurants/echoes-gandipet-hyderabad-893618/dineout",
       "reason": "missing-coordinates"
     },
     {
@@ -2375,38 +2226,38 @@
       "reason": "missing-coordinates"
     },
     {
-      "id": "1219338",
-      "name": "Contico - Coffee and More",
+      "id": "394766",
+      "name": "Atom Pub And Kitchen",
       "locality": "Gandipet",
-      "url": "https://www.swiggy.com/restaurants/contico-coffee-and-more-gandipet-hyderabad-1219338/dineout",
+      "url": "https://www.swiggy.com/restaurants/atom-pub-and-kitchen-gandipet-hyderabad-394766/dineout",
       "reason": "missing-coordinates"
     },
     {
-      "id": "609317",
-      "name": "Wow! Momo",
-      "locality": "Moosapet",
-      "url": "https://www.swiggy.com/restaurants/wow-momo-moosapet-hyderabad-609317/dineout",
+      "id": "675740",
+      "name": "Odeum By Prism",
+      "locality": "Gandipet",
+      "url": "https://www.swiggy.com/restaurants/odeum-by-prism-gandipet-hyderabad-675740/dineout",
       "reason": "missing-coordinates"
     },
     {
-      "id": "408180",
-      "name": "Pizza Hut",
-      "locality": "Moosapet",
-      "url": "https://www.swiggy.com/restaurants/pizza-hut-moosapet-hyderabad-408180/dineout",
+      "id": "825324",
+      "name": "Dwaraka Restaurant",
+      "locality": "Gandipet",
+      "url": "https://www.swiggy.com/restaurants/dwaraka-restaurant-gandipet-hyderabad-825324/dineout",
       "reason": "missing-coordinates"
     },
     {
-      "id": "671135",
-      "name": "Kritunga - The Palegar Cuisine",
-      "locality": "Moosapet",
-      "url": "https://www.swiggy.com/restaurants/kritunga-the-palegar-cuisine-moosapet-hyderabad-671135/dineout",
+      "id": "1353062",
+      "name": "10 Pin Sports Bar And Bowling",
+      "locality": "Gandipet",
+      "url": "https://www.swiggy.com/restaurants/10-pin-sports-bar-and-bowling-gandipet-hyderabad-1353062/dineout",
       "reason": "missing-coordinates"
     },
     {
-      "id": "121875",
-      "name": "Arabian Mandi",
-      "locality": "Moosapet",
-      "url": "https://www.swiggy.com/restaurants/arabian-mandi-moosapet-hyderabad-121875/dineout",
+      "id": "1139706",
+      "name": "Blue Tokai Coffee Roasters",
+      "locality": "Gandipet",
+      "url": "https://www.swiggy.com/restaurants/blue-tokai-coffee-roasters-gandipet-hyderabad-1139706/dineout",
       "reason": "missing-coordinates"
     },
     {
@@ -2417,10 +2268,31 @@
       "reason": "missing-coordinates"
     },
     {
-      "id": "810749",
-      "name": "Domino's Pizza",
-      "locality": "Nampally",
-      "url": "https://www.swiggy.com/restaurants/dominos-pizza-nampally-hyderabad-810749/dineout",
+      "id": "671135",
+      "name": "Kritunga - The Palegar Cuisine",
+      "locality": "Moosapet",
+      "url": "https://www.swiggy.com/restaurants/kritunga-the-palegar-cuisine-moosapet-hyderabad-671135/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "408180",
+      "name": "Pizza Hut",
+      "locality": "Moosapet",
+      "url": "https://www.swiggy.com/restaurants/pizza-hut-moosapet-hyderabad-408180/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "609317",
+      "name": "Wow! Momo",
+      "locality": "Moosapet",
+      "url": "https://www.swiggy.com/restaurants/wow-momo-moosapet-hyderabad-609317/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "121875",
+      "name": "Arabian Mandi",
+      "locality": "Moosapet",
+      "url": "https://www.swiggy.com/restaurants/arabian-mandi-moosapet-hyderabad-121875/dineout",
       "reason": "missing-coordinates"
     },
     {
@@ -2435,6 +2307,13 @@
       "name": "Grand Restaurant",
       "locality": "Nampally",
       "url": "https://www.swiggy.com/restaurants/grand-restaurant-nampally-hyderabad-547496/dineout",
+      "reason": "missing-coordinates"
+    },
+    {
+      "id": "810749",
+      "name": "Domino's Pizza",
+      "locality": "Nampally",
+      "url": "https://www.swiggy.com/restaurants/dominos-pizza-nampally-hyderabad-810749/dineout",
       "reason": "missing-coordinates"
     }
   ]
