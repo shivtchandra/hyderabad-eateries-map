@@ -1,12 +1,12 @@
 {
   "updatedAt": "2026-10-28T00:51:22.990Z",
   "swiggyDiscovery": {
-    "discovered": 386,
-    "candidates": 324,
-    "matched": 68,
-    "unmatched": 251,
+    "discovered": 389,
+    "candidates": 326,
+    "matched": 115,
+    "unmatched": 206,
     "rejectedMatches": 5,
-    "refreshedAt": "2026-11-20T20:43:24.211Z"
+    "refreshedAt": "2026-11-21T02:41:23.094Z"
   },
   "districtDiscovery": {
     "mode": "verified",
@@ -20,29 +20,29 @@
   "candidates": 725,
   "listed": {
     "district": 437,
-    "swiggy": 155
+    "swiggy": 154
   },
   "discovered": {
     "district": 17883,
-    "swiggy": 386
+    "swiggy": 389
   },
   "matched": {
     "district": 319,
-    "swiggy": 155,
+    "swiggy": 154,
     "both": 98
   },
   "active": {
     "district": 254,
-    "swiggy": 155,
+    "swiggy": 154,
     "both": 88
   },
   "singlePlatform": {
-    "district": 297,
+    "district": 298,
     "swiggy": 15
   },
   "unmatched": {
     "district": 61,
-    "swiggy": 251
+    "swiggy": 206
   },
   "rejectedMatches": {
     "district": 57,
