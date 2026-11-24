@@ -18,9 +18,10 @@ const PAGE = 24;
 
 const fmtCount = (n) => (n >= 1000 ? `${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}k` : String(n));
 
-export default function AreaExplorer({ area, spots }) {
+// hiddenFirst: street pages lead with the least-reviewed (least-discovered) spots.
+export default function AreaExplorer({ area, spots, hiddenFirst = false }) {
   const hasVotes = spots.some((s) => s.rank);
-  const defaultSort = hasVotes ? "votes" : "reviews";
+  const defaultSort = hiddenFirst ? "hidden" : hasVotes ? "votes" : "reviews";
   const [kind, setKind] = useState("all");
   const [sort, setSort] = useState(defaultSort);
   const [q, setQ] = useState("");
@@ -31,9 +32,9 @@ export default function AreaExplorer({ area, spots }) {
     const sp = new URLSearchParams(window.location.search);
     const k = sp.get("kind"), s = sp.get("sort");
     if (k && KIND_ONE[k]) setKind(k);
-    if (s === "rating" || s === "reviews" || (s === "votes" && hasVotes)) setSort(s);
+    if (s === "rating" || s === "reviews" || (s === "votes" && hasVotes) || (s === "hidden" && hiddenFirst)) setSort(s);
     else setSort(defaultSort);
-  }, [defaultSort, hasVotes]);
+  }, [defaultSort, hasVotes, hiddenFirst]);
   useEffect(() => {
     const url = new URL(window.location.href);
     if (kind === "all") url.searchParams.delete("kind"); else url.searchParams.set("kind", kind);
@@ -56,6 +57,8 @@ export default function AreaExplorer({ area, spots }) {
       // A 5.0 from 6 reviews shouldn't beat a 4.6 from 6,000.
       const solid = (s) => (s.ratingCount || 0) >= 50;
       out.sort((a, b) => (solid(b) - solid(a)) || ((b.rating || 0) - (a.rating || 0)) || byReviews(a, b));
+    } else if (sort === "hidden") {
+      out.sort((a, b) => (a.ratingCount || 0) - (b.ratingCount || 0));
     } else if (sort === "votes") {
       out.sort((a, b) => (!!b.rank - !!a.rank) || ((a.rank?.n || 99) - (b.rank?.n || 99)) || byReviews(a, b));
     } else {
@@ -89,6 +92,7 @@ export default function AreaExplorer({ area, spots }) {
           placeholder={`Search ${area}`} aria-label={`Search places in ${area}`}
         />
         <select className="ax-sort" value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort">
+          {hiddenFirst && <option value="hidden">Barely found first</option>}
           {hasVotes && <option value="votes">Mapping HYD votes</option>}
           <option value="reviews">Most reviewed on Google</option>
           <option value="rating">Google rating</option>

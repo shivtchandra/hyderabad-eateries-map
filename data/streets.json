@@ -1,0 +1,23 @@
+[
+  {
+    "slug": "kokapet",
+    "episode": 1,
+    "name": "Kokapet",
+    "title": "Kokapet's café road: 52 spots on one 4 km stretch",
+    "intro": "Streets of Hyderabad, episode 1. One 4 km stretch of Kokapet, from the Gandipet end to Narsingi, with 52 places to eat and drink. Coral pins on our Instagram post are spots with under 200 Google reviews: most of Hyderabad hasn't found them yet.",
+    "bbox": {
+      "south": 17.3825,
+      "north": 17.3905,
+      "west": 78.322,
+      "east": 78.365
+    },
+    "next": [
+      "Film Nagar",
+      "Sainikpuri"
+    ],
+    "exclude": [
+      "ChIJcUo2WTqVyzsRfyyoUskFM50"
+    ],
+    "excludeNote": "Ko Ko Kai joined the map after the Instagram post counted 52; kept out so the page matches the post."
+  }
+]
